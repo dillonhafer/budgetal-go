@@ -3,6 +3,7 @@ package actions
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 
 	"github.com/gobuffalo/buffalo"
@@ -68,6 +69,8 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 					c.Set("JSON", f)
 					c.LogField("json", f)
 				}
+			} else {
+				return errors.New("Bad Request")
 			}
 			req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 		}
@@ -85,6 +88,14 @@ func App() *buffalo.App {
 			Env:          ENV,
 			SessionStore: sessions.Null{},
 		})
+
+		app.ErrorHandlers[500] = func(status int, err error, c buffalo.Context) error {
+			res := c.Response()
+			res.WriteHeader(500)
+			errResp := map[string]string{"error": "Something went wrong on our end. We are looking into the issue"}
+			c.Logger().Errorf("\n❌  ERROR\n%v\n\n", err)
+			return c.Render(500, r.JSON(errResp))
+		}
 
 		// Set the request content type to JSON
 		app.Use(middleware.SetContentType("application/json"))

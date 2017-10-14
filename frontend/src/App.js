@@ -1,140 +1,23 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Button from 'antd/lib/button';
-import notification from 'antd/lib/notification';
+import request from './request';
 
-const openNotificationWithIcon = (type, description) => {
-  notification[type]({
-    message: type,
-    description,
-  });
-};
-
-const notice = description => {
-  openNotificationWithIcon('success', description);
-};
-const error = description => {
-  openNotificationWithIcon('error', description);
-};
+import {notice, error} from './notifications';
+window.notice = notice;
+window.error = error;
 
 class App extends Component {
-  post = async (url, body) => {
-    try {
-      const req = {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          _budgetal_session: localStorage.getItem('_budgetal_session'),
-        },
-        credentials: 'include',
-        method: 'POST',
-        body: JSON.stringify(body),
-      };
-      const resp = await fetch(url, req);
-
-      if (resp.status === 503) {
-        error('YOU IN MAINT MAN');
-        return;
-      }
-
-      if (!resp.ok) {
-        const text = await resp.text();
-        const error = {
-          ...JSON.parse(text),
-          status: resp.status,
-          ok: false,
-        };
-        throw error;
-      }
-
-      const json = await resp.json();
-      return {...json, ok: true};
-    } catch (err) {
-      error(err.error + 'due to ' + err.status);
-    }
-  };
-
-  delete = async (url, body) => {
-    try {
-      const req = {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          _budgetal_session: localStorage.getItem('_budgetal_session'),
-        },
-        credentials: 'include',
-        method: 'DELETE',
-        body: JSON.stringify(body),
-      };
-      const resp = await fetch(url, req);
-
-      if (resp.status === 503) {
-        error('YOU IN MAINT MAN');
-        return;
-      }
-
-      if (!resp.ok) {
-        const text = await resp.text();
-        const error = {
-          ...JSON.parse(text),
-          status: resp.status,
-          ok: false,
-        };
-        throw error;
-      }
-
-      const json = await resp.json();
-      return {...json, ok: true};
-    } catch (err) {
-      error(err.error + 'due to ' + err.status);
-    }
-  };
-
-  get = async url => {
-    try {
-      const req = {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          _budgetal_session: localStorage.getItem('_budgetal_session'),
-        },
-        credentials: 'include',
-        method: 'GET',
-      };
-      const resp = await fetch(url, req);
-
-      if (resp.status === 503) {
-        error('YOU IN MAINT MAN');
-        return;
-      }
-
-      if (!resp.ok) {
-        const text = await resp.text();
-        const error = {
-          ...JSON.parse(text),
-          status: resp.status,
-          ok: false,
-        };
-        throw error;
-      }
-
-      const json = await resp.json();
-      return {...json, ok: true};
-    } catch (err) {
-      error(err.error + ' due to ' + err.status);
-    }
-  };
-
   submit = async e => {
     try {
       e.preventDefault();
-      const resp = await this.post('/sign-in', {
+      const resp = await request.post('/sign-in', {
         email: e.target.email.value,
         password: e.target.password.value,
       });
-      if (resp.ok) {
-        notice('You are now signed in');
+
+      if (resp && resp.ok) {
+        window.notice('You are now signed in');
         localStorage.setItem('_budgetal_session', resp.token);
         localStorage.setItem('_budgetal_user', JSON.stringify(resp.user));
       }
@@ -146,11 +29,11 @@ class App extends Component {
   signout = async e => {
     try {
       e.preventDefault();
-      const resp = await this.delete('/sign-out');
-      if (resp.ok) {
+      const resp = await request.delete('/sign-out');
+      if (resp && resp.ok) {
         localStorage.removeItem('_budgetal_session');
         localStorage.removeItem('_budgetal_user');
-        notice('You have been signed out.');
+        window.notice('You have been signed out.');
       }
     } catch (err) {
       console.log(err);
@@ -161,7 +44,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
