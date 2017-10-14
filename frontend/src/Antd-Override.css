@@ -1,0 +1,17 @@
+.ant-notification {
+  max-width: 90%;
+}
+
+@media (max-width: 978px) {
+  .ant-notification {
+    top: 0px !important;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .ant-notification-notice {
+    border-radius: 0px;
+  }
+  .ant-notification .ant-notification-notice-close-x:after {
+    font-size: 36px;
+  }
+}
