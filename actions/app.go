@@ -3,7 +3,6 @@ package actions
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"io/ioutil"
 
 	"github.com/gobuffalo/buffalo"
@@ -70,7 +69,8 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 					c.LogField("json", f)
 				}
 			} else {
-				return errors.New("Bad Request")
+				errResp := map[string]string{"error": "Bad Request"}
+				return c.Render(401, r.JSON(errResp))
 			}
 			req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 		}

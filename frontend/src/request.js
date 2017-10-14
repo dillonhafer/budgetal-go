@@ -15,11 +15,14 @@ const base = async (url, method, headers = {}, body = {}) => {
       method,
     };
 
-    if (
-      method !== 'GET' &&
-      req.headers['Content-Type'] === 'application/json'
-    ) {
-      req.body = JSON.stringify(body);
+    if (method !== 'GET') {
+      switch (req.headers['Content-Type']) {
+        case 'application/json':
+          req.body = JSON.stringify(body);
+          break;
+        default:
+          req.body = body;
+      }
     }
 
     const resp = await fetch(url, req);
@@ -42,7 +45,7 @@ const base = async (url, method, headers = {}, body = {}) => {
     const json = await resp.json();
     return {...json, ok: true};
   } catch (err) {
-    window.error(err.error);
+    window.error(err.error || 'Something went wrong');
   }
 };
 

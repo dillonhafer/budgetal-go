@@ -33,7 +33,7 @@ class App extends Component {
       if (resp && resp.ok) {
         localStorage.removeItem('_budgetal_session');
         localStorage.removeItem('_budgetal_user');
-        window.notice('You have been signed out.');
+        window.notice('You have been signed out');
       }
     } catch (err) {
       console.log(err);
