@@ -1,6 +1,22 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Button from 'antd/lib/button';
+import notification from 'antd/lib/notification';
+
+const openNotificationWithIcon = (type, description) => {
+  notification[type]({
+    message: type,
+    description,
+  });
+};
+
+const notice = description => {
+  openNotificationWithIcon('success', description);
+};
+const error = description => {
+  openNotificationWithIcon('error', description);
+};
 
 class App extends Component {
   post = async (url, body) => {
@@ -18,7 +34,7 @@ class App extends Component {
       const resp = await fetch(url, req);
 
       if (resp.status === 503) {
-        window.alert('YOU IN MAINT MAN');
+        error('YOU IN MAINT MAN');
         return;
       }
 
@@ -27,14 +43,15 @@ class App extends Component {
         const error = {
           ...JSON.parse(text),
           status: resp.status,
+          ok: false,
         };
         throw error;
       }
 
       const json = await resp.json();
-      return json;
+      return {...json, ok: true};
     } catch (err) {
-      window.alert(err.error + 'due to ' + err.status);
+      error(err.error + 'due to ' + err.status);
     }
   };
 
@@ -53,7 +70,7 @@ class App extends Component {
       const resp = await fetch(url, req);
 
       if (resp.status === 503) {
-        window.alert('YOU IN MAINT MAN');
+        error('YOU IN MAINT MAN');
         return;
       }
 
@@ -70,7 +87,7 @@ class App extends Component {
       const json = await resp.json();
       return {...json, ok: true};
     } catch (err) {
-      window.alert(err.error + 'due to ' + err.status);
+      error(err.error + 'due to ' + err.status);
     }
   };
 
@@ -88,7 +105,7 @@ class App extends Component {
       const resp = await fetch(url, req);
 
       if (resp.status === 503) {
-        window.alert('YOU IN MAINT MAN');
+        error('YOU IN MAINT MAN');
         return;
       }
 
@@ -105,20 +122,21 @@ class App extends Component {
       const json = await resp.json();
       return {...json, ok: true};
     } catch (err) {
-      window.alert(err.error + ' due to ' + err.status);
+      error(err.error + ' due to ' + err.status);
     }
   };
 
   submit = async e => {
     try {
       e.preventDefault();
-      const json = await this.post('/sign-in', {
+      const resp = await this.post('/sign-in', {
         email: e.target.email.value,
         password: e.target.password.value,
       });
-      if (json !== null) {
-        localStorage.setItem('_budgetal_session', json.token);
-        localStorage.setItem('_budgetal_user', JSON.stringify(json.user));
+      if (resp.ok) {
+        notice('You are now signed in');
+        localStorage.setItem('_budgetal_session', resp.token);
+        localStorage.setItem('_budgetal_user', JSON.stringify(resp.user));
       }
     } catch (err) {
       console.log(err);
@@ -132,7 +150,7 @@ class App extends Component {
       if (resp.ok) {
         localStorage.removeItem('_budgetal_session');
         localStorage.removeItem('_budgetal_user');
-        console.log(resp);
+        notice('You have been signed out.');
       }
     } catch (err) {
       console.log(err);
@@ -152,9 +170,13 @@ class App extends Component {
         <form onSubmit={this.submit}>
           <input type="text" name="email" />
           <input type="password" name="password" />
-          <input type="submit" />
+          <Button type="primary" htmlType="submit">
+            Sign In
+          </Button>
         </form>
-        <a onClick={this.signout}>Delete</a>
+        <Button type="danger" onClick={this.signout}>
+          Sign Out
+        </Button>
       </div>
     );
   }
