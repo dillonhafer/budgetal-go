@@ -4,7 +4,7 @@ import SignIn from './SignIn';
 import Layout from 'antd/lib/layout';
 import Menu from 'antd/lib/menu';
 import {SignOutRequest} from './request';
-import {RemoveAuthentication, IsAuthenticated} from './Authentication';
+import {RemoveAuthentication, IsAuthenticated} from 'authentication';
 
 import {notice, error} from './notifications';
 window.notice = notice;
