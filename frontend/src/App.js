@@ -20,9 +20,8 @@ class App extends Component {
     this.setState({signedIn: IsAuthenticated()});
   };
 
-  signout = async e => {
+  signout = async () => {
     try {
-      e.preventDefault();
       const resp = await SignOutRequest();
       if (resp && resp.ok) {
         RemoveAuthentication();
@@ -34,15 +33,18 @@ class App extends Component {
     }
   };
 
-  onClick = item => {
+  handleMenuSelect = item => {
     if (item.key === '1') {
       window.notice('session link');
+    }
+    if (item.key === '2') {
+      this.signout();
     }
   };
 
   render() {
     const {signedIn} = this.state;
-    const signOutLink = <Menu.Item key="1">Sign Out</Menu.Item>;
+    const signOutLink = <Menu.Item key="2">Sign Out</Menu.Item>;
 
     const sessionItem = signedIn ? (
       signOutLink
