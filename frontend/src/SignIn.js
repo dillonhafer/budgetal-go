@@ -1,6 +1,12 @@
 import React, {Component} from 'react';
-import {Modal, Form, Icon, Input, Button} from 'antd';
+import Modal from 'antd/lib/modal';
+import Form from 'antd/lib/form';
+import Icon from 'antd/lib/icon';
+import Input from 'antd/lib/input';
+import Button from 'antd/lib/button';
+
 import request from './request';
+
 const FormItem = Form.Item;
 
 class SignIn extends Component {
