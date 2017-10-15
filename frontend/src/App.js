@@ -3,33 +3,29 @@ import './App.css';
 import SignIn from './SignIn';
 import Layout from 'antd/lib/layout';
 import Menu from 'antd/lib/menu';
-import request from './request';
+import {SignOutRequest} from './request';
+import {RemoveAuthentication, IsAuthenticated} from './Authentication';
 
 import {notice, error} from './notifications';
 window.notice = notice;
 window.error = error;
 const {Header, Content, Footer} = Layout;
 
-const isCurrentUser = () => {
-  return (localStorage.getItem('_budgetal_session') || '').length > 0;
-};
-
 class App extends Component {
   state = {
-    signedIn: isCurrentUser(),
+    signedIn: IsAuthenticated(),
   };
 
   resetSignIn = () => {
-    this.setState({signedIn: isCurrentUser()});
+    this.setState({signedIn: IsAuthenticated()});
   };
 
   signout = async e => {
     try {
       e.preventDefault();
-      const resp = await request.delete('/sign-out');
+      const resp = await SignOutRequest();
       if (resp && resp.ok) {
-        localStorage.removeItem('_budgetal_session');
-        localStorage.removeItem('_budgetal_user');
+        RemoveAuthentication();
         window.notice('You have been signed out');
         this.resetSignIn();
       }
@@ -76,7 +72,10 @@ class App extends Component {
             </div>
           </Content>
           <Footer style={{textAlign: 'center'}}>
-            Budgetal © {new Date().getFullYear()}
+            Budgetal © 2013-{new Date().getFullYear()} All rights reserved
+            <p>
+              <a>Privacy</a> | <a>Help</a>
+            </p>
           </Footer>
         </Layout>
       </div>

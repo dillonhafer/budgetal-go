@@ -5,7 +5,8 @@ import Icon from 'antd/lib/icon';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
 
-import request from './request';
+import {SignInRequest} from './request';
+import {SetAuthenticationToken, SetCurrentUser} from './Authentication';
 
 const FormItem = Form.Item;
 
@@ -16,12 +17,12 @@ class SignIn extends Component {
 
   submitForm = async values => {
     try {
-      const resp = await request.post('/sign-in', values);
+      const resp = await SignInRequest(values);
 
       if (resp && resp.ok) {
         window.notice('You are now signed in');
-        localStorage.setItem('_budgetal_session', resp.token);
-        localStorage.setItem('_budgetal_user', JSON.stringify(resp.user));
+        SetAuthenticationToken(resp.token);
+        SetCurrentUser(resp.user);
         this.props.callback();
       }
     } catch (err) {
