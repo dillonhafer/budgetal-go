@@ -32,21 +32,12 @@ class App extends Component {
     this.setState({signedIn: IsAuthenticated()});
   };
 
-  handleMenuSelect = item => {
-    if (item.key === '1') {
-      window.notice('session link');
-    }
-    if (item.key === '2') {
-      this.signout();
-    }
-  };
-
   render() {
     return (
       <Router>
         <div className="App">
           <Layout>
-            <Header />
+            <Header resetSignIn={this.resetSignIn} />
             <Content style={{padding: '50px', marginTop: 64}}>
               <div style={{background: '#fff', padding: 24, minHeight: 380}}>
                 <Route exact path="/" component={Home} />

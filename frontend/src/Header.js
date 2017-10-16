@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import {SignOutRequest} from 'api';
-import {RemoveAuthentication, IsAuthenticated} from 'authentication';
+import {
+  RemoveAuthentication,
+  IsAuthenticated,
+  GetCurrentUser,
+} from 'authentication';
 import {Row, Col, Menu, Icon} from 'antd';
 import Layout from 'antd/lib/layout';
 import SignIn from './SignIn';
@@ -14,7 +18,7 @@ export default class Header extends Component {
       if (resp && resp.ok) {
         RemoveAuthentication();
         window.notice('You have been signed out');
-        this.resetSignIn();
+        this.props.resetSignIn();
       }
     } catch (err) {
       console.log(err);
@@ -36,12 +40,12 @@ export default class Header extends Component {
     return items;
   }
 
-  renderMenuItems() {
+  renderMenuItems = () => {
     const signedIn = IsAuthenticated();
     if (signedIn) {
       const year = new Date().getFullYear();
       const month = new Date().getMonth() + 1;
-      const user = JSON.parse(localStorage['user']);
+      const user = GetCurrentUser();
       return [
         <Menu.Item key="budgets">
           <Link to={`/budgets/${year}/${month}`}> Budgets</Link>
@@ -104,11 +108,11 @@ export default class Header extends Component {
           </Menu.Item>
         </Menu.SubMenu>,
         <Menu.Item key="sign-in">
-          <SignIn />
+          <SignIn resetSignIn={this.props.resetSignIn} />
         </Menu.Item>,
       ];
     }
-  }
+  };
 
   selectedKeys(location) {
     switch (true) {

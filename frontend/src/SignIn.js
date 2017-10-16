@@ -23,7 +23,7 @@ class SignIn extends Component {
         window.notice('You are now signed in');
         SetAuthenticationToken(resp.token);
         SetCurrentUser(resp.user);
-        this.props.callback();
+        this.props.resetSignIn();
       }
     } catch (err) {
       console.log(err);
