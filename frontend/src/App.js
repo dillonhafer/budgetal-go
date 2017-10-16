@@ -3,7 +3,7 @@ import './App.css';
 import SignIn from './SignIn';
 import Layout from 'antd/lib/layout';
 import Menu from 'antd/lib/menu';
-import {SignOutRequest} from './request';
+import {SignOutRequest} from 'api';
 import {RemoveAuthentication, IsAuthenticated} from 'authentication';
 
 import {notice, error} from './notifications';

@@ -5,7 +5,7 @@ import Icon from 'antd/lib/icon';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
 
-import {SignInRequest} from './request';
+import {SignInRequest} from 'api';
 import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
 
 const FormItem = Form.Item;

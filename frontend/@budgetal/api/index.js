@@ -1,4 +1,4 @@
-import {GetAuthenticationToken} from 'authentication';
+import {GetAuthenticationToken} from '../authentication';
 const baseURL = process.env.BASE_URL || '';
 
 const base = async (path, method, headers = {}, body = {}) => {
@@ -37,16 +37,15 @@ const base = async (path, method, headers = {}, body = {}) => {
 
     if (!resp.ok) {
       const text = await resp.text();
-      const err = {
-        ...JSON.parse(text),
+      const err = Object.assign({}, JSON.parse(text), {
         status: resp.status,
         ok: false,
-      };
+      });
       throw err;
     }
 
     const json = await resp.json();
-    return {...json, ok: true};
+    return Object.assign({}, json, {ok: true});
   } catch (err) {
     window.error(err.error || 'Something went wrong');
   }
