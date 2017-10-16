@@ -73,7 +73,7 @@ export default class Header extends Component {
               <img
                 className="nav-user-logo"
                 alt={user.firstName}
-                src={user.avatar}
+                src={user.avatar || '/missing-profile.png'}
               />Hello, {user.firstName}!
             </span>
           }

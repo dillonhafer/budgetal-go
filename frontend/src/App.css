@@ -14,3 +14,12 @@
 .sign-in-form-button {
   width: 100%;
 }
+
+.nav-user-logo {
+  vertical-align: middle;
+  margin-right: 10px;
+  border: 2px solid #69f;
+  width: 42px;
+  height: 42px;
+  border-radius: 25px;
+}
