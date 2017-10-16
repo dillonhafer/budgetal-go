@@ -43,8 +43,8 @@ class SignIn extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     return (
-      <div>
-        <a onClick={() => this.setState({visible: true})}>Sign In</a>
+      <div onClick={() => this.setState({visible: true})}>
+        Sign In
         <Modal
           title="Sign In"
           wrapClassName="vertical-center-modal"
