@@ -10,7 +10,8 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.14"
+    "react-scripts": "1.0.14",
+    "react-transition-group": "^2.2.1"
   },
   "scripts": {
     "start": "yarn link-locals && PORT=3001 react-scripts start",

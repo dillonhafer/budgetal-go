@@ -10,6 +10,21 @@ import Layout from 'antd/lib/layout';
 import SignIn from './SignIn';
 import {Link} from 'react-router-dom';
 
+const ProfileImage = ({user}) => {
+  const onError = e => {
+    e.target.src = '/missing-profile.png';
+  };
+  const defaultSrc = '/missing-profile.png';
+  return (
+    <img
+      alt={user.firstName}
+      className="nav-user-logo"
+      src={user.avatarFileName || defaultSrc}
+      onError={onError}
+    />
+  );
+};
+
 export default class Header extends Component {
   signOut = async e => {
     try {
@@ -70,11 +85,8 @@ export default class Header extends Component {
           key="submenu"
           title={
             <span>
-              <img
-                className="nav-user-logo"
-                alt={user.firstName}
-                src={user.avatar || '/missing-profile.png'}
-              />Hello, {user.firstName}!
+              <ProfileImage user={user} />
+              Hello, {user.firstName}!
             </span>
           }
         >
