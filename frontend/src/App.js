@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
 import './App.css';
+
 import Layout from 'antd/lib/layout';
+import Header from './Header';
+import Footer from './Footer';
+
 import {IsAuthenticated} from 'authentication';
 
 import {notice, error} from './notifications';
-import Header from './Header';
 
 import Privacy from './Privacy';
 
 window.notice = notice;
 window.error = error;
-const {Content, Footer} = Layout;
+const {Content} = Layout;
 
 window.title = string => {
   let title = 'Budgetal';
@@ -30,15 +33,7 @@ class Home extends Component {
     return <h1>Home</h1>;
   }
 }
-class Help extends Component {
-  componentDidMount() {
-    window.title('Help');
-    window.scrollTo(0, 0);
-  }
-  render() {
-    return <h1>Help</h1>;
-  }
-}
+
 class MortgageCalculator extends Component {
   componentDidMount() {
     window.title('Mortgage | Calculators');
@@ -85,7 +80,6 @@ class App extends Component {
                       >
                         <Switch key={location.key} location={location}>
                           <Route exact path="/" component={Home} />
-                          <Route path="/help" component={Help} />
                           <Route path="/privacy" component={Privacy} />
                           <Route
                             path="/calculators/mortgage"
@@ -99,14 +93,7 @@ class App extends Component {
                 />
               </div>
             </Content>
-
-            <Footer style={{textAlign: 'center'}}>
-              Budgetal © 2013-{new Date().getFullYear()} All rights reserved
-              <p>
-                <Link to="/privacy">Privacy</Link> |{' '}
-                <Link to="/help">Help</Link>
-              </p>
-            </Footer>
+            <Footer />
           </Layout>
         </div>
       </Router>
