@@ -14,13 +14,47 @@ import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 
-class SignIn extends Component {
-  state = {
-    visible: false,
-    activeKey: '2',
-    title: 'Sign In',
+class ForgotPasswordFields extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
   };
 
+  render() {
+    const {getFieldDecorator} = this.props.form;
+    return (
+      <Form onSubmit={this.handleSubmit} className="login-form">
+        <FormItem>
+          {getFieldDecorator('reset-email', {
+            rules: [{required: true, message: 'E-mail Address is required'}],
+          })(
+            <Input
+              prefix={<Icon type="mail" style={{fontSize: 13}} />}
+              type="email"
+              placeholder="E-mail Address"
+            />,
+          )}
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="sign-in-form-button"
+          >
+            Request Password Reset
+          </Button>
+        </FormItem>
+      </Form>
+    );
+  }
+}
+const ForgotPasswordForm = Form.create()(ForgotPasswordFields);
+
+class SignInFields extends Component {
   submitForm = async values => {
     try {
       const resp = await SignInRequest(values);
@@ -46,6 +80,121 @@ class SignIn extends Component {
     });
   };
 
+  render() {
+    const {getFieldDecorator} = this.props.form;
+    return (
+      <Form onSubmit={this.handleSubmit} className="login-form">
+        <FormItem>
+          {getFieldDecorator('email', {
+            rules: [{required: true, message: 'E-mail Address is required'}],
+          })(
+            <Input
+              prefix={<Icon type="mail" style={{fontSize: 13}} />}
+              type="email"
+              placeholder="E-mail Address"
+            />,
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('password', {
+            rules: [{required: true, message: 'Password is required'}],
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{fontSize: 13}} />}
+              type="password"
+              placeholder="Password"
+            />,
+          )}
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="sign-in-form-button"
+          >
+            Sign In
+          </Button>
+        </FormItem>
+      </Form>
+    );
+  }
+}
+const SignInForm = Form.create()(SignInFields);
+
+class RegisterFields extends Component {
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  };
+
+  render() {
+    const {getFieldDecorator} = this.props.form;
+    return (
+      <Form onSubmit={this.handleSubmit} className="login-form">
+        <FormItem>
+          {getFieldDecorator('register-email', {
+            rules: [{required: true, message: 'E-mail Address is required'}],
+          })(
+            <Input
+              prefix={<Icon type="mail" style={{fontSize: 13}} />}
+              type="email"
+              placeholder="E-mail Address"
+            />,
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('register-password', {
+            rules: [{required: true, message: 'Password is required'}],
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{fontSize: 13}} />}
+              type="password"
+              placeholder="Password"
+            />,
+          )}
+        </FormItem>
+        <FormItem>
+          {getFieldDecorator('register-password-confirmation', {
+            rules: [
+              {
+                required: true,
+                message: 'Password Confirmation is required',
+              },
+            ],
+          })(
+            <Input
+              prefix={<Icon type="lock" style={{fontSize: 13}} />}
+              type="password"
+              placeholder="Password Confirmation"
+            />,
+          )}
+        </FormItem>
+        <FormItem>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="sign-in-form-button"
+          >
+            Register
+          </Button>
+        </FormItem>
+      </Form>
+    );
+  }
+}
+const RegisterForm = Form.create()(RegisterFields);
+
+class SignIn extends Component {
+  state = {
+    visible: false,
+    activeKey: '2',
+    title: 'Sign In',
+  };
+
   forgotPassword = () => {
     this.setState({activeKey: '1', title: 'Forgot Password'});
   };
@@ -58,7 +207,6 @@ class SignIn extends Component {
 
   render() {
     const {activeKey, title} = this.state;
-    const {getFieldDecorator} = this.props.form;
     return (
       <div onClick={() => this.setState({visible: true})}>
         Sign In
@@ -73,30 +221,7 @@ class SignIn extends Component {
         >
           <Tabs activeKey={activeKey} defaultActiveKey="2" size="small">
             <TabPane tab="Tab 1" key="1">
-              <Form onSubmit={this.handleSubmit} className="login-form">
-                <FormItem>
-                  {getFieldDecorator('email', {
-                    rules: [
-                      {required: true, message: 'E-mail Address is required'},
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="mail" style={{fontSize: 13}} />}
-                      type="email"
-                      placeholder="E-mail Address"
-                    />,
-                  )}
-                </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="sign-in-form-button"
-                  >
-                    Request Password Reset
-                  </Button>
-                </FormItem>
-              </Form>
+              <ForgotPasswordForm />
               <Row>
                 <Col span={24} className="text-right">
                   <a onClick={this.signIn} className="sign-in-form-sign-up">
@@ -107,41 +232,7 @@ class SignIn extends Component {
             </TabPane>
 
             <TabPane tab="Tab 2" key="2">
-              <Form onSubmit={this.handleSubmit} className="login-form">
-                <FormItem>
-                  {getFieldDecorator('email', {
-                    rules: [
-                      {required: true, message: 'E-mail Address is required'},
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="mail" style={{fontSize: 13}} />}
-                      type="email"
-                      placeholder="E-mail Address"
-                    />,
-                  )}
-                </FormItem>
-                <FormItem>
-                  {getFieldDecorator('password', {
-                    rules: [{required: true, message: 'Password is required'}],
-                  })(
-                    <Input
-                      prefix={<Icon type="lock" style={{fontSize: 13}} />}
-                      type="password"
-                      placeholder="Password"
-                    />,
-                  )}
-                </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="sign-in-form-button"
-                  >
-                    Sign In
-                  </Button>
-                </FormItem>
-              </Form>
+              <SignInForm resetSignIn={this.props.resetSignIn} />
               <Row>
                 <Col span={12}>
                   <a
@@ -159,57 +250,7 @@ class SignIn extends Component {
               </Row>
             </TabPane>
             <TabPane tab="Tab 3" key="3">
-              <Form onSubmit={this.handleSubmit} className="login-form">
-                <FormItem>
-                  {getFieldDecorator('email', {
-                    rules: [
-                      {required: true, message: 'E-mail Address is required'},
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="mail" style={{fontSize: 13}} />}
-                      type="email"
-                      placeholder="E-mail Address"
-                    />,
-                  )}
-                </FormItem>
-                <FormItem>
-                  {getFieldDecorator('password', {
-                    rules: [{required: true, message: 'Password is required'}],
-                  })(
-                    <Input
-                      prefix={<Icon type="lock" style={{fontSize: 13}} />}
-                      type="password"
-                      placeholder="Password"
-                    />,
-                  )}
-                </FormItem>
-                <FormItem>
-                  {getFieldDecorator('password_confirmation', {
-                    rules: [
-                      {
-                        required: true,
-                        message: 'Password Confirmation is required',
-                      },
-                    ],
-                  })(
-                    <Input
-                      prefix={<Icon type="lock" style={{fontSize: 13}} />}
-                      type="password"
-                      placeholder="Password Confirmation"
-                    />,
-                  )}
-                </FormItem>
-                <FormItem>
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    className="sign-in-form-button"
-                  >
-                    Register
-                  </Button>
-                </FormItem>
-              </Form>
+              <RegisterForm />
               <Row>
                 <Col span={24}>
                   <a onClick={this.signIn} className="sign-sin-form-forgot">
@@ -225,4 +266,4 @@ class SignIn extends Component {
   }
 }
 
-export default Form.create()(SignIn);
+export default SignIn;
