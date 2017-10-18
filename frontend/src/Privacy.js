@@ -7,7 +7,7 @@ import Col from 'antd/lib/col';
 export default class Privacy extends Component {
   componentDidMount() {
     window.title('Privacy');
-    window.scrollTo(0, 0);
+    window.scrollTop();
   }
 
   render() {

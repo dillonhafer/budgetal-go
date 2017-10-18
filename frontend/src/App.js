@@ -1,57 +1,30 @@
+// App Concerns
 import React, {Component} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
+import {IsAuthenticated} from 'authentication';
 import './App.css';
 
+// Layout
 import Layout from 'antd/lib/layout';
 import Header from './Header';
 import Footer from './Footer';
 
-import {IsAuthenticated} from 'authentication';
+// Helpers
+import {notice, error, title, scrollTop} from './window';
 
-import {notice, error} from './notifications';
-
+// Route Components
+import Home from './Home';
 import Privacy from './Privacy';
+import NoMatch from './NoMatch';
+import MortgageCalculator from './MortgageCalculator';
 
+// Window Setup
 window.notice = notice;
 window.error = error;
+window.title = title;
+window.scrollTop = scrollTop;
 const {Content} = Layout;
-
-window.title = string => {
-  let title = 'Budgetal';
-  if (string.length) {
-    title = `${string} | Budgetal`;
-  }
-  document.title = title;
-};
-class Home extends Component {
-  componentDidMount() {
-    window.title('');
-    window.scrollTo(0, 0);
-  }
-  render() {
-    return <h1>Home</h1>;
-  }
-}
-
-class MortgageCalculator extends Component {
-  componentDidMount() {
-    window.title('Mortgage | Calculators');
-    window.scrollTo(0, 0);
-  }
-  render() {
-    return <h1>Mortgage Calculator</h1>;
-  }
-}
-class NoMatch extends Component {
-  componentDidMount() {
-    window.title('404 Not Found');
-    window.scrollTo(0, 0);
-  }
-  render() {
-    return <h1>Oh no! We cant find that page</h1>;
-  }
-}
 
 class App extends Component {
   state = {

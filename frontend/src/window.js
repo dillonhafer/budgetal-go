@@ -13,3 +13,15 @@ export const notice = description => {
 export const error = description => {
   openNotificationWithIcon('error', description);
 };
+
+export const title = string => {
+  let title = 'Budgetal';
+  if (string.length) {
+    title = `${string} | Budgetal`;
+  }
+  document.title = title;
+};
+
+export const scrollTop = () => {
+  window.scrollTo(0, 0);
+};
