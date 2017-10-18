@@ -8,6 +8,8 @@ import {IsAuthenticated} from 'authentication';
 import {notice, error} from './notifications';
 import Header from './Header';
 
+import Privacy from './Privacy';
+
 window.notice = notice;
 window.error = error;
 const {Content, Footer} = Layout;
@@ -35,15 +37,6 @@ class Help extends Component {
   }
   render() {
     return <h1>Help</h1>;
-  }
-}
-class Privacy extends Component {
-  componentDidMount() {
-    window.title('Privacy');
-    window.scrollTo(0, 0);
-  }
-  render() {
-    return <h1>Privacy</h1>;
   }
 }
 class MortgageCalculator extends Component {
