@@ -67,7 +67,7 @@ export default class Privacy extends Component {
                 </div>{' '}
                 <span id="infoCo" /> <br />{' '}
                 <div className="grayText">
-                  <a id="collection" />
+                  <span id="collection" />
                   <strong data-magellan-destination="collection">
                     What personal information do we collect from the people that
                     visit our blog, website or app?
@@ -92,7 +92,7 @@ export default class Privacy extends Component {
                 <span id="infoUs" />
                 <br />
                 <div className="grayText">
-                  <a id="information-usage" />
+                  <span id="information-usage" />
                   <strong data-magellan-destination="information-usage">
                     How do we use your information?{' '}
                   </strong>
@@ -123,7 +123,7 @@ export default class Privacy extends Component {
                   <strong data-magellan-destination="information-protection">
                     How do we protect visitor information?
                   </strong>
-                  <a id="information-protection" />
+                  <span id="information-protection" />
                 </div>
                 <br />
                 <div className="innerText">
@@ -151,18 +151,22 @@ export default class Privacy extends Component {
                   <span id="coUs" />
                   <br />
                   <div className="grayText">
-                    <a id="cookie-usage" />
+                    <span id="cookie-usage" />
                     <strong data-magellan-destination="cookie-usage">
                       Do we use 'cookies'?
                     </strong>
                   </div>
                   <br />
-                  <div className="innerText">No.</div>
+                  <div className="innerText">
+                    Only to send half of an encryption key to mitigate forgery
+                    and only when you sign in. We only set that one cookie. No
+                    Cookies are used for any kind of tracking.
+                  </div>
                   <br />
                   <span id="trDi" />
                   <br />
                   <div className="grayText">
-                    <a id="third-p-disc" />
+                    <span id="third-p-disc" />
                     <strong data-magellan-destination="third-p-disc">
                       Third Party Disclosure
                     </strong>
@@ -175,7 +179,7 @@ export default class Privacy extends Component {
                   <span id="trLi" />
                   <br />
                   <div className="grayText">
-                    <a id="third-p-links" />
+                    <span id="third-p-links" />
                     <strong data-magellan-destination="third-p-links">
                       Third party links
                     </strong>
@@ -188,7 +192,7 @@ export default class Privacy extends Component {
                   <span id="gooAd" />
                   <br />
                   <div className="blueText">
-                    <a id="g-adsense" />
+                    <span id="g-adsense" />
                     <strong data-magellan-destination="g-adsense">
                       Google
                     </strong>
@@ -201,6 +205,7 @@ export default class Privacy extends Component {
                     <a
                       href="https://support.google.com/adwordspolicy/answer/1316548?hl=en"
                       target="_blank"
+                      rel="noopener noreferrer"
                     >
                       AdwordsPolicy
                     </a>
@@ -214,7 +219,7 @@ export default class Privacy extends Component {
                   <span id="calOppa" />
                   <br />
                   <div className="blueText">
-                    <a id="caloppa" />
+                    <span id="caloppa" />
                     <strong data-magellan-destination="caloppa">
                       California Online Privacy Protection Act
                     </strong>
@@ -289,7 +294,7 @@ export default class Privacy extends Component {
                   <span id="coppAct" />
                   <br />
                   <div className="blueText">
-                    <a id="coppa" />
+                    <span id="coppa" />
                     <strong data-magellan-destination="coppa">
                       COPPA (Children Online Privacy Protection Act)
                     </strong>
@@ -311,7 +316,7 @@ export default class Privacy extends Component {
                   <span id="ftcFip" />
                   <br />
                   <div className="blueText">
-                    <a id="fair-info" />
+                    <span id="fair-info" />
                     <strong data-magellan-destination="fair-info">
                       Fair Information Practices
                     </strong>
@@ -361,7 +366,7 @@ export default class Privacy extends Component {
                   <span id="canSpam" />
                   <br />
                   <div className="blueText">
-                    <a id="can-spam" />
+                    <span id="can-spam" />
                     <strong data-magellan-destination="can-spam">
                       CAN SPAM Act
                     </strong>
@@ -429,7 +434,7 @@ export default class Privacy extends Component {
                   <span id="ourCon" />
                   <br />
                   <div className="blueText">
-                    <a id="contact" />
+                    <span id="contact" />
                     <strong data-magellan-destination="contact">
                       Contacting Us
                     </strong>
@@ -444,7 +449,7 @@ export default class Privacy extends Component {
                   <div className="innerText">www.budgetal.com</div>
                   <div className="innerText">privacy@budgetal.com</div>
                   <div className="innerText">
-                    <br />Last Edited on 2016-01-14
+                    <br />Last Edited on 2017-10-18
                   </div>
                 </div>
               </div>
