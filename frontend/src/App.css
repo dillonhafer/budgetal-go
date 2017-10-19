@@ -78,3 +78,7 @@
   border: none;
   min-height: 975px;
 }
+
+.ant-layout-header li a.active {
+  color: rgb(88, 151, 249);
+}

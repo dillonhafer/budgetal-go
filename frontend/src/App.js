@@ -10,20 +10,14 @@ import Layout from 'antd/lib/layout';
 import Header from './Header';
 import Footer from './Footer';
 
-// Helpers
-import {notice, error, title, scrollTop} from './window';
-
 // Route Components
+import PrivateRoute from './PrivateRoute';
 import Home from './Home';
 import Privacy from './Privacy';
 import NoMatch from './NoMatch';
 import MortgageCalculator from './MortgageCalculator';
+import AnnualBudget from './AnnualBudget';
 
-// Window Setup
-window.notice = notice;
-window.error = error;
-window.title = title;
-window.scrollTop = scrollTop;
 const {Content} = Layout;
 
 class App extends Component {
@@ -49,17 +43,23 @@ class App extends Component {
                       <CSSTransition
                         key={location.key}
                         classNames="fade"
-                        timeout={{enter: 300, exit: 300}}
+                        timeout={300}
                       >
-                        <Switch key={location.key} location={location}>
-                          <Route exact path="/" component={Home} />
-                          <Route path="/privacy" component={Privacy} />
-                          <Route
-                            path="/calculators/mortgage"
-                            component={MortgageCalculator}
-                          />
-                          <Route component={NoMatch} />
-                        </Switch>
+                        <div>
+                          <Switch key={location.key} location={location}>
+                            <Route exact path="/" component={Home} />
+                            <Route path="/privacy" component={Privacy} />
+                            <Route
+                              path="/calculators/mortgage"
+                              component={MortgageCalculator}
+                            />
+                            <PrivateRoute
+                              path="/annual-budgets/:year"
+                              component={AnnualBudget}
+                            />
+                            <Route component={NoMatch} />
+                          </Switch>
+                        </div>
                       </CSSTransition>
                     </TransitionGroup>
                   )}

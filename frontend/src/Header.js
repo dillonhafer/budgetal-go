@@ -8,7 +8,7 @@ import {
 import {Row, Col, Menu, Icon} from 'antd';
 import Layout from 'antd/lib/layout';
 import SignIn from './SignIn';
-import {Link} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 
 const ProfileImage = ({user}) => {
   const onError = e => {
@@ -72,7 +72,7 @@ export default class Header extends Component {
           </Link>
         </Menu.Item>,
         <Menu.Item key="annual-budgets">
-          <Link to={`/annual-budgets/${year}`}> Annual Budgets</Link>
+          <NavLink to={`/annual-budgets/${year}`}>Annual Budgets</NavLink>
         </Menu.Item>,
         <Menu.SubMenu key="submenu-calc" title="Calculators">
           <Menu.Item key="mortgage-calculator">

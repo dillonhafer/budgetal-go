@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
+import {title, scrollTop} from './window';
 
 class Home extends Component {
   componentDidMount() {
-    window.title('');
-    window.scrollTop();
+    title('');
+    scrollTop();
   }
+
   render() {
-    return <h1>Home</h1>;
+    return (
+      <div>
+        <h1>Home</h1>
+      </div>
+    );
   }
 }
 

@@ -1,10 +1,12 @@
 import notification from 'antd/lib/notification';
 
 const openNotificationWithIcon = (type, description) => {
-  notification[type]({
-    message: type.charAt(0).toUpperCase() + type.slice(1),
-    description,
-  });
+  setTimeout(_ => {
+    notification[type]({
+      message: type.charAt(0).toUpperCase() + type.slice(1),
+      description,
+    });
+  }, 0);
 };
 
 export const notice = description => {
