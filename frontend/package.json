@@ -14,7 +14,7 @@
     "redux": "^3.7.2"
   },
   "scripts": {
-    "start": "NODE_PATH=src PORT=3001 react-scripts start",
+    "start": "source APP_ENV && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
