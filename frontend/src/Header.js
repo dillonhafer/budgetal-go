@@ -9,6 +9,7 @@ import {Row, Col, Menu, Icon} from 'antd';
 import Layout from 'antd/lib/layout';
 import SignIn from './SignIn';
 import {Link, NavLink} from 'react-router-dom';
+import {notice} from './window';
 
 const ProfileImage = ({user}) => {
   const onError = e => {
@@ -32,8 +33,8 @@ export default class Header extends Component {
       const resp = await SignOutRequest();
       if (resp && resp.ok) {
         RemoveAuthentication();
-        window.notice('You have been signed out');
         this.props.resetSignIn();
+        notice('You have been signed out');
       }
     } catch (err) {
       console.log(err);

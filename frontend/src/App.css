@@ -1,6 +1,11 @@
 @import './Antd.css';
 @import './Antd-Override.css';
 
+html,
+body {
+  background: #ececec;
+}
+
 h1 {
   font-size: 28px;
   color: rgba(0, 0, 0, 0.85);
