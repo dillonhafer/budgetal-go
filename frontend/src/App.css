@@ -19,6 +19,12 @@ h1 {
 .text-right {
   text-align: right;
 }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
 
 .logo {
   width: 50px;
@@ -147,4 +153,22 @@ h1 {
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.monthChart .ant-tag,
+.monthChart .ant-tag a,
+.monthChart .ant-tag a:hover {
+  height: 18px !important;
+}
+
+.ant-table-pagination {
+  float: none !important;
+}
+
+tr.newYear {
+  background: #edf7ff;
+}
+
+.paymentPopover .ant-tag {
+  margin: 5px;
 }

@@ -10,6 +10,22 @@ import Header from './Header';
 import ApplicationLayout from './ApplicationLayout';
 import Footer from './Footer';
 
+// Redux
+import {throttle} from 'lodash';
+import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {loadState, saveState} from 'persistant-state';
+import reducers from './reducers';
+const persistedState = loadState();
+const store = createStore(reducers, {...persistedState});
+store.subscribe(
+  throttle(() => {
+    saveState({
+      mortgageCalculator: store.getState().mortgageCalculator,
+    });
+  }, 1000),
+);
+
 class App extends Component {
   state = {
     signedIn: IsAuthenticated(),
@@ -21,15 +37,17 @@ class App extends Component {
 
   render() {
     return (
-      <Router>
-        <div className="App">
-          <Layout>
-            <Header resetSignIn={this.resetSignIn} />
-            <ApplicationLayout />
-            <Footer />
-          </Layout>
-        </div>
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Layout>
+              <Header resetSignIn={this.resetSignIn} />
+              <ApplicationLayout />
+              <Footer />
+            </Layout>
+          </div>
+        </Router>
+      </Provider>
     );
   }
 }
