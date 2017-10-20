@@ -7,8 +7,8 @@ import Layout from 'antd/lib/layout';
 import PrivateRoute from 'PrivateRoute';
 import Home from 'Home';
 import Privacy from 'Privacy';
-import MortgageCalculator from 'MortgageCalculator';
-import AnnualBudget from 'AnnualBudget';
+import MortgageCalculator from 'routes/calculators/mortgage';
+import AnnualBudget from 'routes/annual-budgets';
 
 // Error Routes
 import NoMatch from 'NoMatch';
