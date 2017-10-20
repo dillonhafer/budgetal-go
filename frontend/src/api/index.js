@@ -55,23 +55,15 @@ const base = async (path, method, headers = {}, body = {}) => {
 // const _get = (path, headers = {}) => {
 //   return base(path, 'GET', headers);
 // };
-const _post = (path, body = {}, headers = {}) => {
+export const _post = (path, body = {}, headers = {}) => {
   return base(path, 'POST', headers, body);
 };
 // Not yet required
 // const _put = (path, body = {}, headers = {}) => {
 //   return base(path, 'PUT', headers);
 // };
-const _delete = (path, body = {}, headers = {}) => {
+export const _delete = (path, body = {}, headers = {}) => {
   return base(path, 'DELETE', headers, body);
 };
 
-/* Public API Functions
-/************************/
-export function SignInRequest({email, password}) {
-  return _post('/sign-in', {email, password});
-}
-
-export function SignOutRequest() {
-  return _delete('/sign-out');
-}
+export * from 'api/sessions';
