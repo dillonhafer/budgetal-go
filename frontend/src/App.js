@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {IsAuthenticated} from 'authentication';
-import 'App.css';
+import 'css/App.css';
 
 // Layout
 import Layout from 'antd/lib/layout';
