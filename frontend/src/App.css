@@ -82,3 +82,26 @@
 .ant-layout-header li a.active {
   color: rgb(88, 151, 249);
 }
+
+#root {
+  min-height: 100%;
+  position: relative;
+  background: #ececec;
+}
+.ant-layout-content {
+  margin-top: 114px;
+  margin-left: 50px;
+  margin-right: 50px;
+  padding-bottom: 108px;
+  padding-right: 24px;
+  padding-left: 24px;
+  padding-top: 24px;
+  background: #fff;
+}
+.ant-layout-footer {
+  clear: both;
+  width: 100%;
+  height: 84px;
+  position: absolute;
+  bottom: 0;
+}
