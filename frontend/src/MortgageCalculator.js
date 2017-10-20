@@ -99,7 +99,6 @@ class MortgageCalculator extends Component {
     const firstMonthPrincipal = monthlyPayment - firstMonthInterest;
 
     let cv = currentBalance;
-    console.log(totalMonths);
     const _months = [...Array(totalMonths).keys()].map((month, i) => {
       const pastMonth = i < completedMonths;
       let _principal = 0.0;
