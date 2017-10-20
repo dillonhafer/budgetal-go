@@ -1,21 +1,21 @@
 import React, {Component} from 'react';
 import {title, scrollTop} from './window';
 
-class NoMatch extends Component {
+class Maintenance extends Component {
   componentDidMount() {
-    title('404 Not Found');
+    title('503 Maintenance');
     scrollTop();
   }
 
   render() {
     return (
       <div className="error-page">
-        <h1>The page you were looking for doesn't exist.</h1>
+        <h1>We are performing scheduled maintenance right now.</h1>
         <hr />
-        <p>You may have mistyped the address or the page may have moved.</p>
+        <p>We should be done shortly.</p>
       </div>
     );
   }
 }
 
-export default NoMatch;
+export default Maintenance;

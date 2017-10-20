@@ -19,7 +19,7 @@ export default class Footer extends Component {
 
   render() {
     return (
-      <Layout.Footer style={{textAlign: 'center'}}>
+      <Layout.Footer>
         Budgetal © 2013-{new Date().getFullYear()} All rights reserved
         <p>
           <Link to="/privacy">Privacy</Link> |{' '}

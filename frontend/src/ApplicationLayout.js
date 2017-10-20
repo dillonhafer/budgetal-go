@@ -7,9 +7,12 @@ import Layout from 'antd/lib/layout';
 import PrivateRoute from './PrivateRoute';
 import Home from './Home';
 import Privacy from './Privacy';
-import NoMatch from './NoMatch';
 import MortgageCalculator from './MortgageCalculator';
 import AnnualBudget from './AnnualBudget';
+
+// Error Routes
+import NoMatch from './NoMatch';
+import Maintenance from './Maintenance';
 
 class ApplicationLayout extends Component {
   render() {
@@ -31,6 +34,7 @@ class ApplicationLayout extends Component {
                       path="/annual-budgets/:year"
                       component={AnnualBudget}
                     />
+                    <Route path="/maintenance" component={Maintenance} />
                     <Route component={NoMatch} />
                   </Switch>
                 </div>

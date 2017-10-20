@@ -10,6 +10,7 @@ import Col from 'antd/lib/col';
 
 import {SignInRequest} from 'api';
 import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
+import {notice} from './window';
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -60,7 +61,7 @@ class SignInFields extends Component {
       const resp = await SignInRequest(values);
 
       if (resp && resp.ok) {
-        window.notice('You are now signed in');
+        notice('You are now signed in');
         SetAuthenticationToken(resp.token);
         SetCurrentUser(resp.user);
         this.props.resetSignIn();
