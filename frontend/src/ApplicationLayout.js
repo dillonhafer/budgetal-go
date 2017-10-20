@@ -4,15 +4,15 @@ import {TransitionGroup, CSSTransition} from 'react-transition-group';
 import Layout from 'antd/lib/layout';
 
 // Route Components
-import PrivateRoute from './PrivateRoute';
-import Home from './Home';
-import Privacy from './Privacy';
-import MortgageCalculator from './MortgageCalculator';
-import AnnualBudget from './AnnualBudget';
+import PrivateRoute from 'PrivateRoute';
+import Home from 'Home';
+import Privacy from 'Privacy';
+import MortgageCalculator from 'MortgageCalculator';
+import AnnualBudget from 'AnnualBudget';
 
 // Error Routes
-import NoMatch from './NoMatch';
-import Maintenance from './Maintenance';
+import NoMatch from 'NoMatch';
+import Maintenance from 'Maintenance';
 
 class ApplicationLayout extends Component {
   render() {

@@ -1,4 +1,4 @@
-import {GetAuthenticationToken} from '../authentication';
+import {GetAuthenticationToken} from 'authentication';
 const baseURL = process.env.BASE_URL || '';
 
 const base = async (path, method, headers = {}, body = {}) => {

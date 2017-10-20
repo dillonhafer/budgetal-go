@@ -4,11 +4,7 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
-    "action-types": "file:@budgetal/action-types",
     "antd": "^2.13.6",
-    "api": "file:@budgetal/api",
-    "authentication": "file:@budgetal/authentication",
-    "persistant-state": "file:@budgetal/persistant-state",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.6",
@@ -18,10 +14,9 @@
     "redux": "^3.7.2"
   },
   "scripts": {
-    "start": "yarn link-locals && PORT=3001 react-scripts start",
+    "start": "NODE_PATH=src PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "link-locals": "./link-locals.sh"
+    "eject": "react-scripts eject"
   }
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {currencyf} from './helpers';
+import {currencyf} from 'helpers';
 import Popover from 'antd/lib/popover';
 import Tag from 'antd/lib/tag';
 

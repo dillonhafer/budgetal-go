@@ -10,7 +10,7 @@ import Col from 'antd/lib/col';
 
 import {SignInRequest} from 'api';
 import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
-import {notice} from './window';
+import {notice} from 'window';
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;

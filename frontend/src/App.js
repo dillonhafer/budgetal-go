@@ -2,20 +2,20 @@
 import React, {Component} from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import {IsAuthenticated} from 'authentication';
-import './App.css';
+import 'App.css';
 
 // Layout
 import Layout from 'antd/lib/layout';
-import Header from './Header';
-import ApplicationLayout from './ApplicationLayout';
-import Footer from './Footer';
+import Header from 'Header';
+import ApplicationLayout from 'ApplicationLayout';
+import Footer from 'Footer';
 
 // Redux
 import {throttle} from 'lodash';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import {loadState, saveState} from 'persistant-state';
-import reducers from './reducers';
+import reducers from 'reducers';
 const persistedState = loadState();
 const store = createStore(reducers, {...persistedState});
 store.subscribe(

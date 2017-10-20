@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {title, scrollTop} from './window';
+import {title, scrollTop} from 'window';
 
 class Home extends Component {
   componentDidMount() {
