@@ -92,6 +92,9 @@ h1 {
 .ant-layout-header {
   background: rgba(64, 64, 64, 0.96);
 }
+.ant-menu-dark {
+  background: transparent;
+}
 .ant-layout-header li a.active {
   color: rgb(88, 151, 249);
 }
