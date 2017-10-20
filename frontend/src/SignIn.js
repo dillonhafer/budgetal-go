@@ -195,6 +195,14 @@ class SignIn extends Component {
     title: 'Sign In',
   };
 
+  openModal = () => {
+    this.setState({activeKey: '2', title: 'Sign In', visible: true});
+  };
+
+  closeModal = () => {
+    this.setState({visible: false});
+  };
+
   forgotPassword = () => {
     this.setState({activeKey: '1', title: 'Forgot Password'});
   };
@@ -208,7 +216,7 @@ class SignIn extends Component {
   render() {
     const {activeKey, title} = this.state;
     return (
-      <div onClick={() => this.setState({visible: true})}>
+      <div onClick={this.openModal}>
         Sign In
         <Modal
           title={title}
@@ -216,8 +224,7 @@ class SignIn extends Component {
           footer={null}
           width={350}
           visible={this.state.visible}
-          onOk={() => this.setState({visible: false})}
-          onCancel={() => this.setState({visible: false})}
+          onCancel={this.closeModal}
         >
           <Tabs activeKey={activeKey} defaultActiveKey="2" size="small">
             <TabPane tab="Tab 1" key="1">
