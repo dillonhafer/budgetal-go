@@ -7,7 +7,7 @@ import {
 } from 'authentication';
 import {Row, Col, Menu, Icon} from 'antd';
 import Layout from 'antd/lib/layout';
-import SignIn from 'SignIn';
+import SignIn from './SignIn';
 import {Link, NavLink} from 'react-router-dom';
 import {notice} from 'window';
 

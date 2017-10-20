@@ -6,9 +6,9 @@ import 'App.css';
 
 // Layout
 import Layout from 'antd/lib/layout';
-import Header from 'Header';
-import ApplicationLayout from 'ApplicationLayout';
-import Footer from 'Footer';
+import Header from 'layouts/Header';
+import ApplicationLayout from 'layouts/ApplicationLayout';
+import Footer from 'layouts/Footer';
 
 // Redux
 import {throttle} from 'lodash';
