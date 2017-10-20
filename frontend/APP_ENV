@@ -1,2 +1,2 @@
 export PORT=3001
-export NODE_PATH=src:src/api
+export NODE_PATH=$NODE_PATH:src:src/api:src/utils:src/constants
