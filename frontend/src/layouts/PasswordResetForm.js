@@ -20,9 +20,12 @@ class PasswordResetForm extends Component {
     const {getFieldDecorator} = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator('reset-email', {
-            rules: [{required: true, message: 'E-mail Address is required'}],
+        <FormItem hasFeedback={true}>
+          {getFieldDecorator('email', {
+            rules: [
+              {required: true, message: 'E-mail Address is required'},
+              {pattern: /.+@.+/, message: 'E-mail Address is invalid'},
+            ],
           })(
             <Input
               prefix={<Icon type="mail" style={{fontSize: 13}} />}

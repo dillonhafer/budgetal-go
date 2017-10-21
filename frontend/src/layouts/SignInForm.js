@@ -39,9 +39,12 @@ class SignInForm extends Component {
     const {getFieldDecorator} = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
+        <FormItem hasFeedback={true}>
           {getFieldDecorator('email', {
-            rules: [{required: true, message: 'E-mail Address is required'}],
+            rules: [
+              {required: true, message: 'E-mail Address is required'},
+              {pattern: /.+@.+/, message: 'E-mail Address is invalid'},
+            ],
           })(
             <Input
               prefix={<Icon type="mail" style={{fontSize: 13}} />}
@@ -50,7 +53,7 @@ class SignInForm extends Component {
             />,
           )}
         </FormItem>
-        <FormItem>
+        <FormItem hasFeedback={true}>
           {getFieldDecorator('password', {
             rules: [{required: true, message: 'Password is required'}],
           })(
