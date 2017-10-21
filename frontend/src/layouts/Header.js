@@ -87,7 +87,7 @@ export default class Header extends Component {
           title={
             <span>
               <ProfileImage user={user} />
-              Hello, {user.firstName}!
+              Hello{user.firstName ? `, ${user.firstName}` : ''}!
             </span>
           }
         >

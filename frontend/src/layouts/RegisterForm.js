@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import {RegisterRequest} from 'api/users';
+import {notice} from 'window';
+import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
+
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Button from 'antd/lib/button';
@@ -7,22 +11,48 @@ import Icon from 'antd/lib/icon';
 const FormItem = Form.Item;
 
 class RegisterForm extends Component {
+  submitForm = async user => {
+    try {
+      const resp = await RegisterRequest(user);
+
+      if (resp && resp.ok) {
+        notice('Welcome to Budgetal!');
+        SetAuthenticationToken(resp.token);
+        SetCurrentUser(resp.user);
+        this.props.resetSignIn();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err, user) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        this.submitForm(user);
       }
     });
+  };
+
+  handleConfirmPassword = (rule, value, callback) => {
+    const {getFieldValue} = this.props.form;
+    if (value && value !== getFieldValue('password')) {
+      callback("Passwords don't match");
+    }
+    callback();
   };
 
   render() {
     const {getFieldDecorator} = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator('register-email', {
-            rules: [{required: true, message: 'E-mail Address is required'}],
+        <FormItem hasFeedback={true}>
+          {getFieldDecorator('email', {
+            rules: [
+              {required: true, message: 'E-mail Address is required'},
+              {pattern: /.+@.+/, message: 'E-mail Address is invalid'},
+            ],
           })(
             <Input
               prefix={<Icon type="mail" style={{fontSize: 13}} />}
@@ -31,8 +61,8 @@ class RegisterForm extends Component {
             />,
           )}
         </FormItem>
-        <FormItem>
-          {getFieldDecorator('register-password', {
+        <FormItem hasFeedback={true}>
+          {getFieldDecorator('password', {
             rules: [{required: true, message: 'Password is required'}],
           })(
             <Input
@@ -42,12 +72,16 @@ class RegisterForm extends Component {
             />,
           )}
         </FormItem>
-        <FormItem>
-          {getFieldDecorator('register-password-confirmation', {
+        <FormItem hasFeedback={true}>
+          {getFieldDecorator('password-confirmation', {
             rules: [
               {
                 required: true,
                 message: 'Password Confirmation is required',
+              },
+              {
+                validator: this.handleConfirmPassword,
+                message: 'Password Confirmation does not match password',
               },
             ],
           })(

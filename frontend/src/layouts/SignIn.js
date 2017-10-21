@@ -80,7 +80,7 @@ class SignIn extends Component {
               </Row>
             </TabPane>
             <TabPane tab="Tab 3" key="3">
-              <RegisterForm />
+              <RegisterForm resetSignIn={this.props.resetSignIn} />
               <Row>
                 <Col span={24}>
                   <a onClick={this.signIn} className="sign-sin-form-forgot">
