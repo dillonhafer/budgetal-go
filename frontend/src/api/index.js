@@ -1,4 +1,5 @@
 import {GetAuthenticationToken} from 'authentication';
+import {error} from 'window';
 const baseURL = process.env.BASE_URL || '';
 
 const base = async (path, method, headers = {}, body = {}) => {
@@ -31,7 +32,7 @@ const base = async (path, method, headers = {}, body = {}) => {
     const resp = await fetch(baseURL + path, req);
 
     if (resp.status === 503) {
-      window.error('YOU IN MAINT MAN');
+      error('YOU IN MAINT MAN');
       return;
     }
 
@@ -47,7 +48,7 @@ const base = async (path, method, headers = {}, body = {}) => {
     const json = await resp.json();
     return Object.assign({}, json, {ok: true});
   } catch (err) {
-    window.error(err.error || 'Something went wrong');
+    error(err.error || 'Something went wrong');
   }
 };
 

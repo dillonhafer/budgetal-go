@@ -1,193 +1,15 @@
 import React, {Component} from 'react';
 import Modal from 'antd/lib/modal';
-import Form from 'antd/lib/form';
 import Icon from 'antd/lib/icon';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
 import Tabs from 'antd/lib/tabs';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
 
-import {SignInRequest} from 'api';
-import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
-import {notice} from 'window';
+import RegisterForm from './RegisterForm';
+import PasswordResetForm from './PasswordResetForm';
+import SignInForm from './SignInForm';
 
 const TabPane = Tabs.TabPane;
-const FormItem = Form.Item;
-
-class ForgotPasswordFields extends Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
-
-  render() {
-    const {getFieldDecorator} = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator('reset-email', {
-            rules: [{required: true, message: 'E-mail Address is required'}],
-          })(
-            <Input
-              prefix={<Icon type="mail" style={{fontSize: 13}} />}
-              type="email"
-              placeholder="E-mail Address"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="sign-in-form-button"
-          >
-            Request Password Reset
-          </Button>
-        </FormItem>
-      </Form>
-    );
-  }
-}
-const ForgotPasswordForm = Form.create()(ForgotPasswordFields);
-
-class SignInFields extends Component {
-  submitForm = async values => {
-    try {
-      const resp = await SignInRequest(values);
-
-      if (resp && resp.ok) {
-        notice('You are now signed in');
-        SetAuthenticationToken(resp.token);
-        SetCurrentUser(resp.user);
-        this.props.resetSignIn();
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-        this.submitForm(values);
-      }
-    });
-  };
-
-  render() {
-    const {getFieldDecorator} = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator('email', {
-            rules: [{required: true, message: 'E-mail Address is required'}],
-          })(
-            <Input
-              prefix={<Icon type="mail" style={{fontSize: 13}} />}
-              type="email"
-              placeholder="E-mail Address"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('password', {
-            rules: [{required: true, message: 'Password is required'}],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{fontSize: 13}} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="sign-in-form-button"
-          >
-            Sign In
-          </Button>
-        </FormItem>
-      </Form>
-    );
-  }
-}
-const SignInForm = Form.create()(SignInFields);
-
-class RegisterFields extends Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
-    });
-  };
-
-  render() {
-    const {getFieldDecorator} = this.props.form;
-    return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          {getFieldDecorator('register-email', {
-            rules: [{required: true, message: 'E-mail Address is required'}],
-          })(
-            <Input
-              prefix={<Icon type="mail" style={{fontSize: 13}} />}
-              type="email"
-              placeholder="E-mail Address"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('register-password', {
-            rules: [{required: true, message: 'Password is required'}],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{fontSize: 13}} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          {getFieldDecorator('register-password-confirmation', {
-            rules: [
-              {
-                required: true,
-                message: 'Password Confirmation is required',
-              },
-            ],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{fontSize: 13}} />}
-              type="password"
-              placeholder="Password Confirmation"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="sign-in-form-button"
-          >
-            Register
-          </Button>
-        </FormItem>
-      </Form>
-    );
-  }
-}
-const RegisterForm = Form.create()(RegisterFields);
 
 class SignIn extends Component {
   state = {
@@ -229,7 +51,7 @@ class SignIn extends Component {
         >
           <Tabs activeKey={activeKey} defaultActiveKey="2" size="small">
             <TabPane tab="Tab 1" key="1">
-              <ForgotPasswordForm />
+              <PasswordResetForm />
               <Row>
                 <Col span={24} className="text-right">
                   <a onClick={this.signIn} className="sign-in-form-sign-up">
