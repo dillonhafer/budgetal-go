@@ -3,23 +3,19 @@ create extension if not exists pgcrypto with schema public;
 
 create table users (
   id serial primary key,
-  password_hash character varying,
-  password_salt character varying,
-  admin boolean,
-  created_at timestamptz,
-  updated_at timestamptz,
-  password_reset_token character varying,
+  email varchar not null unique,
+  first_name varchar,
+  last_name varchar,
+  encrypted_password varchar not null,
+  admin boolean not null default false,
+  password_reset_token varchar unique,
   password_reset_sent_at timestamptz,
-  email character varying default ''::character varying not null,
-  encrypted_password character varying default ''::character varying not null,
-  first_name character varying,
-  last_name character varying,
-  reset_password_token character varying,
-  reset_password_sent_at timestamptz,
-  avatar_file_name character varying,
-  avatar_content_type character varying,
+  avatar_file_name varchar,
+  avatar_content_type varchar,
   avatar_file_size integer,
-  avatar_updated_at timestamptz
+  avatar_updated_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
 );
 
 create table budgets (
@@ -58,13 +54,14 @@ create table annual_budgets (
   year integer not null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+  unique (user_id, year),
   constraint year_range check (((year >= 2013) and (year <= 2100)))
 );
 
 create table annual_budget_items (
   id serial primary key,
   annual_budget_id integer not null references annual_budgets,
-  name character varying not null,
+  name varchar not null,
   due_date date not null,
   amount numeric(10,2) not null,
   paid boolean default false not null,
@@ -77,8 +74,8 @@ create table annual_budget_items (
 create table budget_categories (
   id serial primary key,
   budget_id integer not null references budgets,
-  name character varying not null,
-  percentage character varying not null,
+  name varchar not null,
+  percentage varchar not null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -86,7 +83,7 @@ create table budget_categories (
 create table budget_items (
   id serial primary key,
   budget_category_id integer not null references budget_categories,
-  name character varying not null,
+  name varchar not null,
   amount_budgeted numeric(10,2) not null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -96,7 +93,7 @@ create table budget_items (
 create table budget_item_expenses (
   id serial primary key,
   budget_item_id integer not null references budget_items,
-  name character varying not null,
+  name varchar not null,
   amount numeric(10,2) not null,
   date date not null,
   created_at timestamptz not null default now(),
@@ -105,10 +102,10 @@ create table budget_item_expenses (
 
 create table sessions (
   authentication_key uuid default gen_random_uuid() not null primary key,
-  authentication_token character varying not null,
+  authentication_token varchar not null,
   user_id integer not null references users,
-  ip character varying not null,
-  user_agent character varying not null,
+  ip varchar not null,
+  user_agent varchar not null,
   expired_at timestamptz,
   created_at timestamptz default now() not null,
   updated_at timestamptz default now() not null
@@ -125,5 +122,3 @@ create index budget_item_expenses_item_idx on budget_item_expenses using btree (
 create index budget_items_category_idx on budget_items using btree (budget_category_id);
 create index budgets_user_id_idx on budgets using btree (user_id);
 create index sessions_user_id_idx on sessions using btree (user_id);
-create unique index index_annual_budgets_on_user_id_and_year on annual_budgets using btree (user_id, year);
-create unique index index_users_on_reset_password_token on users using btree (reset_password_token);
