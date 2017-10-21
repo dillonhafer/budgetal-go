@@ -47,6 +47,12 @@ func (s *Session) Create(tx *pop.Connection) string {
 	return color.YellowString(query)
 }
 
+func (s *Session) Delete(tx *pop.Connection) string {
+	query := "update sessions set expired_at = now() where authentication_key = :authentication_key"
+	tx.TX.NamedExec(query, s)
+	return color.YellowString(query)
+}
+
 func (s *Session) ID() uuid.UUID {
 	return s.AuthenticationKey
 }

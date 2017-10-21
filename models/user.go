@@ -23,6 +23,7 @@ type User struct {
 	EncryptedPassword   string    `json:"-" db:"encrypted_password"`
 	CreatedAt           time.Time `json:"-" db:"created_at"`
 	UpdatedAt           time.Time `json:"-" db:"updated_at"`
+	CurrentSession      *Session  `json:"-" db:"-"`
 }
 
 // String is not required by pop and may be deleted

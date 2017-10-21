@@ -51,6 +51,8 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 			return c.Render(401, r.JSON(errResp))
 		}
 
+		user.CurrentSession = session
+
 		c.Set("currentUser", user)
 		return next(c)
 	}

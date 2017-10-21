@@ -30,12 +30,10 @@ export default class Header extends Component {
   signOut = async e => {
     try {
       e.preventDefault();
-      const resp = await SignOutRequest();
-      if (resp && resp.ok) {
-        RemoveAuthentication();
-        this.props.resetSignIn();
-        notice('You have been signed out');
-      }
+      await SignOutRequest();
+      RemoveAuthentication();
+      this.props.resetSignIn();
+      notice('You have been signed out');
     } catch (err) {
       console.log(err);
     }
