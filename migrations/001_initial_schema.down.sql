@@ -1,0 +1,10 @@
+drop table sessions;
+drop table budget_item_expenses;
+drop table budget_items;
+drop table budget_categories;
+drop table annual_budget_items;
+drop table annual_budgets;
+drop table allocation_plan_budget_items;
+drop table allocation_plans;
+drop table budgets;
+drop table users;
