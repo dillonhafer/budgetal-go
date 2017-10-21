@@ -115,7 +115,7 @@ func App() *buffalo.App {
 		app.Middleware.Skip(AuthorizeUser, SignIn, UsersCreate)
 
 		app.POST("/sign-in", SignIn)
-		app.POST("/sign-up", UsersCreate)
+		app.POST("/register", UsersCreate)
 		app.DELETE("/sign-out", WithCurrentUser(SignOut))
 	}
 

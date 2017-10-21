@@ -9,16 +9,20 @@ import (
 )
 
 type User struct {
-	ID                int       `json:"-" db:"id"`
-	Email             string    `json:"email" db:"email"`
-	FirstName         string    `json:"firstName" db:"first_name"`
-	LastName          string    `json:"lastName" db:"last_name"`
-	Admin             bool      `json:"admin" db:"admin"`
-	AvatarFileName    string    `json:"avatarFileName" db:"avatar_file_name"`
-	EncryptedPassword string    `json:"-" db:"encrypted_password"`
-	PasswordSalt      string    `json:"-" db:"password_salt"`
-	CreatedAt         time.Time `json:"-" db:"created_at"`
-	UpdatedAt         time.Time `json:"-" db:"updated_at"`
+	ID                  int       `json:"-" db:"id"`
+	Email               string    `json:"email" db:"email"`
+	FirstName           string    `json:"firstName" db:"first_name"`
+	LastName            string    `json:"lastName" db:"last_name"`
+	Admin               bool      `json:"admin" db:"admin"`
+	PasswordResetToken  string    `json:"-" db:"password_reset_token"`
+	PasswordResetSentAt time.Time `json:"-" db:"password_reset_sent_at"`
+	AvatarFileName      string    `json:"avatarFileName" db:"avatar_file_name"`
+	AvatarContentType   string    `json:"-" db:"avatar_content_type"`
+	AvatarFileSize      int       `json:"-" db:"avatar_file_size"`
+	AvatarUpdatedAt     time.Time `json:"-" db:"avatar_updated_at"`
+	EncryptedPassword   string    `json:"-" db:"encrypted_password"`
+	CreatedAt           time.Time `json:"-" db:"created_at"`
+	UpdatedAt           time.Time `json:"-" db:"updated_at"`
 }
 
 // String is not required by pop and may be deleted

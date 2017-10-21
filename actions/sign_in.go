@@ -23,17 +23,13 @@ func Json(c buffalo.Context, key string) interface{} {
 	return nil
 }
 
-func Compare(password string, pepper string, hashedPassword string) bool {
+func Compare(password string, hashedPassword string) bool {
 	if hashedPassword == "" {
 		return false
 	}
 
 	var passwordBuffer bytes.Buffer
 	passwordBuffer.WriteString(password)
-
-	if pepper != "" {
-		passwordBuffer.WriteString(pepper)
-	}
 
 	val := bcrypt.CompareHashAndPassword([]byte(hashedPassword), passwordBuffer.Bytes())
 
@@ -73,7 +69,7 @@ func SignIn(c buffalo.Context) error {
 
 	// 2. check if password is valid
 	//    return error if no user is found
-	authentic := Compare(params.Password, user.PasswordSalt, user.EncryptedPassword)
+	authentic := Compare(params.Password, user.EncryptedPassword)
 	if authentic == false {
 		return c.Render(401, r.JSON(err))
 	}
