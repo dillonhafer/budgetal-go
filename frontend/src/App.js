@@ -4,6 +4,10 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {IsAuthenticated} from 'authentication';
 import 'css/App.css';
 
+// Locale
+import LocaleProvider from 'antd/lib/locale-provider';
+import enUS from 'antd/lib/locale-provider/en_US';
+
 // Layout
 import Layout from 'antd/lib/layout';
 import Header from 'layouts/Header';
@@ -38,15 +42,17 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
-          <div className="App">
-            <Layout>
-              <Header resetSignIn={this.resetSignIn} />
-              <ApplicationLayout />
-              <Footer />
-            </Layout>
-          </div>
-        </Router>
+        <LocaleProvider locale={enUS}>
+          <Router>
+            <div className="App">
+              <Layout>
+                <Header resetSignIn={this.resetSignIn} />
+                <ApplicationLayout />
+                <Footer />
+              </Layout>
+            </div>
+          </Router>
+        </LocaleProvider>
       </Provider>
     );
   }
