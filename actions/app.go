@@ -119,6 +119,7 @@ func App() *buffalo.App {
 		app.POST("/sign-in", SignIn)
 		app.POST("/register", UsersCreate)
 		app.DELETE("/sign-out", WithCurrentUser(SignOut))
+		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
 	}
 
 	return app

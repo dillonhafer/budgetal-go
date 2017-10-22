@@ -9,6 +9,7 @@ import Home from 'Home';
 import Privacy from 'Privacy';
 import MortgageCalculator from 'routes/calculators/mortgage';
 import AnnualBudget from 'routes/annual-budgets';
+import Statistics from 'routes/statistics';
 
 // Error Routes
 import NoMatch from 'NoMatch';
@@ -33,6 +34,10 @@ class ApplicationLayout extends Component {
                     <PrivateRoute
                       path="/annual-budgets/:year"
                       component={AnnualBudget}
+                    />
+                    <PrivateRoute
+                      path="/monthly-statistics/:year/:month"
+                      component={Statistics}
                     />
                     <Route path="/maintenance" component={Maintenance} />
                     <Route component={NoMatch} />

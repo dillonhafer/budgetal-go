@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {SignOutRequest} from 'api';
+import {SignOutRequest} from 'api/sessions';
 import {
   RemoveAuthentication,
   IsAuthenticated,

@@ -7,7 +7,7 @@ export default class Highchart extends Component {
     this.setTheme(props.colors);
   }
 
-  defaultProps = {
+  static defaultProps = {
     config: [],
   };
 
@@ -103,6 +103,9 @@ export default class Highchart extends Component {
 
   render() {
     const config = this.config(this.props.config);
+    setTimeout(_ => {
+      window.dispatchEvent(new Event('resize'));
+    }, 500);
     return <ReactHighcharts ref="chart" config={config} />;
   }
 }

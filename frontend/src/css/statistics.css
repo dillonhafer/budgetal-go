@@ -1,0 +1,86 @@
+.stat-list {
+  -webkit-column-count: 2;
+  -moz-column-count: 2;
+  column-count: 2;
+}
+
+.stat-list li {
+  list-style-type: none;
+  border-top: 1px solid #eee;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.stat-list li:nth-child(1),
+.stat-list li:nth-child(7) {
+  border-top: none;
+}
+
+.stat-list li .percentSpent {
+  font-size: 15px;
+  color: #777;
+}
+
+.stat-list li b {
+  font-size: 1rem;
+}
+
+.stat-list li .stat-icon {
+  float: left;
+  height: 30px;
+  width: 30px;
+  background-image: url('../images/categories.png');
+  background-repeat: no-repeat;
+  background-size: 30px;
+  margin: 0 auto;
+  margin-right: 10px;
+  margin-top: 5px;
+}
+
+.stat-list li .stat-icon-charity {
+  background-position: 0px 0px;
+}
+
+.stat-list li .stat-icon-saving {
+  background-position: 0px -30px;
+}
+
+.stat-list li .stat-icon-housing {
+  background-position: 0px -60px;
+}
+
+.stat-list li .stat-icon-utilities {
+  background-position: 0px -90px;
+}
+
+.stat-list li .stat-icon-food {
+  background-position: 0px -120px;
+}
+
+.stat-list li .stat-icon-clothing {
+  background-position: 0px -150px;
+}
+
+.stat-list li .stat-icon-transportation {
+  background-position: 0px -180px;
+}
+
+.stat-list li .stat-icon-medical-health {
+  background-position: 0px -210px;
+}
+
+.stat-list li .stat-icon-insurance {
+  background-position: 0px -240px;
+}
+
+.stat-list li .stat-icon-personal {
+  background-position: 0px -270px;
+}
+
+.stat-list li .stat-icon-recreation {
+  background-position: 0px -300px;
+}
+
+.stat-list li .stat-icon-debts {
+  background-position: 0px -330px;
+}
