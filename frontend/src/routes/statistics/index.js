@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {FindStatisticRequest} from 'api/statistics';
 import {title, scrollTop, error} from 'window';
+import {availableYears} from 'helpers';
 import {currencyf} from 'helpers';
 import moment from 'moment';
 
@@ -101,8 +102,8 @@ class Statistics extends Component {
 
   findDisabledDate(date) {
     const year = date.year();
-    const maxYear = new Date().getFullYear() + 3;
-    return year < 2015 || year > maxYear ? true : false;
+    const years = availableYears();
+    return year < years[0] || year > years[years.length - 1] ? true : false;
   }
 
   handleVisibleChange = showForm => {
