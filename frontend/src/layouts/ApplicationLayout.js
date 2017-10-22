@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {TransitionGroup, CSSTransition} from 'react-transition-group';
 import Layout from 'antd/lib/layout';
 
 // Route Components
@@ -21,30 +20,26 @@ class ApplicationLayout extends Component {
       <Layout.Content>
         <Route
           render={({location}) => (
-            <TransitionGroup>
-              <CSSTransition key={location.key} classNames="fade" timeout={300}>
-                <div>
-                  <Switch key={location.key} location={location}>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/privacy" component={Privacy} />
-                    <Route
-                      path="/calculators/mortgage"
-                      component={MortgageCalculator}
-                    />
-                    <PrivateRoute
-                      path="/annual-budgets/:year"
-                      component={AnnualBudget}
-                    />
-                    <PrivateRoute
-                      path="/monthly-statistics/:year/:month"
-                      component={Statistics}
-                    />
-                    <Route path="/maintenance" component={Maintenance} />
-                    <Route component={NoMatch} />
-                  </Switch>
-                </div>
-              </CSSTransition>
-            </TransitionGroup>
+            <div>
+              <Switch key={location.key} location={location}>
+                <Route exact path="/" component={Home} />
+                <Route path="/privacy" component={Privacy} />
+                <Route
+                  path="/calculators/mortgage"
+                  component={MortgageCalculator}
+                />
+                <PrivateRoute
+                  path="/annual-budgets/:year"
+                  component={AnnualBudget}
+                />
+                <PrivateRoute
+                  path="/monthly-statistics/:year/:month"
+                  component={Statistics}
+                />
+                <Route path="/maintenance" component={Maintenance} />
+                <Route component={NoMatch} />
+              </Switch>
+            </div>
           )}
         />
       </Layout.Content>
