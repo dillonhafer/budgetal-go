@@ -1,0 +1,18 @@
+.card-grid .card {
+  padding: 6px;
+}
+
+.add-item-button {
+  margin-top: 75px !important;
+  margin-bottom: 75px !important;
+}
+
+.primary-color,
+li a.primary-color {
+  color: #1a98fc;
+}
+
+.alert-color,
+li a.alert-color {
+  color: #f50;
+}

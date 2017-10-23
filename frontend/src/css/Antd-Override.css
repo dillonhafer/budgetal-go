@@ -2,6 +2,10 @@
   max-width: 90%;
 }
 
+.ant-btn.ant-btn-lg {
+  height: 42px;
+}
+
 @media (max-width: 978px) {
   .ant-notification {
     top: 0px !important;
