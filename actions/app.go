@@ -114,12 +114,18 @@ func App() *buffalo.App {
 
 		// Authorization
 		app.Use(AuthorizeUser)
-		app.Middleware.Skip(AuthorizeUser, SignIn, UsersCreate)
 
+		// Non-authorized routes
+		app.Middleware.Skip(AuthorizeUser, SignIn, UsersCreate)
 		app.POST("/sign-in", SignIn)
 		app.POST("/register", UsersCreate)
+
+		// Authorized routes
 		app.DELETE("/sign-out", WithCurrentUser(SignOut))
 		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
+		app.GET("/annual-budgets/{year}", WithCurrentUser(AnnualBudgetsIndex))
+		app.POST("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsCreate))
+		app.PUT("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsUpdate))
 	}
 
 	return app

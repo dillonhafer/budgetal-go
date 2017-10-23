@@ -67,10 +67,9 @@ export const _get = (path, headers = {}) => {
 export const _post = (path, body = {}, headers = {}) => {
   return base(path, 'POST', headers, body);
 };
-// Not yet required
-// export const _put = (path, body = {}, headers = {}) => {
-//   return base(path, 'PUT', headers);
-// };
+export const _put = (path, body = {}, headers = {}) => {
+  return base(path, 'PUT', headers);
+};
 export const _delete = (path, body = {}, headers = {}) => {
   return base(path, 'DELETE', headers, body);
 };
