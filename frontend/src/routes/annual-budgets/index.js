@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {title, scrollTop} from 'window';
-import {availableYears, currencyf} from 'helpers';
-import {AllAnnualBudgetItemsRequest} from 'api/annual-budget-items';
+import React, { Component } from 'react';
+import { title, scrollTop, notice } from 'window';
+import { availableYears, currencyf } from 'helpers';
+import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 import moment from 'moment';
-import {round} from 'lodash';
+import { round } from 'lodash';
 
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
@@ -12,7 +12,6 @@ import Button from 'antd/lib/button';
 import Popover from 'antd/lib/popover';
 import Select from 'antd/lib/select';
 import Icon from 'antd/lib/icon';
-import Modal from 'antd/lib/modal';
 import Dropdown from 'antd/lib/dropdown';
 import Tag from 'antd/lib/tag';
 import Menu from 'antd/lib/menu';
@@ -21,7 +20,7 @@ import AnnualBudgetItemForm from './Form';
 
 import 'css/annual-budget-items.css';
 
-const getMenu = ({progress, editItem, deleteItem}) => {
+const getMenu = ({ progress, editItem, deleteItem }) => {
   return (
     <Menu>
       <Menu.Item>
@@ -43,18 +42,22 @@ const getMenu = ({progress, editItem, deleteItem}) => {
   );
 };
 
-const AnnualBudgetItem = ({item, onClick}) => {
+const AnnualBudgetItem = ({ item, handleOnCardClick, handleOnCardDelete }) => {
   const name = item.name;
   const loading = item.loading;
   const amount = currencyf(item.amount);
   const date = moment(item.due_date).format('LL');
   const month = currencyf(round(item.amount / item.payment_intervals));
   const color = item.paid ? '#87d068' : '#cacaca';
+  const editItem = () => {
+    const i = { ...item, dueDate: moment(item.due_date) };
+    handleOnCardClick(i);
+  };
 
   const menu = getMenu({
     progress: _ => {},
-    editItem: _ => {},
-    deleteItem: _ => {},
+    editItem,
+    deleteItem: handleOnCardDelete,
   });
 
   return (
@@ -143,11 +146,11 @@ class AnnualBudget extends Component {
 
   loadBudgetItems = async _ => {
     try {
-      const {year} = this.props.match.params;
+      const { year } = this.props.match.params;
       const resp = await AllAnnualBudgetItemsRequest(year);
 
       if (resp && resp.ok) {
-        this.setState({annualBudgetItems: resp.annualBudgetItems});
+        this.setState({ annualBudgetItems: resp.annualBudgetItems });
       }
     } catch (err) {
       console.log(err);
@@ -155,7 +158,7 @@ class AnnualBudget extends Component {
   };
 
   handleVisibleChange = showForm => {
-    this.setState({showForm});
+    this.setState({ showForm });
   };
 
   changeYear = year => {
@@ -163,11 +166,10 @@ class AnnualBudget extends Component {
   };
 
   showNewModal = () => {
-    const {year} = this.props.match.params;
+    const year = parseInt(this.props.match.params.year, 10);
     const selectedBudgetItem = {
-      id: null,
       name: '',
-      dueDate: new Date(),
+      dueDate: moment(),
       amount: 1,
       paid: false,
       interval: 12,
@@ -177,11 +179,17 @@ class AnnualBudget extends Component {
       selectedBudgetItem,
       visible: true,
     });
-    console.log('sett igt', selectedBudgetItem);
   };
 
   handleCancel = () => {
-    this.setState({visible: false});
+    this.setState({ visible: false });
+  };
+
+  handleOnCardClick = selectedBudgetItem => {
+    this.setState({
+      selectedBudgetItem,
+      visible: true,
+    });
   };
 
   render() {
@@ -191,9 +199,7 @@ class AnnualBudget extends Component {
       visible,
       selectedBudgetItem,
     } = this.state;
-    console.log(selectedBudgetItem);
-    const {year} = this.props.match.params;
-    const okText = selectedBudgetItem.id ? 'Update Item' : 'Create Item';
+    const { year } = this.props.match.params;
     return (
       <div>
         <h1>
@@ -203,7 +209,7 @@ class AnnualBudget extends Component {
               <Select
                 size="large"
                 defaultValue={`${year}`}
-                style={{width: '100%'}}
+                style={{ width: '100%' }}
                 onChange={this.changeYear}
               >
                 {availableYears().map(year => {
@@ -221,7 +227,7 @@ class AnnualBudget extends Component {
             visible={showForm}
             onVisibleChange={this.handleVisibleChange}
           >
-            <a onClick={this.showForm} style={{marginLeft: '15px'}}>
+            <a onClick={this.showForm} style={{ marginLeft: '15px' }}>
               <Icon type="calendar" />
             </a>
           </Popover>
@@ -232,37 +238,33 @@ class AnnualBudget extends Component {
           handleOnCardClick={this.handleOnCardClick}
           handleOnDeleteClick={this.handleOnDeleteClick}
         />
-        <Modal
-          title="Annual Budget Item"
-          width={300}
-          visible={visible}
-          okText={okText}
-          onOk={this.handleCancel}
-          onCancel={this.handleCancel}
-        >
-          <AnnualBudgetItemForm
-            budgetItem={selectedBudgetItem}
-            afterSubmit={item => {
-              this.handleCancel();
-              const items = this.state.annualBudgetItems;
-              const idx = items.findIndex(i => i.id === item.id);
 
-              if (idx !== undefined) {
-                this.setState({
-                  annualBudgetItems: [
-                    ...items.slice(0, idx),
-                    item,
-                    ...items.slice(idx),
-                  ],
-                });
-              } else {
-                this.setState({
-                  annualBudgetItems: [...items, item],
-                });
-              }
-            }}
-          />
-        </Modal>
+        <AnnualBudgetItemForm
+          budgetItem={selectedBudgetItem}
+          visible={visible}
+          onCancel={this.handleCancel}
+          afterSubmit={item => {
+            this.handleCancel();
+            const items = this.state.annualBudgetItems;
+            const idx = items.findIndex(i => i.id === item.id);
+
+            if (idx >= 0) {
+              notice('Updated Item');
+              this.setState({
+                annualBudgetItems: [
+                  ...items.slice(0, idx),
+                  item,
+                  ...items.slice(idx),
+                ],
+              });
+            } else {
+              notice('Created Item');
+              this.setState({
+                annualBudgetItems: [...items, item],
+              });
+            }
+          }}
+        />
       </div>
     );
   }

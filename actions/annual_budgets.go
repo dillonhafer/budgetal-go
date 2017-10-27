@@ -26,7 +26,7 @@ func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 
 func findAnnualBudgetItems(tx *pop.Connection, year, user_id int) *models.AnnualBudgetItems {
 	annualBudget := &models.AnnualBudget{UserID: user_id, Year: year}
-	err := tx.First(annualBudget)
+	err := tx.Where("user_id = ? and year = ?", user_id, year).First(annualBudget)
 	if err != nil {
 		err = tx.Create(annualBudget)
 		if err != nil {
