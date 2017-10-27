@@ -1,3 +1,7 @@
 export PORT=3001
 export NODE_PATH=$NODE_PATH:src:src/api:src/utils:src/constants:src/routes:src/reducers
 export BROWSER="Google Chrome"
+
+if [ -f ".env.local" ]; then
+  source .env.local
+fi
