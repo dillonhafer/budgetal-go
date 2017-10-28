@@ -62,6 +62,7 @@ class AnnualBudgetItemForm extends Component {
           id: this.props.budgetItem.id,
           interval: parseInt(values.interval, 10),
         };
+
         if (item.id) {
           this.updateItem(item);
         } else {
@@ -119,11 +120,9 @@ class AnnualBudgetItemForm extends Component {
               rules: [{ required: true, message: 'Date is required' }],
             })(
               <DatePicker
-                onChange={this.handleOnChange}
                 size="large"
                 allowClear={false}
                 style={{ width: '100%' }}
-                format={'YYYY-MM-DD'}
               />,
             )}
           </Form.Item>
@@ -161,7 +160,8 @@ class AnnualBudgetItemForm extends Component {
 const mapPropsToFields = props => {
   const item = props.budgetItem;
   return Object.keys(item).reduce((acc, k) => {
-    return { ...acc, [k]: { value: item[k] } };
+    const value = item[k];
+    return { ...acc, [k]: { value } };
   }, {});
 };
 

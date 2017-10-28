@@ -56,11 +56,11 @@ const AnnualBudgetItem = ({ item, handleOnCardClick, handleOnCardDelete }) => {
   const name = item.name;
   const loading = item.loading;
   const amount = currencyf(item.amount);
-  const date = moment(item.due_date).format('LL');
+  const date = moment(item.dueDate).format('LL');
   const month = currencyf(round(item.amount / item.payment_intervals));
   const color = item.paid ? '#87d068' : '#cacaca';
   const editItem = () => {
-    const i = { ...item, dueDate: moment(item.due_date) };
+    const i = { ...item, dueDate: moment(item.dueDate) };
     handleOnCardClick(i);
   };
 
