@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
-import {SignOutRequest} from 'api/sessions';
+import React, { Component } from 'react';
+import { SignOutRequest } from 'api/sessions';
 import {
   RemoveAuthentication,
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import {Row, Col, Menu, Icon} from 'antd';
+import { Row, Col, Menu, Icon } from 'antd';
 import Layout from 'antd/lib/layout';
 import SignIn from './SignIn';
-import {Link, NavLink} from 'react-router-dom';
-import {notice} from 'window';
+import { Link, NavLink } from 'react-router-dom';
+import { notice } from 'window';
 
-const ProfileImage = ({user}) => {
+const ProfileImage = ({ user }) => {
   const onError = e => {
     e.target.src = '/missing-profile.png';
   };
@@ -141,10 +141,10 @@ export default class Header extends Component {
   }
 
   render() {
-    const selectedKeys = this.selectedKeys(this.props.location);
+    const selectedKeys = this.selectedKeys(window.location);
 
     return (
-      <Layout.Header style={{position: 'fixed', width: '100%'}}>
+      <Layout.Header style={{ position: 'fixed', width: '100%' }}>
         <Link to="/">
           <div className="logo" />
         </Link>
@@ -156,7 +156,7 @@ export default class Header extends Component {
               theme="dark"
               selectedKeys={selectedKeys}
               mode="horizontal"
-              style={{lineHeight: '64px'}}
+              style={{ lineHeight: '64px' }}
             >
               {this.renderMenuItems()}
             </Menu>

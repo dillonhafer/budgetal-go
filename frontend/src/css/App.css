@@ -119,9 +119,6 @@ h1 {
 .ant-menu-dark {
   background: transparent;
 }
-.ant-layout-header li a.active {
-  color: rgb(88, 151, 249);
-}
 
 #root {
   min-height: 100%;

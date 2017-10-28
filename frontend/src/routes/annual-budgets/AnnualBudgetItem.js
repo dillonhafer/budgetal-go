@@ -16,7 +16,6 @@ class AnnualBudgetItem extends Component {
   render() {
     const { item } = this.props;
     const { name, loading } = item;
-    console.log(item);
     const month = currencyf(round(item.amount / item.interval));
     const color = item.paid ? colors.success : colors.disabled;
 
