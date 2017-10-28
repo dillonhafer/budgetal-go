@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Modal from 'antd/lib/modal';
 import Icon from 'antd/lib/icon';
 import Tabs from 'antd/lib/tabs';
@@ -19,25 +19,25 @@ class SignIn extends Component {
   };
 
   openModal = () => {
-    this.setState({activeKey: '2', title: 'Sign In', visible: true});
+    this.setState({ activeKey: '2', title: 'Sign In', visible: true });
   };
 
   closeModal = () => {
-    this.setState({visible: false});
+    this.setState({ visible: false });
   };
 
   forgotPassword = () => {
-    this.setState({activeKey: '1', title: 'Forgot Password'});
+    this.setState({ activeKey: '1', title: 'Forgot Password' });
   };
   signIn = () => {
-    this.setState({activeKey: '2', title: 'Sign In'});
+    this.setState({ activeKey: '2', title: 'Sign In' });
   };
   register = () => {
-    this.setState({activeKey: '3', title: 'Register'});
+    this.setState({ activeKey: '3', title: 'Register' });
   };
 
   render() {
-    const {activeKey, title} = this.state;
+    const { activeKey, title } = this.state;
     return (
       <div onClick={this.openModal}>
         Sign In

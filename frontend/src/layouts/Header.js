@@ -34,6 +34,7 @@ export default class Header extends Component {
       RemoveAuthentication();
       this.props.resetSignIn();
       notice('You have been signed out');
+      document.querySelector('.logo').click();
     } catch (err) {
       console.log(err);
     }
