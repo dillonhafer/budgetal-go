@@ -123,9 +123,12 @@ func App() *buffalo.App {
 		// Authorized routes
 		app.DELETE("/sign-out", WithCurrentUser(SignOut))
 		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
+
+		// Annual Budgets
 		app.GET("/annual-budgets/{year}", WithCurrentUser(AnnualBudgetsIndex))
 		app.POST("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsCreate))
 		app.PUT("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsUpdate))
+		app.DELETE("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsDelete))
 	}
 
 	return app

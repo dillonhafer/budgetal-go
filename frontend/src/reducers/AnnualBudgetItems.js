@@ -5,6 +5,7 @@ import {
   ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
   ANNUAL_ITEMS_ADDED,
   ANNUAL_ITEMS_UPDATED,
+  ANNUAL_ITEMS_REMOVED,
 } from 'action-types';
 
 const initialState = {
@@ -40,6 +41,18 @@ export default function annulBudgetItemState(state = initialState, action) {
             ...action.item,
           };
         }),
+      };
+
+    case ANNUAL_ITEMS_REMOVED:
+      const ANNUAL_ITEMS_REMOVED_IDX = state.annualBudgetItems.findIndex(
+        i => i.id === action.item.id,
+      );
+      return {
+        ...state,
+        annualBudgetItems: [
+          ...state.annualBudgetItems.slice(0, ANNUAL_ITEMS_REMOVED_IDX),
+          ...state.annualBudgetItems.slice(ANNUAL_ITEMS_REMOVED_IDX + 1),
+        ],
       };
 
     case ANNUAL_ITEMS_FETCHED:

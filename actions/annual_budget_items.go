@@ -78,7 +78,6 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 	item, findErr := findAnnualBudgetItem(int(id), currentUser.ID, tx)
 	if findErr != nil {
 		err := map[string]string{"error": "Permission denied"}
-		c.Logger().Debug(err)
 		return c.Render(403, r.JSON(err))
 	}
 
@@ -91,11 +90,29 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 	updateError := tx.Update(item)
 	if updateError != nil {
 		err := map[string]string{"error": "Item is invalid"}
-		c.Logger().Debug(p, updateError)
 		return c.Render(422, r.JSON(err))
 	}
 
 	return c.Render(200, r.JSON(map[string]*models.AnnualBudgetItem{"annualBudgetItem": item}))
+}
+
+func AnnualBudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	tx := c.Value("tx").(*pop.Connection)
+
+	item, findErr := findAnnualBudgetItem(int(id), currentUser.ID, tx)
+	if findErr != nil {
+		err := map[string]string{"error": "Permission denied"}
+		return c.Render(403, r.JSON(err))
+	}
+
+	deleteErr := tx.Destroy(item)
+	if deleteErr != nil {
+		err := map[string]string{"error": "Item is invalid"}
+		return c.Render(422, r.JSON(err))
+	}
+
+	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
 
 func findAnnualBudget(year, user_id int, tx *pop.Connection) (*models.AnnualBudget, error) {

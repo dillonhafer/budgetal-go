@@ -7,11 +7,16 @@ import {
   ANNUAL_ITEMS_SHOW_FORM,
   ANNUAL_ITEMS_HIDE_FORM,
   ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
+  ANNUAL_ITEMS_REMOVED,
 } from 'action-types';
 
-import { title, scrollTop } from 'window';
+import { title, scrollTop, notice } from 'window';
 import { availableYears, currencyf } from 'helpers';
-import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
+import {
+  AllAnnualBudgetItemsRequest,
+  DeleteAnnualBudgetItemRequest,
+} from 'api/annual-budget-items';
+
 import moment from 'moment';
 import { round } from 'lodash';
 
@@ -25,6 +30,7 @@ import Icon from 'antd/lib/icon';
 import Dropdown from 'antd/lib/dropdown';
 import Tag from 'antd/lib/tag';
 import Menu from 'antd/lib/menu';
+import Modal from 'antd/lib/modal';
 
 import AnnualBudgetItemForm from './Form';
 
@@ -52,22 +58,47 @@ const getMenu = ({ progress, editItem, deleteItem }) => {
   );
 };
 
-const AnnualBudgetItem = ({ item, handleOnCardClick, handleOnCardDelete }) => {
+const AnnualBudgetItem = ({ item, handleOnCardClick, handleOnDeleteClick }) => {
   const name = item.name;
   const loading = item.loading;
   const amount = currencyf(item.amount);
   const date = moment(item.dueDate).format('LL');
-  const month = currencyf(round(item.amount / item.payment_intervals));
+  const month = currencyf(round(item.amount / item.intervals));
   const color = item.paid ? '#87d068' : '#cacaca';
   const editItem = () => {
     const i = { ...item, dueDate: moment(item.dueDate) };
     handleOnCardClick(i);
   };
 
+  const _d = async () => {
+    const resp = await DeleteAnnualBudgetItemRequest(item);
+    if (resp && resp.ok) {
+      notice(`Deleted ${item.name}`);
+      handleOnDeleteClick(item);
+    }
+  };
+
+  const deleteItem = async () => {
+    try {
+      Modal.confirm({
+        title: `Are you sure delete ${item.name}?`,
+        content: 'This cannot be undone',
+        okText: 'Delete',
+        okType: 'danger',
+        cancelText: 'Cancel',
+        onOk: () => {
+          _d();
+        },
+      });
+    } catch (err) {
+      //ignore for now
+    }
+  };
+
   const menu = getMenu({
     progress: _ => {},
     editItem,
-    deleteItem: handleOnCardDelete,
+    deleteItem,
   });
 
   return (
@@ -224,7 +255,7 @@ class AnnualBudget extends Component {
           annualBudgetItems={annualBudgetItems}
           onClick={this.showNewModal}
           handleOnCardClick={this.props.updatedSelectedItem}
-          handleOnDeleteClick={this.handleOnDeleteClick}
+          handleOnDeleteClick={this.props.removeItem}
         />
 
         <AnnualBudgetItemForm
@@ -265,6 +296,13 @@ const toggleYearForm = showForm => {
   };
 };
 
+const removeItem = item => {
+  return {
+    type: ANNUAL_ITEMS_REMOVED,
+    item,
+  };
+};
+
 export default connect(
   state => ({
     ...state.annualBudgetItems,
@@ -281,6 +319,9 @@ export default connect(
     },
     toggleYearForm: showForm => {
       dispatch(toggleYearForm(showForm));
+    },
+    removeItem: item => {
+      dispatch(removeItem(item));
     },
   }),
 )(AnnualBudget);
