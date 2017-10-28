@@ -129,6 +129,7 @@ func App() *buffalo.App {
 		app.POST("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsCreate))
 		app.PUT("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsUpdate))
 		app.DELETE("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsDelete))
+		app.GET("/admin/users", WithCurrentUser(AdminUsers))
 	}
 
 	return app

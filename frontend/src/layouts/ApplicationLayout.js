@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import Layout from 'antd/lib/layout';
 
 // Route Components
@@ -9,6 +9,7 @@ import Privacy from 'Privacy';
 import MortgageCalculator from 'routes/calculators/mortgage';
 import AnnualBudget from 'routes/annual-budgets';
 import Statistics from 'routes/statistics';
+import Admin from 'routes/admin';
 
 // Error Routes
 import NoMatch from 'NoMatch';
@@ -19,7 +20,7 @@ class ApplicationLayout extends Component {
     return (
       <Layout.Content>
         <Route
-          render={({location}) => (
+          render={({ location }) => (
             <div>
               <Switch key={location.key} location={location}>
                 <Route exact path="/" component={Home} />
@@ -36,6 +37,8 @@ class ApplicationLayout extends Component {
                   path="/monthly-statistics/:year/:month"
                   component={Statistics}
                 />
+                <Route path="/admin" component={Admin} />
+
                 <Route path="/maintenance" component={Maintenance} />
                 <Route component={NoMatch} />
               </Switch>
