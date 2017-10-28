@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { title, scrollTop, notice } from 'window';
+
+// Redux
+import { connect } from 'react-redux';
+import {
+  ANNUAL_ITEMS_FETCHED,
+  ANNUAL_ITEMS_SHOW_FORM,
+  ANNUAL_ITEMS_HIDE_FORM,
+  ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
+} from 'action-types';
+
+import { title, scrollTop } from 'window';
 import { availableYears, currencyf } from 'helpers';
 import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 import moment from 'moment';
@@ -132,33 +142,23 @@ const AnnualBudgetItemList = ({
 const Option = Select.Option;
 
 class AnnualBudget extends Component {
-  state = {
-    showForm: false,
-    annualBudgetItems: [],
-    selectedBudgetItem: {},
-  };
-
   componentDidMount() {
     title(`${this.props.match.params.year} | Annual Budgets`);
     scrollTop();
     this.loadBudgetItems();
   }
 
-  loadBudgetItems = async _ => {
+  loadBudgetItems = async () => {
     try {
       const { year } = this.props.match.params;
       const resp = await AllAnnualBudgetItemsRequest(year);
 
       if (resp && resp.ok) {
-        this.setState({ annualBudgetItems: resp.annualBudgetItems });
+        this.props.itemsFetched(resp.annualBudgetItems);
       }
     } catch (err) {
       console.log(err);
     }
-  };
-
-  handleVisibleChange = showForm => {
-    this.setState({ showForm });
   };
 
   changeYear = year => {
@@ -175,21 +175,8 @@ class AnnualBudget extends Component {
       interval: 12,
       year,
     };
-    this.setState({
-      selectedBudgetItem,
-      visible: true,
-    });
-  };
 
-  handleCancel = () => {
-    this.setState({ visible: false });
-  };
-
-  handleOnCardClick = selectedBudgetItem => {
-    this.setState({
-      selectedBudgetItem,
-      visible: true,
-    });
+    this.props.updatedSelectedItem(selectedBudgetItem);
   };
 
   render() {
@@ -198,7 +185,8 @@ class AnnualBudget extends Component {
       annualBudgetItems,
       visible,
       selectedBudgetItem,
-    } = this.state;
+    } = this.props;
+
     const { year } = this.props.match.params;
     return (
       <div>
@@ -208,14 +196,14 @@ class AnnualBudget extends Component {
             content={
               <Select
                 size="large"
-                defaultValue={`${year}`}
+                defaultValue={year}
                 style={{ width: '100%' }}
                 onChange={this.changeYear}
               >
-                {availableYears().map(year => {
+                {availableYears().map(y => {
                   return (
-                    <Option key={year} value={year.toString()}>
-                      {year}
+                    <Option key={y} value={y.toString()}>
+                      {y}
                     </Option>
                   );
                 })}
@@ -225,7 +213,7 @@ class AnnualBudget extends Component {
             placement="rightTop"
             trigger="click"
             visible={showForm}
-            onVisibleChange={this.handleVisibleChange}
+            onVisibleChange={this.props.toggleYearForm}
           >
             <a onClick={this.showForm} style={{ marginLeft: '15px' }}>
               <Icon type="calendar" />
@@ -235,39 +223,64 @@ class AnnualBudget extends Component {
         <AnnualBudgetItemList
           annualBudgetItems={annualBudgetItems}
           onClick={this.showNewModal}
-          handleOnCardClick={this.handleOnCardClick}
+          handleOnCardClick={this.props.updatedSelectedItem}
           handleOnDeleteClick={this.handleOnDeleteClick}
         />
 
         <AnnualBudgetItemForm
           budgetItem={selectedBudgetItem}
           visible={visible}
-          onCancel={this.handleCancel}
-          afterSubmit={item => {
-            this.handleCancel();
-            const items = this.state.annualBudgetItems;
-            const idx = items.findIndex(i => i.id === item.id);
-
-            if (idx >= 0) {
-              notice('Updated Item');
-              this.setState({
-                annualBudgetItems: [
-                  ...items.slice(0, idx),
-                  item,
-                  ...items.slice(idx),
-                ],
-              });
-            } else {
-              notice('Created Item');
-              this.setState({
-                annualBudgetItems: [...items, item],
-              });
-            }
-          }}
+          onCancel={this.props.hideForm}
+          afterSubmit={_ => {}}
         />
       </div>
     );
   }
 }
 
-export default AnnualBudget;
+const itemsFetched = annualBudgetItems => {
+  return {
+    type: ANNUAL_ITEMS_FETCHED,
+    annualBudgetItems,
+  };
+};
+
+const updatedSelectedItem = selectedBudgetItem => {
+  return {
+    type: ANNUAL_ITEMS_SHOW_FORM,
+    selectedBudgetItem,
+  };
+};
+
+const hideForm = () => {
+  return {
+    type: ANNUAL_ITEMS_HIDE_FORM,
+  };
+};
+
+const toggleYearForm = showForm => {
+  return {
+    type: ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
+    showForm,
+  };
+};
+
+export default connect(
+  state => ({
+    ...state.annualBudgetItems,
+  }),
+  dispatch => ({
+    itemsFetched: annualBudgetItems => {
+      dispatch(itemsFetched(annualBudgetItems));
+    },
+    updatedSelectedItem: selectedBudgetItem => {
+      dispatch(updatedSelectedItem(selectedBudgetItem));
+    },
+    hideForm: _ => {
+      dispatch(hideForm());
+    },
+    toggleYearForm: showForm => {
+      dispatch(toggleYearForm(showForm));
+    },
+  }),
+)(AnnualBudget);

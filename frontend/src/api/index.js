@@ -1,5 +1,5 @@
-import {GetAuthenticationToken} from 'authentication';
-import {error} from 'window';
+import { GetAuthenticationToken } from 'authentication';
+import { error } from 'window';
 const baseURL = process.env.BASE_URL || '';
 
 const base = async (path, method, headers = {}, body = {}) => {
@@ -47,15 +47,16 @@ const base = async (path, method, headers = {}, body = {}) => {
 
     if (!resp.ok) {
       const text = await resp.text();
-      const err = Object.assign({}, JSON.parse(text), {
+      const err = {
+        ...JSON.parse(text),
         status: resp.status,
         ok: false,
-      });
+      };
       throw err;
     }
 
     const json = await resp.json();
-    return Object.assign({}, json, {ok: true});
+    return { ...json, ok: true };
   } catch (err) {
     error(err.error || 'Something went wrong');
   }
@@ -68,7 +69,7 @@ export const _post = (path, body = {}, headers = {}) => {
   return base(path, 'POST', headers, body);
 };
 export const _put = (path, body = {}, headers = {}) => {
-  return base(path, 'PUT', headers);
+  return base(path, 'PUT', headers, body);
 };
 export const _delete = (path, body = {}, headers = {}) => {
   return base(path, 'DELETE', headers, body);

@@ -125,7 +125,7 @@ func App() *buffalo.App {
 		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
 		app.GET("/annual-budgets/{year}", WithCurrentUser(AnnualBudgetsIndex))
 		app.POST("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsCreate))
-		app.PUT("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsUpdate))
+		app.PUT("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsUpdate))
 	}
 
 	return app

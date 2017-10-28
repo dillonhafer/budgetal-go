@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { notice } from 'window';
 import {
   CreateAnnualBudgetItemRequest,
   UpdateAnnualBudgetItemRequest,
 } from 'api/annual-budget-items';
 
+// Redux
+import { connect } from 'react-redux';
+import { ANNUAL_ITEMS_ADDED, ANNUAL_ITEMS_UPDATED } from 'action-types';
+
+// Antd
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
 import Select from 'antd/lib/select';
@@ -12,6 +18,7 @@ import InputNumber from 'antd/lib/input-number';
 import DatePicker from 'antd/lib/date-picker';
 import Switch from 'antd/lib/switch';
 import Modal from 'antd/lib/modal';
+const Option = Select.Option;
 
 const layout = {
   labelCol: { span: 8 },
@@ -26,7 +33,8 @@ class AnnualBudgetItemForm extends Component {
         year: this.props.budgetItem.year,
       });
       if (resp && resp.ok) {
-        this.props.afterSubmit(resp.annualBudgetItem);
+        this.props.itemAdded(resp.annualBudgetItem);
+        notice(`Created ${item.name}`);
       }
     } catch (err) {
       //ignore for now
@@ -37,7 +45,8 @@ class AnnualBudgetItemForm extends Component {
     try {
       const resp = await UpdateAnnualBudgetItemRequest(item);
       if (resp && resp.ok) {
-        this.props.afterSubmit(resp.annualBudgetItem);
+        this.props.itemUpdated(resp.annualBudgetItem);
+        notice(`Updated ${item.name}`);
       }
     } catch (err) {
       //ignore for now
@@ -121,18 +130,18 @@ class AnnualBudgetItemForm extends Component {
           <Form.Item {...layout} hasFeedback label="Months">
             {getFieldDecorator('interval', {})(
               <Select>
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-                <Select.Option value="3">3</Select.Option>
-                <Select.Option value="4">4</Select.Option>
-                <Select.Option value="5">5</Select.Option>
-                <Select.Option value="6">6</Select.Option>
-                <Select.Option value="7">7</Select.Option>
-                <Select.Option value="8">8</Select.Option>
-                <Select.Option value="9">9</Select.Option>
-                <Select.Option value="10">10</Select.Option>
-                <Select.Option value="11">11</Select.Option>
-                <Select.Option value="12">12</Select.Option>
+                <Option value="1">1</Option>
+                <Option value="2">2</Option>
+                <Option value="3">3</Option>
+                <Option value="4">4</Option>
+                <Option value="5">5</Option>
+                <Option value="6">6</Option>
+                <Option value="7">7</Option>
+                <Option value="8">8</Option>
+                <Option value="9">9</Option>
+                <Option value="10">10</Option>
+                <Option value="11">11</Option>
+                <Option value="12">12</Option>
               </Select>,
             )}
           </Form.Item>
@@ -156,4 +165,30 @@ const mapPropsToFields = props => {
   }, {});
 };
 
-export default Form.create({ mapPropsToFields })(AnnualBudgetItemForm);
+const itemUpdated = item => {
+  return {
+    type: ANNUAL_ITEMS_UPDATED,
+    item,
+  };
+};
+
+const itemAdded = item => {
+  return {
+    type: ANNUAL_ITEMS_ADDED,
+    item,
+  };
+};
+
+export default connect(
+  state => ({
+    ...state.annualBudgetItems,
+  }),
+  dispatch => ({
+    itemUpdated: item => {
+      dispatch(itemUpdated(item));
+    },
+    itemAdded: item => {
+      dispatch(itemAdded(item));
+    },
+  }),
+)(Form.create({ mapPropsToFields })(AnnualBudgetItemForm));

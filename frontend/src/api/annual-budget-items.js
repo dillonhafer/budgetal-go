@@ -1,4 +1,4 @@
-import {_get, _put, _post} from 'api';
+import { _get, _put, _post } from 'api';
 
 export function AllAnnualBudgetItemsRequest(year) {
   return _get(`/annual-budgets/${year}`);
@@ -9,5 +9,5 @@ export function CreateAnnualBudgetItemRequest(item) {
 }
 
 export function UpdateAnnualBudgetItemRequest(item) {
-  return _put('/annual-budget-items', item);
+  return _put(`/annual-budget-items/${item.id}`, item);
 }

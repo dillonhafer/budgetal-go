@@ -3,6 +3,7 @@ package actions
 import (
 	"encoding/json"
 	"errors"
+	"strconv"
 
 	"github.com/dillonhafer/budgetal/models"
 	"github.com/gobuffalo/buffalo"
@@ -58,18 +59,60 @@ func AnnualBudgetItemsCreate(c buffalo.Context, currentUser *models.User) error 
 
 	createError := tx.Create(item)
 	if createError != nil {
-		err := map[string]string{"error": "Could not crerate item"}
-		return c.Render(403, r.JSON(err))
+		err := map[string]string{"error": "Item is invalid"}
+		return c.Render(422, r.JSON(err))
 	}
 
 	return c.Render(200, r.JSON(map[string]*models.AnnualBudgetItem{"annualBudgetItem": item}))
 }
+
 func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
-	return c.Render(200, r.JSON(map[string]string{"an items": "update"}))
+	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	p, paramErr := parseParams(c)
+	if paramErr != nil {
+		err := map[string]string{"error": paramErr.Error()}
+		return c.Render(401, r.JSON(err))
+	}
+
+	tx := c.Value("tx").(*pop.Connection)
+	item, findErr := findAnnualBudgetItem(int(id), currentUser.ID, tx)
+	if findErr != nil {
+		err := map[string]string{"error": "Permission denied"}
+		c.Logger().Debug(err)
+		return c.Render(403, r.JSON(err))
+	}
+
+	item.Name = p.Name
+	item.Amount = p.Amount
+	item.DueDate = p.DueDate
+	item.Paid = p.Paid
+	item.Interval = p.Interval
+
+	updateError := tx.Update(item)
+	if updateError != nil {
+		err := map[string]string{"error": "Item is invalid"}
+		c.Logger().Debug(p, updateError)
+		return c.Render(422, r.JSON(err))
+	}
+
+	return c.Render(200, r.JSON(map[string]*models.AnnualBudgetItem{"annualBudgetItem": item}))
 }
 
 func findAnnualBudget(year, user_id int, tx *pop.Connection) (*models.AnnualBudget, error) {
 	b := models.AnnualBudget{}
 	err := tx.Where("user_id = ? and year = ?", user_id, year).First(&b)
 	return &b, err
+}
+
+func findAnnualBudgetItem(id, user_id int, tx *pop.Connection) (*models.AnnualBudgetItem, error) {
+	i := models.AnnualBudgetItem{}
+	q := `
+		select annual_budget_items.*
+		from annual_budget_items
+		join annual_budgets on annual_budget_items.annual_budget_id = annual_budgets.id
+		where annual_budgets.user_id = ?
+		and annual_budget_items.id = ?
+	`
+	err := tx.RawQuery(q, user_id, id).First(&i)
+	return &i, err
 }
