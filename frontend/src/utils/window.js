@@ -16,6 +16,13 @@ export const error = description => {
   openNotificationWithIcon('error', description);
 };
 
+export const colors = {
+  primary: '#108ee9',
+  disabled: '#cacaca',
+  success: '#87d068',
+  error: '#f50',
+};
+
 export const title = string => {
   let title = 'Budgetal';
   if (string.length) {

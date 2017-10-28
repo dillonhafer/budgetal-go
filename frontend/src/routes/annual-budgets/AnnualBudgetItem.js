@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { currencyf } from 'helpers';
+import { colors } from 'window';
 import moment from 'moment';
 import { round } from 'lodash';
 
@@ -15,8 +16,9 @@ class AnnualBudgetItem extends Component {
   render() {
     const { item } = this.props;
     const { name, loading } = item;
-    const month = currencyf(round(item.amount / item.intervals));
-    const color = item.paid ? '#87d068' : '#cacaca';
+    console.log(item);
+    const month = currencyf(round(item.amount / item.interval));
+    const color = item.paid ? colors.success : colors.disabled;
 
     return (
       <Col className="card" xs={24} sm={12} md={8} lg={8}>

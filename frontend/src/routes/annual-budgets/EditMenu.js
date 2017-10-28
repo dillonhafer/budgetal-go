@@ -7,6 +7,7 @@ import { updatedSelectedItem, removeItem } from 'actions/annual-budget-items';
 import { DeleteAnnualBudgetItemRequest } from 'api/annual-budget-items';
 import moment from 'moment';
 import { notice } from 'window';
+import ProgressModal from './ProgressModal';
 
 // Antd
 import Menu, { Item } from 'antd/lib/menu';
@@ -16,7 +17,21 @@ import Button from 'antd/lib/button';
 import Dropdown from 'antd/lib/dropdown';
 
 class EditMenu extends Component {
-  handleProgress = () => {};
+  state = {
+    showProgress: false,
+  };
+
+  handleProgress = () => {
+    this.setState({
+      showProgress: true,
+    });
+  };
+
+  hideProgress = () => {
+    this.setState({
+      showProgress: false,
+    });
+  };
 
   handleEdit = () => {
     const { item } = this.props;
@@ -46,7 +61,7 @@ class EditMenu extends Component {
 
   render() {
     const overlay = (
-      <Menu selectable={false}>
+      <Menu>
         <Item>
           <a className="primary-color" onClick={this.handleProgress}>
             <Icon type="area-chart" /> Progress
@@ -70,6 +85,11 @@ class EditMenu extends Component {
         <Dropdown overlay={overlay} trigger={['click']}>
           <Button type="ghost" shape="circle" icon="ellipsis" />
         </Dropdown>
+        <ProgressModal
+          item={this.props.item}
+          hideProgress={this.hideProgress}
+          visible={this.state.showProgress}
+        />
       </div>
     );
   }
