@@ -1,8 +1,11 @@
 package actions
 
 import (
+	"database/sql"
 	"log"
+	"time"
 
+	"github.com/dillonhafer/budgetal/mailers"
 	"github.com/dillonhafer/budgetal/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
@@ -71,4 +74,23 @@ func UsersCreate(c buffalo.Context) error {
 	response.Token = session.AuthenticationToken
 	response.User = user
 	return c.Render(200, r.JSON(response))
+}
+
+func UsersPasswordResetRequest(c buffalo.Context) error {
+	tx := c.Value("tx").(*pop.Connection)
+	email, _ := Json(c, "email").(string)
+	user := &models.User{}
+	err := tx.Where("email = ?", email).First(user)
+
+	if err == nil {
+		token := RandomHex(32)
+		user.PasswordResetToken = sql.NullString{String: token, Valid: true}
+		user.PasswordResetSentAt = models.NullTime{Time: time.Now(), Valid: true}
+		err = tx.Update(user)
+		if err == nil {
+			mailers.SendPasswordResets(user)
+		}
+	}
+
+	return c.Render(200, r.JSON(""))
 }

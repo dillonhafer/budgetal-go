@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {RegisterRequest} from 'api/users';
-import {notice} from 'window';
-import {SetAuthenticationToken, SetCurrentUser} from 'authentication';
+import React, { Component } from 'react';
+import { RegisterRequest } from 'api/users';
+import { notice } from 'window';
+import { SetAuthenticationToken, SetCurrentUser } from 'authentication';
 
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -36,7 +36,7 @@ class RegisterForm extends Component {
   };
 
   handleConfirmPassword = (rule, value, callback) => {
-    const {getFieldValue} = this.props.form;
+    const { getFieldValue } = this.props.form;
     if (value && value !== getFieldValue('password')) {
       callback("Passwords don't match");
     }
@@ -44,29 +44,32 @@ class RegisterForm extends Component {
   };
 
   render() {
-    const {getFieldDecorator} = this.props.form;
+    const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem hasFeedback={true}>
           {getFieldDecorator('email', {
             rules: [
-              {required: true, message: 'E-mail Address is required'},
-              {pattern: /.+@.+/, message: 'E-mail Address is invalid'},
+              { required: true, message: 'E-mail Address is required' },
+              { pattern: /.+@.+/, message: 'E-mail Address is invalid' },
             ],
           })(
             <Input
-              prefix={<Icon type="mail" style={{fontSize: 13}} />}
+              prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
               type="email"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
               placeholder="E-mail Address"
             />,
           )}
         </FormItem>
         <FormItem hasFeedback={true}>
           {getFieldDecorator('password', {
-            rules: [{required: true, message: 'Password is required'}],
+            rules: [{ required: true, message: 'Password is required' }],
           })(
             <Input
-              prefix={<Icon type="lock" style={{fontSize: 13}} />}
+              prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
               placeholder="Password"
             />,
@@ -86,7 +89,7 @@ class RegisterForm extends Component {
             ],
           })(
             <Input
-              prefix={<Icon type="lock" style={{fontSize: 13}} />}
+              prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
               placeholder="Password Confirmation"
             />,

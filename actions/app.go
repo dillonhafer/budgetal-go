@@ -116,9 +116,10 @@ func App() *buffalo.App {
 		app.Use(AuthorizeUser)
 
 		// Non-authorized routes
-		app.Middleware.Skip(AuthorizeUser, SignIn, UsersCreate)
+		app.Middleware.Skip(AuthorizeUser, SignIn, UsersCreate, UsersPasswordResetRequest)
 		app.POST("/sign-in", SignIn)
 		app.POST("/register", UsersCreate)
+		app.POST("/reset-password", UsersPasswordResetRequest)
 
 		// Authorized routes
 		app.DELETE("/sign-out", WithCurrentUser(SignOut))

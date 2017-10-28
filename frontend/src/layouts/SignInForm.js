@@ -49,6 +49,9 @@ class SignInForm extends Component {
             <Input
               prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
               type="email"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
               placeholder="E-mail Address"
             />,
           )}
