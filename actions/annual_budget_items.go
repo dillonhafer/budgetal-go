@@ -129,6 +129,7 @@ func findAnnualBudgetItem(id, user_id int, tx *pop.Connection) (*models.AnnualBu
 		join annual_budgets on annual_budget_items.annual_budget_id = annual_budgets.id
 		where annual_budgets.user_id = ?
 		and annual_budget_items.id = ?
+		limit 1
 	`
 	err := tx.RawQuery(q, user_id, id).First(&i)
 	return &i, err
