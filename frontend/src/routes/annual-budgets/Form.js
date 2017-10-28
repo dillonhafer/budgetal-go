@@ -7,7 +7,7 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import { ANNUAL_ITEMS_ADDED, ANNUAL_ITEMS_UPDATED } from 'action-types';
+import { itemAdded, itemUpdated } from 'actions/annual-budget-items';
 
 // Antd
 import Form from 'antd/lib/form';
@@ -165,24 +165,8 @@ const mapPropsToFields = props => {
   }, {});
 };
 
-const itemUpdated = item => {
-  return {
-    type: ANNUAL_ITEMS_UPDATED,
-    item,
-  };
-};
-
-const itemAdded = item => {
-  return {
-    type: ANNUAL_ITEMS_ADDED,
-    item,
-  };
-};
-
 export default connect(
-  state => ({
-    ...state.annualBudgetItems,
-  }),
+  state => ({}),
   dispatch => ({
     itemUpdated: item => {
       dispatch(itemUpdated(item));

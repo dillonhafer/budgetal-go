@@ -3,158 +3,36 @@ import React, { Component } from 'react';
 // Redux
 import { connect } from 'react-redux';
 import {
-  ANNUAL_ITEMS_FETCHED,
-  ANNUAL_ITEMS_SHOW_FORM,
-  ANNUAL_ITEMS_HIDE_FORM,
-  ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
-  ANNUAL_ITEMS_REMOVED,
-} from 'action-types';
+  itemsFetched,
+  updatedSelectedItem,
+  hideForm,
+  toggleYearForm,
+} from 'actions/annual-budget-items';
 
-import { title, scrollTop, notice } from 'window';
-import { availableYears, currencyf } from 'helpers';
-import {
-  AllAnnualBudgetItemsRequest,
-  DeleteAnnualBudgetItemRequest,
-} from 'api/annual-budget-items';
+import { title, scrollTop } from 'window';
+import { availableYears } from 'helpers';
+import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 import moment from 'moment';
-import { round } from 'lodash';
 
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import Card from 'antd/lib/card';
 import Button from 'antd/lib/button';
 import Popover from 'antd/lib/popover';
 import Select from 'antd/lib/select';
 import Icon from 'antd/lib/icon';
-import Dropdown from 'antd/lib/dropdown';
-import Tag from 'antd/lib/tag';
-import Menu from 'antd/lib/menu';
-import Modal from 'antd/lib/modal';
 
 import AnnualBudgetItemForm from './Form';
+import AnnualBudgetItem from './AnnualBudgetItem';
 
 import 'css/annual-budget-items.css';
 
-const getMenu = ({ progress, editItem, deleteItem }) => {
-  return (
-    <Menu>
-      <Menu.Item>
-        <a className="primary-color" onClick={progress}>
-          <Icon type="area-chart" /> Progress
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a className="primary-color" onClick={editItem}>
-          <Icon type="edit" /> Edit
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a className="alert-color" onClick={deleteItem}>
-          <Icon type="delete" /> Delete
-        </a>
-      </Menu.Item>
-    </Menu>
-  );
-};
-
-const AnnualBudgetItem = ({ item, handleOnCardClick, handleOnDeleteClick }) => {
-  const name = item.name;
-  const loading = item.loading;
-  const amount = currencyf(item.amount);
-  const date = moment(item.dueDate).format('LL');
-  const month = currencyf(round(item.amount / item.intervals));
-  const color = item.paid ? '#87d068' : '#cacaca';
-  const editItem = () => {
-    const i = { ...item, dueDate: moment(item.dueDate) };
-    handleOnCardClick(i);
-  };
-
-  const _d = async () => {
-    const resp = await DeleteAnnualBudgetItemRequest(item);
-    if (resp && resp.ok) {
-      notice(`Deleted ${item.name}`);
-      handleOnDeleteClick(item);
-    }
-  };
-
-  const deleteItem = async () => {
-    try {
-      Modal.confirm({
-        title: `Are you sure delete ${item.name}?`,
-        content: 'This cannot be undone',
-        okText: 'Delete',
-        okType: 'danger',
-        cancelText: 'Cancel',
-        onOk: () => {
-          _d();
-        },
-      });
-    } catch (err) {
-      //ignore for now
-    }
-  };
-
-  const menu = getMenu({
-    progress: _ => {},
-    editItem,
-    deleteItem,
-  });
-
-  return (
-    <Col className="card" xs={24} sm={12} md={8} lg={8}>
-      <Card
-        loading={loading}
-        noHovering
-        title={name}
-        extra={
-          <div className="annual-item-crud">
-            <Dropdown overlay={menu} trigger={['click']}>
-              <Button type="ghost" shape="circle" icon="ellipsis" />
-            </Dropdown>
-          </div>
-        }
-      >
-        <div className="text-center">
-          <p>
-            In order to reach <b>{amount}</b>
-            <br />
-            by <b>{date}</b>
-            <br />
-            you need to save
-            <br />
-            <b>{month}/month</b>
-            <br />
-          </p>
-          <Tag color={color}>Paid</Tag>
-        </div>
-
-        {/*this.getProgressModal(item, this.state.showProgress)*/}
-      </Card>
-    </Col>
-  );
-};
-
-const AnnualBudgetItemList = ({
-  annualBudgetItems,
-  onClick,
-  handleOnDeleteClick,
-  handleOnCardClick,
-}) => {
-  const cards = annualBudgetItems.map((item, index) => {
-    return (
-      <AnnualBudgetItem
-        handleOnDeleteClick={handleOnDeleteClick}
-        handleOnCardClick={handleOnCardClick}
-        item={item}
-        key={index}
-      />
-    );
-  });
-
+const AnnualBudgetItemList = ({ annualBudgetItems, onClick }) => {
   return (
     <Row className="card-grid">
-      {cards}
+      {annualBudgetItems.map(item => (
+        <AnnualBudgetItem item={item} key={item.id} />
+      ))}
       <Col className="card text-center" span={8}>
         <Button
           type="primary"
@@ -254,54 +132,17 @@ class AnnualBudget extends Component {
         <AnnualBudgetItemList
           annualBudgetItems={annualBudgetItems}
           onClick={this.showNewModal}
-          handleOnCardClick={this.props.updatedSelectedItem}
-          handleOnDeleteClick={this.props.removeItem}
         />
 
         <AnnualBudgetItemForm
           budgetItem={selectedBudgetItem}
           visible={visible}
           onCancel={this.props.hideForm}
-          afterSubmit={_ => {}}
         />
       </div>
     );
   }
 }
-
-const itemsFetched = annualBudgetItems => {
-  return {
-    type: ANNUAL_ITEMS_FETCHED,
-    annualBudgetItems,
-  };
-};
-
-const updatedSelectedItem = selectedBudgetItem => {
-  return {
-    type: ANNUAL_ITEMS_SHOW_FORM,
-    selectedBudgetItem,
-  };
-};
-
-const hideForm = () => {
-  return {
-    type: ANNUAL_ITEMS_HIDE_FORM,
-  };
-};
-
-const toggleYearForm = showForm => {
-  return {
-    type: ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
-    showForm,
-  };
-};
-
-const removeItem = item => {
-  return {
-    type: ANNUAL_ITEMS_REMOVED,
-    item,
-  };
-};
 
 export default connect(
   state => ({
@@ -319,9 +160,6 @@ export default connect(
     },
     toggleYearForm: showForm => {
       dispatch(toggleYearForm(showForm));
-    },
-    removeItem: item => {
-      dispatch(removeItem(item));
     },
   }),
 )(AnnualBudget);

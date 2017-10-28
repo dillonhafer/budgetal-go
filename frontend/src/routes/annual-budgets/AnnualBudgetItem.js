@@ -1,0 +1,48 @@
+import React, { Component } from 'react';
+
+import { currencyf } from 'helpers';
+import moment from 'moment';
+import { round } from 'lodash';
+
+// Antd
+import Col from 'antd/lib/col';
+import Card from 'antd/lib/card';
+import Tag from 'antd/lib/tag';
+
+import EditMenu from './EditMenu';
+
+class AnnualBudgetItem extends Component {
+  render() {
+    const { item } = this.props;
+    const { name, loading } = item;
+    const month = currencyf(round(item.amount / item.intervals));
+    const color = item.paid ? '#87d068' : '#cacaca';
+
+    return (
+      <Col className="card" xs={24} sm={12} md={8} lg={8}>
+        <Card
+          loading={loading}
+          noHovering
+          title={name}
+          extra={<EditMenu item={this.props.item} />}
+        >
+          <div className="text-center">
+            <p>
+              In order to reach <b>{currencyf(item.amount)}</b>
+              <br />
+              by <b>{moment(item.dueDate).format('LL')}</b>
+              <br />
+              you need to save
+              <br />
+              <b>{month}/month</b>
+              <br />
+            </p>
+            <Tag color={color}>Paid</Tag>
+          </div>
+        </Card>
+      </Col>
+    );
+  }
+}
+
+export default AnnualBudgetItem;
