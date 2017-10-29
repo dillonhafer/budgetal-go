@@ -15,12 +15,7 @@ import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 import moment from 'moment';
 
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import Button from 'antd/lib/button';
-import Popover from 'antd/lib/popover';
-import Select from 'antd/lib/select';
-import Icon from 'antd/lib/icon';
+import { Row, Col, Button, Popover, Select, Icon } from 'antd';
 
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';

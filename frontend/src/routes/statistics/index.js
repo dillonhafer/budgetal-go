@@ -1,17 +1,13 @@
-import React, {Component} from 'react';
-import {FindStatisticRequest} from 'api/statistics';
-import {title, scrollTop, error} from 'window';
-import {availableYears} from 'helpers';
-import {currencyf} from 'helpers';
+import React, { Component } from 'react';
+import { FindStatisticRequest } from 'api/statistics';
+import { title, scrollTop, error } from 'window';
+import { availableYears } from 'helpers';
+import { currencyf } from 'helpers';
 import moment from 'moment';
 
 import Highchart from 'highchart';
 
-import Popover from 'antd/lib/popover';
-import DatePicker from 'antd/lib/date-picker';
-import Icon from 'antd/lib/icon';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+import { Popover, DatePicker, Icon, Row, Col } from 'antd';
 
 import 'css/statistics.css';
 
@@ -26,7 +22,7 @@ class Statistics extends Component {
   };
 
   componentDidMount() {
-    const {month, year} = this.props.match.params;
+    const { month, year } = this.props.match.params;
     title(`${monthName(month)} ${year} | Statistics`);
     scrollTop();
     this.loadStatistics();
@@ -50,13 +46,13 @@ class Statistics extends Component {
           },
         },
       },
-      series: [{data}],
+      series: [{ data }],
     };
   }
 
   chartData(categories) {
     return categories.map(category => {
-      return {y: category.percentSpent, name: category.name};
+      return { y: category.percentSpent, name: category.name };
     });
   }
 
@@ -107,7 +103,7 @@ class Statistics extends Component {
   }
 
   handleVisibleChange = showForm => {
-    this.setState({showForm});
+    this.setState({ showForm });
   };
 
   loadStatistics = async () => {
@@ -134,7 +130,7 @@ class Statistics extends Component {
             percentSpent,
           };
         });
-        this.setState({budgetCategories});
+        this.setState({ budgetCategories });
       }
     } catch (err) {
       error(err);
@@ -142,7 +138,7 @@ class Statistics extends Component {
   };
 
   render() {
-    const {month, year} = this.props.match.params;
+    const { month, year } = this.props.match.params;
     return (
       <div>
         <h1>
@@ -160,7 +156,7 @@ class Statistics extends Component {
             visible={this.state.showForm}
             onVisibleChange={this.handleVisibleChange}
           >
-            <a onClick={this.showForm} style={{marginLeft: '15px'}}>
+            <a onClick={this.showForm} style={{ marginLeft: '15px' }}>
               <Icon type="calendar" />
             </a>
           </Popover>

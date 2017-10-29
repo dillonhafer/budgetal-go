@@ -5,9 +5,7 @@ import { times, round } from 'lodash';
 import moment from 'moment';
 
 // Antd
-import Badge from 'antd/lib/badge';
-import Modal from 'antd/lib/modal';
-import Table from 'antd/lib/table';
+import { Badge, Modal, Table } from 'antd';
 
 export default class ProgressModal extends Component {
   render() {

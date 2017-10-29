@@ -10,11 +10,8 @@ import { notice } from 'window';
 import ProgressModal from './ProgressModal';
 
 // Antd
-import Menu, { Item } from 'antd/lib/menu';
-import Icon from 'antd/lib/icon';
-import Modal from 'antd/lib/modal';
-import Button from 'antd/lib/button';
-import Dropdown from 'antd/lib/dropdown';
+import { Menu, Icon, Modal, Button, Dropdown } from 'antd';
+const Item = Menu.Item;
 
 class EditMenu extends Component {
   state = {

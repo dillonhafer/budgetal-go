@@ -1,7 +1,6 @@
-import React, {Component} from 'react';
-import Layout from 'antd/lib/layout';
-import Modal from 'antd/lib/modal';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Layout, Modal } from 'antd';
+import { Link } from 'react-router-dom';
 const HELP_FRAME = process.env.HELP_FRAME || '';
 
 export default class Footer extends Component {
@@ -10,11 +9,11 @@ export default class Footer extends Component {
   };
 
   handleHelpClick = () => {
-    this.setState({showHelpModal: true});
+    this.setState({ showHelpModal: true });
   };
 
   handleHelpClose = () => {
-    this.setState({showHelpModal: false});
+    this.setState({ showHelpModal: false });
   };
 
   render() {

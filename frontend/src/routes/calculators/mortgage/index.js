@@ -1,17 +1,12 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
 import MonthChart from './MonthChart';
-import {title, scrollTop} from 'window';
-import {currencyf} from 'helpers';
-import {connect} from 'react-redux';
-import {MORTGAGE_CALCULATOR_UPDATED} from 'action-types';
+import { title, scrollTop } from 'window';
+import { currencyf } from 'helpers';
+import { connect } from 'react-redux';
+import { MORTGAGE_CALCULATOR_UPDATED } from 'action-types';
 
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import Card from 'antd/lib/card';
-import InputNumber from 'antd/lib/input-number';
-import Select from 'antd/lib/select';
-import Form from 'antd/lib/form';
+import { Row, Col, Card, InputNumber, Select, Form } from 'antd';
 
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -38,31 +33,31 @@ class MortgageCalculator extends Component {
   };
 
   handleLoanBalanceChange = e => {
-    this.setAndUpdateState({loanBalance: parseInt(e, 10)});
+    this.setAndUpdateState({ loanBalance: parseInt(e, 10) });
   };
 
   handleCurrentBalanceChange = e => {
-    this.setAndUpdateState({currentBalance: parseInt(e, 10)});
+    this.setAndUpdateState({ currentBalance: parseInt(e, 10) });
   };
 
   handleInterestRateChange = interestRate => {
-    this.setAndUpdateState({interestRate});
+    this.setAndUpdateState({ interestRate });
   };
 
   handleYearChange = e => {
-    this.setAndUpdateState({startYear: parseInt(e, 10)});
+    this.setAndUpdateState({ startYear: parseInt(e, 10) });
   };
 
   handleMonthChange = e => {
-    this.setAndUpdateState({startMonth: parseInt(e, 10)});
+    this.setAndUpdateState({ startMonth: parseInt(e, 10) });
   };
 
   handleYearTermChange = e => {
-    this.setAndUpdateState({yearTerm: parseInt(e, 10)});
+    this.setAndUpdateState({ yearTerm: parseInt(e, 10) });
   };
 
   handleExtraMonthlyPaymentChange = e => {
-    this.setAndUpdateState({extraMonthlyPayment: parseFloat(e)});
+    this.setAndUpdateState({ extraMonthlyPayment: parseFloat(e) });
   };
 
   pmt(interest, payments, presentValue) {
@@ -188,7 +183,7 @@ class MortgageCalculator extends Component {
                         size="large"
                         defaultValue={String(yearTerm)}
                         onChange={this.handleYearTermChange}
-                        style={{width: '120px'}}
+                        style={{ width: '120px' }}
                       >
                         {[...Array(30).keys()].map(y => {
                           const year = String(y + 1);
@@ -210,7 +205,7 @@ class MortgageCalculator extends Component {
                         size="large"
                         defaultValue={String(startMonth)}
                         onChange={this.handleMonthChange}
-                        style={{width: '100%'}}
+                        style={{ width: '100%' }}
                       >
                         {moment.months().map((m, i) => {
                           return (
@@ -226,7 +221,7 @@ class MortgageCalculator extends Component {
                         size="large"
                         defaultValue={String(startYear)}
                         onChange={this.handleYearChange}
-                        style={{width: '100%'}}
+                        style={{ width: '100%' }}
                       >
                         {years.map(y => {
                           const year = String(currentYear - y);

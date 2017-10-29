@@ -1,9 +1,7 @@
-import React, {Component} from 'react';
-import Anchor from 'antd/lib/anchor';
-import BackTop from 'antd/lib/back-top';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
-import {title, scrollTop} from 'window';
+import React, { Component } from 'react';
+
+import { Anchor, BackTop, Row, Col } from 'antd';
+import { title, scrollTop } from 'window';
 
 export default class Privacy extends Component {
   componentDidMount() {

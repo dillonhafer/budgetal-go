@@ -5,8 +5,7 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { Row, Col, Menu, Icon } from 'antd';
-import Layout from 'antd/lib/layout';
+import { Layout, Row, Col, Menu, Icon } from 'antd';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
 import { notice } from 'window';

@@ -5,7 +5,7 @@ import { AdminUsersRequest } from 'api/admin';
 import moment from 'moment';
 
 // Antd
-import Table from 'antd/lib/table';
+import { Table } from 'antd';
 
 export default class Admin extends Component {
   state = {

@@ -3,10 +3,7 @@ import { RegisterRequest } from 'api/users';
 import { notice } from 'window';
 import { SetAuthenticationToken, SetCurrentUser } from 'authentication';
 
-import Form from 'antd/lib/form';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
-import Icon from 'antd/lib/icon';
+import { Form, Input, Button, Icon } from 'antd';
 
 const FormItem = Form.Item;
 

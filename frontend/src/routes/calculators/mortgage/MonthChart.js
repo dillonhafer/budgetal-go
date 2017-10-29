@@ -1,13 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
-import {times} from 'lodash';
+import { times } from 'lodash';
 
-import Radio from 'antd/lib/radio';
-import Table from 'antd/lib/table';
-import Icon from 'antd/lib/icon';
+import { Radio, Table, Icon } from 'antd';
 
 import Month from './Month';
-import {currencyf} from 'helpers';
+import { currencyf } from 'helpers';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 
@@ -21,7 +19,7 @@ class MonthChart extends Component {
 
   handleChartTypeChange = e => {
     const chartType = e.target.value === 'grid' ? 'grid' : 'list';
-    this.setState({chartType});
+    this.setState({ chartType });
   };
 
   renderGrid(months, startYear, startMonth) {
@@ -121,9 +119,9 @@ class MonthChart extends Component {
   }
 
   render() {
-    const {months, startYear, startMonth} = this.props;
+    const { months, startYear, startMonth } = this.props;
 
-    const {chartType} = this.state;
+    const { chartType } = this.state;
     const renderChart =
       chartType === 'grid' ? this.renderGrid : this.renderList;
 

@@ -1,4 +1,4 @@
-import notification from 'antd/lib/notification';
+import { notification } from 'antd';
 
 const openNotificationWithIcon = (type, description) => {
   setTimeout(_ => {

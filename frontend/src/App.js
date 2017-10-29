@@ -1,12 +1,11 @@
 // App Concerns
-import React, {Component} from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
-import {IsAuthenticated} from 'authentication';
+import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { IsAuthenticated } from 'authentication';
 import 'css/App.css';
 
 // Locale
-import LocaleProvider from 'antd/lib/locale-provider';
-import enUS from 'antd/lib/locale-provider/en_US';
+import { LocaleProvider } from 'antd';
 
 // Layout
 import Layout from 'antd/lib/layout';
@@ -15,13 +14,14 @@ import ApplicationLayout from 'layouts/ApplicationLayout';
 import Footer from 'layouts/Footer';
 
 // Redux
-import {throttle} from 'lodash';
-import {createStore} from 'redux';
-import {Provider} from 'react-redux';
-import {loadState, saveState} from 'persistant-state';
+import { throttle } from 'lodash';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import { loadState, saveState } from 'persistant-state';
 import reducers from 'reducers';
+const enUS = LocaleProvider.en_US;
 const persistedState = loadState();
-const store = createStore(reducers, {...persistedState});
+const store = createStore(reducers, { ...persistedState });
 store.subscribe(
   throttle(() => {
     saveState({
@@ -36,7 +36,7 @@ class App extends Component {
   };
 
   resetSignIn = () => {
-    this.setState({signedIn: IsAuthenticated()});
+    this.setState({ signedIn: IsAuthenticated() });
   };
 
   render() {

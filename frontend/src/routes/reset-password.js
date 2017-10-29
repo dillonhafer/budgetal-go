@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { notice, error } from 'window';
 import { ResetPasswordRequest } from 'api/users';
 
-import Button from 'antd/lib/button';
-import Form from 'antd/lib/form';
-import Icon from 'antd/lib/icon';
-import Input from 'antd/lib/input';
+import { Button, Icon, Form, Input } from 'antd';
 
 class ResetPassword extends Component {
   submitForm = async password => {

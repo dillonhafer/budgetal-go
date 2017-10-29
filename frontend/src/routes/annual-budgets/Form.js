@@ -10,14 +10,16 @@ import { connect } from 'react-redux';
 import { itemAdded, itemUpdated } from 'actions/annual-budget-items';
 
 // Antd
-import Form from 'antd/lib/form';
-import Input from 'antd/lib/input';
-import Select from 'antd/lib/select';
-import Row from 'antd/lib/row';
-import InputNumber from 'antd/lib/input-number';
-import DatePicker from 'antd/lib/date-picker';
-import Switch from 'antd/lib/switch';
-import Modal from 'antd/lib/modal';
+import {
+  Form,
+  Input,
+  Select,
+  Row,
+  InputNumber,
+  DatePicker,
+  Switch,
+  Modal,
+} from 'antd';
 const Option = Select.Option;
 
 const layout = {

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Modal from 'antd/lib/modal';
-import Icon from 'antd/lib/icon';
-import Tabs from 'antd/lib/tabs';
-import Row from 'antd/lib/row';
-import Col from 'antd/lib/col';
+
+import { Modal, Icon, Tabs, Row, Col } from 'antd';
 
 import RegisterForm from './RegisterForm';
 import PasswordResetForm from './PasswordResetForm';

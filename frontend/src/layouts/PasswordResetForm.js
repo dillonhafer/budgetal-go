@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 import { PasswordResetRequest } from 'api/users';
 
 // Antd
-import Form from 'antd/lib/form';
-import Input from 'antd/lib/input';
-import Button from 'antd/lib/button';
-import Icon from 'antd/lib/icon';
+import { Form, Input, Button, Icon } from 'antd';
 import { notice } from 'window';
 
 const FormItem = Form.Item;

@@ -6,9 +6,7 @@ import moment from 'moment';
 import { round } from 'lodash';
 
 // Antd
-import Col from 'antd/lib/col';
-import Card from 'antd/lib/card';
-import Tag from 'antd/lib/tag';
+import { Col, Card, Tag } from 'antd';
 
 import EditMenu from './EditMenu';
 
