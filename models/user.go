@@ -3,10 +3,12 @@ package models
 import (
 	"database/sql"
 	"encoding/json"
+	"log"
 	"time"
 
 	"github.com/markbates/pop"
 	"github.com/markbates/validate"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
@@ -46,6 +48,18 @@ func (u Users) String() string {
 // This method is not required and may be deleted.
 func (u *User) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
+}
+
+func (u *User) EncryptPassword(password []byte) {
+	u.EncryptedPassword = hashAndSalt(password)
+}
+
+func hashAndSalt(pwd []byte) string {
+	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+	if err != nil {
+		log.Println(err)
+	}
+	return string(hash)
 }
 
 // ValidateCreate gets run every time you call "pop.ValidateAndCreate" method.

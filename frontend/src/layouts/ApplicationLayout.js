@@ -10,6 +10,7 @@ import MortgageCalculator from 'routes/calculators/mortgage';
 import AnnualBudget from 'routes/annual-budgets';
 import Statistics from 'routes/statistics';
 import Admin from 'routes/admin';
+import ResetPassword from 'routes/reset-password';
 
 // Error Routes
 import NoMatch from 'NoMatch';
@@ -38,6 +39,7 @@ class ApplicationLayout extends Component {
                   component={Statistics}
                 />
                 <Route path="/admin" component={Admin} />
+                <Route path="/reset-password" component={ResetPassword} />
 
                 <Route path="/maintenance" component={Maintenance} />
                 <Route component={NoMatch} />

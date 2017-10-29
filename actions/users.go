@@ -94,3 +94,20 @@ func UsersPasswordResetRequest(c buffalo.Context) error {
 
 	return c.Render(200, r.JSON(""))
 }
+
+func UsersUpdatePassword(c buffalo.Context) error {
+	token, _ := Json(c, "reset_password_token").(string)
+	password, _ := Json(c, "password").(string)
+
+	user := &models.User{}
+	tx := c.Value("tx").(*pop.Connection)
+	err := tx.Where("password_reset_token = ?", token).First(user)
+	if err != nil {
+		return c.Render(401, r.JSON(""))
+	}
+
+	user.EncryptPassword([]byte(password))
+	tx.Update(user)
+
+	return c.Render(200, r.JSON(""))
+}
