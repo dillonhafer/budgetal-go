@@ -101,12 +101,19 @@ func UsersUpdatePassword(c buffalo.Context) error {
 
 	user := &models.User{}
 	tx := c.Value("tx").(*pop.Connection)
-	err := tx.Where("password_reset_token = ?", token).First(user)
+	query := `
+		password_reset_token = ? and
+		password_reset_sent_at between
+		(now() - interval '2 hours') and now()
+	`
+	err := tx.Where(query, token).First(user)
 	if err != nil {
 		return c.Render(401, r.JSON(""))
 	}
 
 	user.EncryptPassword([]byte(password))
+	user.PasswordResetToken = sql.NullString{String: "", Valid: false}
+	user.PasswordResetSentAt = models.NullTime{Time: time.Now(), Valid: false}
 	tx.Update(user)
 
 	return c.Render(200, r.JSON(""))
