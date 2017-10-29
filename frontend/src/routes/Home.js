@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {title, scrollTop} from 'window';
+import React, { Component } from 'react';
+import { title, scrollTop } from 'window';
 
 class Home extends Component {
   componentDidMount() {
@@ -9,8 +9,9 @@ class Home extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Home</h1>
+      <div className="text-center">
+        <h1>Budgetal</h1>
+        <img alt="Budgetal" style={{ width: '64px' }} src={'/app_logo.png'} />
       </div>
     );
   }
