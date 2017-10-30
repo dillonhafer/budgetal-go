@@ -12,4 +12,15 @@ rm budgetal
 cd ..
 SIZE=$(du -h bin/budgetal.tar.gz | cut -f1)
 echo "----> linux 386 binary compressed in bin/budgetal.tar.gz ($SIZE)"
+echo "----> building frontend"
+cd frontend
+yarn build
+echo "----> compressing frontend"
+archive="frontend.tar.gz"
+tar czf $archive build
+mv $archive ../bin/
+cd ..
+SIZE=$(du -h bin/$archive | cut -f1)
+echo "----> react app compressed in bin/$archive ($SIZE)"
+
 printf "      ${GREEN}Done.${NC}\n"
