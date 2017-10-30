@@ -6,6 +6,7 @@ import 'css/App.css';
 
 // Locale
 import { LocaleProvider } from 'antd';
+import enUS from 'antd/lib/locale-provider/en_US';
 
 // Layout
 import Layout from 'antd/lib/layout';
@@ -19,7 +20,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import { loadState, saveState } from 'persistant-state';
 import reducers from 'reducers';
-const enUS = LocaleProvider.en_US;
 const persistedState = loadState();
 const store = createStore(reducers, { ...persistedState });
 store.subscribe(
