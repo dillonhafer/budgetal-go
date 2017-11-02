@@ -23,3 +23,12 @@
 div.ant-layout-header {
   z-index: 4;
 }
+
+.ant-upload-list-picture-card .ant-upload-list-item {
+  width: 160px;
+  height: 160px;
+}
+
+.ant-upload-list-picture-card .ant-upload-list-item-info:before {
+  left: 0;
+}

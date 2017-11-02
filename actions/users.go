@@ -1,21 +1,23 @@
 package actions
 
 import (
-	"database/sql"
+	"crypto/md5"
+	"fmt"
+	"io"
 	"log"
+	"os"
+	"path/filepath"
+	"strconv"
 	"time"
 
 	"github.com/dillonhafer/budgetal/mailers"
 	"github.com/dillonhafer/budgetal/models"
 	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
+	"github.com/markbates/pop/nulls"
 	"golang.org/x/crypto/bcrypt"
 )
-
-// UsersShow default implementation.
-func UsersShow(c buffalo.Context) error {
-	return c.Render(200, r.JSON(map[string]string{"users": "show"}))
-}
 
 func hashAndSalt(pwd []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
@@ -25,7 +27,70 @@ func hashAndSalt(pwd []byte) string {
 	return string(hash)
 }
 
-// UsersCreate default implementation.
+func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
+	// Verify Password
+	// or error
+	currentPassword := c.Request().FormValue("password")
+	if !currentUser.VerifyPassword(currentPassword) {
+		return c.Render(401, r.JSON(map[string]string{"error": "Incorrect Password"}))
+	}
+
+	// Update Attributes
+	currentUser.FirstName = c.Request().FormValue("firstName")
+	currentUser.LastName = c.Request().FormValue("lastName")
+	currentUser.Email = c.Request().FormValue("email")
+
+	// Update Avatar
+	func() {
+		file, _, err := c.Request().FormFile("avatar")
+		defer file.Close()
+
+		if err != nil {
+			return
+		}
+
+		// Get MD5 filename
+		hash := md5.New()
+		var result []byte
+		if _, err := io.Copy(hash, file); err != nil {
+			return
+		}
+		fileMD5 := hash.Sum(result)
+		extension := "jpg"
+		filename := fmt.Sprintf("%x.%s", fileMD5, extension)
+		file.Seek(0, 0)
+
+		// Make paths
+		userId := strconv.Itoa(currentUser.ID)
+
+		avatarBase := envy.Get("AVATAR_BASE", filepath.Join("frontend", "public"))
+		profilePath := filepath.Join("users", "avatars", userId)
+		fullPath := filepath.Join(avatarBase, profilePath)
+
+		// Save File
+		os.MkdirAll(fullPath, os.ModePerm)
+		imagePath := filepath.Join(fullPath, filename)
+		f, err := os.OpenFile(imagePath, os.O_WRONLY|os.O_CREATE, 0666)
+		defer f.Close()
+		if err != nil {
+			return
+		}
+		io.Copy(f, file)
+
+		// Update user
+		databasePath := filepath.Join(profilePath, filename)
+		currentUser.AvatarFileName = nulls.String{String: "/" + databasePath, Valid: true}
+	}()
+
+	tx := c.Value("tx").(*pop.Connection)
+	dbErr := tx.Update(currentUser)
+	if dbErr != nil {
+		return c.Render(401, r.JSON("Invalid User"))
+	}
+
+	return c.Render(200, r.JSON(map[string]*models.User{"user": currentUser}))
+}
+
 func UsersCreate(c buffalo.Context) error {
 	var ok bool
 	var params struct {
@@ -84,7 +149,7 @@ func UsersPasswordResetRequest(c buffalo.Context) error {
 
 	if err == nil {
 		token := RandomHex(32)
-		user.PasswordResetToken = sql.NullString{String: token, Valid: true}
+		user.PasswordResetToken = nulls.String{String: token, Valid: true}
 		user.PasswordResetSentAt = models.NullTime{Time: time.Now(), Valid: true}
 		err = tx.Update(user)
 		if err == nil {
@@ -112,7 +177,7 @@ func UsersUpdatePassword(c buffalo.Context) error {
 	}
 
 	user.EncryptPassword([]byte(password))
-	user.PasswordResetToken = sql.NullString{String: "", Valid: false}
+	user.PasswordResetToken = nulls.String{String: "", Valid: false}
 	user.PasswordResetSentAt = models.NullTime{Time: time.Now(), Valid: false}
 	tx.Update(user)
 

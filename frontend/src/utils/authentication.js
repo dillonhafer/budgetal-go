@@ -13,7 +13,12 @@ export function SetCurrentUser(user) {
 }
 export function GetCurrentUser() {
   const userStorage = localStorage.getItem(USER_KEY);
-  if (userStorage === null) {
+  if (
+    userStorage === null ||
+    userStorage === undefined ||
+    userStorage === 'undefined'
+  ) {
+    RemoveAuthentication();
     return null;
   } else {
     return JSON.parse(userStorage);

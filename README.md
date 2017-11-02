@@ -8,6 +8,7 @@ frontend
 Once the repo has been cloned start the dev server:
 
 ```
+$ buffalo db migrate
 $ buffalo dev
 ```
 

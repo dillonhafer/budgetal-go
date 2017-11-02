@@ -6,15 +6,12 @@ const base = async (path, method, headers = {}, body = {}) => {
   try {
     const _budgetal_session = GetAuthenticationToken();
     let req = {
-      headers: Object.assign(
-        {},
-        {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          _budgetal_session,
-        },
-        headers,
-      ),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        _budgetal_session,
+        ...headers,
+      },
       credentials: 'include',
       method,
     };
@@ -23,6 +20,10 @@ const base = async (path, method, headers = {}, body = {}) => {
       switch (req.headers['Content-Type']) {
         case 'application/json':
           req.body = JSON.stringify(body);
+          break;
+        case 'multipart/form-data':
+          delete req.headers['Content-Type'];
+          req.body = body;
           break;
         default:
           req.body = body;
@@ -70,6 +71,9 @@ export const _post = (path, body = {}, headers = {}) => {
 };
 export const _put = (path, body = {}, headers = {}) => {
   return base(path, 'PUT', headers, body);
+};
+export const _patch = (path, body = {}, headers = {}) => {
+  return base(path, 'PATCH', headers, body);
 };
 export const _delete = (path, body = {}, headers = {}) => {
   return base(path, 'DELETE', headers, body);

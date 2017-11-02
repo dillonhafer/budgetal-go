@@ -10,3 +10,5 @@ node_modules/
 public/assets/
 budgetal
 .vscode/
+
+frontend/public/users

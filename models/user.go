@@ -1,12 +1,14 @@
 package models
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"log"
 	"time"
 
 	"github.com/markbates/pop"
+	"github.com/markbates/pop/nulls"
 	"github.com/markbates/validate"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -17,9 +19,9 @@ type User struct {
 	FirstName           string         `json:"firstName" db:"first_name"`
 	LastName            string         `json:"lastName" db:"last_name"`
 	Admin               bool           `json:"admin" db:"admin"`
-	PasswordResetToken  sql.NullString `json:"-" db:"password_reset_token"`
+	PasswordResetToken  nulls.String   `json:"-" db:"password_reset_token"`
 	PasswordResetSentAt NullTime       `json:"-" db:"password_reset_sent_at"`
-	AvatarFileName      sql.NullString `json:"avatarFileName" db:"avatar_file_name"`
+	AvatarFileName      nulls.String   `json:"avatarFileName" db:"avatar_file_name"`
 	AvatarContentType   sql.NullString `json:"-" db:"avatar_content_type"`
 	AvatarFileSize      sql.NullInt64  `json:"-" db:"avatar_file_size"`
 	AvatarUpdatedAt     time.Time      `json:"-" db:"avatar_updated_at"`
@@ -48,6 +50,23 @@ func (u Users) String() string {
 // This method is not required and may be deleted.
 func (u *User) Validate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
+}
+
+func (u *User) VerifyPassword(password string) bool {
+	return comparePassword(password, u.EncryptedPassword)
+}
+
+func comparePassword(password string, hashedPassword string) bool {
+	if hashedPassword == "" {
+		return false
+	}
+
+	var passwordBuffer bytes.Buffer
+	passwordBuffer.WriteString(password)
+
+	val := bcrypt.CompareHashAndPassword([]byte(hashedPassword), passwordBuffer.Bytes())
+
+	return (val == nil)
 }
 
 func (u *User) EncryptPassword(password []byte) {

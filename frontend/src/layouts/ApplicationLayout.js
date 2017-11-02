@@ -11,6 +11,7 @@ import AnnualBudget from 'routes/annual-budgets';
 import Statistics from 'routes/statistics';
 import Admin from 'routes/admin';
 import ResetPassword from 'routes/reset-password';
+import AccountSettings from 'routes/account-settings';
 
 // Error Routes
 import NoMatch from 'NoMatch';
@@ -37,6 +38,10 @@ class ApplicationLayout extends Component {
                 <PrivateRoute
                   path="/monthly-statistics/:year/:month"
                   component={Statistics}
+                />
+                <PrivateRoute
+                  path="/account-settings"
+                  component={AccountSettings}
                 />
                 <Route path="/admin" component={Admin} />
                 <Route path="/reset-password" component={ResetPassword} />

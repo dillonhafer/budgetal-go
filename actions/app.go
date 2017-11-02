@@ -100,7 +100,6 @@ func App() *buffalo.App {
 		}
 
 		// Set the request content type to JSON
-		app.Use(middleware.SetContentType("application/json"))
 		app.Use(DecodeJson)
 
 		if ENV == "development" {
@@ -131,7 +130,13 @@ func App() *buffalo.App {
 		app.POST("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsCreate))
 		app.PUT("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsUpdate))
 		app.DELETE("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsDelete))
+
+		// Users
+		app.PATCH("/update-user", WithCurrentUser(UsersUpdate))
+
+		// Admin
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
+
 	}
 
 	return app
