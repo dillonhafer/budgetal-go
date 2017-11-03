@@ -90,8 +90,6 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 		case "image/jpeg":
 			extension = "jpg"
 		default:
-			c.Logger().Debug("WRONG CONTENT TYPE")
-			c.Logger().Debug(contentType)
 			return
 		}
 		filename := fmt.Sprintf("%x.%s", fileMD5, extension)
