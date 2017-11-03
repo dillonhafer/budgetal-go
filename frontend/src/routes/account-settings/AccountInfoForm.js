@@ -38,7 +38,6 @@ class AccountInfoForm extends React.Component {
   };
 
   handleChange = p => {
-    console.log(p.event);
     this.setState({ fileList: p.fileList });
   };
 

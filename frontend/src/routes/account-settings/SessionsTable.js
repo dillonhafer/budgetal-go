@@ -171,7 +171,6 @@ class SessionsTable extends Component {
             End Session
           </Button>
         );
-        console.log(moment(session.createdAt).unix());
         return {
           key,
           browser: this.browser(session.user_agent),
