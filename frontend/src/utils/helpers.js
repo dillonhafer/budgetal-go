@@ -1,4 +1,5 @@
-import {range} from 'lodash';
+import { range } from 'lodash';
+import parser from 'ua-parser-js';
 
 export const currencyf = (number, dollarSign = '$') => {
   if (isNaN(parseFloat(number))) {
@@ -11,4 +12,20 @@ export const currencyf = (number, dollarSign = '$') => {
 
 export const availableYears = () => {
   return range(2015, new Date().getFullYear() + 3);
+};
+
+export const pluralize = (count, singlular, plural) => {
+  let word = plural;
+  if (count === 1) word = singlular;
+
+  return `${count} ${word}`;
+};
+
+export const humanUA = userAgent => {
+  const ua = parser(userAgent);
+  let text = `${ua.browser.name} ${ua.browser.major} on ${ua.os.name}`;
+  if (ua.ua.includes('Budgetal')) {
+    text = 'Budgetal App on iOS';
+  }
+  return text;
 };
