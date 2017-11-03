@@ -27,6 +27,21 @@ func hashAndSalt(pwd []byte) string {
 	return string(hash)
 }
 
+func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
+	password, _ := Json(c, "password").(string)
+	currentPassword, _ := Json(c, "currentPassword").(string)
+
+	if !currentUser.VerifyPassword(currentPassword) {
+		return c.Render(401, r.JSON(map[string]string{"error": "Incorrect Password"}))
+	}
+
+	currentUser.EncryptPassword([]byte(password))
+	tx := c.Value("tx").(*pop.Connection)
+	tx.Update(currentUser)
+
+	return c.Render(200, r.JSON(map[string]string{"message": "Password Successfully Changed"}))
+}
+
 func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 	// Verify Password
 	// or error

@@ -17,3 +17,7 @@ export function UpdateAccountInfoRequest(formData) {
     'Content-Type': 'multipart/form-data',
   });
 }
+
+export function ChangePasswordRequest({ password, currentPassword }) {
+  return _patch('/update-password', { password, currentPassword });
+}
