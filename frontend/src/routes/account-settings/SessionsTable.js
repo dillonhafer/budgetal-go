@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { pluralize, humanUA } from 'helpers';
-import { notice, colors } from 'window';
+import { notice } from 'window';
 import { Table, Button, Modal, Icon } from 'antd';
 import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
 import moment from 'moment';
