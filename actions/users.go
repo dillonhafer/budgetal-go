@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -70,7 +71,29 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 			return
 		}
 		fileMD5 := hash.Sum(result)
-		extension := "jpg"
+		file.Seek(0, 0)
+
+		// Extension
+		// Only the first 512 bytes are used to sniff the content type.
+		extBuffer := make([]byte, 512)
+		_, err = file.Read(extBuffer)
+		if err != nil {
+			return
+		}
+		contentType := http.DetectContentType(extBuffer)
+
+		var extension string
+		switch contentType {
+		case "image/png":
+			extension = "png"
+		case "image/jpg":
+		case "image/jpeg":
+			extension = "jpg"
+		default:
+			c.Logger().Debug("WRONG CONTENT TYPE")
+			c.Logger().Debug(contentType)
+			return
+		}
 		filename := fmt.Sprintf("%x.%s", fileMD5, extension)
 		file.Seek(0, 0)
 
