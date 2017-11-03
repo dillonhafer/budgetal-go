@@ -138,6 +138,9 @@ func App() *buffalo.App {
 		// Admin
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
 
+		// Sessions
+		app.GET("/sessions", WithCurrentUser(SessionsIndex))
+		app.DELETE("/sessions/{authenticationKey}", WithCurrentUser(SessionsDelete))
 	}
 
 	return app

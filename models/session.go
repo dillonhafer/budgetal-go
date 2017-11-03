@@ -1,43 +1,24 @@
 package models
 
 import (
-	"database/sql/driver"
 	"encoding/json"
 	"time"
 
 	"github.com/fatih/color"
 	"github.com/markbates/pop"
+	"github.com/markbates/pop/nulls"
 	"github.com/satori/go.uuid"
 )
 
-type NullTime struct {
-	Time  time.Time
-	Valid bool // Valid is true if Time is not NULL
-}
-
-// Scan implements the Scanner interface.
-func (nt *NullTime) Scan(value interface{}) error {
-	nt.Time, nt.Valid = value.(time.Time)
-	return nil
-}
-
-// Value implements the driver Valuer interface.
-func (nt NullTime) Value() (driver.Value, error) {
-	if !nt.Valid {
-		return nil, nil
-	}
-	return nt.Time, nil
-}
-
 type Session struct {
-	AuthenticationKey   uuid.UUID `json:"authenticationKey" db:"authentication_key"`
-	AuthenticationToken string    `json:"authenticationToken" db:"authentication_token"`
-	IpAddress           string    `json:"ipAddress" db:"ip"`
-	UserID              int       `json:"userId" db:"user_id"`
-	UserAgent           string    `json:"userAgent" db:"user_agent"`
-	ExpiredAt           NullTime  `json:"expiredAt" db:"expired_at"`
-	CreatedAt           time.Time `json:"created_at" db:"created_at"`
-	UpdatedAt           time.Time `json:"updated_at" db:"updated_at"`
+	AuthenticationKey   uuid.UUID  `json:"authenticationKey" db:"authentication_key"`
+	AuthenticationToken string     `json:"authenticationToken" db:"authentication_token"`
+	IpAddress           string     `json:"ipAddress" db:"ip"`
+	UserID              int        `json:"userId" db:"user_id"`
+	UserAgent           string     `json:"userAgent" db:"user_agent"`
+	ExpiredAt           nulls.Time `json:"expiredAt" db:"expired_at"`
+	CreatedAt           time.Time  `json:"createdAt" db:"created_at"`
+	UpdatedAt           time.Time  `json:"updatedAt" db:"updated_at"`
 }
 
 func (s *Session) Create(tx *pop.Connection) string {

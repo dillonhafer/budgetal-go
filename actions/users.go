@@ -164,7 +164,7 @@ func UsersPasswordResetRequest(c buffalo.Context) error {
 	if err == nil {
 		token := RandomHex(32)
 		user.PasswordResetToken = nulls.String{String: token, Valid: true}
-		user.PasswordResetSentAt = models.NullTime{Time: time.Now(), Valid: true}
+		user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: true}
 		err = tx.Update(user)
 		if err == nil {
 			mailers.SendPasswordResets(user)
@@ -192,7 +192,7 @@ func UsersUpdatePassword(c buffalo.Context) error {
 
 	user.EncryptPassword([]byte(password))
 	user.PasswordResetToken = nulls.String{String: "", Valid: false}
-	user.PasswordResetSentAt = models.NullTime{Time: time.Now(), Valid: false}
+	user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: false}
 	tx.Update(user)
 
 	return c.Render(200, r.JSON(""))

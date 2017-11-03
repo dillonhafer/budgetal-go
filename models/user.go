@@ -20,7 +20,7 @@ type User struct {
 	LastName            string         `json:"lastName" db:"last_name"`
 	Admin               bool           `json:"admin" db:"admin"`
 	PasswordResetToken  nulls.String   `json:"-" db:"password_reset_token"`
-	PasswordResetSentAt NullTime       `json:"-" db:"password_reset_sent_at"`
+	PasswordResetSentAt nulls.Time     `json:"-" db:"password_reset_sent_at"`
 	AvatarFileName      nulls.String   `json:"avatarFileName" db:"avatar_file_name"`
 	AvatarContentType   sql.NullString `json:"-" db:"avatar_content_type"`
 	AvatarFileSize      sql.NullInt64  `json:"-" db:"avatar_file_size"`

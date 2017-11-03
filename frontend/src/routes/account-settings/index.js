@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AccountInfoForm from './AccountInfoForm';
 import ChangePasswordForm from './ChangePasswordForm';
+import SessionsTable from './SessionsTable';
 
 import { title, scrollTop } from 'window';
 import { Icon, Row, Col, Card } from 'antd';
@@ -55,7 +56,9 @@ class AccountSettings extends Component {
           </Col>
         </Row>
         <div style={{ marginTop: '1rem' }} className="sessions-list">
-          <Card noHovering title={sessionsTitle} />
+          <Card noHovering title={sessionsTitle}>
+            <SessionsTable />
+          </Card>
         </div>
       </div>
     );

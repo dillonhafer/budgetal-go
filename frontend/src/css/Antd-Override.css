@@ -32,3 +32,15 @@ div.ant-layout-header {
 .ant-upload-list-picture-card .ant-upload-list-item-info:before {
   left: 0;
 }
+
+.ant-btn-danger,
+.ant-btn.delete-btn {
+  background-color: #f50;
+  border-color: #f50;
+  color: white;
+}
+.ant-btn-danger:hover,
+.ant-btn.delete-btn:hover {
+  background-color: #d84902;
+  border-color: #d84902;
+}
