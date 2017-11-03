@@ -43,11 +43,10 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 	// Update Avatar
 	func() {
 		file, _, err := c.Request().FormFile("avatar")
-		defer file.Close()
-
 		if err != nil {
 			return
 		}
+		defer file.Close()
 
 		// Get MD5 filename
 		hash := md5.New()
@@ -71,10 +70,10 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 		os.MkdirAll(fullPath, os.ModePerm)
 		imagePath := filepath.Join(fullPath, filename)
 		f, err := os.OpenFile(imagePath, os.O_WRONLY|os.O_CREATE, 0666)
-		defer f.Close()
 		if err != nil {
 			return
 		}
+		defer f.Close()
 		io.Copy(f, file)
 
 		// Update user
