@@ -4,6 +4,10 @@ ConditionPathExists=/home/deploy/budgetal-beta/budgetal
 After=network.target
 
 [Service]
+Environment=GO_ENV=production
+Environment=DATABASE_URL='postgres:///budgetal_production?host=/var/run/postgresql'
+Environment=CORS=https://example.com
+
 Type=simple
 User=deploy
 Group=deploy
