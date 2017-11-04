@@ -2,6 +2,10 @@
   padding: 6px;
 }
 
+.card-grid .card p {
+  font-size: 1rem;
+}
+
 .add-item-button {
   margin-top: 75px !important;
   margin-bottom: 75px !important;
@@ -16,3 +20,4 @@ li a.primary-color {
 li a.alert-color {
   color: #f50;
 }
+
