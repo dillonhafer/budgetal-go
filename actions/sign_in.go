@@ -75,11 +75,16 @@ func SignIn(c buffalo.Context) error {
 	}
 
 	// 3. create session
+	ipAddress := c.Request().Header.Get("X-Real-IP")
+	if ipAddress == "" {
+		ipAddress = c.Request().RemoteAddr
+	}
+
 	session := &models.Session{
 		UserAgent:           c.Request().UserAgent(),
 		AuthenticationToken: RandomHex(16),
 		UserID:              user.ID,
-		IpAddress:           c.Request().RemoteAddr,
+		IpAddress:           ipAddress,
 	}
 	query := session.Create(tx)
 	c.Logger().Debug(query)

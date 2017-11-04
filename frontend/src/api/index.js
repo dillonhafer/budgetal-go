@@ -9,7 +9,7 @@ const base = async (path, method, headers = {}, body = {}) => {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        _budgetal_session,
+        '42': _budgetal_session,
         ...headers,
       },
       credentials: 'include',

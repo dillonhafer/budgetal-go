@@ -14,8 +14,8 @@
   },
   "scripts": {
     "start": "source APP_ENV && react-scripts start",
-    "build": "source APP_ENV && react-scripts build",
     "test":  "source APP_ENV && react-scripts test --env=jsdom",
+    "build": "react-scripts build",
     "eject": "react-scripts eject"
   }
 }

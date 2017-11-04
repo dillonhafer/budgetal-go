@@ -10,10 +10,10 @@ import (
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
-	"github.com/rs/cors"
 
 	"github.com/dillonhafer/budgetal/models"
 	"github.com/gobuffalo/x/sessions"
+	"github.com/rs/cors"
 )
 
 // ENV is used to help switch settings based on where the
@@ -34,9 +34,10 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 		// 1. Rebuild keys
 		AuthenticationKey, err := c.Cookies().Get("_budgetal_session")
 		if err != nil {
+			c.Logger().Debug("Cookie not found")
 			return c.Render(401, r.JSON(errResp))
 		}
-		AuthenticationToken := c.Request().Header.Get("_budgetal_session")
+		AuthenticationToken := c.Request().Header.Get("42")
 
 		// 2. Get user from keys or 401
 		tx := c.Value("tx").(*pop.Connection)
@@ -44,12 +45,14 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 		session := &models.Session{}
 		dbErr := tx.Where("authentication_key = ? and authentication_token = ? and expired_at is null", AuthenticationKey, AuthenticationToken).First(session)
 		if dbErr != nil {
+			c.Logger().Debug("Session not found or expired")
 			return c.Render(401, r.JSON(errResp))
 		}
 
 		user := &models.User{}
 		dbErr = tx.Find(user, session.UserID)
 		if dbErr != nil {
+			c.Logger().Debug("User not found")
 			return c.Render(401, r.JSON(errResp))
 		}
 
@@ -70,11 +73,13 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 			if err == nil {
 				if err = json.Unmarshal([]byte(body), &f); err == nil {
 					c.Set("JSON", f)
-					c.LogField("json", f)
+					if ENV == "development" {
+						c.LogField("json", f)
+					}
 				}
 			} else {
 				errResp := map[string]string{"error": "Bad Request"}
-				return c.Render(401, r.JSON(errResp))
+				return c.Render(422, r.JSON(errResp))
 			}
 			req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 		}
@@ -89,7 +94,8 @@ func CorsPreware() *cors.Cors {
 		AllowedOrigins:   allowedOrigins,
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "PUT", "PATCH", "DELETE", "POST", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Content-Type", "_budgetal_session"},
+		// Using a number to allow for case insensitivity
+		AllowedHeaders: []string{"Accept", "Content-Type", "42"},
 	})
 }
 
