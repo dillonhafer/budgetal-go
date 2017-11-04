@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -e
 
+source .env.production
+
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-GOOS=linux GOARCH=386 buffalo bill --ldflags="-s -w"
+buffalo bill --ldflags="-s -w"
 echo '----> compressing binary'
 cd bin
 tar czf budgetal.tar.gz budgetal

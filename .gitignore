@@ -11,4 +11,6 @@ public/assets/
 budgetal
 .vscode/
 
+.env.production
+
 frontend/public/users
