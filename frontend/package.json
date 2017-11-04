@@ -2,7 +2,6 @@
   "name": "budgetal",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3000",
   "dependencies": {
     "antd": "^2.13.6",
     "react-highcharts": "^13.0.0",

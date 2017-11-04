@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Modal } from 'antd';
 import { Link } from 'react-router-dom';
-const HELP_FRAME = process.env.HELP_FRAME || '';
+const HELP_FRAME = process.env.REACT_APP_HELP_FRAME || '';
 
 export default class Footer extends Component {
   state = {

@@ -4,11 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"strings"
 
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
+	"github.com/rs/cors"
 
 	"github.com/dillonhafer/budgetal/models"
 	"github.com/gobuffalo/x/sessions"
@@ -81,34 +83,36 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 	}
 }
 
-// App is where all routes and middleware for buffalo
-// should be defined. This is the nerve center of your
-// application.
+func CorsPreware() *cors.Cors {
+	allowedOrigins := strings.Split(envy.Get("CORS", "http://localhost:3001"), " ")
+	return cors.New(cors.Options{
+		AllowedOrigins:   allowedOrigins,
+		AllowCredentials: true,
+		AllowedMethods:   []string{"GET", "PUT", "PATCH", "DELETE", "POST", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "_budgetal_session"},
+	})
+}
+
 func App() *buffalo.App {
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
 			Env:          ENV,
 			SessionStore: sessions.Null{},
+			PreWares:     []buffalo.PreWare{CorsPreware().Handler},
 		})
 
 		app.ErrorHandlers[500] = func(status int, err error, c buffalo.Context) error {
-			res := c.Response()
-			res.WriteHeader(500)
 			errResp := map[string]string{"error": "Something went wrong on our end. We are looking into the issue"}
-			c.Logger().Errorf("\n❌  ERROR\n%v\n\n", err)
+			c.Logger().Errorf("\n💔 ERROR\n%v\n\n", err)
 			return c.Render(500, r.JSON(errResp))
 		}
 
-		// Set the request content type to JSON
 		app.Use(DecodeJson)
 
 		if ENV == "development" {
 			app.Use(middleware.ParameterLogger)
 		}
 
-		// Wraps each request in a transaction.
-		//  c.Value("tx").(*pop.PopTransaction)
-		// Remove to disable this.
 		app.Use(middleware.PopTransaction(models.DB))
 
 		// Authorization

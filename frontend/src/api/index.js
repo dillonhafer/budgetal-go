@@ -1,6 +1,6 @@
 import { GetAuthenticationToken } from 'authentication';
 import { error } from 'window';
-const baseURL = process.env.BASE_URL || '';
+const baseURL = process.env.REACT_APP_BASE_URL || '';
 
 const base = async (path, method, headers = {}, body = {}) => {
   try {
