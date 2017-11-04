@@ -34,5 +34,3 @@ mv $archive ../bin/
 cd ..
 SIZE=$(du -h bin/$archive | cut -f1)
 echo "----> react app compressed in bin/$archive ($SIZE)"
-
-printf "      ${GREEN}Done.${NC}\n"
