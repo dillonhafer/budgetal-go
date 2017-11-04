@@ -14,3 +14,4 @@ budgetal
 .env.production
 
 frontend/public/users
+budgetal.service
