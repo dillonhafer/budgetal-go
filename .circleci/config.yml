@@ -22,6 +22,8 @@ jobs:
       - checkout
 
       # specify any bash command here prefixed with `run: `
+      - run: go get -u -v github.com/gobuffalo/buffalo/...
+      - run: go install -v github.com/gobuffalo/buffalo/buffalo
       - run: go get -v -t -d ./...
       - run: buffalo db migrate
       - run: buffalo test

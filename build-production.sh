@@ -7,7 +7,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-buffalo bill --ldflags="-s -w"
+buffalo bill --ldflags="-s -w" -o bin/budgetal
 echo '----> compressing binary'
 cd bin
 tar czf budgetal.tar.gz budgetal
