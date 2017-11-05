@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dillonhafer/budgetal/mailers"
-	"github.com/dillonhafer/budgetal/models"
+	"github.com/dillonhafer/budgetal-go/mailers"
+	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"

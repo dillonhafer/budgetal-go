@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"github.com/dillonhafer/budgetal/models"
+	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
 )

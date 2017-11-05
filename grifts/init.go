@@ -1,7 +1,7 @@
 package grifts
 
 import (
-	"github.com/dillonhafer/budgetal/actions"
+	"github.com/dillonhafer/budgetal-go/actions"
 	"github.com/gobuffalo/buffalo"
 )
 

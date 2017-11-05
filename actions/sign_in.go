@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dillonhafer/budgetal/models"
+	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
 	uuid "github.com/satori/go.uuid"

@@ -3,7 +3,7 @@ package actions
 import (
 	"strconv"
 
-	"github.com/dillonhafer/budgetal/models"
+	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"

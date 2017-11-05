@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/dillonhafer/budgetal/actions"
+	"github.com/dillonhafer/budgetal-go/actions"
 	"github.com/gobuffalo/envy"
 )
 

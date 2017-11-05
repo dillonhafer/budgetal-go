@@ -11,7 +11,7 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
 
-	"github.com/dillonhafer/budgetal/models"
+	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/gobuffalo/x/sessions"
 	"github.com/rs/cors"
 )

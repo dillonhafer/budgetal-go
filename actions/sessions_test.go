@@ -3,7 +3,7 @@ package actions
 import (
 	"encoding/json"
 
-	"github.com/dillonhafer/budgetal/models"
+	"github.com/dillonhafer/budgetal-go/models"
 )
 
 func (as *ActionSuite) Test_Sessions_Index() {
