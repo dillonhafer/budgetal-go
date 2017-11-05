@@ -17,7 +17,7 @@ jobs:
     #### expecting it in the form of
     ####   /go/src/github.com/circleci/go-tool
     ####   /go/src/bitbucket.org/circleci/go-tool
-    working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
+    working_directory: /go/src/github.com/dillonhafer/budgetal-go
     steps:
       - checkout
 
@@ -28,4 +28,5 @@ jobs:
       - run: go get -u -v github.com/gobuffalo/buffalo/...
       - run: go install -v github.com/gobuffalo/buffalo/buffalo
       - run: go get -v -t -d ./...
+      - run: buffalo db m -e test
       - run: buffalo test
