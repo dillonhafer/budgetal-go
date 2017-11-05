@@ -27,7 +27,7 @@ jobs:
       - restore_cache:
           keys:
             - github-cache
-      - run: go get -u -v github.com/gobuffalo/buffalo/...
+      - run: go get -v github.com/gobuffalo/buffalo/...
       - run: go install -v github.com/gobuffalo/buffalo/buffalo
       - save_cache:
           key: github-cache
