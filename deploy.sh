@@ -39,4 +39,7 @@ DEPLOYSCRIPT
 )
 ssh $server -t "$CMDS"
 
+notice 'restarting app'
+eval $restart_cmd
+
 printf "      ${GREEN}Done.${NC}\n"
