@@ -1,13 +1,19 @@
 package actions
 
 import (
-	"testing"
+	"encoding/json"
 
-	"github.com/stretchr/testify/require"
+	"github.com/dillonhafer/budgetal/models"
 )
-	
 
 func (as *ActionSuite) Test_Sessions_Index() {
-	as.Fail("Not Implemented!")
-}
+	SignedInUser(as)
 
+	var expectedResponse struct {
+		Sessions map[string][]models.Session
+	}
+
+	r := as.JSON("/sessions").Get()
+	json.NewDecoder(r.Body).Decode(&expectedResponse)
+	as.Equal(1, len(expectedResponse.Sessions["active"]))
+}
