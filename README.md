@@ -1,4 +1,5 @@
-# Budgetal
+# Budgetal [![CircleCI](https://img.shields.io/circleci/project/github/dillonhafer/budgetal-go/master.svg?style=flat-square)](https://circleci.com/gh/dillonhafer/budgetal-go)
+
 
 A Budgetal implementation written in Go with Create React App on the
 frontend
