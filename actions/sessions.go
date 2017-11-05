@@ -18,7 +18,7 @@ func SessionsIndex(c buffalo.Context, currentUser *models.User) error {
 	tx := c.Value("tx").(*pop.Connection)
 
 	tx.Where("expired_at is null and user_id = ?", currentUser.ID).All(&sessions.Active)
-	tx.Where("expired_at is not null and user_id = ?", currentUser.ID).Limit(10).All(&sessions.Expired)
+	tx.Where("expired_at is not null and user_id = ?", currentUser.ID).Order("expired_at desc").Limit(10).All(&sessions.Expired)
 
 	return c.Render(200, r.JSON(map[string]*AllSessionsResponse{"sessions": sessions}))
 }
