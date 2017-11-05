@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { pluralize, humanUA } from 'helpers';
+import { humanUA } from 'helpers';
 import { notice } from 'window';
 import { Table, Button, Modal, Icon } from 'antd';
 import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
@@ -31,6 +31,11 @@ const expiredHeaders = [
     key: 'browser',
   },
   {
+    title: 'IP Address',
+    dataIndex: 'ip',
+    key: 'ip',
+  },
+  {
     title: 'Signed In',
     dataIndex: 'sign_in',
     key: 'sign_in',
@@ -52,8 +57,7 @@ class SessionsTable extends Component {
 
   componentDidMount = () => {
     this.fetchSessions();
-
-    const intervalId = setInterval(this.updateTime, 60000);
+    const intervalId = setInterval(this.fetchSessions, 60000);
     this.setState({ intervalId });
   };
 
@@ -66,11 +70,6 @@ class SessionsTable extends Component {
 
   componentWillUnmount() {
     window.clearInterval(this.state.intervalId);
-  }
-
-  fullSessionDate(date) {
-    const sessionDate = new Date(date);
-    return `${sessionDate.toDateString()} at ${sessionDate.toLocaleTimeString()}`;
   }
 
   handleOnClick = session => {
@@ -89,7 +88,7 @@ class SessionsTable extends Component {
 
   browser(ua) {
     const hua = humanUA(ua);
-    let icon = 'desktop';
+    let icon = 'global';
 
     if (/chrome/i.test(hua)) {
       icon = 'chrome';
@@ -110,16 +109,16 @@ class SessionsTable extends Component {
     );
   }
 
-  sessionDate = (currentTime, date) => {
-    let startDate = new Date(date);
-    let secs = Math.floor((currentTime - startDate.getTime()) / 1000);
-    if (secs < 3600)
-      return `${pluralize(Math.floor(secs / 60), 'minute', 'minutes')} ago`;
-    if (secs < 86400)
-      return `${pluralize(Math.floor(secs / 3600), 'hour', 'hours')} ago`;
-    if (secs < 604800)
-      return `${pluralize(Math.floor(secs / 86400), 'day', 'days')} ago`;
-    return this.fullSessionDate(date);
+  sessionDate = date => {
+    const mDate = moment(date);
+    const dayDifference = moment().diff(mDate, 'days');
+
+    if (dayDifference >= 7) {
+      const format = 'dddd, MMM Do YYYY, h:mm a';
+      return mDate.format(format);
+    } else {
+      return mDate.fromNow();
+    }
   };
 
   endSession = async session => {
@@ -148,8 +147,9 @@ class SessionsTable extends Component {
       return {
         key,
         browser: this.browser(session.userAgent),
-        sign_in: this.sessionDate(currentTime, session.createdAt),
-        sign_out: this.fullSessionDate(session.expiredAt),
+        sign_in: this.sessionDate(session.createdAt),
+        sign_out: this.sessionDate(session.expiredAt),
+        ip: session.ipAddress,
       };
     });
   };
@@ -174,7 +174,7 @@ class SessionsTable extends Component {
         return {
           key,
           browser: this.browser(session.userAgent),
-          sign_in: moment(session.createdAt).fromNow(),
+          sign_in: this.sessionDate(session.createdAt),
           sign_out: signOut,
           orderKey: moment(session.createdAt).unix(),
         };

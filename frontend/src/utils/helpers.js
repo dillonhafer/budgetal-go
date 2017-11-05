@@ -24,8 +24,14 @@ export const pluralize = (count, singlular, plural) => {
 export const humanUA = userAgent => {
   const ua = parser(userAgent);
   let text = `${ua.browser.name} ${ua.browser.major} on ${ua.os.name}`;
+
   if (ua.ua.includes('Budgetal')) {
     text = 'Budgetal App on iOS';
   }
+
+  if (ua.browser.name === undefined) {
+    text = ua.ua;
+  }
+
   return text;
 };
