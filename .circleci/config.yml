@@ -25,14 +25,14 @@ jobs:
 
       - restore_cache:
           keys:
-            - buffalo-bin-cache
+            - buffalo-bin-cache-1
       - run: type buffalo || go get github.com/gobuffalo/buffalo/...
       - run: type buffalo || go install github.com/gobuffalo/buffalo/buffalo
       - save_cache:
-          key: buffalo-bin-cache
+          key: buffalo-bin-cache-1
           paths:
             - /go/src/github.com
-            - /go/bin
+            - /go/bin/buffalo
 
       - run: go get -t -d ./...
       - run: buffalo db create -e test
