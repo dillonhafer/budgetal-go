@@ -147,7 +147,7 @@ class SessionsTable extends Component {
     return sessions.map((session, key) => {
       return {
         key,
-        browser: this.browser(session.user_agent),
+        browser: this.browser(session.userAgent),
         sign_in: this.sessionDate(currentTime, session.createdAt),
         sign_out: this.fullSessionDate(session.expiredAt),
       };
@@ -173,7 +173,7 @@ class SessionsTable extends Component {
         );
         return {
           key,
-          browser: this.browser(session.user_agent),
+          browser: this.browser(session.userAgent),
           sign_in: moment(session.createdAt).fromNow(),
           sign_out: signOut,
           orderKey: moment(session.createdAt).unix(),
@@ -186,7 +186,7 @@ class SessionsTable extends Component {
 
   render() {
     return (
-      <div className="body-row">
+      <div>
         <Table
           dataSource={this.activeDataSource(
             this.state.sessions.active,
