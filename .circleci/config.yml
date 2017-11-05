@@ -22,17 +22,8 @@ jobs:
           name: Installing psql
           command: sudo apt-get install postgresql-client
 
-      - restore_cache:
-          keys:
-            - buffalo-bin-cache-1
-      - run: type buffalo || go get github.com/gobuffalo/buffalo/...
-      - run: type buffalo || go install github.com/gobuffalo/buffalo/buffalo
-      - save_cache:
-          key: buffalo-bin-cache-1
-          paths:
-            - /go/src/github.com
-            - /go/bin/buffalo
-
+      - run: go get github.com/gobuffalo/buffalo/...
+      - run: go install github.com/gobuffalo/buffalo/buffalo
       - run: go get -t -d ./...
       - run: buffalo db create -e test
       - run: buffalo db m -e test
