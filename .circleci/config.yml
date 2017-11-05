@@ -27,13 +27,13 @@ jobs:
 
       - restore_cache:
           keys:
-            - buffalo-cache
+            - github-cache
       - run: go get -u -v github.com/gobuffalo/buffalo/...
       - run: go install -v github.com/gobuffalo/buffalo/buffalo
       - save_cache:
-          key: buffalo-cache
+          key: github-cache
           paths:
-            - /go/src/github.com/gobuffalo
+            - /go/src/github.com
 
       - run: go get -v -t -d ./...
       - run: buffalo db create -e test
