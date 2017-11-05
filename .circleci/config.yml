@@ -18,7 +18,6 @@ jobs:
     working_directory: /go/src/github.com/dillonhafer/budgetal-go
     steps:
       - checkout
-
       - run:
           name: Installing psql
           command: sudo apt-get install postgresql-client
