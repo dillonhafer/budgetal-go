@@ -6,11 +6,24 @@ frontend
 
 ## Setup
 
-Once the repo has been cloned start the dev server:
+How to setup the backend server:
 
 ```
+$ go get -u -v github.com/gobuffalo/buffalo/...
+$ go install -v github.com/gobuffalo/buffalo/buffalo
+$ git clone https://github.com/dillonhafer/budgetal-go.git
+$ cd budgetal-go
+$ buffalo db create
 $ buffalo db migrate
 $ buffalo dev
+```
+
+How to setup the frontend server:
+
+```
+cd frontend
+yarn install
+yarn start
 ```
 
 ## Configuration
