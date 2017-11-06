@@ -1,3 +1,4 @@
+migrations/schema.sql
 vendor/
 **/*.log
 **/*.sqlite
