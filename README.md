@@ -36,3 +36,11 @@ yarn start
 
 1. `REACT_APP_HELP_FRAME` Used to populate the iframe in the help modal.
 2. `REACT_APP_BASE_URL` Used to specify the base api url for all fetch requests.
+
+## Tests
+
+How to run the backend tests:
+
+```
+$ buffalo test
+```
