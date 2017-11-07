@@ -23,11 +23,34 @@ func NewLogWriter(l *log.Logger) *LogWriter {
 
 func (lw LogWriter) Write(p []byte) (n int, err error) {
 	o := string(p)
+	printed := false
 	if strings.HasPrefix(o, "ok") {
 		o = strings.Replace(o, "ok", color.GreenString("----> PASS"), -1)
 	}
 
-	lw.logger.Print(o)
+	if strings.HasPrefix(o, "=== RUN") {
+		//o = color.BlueString(o)
+		return len(p), nil
+	}
+
+	if strings.HasPrefix(o, "--- PASS") {
+		o = color.GreenString(".")
+		printed = true
+		fmt.Print(o)
+	}
+
+	if strings.HasPrefix(o, "PASS") {
+		o = "\n"
+	}
+
+	if !printed {
+		if strings.HasSuffix(o, "\n") {
+			fmt.Print(o)
+		} else {
+			fmt.Print(o + "\n")
+		}
+	}
+	// lw.logger.Printf("%s", o)
 	return len(p), nil
 }
 
@@ -72,10 +95,10 @@ var _ = grift.Add("t", func(c *grift.Context) error {
 
 	os.Setenv("GO_ENV", "test")
 	notice("Running tests")
-	com := exec.Command("go", "test", "-p", "1", "github.com/dillonhafer/budgetal-go/actions", "github.com/dillonhafer/budgetal-go/models")
+	com := exec.Command("go", "test", "-v", "-p", "1", "github.com/dillonhafer/budgetal-go/actions", "github.com/dillonhafer/budgetal-go/models")
 	com.Stdin = os.Stdin
 	com.Stdout = NewLogWriter(log.New(os.Stdout, "", 0))
-	com.Stderr = os.Stderr
+	// com.Stderr = os.Stderr
 	com.Run()
 
 	notice("Done.")

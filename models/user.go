@@ -92,3 +92,10 @@ func (u *User) ValidateCreate(tx *pop.Connection) (*validate.Errors, error) {
 func (u *User) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 	return validate.NewErrors(), nil
 }
+
+func NewUser(email, password string) User {
+	return User{
+		Email:             email,
+		EncryptedPassword: hashAndSalt([]byte(password)),
+	}
+}
