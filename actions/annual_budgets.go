@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal-go/models"
@@ -10,7 +9,11 @@ import (
 )
 
 func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
-	year, _ := strconv.ParseInt(c.Param("year"), 10, 64)
+	year, err := strconv.ParseInt(c.Param("year"), 10, 64)
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
 	var params = struct {
 		Year   int
 		UserID int
@@ -20,28 +23,15 @@ func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 	}
 	tx := c.Value("tx").(*pop.Connection)
 
-	annualBudgetItems := findAnnualBudgetItems(tx, params.Year, params.UserID)
-	return c.Render(200, r.JSON(map[string]*models.AnnualBudgetItems{"annualBudgetItems": annualBudgetItems}))
-}
-
-func findAnnualBudgetItems(tx *pop.Connection, year, user_id int) *models.AnnualBudgetItems {
-	annualBudget := &models.AnnualBudget{UserID: user_id, Year: year}
-	err := tx.Where("user_id = ? and year = ?", user_id, year).First(annualBudget)
-	if err != nil {
-		err = tx.Create(annualBudget)
-		if err != nil {
-			// log error
-		}
-	}
-
-	println(fmt.Sprintf("%#v", annualBudget))
-
+	annualBudget := &models.AnnualBudget{UserID: params.UserID, Year: params.Year}
 	annualBudgetItems := &models.AnnualBudgetItems{}
-	err = tx.BelongsTo(annualBudget).All(annualBudgetItems)
-	if err != nil {
-		println(err)
-		// log error
+
+	annualBudget.FindOrCreate(tx)
+	tx.BelongsTo(annualBudget).All(annualBudgetItems)
+
+	response := map[string]*models.AnnualBudgetItems{
+		"annualBudgetItems": annualBudgetItems,
 	}
 
-	return annualBudgetItems
+	return c.Render(200, r.JSON(response))
 }
