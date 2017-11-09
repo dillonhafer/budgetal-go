@@ -7,6 +7,10 @@ After=network.target
 Environment=GO_ENV=production
 Environment=DATABASE_URL='postgres:///budgetal_production?host=/var/run/postgresql'
 Environment=CORS=https://example.com
+Environment=SMTP_USER=sendgriduser
+Environment=SMTP_PASSWORD='keep it secret, keep it safe'
+Environment=SMTP_HOST=smtp.sendgrid.net
+Environment=SMTP_PORT=587
 
 Type=simple
 User=deploy
