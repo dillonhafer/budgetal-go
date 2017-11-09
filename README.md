@@ -32,6 +32,14 @@ yarn start
 2. `DATABASE_URL` the database connection can be configured by setting the `DATABASE_URL` env var
 3. `CORS` space separated list of domains, defaults to `http://localhost:3001`
 
+**Production will also need the following:**
+
+1. `GO_ENV` application run-time environment, usually `production`
+2. `SMTP_USER` username for smtp service
+3. `SMTP_PASSWORD` password for smtp service
+4. `SMTP_HOST` host for smtp service
+5. `SMTP_PORT` port for smtp service
+
 **The front end needs certain `ENV` vars at build time:**
 
 1. `REACT_APP_HELP_FRAME` Used to populate the iframe in the help modal.
