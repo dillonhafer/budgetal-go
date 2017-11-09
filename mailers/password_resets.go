@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/dillonhafer/budgetal-go/models"
-	"github.com/gobuffalo/buffalo/render"
 	"github.com/gobuffalo/x/mail"
 	"github.com/pkg/errors"
 )
@@ -18,7 +17,13 @@ func SendPasswordResets(user *models.User) error {
 	m.Subject = "Password Reset Instructions"
 	m.From = "Budgetal <no-reply@budgetal.com>"
 	m.To = []string{to}
-	err := m.AddBody(r.HTML("password_resets.html"), render.Data{"name": user.FirstName, "token": user.PasswordResetToken.String})
+
+	data := map[string]interface{}{
+		"name":  user.FirstName,
+		"token": user.PasswordResetToken.String,
+	}
+	err := m.AddBodies(data, r.HTML("password_resets.html"), r.Plain("password_resets.txt"))
+
 	if err != nil {
 		return errors.WithStack(err)
 	}
