@@ -188,7 +188,10 @@ func UsersPasswordResetRequest(c buffalo.Context) error {
 		user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: true}
 		err = tx.Update(user)
 		if err == nil {
-			mailers.SendPasswordResets(user)
+			err = mailers.SendPasswordResets(user)
+			if err == nil {
+				c.Logger().Debug(err)
+			}
 		}
 	}
 
