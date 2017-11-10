@@ -101,6 +101,7 @@ var _ = Namespace("deploy", func() {
 		Comment("Compressing frontend")
 		CommandInDir("frontend", "tar", "czf", "frontend.tar.gz", "build")
 		Command("mv", "frontend/frontend.tar.gz", "bin/frontend.tar.gz")
+		Command("rm", "-rf", "frontend/build")
 
 		file, err := os.Open("bin/frontend.tar.gz")
 		defer file.Close()
