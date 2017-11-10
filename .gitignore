@@ -11,8 +11,7 @@ node_modules/
 public/assets/
 budgetal
 .vscode/
-
+.grifter
 .env.production
-
 frontend/public/users
 budgetal.service
