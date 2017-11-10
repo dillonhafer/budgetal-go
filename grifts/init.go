@@ -1,9 +1,8 @@
 package grifts
 
 import (
-	"bytes"
 	"fmt"
-	"log"
+	"os"
 	"os/exec"
 
 	"github.com/dillonhafer/budgetal-go/actions"
@@ -23,21 +22,41 @@ func FormatLog(log string) {
 	fmt.Println("     ", log)
 }
 
-func Command(name string, arg ...string) error {
+func QuietCommand(name string, arg ...string) error {
 	cmd := exec.Command(name, arg...)
-	var out bytes.Buffer
-	cmd.Stdout = &out
-	cmd.Stderr = &out
 	err := cmd.Run()
-	output := out.String()
 
 	if err != nil {
-		log.Fatal(color.RedString(output))
 		return err
 	}
 
-	if output != "" {
-		FormatLog(output)
+	return nil
+}
+
+func CommandInDir(dir, name string, arg ...string) error {
+	cmd := exec.Command(name, arg...)
+	cmd.Dir = dir
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func Command(name string, arg ...string) error {
+	cmd := exec.Command(name, arg...)
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Run()
+
+	if err != nil {
+		return err
 	}
 
 	return nil
