@@ -4,12 +4,11 @@ const baseURL = process.env.REACT_APP_BASE_URL || '';
 
 const base = async (path, method, headers = {}, body = {}) => {
   try {
-    const _budgetal_session = GetAuthenticationToken();
     let req = {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        '42': _budgetal_session,
+        'X-Budgetal-Session': GetAuthenticationToken(),
         ...headers,
       },
       credentials: 'include',

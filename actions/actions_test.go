@@ -28,7 +28,7 @@ func SignedInUser(as *ActionSuite) models.User {
 	json.NewDecoder(r.Body).Decode(&jsonBody)
 
 	// Sign In User
-	as.Willie.Headers["42"] = jsonBody.Token
+	as.Willie.Headers["X-Budgetal-Session"] = jsonBody.Token
 	as.Willie.Cookies = r.Header().Get("Set-Cookie")
 	return jsonBody.User
 }

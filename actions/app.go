@@ -37,7 +37,7 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 			c.Logger().Debug("Cookie not found")
 			return c.Render(401, r.JSON(errResp))
 		}
-		AuthenticationToken := c.Request().Header.Get("42")
+		AuthenticationToken := c.Request().Header.Get("X-Budgetal-Session")
 
 		// 2. Get user from keys or 401
 		tx := c.Value("tx").(*pop.Connection)
@@ -95,7 +95,7 @@ func CorsPreware() *cors.Cors {
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "PUT", "PATCH", "DELETE", "POST", "OPTIONS"},
 		// Using a number to allow for case insensitivity
-		AllowedHeaders: []string{"Accept", "Content-Type", "42"},
+		AllowedHeaders: []string{"Accept", "Content-Type", "X-Budgetal-Session"},
 	})
 }
 
