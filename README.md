@@ -52,3 +52,13 @@ How to run the backend tests:
 ```
 $ buffalo test
 ```
+
+## Deploying
+
+There is a built-in deploy command for deploying to an ubuntu server running nginx and systemd. There is an example systemd service, but no example nginx file (yet).
+
+See `grifts/deploy.go` for configuration details.
+
+1. Full deploy: `buffalo t deploy`
+2. Backend deploy: `buffalo t deploy:backend`
+3. Frontend deploy: `buffalo t deploy:frontend`
