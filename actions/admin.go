@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"fmt"
+
 	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
@@ -19,14 +21,15 @@ func AdminUsers(c buffalo.Context, currentUser *models.User) error {
 	users := &[]User{}
 	err := map[string]*[]User{"users": &[]User{}}
 
+	fmt.Printf("%v", currentUser)
 	if currentUser.Admin != true {
-		return c.Render(200, r.JSON(err))
+		return c.Render(401, r.JSON(err))
 	}
 
 	tx := c.Value("tx").(*pop.Connection)
 	allErr := getUsers(users, tx)
 	if allErr != nil {
-		return c.Render(200, r.JSON(err))
+		return c.Render(422, r.JSON(err))
 	}
 
 	return c.Render(200, r.JSON(map[string]*[]User{"users": users}))

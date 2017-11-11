@@ -18,9 +18,23 @@ func Test_ActionSuite(t *testing.T) {
 }
 
 func SignedInUser(as *ActionSuite) models.User {
-	// Create User
-	registerBody := map[string]string{"email": "user@example.com", "password": "password"}
-	r := as.JSON("/register").Post(registerBody)
+	return signInUser(false, as)
+}
+
+func SignedInAdminUser(as *ActionSuite) models.User {
+	return signInUser(true, as)
+}
+
+func signInUser(admin bool, as *ActionSuite) models.User {
+	user := &models.User{Email: "user@example.com", Admin: admin}
+	user.EncryptPassword([]byte("password"))
+	as.DB.Create(user)
+
+	registerBody := map[string]string{
+		"email":    "user@example.com",
+		"password": "password",
+	}
+	r := as.JSON("/sign-in").Post(registerBody)
 	var jsonBody struct {
 		Token string      `json:"token"`
 		User  models.User `json:"user"`
