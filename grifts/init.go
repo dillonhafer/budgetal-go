@@ -33,6 +33,18 @@ func QuietCommand(name string, arg ...string) error {
 	return nil
 }
 
+func QuietCommandInDir(dir, name string, arg ...string) error {
+	cmd := exec.Command(name, arg...)
+	cmd.Dir = dir
+	err := cmd.Run()
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func CommandInDir(dir, name string, arg ...string) error {
 	cmd := exec.Command(name, arg...)
 	cmd.Dir = dir

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/fatih/color"
 	"github.com/gobuffalo/envy"
@@ -14,13 +15,21 @@ var _ = envy.Load(".env.production")
 var server = envy.Get("server", "deploy@budgetal")
 var deployDir = envy.Get("deploy_dir", "budgetal-beta")
 
+func timeTrack(s time.Time) {
+	start := s.Round(time.Second)
+	end := time.Now().Round(time.Second)
+
+	elapsed := end.Sub(start)
+	FormatLog(color.HiMagentaString(fmt.Sprintf("✨  Done in %s", elapsed)))
+}
+
 var _ = Desc("deploy", "Build/Deploy both the frontend/backend")
 var _ = Set("deploy", func(c *Context) error {
+	defer timeTrack(time.Now())
 	fmt.Println("🆕  Starting full deploy as", server)
 	Run("deploy:backend", c)
 	Run("deploy:frontend", c)
 	Run("deploy:restart", c)
-	FormatLog(color.HiMagentaString("✨  Done."))
 	return nil
 })
 var _ = Set("dh", func(c *Context) error {
@@ -75,7 +84,7 @@ var _ = Namespace("deploy", func() {
 	Desc("build-frontend", "Build the frontend")
 	Set("build-frontend", func(c *Context) error {
 		Comment("Running yarn build")
-		CommandInDir("frontend", "yarn", "build")
+		QuietCommandInDir("frontend", "yarn", "build")
 
 		Comment("Removing sourcemaps")
 		Command("rm", "-rf", "frontend/build/users")
