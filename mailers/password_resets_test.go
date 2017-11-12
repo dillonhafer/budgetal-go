@@ -42,11 +42,13 @@ func TestEmailRendersTextEmail(t *testing.T) {
 	email, _ := BuildPasswordResetEmail(&user)
 
 	textEmail := email.Bodies[1].Content
-	if !strings.Contains(textEmail, firstName) {
-		t.Errorf("Could not find first name '%s' in text email: %v", firstName, textEmail)
+	textName := fmt.Sprintf("Hello %s!", firstName)
+	textToken := fmt.Sprintf("https://www.budgetal.com/reset-password?reset_password_token=%s", token.String)
+	if !strings.Contains(textEmail, textName) {
+		t.Errorf("Could not find first name '%s' in text email: %v", textName, textEmail)
 	}
-	if !strings.Contains(textEmail, token.String) {
-		t.Errorf("Could not find token '%s' in text email: %v", token.String, textEmail)
+	if !strings.Contains(textEmail, textToken) {
+		t.Errorf("Could not find token '%s' in text email: %v", textToken, textEmail)
 	}
 }
 
