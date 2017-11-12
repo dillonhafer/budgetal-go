@@ -27,13 +27,26 @@ var _ = Desc("deploy", "Build/Deploy both the frontend/backend")
 var _ = Set("deploy", func(c *Context) error {
 	defer timeTrack(time.Now())
 	fmt.Println("🆕  Starting full deploy as", server)
-	Run("deploy:backend", c)
-	Run("deploy:frontend", c)
+	Run("deploy:_backend", c)
+	Run("deploy:_frontend", c)
 	Run("deploy:restart", c)
 	return nil
 })
-var _ = Set("dh", func(c *Context) error {
-	Command("echo", "\\$dh")
+
+var _ = Desc("deploy:backend", "Build/Deploy the backend")
+var _ = Set("deploy:backend", func(c *Context) error {
+	defer timeTrack(time.Now())
+	fmt.Println("🆕  Starting backend deploy as", server)
+	Run("deploy:_backend", c)
+	Run("deploy:restart", c)
+	return nil
+})
+
+var _ = Desc("deploy:frontend", "Build/Deploy the frontend")
+var _ = Set("deploy:frontend", func(c *Context) error {
+	defer timeTrack(time.Now())
+	fmt.Println("🆕  Starting frontend deploy as", server)
+	Run("deploy:_frontend", c)
 	return nil
 })
 
@@ -51,7 +64,6 @@ var _ = Namespace("deploy", func() {
 		return Command("ssh", "budgetal", "systemctl restart budgetal")
 	})
 
-	Desc("build-backend", "Build the server")
 	Set("build-backend", func(c *Context) error {
 		Comment("Compiling new binary")
 		QuietCommand("buffalo", "bill", "--ldflags=-s -w", "-o", "bin/budgetal")
@@ -81,7 +93,6 @@ var _ = Namespace("deploy", func() {
 		return nil
 	})
 
-	Desc("build-frontend", "Build the frontend")
 	Set("build-frontend", func(c *Context) error {
 		Comment("Running yarn build")
 		QuietCommandInDir("frontend", "yarn", "build")
@@ -141,8 +152,7 @@ var _ = Namespace("deploy", func() {
 		return nil
 	})
 
-	Desc("backend", "Deploying the server")
-	Set("backend", func(c *Context) error {
+	Set("_backend", func(c *Context) error {
 		Comment("Building Backend")
 		Run("deploy:build-backend", c)
 		Run("deploy:upload-backend", c)
@@ -151,8 +161,7 @@ var _ = Namespace("deploy", func() {
 		return nil
 	})
 
-	Desc("frontend", "Deploying the server")
-	Set("frontend", func(c *Context) error {
+	Set("_frontend", func(c *Context) error {
 		Comment("Building Frontend")
 		Run("deploy:build-frontend", c)
 		Run("deploy:upload-frontend", c)
