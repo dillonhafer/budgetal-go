@@ -6,11 +6,11 @@ frontend
 
 ## Setup
 
+> This project relies on buffalo version 0.9.5, it breaks in newer versions.
+
 How to setup the backend server:
 
 ```
-$ go get -u -v github.com/gobuffalo/buffalo/...
-$ go install -v github.com/gobuffalo/buffalo/buffalo
 $ git clone https://github.com/dillonhafer/budgetal-go.git
 $ cd budgetal-go
 $ buffalo db create
