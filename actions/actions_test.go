@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"encoding/json"
+	"fmt"
 	"testing"
 
 	"github.com/dillonhafer/budgetal-go/models"
@@ -26,23 +26,24 @@ func SignedInAdminUser(as *ActionSuite) models.User {
 }
 
 func signInUser(admin bool, as *ActionSuite) models.User {
-	user := &models.User{Email: "user@example.com", Admin: admin}
+	// Create User
+	user := models.User{Email: "user@example.com", Admin: admin}
 	user.EncryptPassword([]byte("password"))
-	as.DB.Create(user)
+	as.DB.Create(&user)
 
-	registerBody := map[string]string{
-		"email":    "user@example.com",
-		"password": "password",
+	// Create Session
+	session := &models.Session{
+		UserAgent:           "TEST",
+		AuthenticationToken: RandomHex(16),
+		UserID:              user.ID,
+		IpAddress:           "127.0.0.1",
 	}
-	r := as.JSON("/sign-in").Post(registerBody)
-	var jsonBody struct {
-		Token string      `json:"token"`
-		User  models.User `json:"user"`
-	}
-	json.NewDecoder(r.Body).Decode(&jsonBody)
+	session.Create(as.DB)
 
 	// Sign In User
-	as.Willie.Headers["X-Budgetal-Session"] = jsonBody.Token
-	as.Willie.Cookies = r.Header().Get("Set-Cookie")
-	return jsonBody.User
+	cookie := fmt.Sprintf("_budgetal_session=%s; Expires=Tue, 09 Nov 2027 00:17:27 GMT; HttpOnly", session.AuthenticationKey)
+	as.Willie.Headers["X-Budgetal-Session"] = session.AuthenticationToken
+	as.Willie.Cookies = cookie
+
+	return user
 }

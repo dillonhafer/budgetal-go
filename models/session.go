@@ -23,14 +23,14 @@ type Session struct {
 
 func (s *Session) Create(tx *pop.Connection) string {
 	query := "insert into sessions (authentication_token, user_agent, user_id, ip) VALUES (:authentication_token, :user_agent, :user_id, :ip)"
-	tx.TX.NamedExec(query, s)
+	tx.Store.NamedExec(query, s)
 	tx.Where("authentication_token = ? and user_id = ?", s.AuthenticationToken, s.UserID).First(s)
 	return color.YellowString(query)
 }
 
 func (s *Session) Delete(tx *pop.Connection) string {
 	query := "update sessions set expired_at = now() where authentication_key = :authentication_key"
-	tx.TX.NamedExec(query, s)
+	tx.Store.NamedExec(query, s)
 	return color.YellowString(query)
 }
 
