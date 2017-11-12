@@ -6,11 +6,17 @@ frontend
 
 ## Setup
 
-> This project relies on buffalo version 0.9.5, it breaks in newer versions.
+> This project relies on buffalo version 0.10.1, it breaks in older/newer versions.
 
 How to setup the backend server:
 
-```
+```sh
+# Lock to buffalo 0.10.1
+$ git clone https://github.com/buffalogo/buffalo.git $GOPATH/src/github.com/buffalogo/buffalo
+$ cd $GOPATH/src/github.com/buffalogo/buffalo
+$ git checkout tags/v0.10.1
+
+# Download budgetal
 $ git clone https://github.com/dillonhafer/budgetal-go.git
 $ cd budgetal-go
 $ buffalo db create
@@ -28,9 +34,10 @@ yarn start
 
 ## Configuration
 
-1. `PORT` the listening address can be configured by setting the `PORT` env var
-2. `DATABASE_URL` the database connection can be configured by setting the `DATABASE_URL` env var
-3. `CORS` space separated list of domains, defaults to `http://localhost:3001`
+1. `PORT` the port can be configured by setting the `PORT` env var
+2. `ADDR` the listening address can be configured by setting the `ADDR` env var
+3. `DATABASE_URL` the database connection can be configured by setting the `DATABASE_URL` env var
+4. `CORS` space separated list of domains, defaults to `http://localhost:3001`
 
 **Production will also need the following:**
 
