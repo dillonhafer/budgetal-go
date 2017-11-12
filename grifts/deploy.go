@@ -26,40 +26,46 @@ func timeTrack(s time.Time) {
 var _ = Desc("deploy", "Build/Deploy both the frontend/backend")
 var _ = Set("deploy", func(c *Context) error {
 	defer timeTrack(time.Now())
-	fmt.Println("🆕  Starting full deploy as", server)
+	fmt.Println("Starting full deploy as", server)
 	Run("deploy:_backend", c)
 	Run("deploy:_frontend", c)
-	Run("deploy:restart", c)
+	Run("deploy:_restart", c)
 	return nil
 })
 
 var _ = Desc("deploy:backend", "Build/Deploy the backend")
 var _ = Set("deploy:backend", func(c *Context) error {
 	defer timeTrack(time.Now())
-	fmt.Println("🆕  Starting backend deploy as", server)
+	fmt.Println("Starting backend deploy as", server)
 	Run("deploy:_backend", c)
-	Run("deploy:restart", c)
+	Run("deploy:_restart", c)
+	return nil
+})
+
+var _ = Desc("deploy:restart", "Restart App")
+var _ = Set("deploy:restart", func(c *Context) error {
+	defer timeTrack(time.Now())
+	fmt.Println("Restarting app as", server)
+	Run("deploy:_restart", c)
 	return nil
 })
 
 var _ = Desc("deploy:frontend", "Build/Deploy the frontend")
 var _ = Set("deploy:frontend", func(c *Context) error {
 	defer timeTrack(time.Now())
-	fmt.Println("🆕  Starting frontend deploy as", server)
+	fmt.Println("Starting frontend deploy as", server)
 	Run("deploy:_frontend", c)
 	return nil
 })
 
 var _ = Namespace("deploy", func() {
-
 	Desc("daemon-reload", "Reload the system daemon")
 	Set("daemon-reload", func(c *Context) error {
 		Comment("deploy:daemon-reload")
 		return Command("ssh", "budgetal", "systemctl daemon-reload")
 	})
 
-	Desc("restart", "Restarts the application")
-	Set("restart", func(c *Context) error {
+	Set("_restart", func(c *Context) error {
 		Comment("Restarting app")
 		return Command("ssh", "budgetal", "systemctl restart budgetal")
 	})
