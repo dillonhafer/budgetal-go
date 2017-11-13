@@ -21,15 +21,24 @@ func SignedInUser(as *ActionSuite) models.User {
 	return signInUser(false, as)
 }
 
+func (as *ActionSuite) SignedInUser() models.User {
+	return signInUser(false, as)
+}
+
 func SignedInAdminUser(as *ActionSuite) models.User {
 	return signInUser(true, as)
 }
 
-func signInUser(admin bool, as *ActionSuite) models.User {
-	// Create User
+func (as *ActionSuite) CreateUser(admin bool) models.User {
 	user := models.User{Email: "user@example.com", Admin: admin}
 	user.EncryptPassword([]byte("password"))
 	as.DB.Create(&user)
+	return user
+}
+
+func signInUser(admin bool, as *ActionSuite) models.User {
+	// Create User
+	user := as.CreateUser(admin)
 
 	// Create Session
 	session := &models.Session{
