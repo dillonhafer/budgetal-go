@@ -17,3 +17,8 @@ func (as *ActionSuite) Test_Sessions_Index() {
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 	as.Equal(1, len(expectedResponse.Sessions["active"]))
 }
+
+func (as *ActionSuite) Test_Sessions_Index_RequiresUser() {
+	r := as.JSON("/sessions").Get()
+	as.Equal(401, r.Code)
+}
