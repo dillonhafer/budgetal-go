@@ -68,7 +68,7 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 		var err error
 		var f interface{}
 		req := c.Request()
-		if req.Method != "GET" && req.Header.Get("Content-Type") == "application/json" {
+		if req.Method != "GET" && req.Header.Get("Content-Type") == "application/json" && req.ContentLength > 0 {
 			body, err := ioutil.ReadAll(req.Body)
 			if err == nil {
 				if err = json.Unmarshal([]byte(body), &f); err == nil {
