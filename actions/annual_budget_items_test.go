@@ -16,11 +16,6 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Create_RequiresUser() {
 		Paid:     false,
 		Interval: 8,
 	})
-	var rb struct {
-		AnnualBudgetItem models.AnnualBudgetItem `json:"annualBudgetItem"`
-	}
-
-	json.NewDecoder(r.Body).Decode(&rb)
 	as.Equal(401, r.Code)
 }
 
