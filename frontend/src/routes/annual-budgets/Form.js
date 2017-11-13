@@ -12,6 +12,7 @@ import { itemAdded, itemUpdated } from 'actions/annual-budget-items';
 // Antd
 import {
   Form,
+  Button,
   Input,
   Select,
   Row,
@@ -21,6 +22,7 @@ import {
   Modal,
 } from 'antd';
 const Option = Select.Option;
+const FormItem = Form.Item;
 
 const layout = {
   labelCol: { span: 8 },
@@ -90,12 +92,12 @@ class AnnualBudgetItemForm extends Component {
         onCancel={onCancel}
       >
         <Form onSubmit={this.handleSubmit}>
-          <Form.Item {...layout} hasFeedback label="Name">
+          <FormItem {...layout} hasFeedback label="Name">
             {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Name is required' }],
-            })(<Input placeholder="Life Insurance" />)}
-          </Form.Item>
-          <Form.Item {...layout} hasFeedback label="Amount">
+            })(<Input type="text" placeholder="Life Insurance" />)}
+          </FormItem>
+          <FormItem {...layout} hasFeedback label="Amount">
             {getFieldDecorator('amount', {
               rules: [
                 {
@@ -116,8 +118,8 @@ class AnnualBudgetItemForm extends Component {
                 placeholder="(10.00)"
               />,
             )}
-          </Form.Item>
-          <Form.Item {...layout} hasFeedback label="Due Date">
+          </FormItem>
+          <FormItem {...layout} hasFeedback label="Due Date">
             {getFieldDecorator('dueDate', {
               rules: [{ required: true, message: 'Date is required' }],
             })(
@@ -127,8 +129,8 @@ class AnnualBudgetItemForm extends Component {
                 style={{ width: '100%' }}
               />,
             )}
-          </Form.Item>
-          <Form.Item {...layout} hasFeedback label="Months">
+          </FormItem>
+          <FormItem {...layout} hasFeedback label="Months">
             {getFieldDecorator('interval', {})(
               <Select>
                 <Option value="1">1</Option>
@@ -145,24 +147,34 @@ class AnnualBudgetItemForm extends Component {
                 <Option value="12">12</Option>
               </Select>,
             )}
-          </Form.Item>
+          </FormItem>
           <Row type="flex" justify="end">
-            <Form.Item {...layout}>
+            <FormItem {...layout}>
               {getFieldDecorator('paid', {
                 valuePropName: 'checked',
               })(<Switch checkedChildren="paid" unCheckedChildren="paid" />)}
-            </Form.Item>
+            </FormItem>
           </Row>
+          <div style={{ display: 'none' }}>
+            <FormItem>
+              <Button htmlType="submit" />
+            </FormItem>
+          </div>
         </Form>
       </Modal>
-    );
+    ); // Button allows for enter to submit
   }
 }
 
 const mapPropsToFields = props => {
   const item = props.budgetItem;
   return Object.keys(item).reduce((acc, k) => {
-    const value = item[k];
+    let value;
+    if (k === 'interval') {
+      value = String(item[k]);
+    } else {
+      value = item[k];
+    }
     return { ...acc, [k]: { value } };
   }, {});
 };
