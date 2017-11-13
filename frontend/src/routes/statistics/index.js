@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import Highchart from 'highchart';
 
-import { Popover, DatePicker, Icon, Row, Col } from 'antd';
+import { Spin, Popover, DatePicker, Icon, Row, Col } from 'antd';
 
 import 'css/statistics.css';
 
@@ -18,6 +18,7 @@ const monthName = month => {
 class Statistics extends Component {
   state = {
     showForm: false,
+    loading: false,
     budgetCategories: [],
   };
 
@@ -76,8 +77,6 @@ class Statistics extends Component {
       const data = this.chartData(this.state.budgetCategories);
       const config = this.chartConfig(data);
       return <Highchart config={config} colors={colors} />;
-    } else {
-      return this.missing();
     }
   }
 
@@ -107,6 +106,7 @@ class Statistics extends Component {
   };
 
   loadStatistics = async () => {
+    this.setState({ loading: true });
     try {
       const resp = await FindStatisticRequest(this.props.match.params);
       if (resp && resp.ok) {
@@ -134,6 +134,8 @@ class Statistics extends Component {
       }
     } catch (err) {
       error(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -161,31 +163,34 @@ class Statistics extends Component {
             </a>
           </Popover>
         </h1>
-        <Row>
-          <Col md={12}>{this.renderStatistics()}</Col>
-          <Col md={12}>
-            <ul className="stat-list">
-              {this.state.budgetCategories.map((category, key) => {
-                const statIconClass =
-                  'stat-icon stat-icon-' +
-                  category.name.toLowerCase().replace('/', '-');
-                return (
-                  <li key={key}>
-                    <div className="stat-list-item">
-                      <div className={statIconClass} />
-                      <b>{category.name}</b>
-                      <br />
-                      <span className="percentSpent">
-                        {currencyf(category.amountSpent)} -{' '}
-                        {category.percentSpent}%
-                      </span>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </Col>
-        </Row>
+        <Spin size="large" spinning={this.state.loading}>
+          <Row>
+            {this.state.budgetCategories.length ? null : this.missing()}
+            <Col md={12}>{this.renderStatistics()}</Col>
+            <Col md={12}>
+              <ul className="stat-list">
+                {this.state.budgetCategories.map((category, key) => {
+                  const statIconClass =
+                    'stat-icon stat-icon-' +
+                    category.name.toLowerCase().replace('/', '-');
+                  return (
+                    <li key={key}>
+                      <div className="stat-list-item">
+                        <div className={statIconClass} />
+                        <b>{category.name}</b>
+                        <br />
+                        <span className="percentSpent">
+                          {currencyf(category.amountSpent)} -{' '}
+                          {category.percentSpent}%
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Col>
+          </Row>
+        </Spin>
       </div>
     );
   }
