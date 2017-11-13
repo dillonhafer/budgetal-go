@@ -132,7 +132,8 @@ func App() *buffalo.App {
 		app.PUT("/reset-password", UsersUpdatePassword)
 
 		// Authorized routes
-		app.DELETE("/sign-out", WithCurrentUser(SignOut))
+
+		// Monthly Statistics
 		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
 
 		// Annual Budgets
@@ -150,6 +151,7 @@ func App() *buffalo.App {
 
 		// Sessions
 		app.GET("/sessions", WithCurrentUser(SessionsIndex))
+		app.DELETE("/sign-out", WithCurrentUser(SignOut))
 		app.DELETE("/sessions/{authenticationKey}", WithCurrentUser(SessionsDelete))
 	}
 
