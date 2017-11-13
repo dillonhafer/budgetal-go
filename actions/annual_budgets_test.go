@@ -26,3 +26,8 @@ func (as *ActionSuite) Test_AnnualBudgets_Index_BadYear() {
 	response := as.JSON("/annual-budgets/abcd").Get()
 	as.Equal(404, response.Code)
 }
+
+func (as *ActionSuite) Test_AnnualBudgets_Index_RequiresUser() {
+	r := as.JSON("/annual-budgets/abcd").Get()
+	as.Equal(401, r.Code)
+}
