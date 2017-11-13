@@ -8,7 +8,12 @@ import { Form, Input, Button, Icon } from 'antd';
 const FormItem = Form.Item;
 
 class SignInForm extends Component {
+  state = {
+    loading: false,
+  };
+
   submitForm = async values => {
+    this.setState({ loading: true });
     try {
       const resp = await SignInRequest(values);
 
@@ -20,6 +25,8 @@ class SignInForm extends Component {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -33,6 +40,7 @@ class SignInForm extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -69,6 +77,7 @@ class SignInForm extends Component {
             type="primary"
             htmlType="submit"
             className="sign-in-form-button"
+            loading={loading}
           >
             Sign In
           </Button>
