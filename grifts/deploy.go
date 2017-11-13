@@ -20,7 +20,7 @@ func timeTrack(s time.Time) {
 	end := time.Now().Round(time.Second)
 
 	elapsed := end.Sub(start)
-	FormatLog(color.HiMagentaString(fmt.Sprintf("✨  Done in %s", elapsed)))
+	FormatLog(color.BlueString(fmt.Sprintf("✨  Done in %s", elapsed)))
 }
 
 var _ = Desc("deploy", "Build/Deploy both the frontend/backend")
