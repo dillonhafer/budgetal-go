@@ -49,6 +49,7 @@ const expiredHeaders = [
 
 class SessionsTable extends Component {
   state = {
+    loading: false,
     sessions: {
       active: [],
       expired: [],
@@ -62,9 +63,16 @@ class SessionsTable extends Component {
   };
 
   fetchSessions = async () => {
-    const resp = await AllSessionsRequest();
-    if (resp && resp.ok) {
-      this.setState({ sessions: resp.sessions });
+    try {
+      this.setState({ loading: true });
+      const resp = await AllSessionsRequest();
+      if (resp && resp.ok) {
+        this.setState({ sessions: resp.sessions });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -185,6 +193,7 @@ class SessionsTable extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     return (
       <div>
         <Table
@@ -192,6 +201,7 @@ class SessionsTable extends Component {
             this.state.sessions.active,
             this.state.currentTime,
           )}
+          loading={loading}
           title={() => {
             return <b>Active Sessions</b>;
           }}
@@ -205,6 +215,7 @@ class SessionsTable extends Component {
             this.state.sessions.expired,
             this.state.currentTime,
           )}
+          loading={loading}
           title={() => {
             return <b>Expired Sessions (last 10)</b>;
           }}
