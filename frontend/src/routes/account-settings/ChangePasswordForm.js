@@ -9,10 +9,21 @@ const formItemLayout = {
 };
 
 class ChangePasswordForm extends React.Component {
+  state = {
+    loading: false,
+  };
+
   savePassword = async ({ password, currentPassword }) => {
-    const resp = await ChangePasswordRequest({ password, currentPassword });
-    if (resp && resp.ok) {
-      notice(resp.message);
+    try {
+      this.setState({ loading: true });
+      const resp = await ChangePasswordRequest({ password, currentPassword });
+      if (resp && resp.ok) {
+        notice(resp.message);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -40,6 +51,7 @@ class ChangePasswordForm extends React.Component {
   };
 
   render() {
+    const { loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <Form layout="horizontal" onSubmit={this.handleSubmit}>
@@ -87,6 +99,7 @@ class ChangePasswordForm extends React.Component {
               htmlType="submit"
               className="right"
               size="large"
+              loading={loading}
             >
               Change Password
             </Button>
