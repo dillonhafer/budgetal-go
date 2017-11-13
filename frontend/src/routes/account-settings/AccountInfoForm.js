@@ -12,6 +12,7 @@ class AccountInfoForm extends React.Component {
     const user = GetCurrentUser();
     this.state = {
       user,
+      loading: false,
       previewVisible: false,
       previewImage: '',
       fileList: [
@@ -63,6 +64,7 @@ class AccountInfoForm extends React.Component {
       notice('Account Updated');
       SetCurrentUser(resp.user);
     }
+    return resp;
   };
 
   handleFile = file => {
@@ -95,12 +97,21 @@ class AccountInfoForm extends React.Component {
   handleOnOk = e => {
     if (e) e.preventDefault();
 
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.handleCancel();
-        this.save(values);
-      } else {
-        error('Please check form for errors');
+    this.props.form.validateFields(async (err, values) => {
+      try {
+        this.setState({ loading: true });
+        if (!err) {
+          const r = await this.save(values);
+          if (r.ok) {
+            this.handleCancel();
+          }
+        } else {
+          error('Please check form for errors');
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.setState({ loading: false });
       }
     });
   };
@@ -221,6 +232,7 @@ class AccountInfoForm extends React.Component {
           <Modal
             width="300px"
             title="Confirm Password To Continue"
+            confirmLoading={this.state.loading}
             visible={this.state.confirmPasswordVisible}
             onOk={this.handleOnOk}
             okText="Confirm Password"
