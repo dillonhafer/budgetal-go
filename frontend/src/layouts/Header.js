@@ -5,7 +5,7 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { Layout, Row, Col, Menu, Icon } from 'antd';
+import { message, Layout, Row, Col, Menu, Icon } from 'antd';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
 import { notice } from 'window';
@@ -27,15 +27,20 @@ const ProfileImage = ({ user }) => {
 
 export default class Header extends Component {
   signOut = async e => {
+    const hide = message.loading('Sign out in progress...', 0);
     try {
       e.preventDefault();
-      await SignOutRequest();
-      RemoveAuthentication();
-      this.props.resetSignIn();
-      notice('You have been signed out');
-      document.querySelector('.logo').click();
+      const r = await SignOutRequest();
+      if (r && r.ok) {
+        RemoveAuthentication();
+        this.props.resetSignIn();
+        notice('You have been signed out');
+        document.querySelector('.logo').click();
+      }
     } catch (err) {
       console.log(err);
+    } finally {
+      hide();
     }
   };
 
