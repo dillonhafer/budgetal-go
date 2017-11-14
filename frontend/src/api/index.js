@@ -34,6 +34,7 @@ const base = async (path, method, headers = {}, body = {}) => {
     switch (resp.status) {
       case 503:
         error('We are performing maintenance. We should be done shortly.');
+        window.location = '/maintenance';
         return;
       case 500:
       case 404:
