@@ -30,7 +30,12 @@ const layout = {
 };
 
 class AnnualBudgetItemForm extends Component {
+  state = {
+    loading: false,
+  };
+
   createItem = async item => {
+    this.setState({ loading: true });
     try {
       const resp = await CreateAnnualBudgetItemRequest({
         ...item,
@@ -42,10 +47,13 @@ class AnnualBudgetItemForm extends Component {
       }
     } catch (err) {
       //ignore for now
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
   updateItem = async item => {
+    this.setState({ loading: true });
     try {
       const resp = await UpdateAnnualBudgetItemRequest(item);
       if (resp && resp.ok) {
@@ -54,6 +62,8 @@ class AnnualBudgetItemForm extends Component {
       }
     } catch (err) {
       //ignore for now
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -79,6 +89,7 @@ class AnnualBudgetItemForm extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { visible, onCancel, budgetItem } = this.props;
     const okText = budgetItem.id ? 'Update Item' : 'Create Item';
@@ -86,6 +97,7 @@ class AnnualBudgetItemForm extends Component {
       <Modal
         title="Annual Budget Item"
         width={300}
+        confirmLoading={loading}
         visible={visible}
         okText={okText}
         onOk={this.handleSubmit}
@@ -157,7 +169,7 @@ class AnnualBudgetItemForm extends Component {
           </Row>
           <div style={{ display: 'none' }}>
             <FormItem>
-              <Button htmlType="submit" />
+              <Button loading={loading} htmlType="submit" />
             </FormItem>
           </div>
         </Form>
