@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import Highchart from 'highchart';
 
-import { Spin, Popover, DatePicker, Icon, Row, Col } from 'antd';
+import { Spin, DatePicker, Row, Col } from 'antd';
 
 import 'css/statistics.css';
 
@@ -95,11 +95,17 @@ class Statistics extends Component {
     );
   };
 
-  findDisabledDate(date) {
+  findDisabledDate = date => {
+    if (
+      this.props.match.params.year === String(date.year()) &&
+      this.props.match.params.month === String(date.month() + 1)
+    ) {
+      return true;
+    }
     const year = date.year();
     const years = availableYears();
     return year < years[0] || year > years[years.length - 1] ? true : false;
-  }
+  };
 
   handleVisibleChange = showForm => {
     this.setState({ showForm });
@@ -145,23 +151,19 @@ class Statistics extends Component {
       <div>
         <h1>
           Statistics for {monthName(month)} {year}
-          <Popover
-            content={
-              <DatePicker.MonthPicker
-                onChange={this.handleOnChange}
-                disabledDate={this.findDisabledDate}
-              />
-            }
-            title="Change Date"
-            placement="rightTop"
-            trigger="click"
-            visible={this.state.showForm}
-            onVisibleChange={this.handleVisibleChange}
+          <div
+            style={{
+              float: 'right',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            <a onClick={this.showForm} style={{ marginLeft: '15px' }}>
-              <Icon type="calendar" />
-            </a>
-          </Popover>
+            <DatePicker.MonthPicker
+              onChange={this.handleOnChange}
+              disabledDate={this.findDisabledDate}
+            />
+          </div>
         </h1>
         <Spin size="large" spinning={this.state.loading}>
           <Row>

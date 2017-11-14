@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {title, scrollTop} from 'window';
+import React, { Component } from 'react';
+import { title, scrollTop } from 'window';
 
 class NoMatch extends Component {
   componentDidMount() {
@@ -12,7 +12,10 @@ class NoMatch extends Component {
       <div className="error-page">
         <h1>The page you were looking for doesn't exist.</h1>
         <hr />
-        <p>You may have mistyped the address or the page may have moved.</p>
+        <p style={{ marginBottom: '30px' }}>
+          You may have mistyped the address or the page may have moved.
+        </p>
+        <img alt="404" src="/404.svg" />
       </div>
     );
   }

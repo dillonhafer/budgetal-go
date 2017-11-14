@@ -6,7 +6,6 @@ import {
   itemsFetched,
   updatedSelectedItem,
   hideForm,
-  toggleYearForm,
 } from 'actions/annual-budget-items';
 
 import { title, scrollTop } from 'window';
@@ -15,7 +14,7 @@ import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 import moment from 'moment';
 
-import { Spin, Row, Col, Button, Popover, Select, Icon } from 'antd';
+import { Spin, Row, Col, Button, Select } from 'antd';
 
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
@@ -91,12 +90,7 @@ class AnnualBudget extends Component {
   };
 
   render() {
-    const {
-      showForm,
-      annualBudgetItems,
-      visible,
-      selectedBudgetItem,
-    } = this.props;
+    const { annualBudgetItems, visible, selectedBudgetItem } = this.props;
 
     const { loading } = this.state;
     const { year } = this.props.match.params;
@@ -104,33 +98,29 @@ class AnnualBudget extends Component {
       <div>
         <h1>
           Annual Budget for {year}
-          <Popover
-            content={
-              <Select
-                size="large"
-                defaultValue={year}
-                style={{ width: '100%' }}
-                onChange={this.changeYear}
-              >
-                {availableYears().map(y => {
-                  return (
-                    <Option key={y} value={y.toString()}>
-                      {y}
-                    </Option>
-                  );
-                })}
-              </Select>
-            }
-            title="Change Budget Year"
-            placement="rightTop"
-            trigger="click"
-            visible={showForm}
-            onVisibleChange={this.props.toggleYearForm}
+          <div
+            style={{
+              float: 'right',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            <a onClick={this.showForm} style={{ marginLeft: '15px' }}>
-              <Icon type="calendar" />
-            </a>
-          </Popover>
+            <Select
+              size="large"
+              style={{ width: '100px' }}
+              defaultValue={year}
+              onChange={this.changeYear}
+            >
+              {availableYears().map(y => {
+                return (
+                  <Option key={y} value={y.toString()}>
+                    {y}
+                  </Option>
+                );
+              })}
+            </Select>
+          </div>
         </h1>
         <Spin tip="Loading..." size="large" spinning={loading}>
           <AnnualBudgetItemList
@@ -163,9 +153,6 @@ export default connect(
     },
     hideForm: _ => {
       dispatch(hideForm());
-    },
-    toggleYearForm: showForm => {
-      dispatch(toggleYearForm(showForm));
     },
   }),
 )(AnnualBudget);

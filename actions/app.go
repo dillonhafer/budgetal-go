@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"net/http"
 	"strings"
 
 	"github.com/gobuffalo/buffalo"
@@ -63,12 +64,18 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 	}
 }
 
+func BodyHasJson(r *http.Request) bool {
+	return r.Method != "GET" &&
+		r.Header.Get("Content-Type") == "application/json" &&
+		r.ContentLength > 0
+}
+
 func DecodeJson(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		var err error
 		var f interface{}
 		req := c.Request()
-		if req.Method != "GET" && req.Header.Get("Content-Type") == "application/json" && req.ContentLength > 0 {
+		if BodyHasJson(req) {
 			body, err := ioutil.ReadAll(req.Body)
 			if err == nil {
 				if err = json.Unmarshal([]byte(body), &f); err == nil {
@@ -94,8 +101,7 @@ func CorsPreware() *cors.Cors {
 		AllowedOrigins:   allowedOrigins,
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "PUT", "PATCH", "DELETE", "POST", "OPTIONS"},
-		// Using a number to allow for case insensitivity
-		AllowedHeaders: []string{"Accept", "Content-Type", "X-Budgetal-Session"},
+		AllowedHeaders:   []string{"Accept", "Content-Type", "X-Budgetal-Session"},
 	})
 }
 
@@ -131,7 +137,10 @@ func App() *buffalo.App {
 		app.POST("/reset-password", UsersPasswordResetRequest)
 		app.PUT("/reset-password", UsersUpdatePassword)
 
+		//
 		// Authorized routes
+		//
+		////////////////////
 
 		// Monthly Statistics
 		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
