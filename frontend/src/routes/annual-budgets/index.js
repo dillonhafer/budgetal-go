@@ -15,18 +15,18 @@ import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 import moment from 'moment';
 
-import { Row, Col, Button, Popover, Select, Icon } from 'antd';
+import { Spin, Row, Col, Button, Popover, Select, Icon } from 'antd';
 
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
 
 import 'css/annual-budget-items.css';
 
-const AnnualBudgetItemList = ({ annualBudgetItems, onClick }) => {
+const AnnualBudgetItemList = ({ annualBudgetItems, onClick, loading }) => {
   return (
     <Row className="card-grid">
       {annualBudgetItems.map(item => (
-        <AnnualBudgetItem item={item} key={item.id} />
+        <AnnualBudgetItem item={item} key={item.id} loading={loading} />
       ))}
       <Col className="card text-center" span={8}>
         <Button
@@ -46,6 +46,10 @@ const AnnualBudgetItemList = ({ annualBudgetItems, onClick }) => {
 const Option = Select.Option;
 
 class AnnualBudget extends Component {
+  state = {
+    loading: false,
+  };
+
   componentDidMount() {
     title(`${this.props.match.params.year} | Annual Budgets`);
     scrollTop();
@@ -54,6 +58,7 @@ class AnnualBudget extends Component {
 
   loadBudgetItems = async () => {
     try {
+      this.setState({ loading: true });
       const { year } = this.props.match.params;
       const resp = await AllAnnualBudgetItemsRequest(year);
 
@@ -62,6 +67,8 @@ class AnnualBudget extends Component {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
@@ -91,6 +98,7 @@ class AnnualBudget extends Component {
       selectedBudgetItem,
     } = this.props;
 
+    const { loading } = this.state;
     const { year } = this.props.match.params;
     return (
       <div>
@@ -124,10 +132,13 @@ class AnnualBudget extends Component {
             </a>
           </Popover>
         </h1>
-        <AnnualBudgetItemList
-          annualBudgetItems={annualBudgetItems}
-          onClick={this.showNewModal}
-        />
+        <Spin tip="Loading..." size="large" spinning={loading}>
+          <AnnualBudgetItemList
+            loading={loading}
+            annualBudgetItems={annualBudgetItems}
+            onClick={this.showNewModal}
+          />
+        </Spin>
 
         <AnnualBudgetItemForm
           budgetItem={selectedBudgetItem}

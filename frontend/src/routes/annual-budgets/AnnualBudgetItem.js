@@ -12,8 +12,8 @@ import EditMenu from './EditMenu';
 
 class AnnualBudgetItem extends Component {
   render() {
-    const { item } = this.props;
-    const { name, loading } = item;
+    const { item, loading } = this.props;
+    const { name } = item;
     const month = currencyf(round(item.amount / item.interval));
     const color = item.paid ? colors.success : colors.disabled;
 
@@ -22,7 +22,7 @@ class AnnualBudgetItem extends Component {
         <Card
           loading={loading}
           noHovering
-          title={name}
+          title={loading ? '•••' : name}
           extra={<EditMenu item={this.props.item} />}
         >
           <div className="text-center">
