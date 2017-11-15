@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"bytes"
 	"crypto/rand"
 	"encoding/hex"
 	"net/http"
@@ -11,7 +10,6 @@ import (
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
 	uuid "github.com/satori/go.uuid"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func Json(c buffalo.Context, key string) interface{} {
@@ -21,19 +19,6 @@ func Json(c buffalo.Context, key string) interface{} {
 		}
 	}
 	return nil
-}
-
-func Compare(password string, hashedPassword string) bool {
-	if hashedPassword == "" {
-		return false
-	}
-
-	var passwordBuffer bytes.Buffer
-	passwordBuffer.WriteString(password)
-
-	val := bcrypt.CompareHashAndPassword([]byte(hashedPassword), passwordBuffer.Bytes())
-
-	return (val == nil)
 }
 
 // SignIn default implementation.
@@ -69,7 +54,7 @@ func SignIn(c buffalo.Context) error {
 
 	// 2. check if password is valid
 	//    return error if no user is found
-	authentic := Compare(params.Password, user.EncryptedPassword)
+	authentic := user.VerifyPassword(params.Password)
 	if authentic == false {
 		return c.Render(401, r.JSON(err))
 	}
