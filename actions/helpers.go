@@ -22,7 +22,7 @@ func Json(c buffalo.Context, key string) interface{} {
 	return nil
 }
 
-func BodyHasJson(r *http.Request) bool {
+func bodyHasJson(r *http.Request) bool {
 	return r.Method != "GET" &&
 		r.Header.Get("Content-Type") == "application/json" &&
 		r.ContentLength > 0
@@ -59,7 +59,7 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 		var err error
 		var f interface{}
 		req := c.Request()
-		if BodyHasJson(req) {
+		if bodyHasJson(req) {
 			body, err := ioutil.ReadAll(req.Body)
 			if err == nil {
 				if err = json.Unmarshal([]byte(body), &f); err == nil {
