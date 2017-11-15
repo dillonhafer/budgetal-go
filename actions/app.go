@@ -153,6 +153,7 @@ func App() *buffalo.App {
 
 		// Users
 		app.PATCH("/update-user", WithCurrentUser(UsersUpdate))
+		app.PUT("/update-user", WithCurrentUser(UsersUpdate))
 		app.PATCH("/update-password", WithCurrentUser(UsersChangePassword))
 
 		// Admin
