@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -17,16 +16,7 @@ import (
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
 	"github.com/markbates/pop/nulls"
-	"golang.org/x/crypto/bcrypt"
 )
-
-func hashAndSalt(pwd []byte) string {
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
-	if err != nil {
-		log.Println(err)
-	}
-	return string(hash)
-}
 
 func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
 	password, _ := Json(c, "password").(string)
@@ -151,7 +141,9 @@ func UsersCreate(c buffalo.Context) error {
 	// 1. look up user from email
 	//    return error if no user is found
 	tx := c.Value("tx").(*pop.Connection)
-	user := &models.User{Email: params.Email, EncryptedPassword: hashAndSalt(params.Password)}
+	user := &models.User{Email: params.Email}
+	user.EncryptPassword(params.Password)
+
 	dbErr := tx.Create(user)
 	if dbErr != nil {
 		return c.Render(401, r.JSON(err))
