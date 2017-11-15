@@ -38,6 +38,8 @@ yarn start
 2. `ADDR` the listening address can be configured by setting the `ADDR` env var
 3. `DATABASE_URL` the database connection can be configured by setting the `DATABASE_URL` env var
 4. `CORS` space separated list of domains, defaults to `http://localhost:3001`
+5. `BUDGETAL_HEADER` name of header used when authenticating, defaults to `X-Budgetal-Session`
+6. `BUDGETAL_COOKIE` name of cookie used when authenticating, defaults to `_budgetal_session`
 
 **Production will also need the following:**
 
