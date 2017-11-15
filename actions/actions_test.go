@@ -55,8 +55,8 @@ func signInUser(admin bool, as *ActionSuite) models.User {
 	session := as.CreateSession(user.ID)
 
 	// Sign In User
-	cookie := fmt.Sprintf("_budgetal_session=%s; Expires=Tue, 09 Nov 2027 00:17:27 GMT; HttpOnly", session.AuthenticationKey)
-	as.Willie.Headers["X-Budgetal-Session"] = session.AuthenticationToken
+	cookie := fmt.Sprintf("%s=%s; Expires=Tue, 09 Nov 2027 00:17:27 GMT; HttpOnly", AUTH_COOKIE_KEY, session.AuthenticationKey)
+	as.Willie.Headers[AUTH_HEADER_KEY] = session.AuthenticationToken
 	as.Willie.Cookies = cookie
 
 	return user

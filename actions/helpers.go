@@ -31,7 +31,7 @@ func BodyHasJson(r *http.Request) bool {
 func SetAuthenticationCookie(res http.ResponseWriter, value uuid.UUID) {
 	cookie := &http.Cookie{
 		Expires:  time.Now().Add(time.Hour * 87600),
-		Name:     "_budgetal_session",
+		Name:     AUTH_COOKIE_KEY,
 		Value:    value.String(),
 		Secure:   ENV == "production",
 		HttpOnly: true,

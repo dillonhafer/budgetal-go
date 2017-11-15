@@ -10,6 +10,9 @@ import (
 	"github.com/gobuffalo/x/sessions"
 )
 
+var AUTH_HEADER_KEY = envy.Get("BUDGETAL_HEADER", "X-Budgetal-Session")
+var AUTH_COOKIE_KEY = envy.Get("BUDGETAL_COOKIE", "_budgetal_session")
+
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
 
@@ -24,12 +27,12 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		errResp := map[string]string{"error": "You are not signed in"}
 		// 1. Rebuild keys
-		AuthenticationKey, err := c.Cookies().Get("_budgetal_session")
+		AuthenticationKey, err := c.Cookies().Get(AUTH_COOKIE_KEY)
 		if err != nil {
 			c.Logger().Debug("Cookie not found")
 			return c.Render(401, r.JSON(errResp))
 		}
-		AuthenticationToken := c.Request().Header.Get("X-Budgetal-Session")
+		AuthenticationToken := c.Request().Header.Get(AUTH_HEADER_KEY)
 
 		// 2. Get user from keys or 401
 		tx := c.Value("tx").(*pop.Connection)

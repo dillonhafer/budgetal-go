@@ -21,7 +21,7 @@ func SignOut(c buffalo.Context, currentUser *models.User) error {
 func DeleteAuthenticationCookie(res http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Expires: time.Now(),
-		Name:    "_budgetal_session",
+		Name:    AUTH_COOKIE_KEY,
 	}
 	http.SetCookie(res, cookie)
 }
