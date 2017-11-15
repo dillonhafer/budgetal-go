@@ -1,12 +1,6 @@
 package actions
 
 import (
-	"bytes"
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
-	"strings"
-
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
@@ -14,11 +8,8 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/models"
 	"github.com/gobuffalo/x/sessions"
-	"github.com/rs/cors"
 )
 
-// ENV is used to help switch settings based on where the
-// application is being run. Default is "development".
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
 
@@ -62,47 +53,6 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 		c.Set("currentUser", user)
 		return next(c)
 	}
-}
-
-func BodyHasJson(r *http.Request) bool {
-	return r.Method != "GET" &&
-		r.Header.Get("Content-Type") == "application/json" &&
-		r.ContentLength > 0
-}
-
-func DecodeJson(next buffalo.Handler) buffalo.Handler {
-	return func(c buffalo.Context) error {
-		var err error
-		var f interface{}
-		req := c.Request()
-		if BodyHasJson(req) {
-			body, err := ioutil.ReadAll(req.Body)
-			if err == nil {
-				if err = json.Unmarshal([]byte(body), &f); err == nil {
-					c.Set("JSON", f)
-					if ENV == "development" {
-						c.LogField("json", f)
-					}
-				}
-			} else {
-				errResp := map[string]string{"error": "Bad Request"}
-				return c.Render(422, r.JSON(errResp))
-			}
-			req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
-		}
-		err = next(c)
-		return err
-	}
-}
-
-func CorsPreware() *cors.Cors {
-	allowedOrigins := strings.Split(envy.Get("CORS", "http://localhost:3001"), " ")
-	return cors.New(cors.Options{
-		AllowedOrigins:   allowedOrigins,
-		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "PUT", "PATCH", "DELETE", "POST", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Content-Type", "X-Budgetal-Session"},
-	})
 }
 
 func App() *buffalo.App {
