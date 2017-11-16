@@ -9,7 +9,7 @@ import (
 
 type Budget struct {
 	ID        int         `json:"id" db:"id"`
-	UserID    int         `json:"userId" db:"user_id"`
+	UserID    int         `json:"-" db:"user_id"`
 	Month     int         `json:"month" db:"month"`
 	Year      int         `json:"year" db:"year"`
 	Income    json.Number `json:"income" db:"monthly_income"`

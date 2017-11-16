@@ -7,7 +7,7 @@ import (
 )
 
 func (as *ActionSuite) Test_Budgets_Index() {
-	user := as.SignedInUser()
+	as.SignedInUser()
 	var resp struct {
 		Budget           models.Budget
 		BudgetCategories models.BudgetCategories
@@ -18,7 +18,6 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	json.NewDecoder(r.Body).Decode(&resp)
 
 	as.NotEmpty(resp.Budget.ID)
-	as.Equal(user.ID, resp.Budget.UserID)
 	as.Equal(2017, resp.Budget.Year)
 	as.Equal(12, resp.Budget.Month)
 	as.Equal("3500.00", resp.Budget.Income.String())
