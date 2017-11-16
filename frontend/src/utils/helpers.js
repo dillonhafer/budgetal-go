@@ -1,5 +1,10 @@
 import { range } from 'lodash';
 import parser from 'ua-parser-js';
+import moment from 'moment';
+
+export const monthName = month => {
+  return moment.months()[month - 1];
+};
 
 export const currencyf = (number, dollarSign = '$') => {
   if (isNaN(parseFloat(number))) {

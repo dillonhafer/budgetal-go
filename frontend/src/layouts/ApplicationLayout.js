@@ -6,8 +6,9 @@ import { Layout } from 'antd';
 import PrivateRoute from 'PrivateRoute';
 import Home from 'Home';
 import Privacy from 'Privacy';
-import MortgageCalculator from 'routes/calculators/mortgage';
+import Budget from 'routes/budgets';
 import AnnualBudget from 'routes/annual-budgets';
+import MortgageCalculator from 'routes/calculators/mortgage';
 import Statistics from 'routes/statistics';
 import Admin from 'routes/admin';
 import ResetPassword from 'routes/reset-password';
@@ -31,6 +32,7 @@ class ApplicationLayout extends Component {
                   path="/calculators/mortgage"
                   component={MortgageCalculator}
                 />
+                <PrivateRoute path="/budgets/:year/:month" component={Budget} />
                 <PrivateRoute
                   path="/annual-budgets/:year"
                   component={AnnualBudget}
