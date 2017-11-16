@@ -116,6 +116,10 @@ func App() *buffalo.App {
 		app.GET("/sessions", WithCurrentUser(SessionsIndex))
 		app.DELETE("/sign-out", WithCurrentUser(SignOut))
 		app.DELETE("/sessions/{authenticationKey}", WithCurrentUser(SessionsDelete))
+
+		// Budgets
+		app.GET("/budgets/{year}/{month}", WithCurrentUser(BudgetsIndex))
+		app.PUT("/budgets/{year}/{month}", WithCurrentUser(BudgetsUpdate))
 	}
 
 	return app
