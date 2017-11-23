@@ -2,7 +2,6 @@ package actions
 
 import (
 	"encoding/json"
-	"sort"
 	"strconv"
 	"time"
 
@@ -33,7 +32,7 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 	}
 	tx := c.Value("tx").(*pop.Connection)
 
-	budget := &models.Budget{
+	budget := models.Budget{
 		UserID: params.UserID,
 		Year:   params.Year,
 		Month:  params.Month,
@@ -43,16 +42,17 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(422, r.JSON(err))
 	}
 
-	categories := &models.BudgetCategories{}
-	tx.BelongsTo(budget).All(categories)
-	sort.Sort(categories)
-
+	categories, items, expenses := budget.MonthlyView(tx)
 	var response = struct {
-		Budget           *models.Budget           `json:"budget"`
-		BudgetCategories *models.BudgetCategories `json:"budgetCategories"`
+		Budget             models.Budget             `json:"budget"`
+		BudgetCategories   models.BudgetCategories   `json:"budgetCategories"`
+		BudgetItems        models.BudgetItems        `json:"budgetItems"`
+		BudgetItemExpenses models.BudgetItemExpenses `json:"budgetItemExpenses"`
 	}{
 		budget,
 		categories,
+		items,
+		expenses,
 	}
 
 	return c.Render(200, r.JSON(response))

@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"sort"
 	"time"
 
 	"github.com/markbates/pop"
@@ -27,6 +28,35 @@ func (b *Budget) FindOrCreate(tx *pop.Connection) error {
 		err = b.CreateDefaultCategories(tx)
 	}
 	return err
+}
+
+func (b *Budget) MonthlyView(tx *pop.Connection) (BudgetCategories, BudgetItems, BudgetItemExpenses) {
+	// Load Categories
+	categories := BudgetCategories{}
+	tx.BelongsTo(b).All(&categories)
+	sort.Sort(categories)
+
+	// Load Items
+	categoryIds := make([]interface{}, len(categories))
+	for i, v := range categories {
+		categoryIds[i] = v.ID
+	}
+	items := BudgetItems{}
+	if len(categoryIds) > 0 {
+		tx.Where(`budget_category_id in (?)`, categoryIds...).All(&items)
+	}
+
+	// Load Expenses
+	itemIds := make([]interface{}, len(items))
+	for i, v := range items {
+		itemIds[i] = v.ID
+	}
+	expenses := BudgetItemExpenses{}
+	if len(itemIds) > 0 {
+		tx.Where(`budget_item_id in (?)`, itemIds...).All(&expenses)
+	}
+
+	return categories, items, expenses
 }
 
 func (b *Budget) CreateDefaultCategories(tx *pop.Connection) error {

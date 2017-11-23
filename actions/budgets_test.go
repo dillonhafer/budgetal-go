@@ -7,7 +7,7 @@ import (
 )
 
 func (as *ActionSuite) Test_Budgets_Index() {
-	as.SignedInUser()
+	user := as.SignedInUser()
 	var resp struct {
 		Budget             models.Budget
 		BudgetCategories   models.BudgetCategories
@@ -15,11 +15,20 @@ func (as *ActionSuite) Test_Budgets_Index() {
 		BudgetItemExpenses models.BudgetItemExpenses
 	}
 
+	b, c := as.CreateBudget(user.ID, 2017, 12, "3500.00")
+	item := models.BudgetItem{
+		BudgetCategoryId: c[0].ID,
+		Name:             "Insurance",
+		Amount:           json.Number("200.00"),
+	}
+	as.DB.Create(&item)
+
 	r := as.JSON("/budgets/2017/12").Get()
 	as.Equal(200, r.Code)
 	json.NewDecoder(r.Body).Decode(&resp)
 
 	as.NotEmpty(resp.Budget.ID)
+	as.Equal(b.ID, resp.Budget.ID)
 	as.Equal(2017, resp.Budget.Year)
 	as.Equal(12, resp.Budget.Month)
 	as.Equal("3500.00", resp.Budget.Income.String())
@@ -38,6 +47,11 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	as.Equal("Personal", resp.BudgetCategories[9].Name)
 	as.Equal("Recreation", resp.BudgetCategories[10].Name)
 	as.Equal("Debts", resp.BudgetCategories[11].Name)
+
+	as.Equal(1, len(resp.BudgetItems))
+	as.Equal(resp.BudgetCategories[0].ID, resp.BudgetItems[0].BudgetCategoryId)
+	as.Equal("Insurance", resp.BudgetItems[0].Name)
+	as.Equal("200.00", resp.BudgetItems[0].Amount.String())
 }
 
 func (as *ActionSuite) Test_Budgets_Index_CreatesDefaultCategories() {

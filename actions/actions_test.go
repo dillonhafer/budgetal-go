@@ -1,7 +1,9 @@
 package actions
 
 import (
+	"encoding/json"
 	"fmt"
+	"sort"
 	"testing"
 
 	"github.com/dillonhafer/budgetal-go/models"
@@ -60,4 +62,19 @@ func signInUser(admin bool, as *ActionSuite) models.User {
 	as.Willie.Cookies = cookie
 
 	return user
+}
+
+func (as *ActionSuite) CreateBudget(userId, year, month int, income string) (models.Budget, models.BudgetCategories) {
+	budget := models.Budget{
+		UserID: userId,
+		Year:   year,
+		Month:  month,
+		Income: json.Number(income),
+	}
+	as.DB.Create(&budget)
+	budget.CreateDefaultCategories(as.DB)
+	categories := models.BudgetCategories{}
+	as.DB.BelongsTo(&budget).All(&categories)
+	sort.Sort(categories)
+	return budget, categories
 }
