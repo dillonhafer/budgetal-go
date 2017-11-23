@@ -113,8 +113,9 @@ h1 {
   min-height: 975px;
 }
 
-.ant-layout-header {
+div.ant-layout-header {
   background: rgba(64, 64, 64, 0.96);
+  z-index: 9999;
 }
 .ant-menu-dark {
   background: transparent;
@@ -130,10 +131,13 @@ h1 {
   margin-left: 50px;
   margin-right: 50px;
   padding-bottom: 108px;
-  padding-right: 24px;
-  padding-left: 24px;
   padding-top: 24px;
   background: #fff;
+}
+.with-padding,
+.ant-layout-content > div > div:not(.no-padding) {
+  padding-right: 24px;
+  padding-left: 24px;
 }
 .ant-layout-footer {
   clear: both;

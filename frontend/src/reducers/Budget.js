@@ -1,7 +1,7 @@
 import {
   BUDGET_LOADED,
   // BUDGET_UPDATED,
-  // BUDGET_CATEGORY_UPDATED,
+  BUDGET_CATEGORY_UPDATED,
   // BUDGET_CATEGORY_IMPORTED,
   // BUDGET_DATE_UPDATED,
   // BUDGET_ITEM_NEW,
@@ -38,6 +38,9 @@ const initialBudgetState = {
   ],
   budgetItems: [],
   budgetItemExpenses: [],
+  currentBudgetCategory: {
+    name: 'Charity',
+  },
 };
 
 export default function budgetState(state = initialBudgetState, action) {
@@ -50,6 +53,11 @@ export default function budgetState(state = initialBudgetState, action) {
           ...action.budget,
         },
         budgetCategories: action.budgetCategories,
+      };
+    case BUDGET_CATEGORY_UPDATED:
+      return {
+        ...state,
+        currentBudgetCategory: action.budgetCategory,
       };
     default:
       return state;

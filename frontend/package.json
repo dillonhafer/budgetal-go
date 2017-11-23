@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.13.10",
+    "papaparse": "^4.3.6",
     "react-highcharts": "^13.0.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
@@ -14,7 +15,7 @@
   },
   "scripts": {
     "start": "source APP_ENV && react-scripts start",
-    "test":  "source APP_ENV && react-scripts test --env=jsdom",
+    "test": "source APP_ENV && react-scripts test --env=jsdom",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
   }
