@@ -2,6 +2,7 @@ package actions
 
 import (
 	"encoding/json"
+	"sort"
 	"strconv"
 	"time"
 
@@ -44,6 +45,7 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 
 	categories := &models.BudgetCategories{}
 	tx.BelongsTo(budget).All(categories)
+	sort.Sort(categories)
 
 	var response = struct {
 		Budget           *models.Budget           `json:"budget"`
