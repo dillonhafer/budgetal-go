@@ -9,8 +9,10 @@ import (
 func (as *ActionSuite) Test_Budgets_Index() {
 	as.SignedInUser()
 	var resp struct {
-		Budget           models.Budget
-		BudgetCategories models.BudgetCategories
+		Budget             models.Budget
+		BudgetCategories   models.BudgetCategories
+		BudgetItems        models.BudgetItems
+		BudgetItemExpenses models.BudgetItemExpenses
 	}
 
 	r := as.JSON("/budgets/2017/12").Get()
