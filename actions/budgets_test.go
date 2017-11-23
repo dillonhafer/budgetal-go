@@ -2,6 +2,7 @@ package actions
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/dillonhafer/budgetal-go/models"
 )
@@ -16,6 +17,8 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	}
 
 	b, c := as.CreateBudget(user.ID, 2017, 12, "3500.00")
+
+	// Existing Item
 	item := models.BudgetItem{
 		BudgetCategoryId: c[0].ID,
 		Name:             "Insurance",
@@ -23,6 +26,16 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	}
 	as.DB.Create(&item)
 
+	// Existing expense
+	e := models.BudgetItemExpense{
+		BudgetItemId: item.ID,
+		Name:         "Progressive",
+		Amount:       json.Number("200.00"),
+		Date:         time.Now(),
+	}
+	as.DB.Create(&e)
+
+	// Make request
 	r := as.JSON("/budgets/2017/12").Get()
 	as.Equal(200, r.Code)
 	json.NewDecoder(r.Body).Decode(&resp)
@@ -52,6 +65,12 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	as.Equal(resp.BudgetCategories[0].ID, resp.BudgetItems[0].BudgetCategoryId)
 	as.Equal("Insurance", resp.BudgetItems[0].Name)
 	as.Equal("200.00", resp.BudgetItems[0].Amount.String())
+
+	as.Equal(1, len(resp.BudgetItemExpenses))
+	expense := resp.BudgetItemExpenses[0]
+	as.Equal(resp.BudgetItems[0].ID, expense.BudgetItemId)
+	as.Equal("Progressive", expense.Name)
+	as.Equal("200.00", expense.Amount.String())
 }
 
 func (as *ActionSuite) Test_Budgets_Index_CreatesDefaultCategories() {
