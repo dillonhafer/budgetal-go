@@ -122,7 +122,7 @@ class AnnualBudget extends Component {
             </Select>
           </div>
         </h1>
-        <Spin tip="Loading..." size="large" spinning={loading}>
+        <Spin delay={300} tip="Loading..." size="large" spinning={loading}>
           <AnnualBudgetItemList
             loading={loading}
             annualBudgetItems={annualBudgetItems}

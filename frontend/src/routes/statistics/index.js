@@ -165,7 +165,7 @@ class Statistics extends Component {
             />
           </div>
         </h1>
-        <Spin size="large" spinning={this.state.loading}>
+        <Spin delay={300} size="large" spinning={this.state.loading}>
           <Row>
             {this.state.budgetCategories.length ? null : this.missing()}
             <Col md={12}>{this.renderStatistics()}</Col>
