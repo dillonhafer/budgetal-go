@@ -8,7 +8,7 @@ import {
   hideForm,
 } from 'actions/annual-budget-items';
 
-import { title, scrollTop } from 'window';
+import { title } from 'window';
 import { availableYears } from 'helpers';
 import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
@@ -51,7 +51,6 @@ class AnnualBudget extends Component {
 
   componentDidMount() {
     title(`${this.props.match.params.year} | Annual Budgets`);
-    scrollTop();
     this.loadBudgetItems();
   }
 

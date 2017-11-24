@@ -63,6 +63,8 @@ export default function budgetState(state = initialBudgetState, action) {
           ...action.budget,
         },
         budgetCategories: action.budgetCategories,
+        budgetItems: action.budgetItems,
+        budgetItemExpenses: action.budgetItemExpenses,
       };
     case BUDGET_CATEGORY_UPDATED:
       return {

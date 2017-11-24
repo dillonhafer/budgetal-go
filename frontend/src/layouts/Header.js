@@ -5,7 +5,7 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { message, Layout, Row, Col, Menu, Icon } from 'antd';
+import { message, Layout, Row, Col, Menu, Icon, BackTop } from 'antd';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
 import { notice } from 'window';
@@ -139,11 +139,23 @@ export default class Header extends Component {
     }
   }
 
+  scrollTop() {
+    document.querySelector('#headerTop') &&
+      document.querySelector('#headerTop').click();
+  }
+
   render() {
     const selectedKeys = this.selectedKeys(window.location);
 
     return (
-      <Layout.Header style={{ position: 'fixed', width: '100%' }}>
+      <Layout.Header
+        style={{ position: 'fixed', width: '100%' }}
+        onClick={this.scrollTop}
+      >
+        <BackTop>
+          <div id="headerTop" />
+        </BackTop>
+
         <Link to="/">
           <div className="logo" />
         </Link>

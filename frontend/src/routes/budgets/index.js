@@ -7,10 +7,11 @@ import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
 // Components
 import { BudgetRequest } from 'api/budgets';
 import Sidebar from './Sidebar';
-import { Row, Spin } from 'antd';
+import BudgetCategory from './BudgetCategory';
+import { Row, Col, Spin } from 'antd';
 
 // Helpers
-import { title, scrollTop } from 'window';
+import { title } from 'window';
 import { monthName } from 'helpers';
 import 'css/budgets.css';
 
@@ -20,7 +21,6 @@ class Budget extends Component {
   };
 
   componentDidMount() {
-    scrollTop();
     this.loadBudget();
     this.updateTitle(this.props.match.params);
   }
@@ -65,26 +65,27 @@ class Budget extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     const { budget } = this.props;
     return (
       <div className="no-padding">
-        <Spin
-          delay={300}
-          size="large"
-          tip="Loading..."
-          spinning={this.state.loading}
-        >
+        <Spin delay={300} size="large" tip="Loading..." spinning={loading}>
           <div className="with-padding">
             <h1>
               {monthName(budget.month)} {budget.year}
             </h1>
           </div>
           <Row>
-            <Sidebar
-              month={budget.month}
-              year={budget.year}
-              onChange={this.handleOnChange}
-            />
+            <Col span={4}>
+              <Sidebar
+                month={budget.month}
+                year={budget.year}
+                onChange={this.handleOnChange}
+              />
+            </Col>
+            <Col span={20}>
+              <BudgetCategory loading={loading} />
+            </Col>
           </Row>
         </Spin>
       </div>
@@ -97,8 +98,20 @@ export default connect(
     ...state.budget,
   }),
   dispatch => ({
-    budgetLoaded: ({ budget, budgetCategories }) => {
-      dispatch(budgetLoaded({ budget, budgetCategories }));
+    budgetLoaded: ({
+      budget,
+      budgetCategories,
+      budgetItems,
+      budgetItemExpenses,
+    }) => {
+      dispatch(
+        budgetLoaded({
+          budget,
+          budgetCategories,
+          budgetItems,
+          budgetItemExpenses,
+        }),
+      );
     },
     changeCategory: budgetCategory => {
       dispatch(updateBudgetCategory({ budgetCategory }));

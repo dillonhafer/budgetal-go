@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.13.10",
+    "classnames": "^2.2.5",
     "papaparse": "^4.3.6",
     "react-highcharts": "^13.0.0",
     "react-redux": "^5.0.6",

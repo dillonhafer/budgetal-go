@@ -4,7 +4,7 @@ import moment from 'moment';
 import ImportExpenseModal from './ImportExpenseModal';
 import { updateBudgetCategory } from 'actions/budgets';
 
-import { Col, Menu, DatePicker, Button } from 'antd';
+import { Menu, DatePicker, Button } from 'antd';
 
 class Sidebar extends Component {
   state = {
@@ -39,47 +39,45 @@ class Sidebar extends Component {
     const { showImportExpenseModal } = this.state;
     const { month, year, onChange } = this.props;
     return (
-      <Col span={4}>
-        <div className="icon-bar">
-          <Menu
-            theme="light"
-            style={{ width: '100%' }}
-            onClick={this.handleOnClick}
-            selectedKeys={[this.props.currentBudgetCategory.name]}
-            mode="inline"
-          >
-            <Menu.Item disabled={true} key="date">
-              <DatePicker.MonthPicker
-                onChange={onChange}
-                format={'MMMM YYYY'}
-                allowClear={false}
-                value={moment([year, month].join('/'), 'YYYY/M')}
-                disabledDate={this.findDisabledDate}
-                cellContentRender={date => {
-                  return date;
-                }}
-              />
-            </Menu.Item>
-            {this.props.budgetCategories.map(category => {
-              const itemClass = category.name.toLowerCase().replace('/', '-');
-              return (
-                <Menu.Item id={category.id} key={category.name}>
-                  <span className={itemClass}>{category.name}</span>
-                </Menu.Item>
-              );
-            })}
-            <Menu.Item id={'import-csv'} key={'import-csv'}>
-              <Button icon="upload" type="primary">
-                Import Expenses
-              </Button>
-            </Menu.Item>
-          </Menu>
-          <ImportExpenseModal
-            hidden={showImportExpenseModal}
-            cancel={this.hideImportExpenseModal}
-          />
-        </div>
-      </Col>
+      <div className="icon-bar">
+        <Menu
+          theme="light"
+          style={{ width: '100%' }}
+          onClick={this.handleOnClick}
+          selectedKeys={[this.props.currentBudgetCategory.name]}
+          mode="inline"
+        >
+          <Menu.Item disabled={true} key="date">
+            <DatePicker.MonthPicker
+              onChange={onChange}
+              format={'MMMM YYYY'}
+              allowClear={false}
+              value={moment([year, month].join('/'), 'YYYY/M')}
+              disabledDate={this.findDisabledDate}
+              cellContentRender={date => {
+                return date;
+              }}
+            />
+          </Menu.Item>
+          {this.props.budgetCategories.map(category => {
+            const itemClass = category.name.toLowerCase().replace('/', '-');
+            return (
+              <Menu.Item id={category.id} key={category.name}>
+                <span className={itemClass}>{category.name}</span>
+              </Menu.Item>
+            );
+          })}
+          <Menu.Item id={'import-csv'} key={'import-csv'}>
+            <Button icon="upload" type="primary">
+              Import Expenses
+            </Button>
+          </Menu.Item>
+        </Menu>
+        <ImportExpenseModal
+          hidden={showImportExpenseModal}
+          cancel={this.hideImportExpenseModal}
+        />
+      </div>
     );
   }
 }
