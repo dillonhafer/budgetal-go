@@ -16,31 +16,41 @@ import {
   // BUDGET_ITEM_EXPENSE_DELETED,
 } from 'constants/action-types';
 
+const initialBudgetCategories = [
+  { name: 'Charity' },
+  { name: 'Saving' },
+  { name: 'Housing' },
+  { name: 'Utilities' },
+  { name: 'Food' },
+  { name: 'Clothing' },
+  { name: 'Transportation' },
+  { name: 'Medical/Health' },
+  { name: 'Insurance' },
+  { name: 'Personal' },
+  { name: 'Recreation' },
+  { name: 'Debts' },
+];
+
+const initialBudgetCategory = () => {
+  if (window.location.hash) {
+    const hashCategory = window.location.hash.replace('#', '');
+    return initialBudgetCategories.find(c => {
+      return c.name.toLowerCase().replace('/', '-') === hashCategory;
+    });
+  }
+  return initialBudgetCategories[0];
+};
+
 const initialBudgetState = {
   budget: {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
     income: 0,
   },
-  budgetCategories: [
-    { name: 'Charity' },
-    { name: 'Saving' },
-    { name: 'Housing' },
-    { name: 'Utilities' },
-    { name: 'Food' },
-    { name: 'Clothing' },
-    { name: 'Transportation' },
-    { name: 'Medical/Health' },
-    { name: 'Insurance' },
-    { name: 'Personal' },
-    { name: 'Recreation' },
-    { name: 'Debts' },
-  ],
+  budgetCategories: initialBudgetCategories,
   budgetItems: [],
   budgetItemExpenses: [],
-  currentBudgetCategory: {
-    name: 'Charity',
-  },
+  currentBudgetCategory: initialBudgetCategory(),
 };
 
 export default function budgetState(state = initialBudgetState, action) {
