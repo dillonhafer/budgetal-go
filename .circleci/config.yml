@@ -23,6 +23,7 @@ jobs:
           command: sudo apt-get install postgresql-client
 
       - run: go get -u -v github.com/gobuffalo/buffalo/buffalo
+      - run: go get github.com/gobuffalo/suite
       - run: cd backend && go get
       - run: cd backend && buffalo db create -e test
       - run: cd backend && buffalo db m -e test
