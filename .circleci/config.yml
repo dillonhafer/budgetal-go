@@ -19,7 +19,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - my-cache1
+            - my-cache2
 
       - checkout
       - run:
@@ -27,10 +27,12 @@ jobs:
           command: sudo apt-get install postgresql-client
 
       - run: go get -u -v github.com/gobuffalo/buffalo/buffalo
+      - run: cd /go/src/github.com/gobuffalo/buffalo && git checkout tags/v0.10.1
       - save_cache:
-          key: my-cache1
+          key: my-cache2
           paths:
-            - /usr/local/go/src
+            - /go/src/github.com/gobuffalo
+            - /go/src/github.com/mattn
       - run: cd backend && buffalo db create -e test
       - run: cd backend && buffalo db m -e test
       - run: cd backend && buffalo test
