@@ -17,21 +17,12 @@ jobs:
     ####   /go/src/github.com/circleci/go-tool
     working_directory: /go/src/github.com/dillonhafer/budgetal-go
     steps:
-      - restore_cache:
-          keys:
-            - my-cache3
-
       - checkout
       - run:
           name: Installing psql
           command: sudo apt-get install postgresql-client
 
       - run: go get -u -v github.com/gobuffalo/buffalo/buffalo
-      - save_cache:
-          key: my-cache3
-          paths:
-            - /go/src/github.com/gobuffalo
-            - /go/src/github.com/mattn
       - run: cd backend && buffalo db create -e test
       - run: cd backend && buffalo db m -e test
       - run: cd backend && buffalo test
