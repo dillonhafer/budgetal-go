@@ -18,7 +18,7 @@ $ git checkout tags/v0.10.1
 
 # Download budgetal
 $ git clone https://github.com/dillonhafer/budgetal-go.git
-$ cd budgetal-go
+$ cd backend
 $ buffalo db create
 $ buffalo db migrate
 $ buffalo dev
