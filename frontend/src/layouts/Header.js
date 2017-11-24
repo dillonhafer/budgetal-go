@@ -152,7 +152,7 @@ export default class Header extends Component {
         style={{ position: 'fixed', width: '100%' }}
         onClick={this.scrollTop}
       >
-        <BackTop>
+        <BackTop visibilityHeight={40}>
           <div id="headerTop" />
         </BackTop>
 
