@@ -12,9 +12,10 @@ How to setup the backend server:
 
 ```sh
 # Lock to buffalo 0.10.1
-$ git clone https://github.com/buffalogo/buffalo.git $GOPATH/src/github.com/buffalogo/buffalo
-$ cd $GOPATH/src/github.com/buffalogo/buffalo
+$ git clone https://github.com/gobuffalo/buffalo.git $GOPATH/src/github.com/gobuffalo/buffalo
+$ cd $GOPATH/src/github.com/gobuffalo/buffalo
 $ git checkout tags/v0.10.1
+$ go get github.com/gobuffalo/buffalo/buffalo
 
 # Download budgetal
 $ git clone https://github.com/dillonhafer/budgetal-go.git
