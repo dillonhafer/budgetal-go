@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
+
+// Redux
 import { connect } from 'react-redux';
+
+// Components
+import BudgetItem from './BudgetItem';
+
+// Helpers
 import { map, find } from 'lodash';
-import { currencyf } from 'helpers';
 import { Button, Tabs, Icon } from 'antd';
 const TabPane = Tabs.TabPane;
 
@@ -32,10 +38,9 @@ class BudgetItemList extends Component {
     ) : (
       <Icon type="question" />
     );
-    /*<BudgetItemContainer budgetItem={budgetItem} />*/
     return (
       <TabPane tab={tab} key={'tab' + index}>
-        {currencyf(budgetItem.amount)}
+        <BudgetItem budgetItem={budgetItem} />
       </TabPane>
     );
   };
