@@ -28,7 +28,6 @@ jobs:
       - run: go get github.com/gobuffalo/buffalo/...
       - run: go install github.com/gobuffalo/buffalo/buffalo
       - run: go get -t -d ./...
-      - run: cd backend
-      - run: buffalo db create -e test
-      - run: buffalo db m -e test
-      - run: buffalo test
+      - run: cd backend && buffalo db create -e test
+      - run: cd backend && buffalo db m -e test
+      - run: cd backend && buffalo test
