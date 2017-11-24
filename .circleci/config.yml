@@ -27,11 +27,10 @@ jobs:
           command: sudo apt-get install postgresql-client
 
       - run: go get -u -v github.com/gobuffalo/buffalo/buffalo
-      - run: cd /go/src/github.com/gobuffalo/buffalo && git checkout tags/v0.10.1
       - save_cache:
           key: my-cache
           paths:
-            - /go/src
+            - /usr/local/go/src
       - run: cd backend && buffalo db create -e test
       - run: cd backend && buffalo db m -e test
       - run: cd backend && buffalo test
