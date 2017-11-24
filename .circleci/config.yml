@@ -19,7 +19,7 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - my-cache
+            - my-cache1
 
       - checkout
       - run:
@@ -28,7 +28,7 @@ jobs:
 
       - run: go get -u -v github.com/gobuffalo/buffalo/buffalo
       - save_cache:
-          key: my-cache
+          key: my-cache1
           paths:
             - /usr/local/go/src
       - run: cd backend && buffalo db create -e test
