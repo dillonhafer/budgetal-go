@@ -43,7 +43,7 @@ func (b *Budget) MonthlyView(tx *pop.Connection) (BudgetCategories, BudgetItems,
 	}
 	items := BudgetItems{}
 	if len(categoryIds) > 0 {
-		tx.Where(`budget_category_id in (?)`, categoryIds...).All(&items)
+		tx.Where(`budget_category_id in (?)`, categoryIds...).Order(`created_at`).All(&items)
 	}
 
 	// Load Expenses
@@ -53,7 +53,7 @@ func (b *Budget) MonthlyView(tx *pop.Connection) (BudgetCategories, BudgetItems,
 	}
 	expenses := BudgetItemExpenses{}
 	if len(itemIds) > 0 {
-		tx.Where(`budget_item_id in (?)`, itemIds...).All(&expenses)
+		tx.Where(`budget_item_id in (?)`, itemIds...).Order(`created_at`).All(&expenses)
 	}
 
 	return categories, items, expenses
