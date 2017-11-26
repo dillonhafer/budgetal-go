@@ -8,6 +8,8 @@ import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
 import { BudgetRequest } from 'api/budgets';
 import Sidebar from './Sidebar';
 import BudgetCategory from './BudgetCategory';
+import MonthlyOverview from './MonthlyOverview';
+import BudgetFormModal from './BudgetFormModal';
 import { Row, Col, Spin } from 'antd';
 
 // Helpers
@@ -71,9 +73,22 @@ class Budget extends Component {
       <div className="no-padding">
         <Spin delay={300} size="large" tip="Loading..." spinning={loading}>
           <div className="with-padding">
-            <h1>
-              {monthName(budget.month)} {budget.year}
-            </h1>
+            <Row
+              type="flex"
+              justify="space-between"
+              align="middle"
+              style={{ marginBottom: '1rem' }}
+            >
+              <Col span={16}>
+                <h1 style={{ margin: 0 }}>
+                  {monthName(budget.month)} {budget.year}
+                </h1>
+              </Col>
+              <Col span={8} style={{ textAlign: 'right' }}>
+                <BudgetFormModal />
+              </Col>
+            </Row>
+            <MonthlyOverview />
           </div>
           <Row>
             <Col span={4}>

@@ -1,6 +1,6 @@
 import {
   BUDGET_LOADED,
-  // BUDGET_UPDATED,
+  BUDGET_INCOME_UPDATED,
   BUDGET_CATEGORY_UPDATED,
   // BUDGET_CATEGORY_IMPORTED,
   // BUDGET_DATE_UPDATED,
@@ -70,6 +70,14 @@ export default function budgetState(state = initialBudgetState, action) {
       return {
         ...state,
         currentBudgetCategory: action.budgetCategory,
+      };
+    case BUDGET_INCOME_UPDATED:
+      return {
+        ...state,
+        budget: {
+          ...state.budget,
+          income: action.income,
+        },
       };
     default:
       return state;
