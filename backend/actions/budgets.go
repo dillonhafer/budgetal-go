@@ -3,7 +3,6 @@ package actions
 import (
 	"encoding/json"
 	"strconv"
-	"time"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
@@ -11,13 +10,12 @@ import (
 )
 
 func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
-	currentYear := time.Now().Local().Year()
 	year, err := strconv.Atoi(c.Param("year"))
-	if err != nil || year > currentYear+3 || year < 2015 {
+	if err != nil || !AllowedYear(year) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 	month, err := strconv.Atoi(c.Param("month"))
-	if err != nil || month > 12 || month < 1 {
+	if err != nil || !AllowedMonth(month) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
@@ -59,13 +57,12 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 }
 
 func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
-	currentYear := time.Now().Local().Year()
 	year, err := strconv.Atoi(c.Param("year"))
-	if err != nil || year > currentYear+3 || year < 2015 {
+	if err != nil || !AllowedYear(year) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 	month, err := strconv.Atoi(c.Param("month"))
-	if err != nil || month > 12 || month < 1 {
+	if err != nil || !AllowedMonth(month) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 	income, ok := Json(c, "income").(string)

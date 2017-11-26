@@ -13,6 +13,15 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+func AllowedYear(year int) bool {
+	currentYear := time.Now().Local().Year()
+	return year > 2014 && year < currentYear+4
+}
+
+func AllowedMonth(month int) bool {
+	return month > 0 && month < 13
+}
+
 func Json(c buffalo.Context, key string) interface{} {
 	for k, v := range c.Data()["JSON"].(map[string]interface{}) {
 		if k == key {
