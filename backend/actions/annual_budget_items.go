@@ -67,7 +67,11 @@ func AnnualBudgetItemsCreate(c buffalo.Context, currentUser *models.User) error 
 }
 
 func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
 	p, paramErr := parseParams(c)
 	if paramErr != nil {
 		err := map[string]string{"error": paramErr.Error()}
@@ -75,7 +79,7 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 	}
 
 	tx := c.Value("tx").(*pop.Connection)
-	item, findErr := findAnnualBudgetItem(int(id), currentUser.ID, tx)
+	item, findErr := findAnnualBudgetItem(id, currentUser.ID, tx)
 	if findErr != nil {
 		err := map[string]string{"error": "Permission denied"}
 		return c.Render(403, r.JSON(err))
@@ -97,10 +101,13 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 }
 
 func AnnualBudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
-	id, _ := strconv.ParseInt(c.Param("id"), 10, 64)
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
 	tx := c.Value("tx").(*pop.Connection)
 
-	item, findErr := findAnnualBudgetItem(int(id), currentUser.ID, tx)
+	item, findErr := findAnnualBudgetItem(id, currentUser.ID, tx)
 	if findErr != nil {
 		err := map[string]string{"error": "Permission denied"}
 		return c.Render(403, r.JSON(err))
