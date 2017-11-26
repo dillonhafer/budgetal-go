@@ -11,7 +11,8 @@ import (
 	. "github.com/markbates/grift/grift"
 )
 
-var _ = envy.Load(".env.production")
+var envFile = envy.Get("to", ".env.production")
+var _ = envy.Load(envFile)
 var server = envy.Get("server", "deploy@budgetal")
 var deployDir = envy.Get("deploy_dir", "budgetal-beta")
 
