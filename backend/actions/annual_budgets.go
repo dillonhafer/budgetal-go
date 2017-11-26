@@ -10,7 +10,7 @@ import (
 
 func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 	year, err := strconv.Atoi(c.Param("year"))
-	if err != nil {
+	if err != nil || !AllowedYear(year) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
