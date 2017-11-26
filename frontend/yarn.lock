@@ -5638,6 +5638,19 @@ rc-menu@^5.0.11:
     rc-animate "2.x"
     rc-util "^4.0.2"
 
+rc-menu@^6.1.0:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-6.2.2.tgz#5087bf4fcd0bc664c309662f68a82600ff716773"
+  dependencies:
+    babel-runtime "6.x"
+    classnames "2.x"
+    create-react-class "^15.5.2"
+    dom-scroll-into-view "1.x"
+    prop-types "^15.5.6"
+    rc-animate "2.x"
+    rc-trigger "^2.3.0"
+    rc-util "^4.1.0"
+
 rc-menu@~5.0.10:
   version "5.0.13"
   resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-5.0.13.tgz#fd2a253e9051ae51b4d13c9aea4759e416001706"
@@ -5680,6 +5693,21 @@ rc-rate@~2.1.1:
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.5.8"
+
+rc-select@^7.3.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-7.3.1.tgz#0b32154f6c73e86d1465bf346ec52f33001947ca"
+  dependencies:
+    babel-runtime "^6.23.0"
+    classnames "2.x"
+    component-classes "1.x"
+    dom-scroll-into-view "1.x"
+    prop-types "^15.5.8"
+    rc-animate "2.x"
+    rc-menu "^6.1.0"
+    rc-trigger "^2.2.0"
+    rc-util "^4.0.4"
+    warning "^3.0.0"
 
 rc-select@~6.9.0:
   version "6.9.3"
@@ -5816,6 +5844,17 @@ rc-trigger@1.x:
     rc-animate "2.x"
     rc-util "4.x"
 
+rc-trigger@^2.2.0, rc-trigger@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-2.3.0.tgz#f42cfe4bc17dab4e4cd613a1d4a156738d252728"
+  dependencies:
+    babel-runtime "6.x"
+    create-react-class "15.x"
+    prop-types "15.x"
+    rc-align "2.x"
+    rc-animate "2.x"
+    rc-util "^4.3.0"
+
 rc-upload@~2.4.0:
   version "2.4.3"
   resolved "https://registry.yarnpkg.com/rc-upload/-/rc-upload-2.4.3.tgz#df793c1dccd5d6815ad256fe776b870bb593edfc"
@@ -5829,6 +5868,15 @@ rc-upload@~2.4.0:
 rc-util@4.x, rc-util@^4.0.2, rc-util@^4.0.4:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-4.1.1.tgz#9350e9c00368b50cd8fbd91775cc1cf9e2ca72b2"
+  dependencies:
+    add-dom-event-listener "1.x"
+    babel-runtime "6.x"
+    prop-types "^15.5.10"
+    shallowequal "^0.2.2"
+
+rc-util@^4.1.0, rc-util@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-4.3.0.tgz#31c61e747e3e107acfe78049f98b275a8051a398"
   dependencies:
     add-dom-event-listener "1.x"
     babel-runtime "6.x"
