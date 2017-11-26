@@ -144,8 +144,8 @@ func (as *ActionSuite) Test_Budgets_Update_ChangesIncome() {
 	count, _ := as.DB.Count(&models.Budgets{})
 	as.Equal(1, count)
 
-	r := as.JSON("/budgets/2017/12").Put(map[string]string{
-		"income": "123.00",
+	r := as.JSON("/budgets/2017/12").Put(map[string]interface{}{
+		"income": 123.45,
 	})
 	responseBudget := models.Budget{}
 	json.NewDecoder(r.Body).Decode(&responseBudget)
@@ -153,10 +153,10 @@ func (as *ActionSuite) Test_Budgets_Update_ChangesIncome() {
 	as.Equal(budget.ID, responseBudget.ID)
 	as.Equal(12, responseBudget.Month)
 	as.Equal(2017, responseBudget.Year)
-	as.Equal(json.Number("123.00"), responseBudget.Income)
+	as.Equal(json.Number("123.45"), responseBudget.Income)
 
 	as.DB.Reload(&budget)
-	as.Equal("123.00", budget.Income.String())
+	as.Equal("123.45", budget.Income.String())
 }
 
 func (as *ActionSuite) Test_Budgets_Update_RequiresUser() {

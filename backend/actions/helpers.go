@@ -1,11 +1,9 @@
 package actions
 
 import (
-	"bytes"
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -20,6 +18,10 @@ func AllowedYear(year int) bool {
 
 func AllowedMonth(month int) bool {
 	return month > 0 && month < 13
+}
+
+func JsonMap(c buffalo.Context) map[string]interface{} {
+	return c.Data()["JSON"].(map[string]interface{})
 }
 
 func Json(c buffalo.Context, key string) interface{} {
@@ -66,12 +68,13 @@ func RandomHex(s int) string {
 func DecodeJson(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		var err error
-		var f interface{}
 		req := c.Request()
 		if bodyHasJson(req) {
-			body, err := ioutil.ReadAll(req.Body)
 			if err == nil {
-				if err = json.Unmarshal([]byte(body), &f); err == nil {
+				d := json.NewDecoder(req.Body)
+				d.UseNumber()
+				var f interface{}
+				if err = d.Decode(&f); err == nil {
 					c.Set("JSON", f)
 					if ENV == "development" {
 						c.LogField("json", f)
@@ -81,7 +84,6 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 				errResp := map[string]string{"error": "Bad Request"}
 				return c.Render(422, r.JSON(errResp))
 			}
-			req.Body = ioutil.NopCloser(bytes.NewBuffer(body))
 		}
 		err = next(c)
 		return err

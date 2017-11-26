@@ -2,7 +2,6 @@ package actions
 
 import (
 	"encoding/json"
-	"errors"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
@@ -10,39 +9,17 @@ import (
 	"github.com/markbates/pop"
 )
 
-type AnnualBudgetItemParams struct {
-	Year           int         `json:"year,omitempty"`
-	AnnualBudgetID int         `json:"annualBudgetId,omitempty"`
-	Name           string      `json:"name,omitempty"`
-	Amount         json.Number `json:"amount,omitempty"`
-	DueDate        string      `json:"dueDate,omitempty"`
-	Interval       int         `json:"interval"`
-	Paid           bool        `json:"paid"`
-}
-
-func parseParams(c buffalo.Context) (AnnualBudgetItemParams, error) {
-	decoder := json.NewDecoder(c.Request().Body)
-	var p AnnualBudgetItemParams
-	err := decoder.Decode(&p)
-	if err != nil {
-		c.Logger().Debug(err)
-		err := errors.New("Invalid Budget Item")
-		return AnnualBudgetItemParams{}, err
-	}
-
-	return p, nil
-}
-
 // AnnualBudgetItemsCreate default implementation.
 func AnnualBudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
-	p, paramErr := parseParams(c)
-	if paramErr != nil {
-		err := map[string]string{"error": paramErr.Error()}
-		return c.Render(401, r.JSON(err))
+	body := JsonMap(c)
+	y := body["year"].(json.Number)
+	year, err := strconv.Atoi(y.String())
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
 	}
 
 	tx := c.Value("tx").(*pop.Connection)
-	budget, findErr := findAnnualBudget(p.Year, currentUser.ID, tx)
+	budget, findErr := findAnnualBudget(year, currentUser.ID, tx)
 	if findErr != nil {
 		err := map[string]string{"error": "Permission denied"}
 		return c.Render(403, r.JSON(err))
@@ -50,11 +27,31 @@ func AnnualBudgetItemsCreate(c buffalo.Context, currentUser *models.User) error 
 
 	item := &models.AnnualBudgetItem{
 		AnnualBudgetID: budget.ID,
-		Name:           p.Name,
-		Amount:         p.Amount,
-		DueDate:        p.DueDate,
-		Paid:           p.Paid,
-		Interval:       p.Interval,
+	}
+	name, ok := body["name"].(string)
+	if ok {
+		item.Name = name
+	}
+
+	amount, ok := body["amount"].(json.Number)
+	if ok {
+		item.Amount = amount
+	}
+
+	dueDate, ok := body["dueDate"].(string)
+	if ok {
+		item.DueDate = dueDate
+	}
+
+	paid, ok := body["paid"].(bool)
+	if ok {
+		item.Paid = paid
+	}
+
+	i := body["interval"].(json.Number)
+	interval, err := strconv.Atoi(i.String())
+	if err == nil {
+		item.Interval = interval
 	}
 
 	createError := tx.Create(item)
@@ -72,12 +69,6 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	p, paramErr := parseParams(c)
-	if paramErr != nil {
-		err := map[string]string{"error": paramErr.Error()}
-		return c.Render(401, r.JSON(err))
-	}
-
 	tx := c.Value("tx").(*pop.Connection)
 	item, findErr := findAnnualBudgetItem(id, currentUser.ID, tx)
 	if findErr != nil {
@@ -85,11 +76,32 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 		return c.Render(403, r.JSON(err))
 	}
 
-	item.Name = p.Name
-	item.Amount = p.Amount
-	item.DueDate = p.DueDate
-	item.Paid = p.Paid
-	item.Interval = p.Interval
+	body := JsonMap(c)
+	name, ok := body["name"].(string)
+	if ok {
+		item.Name = name
+	}
+
+	amount, ok := body["amount"].(json.Number)
+	if ok {
+		item.Amount = amount
+	}
+
+	dueDate, ok := body["dueDate"].(string)
+	if ok {
+		item.DueDate = dueDate
+	}
+
+	paid, ok := body["paid"].(bool)
+	if ok {
+		item.Paid = paid
+	}
+
+	i := body["interval"].(json.Number)
+	interval, err := strconv.Atoi(i.String())
+	if err == nil {
+		item.Interval = interval
+	}
 
 	updateError := tx.Update(item)
 	if updateError != nil {
@@ -97,7 +109,9 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 		return c.Render(422, r.JSON(err))
 	}
 
-	return c.Render(200, r.JSON(map[string]*models.AnnualBudgetItem{"annualBudgetItem": item}))
+	return c.Render(200, r.JSON(map[string]*models.AnnualBudgetItem{
+		"annualBudgetItem": item,
+	}))
 }
 
 func AnnualBudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {

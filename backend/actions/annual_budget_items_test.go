@@ -7,6 +7,16 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 )
 
+type AnnualBudgetItemParams struct {
+	Year           int         `json:"year,omitempty"`
+	AnnualBudgetID int         `json:"annualBudgetId,omitempty"`
+	Name           string      `json:"name,omitempty"`
+	Amount         json.Number `json:"amount,omitempty"`
+	DueDate        string      `json:"dueDate,omitempty"`
+	Interval       int         `json:"interval"`
+	Paid           bool        `json:"paid"`
+}
+
 func (as *ActionSuite) Test_AnnualBudgetItems_Create_RequiresUser() {
 	r := as.JSON("/annual-budget-items").Post(AnnualBudgetItemParams{
 		Year:     2017,
@@ -59,7 +69,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Update_Works() {
 		Amount:         json.Number("0.00"),
 		Name:           "Insurance",
 		DueDate:        "2017-12-12",
-		Paid:           false,
+		Paid:           true,
 		Interval:       8,
 	}
 	as.DB.Create(&i)

@@ -65,7 +65,7 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 	if err != nil || !AllowedMonth(month) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
-	income, ok := Json(c, "income").(string)
+	income, ok := Json(c, "income").(json.Number)
 	if !ok {
 		return c.Render(422, r.JSON("Invalid Income"))
 	}
@@ -91,7 +91,7 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Could not find budget"))
 	}
 
-	budget.Income = json.Number(income)
+	budget.Income = income
 	err = tx.Update(budget)
 	if err != nil {
 		return c.Render(422, r.JSON("Could not update budget"))
