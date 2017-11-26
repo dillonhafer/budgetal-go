@@ -54,7 +54,7 @@ var _ = Desc("maintenance:on", "Enable maintenance mode")
 var _ = Set("maintenance:on", func(c *Context) error {
 	defer timeTrack(time.Now())
 	fmt.Println("Enabling maintenance mode as", server)
-	Run("deploy:maintenance:_on", c)
+	Run("maintenance:_on", c)
 	return nil
 })
 
@@ -62,7 +62,7 @@ var _ = Desc("maintenance:off", "Disable maintenance mode")
 var _ = Set("maintenance:off", func(c *Context) error {
 	defer timeTrack(time.Now())
 	fmt.Println("Disabling maintenance mode as", server)
-	Run("deploy:maintenance:_off", c)
+	Run("maintenance:_off", c)
 	return nil
 })
 
@@ -74,25 +74,19 @@ var _ = Set("deploy:frontend", func(c *Context) error {
 	return nil
 })
 
+var _ = Namespace("maintenance", func() {
+	Set("_on", func(c *Context) error {
+		return Command("ssh", server, fmt.Sprintf("touch %s/build/maintenance_mode_enabled", deployDir))
+	})
+	Set("_off", func(c *Context) error {
+		return Command("ssh", server, fmt.Sprintf("rm -rf %s/build/maintenance_mode_enabled", deployDir))
+	})
+})
+
 var _ = Namespace("deploy", func() {
-	Namespace("maintenance", func() {
-		Set("_on", func(c *Context) error {
-			return Command("ssh", server, fmt.Sprintf("touch %s/build/maintenance_mode_enabled", deployDir))
-		})
-		Set("_off", func(c *Context) error {
-			return Command("ssh", server, fmt.Sprintf("rm -rf %s/build/maintenance_mode_enabled", deployDir))
-		})
-	})
-
-	Desc("daemon-reload", "Reload the system daemon")
-	Set("daemon-reload", func(c *Context) error {
-		Comment("deploy:daemon-reload")
-		return Command("ssh", server, "systemctl daemon-reload")
-	})
-
 	Set("_restart", func(c *Context) error {
 		Comment("Restarting app")
-		return Command("ssh", server, "systemctl restart budgetal")
+		return Command("ssh", server, "sudo systemctl restart budgetal")
 	})
 
 	Set("build-backend", func(c *Context) error {
