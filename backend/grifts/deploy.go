@@ -11,10 +11,10 @@ import (
 	. "github.com/markbates/grift/grift"
 )
 
-var envFile = envy.Get("to", ".env.production")
+var envFile = envy.Get("to", ".env.staging")
 var _ = envy.Load(envFile)
-var server = envy.Get("server", "deploy@budgetal")
-var deployDir = envy.Get("deploy_dir", "budgetal-beta")
+var server = envy.Get("server", "")
+var deployDir = envy.Get("deploy_dir", "")
 
 func timeTrack(s time.Time) {
 	start := s.Round(time.Second)
