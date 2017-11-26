@@ -117,6 +117,9 @@ div.ant-layout-header {
   background: rgba(64, 64, 64, 0.96);
   z-index: 9999;
 }
+.ant-notification {
+  top: 75px !important;
+}
 .ant-menu-dark {
   background: transparent;
 }
