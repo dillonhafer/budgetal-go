@@ -23,3 +23,17 @@ func (as *ActionSuite) Test_MonthlyStatistics_Show_RequiresUser() {
 	r := as.JSON("/monthly-statistics/2017/11").Get()
 	as.Equal(401, r.Code)
 }
+
+func (as *ActionSuite) Test_MonthlyStatistics_Show_BadMonth() {
+	SignedInUser(as)
+
+	response := as.JSON("/monthly-statistics/2017/13").Get()
+	as.Equal(404, response.Code)
+}
+
+func (as *ActionSuite) Test_MonthlyStatistics_Show_BadYear() {
+	SignedInUser(as)
+
+	response := as.JSON("/monthly-statistics/2014/12").Get()
+	as.Equal(404, response.Code)
+}

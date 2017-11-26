@@ -10,15 +10,22 @@ import (
 )
 
 func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
-	month, _ := strconv.ParseInt(c.Param("month"), 10, 64)
-	year, _ := strconv.ParseInt(c.Param("year"), 10, 64)
+	year, pErr := strconv.Atoi(c.Param("year"))
+	if pErr != nil || !AllowedYear(year) {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+	month, pErr := strconv.Atoi(c.Param("month"))
+	if pErr != nil || !AllowedMonth(month) {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
 	var params = struct {
 		Month  int `db:"month"`
 		Year   int `db:"year"`
 		UserID int `db:"user_id"`
 	}{
-		int(month),
-		int(year),
+		month,
+		year,
 		currentUser.ID,
 	}
 
@@ -27,10 +34,6 @@ func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
 		Name        string `json:"name" db:"name"`
 		AmountSpent string `json:"amountSpent" db:"amountSpent"`
 	}
-	var response struct {
-		Categories []Category `json:"budgetCategories"`
-	}
-	response.Categories = []Category{}
 
 	query := `
     select
@@ -52,7 +55,7 @@ func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
 	rows, dbErr := tx.TX.NamedQuery(query, params)
 	if dbErr != nil {
 		c.Logger().Debug(dbErr)
-		return c.Render(200, r.JSON(err))
+		return c.Render(500, r.JSON(err))
 	}
 
 	for rows.Next() {
@@ -60,12 +63,15 @@ func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
 		rErr := rows.Scan(&cat.Name, &cat.AmountSpent)
 		if rErr != nil {
 			c.Logger().Debug(rErr)
-			return c.Render(200, r.JSON(err))
+			return c.Render(500, r.JSON(err))
 		}
 		categories = append(categories, cat)
 	}
 
-	response.Categories = categories
-
+	var response = struct {
+		Categories []Category `json:"budgetCategories"`
+	}{
+		categories,
+	}
 	return c.Render(200, r.JSON(response))
 }
