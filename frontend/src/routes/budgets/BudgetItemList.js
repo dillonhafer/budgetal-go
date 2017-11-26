@@ -70,15 +70,21 @@ class BudgetItemList extends Component {
       : e => e.preventDefault();
 
     const budgetItems = this.props.budgetItems.filter(this.currentItems);
+    const showItemList = budgetItems.length > 0;
     return (
       <div className="row new-budget-item">
-        <Tabs
-          tabPosition="left"
-          onChange={this.onTabChange}
-          activeKey={this.state.activeKey}
-        >
-          {map(budgetItems, this.newBudgetItem)}
-        </Tabs>
+        {showItemList && (
+          <Tabs
+            tabPosition="left"
+            onChange={this.onTabChange}
+            activeKey={this.state.activeKey}
+          >
+            {map(budgetItems, this.newBudgetItem)}
+          </Tabs>
+        )}
+        {!showItemList && (
+          <p className="emptyList">You haven't added any budget items yet.</p>
+        )}
         <br />
         <Button
           icon="plus-circle"
