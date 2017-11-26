@@ -1,4 +1,4 @@
-import { range } from 'lodash';
+import { range, reduce, round } from 'lodash';
 import parser from 'ua-parser-js';
 import moment from 'moment';
 
@@ -39,4 +39,15 @@ export const humanUA = userAgent => {
   }
 
   return text;
+};
+
+export const reduceSum = (array, property = 'amount') => {
+  return reduce(
+    array,
+    (total, item) => {
+      const sum = parseFloat(total) + parseFloat(item[property]);
+      return round(sum, 2);
+    },
+    0.0,
+  );
 };
