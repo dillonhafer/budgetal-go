@@ -9,7 +9,7 @@ import (
 )
 
 func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
-	year, err := strconv.ParseInt(c.Param("year"), 10, 64)
+	year, err := strconv.Atoi(c.Param("year"))
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -18,7 +18,7 @@ func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 		Year   int
 		UserID int
 	}{
-		int(year),
+		year,
 		currentUser.ID,
 	}
 	tx := c.Value("tx").(*pop.Connection)

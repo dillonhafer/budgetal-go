@@ -12,12 +12,12 @@ import (
 
 func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 	currentYear := time.Now().Local().Year()
-	year, err := strconv.ParseInt(c.Param("year"), 10, 64)
-	if err != nil || int(year) > currentYear+3 || int(year) < 2015 {
+	year, err := strconv.Atoi(c.Param("year"))
+	if err != nil || year > currentYear+3 || year < 2015 {
 		return c.Render(404, r.JSON("Not Found"))
 	}
-	month, err := strconv.ParseInt(c.Param("month"), 10, 64)
-	if err != nil || int(month) > 12 || int(month) < 1 {
+	month, err := strconv.Atoi(c.Param("month"))
+	if err != nil || month > 12 || month < 1 {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
@@ -26,8 +26,8 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 		Month  int
 		UserID int
 	}{
-		int(year),
-		int(month),
+		year,
+		month,
 		currentUser.ID,
 	}
 	tx := c.Value("tx").(*pop.Connection)
@@ -60,12 +60,12 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 
 func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 	currentYear := time.Now().Local().Year()
-	year, err := strconv.ParseInt(c.Param("year"), 10, 64)
-	if err != nil || int(year) > currentYear+3 || int(year) < 2015 {
+	year, err := strconv.Atoi(c.Param("year"))
+	if err != nil || year > currentYear+3 || year < 2015 {
 		return c.Render(404, r.JSON("Not Found"))
 	}
-	month, err := strconv.ParseInt(c.Param("month"), 10, 64)
-	if err != nil || int(month) > 12 || int(month) < 1 {
+	month, err := strconv.Atoi(c.Param("month"))
+	if err != nil || month > 12 || month < 1 {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 	income, ok := Json(c, "income").(string)
@@ -78,8 +78,8 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 		Month  int
 		UserID int
 	}{
-		int(year),
-		int(month),
+		year,
+		month,
 		currentUser.ID,
 	}
 	tx := c.Value("tx").(*pop.Connection)
