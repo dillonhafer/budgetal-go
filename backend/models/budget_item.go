@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
+	"github.com/fatih/color"
+	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/pop"
 )
 
@@ -18,11 +20,13 @@ type BudgetItem struct {
 
 type BudgetItems []BudgetItem
 
-func (budgetItem *BudgetItem) DestroyAllExpenses(tx *pop.Connection) error {
+func (budgetItem *BudgetItem) DestroyAllExpenses(tx *pop.Connection, logger buffalo.Logger) error {
 	query := `
     delete from budget_item_expenses
     where budget_item_id = :id
   `
+	logger.Debug(color.YellowString(query))
+
 	_, err := tx.Store.NamedExec(query, budgetItem)
 	return err
 }

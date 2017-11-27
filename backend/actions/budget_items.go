@@ -90,7 +90,7 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	// delete expenses
-	expenseDeleteErrors := item.DestroyAllExpenses(tx)
+	expenseDeleteErrors := item.DestroyAllExpenses(tx, c.Logger())
 	if expenseDeleteErrors != nil {
 		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
 	}
