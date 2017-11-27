@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 
 // Redux
 import { connect } from 'react-redux';
-import { updateBudgetItem } from 'actions/budgets';
+import {
+  updateBudgetItem,
+  updateNullBudgetItem,
+  removeBudgetItem,
+} from 'actions/budgets';
 
 // API
 import {
@@ -38,21 +42,6 @@ class BudgetItem extends Component {
     }
   };
 
-  updateFromEvent = e => {
-    switch (e.target.name) {
-      case 'name':
-        const updatedItem = Object.assign({}, this.props.budgetItem, {
-          [e.target.name]: e.target.value,
-        });
-        this.props.updateBudgetItem(updatedItem);
-        break;
-      case 'amount':
-        this.updateAmount(e.target.value);
-        break;
-      default:
-    }
-  };
-
   updateAmount = amount => {
     const updatedItem = Object.assign({}, this.props.budgetItem, {
       amount: String(amount).replace(/\$\s?|(,*)/g, ''),
@@ -63,11 +52,14 @@ class BudgetItem extends Component {
   persistBudgetItem = async budgetItem => {
     try {
       this.setState({ loading: true });
-      const isPersisted = budgetItem.id > 0;
+      const isPersisted = budgetItem.id !== null;
       const strategy = isPersisted ? UpdateItemRequest : CreateItemRequest;
       const resp = await strategy(budgetItem);
 
       if (resp && resp.ok) {
+        if (budgetItem.id === null) {
+          this.props.updateNullBudgetItem(resp.budgetItem);
+        }
         notice(`Saved ${resp.budgetItem.name}`);
       }
     } catch (err) {
@@ -88,14 +80,14 @@ class BudgetItem extends Component {
 
   deleteBudgetItem = async () => {
     try {
-      if (this.props.budgetItem.id !== undefined) {
+      if (this.props.budgetItem.id !== null) {
         const resp = await DestroyItemRequest(this.props.budgetItem.id);
         if (resp !== null) {
           notice('Deleted ' + this.props.budgetItem.name);
         }
       }
 
-      this.props.deleteBudgetItem(this.props.budgetItem);
+      this.props.removeBudgetItem(this.props.budgetItem);
     } catch (err) {
       // apiError(err.message);
     }
@@ -148,9 +140,11 @@ class BudgetItem extends Component {
   render() {
     const item = this.props.budgetItem;
     const deleteFunction =
-      item.id > 0
+      item.id !== null
         ? this.handleDeleteClick
-        : this.props.deleteBudgetItem.bind(this, item);
+        : () => {
+            this.props.removeBudgetItem(item);
+          };
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 8 },
@@ -286,6 +280,12 @@ export default connect(
   dispatch => ({
     updateBudgetItem: income => {
       dispatch(updateBudgetItem(income));
+    },
+    updateNullBudgetItem: item => {
+      dispatch(updateNullBudgetItem(item));
+    },
+    removeBudgetItem: item => {
+      dispatch(removeBudgetItem(item));
     },
   }),
 )(Form.create(formProps)(BudgetItem));

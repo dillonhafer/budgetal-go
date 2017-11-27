@@ -3,6 +3,9 @@ import {
   BUDGET_CATEGORY_UPDATED,
   BUDGET_ITEM_UPDATED,
   BUDGET_INCOME_UPDATED,
+  BUDGET_ITEM_NEW,
+  BUDGET_ITEM_SAVED,
+  BUDGET_ITEM_DELETED,
 } from 'action-types';
 
 export const budgetLoaded = ({
@@ -37,6 +40,27 @@ export const updateIncome = income => {
 export const updateBudgetItem = budgetItem => {
   return {
     type: BUDGET_ITEM_UPDATED,
+    budgetItem,
+  };
+};
+
+export const updateNullBudgetItem = budgetItem => {
+  return {
+    type: BUDGET_ITEM_SAVED,
+    budgetItem,
+  };
+};
+
+export const newBudgetItem = budgetCategoryId => {
+  return {
+    type: BUDGET_ITEM_NEW,
+    budgetCategoryId,
+  };
+};
+
+export const removeBudgetItem = budgetItem => {
+  return {
+    type: BUDGET_ITEM_DELETED,
     budgetItem,
   };
 };

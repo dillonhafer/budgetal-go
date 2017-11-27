@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // Redux
 import { connect } from 'react-redux';
+import { newBudgetItem } from 'actions/budgets';
 
 // Components
 import BudgetItem from './BudgetItem';
@@ -26,7 +27,7 @@ class BudgetItemList extends Component {
 
   addBudgetItem = e => {
     e.preventDefault();
-    this.props.newBudgetItem();
+    this.props.newBudgetItem(this.props.currentBudgetCategory.id);
   };
 
   currentItems = item => {
@@ -34,13 +35,11 @@ class BudgetItemList extends Component {
   };
 
   render() {
-    const noNewItems =
-      find(
-        this.props.budgetItems,
-        budgetItem => budgetItem.id === undefined,
-      ) === undefined;
-
     const budgetItems = this.props.budgetItems.filter(this.currentItems);
+    const noNewItems =
+      find(budgetItems, i => {
+        return i.id === null;
+      }) === undefined;
     const showItemList = budgetItems.length > 0;
     return (
       <div className="row new-budget-item">
@@ -70,8 +69,8 @@ export default connect(
     ...state.budget,
   }),
   dispatch => ({
-    newBudgetItem: () => {
-      //dispatch(newBudgetItem)
+    newBudgetItem: budgetCategoryId => {
+      dispatch(newBudgetItem(budgetCategoryId));
     },
   }),
 )(BudgetItemList);

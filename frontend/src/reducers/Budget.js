@@ -2,11 +2,11 @@ import {
   BUDGET_LOADED,
   BUDGET_INCOME_UPDATED,
   BUDGET_CATEGORY_UPDATED,
-  // BUDGET_CATEGORY_IMPORTED,
-  // BUDGET_ITEM_NEW,
-  // BUDGET_ITEM_SAVED,
+  BUDGET_ITEM_NEW,
   BUDGET_ITEM_UPDATED,
-  // BUDGET_ITEM_DELETED,
+  BUDGET_ITEM_SAVED,
+  BUDGET_ITEM_DELETED,
+  // BUDGET_CATEGORY_IMPORTED,
   // BUDGET_ITEM_MOVED,
   // BUDGET_ITEM_EXPENSE_NEW,
   // BUDGET_ITEM_EXPENSE_SAVED,
@@ -82,7 +82,10 @@ export default function budgetState(state = initialBudgetState, action) {
       return {
         ...state,
         budgetItems: state.budgetItems.map(item => {
-          if (item.id === action.budgetItem.id) {
+          if (
+            item.budgetCategoryId === action.budgetItem.budgetCategoryId &&
+            item.id === action.budgetItem.id
+          ) {
             return {
               ...item,
               ...action.budgetItem,
@@ -91,6 +94,50 @@ export default function budgetState(state = initialBudgetState, action) {
 
           return item;
         }),
+      };
+    case BUDGET_ITEM_SAVED:
+      return {
+        ...state,
+        budgetItems: state.budgetItems.map(item => {
+          if (
+            item.budgetCategoryId === action.budgetItem.budgetCategoryId &&
+            item.id === null
+          ) {
+            return {
+              ...item,
+              ...action.budgetItem,
+            };
+          }
+
+          return item;
+        }),
+      };
+    case BUDGET_ITEM_NEW:
+      return {
+        ...state,
+        budgetItems: [
+          ...state.budgetItems,
+          {
+            id: null,
+            budgetCategoryId: action.budgetCategoryId,
+            amount: 0.0,
+            name: '',
+          },
+        ],
+      };
+    case BUDGET_ITEM_DELETED:
+      const item_deleted_idx = state.budgetItems.findIndex(i => {
+        return (
+          i.budgetCategoryId === action.budgetItem.budgetCategoryId &&
+          i.id === action.budgetItem.id
+        );
+      });
+      return {
+        ...state,
+        budgetItems: [
+          ...state.budgetItems.slice(0, item_deleted_idx),
+          ...state.budgetItems.slice(item_deleted_idx + 1),
+        ],
       };
     default:
       return state;
