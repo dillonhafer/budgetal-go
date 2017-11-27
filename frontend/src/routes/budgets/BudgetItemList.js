@@ -12,34 +12,13 @@ import { Button, Tabs, Icon } from 'antd';
 const TabPane = Tabs.TabPane;
 
 class BudgetItemList extends Component {
-  state = {
-    activeKey: 'tab0',
-  };
-
-  componentWillReceiveProps = nextProps => {
-    if (
-      nextProps.currentBudgetCategory.id !== this.props.currentBudgetCategory.id
-    ) {
-      this.resetTabs();
-    }
-
-    if (this.props.budgetItems.length > nextProps.budgetItems.length) {
-      this.resetTabs();
-    }
-  };
-
-  resetTabs = () => {
-    this.setState({ activeKey: 'tab0' });
-  };
-
   newBudgetItem = (budgetItem, index) => {
-    const tab = budgetItem.name.length ? (
-      budgetItem.name
-    ) : (
-      <Icon type="question" />
-    );
+    const tab = budgetItem.name ? budgetItem.name : <Icon type="question" />;
     return (
-      <TabPane tab={tab} key={'tab' + index}>
+      <TabPane
+        tab={tab}
+        key={`tab-${budgetItem.budgetCategoryId}-${budgetItem.id}`}
+      >
         <BudgetItem budgetItem={budgetItem} />
       </TabPane>
     );
@@ -48,11 +27,6 @@ class BudgetItemList extends Component {
   addBudgetItem = e => {
     e.preventDefault();
     this.props.newBudgetItem();
-    this.setState({ activeKey: 'tab' + this.props.budgetItems.length });
-  };
-
-  onTabChange = activeKey => {
-    this.setState({ activeKey });
   };
 
   currentItems = item => {
@@ -65,22 +39,13 @@ class BudgetItemList extends Component {
         this.props.budgetItems,
         budgetItem => budgetItem.id === undefined,
       ) === undefined;
-    const onClickHandle = noNewItems
-      ? this.addBudgetItem
-      : e => e.preventDefault();
 
     const budgetItems = this.props.budgetItems.filter(this.currentItems);
     const showItemList = budgetItems.length > 0;
     return (
       <div className="row new-budget-item">
         {showItemList && (
-          <Tabs
-            tabPosition="left"
-            onChange={this.onTabChange}
-            activeKey={this.state.activeKey}
-          >
-            {map(budgetItems, this.newBudgetItem)}
-          </Tabs>
+          <Tabs tabPosition="left">{map(budgetItems, this.newBudgetItem)}</Tabs>
         )}
         {!showItemList && (
           <p className="emptyList">You haven't added any budget items yet.</p>
@@ -88,7 +53,7 @@ class BudgetItemList extends Component {
         <br />
         <Button
           icon="plus-circle"
-          onClick={onClickHandle}
+          onClick={this.addBudgetItem}
           type="primary"
           size="large"
           disabled={!noNewItems}
@@ -104,5 +69,9 @@ export default connect(
   state => ({
     ...state.budget,
   }),
-  dispatch => ({}),
+  dispatch => ({
+    newBudgetItem: () => {
+      //dispatch(newBudgetItem)
+    },
+  }),
 )(BudgetItemList);

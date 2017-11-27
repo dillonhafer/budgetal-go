@@ -48,7 +48,16 @@ class BudgetCategory extends Component {
       <div className="budget-category-row">
         <Card
           noHovering
-          title={budgetCategory.name}
+          title={
+            <span>
+              <span
+                className={`category-card-header category-card-header-${budgetCategory.name
+                  .toLowerCase()
+                  .replace('/', '-')}`}
+              />
+              {budgetCategory.name}
+            </span>
+          }
           extra={
             <a
               onClick={this.clickImport}

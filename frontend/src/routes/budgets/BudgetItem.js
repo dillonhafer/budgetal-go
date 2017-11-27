@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
+
+// Redux
+import { connect } from 'react-redux';
+import { updateBudgetItem } from 'actions/budgets';
+
+// API
 import {
   CreateItemRequest,
   UpdateItemRequest,
   DestroyItemRequest,
 } from 'api/budget-items';
+
+// Helpers
+import classNames from 'classnames';
 import { currencyf } from 'helpers';
 import { notice } from 'window';
-
 import {
   Button,
   Col,
@@ -58,16 +65,10 @@ class BudgetItem extends Component {
       this.setState({ loading: true });
       const isPersisted = budgetItem.id > 0;
       const strategy = isPersisted ? UpdateItemRequest : CreateItemRequest;
-      const afterSaveStrategy = isPersisted
-        ? this.props.updateBudgetItem
-        : this.props.saveBudgetItem;
       const resp = await strategy(budgetItem);
 
-      if (!!resp.errors) {
-        notice(resp.errors, 'error');
-      } else {
-        notice(`Saved ${resp.name}`);
-        afterSaveStrategy(resp);
+      if (resp && resp.ok) {
+        notice(`Saved ${resp.budgetItem.name}`);
       }
     } catch (err) {
       // apiError(err.message);
@@ -118,6 +119,7 @@ class BudgetItem extends Component {
     Modal.confirm({
       wrapClassName: 'delete-button',
       okText: `Delete ${this.props.budgetItem.name}`,
+      okType: 'danger',
       cancelText: 'Cancel',
       title: `Delete ${this.props.budgetItem.name}`,
       content: `Are you sure you want to delete ${this.props.budgetItem
@@ -172,14 +174,9 @@ class BudgetItem extends Component {
       <div>
         <Row>
           <Col span={8}>
-            <Form
-              layout="horizontal"
-              onSubmit={this.save}
-              onChange={this.updateFromEvent}
-            >
+            <Form layout="horizontal" onSubmit={this.save}>
               <FormItem {...formItemLayout} label="Name">
                 {getFieldDecorator('name', {
-                  initialValue: item.name,
                   rules: [
                     {
                       required: true,
@@ -190,7 +187,6 @@ class BudgetItem extends Component {
               </FormItem>
               <FormItem {...formItemLayout} label="Amount">
                 {getFieldDecorator('amount', {
-                  initialValue: parseFloat(item.amount),
                   rules: [
                     {
                       type: 'number',
@@ -207,7 +203,6 @@ class BudgetItem extends Component {
                     formatter={value =>
                       `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                     parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                    onChange={this.updateAmount}
                   />,
                 )}
               </FormItem>
@@ -247,7 +242,7 @@ class BudgetItem extends Component {
               <Col span={4} style={{ alignSelf: 'flex-start' }}>
                 <Button
                   onClick={deleteFunction}
-                  type="primary"
+                  type="danger"
                   className="delete-button right"
                   shape="circle"
                   icon="delete"
@@ -262,4 +257,35 @@ class BudgetItem extends Component {
   }
 }
 
-export default Form.create()(BudgetItem);
+const formProps = {
+  mapPropsToFields: props => {
+    return {
+      name: { value: props.budgetItem.name },
+      amount: { value: props.budgetItem.amount },
+    };
+  },
+  onFieldsChange: (props, fields) => {
+    if (fields.hasOwnProperty('amount')) {
+      props.updateBudgetItem({
+        ...props.budgetItem,
+        amount: fields['amount'].value,
+      });
+    }
+
+    if (fields.hasOwnProperty('name')) {
+      props.updateBudgetItem({
+        ...props.budgetItem,
+        name: fields['name'].value,
+      });
+    }
+  },
+};
+
+export default connect(
+  state => ({}),
+  dispatch => ({
+    updateBudgetItem: income => {
+      dispatch(updateBudgetItem(income));
+    },
+  }),
+)(Form.create(formProps)(BudgetItem));

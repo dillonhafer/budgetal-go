@@ -3,10 +3,9 @@ import {
   BUDGET_INCOME_UPDATED,
   BUDGET_CATEGORY_UPDATED,
   // BUDGET_CATEGORY_IMPORTED,
-  // BUDGET_DATE_UPDATED,
   // BUDGET_ITEM_NEW,
   // BUDGET_ITEM_SAVED,
-  // BUDGET_ITEM_UPDATED,
+  BUDGET_ITEM_UPDATED,
   // BUDGET_ITEM_DELETED,
   // BUDGET_ITEM_MOVED,
   // BUDGET_ITEM_EXPENSE_NEW,
@@ -78,6 +77,20 @@ export default function budgetState(state = initialBudgetState, action) {
           ...state.budget,
           income: action.income,
         },
+      };
+    case BUDGET_ITEM_UPDATED:
+      return {
+        ...state,
+        budgetItems: state.budgetItems.map(item => {
+          if (item.id === action.budgetItem.id) {
+            return {
+              ...item,
+              ...action.budgetItem,
+            };
+          }
+
+          return item;
+        }),
       };
     default:
       return state;

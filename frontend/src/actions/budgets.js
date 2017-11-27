@@ -1,6 +1,7 @@
 import {
   BUDGET_LOADED,
   BUDGET_CATEGORY_UPDATED,
+  BUDGET_ITEM_UPDATED,
   BUDGET_INCOME_UPDATED,
 } from 'action-types';
 
@@ -30,5 +31,12 @@ export const updateIncome = income => {
   return {
     type: BUDGET_INCOME_UPDATED,
     income,
+  };
+};
+
+export const updateBudgetItem = budgetItem => {
+  return {
+    type: BUDGET_ITEM_UPDATED,
+    budgetItem,
   };
 };

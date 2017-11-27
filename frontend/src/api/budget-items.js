@@ -1,13 +1,13 @@
-import { _get } from 'api';
+import { _post, _put, _delete } from 'api';
 
-export function CreateItemRequest({ month, year }) {
-  return _get(`/budgets/${year}/${month}`);
+export function CreateItemRequest(budgetItem) {
+  return _post(`/budget-items`, budgetItem);
 }
 
-export function UpdateItemRequest({ month, year }) {
-  return _get(`/budgets/${year}/${month}`);
+export function UpdateItemRequest(budgetItem) {
+  return _put(`/budget-items/${budgetItem.id}`, budgetItem);
 }
 
-export function DestroyItemRequest({ month, year }) {
-  return _get(`/budgets/${year}/${month}`);
+export function DestroyItemRequest(id) {
+  return _delete(`/budget-items/${id}`);
 }

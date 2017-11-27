@@ -10,6 +10,18 @@
   height: 55px;
 }
 
+.category-card-header {
+  background-image: url(../images/categories.png);
+  background-repeat: no-repeat;
+  background-size: 35px;
+  vertical-align: middle;
+  margin-bottom: 7px;
+  margin-right: 7px;
+  height: 35px;
+  width: 35px;
+  display: inline-block;
+}
+
 .icon-bar .ant-menu-inline .ant-menu-item,
 .icon-bar .ant-menu-inline .ant-menu-submenu-title,
 .icon-bar ul.ant-menu li.ant-menu-vertical .ant-menu-item {
@@ -88,3 +100,54 @@
   text-align: center;
 }
 
+.category-card-header-charity {
+  background-position: 0px 2px;
+}
+
+.category-card-header-saving {
+  background-position: 0px -34px;
+}
+
+.category-card-header-housing {
+  background-position: 0px -69px;
+}
+
+.category-card-header-utilities {
+  background-position: 0px -105px;
+}
+
+.category-card-header-food {
+  background-position: 0px -140px;
+}
+
+.category-card-header-clothing {
+  background-position: 0px -174px;
+}
+
+.category-card-header-transportation {
+  background-position: 0px -211px;
+}
+
+.category-card-header-medical-health {
+  background-position: 0px -245px;
+}
+
+.category-card-header-insurance {
+  background-position: 0px -281px;
+}
+
+.category-card-header-personal {
+  background-position: 0px -315px;
+}
+
+.category-card-header-recreation {
+  background-position: 0px -350px;
+}
+
+.category-card-header-debts {
+  background-position: 0px -386px;
+}
+
+.ant-input-number {
+  width: 100%;
+}
