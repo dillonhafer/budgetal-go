@@ -3,6 +3,7 @@ package actions
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 )
@@ -88,6 +89,44 @@ func (as *ActionSuite) Test_BudgetItems_Delete_Works() {
 
 	afterTotal, _ := as.DB.Count(&models.BudgetItems{})
 	as.Equal(0, afterTotal)
+}
+
+func (as *ActionSuite) Test_BudgetItems_Delete_Cascades() {
+	user := SignedInUser(as)
+	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
+	b.FindOrCreate(as.DB)
+	category := models.BudgetCategory{}
+	as.DB.BelongsTo(&b).First(&category)
+
+	i := models.BudgetItem{
+		BudgetCategoryId: category.ID,
+		Amount:           json.Number("10.00"),
+		Name:             "Savings",
+	}
+	as.DB.Create(&i)
+
+	e := models.BudgetItemExpense{
+		BudgetItemId: i.ID,
+		Name:         "Account Transfer",
+		Date:         time.Now(),
+		Amount:       json.Number("8.00"),
+	}
+	as.DB.Create(&e)
+
+	beforeItemTotal, _ := as.DB.Count(&models.BudgetItems{})
+	as.Equal(1, beforeItemTotal)
+
+	beforeExpenseTotal, _ := as.DB.Count(&models.BudgetItemExpenses{})
+	as.Equal(1, beforeExpenseTotal)
+
+	r := as.JSON(fmt.Sprintf("/budget-items/%d", i.ID)).Delete()
+	as.Equal(200, r.Code)
+
+	afterItemTotal, _ := as.DB.Count(&models.BudgetItems{})
+	as.Equal(0, afterItemTotal)
+
+	afterExpenseTotal, _ := as.DB.Count(&models.BudgetItemExpenses{})
+	as.Equal(0, afterExpenseTotal)
 }
 
 func (as *ActionSuite) Test_BudgetItems_Create_RequiresUser() {

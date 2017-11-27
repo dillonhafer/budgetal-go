@@ -89,11 +89,20 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	// delete
-	tx.Destroy(&item)
+	// delete expenses
+	expenseDeleteErrors := item.DestroyAllExpenses(tx)
+	if expenseDeleteErrors != nil {
+		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+	}
+
+	// delete item
+	deleteErr := tx.Destroy(&item)
+	if deleteErr != nil {
+		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+	}
 
 	// render
-	return c.Render(200, r.JSON(""))
+	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
 
 func findBudgetCategory(categoryID, userId int, tx *pop.Connection) (models.BudgetCategory, error) {

@@ -3,6 +3,8 @@ package models
 import (
 	"encoding/json"
 	"time"
+
+	"github.com/markbates/pop"
 )
 
 type BudgetItem struct {
@@ -15,3 +17,12 @@ type BudgetItem struct {
 }
 
 type BudgetItems []BudgetItem
+
+func (budgetItem *BudgetItem) DestroyAllExpenses(tx *pop.Connection) error {
+	query := `
+    delete from budget_item_expenses
+    where budget_item_id = :id
+  `
+	_, err := tx.Store.NamedExec(query, budgetItem)
+	return err
+}
