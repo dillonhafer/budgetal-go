@@ -2,7 +2,6 @@ package actions
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
@@ -11,7 +10,39 @@ import (
 )
 
 func BudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
-	return nil
+	body := JsonMap(c)
+	cid := body["budgetCategoryId"].(json.Number)
+	categoryID, err := strconv.Atoi(cid.String())
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
+	// Find Category
+	tx := c.Value("tx").(*pop.Connection)
+	category, err := findBudgetCategory(categoryID, currentUser.ID, tx)
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
+	item := models.BudgetItem{
+		BudgetCategoryId: category.ID,
+	}
+
+	// Create
+	name, ok := body["name"].(string)
+	if ok {
+		item.Name = name
+	}
+	amount, ok := body["amount"].(json.Number)
+	if ok {
+		item.Amount = amount
+	}
+	tx.Create(&item)
+
+	// render
+	return c.Render(200, r.JSON(map[string]models.BudgetItem{
+		"budgetItem": item,
+	}))
 }
 
 func BudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
@@ -65,6 +96,20 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 	return c.Render(200, r.JSON(""))
 }
 
+func findBudgetCategory(categoryID, userId int, tx *pop.Connection) (models.BudgetCategory, error) {
+	c := models.BudgetCategory{}
+	q := `
+    select budget_categories.*
+      from budget_categories
+    join budgets on budget_categories.budget_id = budgets.id
+    where budgets.user_id = ?
+    and budget_categories.id = ?
+    limit 1
+  `
+	err := tx.RawQuery(q, userId, categoryID).First(&c)
+	return c, err
+}
+
 func findBudgetItem(id, userId int, tx *pop.Connection) (models.BudgetItem, error) {
 	i := models.BudgetItem{}
 	q := `
@@ -83,6 +128,5 @@ func findBudgetItem(id, userId int, tx *pop.Connection) (models.BudgetItem, erro
     limit 1
   `
 	err := tx.RawQuery(q, userId, id).First(&i)
-	println(fmt.Sprintf("DB ERROR: %#v", err))
 	return i, err
 }

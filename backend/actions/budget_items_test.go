@@ -7,6 +7,32 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 )
 
+func (as *ActionSuite) Test_BudgetItems_Create_Works() {
+	user := SignedInUser(as)
+	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
+	b.FindOrCreate(as.DB)
+	category := models.BudgetCategory{}
+	as.DB.BelongsTo(&b).First(&category)
+
+	r := as.JSON("/budget-items").Post(map[string]interface{}{
+		"budgetCategoryId": category.ID,
+		"name":             "Life Insurance",
+		"amount":           json.Number("200.00"),
+	})
+	var rb struct {
+		BudgetItem models.BudgetItem `json:"budgetItem"`
+	}
+	json.NewDecoder(r.Body).Decode(&rb)
+	as.Equal(200, r.Code)
+	as.NotEmpty(rb.BudgetItem.ID)
+	as.Equal("Life Insurance", rb.BudgetItem.Name)
+	as.Equal("200.00", rb.BudgetItem.Amount.String())
+
+	all := models.BudgetItems{}
+	total, _ := as.DB.Count(&all)
+	as.Equal(1, total)
+}
+
 func (as *ActionSuite) Test_BudgetItems_Update_Works() {
 	user := SignedInUser(as)
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
