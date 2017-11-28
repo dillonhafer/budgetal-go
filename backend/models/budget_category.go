@@ -64,7 +64,7 @@ func (budgetCategory *BudgetCategory) ImportPreviousItems(tx *pop.Connection) (s
 	tx.BelongsTo(&previousBudget).Where(`name = ?`, budgetCategory.Name).First(&previousBudgetCategory)
 
 	previousItems := BudgetItems{}
-	tx.BelongsTo(&previousBudgetCategory).All(&previousItems)
+	tx.BelongsTo(&previousBudgetCategory).Order(`created_at`).All(&previousItems)
 
 	newItems := BudgetItems{}
 	for _, item := range previousItems {
