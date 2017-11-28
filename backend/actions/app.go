@@ -121,6 +121,9 @@ func App() *buffalo.App {
 		app.GET("/budgets/{year}/{month}", WithCurrentUser(BudgetsIndex))
 		app.PUT("/budgets/{year}/{month}", WithCurrentUser(BudgetsUpdate))
 
+		// Budget Categories
+		app.POST("/budget-categories/{id}/import", WithCurrentUser(BudgetCategoryImport))
+
 		// Budget Items
 		app.POST("/budget-items", WithCurrentUser(BudgetItemsCreate))
 		app.PUT("/budget-items/{id}", WithCurrentUser(BudgetItemsUpdate))

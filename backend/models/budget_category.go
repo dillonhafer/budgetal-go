@@ -1,7 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"time"
+
+	"github.com/markbates/pop"
 )
 
 type BudgetCategory struct {
@@ -38,4 +41,54 @@ func (s BudgetCategories) Swap(i, j int) {
 }
 func (s BudgetCategories) Less(i, j int) bool {
 	return SortOrder[s[i].Name] < SortOrder[s[j].Name]
+}
+
+func (budgetCategory *BudgetCategory) ImportPreviousItems(tx *pop.Connection) (string, BudgetItems) {
+	budget := Budget{}
+	tx.Find(&budget, budgetCategory.BudgetId)
+
+	var previousMonth, previousYear int
+	if budget.Month > 1 {
+		previousMonth = budget.Month - 1
+		previousYear = budget.Year
+	} else {
+		previousMonth = 12
+		previousYear = budget.Year - 1
+	}
+
+	previousBudget := Budget{}
+	previousBudgetCategory := BudgetCategory{}
+	tx.Where(`
+		user_id = ? and year = ? and month = ?
+	`, budget.UserID, previousYear, previousMonth).First(&previousBudget)
+	tx.BelongsTo(&previousBudget).Where(`name = ?`, budgetCategory.Name).First(&previousBudgetCategory)
+
+	previousItems := BudgetItems{}
+	tx.BelongsTo(&previousBudgetCategory).All(&previousItems)
+
+	newItems := BudgetItems{}
+	for _, item := range previousItems {
+		newItem := BudgetItem{
+			BudgetCategoryId: budgetCategory.ID,
+			Name:             item.Name,
+			Amount:           item.Amount,
+		}
+		tx.Create(&newItem)
+		newItems = append(newItems, newItem)
+	}
+
+	count := len(previousItems)
+	message := "There was nothing to import"
+	if count > 0 {
+		message = fmt.Sprintf("Imported %s", pluralize(count, "item", "items"))
+	}
+	return message, newItems
+}
+
+func pluralize(count int, singular, plural string) string {
+	word := plural
+	if count == 1 {
+		word = singular
+	}
+	return fmt.Sprintf("%d %s", count, word)
 }
