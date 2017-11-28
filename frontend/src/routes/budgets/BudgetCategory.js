@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 
 // Redux
 import { connect } from 'react-redux';
-import { updateBudgetCategory } from 'actions/budgets';
+import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
 
 // Components
-// import ImportModal from './ImportModal';
 import BudgetItemList from './BudgetItemList';
 import { ImportCategoryRequest } from 'api/budgets';
 import { notice } from 'window';
@@ -21,15 +20,17 @@ class BudgetCategory extends Component {
       cancelText: 'Cancel',
       title: 'Import Budget Items',
       content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
-      onOk: this.importPreviousItems.bind(this, budgetCategory.id),
+      onOk: this.importPreviousItems,
       onCancel() {},
     });
   };
 
   importPreviousItems = async budgetCategoryId => {
-    const resp = await ImportCategoryRequest(budgetCategoryId);
+    const resp = await ImportCategoryRequest(
+      this.props.currentBudgetCategory.id,
+    );
     if (resp && resp.ok) {
-      this.props.importedBudgetItems(resp.imported);
+      this.props.importedBudgetItems(resp.budgetItems);
       notice(resp.message);
     }
   };
@@ -83,6 +84,9 @@ export default connect(
     ...state.budget,
   }),
   dispatch => ({
+    importedBudgetItems: budgetItems => {
+      dispatch(importedBudgetItems(budgetItems));
+    },
     changeCategory: budgetCategory => {
       dispatch(updateBudgetCategory({ budgetCategory }));
     },

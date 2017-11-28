@@ -1,11 +1,11 @@
-import { _get, _put } from 'api';
+import { _get, _post, _put } from 'api';
 
 export function BudgetRequest({ month, year }) {
   return _get(`/budgets/${year}/${month}`);
 }
 
-export function ImportCategoryRequest({ month, year }) {
-  return _get(`/budgets/${year}/${month}`);
+export function ImportCategoryRequest(id) {
+  return _post(`/budget-categories/${id}/import`);
 }
 
 export function UpdateIncomeRequest({ month, year, income }) {

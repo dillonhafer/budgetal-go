@@ -6,7 +6,7 @@ import {
   BUDGET_ITEM_UPDATED,
   BUDGET_ITEM_SAVED,
   BUDGET_ITEM_DELETED,
-  // BUDGET_CATEGORY_IMPORTED,
+  BUDGET_CATEGORY_IMPORTED,
   // BUDGET_ITEM_MOVED,
   // BUDGET_ITEM_EXPENSE_NEW,
   // BUDGET_ITEM_EXPENSE_SAVED,
@@ -138,6 +138,11 @@ export default function budgetState(state = initialBudgetState, action) {
           ...state.budgetItems.slice(0, item_deleted_idx),
           ...state.budgetItems.slice(item_deleted_idx + 1),
         ],
+      };
+    case BUDGET_CATEGORY_IMPORTED:
+      return {
+        ...state,
+        budgetItems: [...state.budgetItems, ...action.budgetItems],
       };
     default:
       return state;

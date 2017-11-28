@@ -6,6 +6,7 @@ import {
   BUDGET_ITEM_NEW,
   BUDGET_ITEM_SAVED,
   BUDGET_ITEM_DELETED,
+  BUDGET_CATEGORY_IMPORTED,
 } from 'action-types';
 
 export const budgetLoaded = ({
@@ -62,5 +63,12 @@ export const removeBudgetItem = budgetItem => {
   return {
     type: BUDGET_ITEM_DELETED,
     budgetItem,
+  };
+};
+
+export const importedBudgetItems = budgetItems => {
+  return {
+    type: BUDGET_CATEGORY_IMPORTED,
+    budgetItems,
   };
 };
