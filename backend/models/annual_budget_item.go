@@ -17,3 +17,22 @@ type AnnualBudgetItem struct {
 	UpdatedAt      time.Time   `json:"-" db:"updated_at"`
 }
 type AnnualBudgetItems []AnnualBudgetItem
+
+func (item *AnnualBudgetItem) Update(params *AnnualBudgetItem) error {
+	if item.Name != params.Name {
+		item.Name = params.Name
+	}
+	if item.Amount != params.Amount {
+		item.Amount = params.Amount
+	}
+	if item.DueDate != params.DueDate {
+		item.DueDate = params.DueDate
+	}
+	if item.Interval != params.Interval {
+		item.Interval = params.Interval
+	}
+	if item.Paid != params.Paid {
+		item.Paid = params.Paid
+	}
+	return DB.Update(item)
+}
