@@ -16,3 +16,34 @@ type BudgetItemExpense struct {
 }
 
 type BudgetItemExpenses []BudgetItemExpense
+
+func (e *BudgetItemExpense) MarshalJSON() ([]byte, error) {
+	type Alias BudgetItemExpense
+	return json.Marshal(&struct {
+		*Alias
+		Date string `json:"date"`
+	}{
+		Alias: (*Alias)(e),
+		Date:  e.Date.Format("2006-01-02"),
+	})
+}
+
+func (e *BudgetItemExpense) UnmarshalJSON(data []byte) error {
+	type Alias BudgetItemExpense
+	aux := &struct {
+		*Alias
+		Date string `json:"date"`
+	}{
+		Alias: (*Alias)(e),
+	}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	date, err := time.Parse("2006-01-02", aux.Date)
+	if err != nil {
+		return err
+	}
+
+	e.Date = date
+	return nil
+}

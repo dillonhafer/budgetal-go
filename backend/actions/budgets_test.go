@@ -71,6 +71,7 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	as.Equal(resp.BudgetItems[0].ID, expense.BudgetItemId)
 	as.Equal("Progressive", expense.Name)
 	as.Equal("200.00", expense.Amount.String())
+	as.Equal(time.Now().Format("2006-01-02"), expense.Date.Format("2006-01-02"))
 }
 
 func (as *ActionSuite) Test_Budgets_Index_CreatesDefaultCategories() {

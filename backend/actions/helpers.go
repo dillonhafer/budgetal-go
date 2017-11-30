@@ -69,7 +69,7 @@ func DecodeJson(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		var err error
 		req := c.Request()
-		if bodyHasJson(req) {
+		if bodyHasJson(req) && req.URL.Path != "/budget-item-expenses" {
 			if err == nil {
 				d := json.NewDecoder(req.Body)
 				d.UseNumber()
