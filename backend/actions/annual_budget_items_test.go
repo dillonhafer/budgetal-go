@@ -8,8 +8,7 @@ import (
 )
 
 type AnnualBudgetItemParams struct {
-	Year           int         `json:"year,omitempty"`
-	AnnualBudgetID int         `json:"annualBudgetId,omitempty"`
+	AnnualBudgetID int         `json:"annualBudgetId"`
 	Name           string      `json:"name,omitempty"`
 	Amount         json.Number `json:"amount,omitempty"`
 	DueDate        string      `json:"dueDate,omitempty"`

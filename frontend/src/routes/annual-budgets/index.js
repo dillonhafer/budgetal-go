@@ -61,7 +61,7 @@ class AnnualBudget extends Component {
       const resp = await AllAnnualBudgetItemsRequest(year);
 
       if (resp && resp.ok) {
-        this.props.itemsFetched(resp.annualBudgetItems);
+        this.props.itemsFetched(resp.annualBudgetId, resp.annualBudgetItems);
       }
     } catch (err) {
       console.log(err);
@@ -75,14 +75,13 @@ class AnnualBudget extends Component {
   };
 
   showNewModal = () => {
-    const year = parseInt(this.props.match.params.year, 10);
     const selectedBudgetItem = {
       name: '',
       dueDate: moment(),
       amount: 1,
       paid: false,
       interval: 12,
-      year,
+      annualBudgetId: this.props.annualBudgetId,
     };
 
     this.props.updatedSelectedItem(selectedBudgetItem);
@@ -141,11 +140,12 @@ class AnnualBudget extends Component {
 
 export default connect(
   state => ({
+    ...state.annualBudgetId,
     ...state.annualBudgetItems,
   }),
   dispatch => ({
-    itemsFetched: annualBudgetItems => {
-      dispatch(itemsFetched(annualBudgetItems));
+    itemsFetched: (annualBudgetId, annualBudgetItems) => {
+      dispatch(itemsFetched(annualBudgetId, annualBudgetItems));
     },
     updatedSelectedItem: selectedBudgetItem => {
       dispatch(updatedSelectedItem(selectedBudgetItem));

@@ -44,8 +44,24 @@ func AnnualBudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error 
 		return c.Render(403, r.JSON(err))
 	}
 
-	if err := c.Bind(item); err != nil {
+	params := &models.AnnualBudgetItem{}
+	if err := c.Bind(params); err != nil {
 		return err
+	}
+	if item.Name != params.Name {
+		item.Name = params.Name
+	}
+	if item.Amount != params.Amount {
+		item.Amount = params.Amount
+	}
+	if item.DueDate != params.DueDate {
+		item.DueDate = params.DueDate
+	}
+	if item.Interval != params.Interval {
+		item.Interval = params.Interval
+	}
+	if item.Paid != params.Paid {
+		item.Paid = params.Paid
 	}
 
 	updateError := tx.Update(item)

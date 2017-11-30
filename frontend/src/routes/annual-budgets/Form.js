@@ -75,6 +75,7 @@ class AnnualBudgetItemForm extends Component {
           ...values,
           id: this.props.budgetItem.id,
           interval: parseInt(values.interval, 10),
+          annualBudgetId: this.props.budgetItem.annualBudgetId,
         };
 
         if (item.id) {

@@ -9,6 +9,7 @@ import {
 } from 'action-types';
 
 const initialState = {
+  annualBudgetId: null,
   annualBudgetItems: [],
   selectedBudgetItem: {},
   visible: false,
@@ -59,6 +60,7 @@ export default function annulBudgetItemState(state = initialState, action) {
       return {
         ...state,
         annualBudgetItems: action.annualBudgetItems,
+        annualBudgetId: action.annualBudgetId,
       };
 
     case ANNUAL_ITEMS_SHOW_FORM:

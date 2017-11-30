@@ -29,7 +29,8 @@ func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 	annualBudget.FindOrCreate(tx)
 	tx.BelongsTo(&annualBudget).All(&annualBudgetItems)
 
-	response := map[string]models.AnnualBudgetItems{
+	response := map[string]interface{}{
+		"annualBudgetId":    annualBudget.ID,
 		"annualBudgetItems": annualBudgetItems,
 	}
 

@@ -22,10 +22,11 @@ export const itemAdded = item => {
   };
 };
 
-export const itemsFetched = annualBudgetItems => {
+export const itemsFetched = (annualBudgetId, annualBudgetItems) => {
   return {
     type: ANNUAL_ITEMS_FETCHED,
     annualBudgetItems,
+    annualBudgetId,
   };
 };
 
