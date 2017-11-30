@@ -31,7 +31,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Create_RequiresUser() {
 func (as *ActionSuite) Test_AnnualBudgetItems_Create_Works() {
 	user := SignedInUser(as)
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 
 	// Create Annual Budget
 	r := as.JSON("/annual-budget-items").Post(AnnualBudgetItemParams{
@@ -62,7 +62,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Create_Works() {
 func (as *ActionSuite) Test_AnnualBudgetItems_Update_Works() {
 	user := SignedInUser(as)
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
 		AnnualBudgetID: b.ID,
 		Amount:         json.Number("0.00"),
@@ -103,7 +103,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Update_Works() {
 func (as *ActionSuite) Test_AnnualBudgetItems_Update_RequiresUser() {
 	user := as.CreateUser(false)
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
 		AnnualBudgetID: b.ID,
 		Amount:         json.Number("0.00"),
@@ -131,7 +131,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Update_RequiresUser() {
 func (as *ActionSuite) Test_AnnualBudgetItems_Delete_Works() {
 	user := as.SignedInUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
 		AnnualBudgetID: b.ID,
 		Amount:         json.Number("0.00"),
@@ -156,7 +156,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Delete_Works() {
 func (as *ActionSuite) Test_AnnualBudgetItems_Delete_RequiresUser() {
 	user := as.CreateUser(false)
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
 		AnnualBudgetID: b.ID,
 		Amount:         json.Number("0.00"),

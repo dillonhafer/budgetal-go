@@ -5,7 +5,6 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 func AnnualBudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
@@ -63,7 +62,6 @@ func AnnualBudgetItemsDelete(c buffalo.Context, currentUser *models.User) error 
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
-	tx := c.Value("tx").(*pop.Connection)
 
 	item := &models.AnnualBudgetItem{ID: id}
 	findErr := findAnnualBudgetItem(item, currentUser.ID)
@@ -72,7 +70,7 @@ func AnnualBudgetItemsDelete(c buffalo.Context, currentUser *models.User) error 
 		return c.Render(403, r.JSON(err))
 	}
 
-	deleteErr := tx.Destroy(item)
+	deleteErr := models.DB.Destroy(item)
 	if deleteErr != nil {
 		err := map[string]string{"error": "Item is invalid"}
 		return c.Render(422, r.JSON(err))

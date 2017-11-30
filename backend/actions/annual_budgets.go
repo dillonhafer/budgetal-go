@@ -5,7 +5,6 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
@@ -21,13 +20,12 @@ func AnnualBudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 		year,
 		currentUser.ID,
 	}
-	tx := c.Value("tx").(*pop.Connection)
 
 	annualBudget := models.AnnualBudget{UserID: params.UserID, Year: params.Year}
 	annualBudgetItems := models.AnnualBudgetItems{}
 
-	annualBudget.FindOrCreate(tx)
-	tx.BelongsTo(&annualBudget).All(&annualBudgetItems)
+	annualBudget.FindOrCreate()
+	models.DB.BelongsTo(&annualBudget).All(&annualBudgetItems)
 
 	response := map[string]interface{}{
 		"annualBudgetId":    annualBudget.ID,

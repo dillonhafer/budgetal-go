@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"github.com/markbates/pop"
 )
 
 type AnnualBudget struct {
@@ -16,10 +14,10 @@ type AnnualBudget struct {
 
 type AnnualBudgets []AnnualBudget
 
-func (ab *AnnualBudget) FindOrCreate(tx *pop.Connection) {
-	err := tx.Where("user_id = ? and year = ?", ab.UserID, ab.Year).First(ab)
+func (ab *AnnualBudget) FindOrCreate() {
+	err := DB.Where("user_id = ? and year = ?", ab.UserID, ab.Year).First(ab)
 	if err != nil {
-		err = tx.Create(ab)
+		err = DB.Create(ab)
 		if err != nil {
 		}
 	}
