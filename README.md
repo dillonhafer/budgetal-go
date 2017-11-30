@@ -67,7 +67,7 @@ $ buffalo test
 
 There is a built-in deploy command for deploying to an ubuntu server running nginx and systemd. There is an [example systemd service](backend/budgetal.service.example) and an [example Nginx config](backend/nginx.conf.example).
 
-See `grifts/deploy.go` for configuration details.
+See [`grifts/deploy.go`](backend/grifts/deploy.go) for configuration details.
 
 1. Full deploy: `buffalo t deploy`
 2. Backend deploy: `buffalo t deploy:backend`
