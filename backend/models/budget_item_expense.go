@@ -47,3 +47,16 @@ func (e *BudgetItemExpense) UnmarshalJSON(data []byte) error {
 	e.Date = date
 	return nil
 }
+
+func (e *BudgetItemExpense) Update(params *BudgetItemExpense) error {
+	if e.Name != params.Name {
+		e.Name = params.Name
+	}
+	if e.Amount != params.Amount {
+		e.Amount = params.Amount
+	}
+	if e.Date != params.Date {
+		e.Date = params.Date
+	}
+	return DB.Update(e)
+}
