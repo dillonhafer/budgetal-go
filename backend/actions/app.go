@@ -4,7 +4,6 @@ import (
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
-	"github.com/markbates/pop"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/x/sessions"
@@ -35,17 +34,15 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 		AuthenticationToken := c.Request().Header.Get(AUTH_HEADER_KEY)
 
 		// 2. Get user from keys or 401
-		tx := c.Value("tx").(*pop.Connection)
-
 		session := &models.Session{}
-		dbErr := tx.Where("authentication_key = ? and authentication_token = ? and expired_at is null", AuthenticationKey, AuthenticationToken).First(session)
+		dbErr := models.DB.Where("authentication_key = ? and authentication_token = ? and expired_at is null", AuthenticationKey, AuthenticationToken).First(session)
 		if dbErr != nil {
 			c.Logger().Debug("Session not found or expired")
 			return c.Render(401, r.JSON(errResp))
 		}
 
 		user := &models.User{}
-		dbErr = tx.Find(user, session.UserID)
+		dbErr = models.DB.Find(user, session.UserID)
 		if dbErr != nil {
 			c.Logger().Debug("User not found")
 			return c.Render(401, r.JSON(errResp))
