@@ -3,7 +3,6 @@ package actions
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 type User struct {
@@ -23,8 +22,7 @@ func AdminUsers(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(401, r.JSON(err))
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
-	allErr := getUsers(users, tx)
+	allErr := getUsers(users)
 	if allErr != nil {
 		return c.Render(422, r.JSON(err))
 	}
@@ -32,7 +30,7 @@ func AdminUsers(c buffalo.Context, currentUser *models.User) error {
 	return c.Render(200, r.JSON(map[string]*[]User{"users": users}))
 }
 
-func getUsers(users *[]User, tx *pop.Connection) error {
+func getUsers(users *[]User) error {
 	query := `
 		with max_created_at as (
 		  select user_id, max(created_at) as max
@@ -56,5 +54,5 @@ func getUsers(users *[]User, tx *pop.Connection) error {
 		group by 1,2,3,4,5
 		order by 5 desc
 	`
-	return tx.RawQuery(query).All(users)
+	return models.DB.RawQuery(query).All(users)
 }
