@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"sort"
 	"time"
-
-	"github.com/markbates/pop"
 )
 
 type Budget struct {
@@ -20,20 +18,20 @@ type Budget struct {
 
 type Budgets []Budget
 
-func (b *Budget) FindOrCreate(tx *pop.Connection) error {
-	err := tx.Where("user_id = ? and year = ? and month = ?", b.UserID, b.Year, b.Month).First(b)
+func (b *Budget) FindOrCreate() error {
+	err := DB.Where("user_id = ? and year = ? and month = ?", b.UserID, b.Year, b.Month).First(b)
 	if err != nil {
 		b.Income = json.Number("3500.00")
-		err = tx.Create(b)
-		err = b.CreateDefaultCategories(tx)
+		err = DB.Create(b)
+		err = b.CreateDefaultCategories()
 	}
 	return err
 }
 
-func (b *Budget) MonthlyView(tx *pop.Connection) (BudgetCategories, BudgetItems, BudgetItemExpenses) {
+func (b *Budget) MonthlyView() (BudgetCategories, BudgetItems, BudgetItemExpenses) {
 	// Load Categories
 	categories := BudgetCategories{}
-	tx.BelongsTo(b).All(&categories)
+	DB.BelongsTo(b).All(&categories)
 	sort.Sort(categories)
 
 	// Load Items
@@ -43,7 +41,7 @@ func (b *Budget) MonthlyView(tx *pop.Connection) (BudgetCategories, BudgetItems,
 	}
 	items := BudgetItems{}
 	if len(categoryIds) > 0 {
-		tx.Where(`budget_category_id in (?)`, categoryIds...).Order(`created_at`).All(&items)
+		DB.Where(`budget_category_id in (?)`, categoryIds...).Order(`created_at`).All(&items)
 	}
 
 	// Load Expenses
@@ -53,13 +51,13 @@ func (b *Budget) MonthlyView(tx *pop.Connection) (BudgetCategories, BudgetItems,
 	}
 	expenses := BudgetItemExpenses{}
 	if len(itemIds) > 0 {
-		tx.Where(`budget_item_id in (?)`, itemIds...).Order(`created_at`).All(&expenses)
+		DB.Where(`budget_item_id in (?)`, itemIds...).Order(`created_at`).All(&expenses)
 	}
 
 	return categories, items, expenses
 }
 
-func (b *Budget) CreateDefaultCategories(tx *pop.Connection) error {
+func (b *Budget) CreateDefaultCategories() error {
 	categories := BudgetCategories{
 		BudgetCategory{BudgetId: b.ID, Name: "Charity", Percentage: "10-15%"},
 		BudgetCategory{BudgetId: b.ID, Name: "Saving", Percentage: "10-15%"},
@@ -75,8 +73,9 @@ func (b *Budget) CreateDefaultCategories(tx *pop.Connection) error {
 		BudgetCategory{BudgetId: b.ID, Name: "Debts", Percentage: "0%"},
 	}
 
+	// Should be transactional
 	for _, c := range categories {
-		err := tx.Create(&c)
+		err := DB.Create(&c)
 		if err != nil {
 			return err
 		}

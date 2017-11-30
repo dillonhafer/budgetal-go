@@ -73,8 +73,6 @@ func App() *buffalo.App {
 			app.Use(middleware.ParameterLogger)
 		}
 
-		app.Use(middleware.PopTransaction(models.DB))
-
 		// Authorization
 		app.Use(AuthorizeUser)
 

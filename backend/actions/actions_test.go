@@ -72,7 +72,7 @@ func (as *ActionSuite) CreateBudget(userId, year, month int, income string) (mod
 		Income: json.Number(income),
 	}
 	as.DB.Create(&budget)
-	budget.CreateDefaultCategories(as.DB)
+	budget.CreateDefaultCategories()
 	categories := models.BudgetCategories{}
 	as.DB.BelongsTo(&budget).All(&categories)
 	sort.Sort(categories)

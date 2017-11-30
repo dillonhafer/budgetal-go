@@ -5,7 +5,6 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
@@ -27,19 +26,18 @@ func BudgetsIndex(c buffalo.Context, currentUser *models.User) error {
 		month,
 		currentUser.ID,
 	}
-	tx := c.Value("tx").(*pop.Connection)
 
 	budget := models.Budget{
 		UserID: params.UserID,
 		Year:   params.Year,
 		Month:  params.Month,
 	}
-	err = budget.FindOrCreate(tx)
+	err = budget.FindOrCreate()
 	if err != nil {
 		return c.Render(422, r.JSON(err))
 	}
 
-	categories, items, expenses := budget.MonthlyView(tx)
+	categories, items, expenses := budget.MonthlyView()
 	var response = struct {
 		Budget             models.Budget             `json:"budget"`
 		BudgetCategories   models.BudgetCategories   `json:"budgetCategories"`
@@ -79,10 +77,9 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 		month,
 		currentUser.ID,
 	}
-	tx := c.Value("tx").(*pop.Connection)
 
 	budget := &models.Budget{}
-	err = tx.Where(`
+	err = models.DB.Where(`
     user_id = ?
     and year = ?
     and month = ?
@@ -92,7 +89,7 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	budget.Income = budgetParam.Income
-	err = tx.Update(budget)
+	err = models.DB.Update(budget)
 	if err != nil {
 		return c.Render(422, r.JSON("Could not update budget"))
 	}

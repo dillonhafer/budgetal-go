@@ -11,7 +11,7 @@ func (as *ActionSuite) Test_BudgetCategory_Import_Works() {
 	user := SignedInUser(as)
 	// Setup previous budget
 	oldBudget := models.Budget{Year: 2017, Month: 12, UserID: user.ID}
-	oldBudget.FindOrCreate(as.DB)
+	oldBudget.FindOrCreate()
 	oldCategory := models.BudgetCategory{}
 	as.DB.BelongsTo(&oldBudget).First(&oldCategory)
 
@@ -26,7 +26,7 @@ func (as *ActionSuite) Test_BudgetCategory_Import_Works() {
 
 	// Setup current budget
 	b := models.Budget{Year: 2018, Month: 1, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	category := models.BudgetCategory{}
 	as.DB.BelongsTo(&b).Where("name = ?", oldCategory.Name).First(&category)
 

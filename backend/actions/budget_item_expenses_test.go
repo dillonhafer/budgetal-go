@@ -11,7 +11,7 @@ import (
 func (as *ActionSuite) Test_BudgetItemExpenses_Create_Works() {
 	user := SignedInUser(as)
 	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	category := &models.BudgetCategory{}
 	as.DB.BelongsTo(b).First(category)
 
@@ -42,7 +42,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Create_Works() {
 func (as *ActionSuite) Test_BudgetItemExpenses_Update_Works() {
 	user := SignedInUser(as)
 	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	category := &models.BudgetCategory{}
 	as.DB.BelongsTo(b).First(category)
 
@@ -84,7 +84,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Update_Works() {
 func (as *ActionSuite) Test_BudgetItemExpenses_Delete_Works() {
 	user := SignedInUser(as)
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
-	b.FindOrCreate(as.DB)
+	b.FindOrCreate()
 	category := models.BudgetCategory{}
 	as.DB.BelongsTo(&b).First(&category)
 
