@@ -11,10 +11,16 @@ import (
 )
 
 func PasswordResetRequest(c buffalo.Context) error {
+	var params struct {
+		Email string `json:"email"`
+	}
+	if err := c.Bind(&params); err != nil {
+		return err
+	}
+
 	tx := c.Value("tx").(*pop.Connection)
-	email, _ := Json(c, "email").(string)
 	user := &models.User{}
-	err := tx.Where("email = ?", email).First(user)
+	err := tx.Where("email = ?", params.Email).First(user)
 
 	if err == nil {
 		token := RandomHex(32)
@@ -33,8 +39,13 @@ func PasswordResetRequest(c buffalo.Context) error {
 }
 
 func ResetPassword(c buffalo.Context) error {
-	token, _ := Json(c, "reset_password_token").(string)
-	password, _ := Json(c, "password").(string)
+	var params struct {
+		Token    string `json:"reset_password_token"`
+		Password string `json:"password"`
+	}
+	if err := c.Bind(&params); err != nil {
+		return err
+	}
 
 	user := &models.User{}
 	tx := c.Value("tx").(*pop.Connection)
@@ -43,12 +54,12 @@ func ResetPassword(c buffalo.Context) error {
     password_reset_sent_at between
     (now() - interval '2 hours') and now()
   `
-	err := tx.Where(query, token).First(user)
+	err := tx.Where(query, params.Token).First(user)
 	if err != nil {
 		return c.Render(401, r.JSON(""))
 	}
 
-	user.EncryptPassword([]byte(password))
+	user.EncryptPassword([]byte(params.Password))
 	user.PasswordResetToken = nulls.String{String: "", Valid: false}
 	user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: false}
 	tx.Update(user)

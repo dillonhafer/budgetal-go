@@ -7,32 +7,24 @@ import (
 )
 
 func RegisterUser(c buffalo.Context) error {
-	var ok bool
 	var params struct {
 		Email    string `json:"email"`
-		Password []byte `json:"password"`
+		Password string `json:"password"`
 	}
 	var response struct {
 		Token string       `json:"token"`
 		User  *models.User `json:"user"`
 	}
 	err := map[string]string{"error": "Invalid email or password"}
-	params.Email, ok = Json(c, "email").(string)
-	if !ok {
-		return c.Render(401, r.JSON(err))
+	if err := c.Bind(&params); err != nil {
+		return err
 	}
-
-	passwordString, ok := Json(c, "password").(string)
-	if !ok {
-		return c.Render(401, r.JSON(err))
-	}
-	params.Password = []byte(passwordString)
 
 	// 1. look up user from email
 	//    return error if no user is found
 	tx := c.Value("tx").(*pop.Connection)
 	user := &models.User{Email: params.Email}
-	user.EncryptPassword(params.Password)
+	user.EncryptPassword([]byte(params.Password))
 
 	dbErr := tx.Create(user)
 	if dbErr != nil {

@@ -8,7 +8,6 @@ import (
 
 // SignIn default implementation.
 func SignIn(c buffalo.Context) error {
-	var ok bool
 	var params struct {
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -18,14 +17,9 @@ func SignIn(c buffalo.Context) error {
 		User  *models.User `json:"user"`
 	}
 	err := map[string]string{"error": "Incorrect Email or Password"}
-	params.Email, ok = Json(c, "email").(string)
-	if !ok {
-		return c.Render(401, r.JSON(err))
-	}
 
-	params.Password, ok = Json(c, "password").(string)
-	if !ok {
-		return c.Render(401, r.JSON(err))
+	if err := c.Bind(&params); err != nil {
+		return err
 	}
 
 	// 1. look up user from email

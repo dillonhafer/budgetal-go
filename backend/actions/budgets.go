@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"encoding/json"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
@@ -65,9 +64,10 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 	if err != nil || !AllowedMonth(month) {
 		return c.Render(404, r.JSON("Not Found"))
 	}
-	income, ok := Json(c, "income").(json.Number)
-	if !ok {
-		return c.Render(422, r.JSON("Invalid Income"))
+
+	budgetParam := &models.Budget{}
+	if err := c.Bind(budgetParam); err != nil {
+		return err
 	}
 
 	var params = struct {
@@ -91,7 +91,7 @@ func BudgetsUpdate(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Could not find budget"))
 	}
 
-	budget.Income = income
+	budget.Income = budgetParam.Income
 	err = tx.Update(budget)
 	if err != nil {
 		return c.Render(422, r.JSON("Could not update budget"))

@@ -72,8 +72,6 @@ func App() *buffalo.App {
 			return c.Render(500, r.JSON(errResp))
 		}
 
-		app.Use(DecodeJson)
-
 		if ENV == "development" {
 			app.Use(middleware.ParameterLogger)
 		}
@@ -130,7 +128,6 @@ func App() *buffalo.App {
 		app.DELETE("/budget-items/{id}", WithCurrentUser(BudgetItemsDelete))
 
 		// Budget Item Expenses
-
 		app.POST("/budget-item-expenses", WithCurrentUser(BudgetItemExpensesCreate))
 		app.PUT("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesUpdate))
 		app.DELETE("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesDelete))

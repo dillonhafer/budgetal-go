@@ -3,11 +3,9 @@ package actions
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"encoding/json"
 	"net/http"
 	"time"
 
-	"github.com/gobuffalo/buffalo"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -18,25 +16,6 @@ func AllowedYear(year int) bool {
 
 func AllowedMonth(month int) bool {
 	return month > 0 && month < 13
-}
-
-func JsonMap(c buffalo.Context) map[string]interface{} {
-	return c.Data()["JSON"].(map[string]interface{})
-}
-
-func Json(c buffalo.Context, key string) interface{} {
-	for k, v := range c.Data()["JSON"].(map[string]interface{}) {
-		if k == key {
-			return v
-		}
-	}
-	return nil
-}
-
-func bodyHasJson(r *http.Request) bool {
-	return r.Method != "GET" &&
-		r.Header.Get("Content-Type") == "application/json" &&
-		r.ContentLength > 0
 }
 
 func SetAuthenticationCookie(res http.ResponseWriter, value uuid.UUID) {
@@ -63,29 +42,4 @@ func RandomHex(s int) string {
 	b := RandomBytes(s)
 	hexstring := hex.EncodeToString(b)
 	return hexstring
-}
-
-func DecodeJson(next buffalo.Handler) buffalo.Handler {
-	return func(c buffalo.Context) error {
-		var err error
-		req := c.Request()
-		if bodyHasJson(req) && req.URL.Path != "/budget-item-expenses" {
-			if err == nil {
-				d := json.NewDecoder(req.Body)
-				d.UseNumber()
-				var f interface{}
-				if err = d.Decode(&f); err == nil {
-					c.Set("JSON", f)
-					if ENV == "development" {
-						c.LogField("json", f)
-					}
-				}
-			} else {
-				errResp := map[string]string{"error": "Bad Request"}
-				return c.Render(422, r.JSON(errResp))
-			}
-		}
-		err = next(c)
-		return err
-	}
 }

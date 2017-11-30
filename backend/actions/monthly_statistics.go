@@ -68,10 +68,7 @@ func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
 		categories = append(categories, cat)
 	}
 
-	var response = struct {
-		Categories []Category `json:"budgetCategories"`
-	}{
-		categories,
-	}
-	return c.Render(200, r.JSON(response))
+	return c.Render(200, r.JSON(map[string][]Category{
+		"budgetCategories": categories,
+	}))
 }

@@ -1,7 +1,6 @@
 package actions
 
 import (
-	"encoding/json"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
@@ -10,37 +9,27 @@ import (
 )
 
 func BudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
-	body := JsonMap(c)
-	cid := body["budgetCategoryId"].(json.Number)
-	categoryID, err := strconv.Atoi(cid.String())
-	if err != nil {
-		return c.Render(404, r.JSON("Not Found"))
+	item := &models.BudgetItem{}
+	if err := c.Bind(item); err != nil {
+		return err
 	}
 
 	// Find Category
 	tx := c.Value("tx").(*pop.Connection)
-	category, err := findBudgetCategory(categoryID, currentUser.ID, tx)
+	category, err := findBudgetCategory(item.BudgetCategoryId, currentUser.ID, tx)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	item := models.BudgetItem{
-		BudgetCategoryId: category.ID,
-	}
-
 	// Create
-	name, ok := body["name"].(string)
-	if ok {
-		item.Name = name
+	item.BudgetCategoryId = category.ID
+	createErr := tx.Create(item)
+	if createErr != nil {
+		return c.Render(404, r.JSON("Not Found"))
 	}
-	amount, ok := body["amount"].(json.Number)
-	if ok {
-		item.Amount = amount
-	}
-	tx.Create(&item)
 
 	// render
-	return c.Render(200, r.JSON(map[string]models.BudgetItem{
+	return c.Render(200, r.JSON(map[string]*models.BudgetItem{
 		"budgetItem": item,
 	}))
 }
@@ -53,25 +42,24 @@ func BudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	tx := c.Value("tx").(*pop.Connection)
-	item, err := findBudgetItem(id, currentUser.ID, tx)
+	item := &models.BudgetItem{ID: id}
+	err = findBudgetItem(item, currentUser.ID, tx)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
+	if err := c.Bind(item); err != nil {
+		return err
+	}
+
 	// update
-	body := JsonMap(c)
-	name, ok := body["name"].(string)
-	if ok {
-		item.Name = name
+	updateErr := tx.Update(item)
+	if updateErr != nil {
+		return c.Render(404, r.JSON("Not Found"))
 	}
-	amount, ok := body["amount"].(json.Number)
-	if ok {
-		item.Amount = amount
-	}
-	tx.Update(&item)
 
 	// render
-	return c.Render(200, r.JSON(map[string]models.BudgetItem{
+	return c.Render(200, r.JSON(map[string]*models.BudgetItem{
 		"budgetItem": item,
 	}))
 }
@@ -84,7 +72,8 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	tx := c.Value("tx").(*pop.Connection)
-	item, err := findBudgetItem(id, currentUser.ID, tx)
+	item := &models.BudgetItem{ID: id}
+	err = findBudgetItem(item, currentUser.ID, tx)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -96,7 +85,7 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	// delete item
-	deleteErr := tx.Destroy(&item)
+	deleteErr := tx.Destroy(item)
 	if deleteErr != nil {
 		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
 	}
@@ -119,8 +108,7 @@ func findBudgetCategory(categoryID, userId int, tx *pop.Connection) (models.Budg
 	return c, err
 }
 
-func findBudgetItem(id, userId int, tx *pop.Connection) (models.BudgetItem, error) {
-	i := models.BudgetItem{}
+func findBudgetItem(i *models.BudgetItem, userId int, tx *pop.Connection) error {
 	q := `
     select
       budget_items.id,
@@ -136,6 +124,6 @@ func findBudgetItem(id, userId int, tx *pop.Connection) (models.BudgetItem, erro
     and budget_items.id = ?
     limit 1
   `
-	err := tx.RawQuery(q, userId, id).First(&i)
-	return i, err
+	err := tx.RawQuery(q, userId, i.ID).First(i)
+	return err
 }

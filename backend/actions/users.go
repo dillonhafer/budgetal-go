@@ -17,14 +17,22 @@ import (
 )
 
 func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
-	password, _ := Json(c, "password").(string)
-	currentPassword, _ := Json(c, "currentPassword").(string)
+	var params = struct {
+		Password        string `json:"password"`
+		CurrentPassword string `json:"currentPassword"`
+	}{
+		"",
+		"",
+	}
+	if err := c.Bind(&params); err != nil {
+		return err
+	}
 
-	if !currentUser.VerifyPassword(currentPassword) {
+	if !currentUser.VerifyPassword(params.CurrentPassword) {
 		return c.Render(401, r.JSON(map[string]string{"error": "Incorrect Password"}))
 	}
 
-	currentUser.EncryptPassword([]byte(password))
+	currentUser.EncryptPassword([]byte(params.Password))
 	tx := c.Value("tx").(*pop.Connection)
 	tx.Update(currentUser)
 

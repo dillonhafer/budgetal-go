@@ -1,9 +1,7 @@
 package actions
 
 import (
-	"encoding/json"
 	"strconv"
-	"time"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
@@ -17,7 +15,8 @@ func BudgetItemExpensesCreate(c buffalo.Context, currentUser *models.User) error
 	}
 
 	tx := c.Value("tx").(*pop.Connection)
-	item, err := findBudgetItem(expense.BudgetItemId, currentUser.ID, tx)
+	item := &models.BudgetItem{ID: expense.BudgetItemId}
+	err := findBudgetItem(item, currentUser.ID, tx)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -43,22 +42,15 @@ func BudgetItemExpensesUpdate(c buffalo.Context, currentUser *models.User) error
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
+	if err := c.Bind(expense); err != nil {
+		return err
+	}
+
 	// update
-	body := JsonMap(c)
-	name, ok := body["name"].(string)
-	if ok {
-		expense.Name = name
+	updateErr := tx.Update(expense)
+	if updateErr != nil {
+		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
 	}
-	amount, ok := body["amount"].(json.Number)
-	if ok {
-		expense.Amount = amount
-	}
-	d := body["date"].(string)
-	date, err := time.Parse("2006-01-02", d)
-	if err == nil {
-		expense.Date = date
-	}
-	tx.Update(expense)
 
 	// render
 	return c.Render(200, r.JSON(map[string]*models.BudgetItemExpense{
@@ -73,8 +65,8 @@ func BudgetItemExpensesDelete(c buffalo.Context, currentUser *models.User) error
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
 	expense := &models.BudgetItemExpense{ID: id}
+	tx := c.Value("tx").(*pop.Connection)
 	err = findBudgetItemExpense(expense, currentUser.ID, tx)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))

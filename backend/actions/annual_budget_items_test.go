@@ -19,12 +19,12 @@ type AnnualBudgetItemParams struct {
 
 func (as *ActionSuite) Test_AnnualBudgetItems_Create_RequiresUser() {
 	r := as.JSON("/annual-budget-items").Post(AnnualBudgetItemParams{
-		Year:     2017,
-		Amount:   json.Number("0.00"),
-		Name:     "Insurance",
-		DueDate:  "2017-12-12",
-		Paid:     false,
-		Interval: 8,
+		AnnualBudgetID: 1,
+		Amount:         json.Number("0.00"),
+		Name:           "Insurance",
+		DueDate:        "2017-12-12",
+		Paid:           false,
+		Interval:       8,
 	})
 	as.Equal(401, r.Code)
 }
@@ -36,12 +36,12 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Create_Works() {
 
 	// Create Annual Budget
 	r := as.JSON("/annual-budget-items").Post(AnnualBudgetItemParams{
-		Year:     2017,
-		Amount:   json.Number("0.00"),
-		Name:     "Insurance",
-		DueDate:  "2017-12-12",
-		Paid:     false,
-		Interval: 8,
+		AnnualBudgetID: b.ID,
+		Amount:         json.Number("0.00"),
+		Name:           "Insurance",
+		DueDate:        "2017-12-12",
+		Paid:           false,
+		Interval:       8,
 	})
 	var rb struct {
 		AnnualBudgetItem models.AnnualBudgetItem `json:"annualBudgetItem"`
