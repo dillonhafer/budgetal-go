@@ -12,7 +12,6 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
-	"github.com/markbates/pop"
 	"github.com/markbates/pop/nulls"
 )
 
@@ -33,8 +32,7 @@ func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	currentUser.EncryptPassword([]byte(params.Password))
-	tx := c.Value("tx").(*pop.Connection)
-	tx.Update(currentUser)
+	models.DB.Update(currentUser)
 
 	return c.Render(200, r.JSON(map[string]string{"message": "Password Successfully Changed"}))
 }
@@ -113,8 +111,7 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 		currentUser.AvatarFileName = nulls.String{String: "/" + databasePath, Valid: true}
 	}()
 
-	tx := c.Value("tx").(*pop.Connection)
-	dbErr := tx.Update(currentUser)
+	dbErr := models.DB.Update(currentUser)
 	if dbErr != nil {
 		return c.Render(401, r.JSON("Invalid User"))
 	}

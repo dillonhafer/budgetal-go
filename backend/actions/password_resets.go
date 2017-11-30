@@ -6,7 +6,6 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/mailers"
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 	"github.com/markbates/pop/nulls"
 )
 
@@ -18,15 +17,14 @@ func PasswordResetRequest(c buffalo.Context) error {
 		return err
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
 	user := &models.User{}
-	err := tx.Where("email = ?", params.Email).First(user)
+	err := models.DB.Where("email = ?", params.Email).First(user)
 
 	if err == nil {
 		token := RandomHex(32)
 		user.PasswordResetToken = nulls.String{String: token, Valid: true}
 		user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: true}
-		err = tx.Update(user)
+		err = models.DB.Update(user)
 		if err == nil {
 			err = mailers.SendPasswordResets(user)
 			if err == nil {
@@ -48,13 +46,12 @@ func ResetPassword(c buffalo.Context) error {
 	}
 
 	user := &models.User{}
-	tx := c.Value("tx").(*pop.Connection)
 	query := `
     password_reset_token = ? and
     password_reset_sent_at between
     (now() - interval '2 hours') and now()
   `
-	err := tx.Where(query, params.Token).First(user)
+	err := models.DB.Where(query, params.Token).First(user)
 	if err != nil {
 		return c.Render(401, r.JSON(""))
 	}
@@ -62,7 +59,7 @@ func ResetPassword(c buffalo.Context) error {
 	user.EncryptPassword([]byte(params.Password))
 	user.PasswordResetToken = nulls.String{String: "", Valid: false}
 	user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: false}
-	tx.Update(user)
+	models.DB.Update(user)
 
 	return c.Render(200, r.JSON(""))
 }

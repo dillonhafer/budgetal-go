@@ -6,14 +6,12 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 // SignOut default implementation.
 func SignOut(c buffalo.Context, currentUser *models.User) error {
 	DeleteAuthenticationCookie(c.Response())
-	tx := c.Value("tx").(*pop.Connection)
-	query := currentUser.CurrentSession.Delete(tx)
+	query := currentUser.CurrentSession.Delete()
 	c.Logger().Debug(query)
 	return c.Render(200, r.JSON(map[string]string{"signOut": "sign out"}))
 }

@@ -45,7 +45,7 @@ func (as *ActionSuite) CreateSession(userId int) models.Session {
 		UserID:              userId,
 		IpAddress:           "127.0.0.1",
 	}
-	session.Create(as.DB)
+	session.Create()
 	return session
 }
 
