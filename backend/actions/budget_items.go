@@ -39,18 +39,19 @@ func BudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
+	params := &models.BudgetItem{ID: id}
+	if err := c.Bind(params); err != nil {
+		return err
+	}
+
 	item := &models.BudgetItem{ID: id}
 	err = findBudgetItem(item, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	if err := c.Bind(item); err != nil {
-		return err
-	}
-
 	// update
-	updateErr := models.DB.Update(item)
+	updateErr := item.Update(params)
 	if updateErr != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}

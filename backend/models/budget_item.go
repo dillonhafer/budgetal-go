@@ -30,3 +30,13 @@ func (budgetItem *BudgetItem) DestroyAllExpenses(tx *pop.Connection, logger buff
 	_, err := tx.Store.NamedExec(query, budgetItem)
 	return err
 }
+
+func (budgetItem *BudgetItem) Update(params *BudgetItem) error {
+	if budgetItem.Name != params.Name {
+		budgetItem.Name = params.Name
+	}
+	if budgetItem.Amount != params.Amount {
+		budgetItem.Amount = params.Amount
+	}
+	return DB.Update(budgetItem)
+}
