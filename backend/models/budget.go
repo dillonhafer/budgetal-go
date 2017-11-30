@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"sort"
 	"time"
+
+	"github.com/markbates/pop"
 )
 
 type Budget struct {
@@ -73,13 +75,14 @@ func (b *Budget) CreateDefaultCategories() error {
 		BudgetCategory{BudgetId: b.ID, Name: "Debts", Percentage: "0%"},
 	}
 
-	// Should be transactional
-	for _, c := range categories {
-		err := DB.Create(&c)
-		if err != nil {
-			return err
+	// Transactionally create categories
+	return DB.Transaction(func(tx *pop.Connection) error {
+		for _, c := range categories {
+			err := tx.Create(&c)
+			if err != nil {
+				return err
+			}
 		}
-	}
-
-	return nil
+		return nil
+	})
 }

@@ -5,6 +5,7 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
+	"github.com/markbates/pop"
 )
 
 func BudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
@@ -75,19 +76,21 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	// This should be transactional
-	// delete expenses
-	tx := models.DB
-	expenseDeleteErrors := item.DestroyAllExpenses(tx, c.Logger())
-	if expenseDeleteErrors != nil {
-		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
-	}
+	// delete expenses (transactionally)
+	models.DB.Transaction(func(tx *pop.Connection) error {
+		expenseDeleteErrors := item.DestroyAllExpenses(tx, c.Logger())
+		if expenseDeleteErrors != nil {
+			return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+		}
 
-	// delete item
-	deleteErr := tx.Destroy(item)
-	if deleteErr != nil {
-		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
-	}
+		// delete item
+		deleteErr := tx.Destroy(item)
+		if deleteErr != nil {
+			return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+		}
+
+		return nil
+	})
 
 	// render
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))

@@ -3,6 +3,8 @@ package models
 import (
 	"fmt"
 	"time"
+
+	"github.com/markbates/pop"
 )
 
 type BudgetCategory struct {
@@ -64,17 +66,23 @@ func (budgetCategory *BudgetCategory) ImportPreviousItems() (string, BudgetItems
 	previousItems := BudgetItems{}
 	DB.BelongsTo(&previousBudgetCategory).Order(`created_at`).All(&previousItems)
 
-	// This should be in a transaction
+	// Transactionally import all items
 	newItems := BudgetItems{}
-	for _, item := range previousItems {
-		newItem := BudgetItem{
-			BudgetCategoryId: budgetCategory.ID,
-			Name:             item.Name,
-			Amount:           item.Amount,
+	DB.Transaction(func(tx *pop.Connection) error {
+		for _, item := range previousItems {
+			newItem := BudgetItem{
+				BudgetCategoryId: budgetCategory.ID,
+				Name:             item.Name,
+				Amount:           item.Amount,
+			}
+			err := tx.Create(&newItem)
+			if err != nil {
+				return err
+			}
+			newItems = append(newItems, newItem)
 		}
-		DB.Create(&newItem)
-		newItems = append(newItems, newItem)
-	}
+		return nil
+	})
 
 	count := len(previousItems)
 	message := "There was nothing to import"
