@@ -3,8 +3,6 @@ package models
 import (
 	"fmt"
 	"time"
-
-	"github.com/markbates/pop"
 )
 
 type BudgetCategory struct {
@@ -43,9 +41,9 @@ func (s BudgetCategories) Less(i, j int) bool {
 	return SortOrder[s[i].Name] < SortOrder[s[j].Name]
 }
 
-func (budgetCategory *BudgetCategory) ImportPreviousItems(tx *pop.Connection) (string, BudgetItems) {
+func (budgetCategory *BudgetCategory) ImportPreviousItems() (string, BudgetItems) {
 	budget := Budget{}
-	tx.Find(&budget, budgetCategory.BudgetId)
+	DB.Find(&budget, budgetCategory.BudgetId)
 
 	var previousMonth, previousYear int
 	if budget.Month > 1 {
@@ -58,14 +56,15 @@ func (budgetCategory *BudgetCategory) ImportPreviousItems(tx *pop.Connection) (s
 
 	previousBudget := Budget{}
 	previousBudgetCategory := BudgetCategory{}
-	tx.Where(`
+	DB.Where(`
 		user_id = ? and year = ? and month = ?
 	`, budget.UserID, previousYear, previousMonth).First(&previousBudget)
-	tx.BelongsTo(&previousBudget).Where(`name = ?`, budgetCategory.Name).First(&previousBudgetCategory)
+	DB.BelongsTo(&previousBudget).Where(`name = ?`, budgetCategory.Name).First(&previousBudgetCategory)
 
 	previousItems := BudgetItems{}
-	tx.BelongsTo(&previousBudgetCategory).Order(`created_at`).All(&previousItems)
+	DB.BelongsTo(&previousBudgetCategory).Order(`created_at`).All(&previousItems)
 
+	// This should be in a transaction
 	newItems := BudgetItems{}
 	for _, item := range previousItems {
 		newItem := BudgetItem{
@@ -73,7 +72,7 @@ func (budgetCategory *BudgetCategory) ImportPreviousItems(tx *pop.Connection) (s
 			Name:             item.Name,
 			Amount:           item.Amount,
 		}
-		tx.Create(&newItem)
+		DB.Create(&newItem)
 		newItems = append(newItems, newItem)
 	}
 

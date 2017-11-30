@@ -5,7 +5,6 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 func BudgetItemExpensesCreate(c buffalo.Context, currentUser *models.User) error {
@@ -14,15 +13,14 @@ func BudgetItemExpensesCreate(c buffalo.Context, currentUser *models.User) error
 		return err
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
 	item := &models.BudgetItem{ID: expense.BudgetItemId}
-	err := findBudgetItem(item, currentUser.ID, tx)
+	err := findBudgetItem(item, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
 	expense.BudgetItemId = item.ID
-	tx.Create(expense)
+	models.DB.Create(expense)
 	return c.Render(200, r.JSON(map[string]*models.BudgetItemExpense{
 		"budgetItemExpense": expense,
 	}))
@@ -35,9 +33,8 @@ func BudgetItemExpensesUpdate(c buffalo.Context, currentUser *models.User) error
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
 	expense := &models.BudgetItemExpense{ID: id}
-	err = findBudgetItemExpense(expense, currentUser.ID, tx)
+	err = findBudgetItemExpense(expense, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -47,7 +44,7 @@ func BudgetItemExpensesUpdate(c buffalo.Context, currentUser *models.User) error
 	}
 
 	// update
-	updateErr := tx.Update(expense)
+	updateErr := models.DB.Update(expense)
 	if updateErr != nil {
 		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
 	}
@@ -66,14 +63,13 @@ func BudgetItemExpensesDelete(c buffalo.Context, currentUser *models.User) error
 	}
 
 	expense := &models.BudgetItemExpense{ID: id}
-	tx := c.Value("tx").(*pop.Connection)
-	err = findBudgetItemExpense(expense, currentUser.ID, tx)
+	err = findBudgetItemExpense(expense, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
 	// delete expense
-	deleteErr := tx.Destroy(expense)
+	deleteErr := models.DB.Destroy(expense)
 	if deleteErr != nil {
 		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
 	}
@@ -82,7 +78,7 @@ func BudgetItemExpensesDelete(c buffalo.Context, currentUser *models.User) error
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
 
-func findBudgetItemExpense(e *models.BudgetItemExpense, userId int, tx *pop.Connection) error {
+func findBudgetItemExpense(e *models.BudgetItemExpense, userId int) error {
 	q := `
     select
       budget_item_expenses.id,
@@ -100,5 +96,5 @@ func findBudgetItemExpense(e *models.BudgetItemExpense, userId int, tx *pop.Conn
     and budget_item_expenses.id = ?
     limit 1
   `
-	return tx.RawQuery(q, userId, e.ID).First(e)
+	return models.DB.RawQuery(q, userId, e.ID).First(e)
 }

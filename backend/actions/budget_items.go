@@ -5,7 +5,6 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
 )
 
 func BudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
@@ -15,15 +14,14 @@ func BudgetItemsCreate(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	// Find Category
-	tx := c.Value("tx").(*pop.Connection)
-	category, err := findBudgetCategory(item.BudgetCategoryId, currentUser.ID, tx)
+	category, err := findBudgetCategory(item.BudgetCategoryId, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
 	// Create
 	item.BudgetCategoryId = category.ID
-	createErr := tx.Create(item)
+	createErr := models.DB.Create(item)
 	if createErr != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -41,9 +39,8 @@ func BudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
 	item := &models.BudgetItem{ID: id}
-	err = findBudgetItem(item, currentUser.ID, tx)
+	err = findBudgetItem(item, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -53,7 +50,7 @@ func BudgetItemsUpdate(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	// update
-	updateErr := tx.Update(item)
+	updateErr := models.DB.Update(item)
 	if updateErr != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
@@ -71,14 +68,15 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	tx := c.Value("tx").(*pop.Connection)
 	item := &models.BudgetItem{ID: id}
-	err = findBudgetItem(item, currentUser.ID, tx)
+	err = findBudgetItem(item, currentUser.ID)
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
+	// This should be transactional
 	// delete expenses
+	tx := models.DB
 	expenseDeleteErrors := item.DestroyAllExpenses(tx, c.Logger())
 	if expenseDeleteErrors != nil {
 		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
@@ -94,7 +92,7 @@ func BudgetItemsDelete(c buffalo.Context, currentUser *models.User) error {
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
 
-func findBudgetCategory(categoryID, userId int, tx *pop.Connection) (models.BudgetCategory, error) {
+func findBudgetCategory(categoryID, userId int) (models.BudgetCategory, error) {
 	c := models.BudgetCategory{}
 	q := `
     select budget_categories.*
@@ -104,11 +102,11 @@ func findBudgetCategory(categoryID, userId int, tx *pop.Connection) (models.Budg
     and budget_categories.id = ?
     limit 1
   `
-	err := tx.RawQuery(q, userId, categoryID).First(&c)
+	err := models.DB.RawQuery(q, userId, categoryID).First(&c)
 	return c, err
 }
 
-func findBudgetItem(i *models.BudgetItem, userId int, tx *pop.Connection) error {
+func findBudgetItem(i *models.BudgetItem, userId int) error {
 	q := `
     select
       budget_items.id,
@@ -124,6 +122,6 @@ func findBudgetItem(i *models.BudgetItem, userId int, tx *pop.Connection) error 
     and budget_items.id = ?
     limit 1
   `
-	err := tx.RawQuery(q, userId, i.ID).First(i)
+	err := models.DB.RawQuery(q, userId, i.ID).First(i)
 	return err
 }
