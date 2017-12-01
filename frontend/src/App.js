@@ -21,7 +21,11 @@ import { Provider } from 'react-redux';
 import { loadState, saveState } from 'persistant-state';
 import reducers from 'reducers';
 const persistedState = loadState();
-const store = createStore(reducers, { ...persistedState });
+const store = createStore(
+  reducers,
+  { ...persistedState },
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
 store.subscribe(
   throttle(() => {
     saveState({
