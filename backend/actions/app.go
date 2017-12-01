@@ -126,6 +126,8 @@ func App() *buffalo.App {
 		app.POST("/budget-item-expenses", WithCurrentUser(BudgetItemExpensesCreate))
 		app.PUT("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesUpdate))
 		app.DELETE("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesDelete))
+		// Autocomplete
+		app.GET("/past-expenses/{name}", WithCurrentUser(PastExpenses))
 	}
 
 	return app
