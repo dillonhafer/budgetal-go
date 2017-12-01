@@ -3,9 +3,11 @@ package actions
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"net/http"
 	"time"
 
+	"github.com/gobuffalo/buffalo"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -16,6 +18,17 @@ func AllowedYear(year int) bool {
 
 func AllowedMonth(month int) bool {
 	return month > 0 && month < 13
+}
+
+func BindParams(c buffalo.Context, params interface{}) error {
+	if err := c.Bind(params); err != nil {
+		return err
+	}
+	if ENV != "production" {
+		c.LogField("json", fmt.Sprintf("%#v", params))
+	}
+
+	return nil
 }
 
 func SetAuthenticationCookie(res http.ResponseWriter, value uuid.UUID) {
