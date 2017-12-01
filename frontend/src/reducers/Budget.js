@@ -1,18 +1,20 @@
+import moment from 'moment';
+
 import {
   BUDGET_LOADED,
   BUDGET_INCOME_UPDATED,
   BUDGET_CATEGORY_UPDATED,
+  BUDGET_CATEGORY_IMPORTED,
   BUDGET_ITEM_NEW,
   BUDGET_ITEM_UPDATED,
   BUDGET_ITEM_SAVED,
   BUDGET_ITEM_DELETED,
-  BUDGET_CATEGORY_IMPORTED,
+  BUDGET_ITEM_EXPENSE_NEW,
+  BUDGET_ITEM_EXPENSE_CREATED,
+  BUDGET_ITEM_EXPENSE_UPDATED,
+  BUDGET_ITEM_EXPENSE_REMOVED,
   // BUDGET_ITEM_MOVED,
-  // BUDGET_ITEM_EXPENSE_NEW,
-  // BUDGET_ITEM_EXPENSE_SAVED,
   // BUDGET_ITEM_EXPENSE_IMPORTED,
-  // BUDGET_ITEM_EXPENSE_UPDATED,
-  // BUDGET_ITEM_EXPENSE_DELETED,
 } from 'constants/action-types';
 
 const initialBudgetCategories = [
@@ -95,6 +97,23 @@ export default function budgetState(state = initialBudgetState, action) {
           return item;
         }),
       };
+    case BUDGET_ITEM_EXPENSE_UPDATED:
+      return {
+        ...state,
+        budgetItemExpenses: state.budgetItemExpenses.map(expense => {
+          if (
+            expense.budgetItemId === action.budgetItemExpense.budgetItemId &&
+            expense.id === action.budgetItemExpense.id
+          ) {
+            return {
+              ...expense,
+              ...action.budgetItemExpense,
+            };
+          }
+
+          return expense;
+        }),
+      };
     case BUDGET_ITEM_SAVED:
       return {
         ...state,
@@ -138,6 +157,54 @@ export default function budgetState(state = initialBudgetState, action) {
           ...state.budgetItems.slice(0, item_deleted_idx),
           ...state.budgetItems.slice(item_deleted_idx + 1),
         ],
+        budgetItemExpenses: state.budgetItemExpenses.filter(e => {
+          return e.budgetItemId !== action.budgetItem.id;
+        }),
+      };
+    case BUDGET_ITEM_EXPENSE_REMOVED:
+      const expense_deleted_idx = state.budgetItemExpenses.findIndex(e => {
+        return (
+          e.budgetItemId === action.budgetItemExpense.budgetItemId &&
+          e.id === action.budgetItemExpense.id
+        );
+      });
+      return {
+        ...state,
+        budgetItemExpenses: [
+          ...state.budgetItemExpenses.slice(0, expense_deleted_idx),
+          ...state.budgetItemExpenses.slice(expense_deleted_idx + 1),
+        ],
+      };
+    case BUDGET_ITEM_EXPENSE_NEW:
+      return {
+        ...state,
+        budgetItemExpenses: [
+          ...state.budgetItemExpenses,
+          {
+            id: null,
+            budgetItemId: action.budgetItemId,
+            amount: 1.0,
+            date: moment().format('YYYY-MM-DD'),
+            name: '',
+          },
+        ],
+      };
+    case BUDGET_ITEM_EXPENSE_CREATED:
+      return {
+        ...state,
+        budgetItemExpenses: state.budgetItemExpenses.map(expense => {
+          if (
+            expense.budgetItemId === action.budgetItemExpense.budgetItemId &&
+            expense.id === null
+          ) {
+            return {
+              ...expense,
+              ...action.budgetItemExpense,
+            };
+          }
+
+          return expense;
+        }),
       };
     case BUDGET_CATEGORY_IMPORTED:
       return {

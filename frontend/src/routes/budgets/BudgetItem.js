@@ -8,6 +8,9 @@ import {
   removeBudgetItem,
 } from 'actions/budgets';
 
+// Components
+import BudgetItemExpenseList from './BudgetItemExpenseList';
+
 // API
 import {
   CreateItemRequest,
@@ -17,7 +20,7 @@ import {
 
 // Helpers
 import classNames from 'classnames';
-import { currencyf } from 'helpers';
+import { currencyf, reduceSum } from 'helpers';
 import { notice } from 'window';
 import {
   Button,
@@ -47,6 +50,14 @@ class BudgetItem extends Component {
       amount: String(amount).replace(/\$\s?|(,*)/g, ''),
     });
     this.props.updateBudgetItem(updatedItem);
+  };
+
+  amountSpent = () => {
+    return reduceSum(
+      this.props.budgetItemExpenses.filter(
+        e => e.budgetItemId === this.props.budgetItem.id,
+      ),
+    );
   };
 
   persistBudgetItem = async budgetItem => {
@@ -225,7 +236,7 @@ class BudgetItem extends Component {
               </Col>
               <Col span={12}>
                 <p className="text-center">
-                  You have spent <b>{currencyf(this.props.amountSpent)}</b> of{' '}
+                  You have spent <b>{currencyf(this.amountSpent())}</b> of{' '}
                   <b>{currencyf(item.amount)}</b>.
                 </p>
                 <p className="text-center">
@@ -245,7 +256,7 @@ class BudgetItem extends Component {
             </Row>
           </Col>
         </Row>
-        {/*<BudgetItemExpenseList budgetItem={item} />*/}
+        <BudgetItemExpenseList budgetItem={item} />
       </div>
     );
   }
@@ -276,7 +287,9 @@ const formProps = {
 };
 
 export default connect(
-  state => ({}),
+  state => ({
+    ...state.budget,
+  }),
   dispatch => ({
     updateBudgetItem: income => {
       dispatch(updateBudgetItem(income));
