@@ -1,4 +1,4 @@
-import { _post, _put, _delete } from 'api';
+import { _get, _post, _put, _delete } from 'api';
 
 export function CreateExpenseRequest(budgetItemExpense) {
   return _post(`/budget-item-expenses`, budgetItemExpense);
@@ -13,4 +13,8 @@ export function UpdateExpenseRequest(budgetItemExpense) {
 
 export function DeleteExpenseRequest(id) {
   return _delete(`/budget-item-expenses/${id}`);
+}
+
+export function PastExpensesRequest(name) {
+  return _get(`/past-expenses/${name}`);
 }

@@ -13,6 +13,7 @@ import {
   CreateExpenseRequest,
   UpdateExpenseRequest,
   DeleteExpenseRequest,
+  PastExpensesRequest,
 } from 'api/budget-item-expenses';
 
 // Helpers
@@ -33,6 +34,21 @@ class BudgetItemExpenseForm extends Component {
   state = {
     predictions: [],
     loading: false,
+  };
+
+  onAutocompleteChange = name => {
+    if (name && name.length > 2) {
+      this.predict(name);
+    } else {
+      this.setState({ predictions: [] });
+    }
+  };
+
+  predict = async name => {
+    const resp = await PastExpensesRequest(name);
+    if (resp && resp.ok) {
+      this.setState({ predictions: resp.names });
+    }
   };
 
   handleOnSubmit = e => {
@@ -129,8 +145,7 @@ class BudgetItemExpenseForm extends Component {
                   allowClear={true}
                   dataSource={predictions}
                   style={{ width: 200 }}
-                  onSelect={this.handleSelect}
-                  filterOption={this.filterOption}
+                  onChange={this.onAutocompleteChange}
                   placeholder="(Rent Payment)"
                 />,
               )}
@@ -207,6 +222,7 @@ const formProps = {
     if (values.date) {
       values.date = values.date.format('YYYY-MM-DD');
     }
+
     props.updateExpense({
       ...props.expense,
       ...values,
