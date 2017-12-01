@@ -204,6 +204,9 @@ const formProps = {
     };
   },
   onValuesChange: (props, values) => {
+    if (values.date) {
+      values.date = values.date.format('YYYY-MM-DD');
+    }
     props.updateExpense({
       ...props.expense,
       ...values,
