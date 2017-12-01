@@ -9,9 +9,7 @@ import (
 
 func BudgetItemExpensesCreate(c buffalo.Context, currentUser *models.User) error {
 	expense := &models.BudgetItemExpense{}
-	if err := c.Bind(expense); err != nil {
-		return err
-	}
+	BindParams(c, expense)
 
 	item := &models.BudgetItem{ID: expense.BudgetItemId}
 	err := findBudgetItem(item, currentUser.ID)
@@ -34,9 +32,7 @@ func BudgetItemExpensesUpdate(c buffalo.Context, currentUser *models.User) error
 	}
 
 	params := &models.BudgetItemExpense{}
-	if err := c.Bind(params); err != nil {
-		return err
-	}
+	BindParams(c, params)
 
 	expense := &models.BudgetItemExpense{ID: id}
 	err = findBudgetItemExpense(expense, currentUser.ID)
