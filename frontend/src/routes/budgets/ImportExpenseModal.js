@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { Modal, Upload, Icon, Progress, Table } from 'antd';
 import Papa from 'papaparse';
 import { currencyf } from 'helpers';
-
-const AddExpense = () => {
-  return <p>Form</p>;
-};
+import ImportExpenseForm from './ImportExpenseForm';
 
 const initialState = {
   parsing: false,
@@ -32,6 +29,15 @@ class ImportExpenseModal extends Component {
     if (csvError !== undefined) {
       return <p className="alert-color">{csvError}</p>;
     }
+  };
+
+  removeExpense = index => {
+    this.setState({
+      rows: [
+        ...this.state.rows.slice(0, index),
+        ...this.state.rows.slice(index + 1),
+      ],
+    });
   };
 
   parseFile = ({ file }) => {
@@ -123,7 +129,7 @@ class ImportExpenseModal extends Component {
             name: row[headers.name],
             amount: currencyf(Math.abs(parseFloat(row[headers.amount]))),
             action: (
-              <AddExpense
+              <ImportExpenseForm
                 expense={row}
                 index={index}
                 removeExpense={this.removeExpense}

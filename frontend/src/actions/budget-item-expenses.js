@@ -3,6 +3,7 @@ import {
   BUDGET_ITEM_EXPENSE_CREATED,
   BUDGET_ITEM_EXPENSE_UPDATED,
   BUDGET_ITEM_EXPENSE_REMOVED,
+  BUDGET_ITEM_EXPENSE_IMPORTED,
 } from 'action-types';
 
 export const newExpense = budgetItemId => {
@@ -29,6 +30,13 @@ export const updateExpense = budgetItemExpense => {
 export const removeExpense = budgetItemExpense => {
   return {
     type: BUDGET_ITEM_EXPENSE_REMOVED,
+    budgetItemExpense,
+  };
+};
+
+export const importedExpense = budgetItemExpense => {
+  return {
+    type: BUDGET_ITEM_EXPENSE_IMPORTED,
     budgetItemExpense,
   };
 };

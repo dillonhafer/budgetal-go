@@ -13,8 +13,7 @@ import {
   BUDGET_ITEM_EXPENSE_CREATED,
   BUDGET_ITEM_EXPENSE_UPDATED,
   BUDGET_ITEM_EXPENSE_REMOVED,
-  // BUDGET_ITEM_MOVED,
-  // BUDGET_ITEM_EXPENSE_IMPORTED,
+  BUDGET_ITEM_EXPENSE_IMPORTED,
 } from 'constants/action-types';
 
 const initialBudgetCategories = [
@@ -210,6 +209,14 @@ export default function budgetState(state = initialBudgetState, action) {
       return {
         ...state,
         budgetItems: [...state.budgetItems, ...action.budgetItems],
+      };
+    case BUDGET_ITEM_EXPENSE_IMPORTED:
+      return {
+        ...state,
+        budgetItemExpenses: [
+          ...state.budgetItemExpenses,
+          action.budgetItemExpense,
+        ],
       };
     default:
       return state;
