@@ -175,33 +175,39 @@ class BudgetItemExpenseForm extends Component {
           </Col>
           <Col span={3} className="text-right">
             <Form.Item>
-              <Button
-                onClick={this.handleOnSubmit}
-                icon={icon}
-                disabled={loading}
-                shape="circle"
-                type="primary"
-                size="default"
-                htmlType="submit"
-                title="Save Expense"
-              />
-              <Popconfirm
-                arrowPointAtCenter={true}
-                title={'Are you sure?'}
-                overlayClassName="delete-popover"
-                placement="left"
-                onConfirm={this.handleOnDelete}
-                okText={'Delete Expense'}
-                okType={'danger'}
-              >
-                <Button
-                  className="delete-button"
-                  shape="circle"
-                  type="danger"
-                  icon="delete"
-                  title="Delete Expense"
-                />
-              </Popconfirm>
+              <Row>
+                <Col span={12}>
+                  <Button
+                    onClick={this.handleOnSubmit}
+                    icon={icon}
+                    disabled={loading}
+                    shape="circle"
+                    type="primary"
+                    size="default"
+                    htmlType="submit"
+                    title="Save Expense"
+                  />
+                </Col>
+                <Col span={10} offset={2}>
+                  <Popconfirm
+                    arrowPointAtCenter={true}
+                    title={'Are you sure?'}
+                    overlayClassName="delete-popover"
+                    placement="left"
+                    onConfirm={this.handleOnDelete}
+                    okText={'Delete Expense'}
+                    okType={'danger'}
+                  >
+                    <Button
+                      className="delete-button"
+                      shape="circle"
+                      type="danger"
+                      icon="delete"
+                      title="Delete Expense"
+                    />
+                  </Popconfirm>
+                </Col>
+              </Row>
             </Form.Item>
           </Col>
         </Form>
