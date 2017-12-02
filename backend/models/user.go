@@ -62,9 +62,18 @@ func (u *User) localAvatarUrl() string {
 	return fmt.Sprintf("/users/avatars/%d/%s", u.ID, u.AvatarFileName.String)
 }
 
+func (u *User) s3AvatarUrl() string {
+	bucket := envy.Get("AWS_S3_BUCKET", "")
+	return fmt.Sprintf("https://s3.amazonaws.com/%s/users/avatars/%d/%s", bucket, u.ID, u.AvatarFileName.String)
+}
+
 func (u *User) AvatarUrl() string {
 	if u.AvatarFileName.Valid {
-		return u.localAvatarUrl()
+		if envy.Get("AWS_S3_BUCKET", "") != "" {
+			return u.s3AvatarUrl()
+		} else {
+			return u.localAvatarUrl()
+		}
 	}
 
 	return "/missing-profile.png"
@@ -133,15 +142,8 @@ func NewUser(email, password string) User {
 	}
 }
 
-func (u *User) SaveAvatar(file multipart.File) error {
-	err := u.saveLocalAvatar(file)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (u *User) saveLocalAvatar(file multipart.File) error {
+func (u *User) SaveAvatar(file multipart.File, size int64) error {
+	// Get File Name
 	extension, err := fileContentType(file)
 	if err != nil {
 		return err
@@ -150,15 +152,32 @@ func (u *User) saveLocalAvatar(file multipart.File) error {
 	if err != nil {
 		return err
 	}
-
 	filename := fmt.Sprintf("%x.%s", md5, extension)
-	err = saveToDisk(u.ID, filename, file)
+
+	// Save File
+	if envy.Get("AWS_S3_BUCKET", "") != "" {
+		err = saveToS3(u.ID, filename, file, size)
+	} else {
+		err = saveToDisk(u.ID, filename, file)
+	}
+
 	if err != nil {
 		return err
 	}
 
 	u.AvatarFileName = nulls.String{String: filename, Valid: true}
 	u.AvatarContentType = sql.NullString{String: extension, Valid: true}
+	return nil
+}
+
+func saveToS3(userId int, filename string, file multipart.File, size int64) error {
+	id := strconv.Itoa(userId)
+	path := filepath.Join("users", "avatars", id, filename)
+
+	err := S3Upload(path, file, size)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 

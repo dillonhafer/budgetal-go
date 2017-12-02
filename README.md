@@ -42,6 +42,16 @@ yarn start
 5. `BUDGETAL_HEADER` name of header used when authenticating, defaults to `X-Budgetal-Session`
 6. `BUDGETAL_COOKIE` name of cookie used when authenticating, defaults to `_budgetal_session`
 
+**S3 Credentials**
+
+Providing S3 credentials will auto-matically use S3 to store avatars:
+
+1. `AWS_S3_ACCESS_KEY_ID`
+2. `AWS_S3_SECRET_ACCESS_KEY`
+3. `AWS_S3_TOKEN`
+4. `AWS_S3_REGION`
+5. `AWS_S3_BUCKET`
+
 **Production will also need the following:**
 
 1. `GO_ENV` application run-time environment, usually `production`

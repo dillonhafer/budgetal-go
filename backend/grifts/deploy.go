@@ -15,6 +15,7 @@ var envFile = envy.Get("to", ".env.staging")
 var _ = envy.Load(envFile)
 var server = envy.Get("server", "")
 var deployDir = envy.Get("deploy_dir", "")
+var localAvatars = envy.Get("LOCAL_AVATARS", "no") == "yes"
 
 func timeTrack(s time.Time) {
 	start := s.Round(time.Second)
@@ -171,10 +172,12 @@ var _ = Namespace("deploy", func() {
 		Command("ssh", server, fmt.Sprintf("tar xzf %s/frontend.tar.gz -C %s", deployDir, deployDir))
 		Command("ssh", server, fmt.Sprintf("rm %s/frontend.tar.gz", deployDir))
 
-		Comment("Symlinking avatar directory")
-		cmd := fmt.Sprintf("if [ ! -L \"%s/build/users\" ]; then ln -s $(pwd)/%s/frontend/public/users $(pwd)/%s/build/users; fi", deployDir, deployDir, deployDir)
-		Command("ssh", server, cmd)
-		FormatLog("Avatar directory symlinked")
+		if localAvatars {
+			Comment("Symlinking avatar directory")
+			cmd := fmt.Sprintf("if [ ! -L \"%s/build/users\" ]; then ln -s $(pwd)/%s/frontend/public/users $(pwd)/%s/build/users; fi", deployDir, deployDir, deployDir)
+			Command("ssh", server, cmd)
+			FormatLog("Avatar directory symlinked")
+		}
 		return nil
 	})
 
