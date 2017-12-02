@@ -28,6 +28,17 @@ class BudgetItemList extends Component {
   addBudgetItem = e => {
     e.preventDefault();
     this.props.newBudgetItem(this.props.currentBudgetCategory.id);
+    let interval = null;
+    interval = setInterval(() => {
+      const newLink = document.querySelector(
+        '.ant-tabs-tab .anticon.anticon-question',
+      );
+      if (newLink) {
+        newLink.click();
+        window.clearInterval(interval);
+        document.querySelector('.ant-card-head-title').scrollIntoView();
+      }
+    }, 100);
   };
 
   currentItems = item => {
