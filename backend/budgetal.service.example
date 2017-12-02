@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Environment=GO_ENV=production
-Environment=DATABASE_URL='postgres:///budgetal_production?host=/var/run/postgresql'
+Environment=DATABASE_URL='postgres:///budgetal_production?host=/var/run/postgresql&fallback_application_name=Budgetal-Go'
 Environment=CORS=https://example.com
 Environment=SMTP_USER=sendgriduser
 Environment=SMTP_PASSWORD='keep it secret, keep it safe'
