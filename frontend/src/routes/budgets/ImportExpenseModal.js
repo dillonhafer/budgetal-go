@@ -3,6 +3,7 @@ import { Modal, Upload, Icon, Progress, Table } from 'antd';
 import Papa from 'papaparse';
 import { currencyf } from 'helpers';
 import ImportExpenseForm from './ImportExpenseForm';
+const Dragger = Upload.Dragger;
 
 const initialState = {
   parsing: false,
@@ -16,13 +17,8 @@ class ImportExpenseModal extends Component {
 
   close = () => {
     this.setState({ ...initialState });
-    this.resetFile();
     this.props.cancel();
   };
-
-  resetFile() {
-    document.getElementById('import-csv').value = '';
-  }
 
   errors = () => {
     const { csvError } = this.state;
@@ -165,36 +161,12 @@ class ImportExpenseModal extends Component {
       );
     } else if (this.state.rows.length) {
       return this.csvTable();
-    } else {
-      return (
-        <div>
-          <div style={{ marginTop: 16, height: 180 }}>
-            <Upload.Dragger
-              accept=".csv"
-              showUploadList={false}
-              customRequest={this.parseFile}
-            >
-              <p className="ant-upload-drag-icon">
-                <Icon type="inbox" />
-              </p>
-              <p className="ant-upload-text">
-                Click or drag csv file to upload
-              </p>
-              <br />
-              <p className="ant-upload-hint">
-                {this.errors()}
-                File should have 3 headers: <br />
-                <b>date, description, amount</b>
-              </p>
-            </Upload.Dragger>
-          </div>
-        </div>
-      );
     }
   }
 
   render() {
     const width = this.state.rows.length > 0 ? 900 : 400;
+    const style = width === 400 ? {} : { display: 'none' };
     return (
       <Modal
         title="Import Expenses"
@@ -205,14 +177,29 @@ class ImportExpenseModal extends Component {
         onCancel={this.close}
       >
         <div className="choose-file-container">
-          <input
-            type="file"
-            accept=".csv"
-            id="import-csv"
-            onChange={this.parseFile}
-            style={{ display: 'none' }}
-          />
           {this.content()}
+          <div style={style}>
+            <div style={{ marginTop: 16, height: 180 }}>
+              <Dragger
+                accept=".csv"
+                showUploadList={false}
+                customRequest={this.parseFile}
+              >
+                <p className="ant-upload-drag-icon">
+                  <Icon type="inbox" />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag csv file to upload
+                </p>
+                <br />
+                <p className="ant-upload-hint">
+                  {this.errors()}
+                  File should have 3 headers: <br />
+                  <b>date, description, amount</b>
+                </p>
+              </Dragger>
+            </div>
+          </div>
         </div>
       </Modal>
     );
