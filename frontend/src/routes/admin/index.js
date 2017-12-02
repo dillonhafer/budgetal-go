@@ -1,20 +1,38 @@
 import React, { Component } from 'react';
-import { title, scrollTop } from 'window';
+import { title, notice, error } from 'window';
 
-import { AdminUsersRequest } from 'api/admin';
+import { AdminUsersRequest, AdminTestEmailRequest } from 'api/admin';
 import moment from 'moment';
 
 // Antd
-import { Table } from 'antd';
+import { Card, Button, Table } from 'antd';
 
 export default class Admin extends Component {
   state = {
     isAdmin: false,
+    testEmailLoading: false,
     users: [],
   };
+
   componentDidMount() {
     this.checkForAdmin();
   }
+
+  sendTestEmail = async () => {
+    this.setState({ testEmailLoading: true });
+    try {
+      const resp = await AdminTestEmailRequest();
+      if (resp && resp.ok) {
+        notice('Test email has been sent');
+      } else {
+        error('Could not send test email');
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ testEmailLoading: false });
+    }
+  };
 
   columns = [
     {
@@ -49,7 +67,6 @@ export default class Admin extends Component {
     const isAdmin = resp && resp.ok && resp.users.length;
     if (isAdmin) {
       title(`Admin`);
-      scrollTop();
       this.setState({
         isAdmin,
         users: resp.users,
@@ -65,7 +82,12 @@ export default class Admin extends Component {
         key: `user-key-${user.email}`,
         name: (
           <span>
-            {user.firstName}, <b>{user.lastName}</b>
+            <img
+              className={'nav-user-logo'}
+              src={user.avatarUrl}
+              alt={`${user.firstName} ${user.lastName}`}
+            />
+            {user.firstName || '-'}, <b>{user.lastName || '-'}</b>
           </span>
         ),
         email: user.email,
@@ -79,7 +101,7 @@ export default class Admin extends Component {
   }
 
   render() {
-    const { isAdmin } = this.state;
+    const { isAdmin, testEmailLoading } = this.state;
     if (!isAdmin) {
       return null;
     }
@@ -87,12 +109,26 @@ export default class Admin extends Component {
     return (
       <div>
         <h1>Admin Panel</h1>
-        <Table
-          dataSource={this.dataSource(this.state.users)}
-          pagination={false}
-          columns={this.columns}
-          bordered
-        />
+        <Card noHovering title={'Config'}>
+          <Button
+            icon="mail"
+            type="primary"
+            loading={testEmailLoading}
+            size="large"
+            onClick={this.sendTestEmail}
+          >
+            {testEmailLoading ? 'Sending...' : 'Send Test Email'}
+          </Button>
+        </Card>
+        <br />
+        <Card noHovering title={'Users'}>
+          <Table
+            dataSource={this.dataSource(this.state.users)}
+            pagination={false}
+            columns={this.columns}
+            bordered
+          />
+        </Card>
       </div>
     );
   }

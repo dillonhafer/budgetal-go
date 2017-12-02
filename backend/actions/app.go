@@ -104,6 +104,7 @@ func App() *buffalo.App {
 
 		// Admin
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
+		app.GET("/admin/test-email", WithCurrentUser(AdminTestEmail))
 
 		// Sessions
 		app.GET("/sessions", WithCurrentUser(SessionsIndex))

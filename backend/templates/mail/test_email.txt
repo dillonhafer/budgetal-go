@@ -1,0 +1,3 @@
+Hello <%= name %>!
+
+Someone has requested a test email.
