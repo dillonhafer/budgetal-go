@@ -20,7 +20,7 @@ class AccountInfoForm extends React.Component {
           uid: -1,
           name: '',
           status: 'done',
-          url: user.avatarFileName,
+          url: user.avatarUrl,
         },
       ],
     };

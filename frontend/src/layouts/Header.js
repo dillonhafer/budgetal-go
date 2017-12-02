@@ -19,7 +19,7 @@ const ProfileImage = ({ user }) => {
     <img
       alt={user.firstName}
       className="nav-user-logo"
-      src={user.avatarFileName || defaultSrc}
+      src={user.avatarUrl || defaultSrc}
       onError={onError}
     />
   );
