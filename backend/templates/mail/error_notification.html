@@ -1,0 +1,28 @@
+<h2>500 <%= e %></h2>
+
+<h3>Error Trace</h3>
+<pre style="border: 1px solid gray; padding: 5px; background: white; border-radius: 5px">
+  <%= error %>
+</pre>
+
+<table style="border: 1px solid black">
+  <tbody>
+    <tr>
+      <td style="border: 1px solid black">REQUEST_URL</td><td style="border: 1px solid black"><%= requestUrl %></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black">REMOTE_ADDR</td><td style="border: 1px solid black"><%= remoteAddr %></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black">USER_AGENT</td><td style="border: 1px solid black"><%= userAgent %></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black" colspan="2">HEADERS</td>
+    </tr>
+    <%= for (header) in headers { %>
+    <tr>
+      <td style="border: 1px solid black" colspan="2"><%= header %></td>
+    </tr>
+    <% } %>
+  </tbody>
+</table>

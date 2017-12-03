@@ -53,6 +53,17 @@ func AdminTestEmail(c buffalo.Context, currentUser *models.User) error {
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
 
+func AdminErrorPage(c buffalo.Context, currentUser *models.User) error {
+	if currentUser.Admin != true {
+		return c.Render(401, r.JSON(""))
+	}
+
+	var i int
+	i = c.Value("foo").(int)
+
+	return c.Render(200, r.JSON(map[string]int{"count": 1 + i}))
+}
+
 func getUsers(users *[]User) error {
 	query := `
 		with max_created_at as (

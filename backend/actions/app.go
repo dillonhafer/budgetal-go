@@ -64,8 +64,10 @@ func App() *buffalo.App {
 		})
 
 		app.ErrorHandlers[500] = func(status int, err error, c buffalo.Context) error {
+			c.Logger().Errorf("\n[500] ERROR:\n%v\n\n", err)
+			ErrorNotification(err, c)
+
 			errResp := map[string]string{"error": "Something went wrong on our end. We are looking into the issue"}
-			c.Logger().Errorf("\n💔 ERROR\n%v\n\n", err)
 			return c.Render(500, r.JSON(errResp))
 		}
 
@@ -105,6 +107,7 @@ func App() *buffalo.App {
 		// Admin
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
 		app.GET("/admin/test-email", WithCurrentUser(AdminTestEmail))
+		app.GET("/admin/error", WithCurrentUser(AdminErrorPage))
 
 		// Sessions
 		app.GET("/sessions", WithCurrentUser(SessionsIndex))

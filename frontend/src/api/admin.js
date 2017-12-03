@@ -7,3 +7,7 @@ export function AdminUsersRequest() {
 export function AdminTestEmailRequest() {
   return _get(`/admin/test-email`);
 }
+
+export function AdminErrorRequest() {
+  return _get(`/admin/error`);
+}

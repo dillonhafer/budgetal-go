@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { title, notice, error } from 'window';
 
-import { AdminUsersRequest, AdminTestEmailRequest } from 'api/admin';
+import {
+  AdminUsersRequest,
+  AdminTestEmailRequest,
+  AdminErrorRequest,
+} from 'api/admin';
 import moment from 'moment';
 
 // Antd
@@ -11,6 +15,7 @@ export default class Admin extends Component {
   state = {
     isAdmin: false,
     testEmailLoading: false,
+    errorLoading: false,
     users: [],
   };
 
@@ -31,6 +36,17 @@ export default class Admin extends Component {
       console.log(err);
     } finally {
       this.setState({ testEmailLoading: false });
+    }
+  };
+
+  sendErrorTest = async () => {
+    this.setState({ errorLoading: true });
+    try {
+      await AdminErrorRequest();
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ errorLoading: false });
     }
   };
 
@@ -101,7 +117,7 @@ export default class Admin extends Component {
   }
 
   render() {
-    const { isAdmin, testEmailLoading } = this.state;
+    const { isAdmin, testEmailLoading, errorLoading } = this.state;
     if (!isAdmin) {
       return null;
     }
@@ -118,6 +134,16 @@ export default class Admin extends Component {
             onClick={this.sendTestEmail}
           >
             {testEmailLoading ? 'Sending...' : 'Send Test Email'}
+          </Button>
+          &nbsp;
+          <Button
+            icon="exception"
+            type="danger"
+            loading={errorLoading}
+            size="large"
+            onClick={this.sendErrorTest}
+          >
+            {errorLoading ? 'Loading...' : 'Test 500'}
           </Button>
         </Card>
         <br />

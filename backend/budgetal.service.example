@@ -12,6 +12,7 @@ Environment=SMTP_USER=sendgriduser
 Environment=SMTP_PASSWORD=keep it secret, keep it safe
 Environment=SMTP_HOST=smtp.sendgrid.net
 Environment=SMTP_PORT=587
+Environment=ERROR_NOTIFICATION_EMAILS=email@example.com,email2@example.com
 
 Environment=AWS_S3_ACCESS_KEY_ID=keyid
 Environment=AWS_S3_SECRET_ACCESS_KEY=se/cr/et
