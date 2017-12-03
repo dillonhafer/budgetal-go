@@ -42,10 +42,22 @@ class ImportExpenseModal extends Component {
       Papa.parse(file, {
         skipEmptyLines: true,
         step: row => {
-          this.setState({ rows: [...this.state.rows, row.data[0]] });
+          if (this.state.rows.length === 0) {
+            this.setState({ rows: [['rowId', ...row.data[0]]] });
+          } else {
+            this.setState({
+              rows: [
+                ...this.state.rows,
+                [this.state.rows.length, ...row.data[0]],
+              ],
+            });
+          }
         },
         complete: (results, file) => {
           let headers = {};
+          headers.rowId = this.state.rows[0].findIndex(col => {
+            return col === 'rowId';
+          });
           headers.date = this.state.rows[0].findIndex(col => {
             return col
               .toLowerCase()
@@ -120,7 +132,7 @@ class ImportExpenseModal extends Component {
       .map((row, index) => {
         if (index !== 0) {
           return {
-            key: `tx-${index}`,
+            key: `tx-${row[headers.rowId]}`,
             date: row[headers.date],
             name: row[headers.name],
             amount: currencyf(Math.abs(parseFloat(row[headers.amount]))),

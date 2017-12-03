@@ -8,7 +8,7 @@ import { importedExpense } from 'actions/budget-item-expenses';
 import { CreateExpenseRequest } from 'api/budget-item-expenses';
 
 // Components
-import { Row, Col, Icon, Select, Button } from 'antd';
+import { Row, Col, Icon, Cascader, Button } from 'antd';
 
 // Helpers
 import { notice, error } from 'window';
@@ -16,17 +16,17 @@ import moment from 'moment';
 
 class ImportExpenseForm extends Component {
   state = {
-    categoryId: '',
-    itemId: '',
+    categoryId: null,
+    itemId: null,
   };
 
   disabled = () => {
-    return this.state.itemId === '' || this.state.categoryId === '';
+    return this.state.itemId === null || this.state.categoryId === null;
   };
 
   formatExpense = () => {
     return {
-      budgetItemId: parseInt(this.state.itemId, 10),
+      budgetItemId: this.state.itemId,
       amount: this.props.expense[this.props.headers.amount].replace('-', ''),
       date: moment(
         this.props.expense[this.props.headers.date],
@@ -49,10 +49,6 @@ class ImportExpenseForm extends Component {
           notice(`Saved Expense`);
           this.props.removeExpense(this.props.index);
           this.props.importedExpense(resp.budgetItemExpense);
-          this.setState({
-            categoryId: '',
-            itemId: '',
-          });
         }
       } catch (err) {
         error(err.message);
@@ -60,23 +56,11 @@ class ImportExpenseForm extends Component {
     }
   };
 
-  filterOption(input, option) {
-    return option.props.value.toLowerCase().indexOf(input.toLowerCase()) >= 0;
-  }
-
-  handleCategoryChange = categoryId => {
-    this.setState({ categoryId, itemId: '' });
-  };
-
-  handleItemChange = itemId => {
-    this.setState({ itemId });
-  };
-
   skip = () => {
     this.props.removeExpense(this.props.index);
     this.setState({
-      categoryId: '',
-      itemId: '',
+      categoryId: null,
+      itemId: null,
     });
   };
 
@@ -100,66 +84,58 @@ class ImportExpenseForm extends Component {
       const style = {
         color: '#ffd27e',
         padding: '2px',
-        fontSize: '26px',
-        display: 'block',
+        fontSize: '27px',
+        alignItems: 'flex-start',
+        verticalAlign: 'top',
+        backgroundColor: 'white',
+        borderRadius: '50%',
       };
       return (
-        <span title="Possible Duplicate">
+        <span title="Possible Duplicate" style={{ marginRight: '5px' }}>
           <Icon type="exclamation-circle" style={style} />
         </span>
       );
     }
   };
 
+  onChange = ids => {
+    const [categoryId, itemId] = ids;
+    this.setState({ categoryId, itemId });
+  };
+
   render() {
     const disabled = this.disabled();
     const possibleDuplicate = this.possibleDuplicate();
+    const options = this.props.budgetCategories
+      .map(cat => {
+        const items = this.props.budgetItems.filter(
+          i => i.budgetCategoryId === cat.id,
+        );
+        return {
+          value: cat.id,
+          label: cat.name,
+          children: items.map(i => {
+            return {
+              value: i.id,
+              label: i.name,
+            };
+          }),
+        };
+      })
+      .filter(c => c.children.length > 0);
     return (
       <div>
         <Row>
-          <Col span={16}>
-            <Select
-              showSearch
-              style={{ width: '200px', marginBottom: '5px' }}
-              placeholder="Select Category"
-              optionFilterProp="children"
-              value={this.state.categoryId}
-              onChange={this.handleCategoryChange}
-              filterOption={this.filterOption}
-            >
-              {this.props.budgetCategories.map((category, i) => {
-                return (
-                  <Select.Option key={i} value={`${category.id}`}>
-                    {category.name}
-                  </Select.Option>
-                );
-              })}
-            </Select>
-            <Select
-              showSearch
-              style={{ width: '200px' }}
-              placeholder="Select Item"
-              value={this.state.itemId}
-              optionFilterProp="children"
-              onChange={this.handleItemChange}
-              filterOption={this.filterOption}
-            >
-              {this.props.budgetItems
-                .filter(
-                  item =>
-                    String(item.budgetCategoryId) === this.state.categoryId,
-                )
-                .map((item, i) => {
-                  return (
-                    <Select.Option key={i} value={`${item.id}`}>
-                      {item.name}
-                    </Select.Option>
-                  );
-                })}
-            </Select>
+          <Col span={14}>
+            <Cascader
+              options={options}
+              onChange={this.onChange}
+              placeholder="Please select"
+            />
           </Col>
-          <Col span={8}>
+          <Col span={10}>
             <div className="text-center">
+              {possibleDuplicate}
               <span style={{ marginRight: '5px' }}>
                 <Button
                   onClick={this.save}
@@ -177,7 +153,6 @@ class ImportExpenseForm extends Component {
                   icon="forward"
                 />
               </span>
-              {possibleDuplicate}
             </div>
           </Col>
         </Row>
