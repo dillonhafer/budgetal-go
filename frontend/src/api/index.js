@@ -78,3 +78,11 @@ export const _patch = (path, body = {}, headers = {}) => {
 export const _delete = (path, body = {}, headers = {}) => {
   return base(path, 'DELETE', headers, body);
 };
+
+export const _raw_get = (path, body = {}, headers = {}) => {
+  return fetch(baseURL + path, {
+    method: 'GET',
+    headers,
+    body,
+  });
+};
