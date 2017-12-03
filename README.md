@@ -6,18 +6,11 @@ frontend
 
 ## Setup
 
-> This project relies on buffalo version 0.10.1, it breaks in older/newer versions.
+**Backend setup**:
 
-How to setup the backend server:
+[Install buffalo](https://gobuffalo.io/docs/installation#basic-installation) then install Budgetal
 
 ```sh
-# Lock to buffalo 0.10.1
-$ git clone https://github.com/gobuffalo/buffalo.git $GOPATH/src/github.com/gobuffalo/buffalo
-$ cd $GOPATH/src/github.com/gobuffalo/buffalo
-$ git checkout tags/v0.10.1
-$ go get github.com/gobuffalo/buffalo/buffalo
-
-# Download budgetal
 $ git clone https://github.com/dillonhafer/budgetal-go.git
 $ cd backend
 $ buffalo db create
@@ -25,7 +18,7 @@ $ buffalo db migrate
 $ buffalo dev
 ```
 
-How to setup the frontend server:
+**Frontend setup**:
 
 ```
 cd frontend
@@ -59,6 +52,7 @@ Providing S3 credentials will auto-matically use S3 to store avatars:
 3. `SMTP_PASSWORD` password for smtp service
 4. `SMTP_HOST` host for smtp service
 5. `SMTP_PORT` port for smtp service
+6. `ERROR_NOTIFICATION_EMAILS` comma-separated list of emails to receive 500 errors
 
 **The front end needs certain `ENV` vars at build time:**
 
