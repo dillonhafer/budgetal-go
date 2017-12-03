@@ -3,7 +3,7 @@ rm -rf node_modules/antd/node_modules/rc-select && cp -r node_modules/rc-select 
 
 export PORT=3001
 export REACT_APP_BASE_URL=http://localhost:3000
-export NODE_PATH=$NODE_PATH:src:src/api:src/utils:src/constants:src/routes:src/reducers
+export NODE_PATH=$NODE_PATH:src:src/utils:src/constants
 export BROWSER="Google Chrome"
 
 if [ -f ".env.local" ]; then

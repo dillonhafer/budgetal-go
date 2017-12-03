@@ -3,9 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import { Layout } from 'antd';
 
 // Route Components
-import PrivateRoute from 'PrivateRoute';
-import Home from 'Home';
-import Privacy from 'Privacy';
+import PrivateRoute from 'routes/PrivateRoute';
+import Home from 'routes/Home';
+import Privacy from 'routes/Privacy';
 import Budget from 'routes/budgets';
 import AnnualBudget from 'routes/annual-budgets';
 import MortgageCalculator from 'routes/calculators/mortgage';
@@ -15,8 +15,8 @@ import ResetPassword from 'routes/reset-password';
 import AccountSettings from 'routes/account-settings';
 
 // Error Routes
-import NoMatch from 'NoMatch';
-import Maintenance from 'Maintenance';
+import NoMatch from 'routes/NoMatch';
+import Maintenance from 'routes/Maintenance';
 
 class ApplicationLayout extends Component {
   render() {

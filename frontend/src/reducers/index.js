@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 
-import annualBudgetItems from './AnnualBudgetItems';
-import mortgageCalculator from './MortgageCalculator';
-import budget from './Budget';
+import annualBudgetItems from 'reducers/AnnualBudgetItems';
+import mortgageCalculator from 'reducers/MortgageCalculator';
+import budget from 'reducers/Budget';
 
 const appReducers = combineReducers({
   mortgageCalculator,
