@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/x/mail"
+	"github.com/gobuffalo/buffalo/mail"
 	"github.com/pkg/errors"
 )
 

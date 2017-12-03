@@ -3,11 +3,11 @@ package mailers
 import (
 	"log"
 
+	"github.com/gobuffalo/buffalo/mail"
 	"github.com/gobuffalo/buffalo/render"
 	"github.com/gobuffalo/envy"
 	"github.com/gobuffalo/packr"
 	"github.com/gobuffalo/plush"
-	"github.com/gobuffalo/x/mail"
 )
 
 var smtp mail.Sender

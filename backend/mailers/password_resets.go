@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
-	"github.com/gobuffalo/x/mail"
+	"github.com/gobuffalo/buffalo/mail"
 	"github.com/pkg/errors"
 )
 
