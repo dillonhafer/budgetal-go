@@ -51,7 +51,7 @@ class RegisterForm extends Component {
     const { loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSubmit} className="login-form">
+      <Form onSubmit={this.handleSubmit} className="register-form">
         <FormItem hasFeedback={true}>
           {getFieldDecorator('email', {
             rules: [
