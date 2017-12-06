@@ -8,8 +8,9 @@ import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
 import BudgetItemList from './BudgetItemList';
 import { ImportCategoryRequest } from 'api/budgets';
 import { notice } from 'window';
+import { currencyf, reduceSum } from 'helpers';
 
-import { Card, Modal, Icon } from 'antd';
+import { Card, Modal, Icon, Progress } from 'antd';
 
 class BudgetCategory extends Component {
   clickImport = e => {
@@ -43,8 +44,42 @@ class BudgetCategory extends Component {
     }
   }
 
+  percentSpent = (budgeted, spent) => {
+    const p = spent / budgeted * 100;
+    if (p > 99.99) {
+      return 100;
+    }
+
+    if (isNaN(p)) {
+      return 0;
+    }
+
+    return parseInt(p, 10);
+  };
+
   render() {
+    const items = this.props.budgetItems.filter(item => {
+      return item.budgetCategoryId === this.props.currentBudgetCategory.id;
+    });
+    const itemIds = items.map(i => i.id);
+    const expenses = this.props.budgetItemExpenses.filter(e => {
+      return itemIds.includes(e.budgetItemId);
+    });
+
+    const spent = reduceSum(expenses);
+    const budgeted = reduceSum(items);
+    const remaining = budgeted - spent;
+    const percentSpent = this.percentSpent(budgeted, spent);
+
     const budgetCategory = this.props.currentBudgetCategory;
+
+    let status = '';
+    if (remaining < 0) {
+      status = 'exception';
+    } else if (remaining === 0.0) {
+      status = 'success';
+    }
+
     return (
       <div className="budget-category-row">
         <Card
@@ -69,6 +104,18 @@ class BudgetCategory extends Component {
           }
         >
           <div className="body-row">
+            <div style={{ clear: 'both' }}>
+              <h3 style={{ float: 'left' }}>Spent: {currencyf(spent)}</h3>
+              <h3 style={{ float: 'right' }}>
+                Remaining: {currencyf(remaining)}
+              </h3>
+              <Progress
+                strokeWidth={20}
+                status={status}
+                percent={percentSpent}
+              />
+            </div>
+            <br />
             <ul className="main-budget-categories">
               <li>{!this.props.loading && <BudgetItemList />}</li>
             </ul>
