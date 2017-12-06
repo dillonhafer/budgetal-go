@@ -73,7 +73,7 @@ class BudgetCategory extends Component {
 
     const budgetCategory = this.props.currentBudgetCategory;
 
-    let status = '';
+    let status = 'normal';
     if (remaining < 0) {
       status = 'exception';
     } else if (remaining === 0.0) {

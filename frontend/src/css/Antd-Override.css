@@ -44,3 +44,7 @@ div.ant-layout-header {
   background-color: #d84902;
   border-color: #d84902;
 }
+
+.ant-upload-list-item-actions a {
+  display: none;
+}
