@@ -135,7 +135,7 @@ class BudgetItem extends Component {
   };
 
   percentSpent = () => {
-    const p = this.props.amountSpent / this.props.budgetItem.amount * 100;
+    const p = this.amountSpent() / this.props.budgetItem.amount * 100;
 
     if (p > 99.99) {
       return 100;
@@ -168,10 +168,13 @@ class BudgetItem extends Component {
       },
     };
 
+    const amountRemaining = item.amount - this.amountSpent();
+    let msg = `You have ${currencyf(amountRemaining)} remaining to spend.`;
     let status;
-    if (this.props.amountRemaining < 0) {
+    if (amountRemaining < 0) {
       status = 'exception';
-    } else if (this.props.amountRemaining === 0.0) {
+      msg = `You have overspent by ${currencyf(Math.abs(amountRemaining))}`;
+    } else if (amountRemaining === 0.0) {
       status = 'success';
     }
 
@@ -224,9 +227,9 @@ class BudgetItem extends Component {
             </Form>
           </Col>
           <Col span={16}>
-            <Row type="flex" justify="center">
-              <Col span={8}>
-                <div className="text-right">
+            <Row type="flex" align="middle" justify="center">
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <div className="text-center">
                   <Progress
                     type="circle"
                     status={status}
@@ -234,29 +237,28 @@ class BudgetItem extends Component {
                   />
                 </div>
               </Col>
-              <Col span={12}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <p className="text-center">
                   You have spent <b>{currencyf(this.amountSpent())}</b> of{' '}
                   <b>{currencyf(item.amount)}</b>.
                 </p>
-                <p className="text-center">
-                  You have <b>{currencyf(this.props.amountRemaining)}</b>{' '}
-                  remaining to spend.
-                </p>
-              </Col>
-              <Col span={4} style={{ alignSelf: 'flex-start' }}>
-                <Button
-                  onClick={deleteFunction}
-                  type="danger"
-                  className="delete-button right"
-                  shape="circle"
-                  icon="delete"
-                />
+                <p className="text-center">{msg}</p>
               </Col>
             </Row>
           </Col>
         </Row>
         <BudgetItemExpenseList budgetItem={item} />
+        <br />
+        <div className="text-right">
+          <Button
+            onClick={deleteFunction}
+            type="danger"
+            className="delete-button right"
+            icon="delete"
+          >
+            Delete {item.name}
+          </Button>
+        </div>
       </div>
     );
   }
