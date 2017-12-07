@@ -2,7 +2,6 @@ package models
 
 import (
 	"bytes"
-	"mime/multipart"
 	"net/http"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -12,7 +11,7 @@ import (
 	"github.com/gobuffalo/envy"
 )
 
-func S3Upload(path string, file multipart.File, size int64) error {
+func S3Upload(path string, file *bytes.Buffer) error {
 	aws_access_key_id := envy.Get("AWS_S3_ACCESS_KEY_ID", "")
 	aws_secret_access_key := envy.Get("AWS_S3_SECRET_ACCESS_KEY", "")
 	token := envy.Get("AWS_S3_TOKEN", "")
@@ -26,20 +25,15 @@ func S3Upload(path string, file multipart.File, size int64) error {
 	}
 	cfg := aws.NewConfig().WithRegion(region).WithCredentials(creds)
 
-	// Get file size
-	buffer := make([]byte, size) // read file content to buffer
-
-	file.Read(buffer)
-	fileBytes := bytes.NewReader(buffer)
-	fileType := http.DetectContentType(buffer)
+	fileType := http.DetectContentType(file.Bytes())
+	body := bytes.NewReader(file.Bytes())
 
 	params := &s3.PutObjectInput{
-		Bucket:        aws.String(bucket),
-		Key:           aws.String(path),
-		Body:          fileBytes,
-		ContentLength: aws.Int64(size),
-		ContentType:   aws.String(fileType),
-		ACL:           aws.String("public-read"),
+		Bucket:      aws.String(bucket),
+		Key:         aws.String(path),
+		Body:        body,
+		ContentType: aws.String(fileType),
+		ACL:         aws.String("public-read"),
 	}
 
 	svc := s3.New(session.New(), cfg)

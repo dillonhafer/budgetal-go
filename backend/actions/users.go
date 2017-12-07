@@ -42,11 +42,11 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 	currentUser.Email = c.Request().FormValue("email")
 
 	// Update Avatar
-	file, h, err := c.Request().FormFile("avatar")
+	file, _, err := c.Request().FormFile("avatar")
 	if err == nil {
 		defer file.Close()
 
-		err = currentUser.SaveAvatar(file, h.Size)
+		err = currentUser.SaveAvatar(file)
 		if err != nil {
 			c.Logger().Debug(color.RedString(err.Error()))
 			return c.Render(401, r.JSON(map[string]string{

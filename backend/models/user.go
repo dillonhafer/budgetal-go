@@ -7,6 +7,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"image"
+	"image/jpeg"
+	"image/png"
 	"io"
 	"log"
 	"mime/multipart"
@@ -16,6 +19,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/disintegration/imaging"
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
 	"github.com/markbates/pop/nulls"
@@ -142,7 +146,7 @@ func NewUser(email, password string) User {
 	}
 }
 
-func (u *User) SaveAvatar(file multipart.File, size int64) error {
+func (u *User) SaveAvatar(file multipart.File) error {
 	// Get File Name
 	extension, err := fileContentType(file)
 	if err != nil {
@@ -154,11 +158,17 @@ func (u *User) SaveAvatar(file multipart.File, size int64) error {
 	}
 	filename := fmt.Sprintf("%x.%s", md5, extension)
 
-	// Save File
+	// Decode & Resize File
+	resizedImage, err := createThumbnail(file, extension)
+	if err != nil {
+		return err
+	}
+
+	// Save in-memory file
 	if envy.Get("AWS_S3_BUCKET", "") != "" {
-		err = saveToS3(u.ID, filename, file, size)
+		err = saveToS3(u.ID, filename, resizedImage)
 	} else {
-		err = saveToDisk(u.ID, filename, file)
+		err = saveToDisk(u.ID, filename, resizedImage)
 	}
 
 	if err != nil {
@@ -170,18 +180,41 @@ func (u *User) SaveAvatar(file multipart.File, size int64) error {
 	return nil
 }
 
-func saveToS3(userId int, filename string, file multipart.File, size int64) error {
+func createThumbnail(file multipart.File, extension string) (*bytes.Buffer, error) {
+	width := 300
+	height := 300
+
+	imageData, _, err := image.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+	file.Close()
+
+	thumbnail := imaging.Fill(imageData, width, height, imaging.Center, imaging.Lanczos)
+	imageBuffer := new(bytes.Buffer)
+
+	switch extension {
+	case "png":
+		png.Encode(imageBuffer, thumbnail)
+	case "jpg":
+		jpeg.Encode(imageBuffer, thumbnail, nil)
+	}
+
+	return imageBuffer, nil
+}
+
+func saveToS3(userId int, filename string, file *bytes.Buffer) error {
 	id := strconv.Itoa(userId)
 	path := filepath.Join("users", "avatars", id, filename)
 
-	err := S3Upload(path, file, size)
+	err := S3Upload(path, file)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func saveToDisk(userId int, filename string, file multipart.File) error {
+func saveToDisk(userId int, filename string, file *bytes.Buffer) error {
 	id := strconv.Itoa(userId)
 	avatarBase := envy.Get("AVATAR_BASE", filepath.Join("..", "frontend", "public"))
 	fullPath := filepath.Join(avatarBase, "users", "avatars", id)
@@ -195,6 +228,7 @@ func saveToDisk(userId int, filename string, file multipart.File) error {
 	if err != nil {
 		return err
 	}
+
 	io.Copy(f, file)
 	return nil
 }
