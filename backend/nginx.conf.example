@@ -78,10 +78,6 @@ server {
   error_page 503 = @maintenance;
   location @maintenance {
     more_set_headers "Content-Type: application/json";
-    more_set_headers "Access-Control-Allow-Origin: https://www.budgetal.com";
-    more_set_headers "Access-Control-Allow-Credentials: true";
-    more_set_headers "Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PATCH, PUT";
-    more_set_headers "Access-Control-Allow-Headers: DNT,X-CustomHeader,X-Budgetal-Session,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
 
     if ($request_method = OPTIONS) {
       return 204;
@@ -93,6 +89,16 @@ server {
   keepalive_timeout 10;
 
   location / {
+    # CORS Headers
+    more_set_headers "Access-Control-Allow-Origin: https://beta.budgetal.com";
+    more_set_headers "Access-Control-Allow-Credentials: true";
+    more_set_headers "Access-Control-Allow-Methods: GET, POST, OPTIONS, DELETE, PATCH, PUT";
+    more_set_headers "Access-Control-Allow-Headers: DNT,X-CustomHeader,X-Budgetal-Session,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type";
+
+    if ($request_method = OPTIONS) {
+      return 204;
+    }
+
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-NginX-Proxy true;
