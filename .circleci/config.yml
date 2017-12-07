@@ -22,6 +22,7 @@ jobs:
           name: Installing psql
           command: sudo apt-get install postgresql-client
 
+      - run: go get
       - run: go get -u -v github.com/gobuffalo/buffalo/buffalo
       - run: go get github.com/gobuffalo/suite
       - run: cd backend && go get
