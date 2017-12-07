@@ -62,9 +62,9 @@ class RegisterForm extends Component {
             <Input
               prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
               type="email"
-              autocorrect="off"
+              autoCorrect="off"
               autoCapitalize="off"
-              spellcheck="false"
+              spellCheck="false"
               placeholder="E-mail Address"
             />,
           )}
