@@ -16,6 +16,7 @@ import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
 
 // Helpers
 import { error, notice } from 'notify';
+import { navigateHome } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
@@ -53,7 +54,8 @@ class SignInScreen extends Component {
     if (resp && resp.ok) {
       SetAuthenticationToken(resp.token);
       SetCurrentUser(resp.user);
-      notice('You are good!');
+      navigateHome(this.props.navigation.dispatch);
+      notice('You are now signed in!');
     }
   };
 

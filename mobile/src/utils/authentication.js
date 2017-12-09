@@ -43,10 +43,11 @@ export async function GetCurrentUser() {
   }
 }
 
-export function RemoveAuthentication() {
+export async function RemoveAuthentication() {
   try {
     SecureStore.deleteItemAsync(SESSION_KEY);
     SecureStore.deleteItemAsync(USER_KEY);
+    return;
   } catch (err) {
     return null;
   }
@@ -54,5 +55,9 @@ export function RemoveAuthentication() {
 
 export async function IsAuthenticated() {
   const user = await SecureStore.getItemAsync(USER_KEY);
-  return user !== null;
+  if (user === null || user === undefined) {
+    return false;
+  } else {
+    return true;
+  }
 }

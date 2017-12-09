@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import logo from 'images/app_logo.png';
 import colors from 'utils/colors';
+import { IsAuthenticated } from 'utils/authentication';
+import { navigateHome } from 'navigators';
 
 const LogoSeparator = ({ color }) => {
   const styles = StyleSheet.create({
@@ -62,8 +64,35 @@ class MainScreen extends Component {
     header: null,
   };
 
+  state = {
+    checking: true,
+  };
+
+  componentDidMount() {
+    this.checkForUser();
+  }
+
+  checkForUser = async () => {
+    try {
+      const signedIn = await IsAuthenticated();
+      console.log(signedIn);
+      if (signedIn) {
+        this.setState({ checking: false });
+        navigateHome(this.props.navigation.dispatch);
+      } else {
+        this.setState({ checking: false });
+      }
+    } catch (err) {
+      this.setState({ checking: false });
+    }
+  };
+
   render() {
     const { navigate } = this.props.navigation;
+    if (this.state.checking) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
