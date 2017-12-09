@@ -1,0 +1,140 @@
+import React, { Component } from 'react';
+import {
+  TouchableOpacity,
+  StatusBar,
+  TextInput,
+  StyleSheet,
+  Text,
+  Image,
+  View,
+  Button,
+  KeyboardAvoidingView,
+} from 'react-native';
+import logo from 'images/app_logo.png';
+import colors from 'utils/colors';
+
+const LogoSeparator = ({ color }) => {
+  const styles = StyleSheet.create({
+    container: {
+      marginTop: 70,
+      flexDirection: 'row',
+      alignSelf: 'stretch',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    logo: {
+      alignSelf: 'center',
+      height: 60,
+      width: 60,
+      borderWidth: 2,
+      borderColor: '#fff',
+      borderRadius: 13,
+      marginBottom: 5,
+    },
+    line: {
+      flex: 1,
+      backgroundColor: '#fff',
+      height: 0.5,
+    },
+    logoContainer: {
+      margin: 15,
+      flexDirection: 'column',
+    },
+    logoText: {
+      textAlign: 'center',
+      color: '#fff',
+    },
+  });
+  return (
+    <View style={styles.container}>
+      <View style={styles.line} />
+      <View style={styles.logoContainer}>
+        <Image style={styles.logo} source={logo} />
+        <Text style={styles.logoText}>Budgetal</Text>
+      </View>
+      <View style={styles.line} />
+    </View>
+  );
+};
+
+class MainScreen extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+
+  render() {
+    const { navigate } = this.props.navigation;
+    return (
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <LogoSeparator />
+        <View style={styles.quoteContainer}>
+          <Text style={styles.quoteText}>Plan</Text>
+          <Text style={styles.quoteText}>Don't Wonder</Text>
+        </View>
+        <View style={styles.buttonRow}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigate('SignIn', { name: '' })}
+          >
+            <Text style={styles.buttonText}>Sign In</Text>
+          </TouchableOpacity>
+          <View style={styles.separator} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigate('SignIn', { name: '' })}
+          >
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: colors.primary,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+  quoteContainer: {
+    alignSelf: 'stretch',
+    padding: 40,
+    paddingBottom: 100,
+  },
+  quoteText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '700',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    borderWidth: 0.5,
+    borderTopColor: 'blue',
+    borderLeftColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'transparent',
+    alignSelf: 'stretch',
+  },
+  button: {
+    flex: 1,
+    alignSelf: 'stretch',
+    backgroundColor: colors.primary + '80',
+    padding: 18,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '700',
+    textAlign: 'center',
+  },
+  separator: {
+    alignSelf: 'stretch',
+    width: 0.5,
+    backgroundColor: 'blue',
+  },
+});
+
+export default MainScreen;

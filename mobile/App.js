@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import SignInScreen from 'screens/SignIn';
+import RootNavigator from 'navigators/root';
 
 export default class App extends Component {
   render() {
-    return <SignInScreen />;
+    return <RootNavigator />;
   }
 }
 
