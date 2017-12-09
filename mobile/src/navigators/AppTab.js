@@ -1,9 +1,11 @@
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
 
+// Navigators
+import AccountNavigator from 'navigators/Account';
+
 // Screens
 import BudgetsScreen from 'screens/Budgets';
-import AccountScreen from 'screens/Account';
 import StatisticsScreen from 'screens/Statistics';
 import AnnualBudgetsScreen from 'screens/AnnualBudgets';
 
@@ -21,7 +23,7 @@ const AppTabNavigator = TabNavigator(
       screen: StatisticsScreen,
     },
     Account: {
-      screen: AccountScreen,
+      screen: AccountNavigator,
     },
   },
   {
