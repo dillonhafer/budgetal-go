@@ -61,7 +61,7 @@ class AccountScreen extends Component {
     try {
       await SignOutRequest();
       await RemoveAuthentication();
-      navigateRoot(this.props.navigation.dispatch);
+      navigateRoot(this.props.screenProps.parentNavigation.dispatch);
     } catch (err) {}
   };
 

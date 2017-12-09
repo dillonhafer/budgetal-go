@@ -34,5 +34,4 @@ const AppTabNavigator = TabNavigator(
     },
   },
 );
-
 export default AppTabNavigator;

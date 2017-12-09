@@ -29,7 +29,11 @@ class AccountNavigator extends Component {
   };
 
   render() {
-    return <AccountNavigatorStack />;
+    return (
+      <AccountNavigatorStack
+        screenProps={{ parentNavigation: this.props.navigation }}
+      />
+    );
   }
 }
 
