@@ -34,7 +34,7 @@ export const humanUA = userAgent => {
     text = ua.ua;
   }
 
-  if (ua.ua.includes('Budgetal')) {
+  if (ua.ua.includes('Budgetal') || ua.ua.includes('Expo')) {
     text = 'Budgetal App on iOS';
   }
 
