@@ -4,11 +4,11 @@ import { StyleSheet, Text, StatusBar, View } from 'react-native';
 // Components
 import { Ionicons } from '@expo/vector-icons';
 
-class BudgetsScreen extends Component {
+class StatisticsScreen extends Component {
   static navigationOptions = {
-    title: 'Budgets',
+    title: 'Statistics',
     tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-calculator" size={32} color={tintColor} />
+      <Ionicons name="md-stats" size={32} color={tintColor} />
     ),
   };
 
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BudgetsScreen;
+export default StatisticsScreen;

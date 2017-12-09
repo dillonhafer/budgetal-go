@@ -8,10 +8,17 @@ import AppTabNavigator from 'navigators/AppTab';
 import MainScreen from 'screens/Main';
 import SignInScreen from 'screens/SignIn';
 
-const RootNavigator = StackNavigator({
-  Main: { screen: MainScreen },
-  SignIn: { screen: SignInScreen },
-  App: { screen: AppTabNavigator },
-});
+const RootNavigator = StackNavigator(
+  {
+    Main: { screen: MainScreen },
+    SignIn: { screen: SignInScreen },
+    App: { screen: AppTabNavigator },
+  },
+  {
+    cardStyle: {
+      backgroundColor: '#ececec',
+    },
+  },
+);
 
 export default RootNavigator;

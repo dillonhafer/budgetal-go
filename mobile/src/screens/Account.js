@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, StatusBar, View } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  StatusBar,
+  ScrollView,
+  View,
+} from 'react-native';
 
 // API
 import { SignOutRequest } from 'api/sessions';
-import { RemoveAuthentication } from 'utils/authentication';
+import { RemoveAuthentication, GetCurrentUser } from 'utils/authentication';
 
 // Navigation
 import { navigateRoot } from 'navigators';
@@ -15,12 +22,33 @@ import { Ionicons } from '@expo/vector-icons';
 class AccountScreen extends Component {
   state = {
     loading: false,
+    user: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      avatarUrl: '',
+    },
   };
 
   static navigationOptions = {
+    title: 'Account Settings',
+    tabBarLabel: 'Account',
     tabBarIcon: ({ tintColor }) => (
       <Ionicons name="md-person" size={32} color={tintColor} />
     ),
+  };
+
+  componentDidMount() {
+    this.loadUser();
+  }
+
+  loadUser = async () => {
+    try {
+      const user = await GetCurrentUser();
+      this.setState({ user });
+    } catch (err) {
+      //
+    }
   };
 
   signOut = async () => {
@@ -51,9 +79,9 @@ class AccountScreen extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, user } = this.state;
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <StatusBar barStyle="dark-content" />
         <Text
           style={{
@@ -63,7 +91,7 @@ class AccountScreen extends Component {
             marginTop: 20,
           }}
         >
-          Account Settings
+          {user.firstName} {user.lastName} {user.email}
         </Text>
 
         <DangerButton
@@ -71,7 +99,7 @@ class AccountScreen extends Component {
           onPress={this.confirmSignOut}
           loading={loading}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

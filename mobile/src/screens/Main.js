@@ -75,7 +75,6 @@ class MainScreen extends Component {
   checkForUser = async () => {
     try {
       const signedIn = await IsAuthenticated();
-      console.log(signedIn);
       if (signedIn) {
         this.setState({ checking: false });
         navigateHome(this.props.navigation.dispatch);
