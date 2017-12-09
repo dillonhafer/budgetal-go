@@ -1,31 +1,48 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, StatusBar, View } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  StatusBar,
+  View,
+} from 'react-native';
 
 // Components
 import { Ionicons } from '@expo/vector-icons';
 
 class BudgetsScreen extends Component {
-  static navigationOptions = {
-    title: 'Budgets',
-    tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-calculator" size={32} color={tintColor} />
-    ),
-  };
-
   render() {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <Text
-          style={{
-            fontSize: 22,
-            fontWeight: '900',
-            color: '#444',
-            marginTop: 20,
-          }}
-        >
-          ---
-        </Text>
+        {[
+          { name: 'Charity' },
+          { name: 'Saving' },
+          { name: 'Housing' },
+          { name: 'Utilities' },
+          { name: 'Food' },
+          { name: 'Clothing' },
+          { name: 'Transportation' },
+          { name: 'Medical/Health' },
+          { name: 'Insurance' },
+          { name: 'Personal' },
+          { name: 'Recreation' },
+          { name: 'Debts' },
+        ].map(budgetCategory => {
+          return (
+            <TouchableOpacity
+              style={{ backgroundColor: '#fff', padding: 10, margin: 4 }}
+              key={budgetCategory.name}
+              onPress={() => {
+                this.props.navigation.navigate('BudgetCategory', {
+                  budgetCategory,
+                });
+              }}
+            >
+              <Text>{budgetCategory.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </View>
     );
   }

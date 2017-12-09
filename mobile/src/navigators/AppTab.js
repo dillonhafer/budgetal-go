@@ -3,9 +3,9 @@ import { TabNavigator } from 'react-navigation';
 
 // Navigators
 import AccountNavigator from 'navigators/Account';
+import BudgetNavigator from 'navigators/Budget';
 
 // Screens
-import BudgetsScreen from 'screens/Budgets';
 import StatisticsScreen from 'screens/Statistics';
 import AnnualBudgetsScreen from 'screens/AnnualBudgets';
 
@@ -14,7 +14,7 @@ import colors from 'utils/colors';
 const AppTabNavigator = TabNavigator(
   {
     Budgets: {
-      screen: BudgetsScreen,
+      screen: BudgetNavigator,
     },
     AnnualBudgets: {
       screen: AnnualBudgetsScreen,
