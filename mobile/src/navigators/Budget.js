@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 // Screens
@@ -8,6 +9,24 @@ import BudgetItemScreen from 'screens/BudgetItem';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
+import { categoryImage } from 'utils/helpers';
+
+const CategoryTitle = ({ name }) => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Image style={{ width: 20, height: 20 }} source={categoryImage(name)} />
+      <Text style={{ marginLeft: 5, fontSize: 17, fontWeight: '600' }}>
+        {name}
+      </Text>
+    </View>
+  );
+};
 
 const BudgetNavigatorStack = StackNavigator(
   {
@@ -36,6 +55,9 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'budgetCategories/:budgetCategory',
       navigationOptions: ({ navigation }) => ({
         title: navigation.state.params.budgetCategory.name,
+        headerTitle: (
+          <CategoryTitle name={navigation.state.params.budgetCategory.name} />
+        ),
       }),
     },
     BudgetItem: {
