@@ -9,7 +9,7 @@ import BudgetItemScreen from 'screens/BudgetItem';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
-import { categoryImage } from 'utils/helpers';
+import { categoryImage, currencyf } from 'utils/helpers';
 
 const CategoryTitle = ({ name }) => {
   return (
@@ -42,10 +42,21 @@ const BudgetNavigatorStack = StackNavigator(
           new Date().getMonth() + 1;
 
         const budgetDate = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
-        const title = budgetDate.format('MMMM, YYYY');
+        const income =
+          (navigation.state.params && navigation.state.params.income) || 0;
+        const headerTitle = (
+          <View>
+            <Text
+              style={{ fontWeight: '800', fontSize: 14, textAlign: 'center' }}
+            >
+              {budgetDate.format('MMMM, YYYY')}
+            </Text>
+            <Text style={{ textAlign: 'center' }}>{currencyf(income)}</Text>
+          </View>
+        );
         const headerBackTitle = budgetDate.format('MMM');
         return {
-          title,
+          headerTitle,
           headerBackTitle,
         };
       },

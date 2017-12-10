@@ -42,6 +42,7 @@ class BudgetsScreen extends Component {
       // const { month, year } = this.props.match.params;
       const resp = await BudgetRequest({ month: 12, year: 2017 });
       if (resp && resp.ok) {
+        this.props.navigation.setParams({ income: resp.budget.income });
         this.props.budgetLoaded(resp);
       }
     } catch (err) {
