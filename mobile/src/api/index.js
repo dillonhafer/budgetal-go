@@ -2,9 +2,7 @@ import { StatusBar } from 'react-native';
 import { GetAuthenticationToken } from 'utils/authentication';
 import { error } from 'notify';
 
-const baseURL = __DEV__
-  ? 'http://localhost:3000'
-  : 'https://beta-api.budgetal.com';
+const baseURL = 'https://beta-api.budgetal.com';
 
 const base = async (path, method, headers = {}, body = {}) => {
   try {
