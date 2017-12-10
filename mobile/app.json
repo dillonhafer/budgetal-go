@@ -6,6 +6,11 @@
     "sdkVersion": "23.0.0",
     "version": "0.1.0",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
-    "orientation": "portrait"
+    "orientation": "portrait",
+    "splash": {
+      "image": "./src/images/budgetal-splash.png",
+      "backgroundColor": "#108ee9",
+      "resizeMode": "cover"
+    }
   }
 }

@@ -17,7 +17,7 @@ import {
 } from 'redux-constants/action-types';
 
 const initialBudgetCategories = [
-  { id: -1, name: 'CharityF' },
+  { id: -1, name: 'Charity' },
   { id: -2, name: 'Saving' },
   { id: -3, name: 'Housing' },
   { id: -4, name: 'Utilities' },
