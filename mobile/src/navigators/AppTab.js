@@ -4,10 +4,10 @@ import { TabNavigator } from 'react-navigation';
 // Navigators
 import AccountNavigator from 'navigators/Account';
 import BudgetNavigator from 'navigators/Budget';
+import AnnualBudgetNavigator from 'navigators/AnnualBudget';
 
 // Screens
 import StatisticsScreen from 'screens/Statistics';
-import AnnualBudgetsScreen from 'screens/AnnualBudgets';
 
 import colors from 'utils/colors';
 import moment from 'moment';
@@ -18,7 +18,7 @@ const AppTabNavigator = TabNavigator(
       screen: BudgetNavigator,
     },
     AnnualBudgets: {
-      screen: AnnualBudgetsScreen,
+      screen: AnnualBudgetNavigator,
     },
     Statistics: {
       screen: StatisticsScreen,
