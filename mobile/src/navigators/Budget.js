@@ -47,9 +47,9 @@ const BudgetNavigatorStack = StackNavigator(
         const headerTitle = (
           <View>
             <Text
-              style={{ fontWeight: '800', fontSize: 14, textAlign: 'center' }}
+              style={{ fontWeight: '800', fontSize: 16, textAlign: 'center' }}
             >
-              {budgetDate.format('MMMM, YYYY')}
+              {budgetDate.format('MMMM YYYY')}
             </Text>
             <Text style={{ textAlign: 'center' }}>{currencyf(income)}</Text>
           </View>
