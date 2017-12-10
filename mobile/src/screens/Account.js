@@ -31,7 +31,7 @@ class AccountScreen extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      avatarUrl: '',
+      avatarUrl: 'https://beta.budgetal.com/missing-profile.png',
     },
   };
 
@@ -108,10 +108,7 @@ class AccountScreen extends Component {
           onPress={this.editAccount}
         >
           <View style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={{ uri: 'http://10.0.0.2:3001' + user.avatarUrl }}
-            />
+            <Image style={styles.image} source={{ uri: user.avatarUrl }} />
           </View>
           <View style={styles.nameContainer}>
             <Text style={styles.nameText}>
