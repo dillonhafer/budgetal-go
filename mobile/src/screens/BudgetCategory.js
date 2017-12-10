@@ -12,7 +12,8 @@ import {
 import { connect } from 'react-redux';
 
 // Components
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import colors from 'utils/colors';
 
 class BudgetCategoryScreen extends Component {
   renderItem = ({ item: budgetItem }) => {
@@ -49,6 +50,20 @@ class BudgetCategoryScreen extends Component {
     );
   };
 
+  renderHeader = length => {
+    if (!!length) {
+      return null;
+    }
+    return (
+      <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
+        <FontAwesome name="money" size={32} color={colors.success} />
+        <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
+          There aren't any buget items yet
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     const category = this.props.navigation.state.params.budgetCategory;
     const items = this.props.budgetItems.filter(
@@ -58,6 +73,9 @@ class BudgetCategoryScreen extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <FlatList
+          ListHeaderComponent={() => {
+            return this.renderHeader(items.length);
+          }}
           style={styles.list}
           keyExtractor={i => i.id}
           data={items}

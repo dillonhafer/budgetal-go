@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import moment from 'moment';
 import colors from 'utils/colors';
@@ -56,6 +56,20 @@ class BudgetItemScreen extends Component {
     );
   };
 
+  renderHeader = length => {
+    if (!!length) {
+      return null;
+    }
+    return (
+      <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
+        <FontAwesome name="money" size={32} color={colors.success} />
+        <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
+          There aren't any expenses yet
+        </Text>
+      </View>
+    );
+  };
+
   render() {
     const item = this.props.navigation.state.params.budgetItem;
     const expenses = this.props.budgetItemExpenses.filter(
@@ -73,6 +87,9 @@ class BudgetItemScreen extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <SectionList
+          ListHeaderComponent={() => {
+            return this.renderHeader(expenseSections.length);
+          }}
           style={styles.list}
           keyExtractor={i => i.id}
           sections={expenseSections}
