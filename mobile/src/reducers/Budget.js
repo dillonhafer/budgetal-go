@@ -17,18 +17,18 @@ import {
 } from 'redux-constants/action-types';
 
 const initialBudgetCategories = [
-  { name: 'CharityF' },
-  { name: 'Saving' },
-  { name: 'Housing' },
-  { name: 'Utilities' },
-  { name: 'Food' },
-  { name: 'Clothing' },
-  { name: 'Transportation' },
-  { name: 'Medical/Health' },
-  { name: 'Insurance' },
-  { name: 'Personal' },
-  { name: 'Recreation' },
-  { name: 'Debts' },
+  { id: -1, name: 'CharityF' },
+  { id: -2, name: 'Saving' },
+  { id: -3, name: 'Housing' },
+  { id: -4, name: 'Utilities' },
+  { id: -5, name: 'Food' },
+  { id: -6, name: 'Clothing' },
+  { id: -7, name: 'Transportation' },
+  { id: -8, name: 'Medical/Health' },
+  { id: -9, name: 'Insurance' },
+  { id: -10, name: 'Personal' },
+  { id: -11, name: 'Recreation' },
+  { id: -12, name: 'Debts' },
 ];
 
 const initialBudgetCategory = () => {
