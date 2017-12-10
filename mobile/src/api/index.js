@@ -1,3 +1,4 @@
+import { StatusBar } from 'react-native';
 import { GetAuthenticationToken } from 'utils/authentication';
 import { error } from 'notify';
 
@@ -35,6 +36,7 @@ const base = async (path, method, headers = {}, body = {}) => {
       }
     }
 
+    StatusBar.setNetworkActivityIndicatorVisible(true);
     const resp = await fetch(baseURL + path, req);
 
     switch (resp.status) {
@@ -66,6 +68,8 @@ const base = async (path, method, headers = {}, body = {}) => {
     return { ...json, ok: true };
   } catch (err) {
     error(err.error || 'Something went wrong');
+  } finally {
+    StatusBar.setNetworkActivityIndicatorVisible(false);
   }
 };
 
