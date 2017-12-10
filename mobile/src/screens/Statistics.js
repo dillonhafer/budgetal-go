@@ -12,6 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { FindStatisticRequest } from 'api/statistics';
 import { currencyf, categoryImage } from 'utils/helpers';
+import DatePicker from 'utils/DatePicker';
 
 class StatisticsScreen extends Component {
   static navigationOptions = {
@@ -23,15 +24,21 @@ class StatisticsScreen extends Component {
 
   state = {
     loading: false,
+    budget: {
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    },
     budgetCategories: [],
   };
 
   componentDidMount() {
-    this.loadStatistics();
+    this.loadStatistics({
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    });
   }
 
   renderCategory = ({ item: budgetCategory }) => {
-    const percentSpent = 37;
     return (
       <View style={styles.categoryRow}>
         <View style={{ flexDirection: 'row' }}>
@@ -57,10 +64,10 @@ class StatisticsScreen extends Component {
     );
   };
 
-  loadStatistics = async () => {
+  loadStatistics = async ({ month, year }) => {
     this.setState({ loading: true });
     try {
-      const resp = await FindStatisticRequest({ month: 12, year: 2017 });
+      const resp = await FindStatisticRequest({ month, year });
       if (resp && resp.ok) {
         const totalSpent = resp.budgetCategories.reduce(
           (acc, cat) => acc + parseFloat(cat.amountSpent),
@@ -86,7 +93,7 @@ class StatisticsScreen extends Component {
         this.setState({ budgetCategories });
       }
     } catch (err) {
-      // error(err);
+      console.log(err);
     } finally {
       this.setState({ loading: false });
     }
@@ -104,15 +111,28 @@ class StatisticsScreen extends Component {
     );
   };
 
+  onDateChange = ({ month, year }) => {
+    if (
+      String(month) !== String(this.state.budget.month) ||
+      String(year) !== String(this.state.budget.year)
+    ) {
+      this.setState({ budget: { month, year } });
+      this.loadStatistics({ month, year });
+    }
+  };
+
   render() {
-    const { loading, budgetCategories } = this.state;
+    const { loading, budget, budgetCategories } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
+        <DatePicker
+          month={budget.month}
+          year={budget.year}
+          onChange={this.onDateChange}
+        />
         <FlatList
           style={styles.list}
-          refreshing={loading}
-          onRefresh={this.loadStatistics}
           data={budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
