@@ -144,7 +144,7 @@ class BudgetsScreen extends Component {
     const { loading } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="dark-content" animated={true} />
         <FlatList
           style={styles.list}
           refreshing={loading}

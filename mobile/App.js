@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 
 // Redux
 import { createStore } from 'redux';
@@ -9,6 +9,7 @@ const store = createStore(reducers);
 
 // App
 import RootNavigator from 'navigators/root';
+StatusBar.setBarStyle('light-content', true);
 
 // Preload font icons
 import { AppLoading, Asset, Font } from 'expo';
