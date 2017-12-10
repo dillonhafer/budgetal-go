@@ -14,12 +14,39 @@ import { connect } from 'react-redux';
 // Components
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import colors from 'utils/colors';
+import Progress from 'utils/Progress';
+import ProgressLabel from 'utils/ProgressLabel';
+import { reduceSum } from 'utils/helpers';
 
 class BudgetCategoryScreen extends Component {
+  percentSpent = (budgeted, spent) => {
+    const p = spent / budgeted * 100;
+    if (p > 99.99) {
+      return 100;
+    }
+
+    if (isNaN(p)) {
+      return 0;
+    }
+
+    return parseInt(p, 10);
+  };
+
   renderItem = ({ item: budgetItem }) => {
     const expenses = this.props.budgetItemExpenses.filter(e => {
       return budgetItem.id === e.budgetItemId;
     });
+
+    const amountSpent = reduceSum(expenses);
+    const amountBudgeted = budgetItem.amount;
+    const remaining = amountBudgeted - amountSpent;
+    const percentSpent = this.percentSpent(amountBudgeted, amountSpent);
+    let status = 'normal';
+    if (remaining < 0) {
+      status = 'exception';
+    } else if (remaining === 0.0) {
+      status = 'success';
+    }
 
     return (
       <TouchableOpacity
@@ -31,8 +58,10 @@ class BudgetCategoryScreen extends Component {
           });
         }}
       >
-        <View style={{ flexDirection: 'row' }}>
-          <Text>{budgetItem.name}</Text>
+        <View>
+          <Text style={styles.itemName}>{budgetItem.name}</Text>
+          <ProgressLabel spent={amountSpent} remaining={remaining} />
+          <Progress percent={percentSpent} status={status} />
         </View>
       </TouchableOpacity>
     );
@@ -101,6 +130,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 15,
     justifyContent: 'center',
+  },
+  itemName: {
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: 20,
   },
 });
 

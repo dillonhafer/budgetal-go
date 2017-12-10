@@ -20,6 +20,7 @@ import { BudgetRequest } from 'api/budgets';
 import { Ionicons } from '@expo/vector-icons';
 import { categoryImage, currencyf, reduceSum } from 'utils/helpers';
 import Progress from 'utils/Progress';
+import ProgressLabel from 'utils/ProgressLabel';
 
 class BudgetsScreen extends Component {
   state = {
@@ -97,30 +98,7 @@ class BudgetsScreen extends Component {
           />
           <View style={{ flexDirection: 'column', flex: 1 }}>
             <Text style={styles.categoryName}>{budgetCategory.name}</Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text style={{ flex: 1, fontWeight: '700' }}>Spent</Text>
-              <Text style={{ flex: 1, fontWeight: '700' }}>Remaining</Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text style={{ flex: 1, fontWeight: '700' }}>
-                {currencyf(amountSpent)}
-              </Text>
-              <Text style={{ flex: 1, fontWeight: '700' }}>
-                {currencyf(remaining)}
-              </Text>
-            </View>
+            <ProgressLabel spent={amountSpent} remaining={remaining} />
             <Progress percent={percentSpent} status={status} />
           </View>
         </View>
