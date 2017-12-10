@@ -121,10 +121,9 @@ const styles = StyleSheet.create({
   },
   amount: {
     width: '30%',
-    padding: 10,
     color: colors.error,
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '800',
   },
   header: {
     borderWidth: 0.5,
