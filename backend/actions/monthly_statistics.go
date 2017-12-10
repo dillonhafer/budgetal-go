@@ -1,12 +1,29 @@
 package actions
 
 import (
+	"sort"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
 )
+
+type Category struct {
+	Name        string `json:"name" db:"name"`
+	AmountSpent string `json:"amountSpent" db:"amount_spent"`
+}
+type Categories []Category
+
+func (s Categories) Len() int {
+	return len(s)
+}
+func (s Categories) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+func (s Categories) Less(i, j int) bool {
+	return models.CategorySortOrder[s[i].Name] < models.CategorySortOrder[s[j].Name]
+}
 
 func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
 	year, pErr := strconv.Atoi(c.Param("year"))
@@ -29,10 +46,6 @@ func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	err := map[string]string{"budgetCategories": ""}
-	type Category struct {
-		Name        string `json:"name" db:"name"`
-		AmountSpent string `json:"amountSpent" db:"amount_spent"`
-	}
 
 	query := `
     select
@@ -48,8 +61,10 @@ func MonthlyStatisticsShow(c buffalo.Context, currentUser *models.User) error {
     group by bc.id
   `
 	c.Logger().Debug(color.YellowString(query))
-	categories := []Category{}
+	categories := Categories{}
 	dbErr := models.DB.RawQuery(query, params.Month, params.Year, params.UserID).All(&categories)
+	sort.Sort(categories)
+
 	if dbErr != nil {
 		c.Logger().Debug(dbErr)
 		return c.Render(500, r.JSON(err))

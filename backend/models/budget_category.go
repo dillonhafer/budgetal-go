@@ -16,7 +16,7 @@ type BudgetCategory struct {
 	UpdatedAt  time.Time `json:"-" db:"updated_at"`
 }
 
-var SortOrder = map[string]int{
+var CategorySortOrder = map[string]int{
 	"Charity":        0,
 	"Saving":         1,
 	"Housing":        2,
@@ -40,7 +40,7 @@ func (s BudgetCategories) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 func (s BudgetCategories) Less(i, j int) bool {
-	return SortOrder[s[i].Name] < SortOrder[s[j].Name]
+	return CategorySortOrder[s[i].Name] < CategorySortOrder[s[j].Name]
 }
 
 func (budgetCategory *BudgetCategory) ImportPreviousItems() (string, BudgetItems) {
