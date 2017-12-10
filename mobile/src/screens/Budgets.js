@@ -26,6 +26,7 @@ import {
 } from 'utils/helpers';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
+import DatePicker from 'utils/DatePicker';
 
 class BudgetsScreen extends Component {
   state = {
@@ -33,16 +34,24 @@ class BudgetsScreen extends Component {
   };
 
   componentDidMount() {
-    this.loadBudget();
+    this.loadBudget({ month: 12, year: 2017 });
   }
 
-  loadBudget = async () => {
+  refresh = () => {
+    const { year, month } = this.props.budget;
+    this.loadBudget({ year, month });
+  };
+
+  loadBudget = async ({ month, year }) => {
     this.setState({ loading: true });
     try {
-      // const { month, year } = this.props.match.params;
-      const resp = await BudgetRequest({ month: 12, year: 2017 });
+      const resp = await BudgetRequest({ month, year });
       if (resp && resp.ok) {
-        this.props.navigation.setParams({ income: resp.budget.income });
+        this.props.navigation.setParams({
+          month,
+          year,
+          income: resp.budget.income,
+        });
         this.props.budgetLoaded(resp);
       }
     } catch (err) {
@@ -111,15 +120,30 @@ class BudgetsScreen extends Component {
     );
   };
 
+  onDateChange = ({ month, year }) => {
+    if (
+      String(month) !== String(this.props.budget.month) ||
+      String(year) !== String(this.props.budget.year)
+    ) {
+      this.loadBudget({ month, year });
+    }
+  };
+
   render() {
+    const { budget } = this.props;
     const { loading } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" animated={true} />
+        <DatePicker
+          month={budget.month}
+          year={budget.year}
+          onChange={this.onDateChange}
+        />
         <FlatList
           style={styles.list}
           refreshing={loading}
-          onRefresh={this.loadBudget}
+          onRefresh={this.refresh}
           keyExtractor={i => i.id}
           data={this.props.budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
