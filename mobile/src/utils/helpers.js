@@ -1,5 +1,18 @@
 import { reduce, round } from 'lodash';
 
+export const percentSpent = (budgeted, spent) => {
+  const p = spent / budgeted * 100;
+  if (p > 99.99) {
+    return 100;
+  }
+
+  if (isNaN(p)) {
+    return 0;
+  }
+
+  return parseInt(p, 10);
+};
+
 export const reduceSum = (array, property = 'amount') => {
   return reduce(
     array,

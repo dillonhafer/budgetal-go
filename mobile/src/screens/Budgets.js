@@ -18,7 +18,12 @@ import { BudgetRequest } from 'api/budgets';
 
 // Components
 import { Ionicons } from '@expo/vector-icons';
-import { categoryImage, currencyf, reduceSum } from 'utils/helpers';
+import {
+  categoryImage,
+  currencyf,
+  reduceSum,
+  percentSpent,
+} from 'utils/helpers';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 
@@ -30,19 +35,6 @@ class BudgetsScreen extends Component {
   componentDidMount() {
     this.loadBudget();
   }
-
-  percentSpent = (budgeted, spent) => {
-    const p = spent / budgeted * 100;
-    if (p > 99.99) {
-      return 100;
-    }
-
-    if (isNaN(p)) {
-      return 0;
-    }
-
-    return parseInt(p, 10);
-  };
 
   loadBudget = async () => {
     this.setState({ loading: true });
@@ -73,7 +65,7 @@ class BudgetsScreen extends Component {
     const amountSpent = reduceSum(expenses);
     const amountBudgeted = reduceSum(items);
     const remaining = amountBudgeted - amountSpent;
-    const percentSpent = this.percentSpent(amountBudgeted, amountSpent);
+    const percent = percentSpent(amountBudgeted, amountSpent);
     let status = 'normal';
     if (remaining < 0) {
       status = 'exception';
@@ -99,7 +91,7 @@ class BudgetsScreen extends Component {
           <View style={{ flexDirection: 'column', flex: 1 }}>
             <Text style={styles.categoryName}>{budgetCategory.name}</Text>
             <ProgressLabel spent={amountSpent} remaining={remaining} />
-            <Progress percent={percentSpent} status={status} />
+            <Progress percent={percent} status={status} />
           </View>
         </View>
       </TouchableOpacity>
