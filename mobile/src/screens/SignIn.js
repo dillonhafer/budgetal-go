@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import {
-  TouchableOpacity,
   TextInput,
   StyleSheet,
   Text,
   StatusBar,
-  Image,
   View,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -21,9 +19,6 @@ import { navigateHome } from 'navigators';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 
-// tmp
-import { GetCurrentUser } from 'utils/authentication';
-
 class SignInScreen extends Component {
   inputs = [];
 
@@ -31,16 +26,6 @@ class SignInScreen extends Component {
     email: '',
     password: '',
     loading: false,
-    u: null,
-  };
-
-  componentDidMount() {
-    this.loadKeys();
-  }
-
-  loadKeys = async () => {
-    const u = await GetCurrentUser();
-    this.setState({ u });
   };
 
   validateFields = () => {
@@ -65,7 +50,7 @@ class SignInScreen extends Component {
       if (this.validateFields()) {
         this.signIn();
       } else {
-        error('Username/Password are invalid');
+        error('Email/Password are invalid');
       }
     } catch (err) {
       // console.log(err)
@@ -78,12 +63,6 @@ class SignInScreen extends Component {
     this.inputs[key].focus();
   }
 
-  renderBudget = () => {
-    if (this.state.budget) {
-      return <Text>{this.state.budget.income}</Text>;
-    }
-  };
-
   render() {
     const { email, password, loading } = this.state;
     return (
@@ -93,19 +72,6 @@ class SignInScreen extends Component {
         style={styles.container}
       >
         <StatusBar barStyle="dark-content" />
-        <Text
-          style={{
-            fontSize: 22,
-            fontWeight: '900',
-            color: '#444',
-            marginTop: 20,
-          }}
-        >
-          Sign in
-        </Text>
-        <Text style={{ fontSize: 22, fontWeight: '900', color: '#444' }}>
-          to your account
-        </Text>
         <Text style={{ fontSize: 16, margin: 10, color: '#999' }}>
           Welcome back!
         </Text>
@@ -146,7 +112,6 @@ class SignInScreen extends Component {
           onPress={this.handleOnPress}
           loading={loading}
         />
-        {this.renderBudget()}
       </KeyboardAvoidingView>
     );
   }
