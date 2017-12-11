@@ -18,6 +18,18 @@ import {
   Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
+
+// Cache functions
+function cacheImages(images) {
+  return images.map(image => {
+    if (typeof image === 'string') {
+      return Image.prefetch(image);
+    } else {
+      return Asset.fromModule(image).downloadAsync();
+    }
+  });
+}
+
 function cacheFonts(fonts) {
   return fonts.map(font => Font.loadAsync(font));
 }
@@ -28,12 +40,28 @@ export default class App extends Component {
   };
 
   async loadAssetsAsync() {
+    const imageAssets = cacheImages([
+      require('images/app_logo.png'),
+      require('images/Charity.png'),
+      require('images/Saving.png'),
+      require('images/Housing.png'),
+      require('images/Utilities.png'),
+      require('images/Food.png'),
+      require('images/Clothing.png'),
+      require('images/Transportation.png'),
+      require('images/Health.png'),
+      require('images/Insurance.png'),
+      require('images/Personal.png'),
+      require('images/Recreation.png'),
+      require('images/Debts.png'),
+    ]);
+
     const fontAssets = cacheFonts([
       FontAwesome.font,
       Ionicons.font,
       MaterialCommunityIcons.font,
     ]);
-    await Promise.all(fontAssets);
+    await Promise.all([...imageAssets, ...fontAssets]);
   }
 
   onFinish = () => {

@@ -10,7 +10,6 @@ import {
   Button,
   KeyboardAvoidingView,
 } from 'react-native';
-import logo from 'images/app_logo.png';
 import colors from 'utils/colors';
 import { IsAuthenticated } from 'utils/authentication';
 import { navigateHome } from 'navigators';
@@ -51,7 +50,7 @@ const LogoSeparator = ({ color }) => {
     <View style={styles.container}>
       <View style={styles.line} />
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={logo} />
+        <Image style={styles.logo} source={require('images/app_logo.png')} />
         <Text style={styles.logoText}>Budgetal</Text>
       </View>
       <View style={styles.line} />
