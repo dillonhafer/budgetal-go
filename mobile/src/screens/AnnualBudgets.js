@@ -143,7 +143,6 @@ class AnnualBudgetsScreen extends Component {
           }}
           refreshing={this.state.refreshing}
           onRefresh={this.onRefresh}
-          tintColor={'#69f'}
           style={styles.list}
           keyExtractor={i => i.id}
           data={annualBudgetItems}
