@@ -102,14 +102,14 @@ class MainScreen extends Component {
         <View style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate('SignIn', { name: '' })}
+            onPress={() => navigate('SignIn')}
           >
             <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
           <View style={styles.separator} />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigate('SignIn', { name: '' })}
+            onPress={() => navigate('Register')}
           >
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>

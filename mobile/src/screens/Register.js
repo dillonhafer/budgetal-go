@@ -1,0 +1,154 @@
+import React, { Component } from 'react';
+import {
+  TouchableOpacity,
+  TextInput,
+  StyleSheet,
+  Text,
+  StatusBar,
+  Image,
+  View,
+  KeyboardAvoidingView,
+} from 'react-native';
+
+// API
+import { RegisterRequest } from 'api/users';
+import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
+
+// Helpers
+import { error, notice } from 'notify';
+import { navigateHome } from 'navigators';
+
+// Components
+import { PrimaryButton, FieldContainer } from 'forms';
+
+class RegisterScreen extends Component {
+  inputs = [];
+
+  state = {
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+    loading: false,
+  };
+
+  validateFields = () => {
+    const { email, password, passwordConfirmation } = this.state;
+    return (
+      email.length > 0 &&
+      password.length > 0 &&
+      passwordConfirmation.length > 0 &&
+      password === passwordConfirmation
+    );
+  };
+
+  register = async () => {
+    const { email, password } = this.state;
+    const resp = await RegisterRequest({ email, password });
+    if (resp && resp.ok) {
+      SetAuthenticationToken(resp.token);
+      SetCurrentUser(resp.user);
+      navigateHome(this.props.navigation.dispatch);
+      notice('Welcome to Budgetal!');
+    }
+  };
+
+  handleOnPress = () => {
+    this.setState({ loading: true });
+    try {
+      if (this.validateFields()) {
+        this.register();
+      } else {
+        error('Email/Password are invalid');
+      }
+    } catch (err) {
+      // console.log(err)
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+
+  focusNextField(key) {
+    this.inputs[key].focus();
+  }
+
+  render() {
+    const { email, password, loading } = this.state;
+    return (
+      <KeyboardAvoidingView
+        behvaior="padding"
+        keyboardVerticalOffset={60}
+        style={styles.container}
+      >
+        <StatusBar barStyle="dark-content" />
+        <Text style={{ fontSize: 16, margin: 10, color: '#999' }}>
+          Welcome to Budgetal!
+        </Text>
+        <FieldContainer>
+          <TextInput
+            keyboardType="email-address"
+            style={{ height: 50 }}
+            placeholder="Email"
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            ref={input => {
+              this.inputs['email'] = input;
+            }}
+            onSubmitEditing={_ => {
+              this.focusNextField('password');
+            }}
+            returnKeyType="next"
+            enablesReturnKeyAutomatically={true}
+            onChangeText={email => this.setState({ email })}
+          />
+        </FieldContainer>
+        <FieldContainer>
+          <TextInput
+            style={{ height: 50 }}
+            enablesReturnKeyAutomatically={true}
+            secureTextEntry={true}
+            ref={input => {
+              this.inputs['password'] = input;
+            }}
+            placeholder="Password"
+            returnKeyType="next"
+            onSubmitEditing={_ => {
+              this.focusNextField('passwordConfirmation');
+            }}
+            onChangeText={password => this.setState({ password })}
+          />
+        </FieldContainer>
+        <FieldContainer>
+          <TextInput
+            style={{ height: 50 }}
+            enablesReturnKeyAutomatically={true}
+            secureTextEntry={true}
+            ref={input => {
+              this.inputs['passwordConfirmation'] = input;
+            }}
+            placeholder="Password Confirmation"
+            returnKeyType="done"
+            onSubmitEditing={this.handleOnPress}
+            onChangeText={passwordConfirmation =>
+              this.setState({ passwordConfirmation })}
+          />
+        </FieldContainer>
+        <PrimaryButton
+          title="Register"
+          onPress={this.handleOnPress}
+          loading={loading}
+        />
+      </KeyboardAvoidingView>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ececec',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+});
+
+export default RegisterScreen;
