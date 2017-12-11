@@ -25,6 +25,7 @@ import moment from 'moment';
 import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
 import { round } from 'lodash';
+import DatePicker from 'utils/DatePicker';
 
 const B = ({ style, children }) => {
   return <Text style={[{ fontWeight: '800' }, style]}>{children}</Text>;
@@ -33,20 +34,17 @@ const B = ({ style, children }) => {
 class AnnualBudgetsScreen extends Component {
   state = {
     loading: false,
+    refreshing: false,
+    year: new Date().getFullYear(),
   };
 
   componentDidMount() {
-    this.loadBudgetItems();
+    this.loadBudgetItems({ year: new Date().getFullYear() });
   }
 
-  loadBudgetItems = async () => {
+  loadBudgetItems = async ({ year }) => {
     this.setState({ loading: true });
     try {
-      const year =
-        (this.props.navigation.state.params &&
-          this.props.navigation.state.params.year) ||
-        new Date().getFullYear();
-
       const resp = await AllAnnualBudgetItemsRequest(year);
 
       if (resp && resp.ok) {
@@ -117,17 +115,35 @@ class AnnualBudgetsScreen extends Component {
     );
   };
 
+  onRefresh = async () => {
+    this.setState({ refreshing: true });
+    try {
+      await this.loadBudgetItems({ year: this.state.year });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
+    }
+  };
+
+  onDateChange = ({ year }) => {
+    this.loadBudgetItems({ year });
+    this.setState({ year });
+  };
+
   render() {
     const { annualBudgetItems } = this.props;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
+        <DatePicker year={this.state.year} onChange={this.onDateChange} />
         <FlatList
           ListHeaderComponent={() => {
             return this.renderHeader(annualBudgetItems.length);
           }}
-          refreshing={this.state.loading}
-          onRefresh={this.loadBudgetItems}
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh}
+          tintColor={'#69f'}
           style={styles.list}
           keyExtractor={i => i.id}
           data={annualBudgetItems}

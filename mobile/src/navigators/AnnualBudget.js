@@ -19,7 +19,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
           new Date().getFullYear();
 
         return {
-          title: `Annual Budget ${year}`,
+          title: `Annual Budgets`,
           headerBackTitle: year,
         };
       },

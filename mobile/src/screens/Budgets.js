@@ -31,15 +31,23 @@ import DatePicker from 'utils/DatePicker';
 class BudgetsScreen extends Component {
   state = {
     loading: false,
+    refreshing: false,
   };
 
   componentDidMount() {
     this.loadBudget({ month: 12, year: 2017 });
   }
 
-  refresh = () => {
-    const { year, month } = this.props.budget;
-    this.loadBudget({ year, month });
+  refresh = async () => {
+    this.setState({ refreshing: true });
+    try {
+      const { year, month } = this.props.budget;
+      await this.loadBudget({ year, month });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
+    }
   };
 
   loadBudget = async ({ month, year }) => {
@@ -131,7 +139,7 @@ class BudgetsScreen extends Component {
 
   render() {
     const { budget } = this.props;
-    const { loading } = this.state;
+    const { loading, refreshing } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" animated={true} />
@@ -142,7 +150,7 @@ class BudgetsScreen extends Component {
         />
         <FlatList
           style={styles.list}
-          refreshing={loading}
+          refreshing={refreshing}
           onRefresh={this.refresh}
           keyExtractor={i => i.id}
           data={this.props.budgetCategories}

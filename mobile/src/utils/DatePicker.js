@@ -19,7 +19,7 @@ class DatePicker extends Component {
 
   onValueChange = ({ month, year }) => {
     LayoutAnimation.easeInEaseOut();
-    this.setState({ month, year, showPicker: false });
+    this.setState({ month: month, year: year, showPicker: false });
     this.props.onChange({ month, year });
   };
 
@@ -30,16 +30,28 @@ class DatePicker extends Component {
 
   render() {
     const { month, year, onChange } = this.props;
-    const date = moment(`${year}-${month}`, 'YYYY-MM');
+
+    let date = moment(`${year}-${month}`, 'YYYY-MM');
+    let yearWidth = '40%';
+    let monthWidth = '60%';
+    let format = 'MMMM YYYY';
+
+    if (month === undefined) {
+      date = moment(`${year}-1`, 'YYYY-MM');
+      yearWidth = '100%';
+      monthWidth = '0%';
+      format = 'YYYY';
+    }
+
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.dateButton} onPress={this.togglePicker}>
-          <Text style={styles.currentDate}>{date.format('MMMM YYYY')}</Text>
+          <Text style={styles.currentDate}>{date.format(format)}</Text>
         </TouchableOpacity>
         {this.state.showPicker && (
           <View style={styles.picker}>
             <Picker
-              style={{ width: '60%' }}
+              style={{ width: monthWidth }}
               selectedValue={`${this.state.month || month}`}
               onValueChange={(itemValue, itemIndex) =>
                 this.onValueChange({ month: itemValue, year })}
@@ -49,7 +61,7 @@ class DatePicker extends Component {
               })}
             </Picker>
             <Picker
-              style={{ width: '40%' }}
+              style={{ width: yearWidth }}
               selectedValue={`${this.state.year || year}`}
               onValueChange={(itemValue, itemIndex) =>
                 this.onValueChange({ year: itemValue, month })}

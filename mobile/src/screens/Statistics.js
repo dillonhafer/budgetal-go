@@ -24,6 +24,7 @@ class StatisticsScreen extends Component {
 
   state = {
     loading: false,
+    refreshing: false,
     budget: {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
@@ -121,6 +122,18 @@ class StatisticsScreen extends Component {
     }
   };
 
+  onRefresh = async () => {
+    this.setState({ refreshing: true });
+    try {
+      const { year, month } = this.state.budget;
+      await this.loadStatistics({ year, month });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({ refreshing: false });
+    }
+  };
+
   render() {
     const { loading, budget, budgetCategories } = this.state;
     return (
@@ -133,6 +146,8 @@ class StatisticsScreen extends Component {
         />
         <FlatList
           style={styles.list}
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh}
           data={budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
