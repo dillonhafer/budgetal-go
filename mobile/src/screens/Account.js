@@ -5,9 +5,9 @@ import {
   Text,
   StatusBar,
   Image,
-  ScrollView,
   TouchableOpacity,
   View,
+  FlatList,
 } from 'react-native';
 
 // API
@@ -79,6 +79,18 @@ class AccountScreen extends Component {
     this.props.navigation.navigate('AccountEdit');
   };
 
+  navChangePassword = () => {
+    this.props.navigation.navigate('ChangePassword');
+  };
+
+  navSessions = () => {
+    this.props.navigation.navigate('Sessions');
+  };
+
+  navLegal = () => {
+    this.props.navigation.navigate('Legal');
+  };
+
   confirmSignOut = () => {
     Alert.alert(
       'Sign Out',
@@ -98,44 +110,135 @@ class AccountScreen extends Component {
     );
   };
 
-  render() {
-    const { loading, user } = this.state;
+  renderSeparator = () => {
     return (
-      <ScrollView contentContainerStyle={styles.container}>
-        <StatusBar barStyle="dark-content" />
-        <TouchableOpacity
-          style={styles.profileContainer}
-          onPress={this.editAccount}
+      <View style={styles.listSeparatorContainer}>
+        <View style={styles.listSeparator} />
+      </View>
+    );
+  };
+
+  renderButton = ({ item }) => {
+    return (
+      <TouchableOpacity
+        style={[styles.listItem, item.style]}
+        onPress={item.onPress}
+      >
+        <View
+          style={{ flexDirection: 'row', width: '86%', alignItems: 'center' }}
         >
-          <View style={styles.imageContainer}>
-            <Image style={styles.image} source={{ uri: user.avatarUrl }} />
-          </View>
-          <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>
-              {[user.firstName, user.lastName].join(' ')}
-            </Text>
-            <Text style={styles.emailText}>{user.email}</Text>
-          </View>
-          <View style={{ paddingRight: 15 }}>
+          <View style={styles.listItemIcon}>
             <MaterialCommunityIcons
-              name="chevron-right"
-              size={32}
-              color={colors.primary}
+              name={item.icon.name}
+              size={28}
+              color={item.icon.color}
             />
           </View>
-        </TouchableOpacity>
-
-        <PrimaryButton title="Privacy" onPress={this.openPrivacyPage} />
-        <PrimaryButton title="Help" onPress={this.openHelpPage} />
-
-        <View style={{ height: 50 }} />
-
-        <DangerButton
-          title="Sign Out"
-          onPress={this.confirmSignOut}
-          loading={loading}
+          <Text style={styles.listItemText}>{item.label}</Text>
+        </View>
+        <MaterialCommunityIcons
+          name="chevron-right"
+          size={22}
+          style={{ paddingRight: 10 }}
+          color={'#ced0ce'}
         />
-      </ScrollView>
+      </TouchableOpacity>
+    );
+  };
+
+  render() {
+    const { loading, user } = this.state;
+    const buttons = [
+      {
+        key: 'sessions',
+        label: 'Sessions',
+        icon: { name: 'folder-lock-open', color: colors.primary },
+        onPress: this.navSessions,
+        style: styles.first,
+      },
+      {
+        key: 'password',
+        label: 'Change Password',
+        icon: { name: 'account-key', color: colors.primary },
+        onPress: this.navChangePassword,
+      },
+      {
+        key: 'privacy',
+        label: 'Privacy',
+        icon: { name: 'eye', color: '#aaa' },
+        onPress: this.openPrivacyPage,
+      },
+      {
+        key: 'help',
+        label: 'Help',
+        icon: { name: 'help-circle', color: '#aaa' },
+        onPress: this.openHelpPage,
+      },
+      {
+        key: 'legal',
+        label: 'Legal',
+        icon: { name: 'gavel', color: '#aaa' },
+        onPress: this.navLegal,
+        style: styles.last,
+      },
+    ];
+
+    return (
+      <View contentContainerStyle={styles.container}>
+        <StatusBar barStyle="dark-content" />
+        <FlatList
+          ListHeaderComponent={() => {
+            return (
+              <View>
+                <View style={{ height: 20 }} />
+                <TouchableOpacity
+                  style={styles.profileContainer}
+                  onPress={this.editAccount}
+                >
+                  <View style={styles.imageContainer}>
+                    <Image
+                      style={styles.image}
+                      source={{ uri: user.avatarUrl }}
+                    />
+                  </View>
+                  <View style={styles.nameContainer}>
+                    <Text style={styles.nameText}>
+                      {[user.firstName, user.lastName].join(' ')}
+                    </Text>
+                    <Text style={styles.emailText}>{user.email}</Text>
+                  </View>
+                  <View style={{ paddingRight: 15 }}>
+                    <MaterialCommunityIcons
+                      name="chevron-right"
+                      size={26}
+                      color={'#ced0ce'}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <View style={{ height: 50 }} />
+              </View>
+            );
+          }}
+          style={styles.list}
+          data={buttons}
+          scrollEnabled={true}
+          ItemSeparatorComponent={this.renderSeparator}
+          renderItem={this.renderButton}
+          ListFooterComponent={() => {
+            return (
+              <View>
+                <View style={{ height: 50 }} />
+                <DangerButton
+                  title="Sign Out"
+                  onPress={this.confirmSignOut}
+                  loading={loading}
+                />
+                <View style={{ height: 20 }} />
+              </View>
+            );
+          }}
+        />
+      </View>
     );
   }
 }
@@ -143,7 +246,7 @@ class AccountScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ececec',
+    backgroundColor: colors.background,
     alignItems: 'center',
     flexDirection: 'column',
   },
@@ -151,8 +254,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 5,
-    marginBottom: 5,
     paddingTop: 8,
     paddingBottom: 8,
     backgroundColor: 'white',
@@ -179,6 +280,45 @@ const styles = StyleSheet.create({
   },
   emailText: {
     color: '#888',
+  },
+  list: {
+    backgroundColor: 'transparent',
+  },
+  listSeparatorContainer: {
+    backgroundColor: '#fff',
+  },
+  listSeparator: {
+    height: 1,
+    width: '86%',
+    backgroundColor: '#CED0CE',
+    marginLeft: '14%',
+  },
+  listItem: {
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  listItemText: {
+    fontSize: 17,
+    textAlign: 'left',
+    color: '#444',
+  },
+  listItemIcon: {
+    width: '10%',
+    margin: '3%',
+    marginLeft: '3%',
+    marginRight: '3%',
+  },
+  first: {
+    borderWidth: 1,
+    borderColor: '#fff',
+    borderTopColor: colors.lines,
+  },
+  last: {
+    borderWidth: 1,
+    borderColor: '#fff',
+    borderBottomColor: colors.lines,
   },
 });
 
