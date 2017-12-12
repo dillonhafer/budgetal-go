@@ -13,7 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 const AccountNavigatorStack = StackNavigator(
   {
     AccountScreen: { screen: AccountScreen },
-    AccountEdit: { screen: AccountEditScreen },
+    AccountEdit: { screen: AccountEditScreen, path: 'edit-account/:user' },
     ChangePassword: { screen: ChangePasswordScreen },
     Sessions: { screen: SessionsScreen },
     Legal: { screen: LegalScreen },

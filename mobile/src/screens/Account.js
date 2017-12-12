@@ -10,9 +10,12 @@ import {
   FlatList,
 } from 'react-native';
 
+// Redux
+import { connect } from 'react-redux';
+
 // API
 import { SignOutRequest } from 'api/sessions';
-import { RemoveAuthentication, GetCurrentUser } from 'utils/authentication';
+import { RemoveAuthentication } from 'utils/authentication';
 
 // Navigation
 import { navigateRoot } from 'navigators';
@@ -27,12 +30,6 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 class AccountScreen extends Component {
   state = {
     loading: false,
-    user: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      avatarUrl: 'https://beta.budgetal.com/missing-profile.png',
-    },
   };
 
   static navigationOptions = {
@@ -42,19 +39,6 @@ class AccountScreen extends Component {
     tabBarIcon: ({ tintColor }) => (
       <Ionicons name="md-person" size={32} color={tintColor} />
     ),
-  };
-
-  componentDidMount() {
-    this.loadUser();
-  }
-
-  loadUser = async () => {
-    try {
-      const user = await GetCurrentUser();
-      this.setState({ user });
-    } catch (err) {
-      //
-    }
   };
 
   signOut = async () => {
@@ -76,7 +60,7 @@ class AccountScreen extends Component {
   };
 
   editAccount = () => {
-    this.props.navigation.navigate('AccountEdit');
+    this.props.navigation.navigate('AccountEdit', { user: this.props.user });
   };
 
   navChangePassword = () => {
@@ -147,7 +131,8 @@ class AccountScreen extends Component {
   };
 
   render() {
-    const { loading, user } = this.state;
+    const { loading } = this.state;
+    const { user } = this.props;
     const buttons = [
       {
         key: 'sessions',
@@ -321,4 +306,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AccountScreen;
+export default connect(
+  state => ({
+    user: state.users,
+  }),
+  dispatch => ({}),
+)(AccountScreen);

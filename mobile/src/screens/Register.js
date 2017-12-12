@@ -10,6 +10,10 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
+// Redux
+import { connect } from 'react-redux';
+import { updateCurrentUser } from 'actions/users';
+
 // API
 import { RegisterRequest } from 'api/users';
 import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
@@ -46,6 +50,7 @@ class RegisterScreen extends Component {
     const resp = await RegisterRequest({ email, password });
     if (resp && resp.ok) {
       SetAuthenticationToken(resp.token);
+      this.props.updateCurrentUser(resp.user);
       SetCurrentUser(resp.user);
       navigateHome(this.props.navigation.dispatch);
       notice('Welcome to Budgetal!');
@@ -151,4 +156,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  }),
+)(RegisterScreen);

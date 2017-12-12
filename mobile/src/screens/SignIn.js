@@ -9,6 +9,10 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 
+// Redux
+import { connect } from 'react-redux';
+import { updateCurrentUser } from 'actions/users';
+
 // API
 import { SignInRequest } from 'api/sessions';
 import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
@@ -40,6 +44,7 @@ class SignInScreen extends Component {
     const resp = await SignInRequest({ email, password });
     if (resp && resp.ok) {
       SetAuthenticationToken(resp.token);
+      this.props.updateCurrentUser(resp.user);
       SetCurrentUser(resp.user);
       navigateHome(this.props.navigation.dispatch);
       notice('You are now signed in!');
@@ -148,4 +153,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  }),
+)(SignInScreen);

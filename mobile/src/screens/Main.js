@@ -11,8 +11,12 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import colors from 'utils/colors';
-import { IsAuthenticated } from 'utils/authentication';
+import { IsAuthenticated, GetCurrentUser } from 'utils/authentication';
 import { navigateHome } from 'navigators';
+
+// Redux
+import { connect } from 'react-redux';
+import { updateCurrentUser } from 'actions/users';
 
 const LogoSeparator = ({ color }) => {
   const styles = StyleSheet.create({
@@ -75,6 +79,8 @@ class MainScreen extends Component {
     try {
       const signedIn = await IsAuthenticated();
       if (signedIn) {
+        const user = await GetCurrentUser();
+        this.props.updateCurrentUser(user);
         this.setState({ checking: false });
         navigateHome(this.props.navigation.dispatch);
       } else {
@@ -164,4 +170,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MainScreen;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  }),
+)(MainScreen);
