@@ -13,6 +13,7 @@ import (
 	"io"
 	"log"
 	"mime/multipart"
+	"net"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -63,7 +64,18 @@ func (u *User) MarshalJSON() ([]byte, error) {
 }
 
 func (u *User) localAvatarUrl() string {
-	return fmt.Sprintf("/users/avatars/%d/%s", u.ID, u.AvatarFileName.String)
+	var ENV = envy.Get("GO_ENV", "development")
+	var root = envy.Get("APP_DOMAIN", "")
+
+	if ENV == "development" {
+		root = resolveHostIp()
+		if root != "" {
+			port := envy.Get("FRONTEND_PORT", "3001")
+			root = fmt.Sprintf("http://%s:%s", root, port)
+		}
+	}
+
+	return fmt.Sprintf("%s/users/avatars/%d/%s", root, u.ID, u.AvatarFileName.String)
 }
 
 func (u *User) s3AvatarUrl() string {
@@ -265,4 +277,20 @@ func fileContentType(file multipart.File) (string, error) {
 		return "", errors.New("Wrong file type")
 	}
 	return extension, nil
+}
+
+func resolveHostIp() string {
+	netInterfaceAddresses, err := net.InterfaceAddrs()
+	if err != nil {
+		return ""
+	}
+	for _, netInterfaceAddress := range netInterfaceAddresses {
+		networkIp, ok := netInterfaceAddress.(*net.IPNet)
+		if ok && !networkIp.IP.IsLoopback() && networkIp.IP.To4() != nil {
+			ip := networkIp.IP.String()
+			fmt.Println("Resolved Host IP: " + ip)
+			return ip
+		}
+	}
+	return ""
 }
