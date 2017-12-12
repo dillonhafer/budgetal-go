@@ -6,7 +6,8 @@ import { Constants } from 'expo';
 let baseURL = 'https://beta-api.budgetal.com';
 if (Constants.isDevice) {
   if (__DEV__) {
-    baseURL = 'http://192.168.50.78:3000';
+    baseURL =
+      'http://' + Constants.manifest.debuggerHost.replace(':19001', ':3000');
   }
 } else {
   baseURL = 'http://localhost:3000';
