@@ -7,6 +7,7 @@ import AppTabNavigator from 'navigators/AppTab';
 // Screens
 import MainScreen from 'screens/Main';
 import SignInScreen from 'screens/SignIn';
+import ForgotPasswordScreen from 'screens/ForgotPassword';
 import RegisterScreen from 'screens/Register';
 
 const RootNavigator = StackNavigator(
@@ -16,6 +17,12 @@ const RootNavigator = StackNavigator(
       screen: SignInScreen,
       navigationOptions: ({ navigation }) => ({
         title: `Sign In`,
+      }),
+    },
+    ForgotPassword: {
+      screen: ForgotPasswordScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: `Forgot Password`,
       }),
     },
     Register: {

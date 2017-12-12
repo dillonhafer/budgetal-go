@@ -5,6 +5,7 @@ import {
   Text,
   StatusBar,
   View,
+  TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
 
@@ -18,6 +19,7 @@ import { navigateHome } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
+import colors from 'utils/colors';
 
 class SignInScreen extends Component {
   inputs = [];
@@ -62,6 +64,10 @@ class SignInScreen extends Component {
   focusNextField(key) {
     this.inputs[key].focus();
   }
+
+  navForgotPassword = () => {
+    this.props.navigation.navigate('ForgotPassword');
+  };
 
   render() {
     const { email, password, loading } = this.state;
@@ -112,6 +118,12 @@ class SignInScreen extends Component {
           onPress={this.handleOnPress}
           loading={loading}
         />
+        <TouchableOpacity
+          style={styles.forgotPasswordLink}
+          onPress={this.navForgotPassword}
+        >
+          <Text style={styles.forgotPasswordText}>Forgot password</Text>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     );
   }
@@ -123,6 +135,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#ececec',
     alignItems: 'center',
     flexDirection: 'column',
+  },
+  forgotPasswordText: {
+    textAlign: 'left',
+    color: colors.primary,
+  },
+  forgotPasswordLink: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    padding: 10,
+    paddingRight: 20,
   },
 });
 

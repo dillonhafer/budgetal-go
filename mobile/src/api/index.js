@@ -78,7 +78,7 @@ const base = async (path, method, headers = {}, body = {}) => {
       throw err;
     }
 
-    const json = await resp.json();
+    const json = (await resp.json()) || {};
     return { ...json, ok: true };
   } catch (err) {
     error(err.error || 'Something went wrong');
