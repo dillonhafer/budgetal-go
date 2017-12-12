@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, StatusBar, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  StatusBar,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -14,6 +23,7 @@ import { error, notice } from 'notify';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 import { SetCurrentUser } from 'utils/authentication';
+import { ImagePicker } from 'expo';
 
 class AccountEditScreen extends Component {
   static navigationOptions = {
@@ -27,6 +37,8 @@ class AccountEditScreen extends Component {
     firstName: '',
     lastName: '',
     currentPassword: '',
+    avatarUrl: '',
+    image: null,
     loading: false,
   };
 
@@ -35,8 +47,9 @@ class AccountEditScreen extends Component {
       email,
       firstName,
       lastName,
+      avatarUrl,
     } = this.props.navigation.state.params.user;
-    this.setState({ email, firstName, lastName });
+    this.setState({ email, firstName, lastName, avatarUrl });
   }
 
   validateFields = () => {
@@ -53,6 +66,17 @@ class AccountEditScreen extends Component {
     this.inputs[key].focus();
   }
 
+  showImagePicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+
   updateAccountInfo = async () => {
     const { email, firstName, lastName, currentPassword } = this.state;
 
@@ -61,8 +85,8 @@ class AccountEditScreen extends Component {
     data.append('lastName', lastName);
     data.append('email', email);
     data.append('password', currentPassword);
-    if (this.state.file) {
-      data.append('avatar', this.state.file);
+    if (this.state.image) {
+      data.append('avatar', { uri: this.state.image, name: 'avatar' });
     }
 
     const resp = await UpdateAccountInfoRequest(data);
@@ -90,12 +114,25 @@ class AccountEditScreen extends Component {
   };
 
   render() {
-    const { email, firstName, lastName, loading } = this.state;
+    const {
+      email,
+      firstName,
+      lastName,
+      loading,
+      avatarUrl,
+      image,
+    } = this.state;
+
+    const uri = image || avatarUrl;
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <View style={{ height: 30 }} />
+        <TouchableOpacity onPress={this.showImagePicker}>
+          <View style={styles.imageContainer}>
+            {uri && <Image style={styles.image} source={{ uri }} />}
+          </View>
+        </TouchableOpacity>
         <FieldContainer>
           <TextInput
             keyboardType="email-address"
@@ -149,6 +186,7 @@ class AccountEditScreen extends Component {
         </FieldContainer>
 
         <View style={{ height: 10 }} />
+
         <FieldContainer>
           <TextInput
             style={{ height: 50 }}
@@ -169,7 +207,7 @@ class AccountEditScreen extends Component {
           onPress={this.handleOnPress}
           loading={loading}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -180,6 +218,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#ececec',
     alignItems: 'center',
     flexDirection: 'column',
+    paddingBottom: 40,
+  },
+  imageContainer: {
+    padding: 20,
+  },
+  image: {
+    width: 150,
+    height: 150,
+    borderWidth: 3,
+    borderColor: '#aaa',
+    borderRadius: 75,
   },
 });
 
