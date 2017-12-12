@@ -1,4 +1,5 @@
 import { reduce, round } from 'lodash';
+import parser from 'ua-parser-js';
 
 export const percentSpent = (budgeted, spent) => {
   const p = spent / budgeted * 100;
@@ -31,6 +32,21 @@ export const currencyf = (number, dollarSign = '$') => {
   const group3Regex = /(\d)(?=(\d{3})+\.)/g;
   const newNumber = parseFloat(number).toFixed(2);
   return dollarSign + newNumber.replace(group3Regex, '$1,');
+};
+
+export const humanUA = userAgent => {
+  const ua = parser(userAgent);
+  let text = `${ua.browser.name} ${ua.browser.major} on ${ua.os.name}`;
+
+  if (ua.browser.name === undefined) {
+    text = ua.ua;
+  }
+
+  if (ua.ua.includes('Budgetal') || ua.ua.includes('Expo')) {
+    text = 'Budgetal App on iOS';
+  }
+
+  return text;
 };
 
 export const categoryImage = name => {

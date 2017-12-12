@@ -1,8 +1,16 @@
 import { StatusBar } from 'react-native';
 import { GetAuthenticationToken } from 'utils/authentication';
 import { error } from 'notify';
+import { Constants } from 'expo';
 
-const baseURL = 'https://beta-api.budgetal.com';
+let baseURL = 'https://beta-api.budgetal.com';
+if (Constants.isDevice) {
+  if (__DEV__) {
+    baseURL = 'http://192.168.50.78:3000';
+  }
+} else {
+  baseURL = 'http://localhost:3000';
+}
 
 const base = async (path, method, headers = {}, body = {}) => {
   try {

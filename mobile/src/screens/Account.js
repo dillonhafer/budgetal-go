@@ -221,7 +221,6 @@ class AccountScreen extends Component {
           }}
           style={styles.list}
           data={buttons}
-          scrollEnabled={true}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderButton}
           ListFooterComponent={() => {

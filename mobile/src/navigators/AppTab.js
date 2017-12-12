@@ -14,9 +14,6 @@ import moment from 'moment';
 
 const AppTabNavigator = TabNavigator(
   {
-    Account: {
-      screen: AccountNavigator,
-    },
     Budgets: {
       screen: BudgetNavigator,
     },
