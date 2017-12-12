@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Budgetal",
-    "slug": "exp.host/@dillonhafer/budgetal",
+    "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "23.0.0",
     "version": "0.1.0",
