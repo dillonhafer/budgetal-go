@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 
 // Screens
 import AnnualBudgetsScreen from 'screens/AnnualBudgets';
+import AnnualBudgetItemProgressScreen from 'screens/AnnualBudgetItemProgress';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
@@ -25,10 +26,10 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       },
     },
     AnnualBudgetProgress: {
-      screen: AnnualBudgetsScreen,
+      screen: AnnualBudgetItemProgressScreen,
       path: 'annual-budgets/:budgetItem',
       navigationOptions: ({ navigation }) => ({
-        title: navigation.state.params.budgetItem.name,
+        title: 'Progress',
       }),
     },
   },

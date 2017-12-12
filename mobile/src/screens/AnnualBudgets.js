@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   StyleSheet,
   TouchableOpacity,
   Text,
@@ -42,6 +43,42 @@ class AnnualBudgetsScreen extends Component {
     this.loadBudgetItems({ year: new Date().getFullYear() });
   }
 
+  itemActions = item => {
+    Alert.alert(
+      item.name,
+      '',
+      [
+        {
+          text: 'Edit',
+          onPress: () => console.log('Edit'),
+        },
+        {
+          text: 'Progress',
+          onPress: () => {
+            this.navProgress(item);
+          },
+        },
+        {
+          text: 'Delete',
+          onPress: () => console.log('Delete'),
+          style: 'destructive',
+        },
+        {
+          text: 'Cancel',
+          onPress: _ => {},
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true },
+    );
+  };
+
+  navProgress = budgetItem => {
+    this.props.navigation.navigate('AnnualBudgetProgress', {
+      budgetItem,
+    });
+  };
+
   loadBudgetItems = async ({ year }) => {
     this.setState({ loading: true });
     try {
@@ -66,9 +103,7 @@ class AnnualBudgetsScreen extends Component {
         style={styles.itemRow}
         key={budgetItem.id}
         onPress={() => {
-          // this.props.navigation.navigate('BudgetItem', {
-          // budgetItem,
-          // });
+          this.itemActions(budgetItem);
         }}
       >
         <View>
