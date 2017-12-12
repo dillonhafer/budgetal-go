@@ -2,20 +2,14 @@ import { StatusBar } from 'react-native';
 import { GetAuthenticationToken } from 'utils/authentication';
 import { error } from 'notify';
 import { Constants } from 'expo';
-const isDevice = Constants.isDevice;
-const expoHost = Constants.manifest.debuggerHost;
 
+// Default URL to production
 let baseURL = 'https://beta-api.budgetal.com';
-const port = '3000';
 
 if (__DEV__) {
-  if (isDevice) {
-    // On same LAN
-    baseURL = 'http://' + expoHost.replace(':19001', `:${port}`);
-  } else {
-    // On simulator
-    baseURL = `http://localhost:${port}`;
-  }
+  const expoHost = Constants.manifest.debuggerHost;
+  const port = '3000';
+  baseURL = 'http://' + expoHost.replace(':19001', `:${port}`);
 }
 
 const base = async (path, method, headers = {}, body = {}) => {
