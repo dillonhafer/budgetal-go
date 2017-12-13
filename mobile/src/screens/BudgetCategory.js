@@ -10,15 +10,70 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
+import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
+
+// API
+import { ImportCategoryRequest } from 'api/budgets';
 
 // Components
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import colors from 'utils/colors';
+import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import { reduceSum, percentSpent } from 'utils/helpers';
 
+const RightImportButton = connect(
+  state => ({}),
+  dispatch => ({
+    _importedBudgetItems: budgetItems => {
+      dispatch(importedBudgetItems(budgetItems));
+    },
+  }),
+)(({ budgetCategory, _importedBudgetItems }) => {
+  const importPreviousItems = async () => {
+    const resp = await ImportCategoryRequest(budgetCategory.id);
+    if (resp && resp.ok) {
+      _importedBudgetItems(resp.budgetItems);
+      notice(resp.message);
+    }
+  };
+
+  const onPress = _ => {
+    confirm({
+      okText: `Import ${budgetCategory.name}`,
+      cancelText: 'Cancel',
+      title: 'Import Budget Items',
+      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
+      onOk: importPreviousItems,
+      onCancel() {},
+    });
+  };
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <MaterialCommunityIcons
+        name="content-copy"
+        size={24}
+        color={'#037aff'}
+        style={{
+          fontWeight: '300',
+          paddingRight: 15,
+        }}
+      />
+    </TouchableOpacity>
+  );
+});
+
 class BudgetCategoryScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <RightImportButton
+        budgetCategory={navigation.state.params.budgetCategory}
+      />
+    ),
+  });
+
   renderItem = ({ item: budgetItem }) => {
     const expenses = this.props.budgetItemExpenses.filter(e => {
       return budgetItem.id === e.budgetItemId;
