@@ -179,8 +179,11 @@ class AccountEditScreen extends Component {
               />
               <Text style={{ color: '#fff', fontSize: 20 }}>Photos</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.hideImagePicker}>
-              <Text style={{ color: '#fff' }}>Cancel</Text>
+            <TouchableOpacity
+              style={{ padding: 10, width: '100%' }}
+              onPress={this.hideImagePicker}
+            >
+              <Text style={{ textAlign: 'center', color: '#fff' }}>Cancel</Text>
             </TouchableOpacity>
           </BlurView>
         </Modal>
