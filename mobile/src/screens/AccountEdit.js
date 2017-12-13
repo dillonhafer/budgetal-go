@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 
 // Redux
@@ -23,7 +24,8 @@ import { error, notice } from 'notify';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 import { SetCurrentUser } from 'utils/authentication';
-import { ImagePicker } from 'expo';
+import { ImagePicker, BlurView } from 'expo';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 class AccountEditScreen extends Component {
   static navigationOptions = {
@@ -40,6 +42,7 @@ class AccountEditScreen extends Component {
     avatarUrl: '',
     image: null,
     loading: false,
+    showImagePicker: false,
   };
 
   componentDidMount() {
@@ -66,15 +69,23 @@ class AccountEditScreen extends Component {
     this.inputs[key].focus();
   }
 
-  showImagePicker = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+  handleImage = async pickerOption => {
+    const imageOptions = {
       allowsEditing: true,
       aspect: [4, 3],
-    });
-
+      exif: false,
+    };
+    const result = await pickerOption(imageOptions);
     if (!result.cancelled) {
       this.setState({ image: result.uri });
     }
+    this.setState({ showImagePicker: false });
+    StatusBar.setBarStyle('dark-content', true);
+  };
+
+  showImagePicker = () => {
+    StatusBar.setBarStyle('light-content', true);
+    this.setState({ showImagePicker: true });
   };
 
   updateAccountInfo = async () => {
@@ -121,12 +132,44 @@ class AccountEditScreen extends Component {
       loading,
       avatarUrl,
       image,
+      showImagePicker,
     } = this.state;
 
     const uri = image || avatarUrl;
-
     return (
       <ScrollView contentContainerStyle={styles.container}>
+        <Modal
+          animationType={'slide'}
+          transparent={true}
+          visible={showImagePicker}
+        >
+          <BlurView tint="dark" intensity={95} style={styles.modal}>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                this.handleImage(ImagePicker.launchCameraAsync);
+              }}
+            >
+              <MaterialCommunityIcons name="camera" size={80} color={'#fff'} />
+              <Text style={{ color: '#fff', fontSize: 20 }}>Camera</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => {
+                StatusBar.setBarStyle('dark-content', true);
+                this.handleImage(ImagePicker.launchImageLibraryAsync);
+              }}
+            >
+              <MaterialCommunityIcons
+                name="folder-multiple-image"
+                size={80}
+                color={'#fff'}
+              />
+              <Text style={{ color: '#fff', fontSize: 20 }}>Photos</Text>
+            </TouchableOpacity>
+          </BlurView>
+        </Modal>
         <StatusBar barStyle="dark-content" />
         <TouchableOpacity onPress={this.showImagePicker}>
           <View style={styles.imageContainer}>
@@ -229,6 +272,22 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#aaa',
     borderRadius: 75,
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalButton: {
+    borderWidth: 4,
+    borderColor: '#fff',
+    borderRadius: 10,
+    padding: 30,
+    margin: 30,
+    width: 200,
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
