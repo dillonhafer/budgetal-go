@@ -25,3 +25,30 @@ export const notice = msg => {
     { cancelable: false },
   );
 };
+
+export const confirm = ({
+  okText,
+  cancelText,
+  title,
+  content,
+  onOk,
+  onCancel,
+}) => {
+  Alert.alert(
+    title || 'Confirm',
+    content || 'Are you sure?',
+    [
+      {
+        text: cancelText || 'Cancel',
+        style: 'cancel',
+        onPress: onCancel,
+      },
+      {
+        text: okText || 'OK',
+        style: 'destructive',
+        onPress: onOk,
+      },
+    ],
+    { cancelable: true },
+  );
+};
