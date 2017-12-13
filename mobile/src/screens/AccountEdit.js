@@ -79,14 +79,20 @@ class AccountEditScreen extends Component {
     const result = await pickerOption(imageOptions);
     if (!result.cancelled) {
       this.setState({ image: result.uri });
+      this.hideImagePicker();
+    } else {
+      this.showImagePicker();
     }
-    this.setState({ showImagePicker: false });
-    StatusBar.setBarStyle('dark-content', true);
   };
 
   showImagePicker = () => {
     StatusBar.setBarStyle('light-content', true);
     this.setState({ showImagePicker: true });
+  };
+
+  hideImagePicker = () => {
+    StatusBar.setBarStyle('light-dark', true);
+    this.setState({ showImagePicker: false });
   };
 
   updateAccountInfo = async () => {
@@ -172,6 +178,9 @@ class AccountEditScreen extends Component {
                 color={'#fff'}
               />
               <Text style={{ color: '#fff', fontSize: 20 }}>Photos</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.hideImagePicker}>
+              <Text style={{ color: '#fff' }}>Cancel</Text>
             </TouchableOpacity>
           </BlurView>
         </Modal>
