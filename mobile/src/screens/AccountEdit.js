@@ -26,6 +26,7 @@ import { PrimaryButton, FieldContainer } from 'forms';
 import { SetCurrentUser } from 'utils/authentication';
 import { ImagePicker, BlurView } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class AccountEditScreen extends Component {
   static navigationOptions = {
@@ -137,7 +138,7 @@ class AccountEditScreen extends Component {
 
     const uri = image || avatarUrl;
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <Modal
           animationType={'slide'}
           transparent={true}
@@ -250,7 +251,7 @@ class AccountEditScreen extends Component {
           onPress={this.handleOnPress}
           loading={loading}
         />
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }

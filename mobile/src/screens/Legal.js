@@ -44,6 +44,9 @@ class LegalScreen extends Component {
           <Project>React, Copyright (c) 2013-present, Facebook, Inc.</Project>
           <Project>React Redux, Copyright (c) 2015-present Dan Abramov</Project>
           <Project>Redux, Copyright (c) 2015-present Dan Abramov</Project>
+          <Project>
+            React Native Keyboard Aware ScrollView, Copyright (c) 2015 APSL
+          </Project>
 
           <Text style={styles.license}>
             The MIT License (MIT) http://opensource.org/licenses/MIT/ Copyright
