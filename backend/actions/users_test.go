@@ -66,7 +66,7 @@ func (as *ActionSuite) Test_Users_Update_CurrentPasswordDoesNotMatch() {
 	}
 	r := as.JSON("/update-user").Patch(updateUserParams)
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
-	as.Equal(401, r.Code)
+	as.Equal(422, r.Code)
 	as.Equal("Incorrect Password", expectedResponse.Error)
 }
 
@@ -88,7 +88,7 @@ func (as *ActionSuite) Test_Users_ChangePassword_CurrentPasswordDoesNotMatch() {
 	}
 	r := as.JSON("/update-password").Patch(updatePasswordParams)
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
-	as.Equal(401, r.Code)
+	as.Equal(422, r.Code)
 	as.Equal("Incorrect Password", expectedResponse.Error)
 }
 

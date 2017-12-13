@@ -19,7 +19,7 @@ func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	if !currentUser.VerifyPassword(params.CurrentPassword) {
-		return c.Render(401, r.JSON(map[string]string{"error": "Incorrect Password"}))
+		return c.Render(422, r.JSON(map[string]string{"error": "Incorrect Password"}))
 	}
 
 	currentUser.EncryptPassword([]byte(params.Password))
@@ -33,7 +33,7 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 	// or error
 	currentPassword := c.Request().FormValue("password")
 	if !currentUser.VerifyPassword(currentPassword) {
-		return c.Render(401, r.JSON(map[string]string{"error": "Incorrect Password"}))
+		return c.Render(422, r.JSON(map[string]string{"error": "Incorrect Password"}))
 	}
 
 	// Update Attributes
@@ -49,7 +49,7 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 		err = currentUser.SaveAvatar(file)
 		if err != nil {
 			c.Logger().Debug(color.RedString(err.Error()))
-			return c.Render(401, r.JSON(map[string]string{
+			return c.Render(422, r.JSON(map[string]string{
 				"error": "Could not save avatar",
 			}))
 		}
@@ -57,7 +57,7 @@ func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 
 	dbErr := models.DB.Update(currentUser)
 	if dbErr != nil {
-		return c.Render(401, r.JSON("Invalid User"))
+		return c.Render(422, r.JSON("Invalid User"))
 	}
 
 	return c.Render(200, r.JSON(map[string]*models.User{"user": currentUser}))
