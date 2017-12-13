@@ -101,12 +101,16 @@ class AccountEditScreen extends Component {
       data.append('avatar', { uri: this.state.image, name: 'avatar' });
     }
 
-    const resp = await UpdateAccountInfoRequest(data);
-    if (resp && resp.ok) {
-      notice('Account Updated');
-      this.props.updateCurrentUser(resp.user);
-      SetCurrentUser(resp.user);
-      this.props.navigation.goBack();
+    try {
+      const resp = await UpdateAccountInfoRequest(data);
+      if (resp && resp.ok) {
+        notice('Account Updated');
+        this.props.updateCurrentUser(resp.user);
+        SetCurrentUser(resp.user);
+        this.props.navigation.goBack();
+      }
+    } catch (err) {
+      error(err.error);
     }
   };
 
