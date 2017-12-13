@@ -9,6 +9,7 @@ const appReducers = combineReducers({
   annualBudgetItems,
   budget,
   users,
+  sessions,
 });
 
 export default appReducers;
