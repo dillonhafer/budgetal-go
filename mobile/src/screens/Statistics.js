@@ -6,6 +6,7 @@ import {
   StatusBar,
   FlatList,
   View,
+  RefreshControl,
 } from 'react-native';
 
 // Components
@@ -146,8 +147,13 @@ class StatisticsScreen extends Component {
         />
         <FlatList
           style={styles.list}
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh}
+          refreshControl={
+            <RefreshControl
+              tintColor={'lightskyblue'}
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
           data={budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}

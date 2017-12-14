@@ -7,6 +7,7 @@ import {
   StatusBar,
   FlatList,
   View,
+  RefreshControl,
 } from 'react-native';
 
 // Redux
@@ -176,8 +177,13 @@ class AnnualBudgetsScreen extends Component {
           ListHeaderComponent={() => {
             return this.renderHeader(annualBudgetItems.length);
           }}
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh}
+          refreshControl={
+            <RefreshControl
+              tintColor={'lightskyblue'}
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
           style={styles.list}
           keyExtractor={i => i.id}
           data={annualBudgetItems}

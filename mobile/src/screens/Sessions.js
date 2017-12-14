@@ -8,6 +8,7 @@ import {
   SectionList,
   TouchableOpacity,
   LayoutAnimation,
+  RefreshControl,
 } from 'react-native';
 
 // Redux
@@ -302,8 +303,13 @@ class SessionsScreen extends Component {
           style={styles.list}
           keyExtractor={s => s.authenticationToken}
           sections={sessions}
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh}
+          refreshControl={
+            <RefreshControl
+              tintColor={'lightskyblue'}
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
           ItemSeparatorComponent={this.renderSeparator}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}

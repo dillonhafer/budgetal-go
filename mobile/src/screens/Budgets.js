@@ -7,6 +7,7 @@ import {
   FlatList,
   StatusBar,
   View,
+  RefreshControl,
 } from 'react-native';
 
 // Redux
@@ -164,9 +165,14 @@ class BudgetsScreen extends Component {
           onChange={this.onDateChange}
         />
         <FlatList
+          refreshControl={
+            <RefreshControl
+              tintColor={'lightskyblue'}
+              refreshing={refreshing}
+              onRefresh={this.refresh}
+            />
+          }
           style={styles.list}
-          refreshing={refreshing}
-          onRefresh={this.refresh}
           keyExtractor={i => i.id}
           data={this.props.budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
