@@ -17,7 +17,7 @@ import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
 import { BudgetRequest } from 'api/budgets';
 
 // Components
-import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import {
   categoryImage,
   currencyf,
@@ -27,8 +27,13 @@ import {
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
+import EditIncomeModal from 'screens/EditIncomeModal';
 
 class BudgetsScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: <EditIncomeModal />,
+  });
+
   state = {
     loading: false,
     refreshing: false,
@@ -136,6 +141,16 @@ class BudgetsScreen extends Component {
       this.loadBudget({ month, year });
     }
   };
+
+  componentWillReceiveProps(next) {
+    if (
+      this.props.navigation.state &&
+      this.props.navigation.state.params &&
+      this.props.navigation.state.params.income !== next.budget.income
+    ) {
+      this.props.navigation.setParams({ income: next.budget.income });
+    }
+  }
 
   render() {
     const { budget } = this.props;
