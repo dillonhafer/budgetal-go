@@ -1,7 +1,10 @@
 import { StatusBar } from 'react-native';
-import { GetAuthenticationToken } from 'utils/authentication';
+import {
+  GetAuthenticationToken,
+  RemoveAuthentication,
+} from 'utils/authentication';
 import { error } from 'notify';
-import { Constants } from 'expo';
+import { Constants, Util } from 'expo';
 
 // Default URL to production
 let baseURL = 'https://beta-api.budgetal.com';
@@ -58,6 +61,8 @@ const base = async (path, method, headers = {}, body = {}) => {
         return;
       case 401:
         error('You are not logged in. Your session may have expired.');
+        await RemoveAuthentication();
+        Util.reload();
         return;
       default:
     }
