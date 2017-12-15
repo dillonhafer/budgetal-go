@@ -6,6 +6,7 @@ import {
   StatusBar,
   View,
   SectionList,
+  Alert,
 } from 'react-native';
 
 // Redux
@@ -50,6 +51,30 @@ class BudgetItemScreen extends Component {
     ),
   });
 
+  expenseActions = expense => {
+    Alert.alert(
+      expense.name,
+      '',
+      [
+        {
+          text: 'Edit',
+          onPress: () => console.log('Edit'),
+        },
+        {
+          text: 'Delete',
+          onPress: () => console.log('Delete'),
+          style: 'destructive',
+        },
+        {
+          text: 'Cancel',
+          onPress: _ => {},
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true },
+    );
+  };
+
   renderSeparator = () => {
     return (
       <View
@@ -67,7 +92,9 @@ class BudgetItemScreen extends Component {
       <TouchableOpacity
         style={styles.expenseRow}
         key={expense.id}
-        onPress={() => {}}
+        onPress={() => {
+          this.expenseActions(expense);
+        }}
       >
         <Text style={{ width: '70%', padding: 10, textAlign: 'center' }}>
           {expense.name}
