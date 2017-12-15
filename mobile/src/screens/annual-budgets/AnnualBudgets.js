@@ -22,18 +22,55 @@ import {
 import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 // Components
-import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import moment from 'moment';
 import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
 import { round } from 'lodash';
 import DatePicker from 'utils/DatePicker';
+import { notice } from 'notify';
 
 const B = ({ style, children }) => {
   return <Text style={[{ fontWeight: '800' }, style]}>{children}</Text>;
 };
 
+const NewItemButton = connect(
+  state => ({
+    //
+  }),
+  dispatch => ({
+    //
+  }),
+)(({ year }) => {
+  const onPress = _ => {
+    notice(String(year));
+  };
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Ionicons
+        name="ios-add-outline"
+        size={32}
+        color={'#037aff'}
+        style={{
+          fontWeight: '300',
+          paddingRight: 20,
+          paddingLeft: 20,
+        }}
+      />
+    </TouchableOpacity>
+  );
+});
+
 class AnnualBudgetsScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <NewItemButton
+        year={navigation.state.params && navigation.state.params.year}
+      />
+    ),
+  });
+
   state = {
     loading: false,
     refreshing: false,
@@ -86,6 +123,7 @@ class AnnualBudgetsScreen extends Component {
       const resp = await AllAnnualBudgetItemsRequest(year);
 
       if (resp && resp.ok) {
+        this.props.navigation.setParams({ year });
         this.props.itemsFetched(resp.annualBudgetId, resp.annualBudgetItems);
       }
     } catch (err) {

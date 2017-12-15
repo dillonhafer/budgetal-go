@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { groupBy, orderBy, transform } from 'lodash';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
+import { notice } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 
@@ -22,7 +23,9 @@ const NewExpenseButton = connect(
   state => ({}),
   dispatch => ({}),
 )(({ budgetItem }) => {
-  const onPress = _ => {};
+  const onPress = _ => {
+    notice(budgetItem.name);
+  };
 
   return (
     <TouchableOpacity onPress={onPress}>

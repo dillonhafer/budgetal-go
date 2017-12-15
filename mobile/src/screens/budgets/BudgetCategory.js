@@ -27,8 +27,10 @@ import { PrimaryButton } from 'forms';
 const NewItemButton = connect(
   state => ({}),
   dispatch => ({}),
-)(({ budgetItem }) => {
-  const onPress = _ => {};
+)(({ budgetCategory }) => {
+  const onPress = _ => {
+    notice(budgetCategory.name);
+  };
 
   return (
     <TouchableOpacity onPress={onPress}>
