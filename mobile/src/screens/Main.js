@@ -17,6 +17,7 @@ import { navigateHome } from 'navigators';
 // Redux
 import { connect } from 'react-redux';
 import { updateCurrentUser } from 'actions/users';
+import { LinearGradient } from 'expo';
 
 const LogoSeparator = ({ color }) => {
   const styles = StyleSheet.create({
@@ -39,7 +40,7 @@ const LogoSeparator = ({ color }) => {
     line: {
       flex: 1,
       backgroundColor: '#fff',
-      height: 0.5,
+      height: 1,
     },
     logoContainer: {
       margin: 15,
@@ -48,6 +49,7 @@ const LogoSeparator = ({ color }) => {
     logoText: {
       textAlign: 'center',
       color: '#fff',
+      backgroundColor: 'transparent',
     },
   });
   return (
@@ -100,10 +102,27 @@ class MainScreen extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
+        <LinearGradient
+          colors={['transparent', 'rgba(255,255,255,0.4)']}
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+          }}
+        />
         <LogoSeparator />
         <View style={styles.quoteContainer}>
-          <Text style={styles.quoteText}>Plan</Text>
-          <Text style={styles.quoteText}>Don't Wonder</Text>
+          <Text style={styles.quoteText}>Budgetal | ˈbəjətal</Text>
+          <Text
+            style={[
+              styles.quoteText,
+              { fontSize: 14, fontFamily: 'HelveticaNeue-LightItalic' },
+            ]}
+          >
+            • pertaining to a plan
+          </Text>
         </View>
         <View style={styles.buttonRow}>
           <TouchableOpacity
@@ -138,15 +157,17 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   quoteText: {
+    backgroundColor: 'transparent',
     textAlign: 'center',
     color: '#fff',
     fontSize: 20,
     fontWeight: '700',
+    fontFamily: 'HelveticaNeue-Light',
   },
   buttonRow: {
     flexDirection: 'row',
     borderWidth: 0.5,
-    borderTopColor: 'blue',
+    borderTopColor: '#fff',
     borderLeftColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',
@@ -166,7 +187,7 @@ const styles = StyleSheet.create({
   separator: {
     alignSelf: 'stretch',
     width: 0.5,
-    backgroundColor: 'blue',
+    backgroundColor: '#fff',
   },
 });
 
