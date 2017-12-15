@@ -16,49 +16,30 @@ import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
 import { ImportCategoryRequest } from 'api/budgets';
 
 // Components
-import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import { reduceSum, percentSpent } from 'utils/helpers';
+import { PrimaryButton } from 'forms';
 
-const RightImportButton = connect(
+const NewItemButton = connect(
   state => ({}),
-  dispatch => ({
-    _importedBudgetItems: budgetItems => {
-      dispatch(importedBudgetItems(budgetItems));
-    },
-  }),
-)(({ budgetCategory, _importedBudgetItems }) => {
-  const importPreviousItems = async () => {
-    const resp = await ImportCategoryRequest(budgetCategory.id);
-    if (resp && resp.ok) {
-      _importedBudgetItems(resp.budgetItems);
-      notice(resp.message);
-    }
-  };
-
-  const onPress = _ => {
-    confirm({
-      okText: `Import ${budgetCategory.name}`,
-      cancelText: 'Cancel',
-      title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
-      onOk: importPreviousItems,
-      onCancel() {},
-    });
-  };
+  dispatch => ({}),
+)(({ budgetItem }) => {
+  const onPress = _ => {};
 
   return (
     <TouchableOpacity onPress={onPress}>
-      <MaterialCommunityIcons
-        name="content-copy"
-        size={24}
+      <Ionicons
+        name="ios-add-outline"
+        size={32}
         color={'#037aff'}
         style={{
           fontWeight: '300',
-          paddingRight: 15,
+          paddingRight: 20,
+          paddingLeft: 20,
         }}
       />
     </TouchableOpacity>
@@ -68,11 +49,30 @@ const RightImportButton = connect(
 class BudgetCategoryScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerRight: (
-      <RightImportButton
-        budgetCategory={navigation.state.params.budgetCategory}
-      />
+      <NewItemButton budgetCategory={navigation.state.params.budgetCategory} />
     ),
   });
+
+  importPreviousItems = async () => {
+    const budgetCategory = this.props.navigation.state.params.budgetCategory;
+    const resp = await ImportCategoryRequest(budgetCategory.id);
+    if (resp && resp.ok) {
+      this.props.importedBudgetItems(resp.budgetItems);
+      notice(resp.message);
+    }
+  };
+
+  onImportPress = () => {
+    const budgetCategory = this.props.navigation.state.params.budgetCategory;
+    confirm({
+      okText: `Import ${budgetCategory.name}`,
+      cancelText: 'Cancel',
+      title: 'Import Budget Items',
+      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
+      onOk: this.importPreviousItems,
+      onCancel() {},
+    });
+  };
 
   renderItem = ({ item: budgetItem }) => {
     const expenses = this.props.budgetItemExpenses.filter(e => {
@@ -152,6 +152,9 @@ class BudgetCategoryScreen extends Component {
           data={items}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}
+          ListFooterComponent={
+            <PrimaryButton title="Import" onPress={this.onImportPress} />
+          }
         />
       </View>
     );
@@ -184,5 +187,9 @@ export default connect(
   state => ({
     ...state.budget,
   }),
-  dispatch => ({}),
+  dispatch => ({
+    importedBudgetItems: budgetItems => {
+      dispatch(importedBudgetItems(budgetItems));
+    },
+  }),
 )(BudgetCategoryScreen);

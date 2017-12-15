@@ -18,7 +18,35 @@ import { currencyf } from 'utils/helpers';
 import moment from 'moment';
 import colors from 'utils/colors';
 
+const NewExpenseButton = connect(
+  state => ({}),
+  dispatch => ({}),
+)(({ budgetItem }) => {
+  const onPress = _ => {};
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <Ionicons
+        name="ios-add-outline"
+        size={32}
+        color={'#037aff'}
+        style={{
+          fontWeight: '300',
+          paddingRight: 20,
+          paddingLeft: 20,
+        }}
+      />
+    </TouchableOpacity>
+  );
+});
+
 class BudgetItemScreen extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerRight: (
+      <NewExpenseButton budgetItem={navigation.state.params.budgetItem} />
+    ),
+  });
+
   renderSeparator = () => {
     return (
       <View
