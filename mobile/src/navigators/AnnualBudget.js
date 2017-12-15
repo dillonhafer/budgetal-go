@@ -3,8 +3,8 @@ import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 // Screens
-import AnnualBudgetsScreen from 'screens/AnnualBudgets';
-import AnnualBudgetItemProgressScreen from 'screens/AnnualBudgetItemProgress';
+import AnnualBudgetsScreen from 'screens/annual-budgets/AnnualBudgets';
+import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetItemProgress';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';

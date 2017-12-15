@@ -7,7 +7,7 @@ import BudgetNavigator from 'navigators/Budget';
 import AnnualBudgetNavigator from 'navigators/AnnualBudget';
 
 // Screens
-import StatisticsScreen from 'screens/Statistics';
+import StatisticsScreen from 'screens/statistics/Statistics';
 
 import colors from 'utils/colors';
 import moment from 'moment';

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { StackNavigator } from 'react-navigation';
 
 // Screens
-import AccountScreen from 'screens/Account';
-import AccountEditScreen from 'screens/AccountEdit';
-import LegalScreen from 'screens/Legal';
-import ChangePasswordScreen from 'screens/ChangePassword';
-import SessionsScreen from 'screens/Sessions';
+import AccountScreen from 'screens/account/Account';
+import AccountEditScreen from 'screens/account/AccountEdit';
+import LegalScreen from 'screens/account/Legal';
+import ChangePasswordScreen from 'screens/account/ChangePassword';
+import SessionsScreen from 'screens/account/Sessions';
 
 import { Ionicons } from '@expo/vector-icons';
 

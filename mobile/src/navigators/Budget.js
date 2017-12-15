@@ -3,9 +3,9 @@ import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 // Screens
-import BudgetsScreen from 'screens/Budgets';
-import BudgetCategoryScreen from 'screens/BudgetCategory';
-import BudgetItemScreen from 'screens/BudgetItem';
+import BudgetsScreen from 'screens/budgets/Budgets';
+import BudgetCategoryScreen from 'screens/budgets/BudgetCategory';
+import BudgetItemScreen from 'screens/budgets/BudgetItem';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';

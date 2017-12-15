@@ -28,7 +28,7 @@ import {
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
-import EditIncomeModal from 'screens/EditIncomeModal';
+import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 
 class BudgetsScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
