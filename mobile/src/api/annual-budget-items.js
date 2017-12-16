@@ -12,6 +12,6 @@ export function UpdateAnnualBudgetItemRequest(item) {
   return _put(`/annual-budget-items/${item.id}`, item);
 }
 
-export function DeleteAnnualBudgetItemRequest(item) {
-  return _delete(`/annual-budget-items/${item.id}`);
+export function DeleteAnnualBudgetItemRequest(id) {
+  return _delete(`/annual-budget-items/${id}`);
 }

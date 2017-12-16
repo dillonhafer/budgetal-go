@@ -16,10 +16,14 @@ import {
   itemsFetched,
   updatedSelectedItem,
   hideForm,
+  removeItem,
 } from 'actions/annual-budget-items';
 
 // API
-import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
+import {
+  AllAnnualBudgetItemsRequest,
+  DeleteAnnualBudgetItemRequest,
+} from 'api/annual-budget-items';
 
 // Components
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -59,6 +63,22 @@ class AnnualBudgetsScreen extends Component {
     this.loadBudgetItems({ year: new Date().getFullYear() });
   }
 
+  deleteItem = async item => {
+    const resp = await DeleteAnnualBudgetItemRequest(item.id);
+    if (resp && resp.ok) {
+      this.props.removeItem(item);
+      notice(`${item.name} Deleted`);
+    }
+  };
+
+  confirmDelete = item => {
+    confirm({
+      title: `Delete ${item.name}?`,
+      okText: 'Delete',
+      onOk: () => this.deleteItem(item),
+    });
+  };
+
   itemActions = item => {
     Alert.alert(
       item.name,
@@ -76,7 +96,7 @@ class AnnualBudgetsScreen extends Component {
         },
         {
           text: 'Delete',
-          onPress: () => console.log('Delete'),
+          onPress: () => this.confirmDelete(item),
           style: 'destructive',
         },
         {
@@ -255,6 +275,9 @@ export default connect(
   dispatch => ({
     itemsFetched: (annualBudgetId, annualBudgetItems) => {
       dispatch(itemsFetched(annualBudgetId, annualBudgetItems));
+    },
+    removeItem: item => {
+      dispatch(removeItem(item));
     },
   }),
 )(AnnualBudgetsScreen);
