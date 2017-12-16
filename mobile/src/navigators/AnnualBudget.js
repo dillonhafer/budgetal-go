@@ -4,6 +4,8 @@ import { StackNavigator } from 'react-navigation';
 
 // Screens
 import AnnualBudgetsScreen from 'screens/annual-budgets/AnnualBudgets';
+import NewAnnualBudgetItemScreen from 'screens/annual-budgets/NewAnnualBudgetItem';
+import EditAnnualBudgetItemScreen from 'screens/annual-budgets/EditAnnualBudgetItem';
 import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetItemProgress';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -30,6 +32,20 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       path: 'annual-budgets/:budgetItem',
       navigationOptions: ({ navigation }) => ({
         title: 'Progress',
+      }),
+    },
+    NewAnnualBudgetItem: {
+      screen: NewAnnualBudgetItemScreen,
+      path: 'newAnnualBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: 'New Annual Item',
+      }),
+    },
+    EditAnnualBudgetItem: {
+      screen: EditAnnualBudgetItemScreen,
+      path: 'editAnnualBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.annualBudgetItem.name}`,
       }),
     },
   },

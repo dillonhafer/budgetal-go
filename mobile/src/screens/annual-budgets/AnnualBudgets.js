@@ -86,7 +86,10 @@ class AnnualBudgetsScreen extends Component {
       [
         {
           text: 'Edit',
-          onPress: () => console.log('Edit'),
+          onPress: () =>
+            this.props.navigation.navigate('EditAnnualBudgetItem', {
+              annualBudgetItem: item,
+            }),
         },
         {
           text: 'Progress',
