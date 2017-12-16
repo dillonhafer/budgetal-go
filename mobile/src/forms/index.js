@@ -68,7 +68,7 @@ export const FieldContainer = props => {
         borderBottomColor: '#aaa',
         borderWidth: 0.5,
         paddingLeft: 20,
-        borderTopColor: '#fff',
+        borderTopColor: props.position === 'first' ? '#aaa' : '#fff',
         borderRightColor: '#fff',
         borderLeftColor: '#fff',
         alignSelf: 'stretch',

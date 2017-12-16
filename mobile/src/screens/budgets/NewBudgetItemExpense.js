@@ -114,7 +114,7 @@ class NewBudgetItemExpenseScreen extends Component {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <FieldContainer>
+        <FieldContainer position="first">
           <TextInput
             style={{ height: 50 }}
             placeholder="Name"

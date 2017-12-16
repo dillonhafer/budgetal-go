@@ -88,7 +88,7 @@ class RegisterScreen extends Component {
         <Text style={{ fontSize: 16, margin: 10, color: '#999' }}>
           Welcome to Budgetal!
         </Text>
-        <FieldContainer>
+        <FieldContainer position="first">
           <TextInput
             keyboardType="email-address"
             style={{ height: 50 }}

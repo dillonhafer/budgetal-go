@@ -193,7 +193,7 @@ class AccountEditScreen extends Component {
             {uri && <Image style={styles.image} source={{ uri }} />}
           </View>
         </TouchableOpacity>
-        <FieldContainer>
+        <FieldContainer position="first">
           <TextInput
             keyboardType="email-address"
             style={{ height: 50 }}
@@ -247,7 +247,7 @@ class AccountEditScreen extends Component {
 
         <View style={{ height: 10 }} />
 
-        <FieldContainer>
+        <FieldContainer position="first">
           <TextInput
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}

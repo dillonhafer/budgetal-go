@@ -73,7 +73,7 @@ class ChangePasswordScreen extends Component {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <View style={{ height: 30 }} />
-        <FieldContainer>
+        <FieldContainer position="first">
           <TextInput
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
@@ -108,7 +108,7 @@ class ChangePasswordScreen extends Component {
         </FieldContainer>
 
         <View style={{ height: 10 }} />
-        <FieldContainer>
+        <FieldContainer position="first">
           <TextInput
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
