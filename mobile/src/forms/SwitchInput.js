@@ -1,0 +1,54 @@
+import React, { Component } from 'react';
+import { View, Text, Modal, StyleSheet, Switch } from 'react-native';
+import colors from 'utils/colors';
+
+class SwitchInput extends Component {
+  state = {
+    internalValue: null,
+  };
+
+  onValueChange = ({ internalValue }) => {
+    this.setState({ internalValue });
+    this.props.onChange(internalValue);
+  };
+
+  render() {
+    const { defaultValue, label, onTintColor } = this.props;
+    const { internalValue } = this.state;
+    const selectedValue = internalValue || defaultValue || false;
+
+    return (
+      <View style={{ width: '100%', flexDirection: 'column' }}>
+        <View style={styles.row}>
+          <View>
+            <Text style={styles.displayLabel}>{label}</Text>
+          </View>
+          <Switch
+            style={styles.switch}
+            value={selectedValue}
+            onTintColor={onTintColor || colors.primary}
+            onValueChange={internalValue =>
+              this.onValueChange({ internalValue })}
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  row: {
+    height: 50,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  displayLabel: {
+    marginLeft: 20,
+  },
+  switch: {
+    marginRight: 15,
+  },
+});
+
+export default SwitchInput;
