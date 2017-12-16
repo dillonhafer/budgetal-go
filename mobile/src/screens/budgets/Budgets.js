@@ -41,7 +41,10 @@ class BudgetsScreen extends Component {
   };
 
   componentDidMount() {
-    this.loadBudget({ month: 12, year: 2017 });
+    this.loadBudget({
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    });
   }
 
   refresh = async () => {
