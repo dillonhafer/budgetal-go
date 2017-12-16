@@ -9,10 +9,10 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import { createdBudgetItem } from 'actions/budgets';
+import { updateBudgetItem } from 'actions/budgets';
 
 // API
-import { CreateItemRequest } from 'api/budget-items';
+import { UpdateItemRequest } from 'api/budget-items';
 
 // Helpers
 import { error, notice } from 'notify';
@@ -21,7 +21,7 @@ import { error, notice } from 'notify';
 import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
 import MoneyInput from 'forms/MoneyInput';
 
-class NewBudgetItemScreen extends Component {
+class EditBudgetItemScreen extends Component {
   goBack = () => {
     this.props.navigation.goBack();
   };
@@ -36,8 +36,12 @@ class NewBudgetItemScreen extends Component {
   };
 
   componentDidMount() {
-    const { budgetCategory } = this.props.navigation.state.params;
-    this.setState({ budgetCategory });
+    const { budgetItem } = this.props.navigation.state.params;
+    this.setState({
+      id: budgetItem.id,
+      name: budgetItem.name,
+      amount: budgetItem.amount,
+    });
   }
 
   validateFields = () => {
@@ -55,18 +59,18 @@ class NewBudgetItemScreen extends Component {
     this.setState({ showMoneyKeyboard: false });
   };
 
-  createItem = async () => {
-    const { name, amount, budgetCategory } = this.state;
+  updateItem = async () => {
+    const { id, name, amount } = this.state;
 
     try {
-      const resp = await CreateItemRequest({
+      const resp = await UpdateItemRequest({
+        id,
         name,
         amount,
-        budgetCategoryId: budgetCategory.id,
       });
 
       if (resp && resp.ok) {
-        this.props.createdBudgetItem(resp.budgetItem);
+        this.props.updateBudgetItem(resp.budgetItem);
         this.goBack();
         notice('Item saved');
       }
@@ -80,7 +84,7 @@ class NewBudgetItemScreen extends Component {
     this.setState({ loading: true });
     try {
       if (this.validateFields()) {
-        await this.createItem();
+        await this.updateItem();
       } else {
         error('Form is not valid');
       }
@@ -143,8 +147,8 @@ const styles = StyleSheet.create({
 export default connect(
   state => ({}),
   dispatch => ({
-    createdBudgetItem: item => {
-      dispatch(createdBudgetItem(item));
+    updateBudgetItem: item => {
+      dispatch(updateBudgetItem(item));
     },
   }),
-)(NewBudgetItemScreen);
+)(EditBudgetItemScreen);

@@ -9,6 +9,7 @@ import BudgetCategoryScreen from 'screens/budgets/BudgetCategory';
 // Items
 import BudgetItemScreen from 'screens/budgets/BudgetItem';
 import NewBudgetItemScreen from 'screens/budgets/NewBudgetItem';
+import EditBudgetItemScreen from 'screens/budgets/EditBudgetItem';
 
 // Expenses
 import NewBudgetItemExpenseScreen from 'screens/budgets/NewBudgetItemExpense';
@@ -90,6 +91,13 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'newBudgetItem',
       navigationOptions: ({ navigation }) => ({
         title: 'New Budget Item',
+      }),
+    },
+    EditBudgetItem: {
+      screen: EditBudgetItemScreen,
+      path: 'editBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.budgetItem.name}`,
       }),
     },
     NewBudgetItemExpense: {
