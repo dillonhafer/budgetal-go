@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Text,
+  Platform,
+} from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import colors from 'utils/colors';
@@ -106,6 +112,8 @@ class MoneyKeyboard extends Component {
   }
 }
 
+const fontFamily = Platform.OS === 'ios' ? 'Helvetica' : '';
+
 const keyboardStyles = StyleSheet.create({
   container: {
     width: '100%',
@@ -125,7 +133,7 @@ const keyboardStyles = StyleSheet.create({
   numberButtonText: {
     fontSize: 22,
     textAlign: 'center',
-    fontFamily: 'Helvetica',
+    fontFamily,
   },
   valueContainer: {
     backgroundColor: colors.primary,
@@ -141,7 +149,7 @@ const keyboardStyles = StyleSheet.create({
     fontSize: 26,
     padding: 10,
     fontWeight: '700',
-    fontFamily: 'Helvetica',
+    fontFamily,
   },
   submitButtonContainer: {
     width: '15%',

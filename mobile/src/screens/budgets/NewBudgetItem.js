@@ -103,6 +103,7 @@ class NewBudgetItemScreen extends Component {
             style={{ height: 50 }}
             placeholder="Name"
             defaultValue={name}
+            underlineColorAndroid={'transparent'}
             returnKeyType="next"
             onChangeText={name => this.setState({ name })}
           />

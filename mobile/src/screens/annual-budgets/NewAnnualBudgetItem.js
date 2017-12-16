@@ -118,6 +118,7 @@ class NewAnnualBudgetItemScreen extends Component {
           <TextInput
             style={{ height: 50 }}
             placeholder="Name"
+            underlineColorAndroid={'transparent'}
             defaultValue={name}
             returnKeyType="next"
             onChangeText={name => this.setState({ name })}

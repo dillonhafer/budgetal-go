@@ -33,7 +33,12 @@ class MoneyInputModal extends Component {
     const invalid = amount <= 0;
 
     return (
-      <Modal visible={visible} animationType={'slide'} transparent={true}>
+      <Modal
+        visible={visible}
+        animationType={'slide'}
+        transparent={true}
+        onRequestClose={this.onCancel}
+      >
         <BlurView tint="light" intensity={95} style={styles.modal}>
           <TouchableOpacity style={styles.closeButton} onPress={this.onCancel}>
             <Ionicons

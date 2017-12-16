@@ -53,7 +53,7 @@ const BudgetNavigatorStack = StackNavigator(
         const income =
           (navigation.state.params && navigation.state.params.income) || 0;
         const headerTitle = (
-          <View>
+          <View style={{ paddingLeft: 20, paddingRight: 20 }}>
             <Text
               style={{ fontWeight: '800', fontSize: 16, textAlign: 'center' }}
             >

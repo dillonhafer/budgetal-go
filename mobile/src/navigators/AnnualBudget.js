@@ -23,7 +23,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
 
         return {
           title: `Annual Budgets`,
-          headerBackTitle: year,
+          headerBackTitle: `${year}`,
         };
       },
     },

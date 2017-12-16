@@ -78,6 +78,8 @@ class ChangePasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            underlineColorAndroid={'transparent'}
+            autoCapitalize={'none'}
             ref={input => {
               this.inputs['password'] = input;
             }}
@@ -94,6 +96,8 @@ class ChangePasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            underlineColorAndroid={'transparent'}
+            autoCapitalize={'none'}
             ref={input => {
               this.inputs['passwordConfirmation'] = input;
             }}
@@ -113,6 +117,8 @@ class ChangePasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            underlineColorAndroid={'transparent'}
+            autoCapitalize={'none'}
             ref={input => {
               this.inputs['currentPassword'] = input;
             }}

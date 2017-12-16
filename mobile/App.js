@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
 
 // Redux
 import { createStore } from 'redux';
@@ -81,11 +81,19 @@ export default class App extends Component {
       );
     }
 
-    return (
-      <Provider store={store}>
+    return [
+      <View
+        key="spacer"
+        style={{
+          width: '100%',
+          backgroundColor: '#000',
+          height: Platform.OS === 'ios' ? 0 : 24,
+        }}
+      />,
+      <Provider key="app" store={store}>
         <RootNavigator />
-      </Provider>
-    );
+      </Provider>,
+    ];
   }
 }
 

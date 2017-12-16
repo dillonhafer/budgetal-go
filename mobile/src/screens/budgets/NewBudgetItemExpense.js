@@ -120,6 +120,7 @@ class NewBudgetItemExpenseScreen extends Component {
             placeholder="Name"
             defaultValue={name}
             returnKeyType="next"
+            underlineColorAndroid={'transparent'}
             onChangeText={name => this.setState({ name })}
           />
         </FieldContainer>

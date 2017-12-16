@@ -92,6 +92,7 @@ class SignInScreen extends Component {
             style={{ height: 50 }}
             placeholder="Email"
             autoCapitalize={'none'}
+            underlineColorAndroid={'transparent'}
             autoCorrect={false}
             ref={input => {
               this.inputs['email'] = input;
@@ -109,6 +110,8 @@ class SignInScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            autoCapitalize={'none'}
+            underlineColorAndroid={'transparent'}
             ref={input => {
               this.inputs['password'] = input;
             }}

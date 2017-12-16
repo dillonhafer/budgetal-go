@@ -1,4 +1,5 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
 // Navigators
@@ -31,7 +32,20 @@ const AppTabNavigator = TabNavigator(
     tabBarPosition: 'bottom',
     animationEnabled: false,
     tabBarOptions: {
+      showIcon: true,
       activeTintColor: colors.primary,
+      inactiveTintColor: 'rgba(146, 146, 146, 1)',
+      inactiveBackgroundColor: '#f7f7f7',
+      labelStyle: {
+        fontSize: 10,
+      },
+      style: {
+        ...(Platform.OS === 'ios' ? {} : { height: 58 }),
+        backgroundColor: '#f7f7f7',
+      },
+      indicatorStyle: {
+        backgroundColor: colors.primary,
+      },
     },
   },
 );

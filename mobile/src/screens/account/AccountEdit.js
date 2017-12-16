@@ -153,6 +153,7 @@ class AccountEditScreen extends Component {
           animationType={'slide'}
           transparent={true}
           visible={showImagePicker}
+          onRequestClose={this.hideImagePicker}
         >
           <BlurView tint="dark" intensity={95} style={styles.modal}>
             <TouchableOpacity
@@ -190,7 +191,7 @@ class AccountEditScreen extends Component {
         <StatusBar barStyle="dark-content" />
         <TouchableOpacity onPress={this.showImagePicker}>
           <View style={styles.imageContainer}>
-            {uri && <Image style={styles.image} source={{ uri }} />}
+            {!!uri && <Image style={styles.image} source={{ uri }} />}
           </View>
         </TouchableOpacity>
         <FieldContainer position="first">
@@ -200,6 +201,7 @@ class AccountEditScreen extends Component {
             placeholder="Email"
             autoCapitalize={'none'}
             defaultValue={email}
+            underlineColorAndroid={'transparent'}
             autoCorrect={false}
             ref={input => {
               this.inputs['email'] = input;
@@ -220,6 +222,7 @@ class AccountEditScreen extends Component {
               this.inputs['firstName'] = input;
             }}
             placeholder="First Name"
+            underlineColorAndroid={'transparent'}
             defaultValue={firstName}
             returnKeyType="next"
             onSubmitEditing={_ => {
@@ -236,6 +239,7 @@ class AccountEditScreen extends Component {
               this.inputs['lastName'] = input;
             }}
             placeholder="Last Name"
+            underlineColorAndroid={'transparent'}
             defaultValue={lastName}
             returnKeyType="next"
             onSubmitEditing={_ => {
@@ -252,6 +256,8 @@ class AccountEditScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            autoCapitalize={'none'}
+            underlineColorAndroid={'transparent'}
             ref={input => {
               this.inputs['currentPassword'] = input;
             }}

@@ -74,6 +74,7 @@ class ForgotPasswordScreen extends Component {
             keyboardType="email-address"
             style={{ height: 50 }}
             placeholder="Email"
+            underlineColorAndroid={'transparent'}
             autoCapitalize={'none'}
             autoCorrect={false}
             returnKeyType="done"

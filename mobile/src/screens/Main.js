@@ -9,6 +9,7 @@ import {
   View,
   Button,
   KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import colors from 'utils/colors';
 import { IsAuthenticated, GetCurrentUser } from 'utils/authentication';
@@ -118,7 +119,11 @@ class MainScreen extends Component {
           <Text
             style={[
               styles.quoteText,
-              { fontSize: 14, fontFamily: 'HelveticaNeue-LightItalic' },
+              {
+                fontSize: 14,
+                fontFamily:
+                  Platform.OS === 'ios' ? 'HelveticaNeue-LightItalic' : '',
+              },
             ]}
           >
             • pertaining to a plan
@@ -162,7 +167,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: '700',
-    fontFamily: 'HelveticaNeue-Light',
+    fontFamily: Platform.OS === 'ios' ? 'HelveticaNeue-Light' : '',
   },
   buttonRow: {
     flexDirection: 'row',

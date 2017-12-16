@@ -91,6 +91,7 @@ class RegisterScreen extends Component {
         <FieldContainer position="first">
           <TextInput
             keyboardType="email-address"
+            underlineColorAndroid={'transparent'}
             style={{ height: 50 }}
             placeholder="Email"
             autoCapitalize={'none'}
@@ -111,6 +112,8 @@ class RegisterScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            autoCapitalize={'none'}
+            underlineColorAndroid={'transparent'}
             ref={input => {
               this.inputs['password'] = input;
             }}
@@ -127,6 +130,8 @@ class RegisterScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
+            autoCapitalize={'none'}
+            underlineColorAndroid={'transparent'}
             ref={input => {
               this.inputs['passwordConfirmation'] = input;
             }}

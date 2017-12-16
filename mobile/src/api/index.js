@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import {
   GetAuthenticationToken,
   RemoveAuthentication,
@@ -45,7 +45,9 @@ const base = async (path, method, headers = {}, body = {}) => {
       }
     }
 
-    StatusBar.setNetworkActivityIndicatorVisible(true);
+    if (Platform.OS === 'ios') {
+      StatusBar.setNetworkActivityIndicatorVisible(true);
+    }
     const resp = await fetch(baseURL + path, req);
 
     switch (resp.status) {
@@ -82,7 +84,9 @@ const base = async (path, method, headers = {}, body = {}) => {
   } catch (err) {
     error(err.error || 'Something went wrong');
   } finally {
-    StatusBar.setNetworkActivityIndicatorVisible(false);
+    if (Platform.OS === 'ios') {
+      StatusBar.setNetworkActivityIndicatorVisible(false);
+    }
   }
 };
 
