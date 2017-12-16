@@ -2,7 +2,7 @@
 
 
 A Budgetal implementation written in Go with Create React App on the
-frontend
+web frontend and a fully-functional iOS and Android app written with Create React Native App
 
 ## Setup
 
