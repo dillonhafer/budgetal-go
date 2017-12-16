@@ -20,14 +20,7 @@ import { notice } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 
-const NewExpenseButton = connect(
-  state => ({}),
-  dispatch => ({}),
-)(({ budgetItem }) => {
-  const onPress = _ => {
-    notice(budgetItem.name);
-  };
-
+const PlusButton = ({ onPress }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Ionicons
@@ -42,14 +35,21 @@ const NewExpenseButton = connect(
       />
     </TouchableOpacity>
   );
-});
+};
 
 class BudgetItemScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NewExpenseButton budgetItem={navigation.state.params.budgetItem} />
-    ),
-  });
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    const budgetItem = params.budgetItem;
+    const onPress = () => {
+      navigation.navigate('NewBudgetItemExpense', {
+        budgetItem,
+      });
+    };
+    return {
+      headerRight: <PlusButton onPress={onPress} />,
+    };
+  };
 
   expenseActions = expense => {
     Alert.alert(

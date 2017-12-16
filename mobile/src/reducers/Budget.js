@@ -185,19 +185,10 @@ export default function budgetState(state = initialBudgetState, action) {
     case BUDGET_ITEM_EXPENSE_CREATED:
       return {
         ...state,
-        budgetItemExpenses: state.budgetItemExpenses.map(expense => {
-          if (
-            expense.budgetItemId === action.budgetItemExpense.budgetItemId &&
-            expense.id === null
-          ) {
-            return {
-              ...expense,
-              ...action.budgetItemExpense,
-            };
-          }
-
-          return expense;
-        }),
+        budgetItemExpenses: [
+          ...state.budgetItemExpenses,
+          action.budgetItemExpense,
+        ],
       };
     case BUDGET_CATEGORY_IMPORTED:
       return {

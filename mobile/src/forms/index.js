@@ -78,3 +78,22 @@ export const FieldContainer = props => {
     </View>
   );
 };
+
+export const CustomFieldContainer = props => {
+  return (
+    <View
+      style={{
+        backgroundColor: '#fff',
+        borderBottomColor: '#aaa',
+        borderWidth: 0.5,
+        borderTopColor: '#fff',
+        borderRightColor: '#fff',
+        borderLeftColor: '#fff',
+        alignSelf: 'stretch',
+      }}
+    >
+      {props.children}
+    </View>
+  );
+};
+
