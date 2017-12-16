@@ -39,7 +39,8 @@ class MoneyKeyboard extends Component {
 
     switch (valuePressed) {
       case 'delete':
-        income = _income.substring(0, _income.length - 1);
+        income =
+          _income.length === 1 ? '0' : _income.substring(0, _income.length - 1);
         break;
       default:
         income += valuePressed;
@@ -60,9 +61,19 @@ class MoneyKeyboard extends Component {
     return (
       <View style={keyboardStyles.container}>
         <View style={keyboardStyles.valueContainer}>
-          <Text style={keyboardStyles.valueText}>
+          <Text numberOfLines={1} style={keyboardStyles.valueText}>
             {this.formatNumber(displayIncome)}
           </Text>
+          <View style={keyboardStyles.submitButtonContainer}>
+            {onPress && (
+              <TouchableOpacity
+                style={keyboardStyles.submitButton}
+                onPress={onPress}
+              >
+                <Ionicons name="ios-arrow-dropright" color="#fff" size={28} />
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
         <View style={keyboardStyles.numberRow}>
           <KeyboardNumber onPress={this.handleOnPress} number={'1'} />
@@ -118,14 +129,27 @@ const keyboardStyles = StyleSheet.create({
   },
   valueContainer: {
     backgroundColor: colors.primary,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   valueText: {
+    width: '70%',
+    marginLeft: '15%',
     textAlign: 'center',
     color: '#fff',
     fontSize: 26,
     padding: 10,
     fontWeight: '700',
     fontFamily: 'Helvetica',
+  },
+  submitButtonContainer: {
+    width: '15%',
+  },
+  submitButton: {
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingRight: 15,
   },
 });
 

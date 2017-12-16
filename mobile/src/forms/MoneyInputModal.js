@@ -38,8 +38,8 @@ class MoneyInputModal extends Component {
           <TouchableOpacity style={styles.closeButton} onPress={this.onCancel}>
             <Ionicons
               name="ios-close-circle-outline"
-              size={24}
-              color={'#037aff'}
+              size={34}
+              color={colors.primary}
             />
           </TouchableOpacity>
 
@@ -52,13 +52,12 @@ class MoneyInputModal extends Component {
                 {title}
               </Text>
             </View>
-
-            <PrimaryButton title="Done" onPress={this.onOk} loading={invalid} />
           </View>
 
           <MoneyKeyboard
             defaultValue={defaultValue}
             onChange={this.onNumberChanged}
+            onPress={invalid ? null : this.onOk}
           />
         </BlurView>
       </Modal>
