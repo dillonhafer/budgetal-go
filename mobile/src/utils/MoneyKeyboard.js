@@ -26,7 +26,7 @@ const KeyboardNumber = ({ number, onPress }) => {
 
 class MoneyKeyboard extends Component {
   state = {
-    income: '0',
+    income: null,
   };
 
   formatNumber(number) {
@@ -34,8 +34,8 @@ class MoneyKeyboard extends Component {
   }
 
   handleOnPress = valuePressed => {
-    const _income = this.state.income;
-    let income = this.state.income;
+    const _income = `${this.state.income || this.props.defaultValue || '0'}`;
+    let income = `${this.state.income || this.props.defaultValue || '0'}`;
 
     switch (valuePressed) {
       case 'delete':
@@ -54,13 +54,14 @@ class MoneyKeyboard extends Component {
   };
 
   render() {
-    const { onPress } = this.props;
+    const { onPress, defaultValue } = this.props;
     const { income } = this.state;
+    const displayIncome = income || defaultValue || '0';
     return (
       <View style={keyboardStyles.container}>
         <View style={keyboardStyles.valueContainer}>
           <Text style={keyboardStyles.valueText}>
-            {this.formatNumber(income)}
+            {this.formatNumber(displayIncome)}
           </Text>
         </View>
         <View style={keyboardStyles.numberRow}>

@@ -29,7 +29,7 @@ class MoneyInputModal extends Component {
 
   render() {
     const { amount } = this.state;
-    const { title, visible, onOk, onCancel } = this.props;
+    const { title, visible, onOk, onCancel, defaultValue } = this.props;
     const invalid = amount <= 0;
 
     return (
@@ -56,7 +56,10 @@ class MoneyInputModal extends Component {
             <PrimaryButton title="Done" onPress={this.onOk} loading={invalid} />
           </View>
 
-          <MoneyKeyboard onChange={this.onNumberChanged} />
+          <MoneyKeyboard
+            defaultValue={defaultValue}
+            onChange={this.onNumberChanged}
+          />
         </BlurView>
       </Modal>
     );

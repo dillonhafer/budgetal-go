@@ -127,6 +127,7 @@ class NewBudgetItemExpenseScreen extends Component {
           <MoneyInput
             title="Expense Amount"
             displayAmount={amount}
+            defaultValue={(amount * 100).toFixed()}
             onChange={amount => this.setState({ amount })}
           />
         </FieldContainer>

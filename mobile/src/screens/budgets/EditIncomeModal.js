@@ -103,7 +103,10 @@ class EditIncomeModal extends Component {
               />
             </View>
 
-            <MoneyKeyboard onChange={this.onNumberChanged} />
+            <MoneyKeyboard
+              defaultValue={(budget.income * 100).toFixed()}
+              onChange={this.onNumberChanged}
+            />
           </BlurView>
         </Modal>
       </View>

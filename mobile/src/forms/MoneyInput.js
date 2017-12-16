@@ -24,8 +24,9 @@ class MoneyInput extends Component {
   };
 
   render() {
-    const { displayAmount, title } = this.props;
+    const { defaultValue, displayAmount, title } = this.props;
     const { showMoneyPicker } = this.state;
+
     return (
       <TouchableOpacity
         style={styles.amountButton}
@@ -34,6 +35,7 @@ class MoneyInput extends Component {
         <View>
           <Text style={styles.displayAmount}>{currencyf(displayAmount)}</Text>
           <MoneyInputModal
+            defaultValue={defaultValue}
             title={title || 'Enter Amount'}
             visible={showMoneyPicker}
             onOk={this.handleOnSubmit}
