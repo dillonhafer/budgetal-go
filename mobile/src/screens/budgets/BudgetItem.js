@@ -23,23 +23,7 @@ import { currencyf } from 'utils/helpers';
 import { notice, confirm, error } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
-
-const PlusButton = ({ onPress }) => {
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <Ionicons
-        name="ios-add-outline"
-        size={32}
-        color={'#037aff'}
-        style={{
-          fontWeight: '300',
-          paddingRight: 20,
-          paddingLeft: 20,
-        }}
-      />
-    </TouchableOpacity>
-  );
-};
+import PlusButton from 'utils/PlusButton';
 
 class BudgetItemScreen extends Component {
   static navigationOptions = ({ navigation }) => {
