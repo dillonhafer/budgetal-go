@@ -4,16 +4,22 @@ import {
   TouchableOpacity,
   Text,
   StatusBar,
+  Alert,
   View,
   FlatList,
 } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
-import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
+import {
+  importedBudgetItems,
+  updateBudgetCategory,
+  removeBudgetItem,
+} from 'actions/budgets';
 
 // API
 import { ImportCategoryRequest } from 'api/budgets';
+import { DeleteItemRequest } from 'api/budget-items';
 
 // Components
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -101,6 +107,9 @@ class BudgetCategoryScreen extends Component {
             budgetItem,
           });
         }}
+        onLongPress={() => {
+          this.itemActions(budgetItem);
+        }}
       >
         <View>
           <Text style={styles.itemName}>{budgetItem.name}</Text>
@@ -134,6 +143,53 @@ class BudgetCategoryScreen extends Component {
           There aren't any buget items yet
         </Text>
       </View>
+    );
+  };
+
+  deleteItem = async item => {
+    const resp = await DeleteItemRequest(item.id);
+    if (resp && resp.ok) {
+      this.props.removeBudgetItem(item);
+      notice(`${item.name} Deleted`);
+    }
+  };
+
+  confirmDelete = item => {
+    const okOk = () => {};
+
+    confirm({
+      title: `Delete ${item.name}?`,
+      okText: 'Delete',
+      onOk: () => {
+        this.deleteItem(item);
+      },
+    });
+  };
+
+  itemActions = item => {
+    Alert.alert(
+      item.name,
+      '',
+      [
+        {
+          text: 'Edit',
+          onPress: () =>
+            this.props.navigation.navigate('EditBudgetItem', {
+              budgetItem: item,
+            }),
+        },
+        {
+          text: 'Delete',
+          onPress: () => this.confirmDelete(item),
+          style: 'destructive',
+        },
+        {
+          text: 'Cancel',
+          onPress: _ => {},
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true },
     );
   };
 
@@ -192,6 +248,9 @@ export default connect(
   dispatch => ({
     importedBudgetItems: budgetItems => {
       dispatch(importedBudgetItems(budgetItems));
+    },
+    removeBudgetItem: budgetItem => {
+      dispatch(removeBudgetItem(budgetItem));
     },
   }),
 )(BudgetCategoryScreen);
