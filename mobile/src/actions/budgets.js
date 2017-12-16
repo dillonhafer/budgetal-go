@@ -45,7 +45,7 @@ export const updateBudgetItem = budgetItem => {
   };
 };
 
-export const updateNullBudgetItem = budgetItem => {
+export const createdBudgetItem = budgetItem => {
   return {
     type: BUDGET_ITEM_SAVED,
     budgetItem,

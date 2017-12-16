@@ -29,37 +29,21 @@ import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import { reduceSum, percentSpent } from 'utils/helpers';
 import { PrimaryButton } from 'forms';
-
-const NewItemButton = connect(
-  state => ({}),
-  dispatch => ({}),
-)(({ budgetCategory }) => {
-  const onPress = _ => {
-    notice(budgetCategory.name);
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <Ionicons
-        name="ios-add-outline"
-        size={32}
-        color={'#037aff'}
-        style={{
-          fontWeight: '300',
-          paddingRight: 20,
-          paddingLeft: 20,
-        }}
-      />
-    </TouchableOpacity>
-  );
-});
+import PlusButton from 'utils/PlusButton';
 
 class BudgetCategoryScreen extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerRight: (
-      <NewItemButton budgetCategory={navigation.state.params.budgetCategory} />
-    ),
-  });
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    const budgetCategory = params.budgetCategory;
+    const onPress = () => {
+      navigation.navigate('NewBudgetItem', {
+        budgetCategory,
+      });
+    };
+    return {
+      headerRight: <PlusButton onPress={onPress} />,
+    };
+  };
 
   importPreviousItems = async () => {
     const budgetCategory = this.props.navigation.state.params.budgetCategory;
