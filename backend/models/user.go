@@ -78,21 +78,47 @@ func (u *User) localAvatarUrl() string {
 	return fmt.Sprintf("%s/users/avatars/%d/%s", root, u.ID, u.AvatarFileName.String)
 }
 
+func (u *User) localMissingUrl() string {
+	var ENV = envy.Get("GO_ENV", "development")
+	var root = envy.Get("APP_DOMAIN", "")
+
+	if ENV == "development" {
+		root = resolveHostIp()
+		if root != "" {
+			port := envy.Get("FRONTEND_PORT", "3001")
+			root = fmt.Sprintf("http://%s:%s", root, port)
+		}
+	}
+
+	return fmt.Sprintf("%s/missing-profile.png", root)
+}
+
+func (u *User) s3MissingUrl() string {
+	bucket := envy.Get("AWS_S3_BUCKET", "")
+	return fmt.Sprintf("https://s3.amazonaws.com/%s/images/missing-profile.png", bucket)
+}
+
 func (u *User) s3AvatarUrl() string {
 	bucket := envy.Get("AWS_S3_BUCKET", "")
 	return fmt.Sprintf("https://s3.amazonaws.com/%s/users/avatars/%d/%s", bucket, u.ID, u.AvatarFileName.String)
 }
 
 func (u *User) AvatarUrl() string {
+	usingS3 := envy.Get("AWS_S3_BUCKET", "") != ""
+
 	if u.AvatarFileName.Valid {
-		if envy.Get("AWS_S3_BUCKET", "") != "" {
+		if usingS3 {
 			return u.s3AvatarUrl()
 		} else {
 			return u.localAvatarUrl()
 		}
 	}
 
-	return "/missing-profile.png"
+	if usingS3 {
+		return u.s3MissingUrl()
+	} else {
+		return u.localMissingUrl()
+	}
 }
 
 // Users is not required by pop and may be deleted
