@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, Modal, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -9,13 +9,10 @@ import { updateIncome } from 'actions/budgets';
 import { UpdateIncomeRequest } from 'api/budgets';
 
 // Components
-import { BlurView } from 'expo';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
-import colors from 'utils/colors';
-import MoneyKeyboard from 'utils/MoneyKeyboard';
-import { PrimaryButton, FieldContainer } from 'forms';
 import { notice } from 'notify';
+import MoneyInputModal from 'forms/MoneyInputModal';
 
 class EditIncomeModal extends Component {
   state = {
@@ -32,15 +29,10 @@ class EditIncomeModal extends Component {
     this.setState({ visible: false, income: '0' });
   };
 
-  onNumberChanged = number => {
-    this.setState({ income: number });
-  };
-
-  handleSubmit = async () => {
+  handleSubmit = async income => {
     this.setState({ loading: true });
     try {
       const { year, month } = this.props.budget;
-      const { income } = this.state;
       const resp = await UpdateIncomeRequest({ year, month, income });
       if (resp && resp.ok) {
         this.props.updateIncome(income);
@@ -74,41 +66,25 @@ class EditIncomeModal extends Component {
             }}
           />
         </TouchableOpacity>
-        <Modal visible={visible} animationType={'slide'} transparent={true}>
-          <BlurView tint="light" intensity={95} style={styles.modal}>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={this.hideModal}
-            >
-              <Ionicons
-                name="ios-close-circle-outline"
-                size={24}
-                color={'#037aff'}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.content}>
+        <MoneyInputModal
+          defaultValue={(budget.income * 100).toFixed()}
+          title={
+            <Text>
               <Text
                 style={{ textAlign: 'center', fontSize: 18, fontWeight: '700' }}
               >
                 Current Income
+                {'\n'}
               </Text>
               <Text style={{ textAlign: 'center', fontSize: 18 }}>
                 {currencyf(budget.income)}
               </Text>
-              <PrimaryButton
-                title="Update Income"
-                onPress={this.handleSubmit}
-                loading={invalid || loading}
-              />
-            </View>
-
-            <MoneyKeyboard
-              defaultValue={(budget.income * 100).toFixed()}
-              onChange={this.onNumberChanged}
-            />
-          </BlurView>
-        </Modal>
+            </Text>
+          }
+          visible={visible}
+          onOk={this.handleSubmit}
+          onCancel={this.hideModal}
+        />
       </View>
     );
   }
