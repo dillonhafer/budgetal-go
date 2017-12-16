@@ -16,6 +16,7 @@ import { UpdateAnnualBudgetItemRequest } from 'api/annual-budget-items';
 
 // Helpers
 import { error, notice } from 'notify';
+import { range } from 'lodash';
 
 // Components
 import {
@@ -26,6 +27,7 @@ import {
 } from 'forms';
 import MoneyInput from 'forms/MoneyInput';
 import DateInput from 'forms/DateInput';
+import SelectInput from 'forms/SelectInput';
 import moment from 'moment';
 
 class EditAnnualBudgetItemScreen extends Component {
@@ -81,8 +83,8 @@ class EditAnnualBudgetItemScreen extends Component {
         name,
         amount,
         dueDate: date.format('YYYY-MM-DD'),
-        interval: 12,
-        paid: false,
+        interval,
+        paid,
       });
 
       if (resp && resp.ok) {
@@ -145,6 +147,18 @@ class EditAnnualBudgetItemScreen extends Component {
         </FieldContainer>
         <CustomFieldContainer>
           <DateInput onChange={date => this.setState({ date })} />
+        </CustomFieldContainer>
+
+        <CustomFieldContainer>
+          <SelectInput
+            placeholder="Interval"
+            defaultValue={interval}
+            onChange={interval =>
+              this.setState({ interval: parseInt(interval, 10) })}
+            data={range(1, 13).map(n => {
+              return { label: String(n), value: String(n) };
+            })}
+          />
         </CustomFieldContainer>
 
         <View style={{ height: 10 }} />

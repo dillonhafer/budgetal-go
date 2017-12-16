@@ -16,6 +16,7 @@ import { CreateAnnualBudgetItemRequest } from 'api/annual-budget-items';
 
 // Helpers
 import { error, notice } from 'notify';
+import { range } from 'lodash';
 
 // Components
 import {
@@ -26,6 +27,7 @@ import {
 } from 'forms';
 import MoneyInput from 'forms/MoneyInput';
 import DateInput from 'forms/DateInput';
+import SelectInput from 'forms/SelectInput';
 import moment from 'moment';
 
 class NewAnnualBudgetItemScreen extends Component {
@@ -41,6 +43,8 @@ class NewAnnualBudgetItemScreen extends Component {
     name: '',
     amount: 0.0,
     date: moment(),
+    interval: '12',
+    paid: false,
   };
 
   componentDidMount() {
@@ -64,7 +68,7 @@ class NewAnnualBudgetItemScreen extends Component {
   };
 
   createItem = async () => {
-    const { name, amount, date, annualBudgetId } = this.state;
+    const { name, amount, date, interval, paid, annualBudgetId } = this.state;
 
     try {
       const resp = await CreateAnnualBudgetItemRequest({
@@ -72,8 +76,8 @@ class NewAnnualBudgetItemScreen extends Component {
         name,
         amount,
         dueDate: date.format('YYYY-MM-DD'),
-        interval: 12,
-        paid: false,
+        interval,
+        paid,
       });
 
       if (resp && resp.ok) {
@@ -128,6 +132,17 @@ class NewAnnualBudgetItemScreen extends Component {
         </FieldContainer>
         <CustomFieldContainer>
           <DateInput onChange={date => this.setState({ date })} />
+        </CustomFieldContainer>
+
+        <CustomFieldContainer>
+          <SelectInput
+            placeholder="Interval"
+            onChange={interval =>
+              this.setState({ interval: parseInt(interval, 10) })}
+            data={range(1, 13).map(n => {
+              return { label: String(n), value: String(n) };
+            })}
+          />
         </CustomFieldContainer>
 
         <View style={{ height: 10 }} />
