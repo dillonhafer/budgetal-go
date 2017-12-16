@@ -5,8 +5,13 @@ import { StackNavigator } from 'react-navigation';
 // Screens
 import BudgetsScreen from 'screens/budgets/Budgets';
 import BudgetCategoryScreen from 'screens/budgets/BudgetCategory';
+
+// Items
 import BudgetItemScreen from 'screens/budgets/BudgetItem';
+
+// Expenses
 import NewBudgetItemExpenseScreen from 'screens/budgets/NewBudgetItemExpense';
+import EditBudgetItemExpenseScreen from 'screens/budgets/EditBudgetItemExpense';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
@@ -84,6 +89,13 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'newBudgetItemExpense',
       navigationOptions: ({ navigation }) => ({
         title: 'New Expense',
+      }),
+    },
+    EditBudgetItemExpense: {
+      screen: EditBudgetItemExpenseScreen,
+      path: 'editBudgetItemExpense',
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
       }),
     },
   },

@@ -82,7 +82,10 @@ class BudgetItemScreen extends Component {
       [
         {
           text: 'Edit',
-          onPress: () => console.log('Edit'),
+          onPress: () =>
+            this.props.navigation.navigate('EditBudgetItemExpense', {
+              budgetItemExpense: expense,
+            }),
         },
         {
           text: 'Delete',
