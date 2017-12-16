@@ -17,6 +17,7 @@ import {
   FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
+  Feather,
 } from '@expo/vector-icons';
 
 // Cache functions
@@ -36,7 +37,7 @@ function cacheFonts(fonts) {
 
 export default class App extends Component {
   state = {
-    fontsLoaded: false,
+    preLoaded: false,
   };
 
   async loadAssetsAsync() {
@@ -60,16 +61,17 @@ export default class App extends Component {
       FontAwesome.font,
       Ionicons.font,
       MaterialCommunityIcons.font,
+      Feather.font,
     ]);
     await Promise.all([...imageAssets, ...fontAssets]);
   }
 
   onFinish = () => {
-    this.setState({ fontsLoaded: true });
+    this.setState({ preLoaded: true });
   };
 
   render() {
-    if (!this.state.fontsLoaded) {
+    if (!this.state.preLoaded) {
       return (
         <AppLoading
           startAsync={this.loadAssetsAsync}
