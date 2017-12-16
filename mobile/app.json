@@ -10,7 +10,7 @@
     "ios": {
       "bundleIdentifier": "com.budgetal.app"
     },
-    "icon": "./src/images/budgetal-app-logo.png",
+    "icon": "./app-store-assets/logo.png",
     "splash": {
       "image": "./src/images/budgetal-splash.png",
       "backgroundColor": "#108ee9",
