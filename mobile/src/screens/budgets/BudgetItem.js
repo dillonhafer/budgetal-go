@@ -11,12 +11,16 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
+import { removeExpense } from 'actions/budget-item-expenses';
+
+// API
+import { DeleteExpenseRequest } from 'api/budget-item-expenses';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
-import { notice } from 'notify';
+import { notice, confirm, error } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 
@@ -51,6 +55,26 @@ class BudgetItemScreen extends Component {
     };
   };
 
+  deleteExpense = async expense => {
+    const resp = await DeleteExpenseRequest(expense.id);
+    if (resp && resp.ok) {
+      this.props.removeExpense(expense);
+      notice(`${expense.name} Deleted`);
+    }
+  };
+
+  confirmDelete = expense => {
+    const okOk = () => {};
+
+    confirm({
+      title: `Delete ${expense.name}?`,
+      okText: 'Delete',
+      onOk: () => {
+        this.deleteExpense(expense);
+      },
+    });
+  };
+
   expenseActions = expense => {
     Alert.alert(
       expense.name,
@@ -62,7 +86,7 @@ class BudgetItemScreen extends Component {
         },
         {
           text: 'Delete',
-          onPress: () => console.log('Delete'),
+          onPress: () => this.confirmDelete(expense),
           style: 'destructive',
         },
         {
@@ -200,5 +224,9 @@ export default connect(
   state => ({
     ...state.budget,
   }),
-  dispatch => ({}),
+  dispatch => ({
+    removeExpense: expense => {
+      dispatch(removeExpense(expense));
+    },
+  }),
 )(BudgetItemScreen);
