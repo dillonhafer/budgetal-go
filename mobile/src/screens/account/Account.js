@@ -169,7 +169,7 @@ class AccountScreen extends Component {
     ];
 
     return (
-      <View contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <FlatList
           ListHeaderComponent={() => {
@@ -231,8 +231,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    alignItems: 'center',
-    flexDirection: 'column',
   },
   profileContainer: {
     flexDirection: 'row',
