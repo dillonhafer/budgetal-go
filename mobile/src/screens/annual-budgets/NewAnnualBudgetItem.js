@@ -28,6 +28,7 @@ import {
 import MoneyInput from 'forms/MoneyInput';
 import DateInput from 'forms/DateInput';
 import SelectInput from 'forms/SelectInput';
+import SwitchInput from 'forms/SwitchInput';
 import moment from 'moment';
 
 class NewAnnualBudgetItemScreen extends Component {
@@ -43,7 +44,7 @@ class NewAnnualBudgetItemScreen extends Component {
     name: '',
     amount: 0.0,
     date: moment(),
-    interval: '12',
+    interval: 12,
     paid: false,
   };
 
@@ -142,6 +143,13 @@ class NewAnnualBudgetItemScreen extends Component {
             data={range(1, 13).map(n => {
               return { label: String(n), value: String(n) };
             })}
+          />
+        </CustomFieldContainer>
+
+        <CustomFieldContainer>
+          <SwitchInput
+            label="Paid"
+            onChange={paid => this.setState({ paid })}
           />
         </CustomFieldContainer>
 
