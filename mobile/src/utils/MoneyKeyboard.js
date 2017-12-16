@@ -43,7 +43,7 @@ class MoneyKeyboard extends Component {
           _income.length === 1 ? '0' : _income.substring(0, _income.length - 1);
         break;
       default:
-        income += valuePressed;
+        income += income.length >= 9 ? '' : valuePressed;
     }
     this.setState({ income });
     const floatValue = parseFloat(
