@@ -3,7 +3,7 @@ create extension if not exists pgcrypto with schema public;
 
 create table users (
   id serial primary key,
-  email varchar not null unique,
+  email varchar not null,
   first_name varchar,
   last_name varchar,
   encrypted_password varchar not null,
@@ -111,6 +111,7 @@ create table sessions (
   updated_at timestamptz default now() not null
 );
 
+create unique index on users (lower(email));
 create index active_sessions_idx on sessions using btree (authentication_key) where (expired_at is null);
 create index allocation_plan_bdgt_itms_alc_id_idx on allocation_plan_budget_items using btree (allocation_plan_id);
 create index allocation_plan_bdgt_itms_budget_id_idx on allocation_plan_budget_items using btree (budget_item_id);
