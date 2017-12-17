@@ -22,3 +22,19 @@ func (as *ActionSuite) Test_Users_Create() {
 	as.Equal("new.user@example.com", user.Email)
 	as.True(user.VerifyPassword("password123"))
 }
+
+func (as *ActionSuite) Test_Users_Create_PreventsDuplicates() {
+	as.CreateUser(false)
+	count, _ := as.DB.Count(&models.Users{})
+	as.Equal(1, count)
+
+	r := as.JSON("/register").Post(map[string]string{
+		"email":    "UsEr@example.com",
+		"password": "password123",
+	})
+
+	as.Equal(422, r.Code)
+
+	count, _ = as.DB.Count(&models.Users{})
+	as.Equal(1, count)
+}
