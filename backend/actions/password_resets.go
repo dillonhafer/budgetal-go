@@ -53,7 +53,8 @@ func ResetPassword(c buffalo.Context) error {
   `
 	err := models.DB.Where(query, params.Token).First(user)
 	if err != nil {
-		return c.Render(401, r.JSON(""))
+		errMsg := map[string]string{"error": "The link in your email may have expired."}
+		return c.Render(422, r.JSON(errMsg))
 	}
 
 	user.EncryptPassword([]byte(params.Password))

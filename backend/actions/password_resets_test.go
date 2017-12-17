@@ -46,7 +46,7 @@ func (as *ActionSuite) Test_Users_UpdatePassword_TokenExpired() {
 	}
 
 	r := as.JSON("/reset-password").Put(updatePasswordParams)
-	as.Equal(401, r.Code)
+	as.Equal(422, r.Code)
 	as.DB.Reload(&user)
 
 	as.True(user.PasswordResetToken.Valid)
