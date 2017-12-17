@@ -11,7 +11,7 @@
       "supportsTablet": true,
       "associatedDomains": ["www.budgetal.com"],
       "bundleIdentifier": "com.budgetal.app",
-      "appStoreUrl": "https://itunes.apple.com/us/app/budgetal/id1326525398?mt=8"
+      "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8"
     },
     "android": {
       "package": "com.budgetal.app",

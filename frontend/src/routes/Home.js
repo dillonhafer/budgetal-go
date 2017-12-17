@@ -46,7 +46,7 @@ class Home extends Component {
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://itunes.apple.com/us/app/budgetal/id1326525398?mt=8"
+                  href="https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8"
                 >
                   <img
                     src={require('images/app-store.png')}
