@@ -4,11 +4,14 @@
     "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "24.0.0",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "orientation": "portrait",
     "ios": {
       "bundleIdentifier": "com.budgetal.app"
+    },
+    "android": {
+      "package": "com.budgetal.app"
     },
     "icon": "./app-store-assets/logo.png",
     "splash": {
