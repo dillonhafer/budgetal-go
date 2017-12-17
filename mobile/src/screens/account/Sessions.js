@@ -227,9 +227,11 @@ class SessionsScreen extends Component {
   browser(ua) {
     const hua = humanUA(ua);
     let icon = 'earth';
+    let color = colors.primary;
 
     if (/chrome/i.test(hua)) {
       icon = 'google-chrome';
+      color = '#f4c20f';
     }
 
     if (/explorer/i.test(hua)) {
@@ -242,15 +244,15 @@ class SessionsScreen extends Component {
 
     if (/on iOS/i.test(hua)) {
       icon = 'apple';
+      color = '#333';
     }
 
     if (/on Android/i.test(hua)) {
       icon = 'android';
+      color = '#76c258';
     }
 
-    return (
-      <MaterialCommunityIcons name={icon} size={28} color={colors.primary} />
-    );
+    return <MaterialCommunityIcons name={icon} size={28} color={color} />;
   }
 
   renderExpiredItem = ({ index, section, item: session }, p) => {

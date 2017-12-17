@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { humanUA } from 'helpers';
-import { notice } from 'window';
+import { notice, colors } from 'window';
 import { Table, Button, Modal, Icon } from 'antd';
 import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
 import moment from 'moment';
@@ -97,30 +97,40 @@ class SessionsTable extends Component {
   browser(ua) {
     const hua = humanUA(ua);
     let icon = 'global';
+    let color = '#000';
 
     if (/chrome/i.test(hua)) {
       icon = 'chrome';
+      color = '#f4c20f';
     }
 
     if (/explorer/i.test(hua)) {
       icon = 'windows';
+      color = '#0077d7';
     }
 
     if (/safari/i.test(hua)) {
       icon = 'compass';
+      color = colors.primary;
     }
 
     if (/iOS/i.test(hua)) {
       icon = 'apple';
+      color = '#323232';
     }
 
     if (/Android/i.test(hua)) {
       icon = 'android';
+      color = '#76c258';
     }
 
     return (
-      <div>
-        <Icon type={icon} /> {hua}
+      <div style={{ display: 'flex', alignItems: 'middle' }}>
+        <Icon
+          type={icon}
+          style={{ color, fontSize: '20px', marginRight: '5px' }}
+        />{' '}
+        {hua}
       </div>
     );
   }
