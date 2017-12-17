@@ -1,4 +1,4 @@
-import { GetAuthenticationToken } from 'authentication';
+import { GetAuthenticationToken, RemoveAuthentication } from 'authentication';
 import { error } from 'window';
 const baseURL = process.env.REACT_APP_BASE_URL || '';
 
@@ -42,6 +42,10 @@ const base = async (path, method, headers = {}, body = {}) => {
         return;
       case 403:
         error('Permission Denied. This incident will be reported');
+        return;
+      case 401:
+        RemoveAuthentication();
+        window.location = '/';
         return;
       default:
     }
