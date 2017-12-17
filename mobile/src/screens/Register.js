@@ -78,6 +78,8 @@ class RegisterScreen extends Component {
 
   render() {
     const { email, password, loading } = this.state;
+    const valid = this.validateFields();
+
     return (
       <KeyboardAvoidingView
         behvaior="padding"
@@ -145,7 +147,7 @@ class RegisterScreen extends Component {
         <PrimaryButton
           title="Register"
           onPress={this.handleOnPress}
-          loading={loading}
+          loading={!valid || loading}
         />
       </KeyboardAvoidingView>
     );

@@ -76,6 +76,7 @@ class SignInScreen extends Component {
 
   render() {
     const { email, password, loading } = this.state;
+    const valid = this.validateFields();
     return (
       <KeyboardAvoidingView
         behvaior="padding"
@@ -124,7 +125,7 @@ class SignInScreen extends Component {
         <PrimaryButton
           title="Sign In"
           onPress={this.handleOnPress}
-          loading={loading}
+          loading={!valid || loading}
         />
         <TouchableOpacity
           style={styles.forgotPasswordLink}

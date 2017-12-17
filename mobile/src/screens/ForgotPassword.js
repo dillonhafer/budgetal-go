@@ -59,6 +59,8 @@ class ForgotPasswordScreen extends Component {
 
   render() {
     const { email, loading } = this.state;
+    const valid = this.validateFields();
+
     return (
       <KeyboardAvoidingView
         behvaior="padding"
@@ -87,7 +89,7 @@ class ForgotPasswordScreen extends Component {
         <PrimaryButton
           title="Request Password Reset"
           onPress={this.handleOnPress}
-          loading={loading}
+          loading={!valid || loading}
         />
       </KeyboardAvoidingView>
     );
