@@ -26,7 +26,7 @@ func RegisterUser(c buffalo.Context) error {
 
 	dbErr := models.DB.Create(user)
 	if dbErr != nil {
-		return c.Render(401, r.JSON(err))
+		return c.Render(422, r.JSON(err))
 	}
 
 	// 3. create session
