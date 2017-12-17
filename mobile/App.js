@@ -1,5 +1,15 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  StatusBar,
+  Dimensions,
+  Platform,
+  Linking,
+} from 'react-native';
+import { Constants, ScreenOrientation } from 'expo';
+import qs from 'qs';
 
 // Redux
 import { createStore } from 'redux';
@@ -10,6 +20,23 @@ const store = createStore(reducers);
 // App
 import RootNavigator from 'navigators/root';
 StatusBar.setBarStyle('light-content', true);
+
+// Linking
+const prefix =
+  Platform.OS == 'android'
+    ? `${Constants.linkingUri}://${Constants.linkingUri}/`
+    : `${Constants.linkingUri}://`;
+
+// Allow iPads to use landscape
+const { height, width } = Dimensions.get('window');
+const aspectRatio = height / width;
+const appleDevice = aspectRatio > 1.6 ? 'iphone' : 'ipad';
+
+if (Platform.OS === 'ios' && appleDevice === 'ipad') {
+  ScreenOrientation.allow(ScreenOrientation.Orientation.ALL);
+} else {
+  ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT_UP);
+}
 
 // Preload font icons
 import { AppLoading, Asset, Font } from 'expo';
@@ -38,6 +65,26 @@ function cacheFonts(fonts) {
 export default class App extends Component {
   state = {
     preLoaded: false,
+  };
+
+  componentDidMount() {
+    Linking.addEventListener('url', this._handleOpenURL);
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this._handleOpenURL);
+  }
+
+  _handleOpenURL = ({ url }) => {
+    let queryString = url.replace(Constants.linkingUri, '');
+    if (queryString) {
+      const { reset_password_token } = qs.parse(queryString);
+      if (reset_password_token && reset_password_token.length) {
+        Linking.openURL(
+          `${Constants.linkingUri}://reset-password/${reset_password_token}`,
+        );
+      }
+    }
   };
 
   async loadAssetsAsync() {
@@ -91,7 +138,7 @@ export default class App extends Component {
         }}
       />,
       <Provider key="app" store={store}>
-        <RootNavigator />
+        <RootNavigator uriPrefix={prefix} />
       </Provider>,
     ];
   }

@@ -8,6 +8,7 @@ import AppTabNavigator from 'navigators/AppTab';
 import MainScreen from 'screens/Main';
 import SignInScreen from 'screens/SignIn';
 import ForgotPasswordScreen from 'screens/ForgotPassword';
+import ResetPasswordScreen from 'screens/ResetPassword';
 import RegisterScreen from 'screens/Register';
 
 const RootNavigator = StackNavigator(
@@ -32,6 +33,13 @@ const RootNavigator = StackNavigator(
       }),
     },
     App: { screen: AppTabNavigator },
+    ResetPassword: {
+      screen: ResetPasswordScreen,
+      path: 'reset-password/:resetPasswordToken',
+      navigationOptions: ({ navigation }) => ({
+        title: `Reset Password`,
+      }),
+    },
   },
   {
     cardStyle: {

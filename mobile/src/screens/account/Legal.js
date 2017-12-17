@@ -115,6 +115,10 @@ class LegalScreen extends Component {
             Contributors
           </Project>
 
+          <Project>
+            qs, Copyright (c) 2014 Nathan LaFreniere and other contributors.
+          </Project>
+
           <Text style={styles.license}>
             Redistribution and use in source and binary forms, with or without
             modification, are permitted provided that the following conditions

@@ -1,17 +1,21 @@
 {
   "expo": {
+    "scheme": "budgetal",
     "name": "Budgetal",
     "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "24.0.0",
     "version": "1.0.2",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
-    "orientation": "portrait",
     "ios": {
-      "bundleIdentifier": "com.budgetal.app"
+      "supportsTablet": true,
+      "associatedDomains": ["www.budgetal.com"],
+      "bundleIdentifier": "com.budgetal.app",
+      "appStoreUrl": "https://itunes.apple.com/us/app/budgetal/id1326525398?mt=8"
     },
     "android": {
-      "package": "com.budgetal.app"
+      "package": "com.budgetal.app",
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app"
     },
     "icon": "./app-store-assets/logo.png",
     "splash": {
