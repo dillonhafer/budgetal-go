@@ -73,6 +73,7 @@ class ForgotPasswordScreen extends Component {
         </Text>
         <FieldContainer position="first">
           <TextInput
+            autoFocus={true}
             keyboardType="email-address"
             style={{ height: 50 }}
             placeholder="Email"

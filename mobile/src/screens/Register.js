@@ -92,6 +92,7 @@ class RegisterScreen extends Component {
         </Text>
         <FieldContainer position="first">
           <TextInput
+            autoFocus={true}
             keyboardType="email-address"
             underlineColorAndroid={'transparent'}
             style={{ height: 50 }}
