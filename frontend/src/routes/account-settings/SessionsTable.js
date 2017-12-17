@@ -107,7 +107,15 @@ class SessionsTable extends Component {
     }
 
     if (/safari/i.test(hua)) {
+      icon = 'compass';
+    }
+
+    if (/iOS/i.test(hua)) {
       icon = 'apple';
+    }
+
+    if (/Android/i.test(hua)) {
+      icon = 'android';
     }
 
     return (
