@@ -194,3 +194,26 @@ tr.newYear {
   top: 14px;
   z-index: 9999;
 }
+
+.home-screen {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.app-logo-image {
+  border: 5px solid #ececec;
+  width: 300px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 6px #bbb;
+  margin-right: 30px;
+  max-width: 100%;
+}
+.app-title {
+  font-size: 36px;
+}
+.app-subtitle {
+  padding-left: 14px;
+  font-size: 22px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
