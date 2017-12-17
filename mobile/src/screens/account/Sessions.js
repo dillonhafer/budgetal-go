@@ -240,8 +240,12 @@ class SessionsScreen extends Component {
       icon = 'apple-safari';
     }
 
-    if (/Budgetal/i.test(hua)) {
-      icon = 'cellphone-iphone';
+    if (/on iOS/i.test(hua)) {
+      icon = 'apple';
+    }
+
+    if (/on Android/i.test(hua)) {
+      icon = 'android';
     }
 
     return (

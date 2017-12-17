@@ -46,6 +46,10 @@ export const humanUA = userAgent => {
     text = 'Budgetal App on iOS';
   }
 
+  if (ua.ua.includes('okhttp')) {
+    text = 'Budgetal App on Android';
+  }
+
   return text;
 };
 
