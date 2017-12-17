@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "ADAU35R2GT.com.budgetal.app",
+        "paths": ["/reset-password*"]
+      }
+    ]
+  }
+}
