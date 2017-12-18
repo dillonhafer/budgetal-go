@@ -10,13 +10,27 @@ import SessionsScreen from 'screens/account/Sessions';
 
 import { Ionicons } from '@expo/vector-icons';
 
+const headerStyle = {
+  height: 44,
+};
+
 const AccountNavigatorStack = StackNavigator(
   {
-    AccountScreen: { screen: AccountScreen },
-    AccountEdit: { screen: AccountEditScreen, path: 'edit-account/:user' },
-    ChangePassword: { screen: ChangePasswordScreen },
-    Sessions: { screen: SessionsScreen },
-    Legal: { screen: LegalScreen },
+    AccountScreen: {
+      screen: AccountScreen,
+      navigationOptions: { headerStyle },
+    },
+    AccountEdit: {
+      screen: AccountEditScreen,
+      path: 'edit-account/:user',
+      navigationOptions: { headerStyle },
+    },
+    ChangePassword: {
+      screen: ChangePasswordScreen,
+      navigationOptions: { headerStyle },
+    },
+    Sessions: { screen: SessionsScreen, navigationOptions: { headerStyle } },
+    Legal: { screen: LegalScreen, navigationOptions: { headerStyle } },
   },
   {
     cardStyle: {

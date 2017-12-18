@@ -11,6 +11,10 @@ import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetI
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 
+const headerStyle = {
+  height: 44,
+};
+
 const AnnualBudgetNavigatorStack = StackNavigator(
   {
     AnnualBudget: {
@@ -24,6 +28,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
         return {
           title: `Annual Budgets`,
           headerBackTitle: `${year}`,
+          headerStyle,
         };
       },
     },
@@ -32,6 +37,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       path: 'annual-budgets/:budgetItem',
       navigationOptions: ({ navigation }) => ({
         title: 'Progress',
+        headerStyle,
       }),
     },
     NewAnnualBudgetItem: {
@@ -39,6 +45,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       path: 'newAnnualBudgetItem',
       navigationOptions: ({ navigation }) => ({
         title: 'New Annual Item',
+        headerStyle,
       }),
     },
     EditAnnualBudgetItem: {
@@ -46,6 +53,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       path: 'editAnnualBudgetItem',
       navigationOptions: ({ navigation }) => ({
         title: `Edit ${navigation.state.params.annualBudgetItem.name}`,
+        headerStyle,
       }),
     },
   },

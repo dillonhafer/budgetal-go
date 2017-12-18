@@ -19,6 +19,10 @@ import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { categoryImage, currencyf } from 'utils/helpers';
 
+const headerStyle = {
+  height: 44,
+};
+
 const CategoryTitle = ({ name }) => {
   return (
     <View
@@ -66,6 +70,7 @@ const BudgetNavigatorStack = StackNavigator(
         return {
           headerTitle,
           headerBackTitle,
+          headerStyle,
         };
       },
     },
@@ -77,6 +82,7 @@ const BudgetNavigatorStack = StackNavigator(
         headerTitle: (
           <CategoryTitle name={navigation.state.params.budgetCategory.name} />
         ),
+        headerStyle,
       }),
     },
     BudgetItem: {
@@ -84,6 +90,7 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'budgetItems/:budgetItem',
       navigationOptions: ({ navigation }) => ({
         title: navigation.state.params.budgetItem.name,
+        headerStyle,
       }),
     },
     NewBudgetItem: {
@@ -91,6 +98,7 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'newBudgetItem',
       navigationOptions: ({ navigation }) => ({
         title: 'New Budget Item',
+        headerStyle,
       }),
     },
     EditBudgetItem: {
@@ -98,6 +106,7 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'editBudgetItem',
       navigationOptions: ({ navigation }) => ({
         title: `Edit ${navigation.state.params.budgetItem.name}`,
+        headerStyle,
       }),
     },
     NewBudgetItemExpense: {
@@ -105,6 +114,7 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'newBudgetItemExpense',
       navigationOptions: ({ navigation }) => ({
         title: 'New Expense',
+        headerStyle,
       }),
     },
     EditBudgetItemExpense: {
@@ -112,6 +122,7 @@ const BudgetNavigatorStack = StackNavigator(
       path: 'editBudgetItemExpense',
       navigationOptions: ({ navigation }) => ({
         title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
+        headerStyle,
       }),
     },
   },

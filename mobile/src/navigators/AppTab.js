@@ -13,6 +13,10 @@ import StatisticsScreen from 'screens/statistics/Statistics';
 import colors from 'utils/colors';
 import moment from 'moment';
 
+const headerStyle = {
+  height: 44,
+};
+
 const AppTabNavigator = TabNavigator(
   {
     Budgets: {
@@ -23,6 +27,9 @@ const AppTabNavigator = TabNavigator(
     },
     Statistics: {
       screen: StatisticsScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerStyle,
+      }),
     },
     Account: {
       screen: AccountNavigator,

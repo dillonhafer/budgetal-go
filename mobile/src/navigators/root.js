@@ -11,6 +11,10 @@ import ForgotPasswordScreen from 'screens/ForgotPassword';
 import ResetPasswordScreen from 'screens/ResetPassword';
 import RegisterScreen from 'screens/Register';
 
+const headerStyle = {
+  height: 44,
+};
+
 const RootNavigator = StackNavigator(
   {
     Main: { screen: MainScreen },
@@ -18,18 +22,21 @@ const RootNavigator = StackNavigator(
       screen: SignInScreen,
       navigationOptions: ({ navigation }) => ({
         title: `Sign In`,
+        headerStyle,
       }),
     },
     ForgotPassword: {
       screen: ForgotPasswordScreen,
       navigationOptions: ({ navigation }) => ({
         title: `Forgot Password`,
+        headerStyle,
       }),
     },
     Register: {
       screen: RegisterScreen,
       navigationOptions: ({ navigation }) => ({
         title: `Register`,
+        headerStyle,
       }),
     },
     App: { screen: AppTabNavigator },
@@ -38,6 +45,7 @@ const RootNavigator = StackNavigator(
       path: 'reset-password/:resetPasswordToken',
       navigationOptions: ({ navigation }) => ({
         title: `Reset Password`,
+        headerStyle,
       }),
     },
   },
