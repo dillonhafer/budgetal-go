@@ -5,11 +5,11 @@
     "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "24.0.0",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "ios": {
       "supportsTablet": true,
-      "associatedDomains": ["www.budgetal.com"],
+      "associatedDomains": ["applinks:www.budgetal.com"],
       "bundleIdentifier": "com.budgetal.app",
       "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8"
     },
