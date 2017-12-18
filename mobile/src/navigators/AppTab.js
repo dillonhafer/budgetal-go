@@ -40,7 +40,7 @@ const AppTabNavigator = TabNavigator(
         fontSize: 10,
       },
       style: {
-        ...(Platform.OS === 'ios' ? {} : { height: 58 }),
+        ...(Platform.OS === 'ios' ? { height: 49 } : { height: 58 }),
         backgroundColor: '#f7f7f7',
       },
       indicatorStyle: {
