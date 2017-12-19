@@ -10,10 +10,11 @@ import (
 )
 
 func TestEmailRender(t *testing.T) {
+	host := "https://example.com"
 	token := nulls.String{String: "token", Valid: true}
 	firstName := "Kevin"
 	user := models.User{FirstName: firstName, PasswordResetToken: token}
-	email, err := BuildPasswordResetEmail(&user)
+	email, err := BuildPasswordResetEmail(&user, host)
 
 	if err != nil {
 		t.Errorf("Could not build email: %v", err)
@@ -26,7 +27,7 @@ func TestEmailRender(t *testing.T) {
 	// HTML assertions
 	htmlEmail := email.Bodies[0].Content
 	htmlName := fmt.Sprintf("<p>Hello %s!</p>", firstName)
-	htmlToken := fmt.Sprintf("<a href=\"https://www.budgetal.com/reset-password?reset_password_token=%s\">", token.String)
+	htmlToken := fmt.Sprintf("<a href=\"%s/reset-password?reset_password_token=%s\">", host, token.String)
 	if !strings.Contains(htmlEmail, htmlName) {
 		t.Errorf("Could not find first name '%s' in html email: %v", htmlName, htmlEmail)
 	}
@@ -36,14 +37,15 @@ func TestEmailRender(t *testing.T) {
 }
 
 func TestEmailRendersTextEmail(t *testing.T) {
+	host := "https://example.com"
 	token := nulls.String{String: "token", Valid: true}
 	firstName := "Kevin"
 	user := models.User{FirstName: firstName, PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user)
+	email, _ := BuildPasswordResetEmail(&user, host)
 
 	textEmail := email.Bodies[1].Content
 	textName := fmt.Sprintf("Hello %s!", firstName)
-	textToken := fmt.Sprintf("https://www.budgetal.com/reset-password?reset_password_token=%s", token.String)
+	textToken := fmt.Sprintf("%s/reset-password?reset_password_token=%s", host, token.String)
 	if !strings.Contains(textEmail, textName) {
 		t.Errorf("Could not find first name '%s' in text email: %v", textName, textEmail)
 	}
@@ -55,7 +57,7 @@ func TestEmailRendersTextEmail(t *testing.T) {
 func TestEmailRendersFrom(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	user := models.User{FirstName: "", PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user)
+	email, _ := BuildPasswordResetEmail(&user, "")
 
 	if email.From != "Budgetal <no-reply@budgetal.com>" {
 		t.Errorf("From did not match, got: %v", email.From)
@@ -65,7 +67,7 @@ func TestEmailRendersFrom(t *testing.T) {
 func TestEmailRendersNameInTo(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	user := models.User{FirstName: "Kevin", Email: "kevin@example.com", PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user)
+	email, _ := BuildPasswordResetEmail(&user, "")
 
 	if email.To[0] != "Kevin <kevin@example.com>" {
 		t.Errorf("From did not match, got: %v", email.To)
@@ -75,7 +77,7 @@ func TestEmailRendersNameInTo(t *testing.T) {
 func TestEmailDoesNotRendersNameInTo(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	user := models.User{FirstName: "", Email: "kevin@example.com", PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user)
+	email, _ := BuildPasswordResetEmail(&user, "")
 
 	if email.To[0] != "kevin@example.com" {
 		t.Errorf("From did not match, got: %v", email.To)

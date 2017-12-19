@@ -5,10 +5,11 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo/mail"
+	"github.com/gobuffalo/envy"
 	"github.com/pkg/errors"
 )
 
-func BuildPasswordResetEmail(user *models.User) (mail.Message, error) {
+func BuildPasswordResetEmail(user *models.User, host string) (mail.Message, error) {
 	to := user.Email
 	if user.FirstName != "" {
 		to = user.FirstName + " <" + user.Email + ">"
@@ -21,6 +22,7 @@ func BuildPasswordResetEmail(user *models.User) (mail.Message, error) {
 	data := map[string]interface{}{
 		"name":  user.FirstName,
 		"token": user.PasswordResetToken.String,
+		"host":  host,
 	}
 
 	err := m.AddBodies(data, r.HTML("password_resets.html"), r.Plain("password_resets.txt"))
@@ -32,7 +34,8 @@ func BuildPasswordResetEmail(user *models.User) (mail.Message, error) {
 }
 
 func SendPasswordResets(user *models.User) error {
-	m, err := BuildPasswordResetEmail(user)
+	host := envy.Get("APP_HOST", "http://localhost:3001")
+	m, err := BuildPasswordResetEmail(user, host)
 	if err != nil {
 		return errors.WithStack(err)
 	}
