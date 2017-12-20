@@ -11,7 +11,7 @@ import (
 	. "github.com/markbates/grift/grift"
 )
 
-var envFile = envy.Get("to", ".env.staging")
+var envFile = fmt.Sprintf(".env.%s", envy.Get("to", "staging"))
 var _ = envy.Load(envFile)
 var server = envy.Get("server", "")
 var deployDir = envy.Get("deploy_dir", "")
