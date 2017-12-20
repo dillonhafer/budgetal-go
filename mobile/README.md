@@ -11,12 +11,15 @@ You can download the apps from the AppStore or the PlayStore:
 </a>
 </div>
 
-<div style="display: inline;text-align: center;width: 100%">
-<img alt="Budgetal" src="app-store-assets/2.png" width="33%">
-<img alt="Budgetal" src="app-store-assets/1.png" width="33%">
-<img alt="Budgetal" src="app-store-assets/3.png" width="33%">
+<div style="background: #d6d6d6;">
+<div style="display: inline;text-align: center;width: 100%;background: #d6d6d6;">
+<img alt="Budgetal" src="app-store-assets/2.png" width="32%">
+<img alt="Budgetal" src="app-store-assets/1.png" width="32%">
+<img alt="Budgetal" src="app-store-assets/3.png" width="32%">
 </div>
 <div style="display: inline;text-align: center;width: 100%">
-<img alt="Budgetal" src="app-store-assets/4.png" width="33%">
-<img alt="Budgetal" src="app-store-assets/5.png" width="33%">
+<div style="width: 18%"></div>
+<img alt="Budgetal" src="app-store-assets/4.png" width="32%">
+<img alt="Budgetal" src="app-store-assets/5.png" width="32%">
+</div>
 </div>
