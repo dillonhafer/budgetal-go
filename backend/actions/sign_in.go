@@ -26,14 +26,14 @@ func SignIn(c buffalo.Context) error {
 	user := &models.User{}
 	dbErr := models.DB.Where("email = ?", params.Email).First(user)
 	if dbErr != nil {
-		return c.Render(401, r.JSON(err))
+		return c.Render(422, r.JSON(err))
 	}
 
 	// 2. check if password is valid
 	//    return error if no user is found
 	authentic := user.VerifyPassword(params.Password)
 	if authentic == false {
-		return c.Render(401, r.JSON(err))
+		return c.Render(422, r.JSON(err))
 	}
 
 	// 3. create session

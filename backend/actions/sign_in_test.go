@@ -40,7 +40,7 @@ func (as *ActionSuite) Test_SignIn_WrongPassword() {
 	r := as.JSON("/sign-in").Post(credentials)
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 
-	as.Equal(r.Code, 401)
+	as.Equal(r.Code, 422)
 	as.Equal("Incorrect Email or Password", expectedResponse.Error)
 }
 
@@ -55,7 +55,7 @@ func (as *ActionSuite) Test_SignIn_WrongEmail() {
 	r := as.JSON("/sign-in").Post(credentials)
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 
-	as.Equal(r.Code, 401)
+	as.Equal(r.Code, 422)
 	as.Equal("Incorrect Email or Password", expectedResponse.Error)
 }
 
@@ -70,6 +70,6 @@ func (as *ActionSuite) Test_SignIn_EmptyEmail() {
 	r := as.JSON("/sign-in").Post(credentials)
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 
-	as.Equal(r.Code, 401)
+	as.Equal(r.Code, 422)
 	as.Equal("Incorrect Email or Password", expectedResponse.Error)
 }
