@@ -11,6 +11,7 @@ import AnnualBudgetNavigator from 'navigators/AnnualBudget';
 import StatisticsScreen from 'screens/statistics/Statistics';
 
 import colors from 'utils/colors';
+import Device from 'utils/Device';
 import moment from 'moment';
 
 const headerStyle = {
@@ -44,10 +45,11 @@ const AppTabNavigator = TabNavigator(
       inactiveTintColor: 'rgba(146, 146, 146, 1)',
       inactiveBackgroundColor: '#f7f7f7',
       labelStyle: {
-        fontSize: 10,
+        fontSize: Device.isTablet() ? 14 : 10,
       },
       style: {
         ...(Platform.OS === 'ios' ? { height: 49 } : { height: 58 }),
+        ...(Device.isTablet() ? { height: 54 } : {}),
         backgroundColor: '#f7f7f7',
       },
       indicatorStyle: {

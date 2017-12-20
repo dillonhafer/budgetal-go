@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Constants, ScreenOrientation } from 'expo';
 import qs from 'qs';
+import Device from 'utils/Device';
 
 // Redux
 import { createStore } from 'redux';
@@ -28,11 +29,7 @@ const prefix =
     : `${Constants.linkingUri}://`;
 
 // Allow iPads to use landscape
-const { height, width } = Dimensions.get('window');
-const aspectRatio = height / width;
-const appleDevice = aspectRatio > 1.6 ? 'iphone' : 'ipad';
-
-if (Platform.OS === 'ios' && appleDevice === 'ipad') {
+if (Platform.OS === 'ios' && Device.isTablet()) {
   ScreenOrientation.allow(ScreenOrientation.Orientation.ALL);
 } else {
   ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT_UP);
@@ -65,10 +62,17 @@ function cacheFonts(fonts) {
 export default class App extends Component {
   state = {
     preLoaded: false,
+    orientation: Device.isPortrait() ? 'portrait' : 'landscape',
+    devicetype: Device.isTablet() ? 'tablet' : 'phone',
   };
 
   componentDidMount() {
     Linking.addEventListener('url', this._handleOpenURL);
+    Dimensions.addEventListener('change', () => {
+      this.setState({
+        orientation: Device.isPortrait() ? 'portrait' : 'landscape',
+      });
+    });
   }
 
   componentWillUnmount() {
