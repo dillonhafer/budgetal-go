@@ -51,11 +51,11 @@ class SignInScreen extends Component {
     }
   };
 
-  handleOnPress = () => {
+  handleOnPress = async () => {
     this.setState({ loading: true });
     try {
       if (this.validateFields()) {
-        this.signIn();
+        await this.signIn();
       } else {
         error('Email/Password are invalid');
       }
