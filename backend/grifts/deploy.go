@@ -88,7 +88,8 @@ var _ = Namespace("maintenance", func() {
 var _ = Namespace("deploy", func() {
 	Set("_restart", func(c *Context) error {
 		Comment("Restarting app")
-		return Command("ssh", server, "sudo systemctl restart budgetal")
+		restart_cmd := envy.Get("RESTART_CMD", "")
+		return Command("ssh", server, restart_cmd)
 	})
 
 	Set("build-backend", func(c *Context) error {
