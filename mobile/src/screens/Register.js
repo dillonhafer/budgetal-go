@@ -57,11 +57,11 @@ class RegisterScreen extends Component {
     }
   };
 
-  handleOnPress = () => {
+  handleOnPress = async () => {
     this.setState({ loading: true });
     try {
       if (this.validateFields()) {
-        this.register();
+        await this.register();
       } else {
         error('Email/Password are invalid');
       }

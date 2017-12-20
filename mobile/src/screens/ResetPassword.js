@@ -74,11 +74,11 @@ class ResetPasswordScreen extends Component {
     }
   };
 
-  handleOnPress = () => {
+  handleOnPress = async () => {
     this.setState({ loading: true });
     try {
       if (this.validateFields()) {
-        this.resetPassword();
+        await this.resetPassword();
       } else {
         error('Password does not match confirmation');
       }
