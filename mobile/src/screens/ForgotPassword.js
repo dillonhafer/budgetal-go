@@ -19,6 +19,7 @@ import { navigateRoot } from 'navigators';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 import colors from 'utils/colors';
+import { validEmail } from 'utils/helpers';
 
 class ForgotPasswordScreen extends Component {
   state = {
@@ -28,7 +29,7 @@ class ForgotPasswordScreen extends Component {
 
   validateFields = () => {
     const { email } = this.state;
-    return email.length > 0;
+    return email.length > 0 && validEmail(email);
   };
 
   resetPassword = async () => {

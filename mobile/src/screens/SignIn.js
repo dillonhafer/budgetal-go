@@ -24,6 +24,7 @@ import { navigateHome } from 'navigators';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 import colors from 'utils/colors';
+import { validEmail } from 'utils/helpers';
 
 class SignInScreen extends Component {
   inputs = [];
@@ -36,7 +37,7 @@ class SignInScreen extends Component {
 
   validateFields = () => {
     const { email, password } = this.state;
-    return email.length > 0 && password.length > 0;
+    return email.length > 0 && validEmail(email) && password.length > 0;
   };
 
   signIn = async () => {

@@ -24,6 +24,7 @@ import { navigateHome } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
+import { validEmail } from 'utils/helpers';
 
 class RegisterScreen extends Component {
   inputs = [];
@@ -39,6 +40,7 @@ class RegisterScreen extends Component {
     const { email, password, passwordConfirmation } = this.state;
     return (
       email.length > 0 &&
+      validEmail(email) &&
       password.length > 0 &&
       passwordConfirmation.length > 0 &&
       password === passwordConfirmation
@@ -107,7 +109,7 @@ class RegisterScreen extends Component {
             }}
             returnKeyType="next"
             enablesReturnKeyAutomatically={true}
-            onChangeText={email => this.setState({ email })}
+            onChangeText={email => this.setState({ email: email.trim() })}
           />
         </FieldContainer>
         <FieldContainer>

@@ -1,6 +1,11 @@
 import { reduce, round } from 'lodash';
 import parser from 'ua-parser-js';
 
+const EMAIL_REGEX = /^[^@\s]+@[^@\s]+$/;
+export const validEmail = email => {
+  return EMAIL_REGEX.test(email);
+};
+
 export const percentSpent = (budgeted, spent) => {
   const p = spent / budgeted * 100;
   if (p > 99.99) {
