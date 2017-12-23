@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -30,7 +30,7 @@ import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 
-class BudgetsScreen extends Component {
+class BudgetsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     headerRight: <EditIncomeModal />,
   });

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -39,7 +39,7 @@ const B = ({ style, children }) => {
   return <Text style={[{ fontWeight: '800' }, style]}>{children}</Text>;
 };
 
-class AnnualBudgetsScreen extends Component {
+class AnnualBudgetsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     const annualBudgetId = params.annualBudgetId;

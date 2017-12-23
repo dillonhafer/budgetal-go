@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   Alert,
   StyleSheet,
@@ -27,7 +27,7 @@ import { PrimaryButton, DangerButton } from 'forms';
 import { WebBrowser } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-class AccountScreen extends Component {
+class AccountScreen extends PureComponent {
   state = {
     loading: false,
   };

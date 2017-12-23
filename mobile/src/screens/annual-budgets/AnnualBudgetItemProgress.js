@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet, FlatList, Text } from 'react-native';
 
 // Components
@@ -8,7 +8,7 @@ import { currencyf } from 'utils/helpers';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { round, times } from 'lodash';
 
-class AnnualBudgetItemProgress extends Component {
+class AnnualBudgetItemProgress extends PureComponent {
   renderItem = ({ item }) => {
     return (
       <View style={styles.row}>

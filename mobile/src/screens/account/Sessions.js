@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   Alert,
@@ -57,7 +57,7 @@ const RightEditButton = connect(
   );
 });
 
-class SessionsScreen extends Component {
+class SessionsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: 'Sessions',
     headerRight: <RightEditButton />,

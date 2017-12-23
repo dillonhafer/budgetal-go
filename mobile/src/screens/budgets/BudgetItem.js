@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -25,7 +25,7 @@ import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
 
-class BudgetItemScreen extends Component {
+class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     const budgetItem = params.budgetItem;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, Text, StatusBar, View } from 'react-native';
 
 // Components
@@ -20,7 +20,7 @@ const Project = ({ children }) => {
   );
 };
 
-class LegalScreen extends Component {
+class LegalScreen extends PureComponent {
   static navigationOptions = {
     title: 'Legal',
   };

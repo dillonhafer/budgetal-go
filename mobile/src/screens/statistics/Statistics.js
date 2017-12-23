@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   Image,
@@ -15,7 +15,7 @@ import { FindStatisticRequest } from 'api/statistics';
 import { currencyf, categoryImage } from 'utils/helpers';
 import DatePicker from 'utils/DatePicker';
 
-class StatisticsScreen extends Component {
+class StatisticsScreen extends PureComponent {
   static navigationOptions = {
     title: 'Statistics',
     tabBarIcon: ({ tintColor }) => (

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -21,7 +21,7 @@ import { error, notice } from 'notify';
 import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
 import MoneyInput from 'forms/MoneyInput';
 
-class NewBudgetItemScreen extends Component {
+class NewBudgetItemScreen extends PureComponent {
   goBack = () => {
     this.props.navigation.goBack();
   };

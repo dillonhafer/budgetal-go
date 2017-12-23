@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -31,7 +31,7 @@ import { reduceSum, percentSpent } from 'utils/helpers';
 import { PrimaryButton } from 'forms';
 import PlusButton from 'utils/PlusButton';
 
-class BudgetCategoryScreen extends Component {
+class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     const budgetCategory = params.budgetCategory;
