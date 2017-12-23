@@ -11,7 +11,8 @@ import (
 	. "github.com/markbates/grift/grift"
 )
 
-var envFile = fmt.Sprintf(".env.%s", envy.Get("to", "staging"))
+var deployEnv = envy.Get("to", "staging")
+var envFile = fmt.Sprintf(".env.%s", deployEnv)
 var _ = envy.Load(envFile)
 var server = envy.Get("server", "")
 var deployDir = envy.Get("deploy_dir", "")
@@ -183,7 +184,7 @@ var _ = Namespace("deploy", func() {
 	})
 
 	Set("_backend", func(c *Context) error {
-		Comment("Building Backend")
+		Comment("Building Backend on " + deployEnv)
 		Run("deploy:build-backend", c)
 		Run("deploy:upload-backend", c)
 
@@ -192,7 +193,7 @@ var _ = Namespace("deploy", func() {
 	})
 
 	Set("_frontend", func(c *Context) error {
-		Comment("Building Frontend")
+		Comment("Building Frontend on " + deployEnv)
 		Run("deploy:build-frontend", c)
 		Run("deploy:upload-frontend", c)
 
