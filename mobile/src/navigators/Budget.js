@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -133,7 +133,7 @@ const BudgetNavigatorStack = StackNavigator(
   },
 );
 
-class BudgetNavigator extends Component {
+class BudgetNavigator extends PureComponent {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Budgets',

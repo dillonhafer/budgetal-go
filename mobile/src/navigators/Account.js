@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { StackNavigator } from 'react-navigation';
 
 // Screens
@@ -39,7 +39,7 @@ const AccountNavigatorStack = StackNavigator(
   },
 );
 
-class AccountNavigator extends Component {
+class AccountNavigator extends PureComponent {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Account',

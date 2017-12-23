@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -64,7 +64,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
   },
 );
 
-class AnnualBudgetNavigator extends Component {
+class AnnualBudgetNavigator extends PureComponent {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Annual',
