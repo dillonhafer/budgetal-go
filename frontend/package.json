@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:3000",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
   "dependencies": {
     "antd": "^2.13.10",
     "classnames": "^2.2.5",
