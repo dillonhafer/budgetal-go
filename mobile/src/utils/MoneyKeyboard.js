@@ -4,6 +4,7 @@ import {
   StyleSheet,
   View,
   Text,
+  LayoutAnimation,
   Platform,
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
@@ -40,6 +41,7 @@ class MoneyKeyboard extends Component {
   }
 
   handleOnPress = valuePressed => {
+    LayoutAnimation.easeInEaseOut();
     const _income = `${this.state.income || this.props.defaultValue || '0'}`;
     let income = `${this.state.income || this.props.defaultValue || '0'}`;
 
@@ -158,6 +160,7 @@ const keyboardStyles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 8,
     paddingRight: 15,
+    backgroundColor: 'transparent',
   },
 });
 
