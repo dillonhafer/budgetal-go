@@ -26,6 +26,7 @@ import moment from 'moment';
 import { orderBy } from 'lodash';
 import { humanUA } from 'utils/helpers';
 import { notice } from 'notify';
+import Spin from 'utils/Spin';
 
 const RightEditButton = connect(
   state => ({
@@ -288,6 +289,7 @@ class SessionsScreen extends PureComponent {
   };
 
   render() {
+    const { loading, refreshing } = this.state;
     const { active, expired } = this.state.sessions;
     const sessions = [
       {
@@ -312,7 +314,7 @@ class SessionsScreen extends PureComponent {
           refreshControl={
             <RefreshControl
               tintColor={'lightskyblue'}
-              refreshing={this.state.refreshing}
+              refreshing={refreshing}
               onRefresh={this.onRefresh}
             />
           }
@@ -320,6 +322,7 @@ class SessionsScreen extends PureComponent {
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}
         />
+        <Spin spinning={loading && !refreshing} />
       </View>
     );
   }

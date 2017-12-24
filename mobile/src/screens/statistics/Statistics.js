@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { FindStatisticRequest } from 'api/statistics';
 import { currencyf, categoryImage } from 'utils/helpers';
 import DatePicker from 'utils/DatePicker';
+import Spin from 'utils/Spin';
 
 class StatisticsScreen extends PureComponent {
   static navigationOptions = {
@@ -136,7 +137,7 @@ class StatisticsScreen extends PureComponent {
   };
 
   render() {
-    const { loading, budget, budgetCategories } = this.state;
+    const { refreshing, loading, budget, budgetCategories } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
@@ -150,7 +151,7 @@ class StatisticsScreen extends PureComponent {
           refreshControl={
             <RefreshControl
               tintColor={'lightskyblue'}
-              refreshing={this.state.refreshing}
+              refreshing={refreshing}
               onRefresh={this.onRefresh}
             />
           }
@@ -158,6 +159,7 @@ class StatisticsScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
         />
+        <Spin spinning={loading && !refreshing} />
       </View>
     );
   }

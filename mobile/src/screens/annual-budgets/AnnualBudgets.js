@@ -34,6 +34,7 @@ import { round } from 'lodash';
 import DatePicker from 'utils/DatePicker';
 import { notice, confirm } from 'notify';
 import PlusButton from 'utils/PlusButton';
+import Spin from 'utils/Spin';
 
 const B = ({ style, children }) => {
   return <Text style={[{ fontWeight: '800' }, style]}>{children}</Text>;
@@ -210,6 +211,7 @@ class AnnualBudgetsScreen extends PureComponent {
   };
 
   render() {
+    const { loading, refreshing } = this.state;
     const { annualBudgetItems } = this.props;
     return (
       <View style={styles.container}>
@@ -222,7 +224,7 @@ class AnnualBudgetsScreen extends PureComponent {
           refreshControl={
             <RefreshControl
               tintColor={'lightskyblue'}
-              refreshing={this.state.refreshing}
+              refreshing={refreshing}
               onRefresh={this.onRefresh}
             />
           }
@@ -232,6 +234,7 @@ class AnnualBudgetsScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}
         />
+        <Spin spinning={loading && !refreshing} />
       </View>
     );
   }

@@ -29,6 +29,7 @@ import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
+import Spin from 'utils/Spin';
 
 class BudgetsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
@@ -181,6 +182,7 @@ class BudgetsScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
         />
+        <Spin spinning={loading && !refreshing} />
       </View>
     );
   }
