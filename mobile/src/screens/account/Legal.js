@@ -47,6 +47,9 @@ class LegalScreen extends PureComponent {
           <Project>
             React Native Keyboard Aware ScrollView, Copyright (c) 2015 APSL
           </Project>
+          <Project>
+            React Native Swipeout, Copyright (c) 2015 Dan Cormier
+          </Project>
 
           <Text style={styles.license}>
             The MIT License (MIT) http://opensource.org/licenses/MIT/ Copyright
