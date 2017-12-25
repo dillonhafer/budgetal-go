@@ -39,6 +39,7 @@ const AppTabNavigator = TabNavigator(
   {
     tabBarPosition: 'bottom',
     animationEnabled: false,
+    swipeEnabled: false,
     tabBarOptions: {
       showIcon: true,
       activeTintColor: colors.primary,
