@@ -27,41 +27,11 @@ import { orderBy } from 'lodash';
 import { humanUA } from 'utils/helpers';
 import { notice } from 'notify';
 import Spin from 'utils/Spin';
-
-const RightEditButton = connect(
-  state => ({
-    isEditing: state.sessions.showDelete,
-  }),
-  dispatch => ({
-    onPress: () => {
-      LayoutAnimation.easeInEaseOut();
-      dispatch(toggleDelete());
-    },
-  }),
-)(({ isEditing, onPress }) => {
-  return (
-    <TouchableOpacity style={{}} onPress={onPress}>
-      <Text
-        style={{
-          color: '#037aff',
-          minWidth: 73,
-          textAlign: 'right',
-          fontSize: 17,
-          paddingLeft: 10,
-          paddingRight: 10,
-          fontWeight: isEditing ? '700' : '500',
-        }}
-      >
-        {isEditing ? 'Cancel' : 'Edit'}
-      </Text>
-    </TouchableOpacity>
-  );
-});
+import Swipeout from 'react-native-swipeout';
 
 class SessionsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     title: 'Sessions',
-    headerRight: <RightEditButton />,
   });
 
   state = {
@@ -176,52 +146,54 @@ class SessionsScreen extends PureComponent {
     );
   };
 
+  sessionButtons = session => {
+    return [
+      {
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+          </View>
+        ),
+        backgroundColor: colors.error,
+        underlayColor: colors.error + '70',
+        onPress: () => this.confirmEndSession(session),
+      },
+    ];
+  };
+
   renderItem = ({ item: session }) => {
     const isCurrent = session.authenticationToken === this.state.currentSession;
-
-    const deleteStyles =
-      this.props.showDelete && !isCurrent
-        ? { left: 35, marginRight: 25 }
-        : { width: 0, left: -50 };
+    const buttons = isCurrent ? [] : this.sessionButtons(session);
 
     return (
-      <View style={[styles.listItem, session.style]}>
-        <View
-          style={[
-            {
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            },
-          ]}
-        >
-          <View style={[deleteStyles]}>
-            <TouchableOpacity
-              onPress={_ => {
-                this.confirmEndSession(session);
-              }}
-            >
-              <MaterialCommunityIcons
-                name={'minus-circle'}
-                size={22}
-                color={colors.error}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={{ width: '14%', alignItems: 'center' }}>
-            {this.browser(session.userAgent)}
-          </View>
-          <View style={{ width: '86%' }}>
-            <Text style={styles.listItemText}>
-              {humanUA(session.userAgent)}{' '}
-              <Text style={{ color: colors.error }}>
-                {isCurrent ? '(current session)' : ''}
+      <Swipeout autoClose={true} backgroundColor={'#fff'} right={buttons}>
+        <View style={[styles.listItem, session.style]}>
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+              },
+            ]}
+          >
+            <View style={{ width: '14%', alignItems: 'center' }}>
+              {this.browser(session.userAgent)}
+            </View>
+            <View style={{ width: '86%' }}>
+              <Text style={styles.listItemText}>
+                {humanUA(session.userAgent)}{' '}
+                <Text style={{ color: colors.error }}>
+                  {isCurrent ? '(current session)' : ''}
+                </Text>
               </Text>
-            </Text>
-            <Text>{moment(session.createdAt).fromNow()}</Text>
+              <Text>{moment(session.createdAt).fromNow()}</Text>
+            </View>
           </View>
         </View>
-      </View>
+      </Swipeout>
     );
   };
 
