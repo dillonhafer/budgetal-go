@@ -24,6 +24,7 @@ import { notice, confirm, error } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
+import Swipeout from 'react-native-swipeout';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -59,33 +60,6 @@ class BudgetItemScreen extends PureComponent {
     });
   };
 
-  expenseActions = expense => {
-    Alert.alert(
-      expense.name,
-      '',
-      [
-        {
-          text: 'Edit',
-          onPress: () =>
-            this.props.navigation.navigate('EditBudgetItemExpense', {
-              budgetItemExpense: expense,
-            }),
-        },
-        {
-          text: 'Delete',
-          onPress: () => this.confirmDelete(expense),
-          style: 'destructive',
-        },
-        {
-          text: 'Cancel',
-          onPress: _ => {},
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true },
-    );
-  };
-
   renderSeparator = () => {
     return (
       <View
@@ -98,20 +72,42 @@ class BudgetItemScreen extends PureComponent {
     );
   };
 
+  expenseButtons = expense => {
+    return [
+      {
+        text: 'Edit',
+        backgroundColor: colors.primary,
+        underlayColor: colors.primary + '70',
+        onPress: () =>
+          this.props.navigation.navigate('EditBudgetItemExpense', {
+            budgetItemExpense: expense,
+          }),
+      },
+      {
+        text: 'Delete',
+        backgroundColor: colors.error,
+        underlayColor: colors.error + '70',
+        onPress: () => this.confirmDelete(expense),
+      },
+    ];
+  };
+
   renderExpense = ({ item: expense }) => {
+    const buttons = this.expenseButtons(expense);
     return (
-      <TouchableOpacity
-        style={styles.expenseRow}
-        key={expense.id}
-        onPress={() => {
-          this.expenseActions(expense);
-        }}
+      <Swipeout
+        buttonWidth={94}
+        autoClose={true}
+        backgroundColor={'#fff'}
+        right={buttons}
       >
-        <Text style={{ width: '70%', padding: 10, textAlign: 'center' }}>
-          {expense.name}
-        </Text>
-        <Text style={styles.amount}>{currencyf(expense.amount)}</Text>
-      </TouchableOpacity>
+        <View style={styles.expenseRow} key={expense.id}>
+          <Text style={{ width: '70%', textAlign: 'center' }}>
+            {expense.name}
+          </Text>
+          <Text style={styles.amount}>{currencyf(expense.amount)}</Text>
+        </View>
+      </Swipeout>
     );
   };
 
@@ -182,9 +178,11 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   expenseRow: {
+    flex: 1,
+    width: '100%',
     flexDirection: 'row',
     backgroundColor: '#fff',
-    padding: 15,
+    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
