@@ -18,7 +18,11 @@ import { DeleteExpenseRequest } from 'api/budget-item-expenses';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import {
+  Ionicons,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import { notice, confirm, error } from 'notify';
 import moment from 'moment';
@@ -75,7 +79,13 @@ class BudgetItemScreen extends PureComponent {
   expenseButtons = expense => {
     return [
       {
-        text: 'Edit',
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
+          </View>
+        ),
         backgroundColor: colors.primary,
         underlayColor: colors.primary + '70',
         onPress: () =>
@@ -84,7 +94,13 @@ class BudgetItemScreen extends PureComponent {
           }),
       },
       {
-        text: 'Delete',
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+          </View>
+        ),
         backgroundColor: colors.error,
         underlayColor: colors.error + '70',
         onPress: () => this.confirmDelete(expense),
@@ -96,7 +112,7 @@ class BudgetItemScreen extends PureComponent {
     const buttons = this.expenseButtons(expense);
     return (
       <Swipeout
-        buttonWidth={94}
+        buttonWidth={84}
         autoClose={true}
         backgroundColor={'#fff'}
         right={buttons}
