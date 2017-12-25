@@ -22,7 +22,11 @@ import { ImportCategoryRequest } from 'api/budgets';
 import { DeleteItemRequest } from 'api/budget-items';
 
 // Components
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import {
+  Ionicons,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
@@ -72,7 +76,13 @@ class BudgetCategoryScreen extends PureComponent {
   itemButtons = budgetItem => {
     return [
       {
-        text: 'Edit',
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
+          </View>
+        ),
         backgroundColor: colors.primary,
         underlayColor: colors.primary + '70',
         onPress: () =>
@@ -81,7 +91,13 @@ class BudgetCategoryScreen extends PureComponent {
           }),
       },
       {
-        text: 'Delete',
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+          </View>
+        ),
         backgroundColor: colors.error,
         underlayColor: colors.error + '70',
         onPress: () => this.confirmDelete(budgetItem),
@@ -108,7 +124,7 @@ class BudgetCategoryScreen extends PureComponent {
 
     return (
       <Swipeout
-        buttonWidth={94}
+        buttonWidth={84}
         autoClose={true}
         backgroundColor={'#fff'}
         right={buttons}
