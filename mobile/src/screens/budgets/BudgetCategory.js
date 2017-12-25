@@ -30,6 +30,7 @@ import ProgressLabel from 'utils/ProgressLabel';
 import { reduceSum, percentSpent } from 'utils/helpers';
 import { PrimaryButton } from 'forms';
 import PlusButton from 'utils/PlusButton';
+import Swipeout from 'react-native-swipeout';
 
 class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -60,10 +61,32 @@ class BudgetCategoryScreen extends PureComponent {
       okText: `Import ${budgetCategory.name}`,
       cancelText: 'Cancel',
       title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
+      content: `Do you want to import budget items from your previous month's ${
+        budgetCategory.name
+      } category?`,
       onOk: this.importPreviousItems,
       onCancel() {},
     });
+  };
+
+  itemButtons = budgetItem => {
+    return [
+      {
+        text: 'Edit',
+        backgroundColor: colors.primary,
+        underlayColor: colors.primary + '70',
+        onPress: () =>
+          this.props.navigation.navigate('EditBudgetItem', {
+            budgetItem,
+          }),
+      },
+      {
+        text: 'Delete',
+        backgroundColor: colors.error,
+        underlayColor: colors.error + '70',
+        onPress: () => this.confirmDelete(budgetItem),
+      },
+    ];
   };
 
   renderItem = ({ item: budgetItem }) => {
@@ -81,26 +104,31 @@ class BudgetCategoryScreen extends PureComponent {
     } else if (remaining === 0.0) {
       status = 'success';
     }
+    const buttons = this.itemButtons(budgetItem);
 
     return (
-      <TouchableOpacity
-        style={styles.itemRow}
-        key={budgetItem.id}
-        onPress={() => {
-          this.props.navigation.navigate('BudgetItem', {
-            budgetItem,
-          });
-        }}
-        onLongPress={() => {
-          this.itemActions(budgetItem);
-        }}
+      <Swipeout
+        buttonWidth={94}
+        autoClose={true}
+        backgroundColor={'#fff'}
+        right={buttons}
       >
-        <View>
-          <Text style={styles.itemName}>{budgetItem.name}</Text>
-          <ProgressLabel spent={amountSpent} remaining={remaining} />
-          <Progress percent={percentage} status={status} />
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.itemRow}
+          key={budgetItem.id}
+          onPress={() => {
+            this.props.navigation.navigate('BudgetItem', {
+              budgetItem,
+            });
+          }}
+        >
+          <View>
+            <Text style={styles.itemName}>{budgetItem.name}</Text>
+            <ProgressLabel spent={amountSpent} remaining={remaining} />
+            <Progress percent={percentage} status={status} />
+          </View>
+        </TouchableOpacity>
+      </Swipeout>
     );
   };
 
@@ -139,8 +167,6 @@ class BudgetCategoryScreen extends PureComponent {
   };
 
   confirmDelete = item => {
-    const okOk = () => {};
-
     confirm({
       title: `Delete ${item.name}?`,
       okText: 'Delete',
@@ -148,33 +174,6 @@ class BudgetCategoryScreen extends PureComponent {
         this.deleteItem(item);
       },
     });
-  };
-
-  itemActions = item => {
-    Alert.alert(
-      item.name,
-      '',
-      [
-        {
-          text: 'Edit',
-          onPress: () =>
-            this.props.navigation.navigate('EditBudgetItem', {
-              budgetItem: item,
-            }),
-        },
-        {
-          text: 'Delete',
-          onPress: () => this.confirmDelete(item),
-          style: 'destructive',
-        },
-        {
-          text: 'Cancel',
-          onPress: _ => {},
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true },
-    );
   };
 
   render() {
