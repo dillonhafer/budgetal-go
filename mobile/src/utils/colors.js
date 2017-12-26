@@ -5,6 +5,7 @@ const colors = {
   error: '#ff5500',
   background: '#ececec',
   lines: '#ced0ce',
+  yellow: '#ffd478',
 };
 
 export default colors;
