@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   Alert,
   StyleSheet,
-  TouchableOpacity,
   Text,
   StatusBar,
   FlatList,
@@ -26,7 +25,11 @@ import {
 } from 'api/annual-budget-items';
 
 // Components
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import {
+  Ionicons,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import moment from 'moment';
 import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
@@ -35,6 +38,7 @@ import DatePicker from 'utils/DatePicker';
 import { notice, confirm } from 'notify';
 import PlusButton from 'utils/PlusButton';
 import Spin from 'utils/Spin';
+import Swipeout from 'react-native-swipeout';
 
 const B = ({ style, children }) => {
   return <Text style={[{ fontWeight: '800' }, style]}>{children}</Text>;
@@ -80,39 +84,6 @@ class AnnualBudgetsScreen extends PureComponent {
     });
   };
 
-  itemActions = item => {
-    Alert.alert(
-      item.name,
-      '',
-      [
-        {
-          text: 'Edit',
-          onPress: () =>
-            this.props.navigation.navigate('EditAnnualBudgetItem', {
-              annualBudgetItem: item,
-            }),
-        },
-        {
-          text: 'Progress',
-          onPress: () => {
-            this.navProgress(item);
-          },
-        },
-        {
-          text: 'Delete',
-          onPress: () => this.confirmDelete(item),
-          style: 'destructive',
-        },
-        {
-          text: 'Cancel',
-          onPress: _ => {},
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true },
-    );
-  };
-
   navProgress = budgetItem => {
     this.props.navigation.navigate('AnnualBudgetProgress', {
       budgetItem,
@@ -138,33 +109,78 @@ class AnnualBudgetsScreen extends PureComponent {
     }
   };
 
+  itemButtons = item => {
+    return [
+      {
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons
+              name="chart-line"
+              color={'#fff'}
+              size={20}
+            />
+          </View>
+        ),
+        backgroundColor: colors.yellow,
+        underlayColor: colors.yellow + '70',
+        onPress: () => this.navProgress(item),
+      },
+      {
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
+          </View>
+        ),
+        backgroundColor: colors.primary,
+        underlayColor: colors.primary + '70',
+        onPress: () =>
+          this.props.navigation.navigate('EditAnnualBudgetItem', {
+            annualBudgetItem: item,
+          }),
+      },
+      {
+        component: (
+          <View
+            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          >
+            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+          </View>
+        ),
+        backgroundColor: colors.error,
+        underlayColor: colors.error + '70',
+        onPress: () => this.confirmDelete(item),
+      },
+    ];
+  };
+
   renderItem = ({ item: budgetItem }) => {
     const month = currencyf(round(budgetItem.amount / budgetItem.interval));
     const color = budgetItem.paid ? colors.success : colors.disabled;
+    const buttons = this.itemButtons(budgetItem);
 
     return (
-      <TouchableOpacity
-        style={styles.itemRow}
-        key={budgetItem.id}
-        onPress={() => {
-          this.itemActions(budgetItem);
-        }}
-      >
-        <View>
-          <Text style={styles.itemName}>{budgetItem.name}</Text>
-          <Text style={{ textAlign: 'center' }}>
-            In order to reach <B>{currencyf(budgetItem.amount)}</B>
-          </Text>
-          <Text style={{ textAlign: 'center' }}>
-            by <B>{moment(budgetItem.dueDate).format('LL')}</B>
-          </Text>
-          <Text style={{ textAlign: 'center' }}>you need to save</Text>
-          <B style={{ textAlign: 'center' }}>{month}/month</B>
+      <Swipeout autoClose={true} backgroundColor={'#fff'} right={buttons}>
+        <View style={styles.itemRow} key={budgetItem.id}>
+          <View>
+            <Text style={styles.itemName}>{budgetItem.name}</Text>
+            <Text style={{ textAlign: 'center' }}>
+              In order to reach <B>{currencyf(budgetItem.amount)}</B>
+            </Text>
+            <Text style={{ textAlign: 'center' }}>
+              by <B>{moment(budgetItem.dueDate).format('LL')}</B>
+            </Text>
+            <Text style={{ textAlign: 'center' }}>you need to save</Text>
+            <B style={{ textAlign: 'center' }}>{month}/month</B>
+          </View>
+          <View style={[styles.tag, { backgroundColor: color }]}>
+            <Text style={styles.tagText}>Paid</Text>
+          </View>
         </View>
-        <View style={[styles.tag, { backgroundColor: color }]}>
-          <Text style={styles.tagText}>Paid</Text>
-        </View>
-      </TouchableOpacity>
+      </Swipeout>
     );
   };
 
