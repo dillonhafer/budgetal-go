@@ -26,6 +26,19 @@ yarn install
 yarn start
 ```
 
+**iTerm automation**
+
+If you are using iTerm and/or Visual Studio Code, there is a Task/AppleScript to start all
+the servers for you. Simply run the task `budgetal-servers`
+
+You can manually run the AppleScript with the following (if using another editor): 
+
+```sh
+#!/bin/bash
+project=/my/path/to/budgetal-go
+$project/.vscode/./budgetal-servers $project
+```
+
 ## Configuration
 
 1. `PORT` the port can be configured by setting the `PORT` env var
