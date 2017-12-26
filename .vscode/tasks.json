@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "bake",
+            "label": "backend-tests",
             "type": "shell",
             "command": "bake",
             "group": {
@@ -13,29 +13,9 @@
             }
         },
         {
-            "label": "react-native-server",
+            "label": "budgetal-servers",
             "type": "shell",
-            "command": "cd mobile && yarn start",
-            "presentation": {
-                "reveal": "never",
-                "panel": "new"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "buffalo-server",
-            "type": "shell",
-            "command": "cd backend && buffalo dev",
-            "presentation": {
-                "reveal": "never",
-                "panel": "new"
-            },
-            "problemMatcher": []
-        },
-        {
-            "label": "react-server",
-            "type": "shell",
-            "command": "cd frontend && yarn start",
+            "command": "${workspaceFolder}/.vscode/budgetal-servers ${workspaceFolder}",
             "presentation": {
                 "reveal": "never",
                 "panel": "new"

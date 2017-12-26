@@ -1,0 +1,53 @@
+#!/usr/bin/osascript
+on run argv
+
+set project to item 1 of argv
+
+tell application "iTerm2"
+  set budgetalWindow to (create window with default profile)
+  
+  tell budgetalWindow
+    tell current session to write text "cd " & project & "/frontend; yarn start"
+
+    set serverTab to (create tab with default profile)
+    tell sessions[1] of serverTab to write text "cd " & project & "/backend; buffalo dev"
+
+    set mobileTab to (create tab with default profile)
+    tell sessions[1] of mobileTab to write text "cd " & project & "/mobile; yarn start"
+
+    select first tab
+  end tell
+end tell
+
+# Maximize screen
+tell application "Finder"
+  set {screen_left, screen_top, screen_width, screen_height} to bounds of window of desktop
+end tell
+
+tell application "System Events"
+  set myFrontMost to name of first item of (processes whose frontmost is true)
+end tell
+
+try
+  tell application "System Events"
+    tell process myFrontMost
+      set {{w, h}} to size of drawer of window 1
+    end tell
+  end tell
+on error
+  set {w, h} to {0, 0}
+end try
+
+tell application "System Events"
+  tell process myFrontMost
+    try
+      set {{w, h}} to size of drawer of window 1
+    on error
+      set {w, h} to {0, 0}
+    end try
+    set position of window 1 to {0, 0}
+    set size of window 1 to {screen_width - w, screen_height}
+  end tell
+end tell
+
+end run
