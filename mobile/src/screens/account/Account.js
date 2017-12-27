@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
   View,
-  FlatList,
+  SectionList,
 } from 'react-native';
 
 // Redux
@@ -102,12 +102,20 @@ class AccountScreen extends PureComponent {
     );
   };
 
+  renderHeader({ section }) {
+    return (
+      <View style={styles.header}>
+        <Text style={styles.headerText}>{section.title}</Text>
+      </View>
+    );
+  }
+
   renderButton = ({ item }) => {
     const right = item.right || (
-      <MaterialCommunityIcons
-        name="chevron-right"
+      <Ionicons
+        name="ios-arrow-forward"
         size={22}
-        style={{ paddingRight: 10 }}
+        style={{ paddingRight: 15 }}
         color={'#ced0ce'}
       />
     );
@@ -124,8 +132,8 @@ class AccountScreen extends PureComponent {
           <View style={styles.listItemIcon}>
             <MaterialCommunityIcons
               name={item.icon.name}
-              size={28}
-              color={item.icon.color}
+              size={22}
+              color={'#fff'}
             />
           </View>
           <Text style={styles.listItemText}>{item.label}</Text>
@@ -140,49 +148,70 @@ class AccountScreen extends PureComponent {
     const { user } = this.props;
     const buttons = [
       {
-        key: 'sessions',
-        label: 'Sessions',
-        icon: { name: 'folder-lock-open', color: colors.primary },
-        onPress: this.navSessions,
-        style: styles.first,
+        title: 'ACCOUNT',
+        data: [
+          {
+            key: 'sessions',
+            label: 'Sessions',
+            icon: { name: 'folder-lock-open' },
+            onPress: this.navSessions,
+            style: styles.first,
+          },
+          {
+            key: 'password',
+            label: 'Change Password',
+            icon: { name: 'account-key' },
+            onPress: this.navChangePassword,
+            style: styles.last,
+          },
+        ],
       },
       {
-        key: 'password',
-        label: 'Change Password',
-        icon: { name: 'account-key', color: colors.primary },
-        onPress: this.navChangePassword,
+        title: 'SUPPORT',
+        data: [
+          {
+            key: 'privacy',
+            label: 'Privacy',
+            icon: { name: 'eye' },
+            onPress: this.openPrivacyPage,
+            style: styles.first,
+          },
+          {
+            key: 'help',
+            label: 'Help',
+            icon: { name: 'help-circle' },
+            onPress: this.openHelpPage,
+            style: styles.last,
+          },
+        ],
       },
       {
-        key: 'privacy',
-        label: 'Privacy',
-        icon: { name: 'eye', color: '#aaa' },
-        onPress: this.openPrivacyPage,
-      },
-      {
-        key: 'help',
-        label: 'Help',
-        icon: { name: 'help-circle', color: '#aaa' },
-        onPress: this.openHelpPage,
-      },
-      {
-        key: 'legal',
-        label: 'Legal',
-        icon: { name: 'gavel', color: '#aaa' },
-        onPress: this.navLegal,
-      },
-      {
-        key: 'version',
-        label: 'Version',
-        icon: { name: 'information', color: '#aaa' },
-        style: styles.last,
-        right: <Text style={styles.version}>{Constants.manifest.version}</Text>,
+        title: 'ABOUT',
+        data: [
+          {
+            key: 'legal',
+            label: 'Legal',
+            icon: { name: 'gavel' },
+            onPress: this.navLegal,
+            style: styles.first,
+          },
+          {
+            key: 'version',
+            label: 'Version',
+            icon: { name: 'information' },
+            style: styles.last,
+            right: (
+              <Text style={styles.version}>{Constants.manifest.version}</Text>
+            ),
+          },
+        ],
       },
     ];
 
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <FlatList
+        <SectionList
           ListHeaderComponent={() => {
             return (
               <View>
@@ -204,20 +233,21 @@ class AccountScreen extends PureComponent {
                     <Text style={styles.emailText}>{user.email}</Text>
                   </View>
                   <View style={{ paddingRight: 15 }}>
-                    <MaterialCommunityIcons
-                      name="chevron-right"
+                    <Ionicons
+                      name="ios-arrow-forward"
                       size={26}
                       color={'#ced0ce'}
                     />
                   </View>
                 </TouchableOpacity>
-                <View style={{ height: 50 }} />
               </View>
             );
           }}
           style={styles.list}
-          data={buttons}
+          stickySectionHeadersEnabled={false}
+          sections={buttons}
           ItemSeparatorComponent={this.renderSeparator}
+          renderSectionHeader={this.renderHeader}
           renderItem={this.renderButton}
           ListFooterComponent={() => {
             return (
@@ -298,10 +328,17 @@ const styles = StyleSheet.create({
     color: '#444',
   },
   listItemIcon: {
-    width: '10%',
+    width: 30,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: '3%',
     marginLeft: '3%',
     marginRight: '3%',
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+    borderWidth: 1,
+    borderRadius: 6,
   },
   first: {
     borderWidth: 1,
@@ -317,6 +354,14 @@ const styles = StyleSheet.create({
     color: '#ced0ce',
     marginRight: 25,
     fontSize: 18,
+  },
+  headerText: {
+    marginTop: 15,
+    padding: 5,
+    paddingLeft: 15,
+    fontSize: 14,
+    color: '#aaa',
+    fontWeight: '600',
   },
 });
 
