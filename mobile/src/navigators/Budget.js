@@ -52,23 +52,11 @@ const BudgetNavigatorStack = StackNavigator(
         const month =
           (navigation.state.params && navigation.state.params.month) ||
           new Date().getMonth() + 1;
-
         const budgetDate = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
-        const income =
-          (navigation.state.params && navigation.state.params.income) || 0;
-        const headerTitle = (
-          <View style={{ paddingLeft: 20, paddingRight: 20 }}>
-            <Text
-              style={{ fontWeight: '800', fontSize: 16, textAlign: 'center' }}
-            >
-              Budgets
-            </Text>
-            <Text style={{ textAlign: 'center' }}>{currencyf(income)}</Text>
-          </View>
-        );
+
         const headerBackTitle = budgetDate.format('MMM');
         return {
-          headerTitle,
+          title: 'Budgets',
           headerBackTitle,
           headerStyle,
         };

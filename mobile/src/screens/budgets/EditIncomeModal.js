@@ -9,7 +9,7 @@ import { updateIncome } from 'actions/budgets';
 import { UpdateIncomeRequest } from 'api/budgets';
 
 // Components
-import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import { notice } from 'notify';
 import MoneyInputModal from 'forms/MoneyInputModal';
@@ -56,12 +56,11 @@ class EditIncomeModal extends Component {
     return (
       <View>
         <TouchableOpacity onPress={this.showModal}>
-          <Feather
-            name="edit"
-            size={24}
+          <Ionicons
+            name="ios-cash-outline"
+            size={30}
             color={'#037aff'}
             style={{
-              fontWeight: '100',
               paddingRight: 15,
             }}
           />
