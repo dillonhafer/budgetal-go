@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.lines,
   },
   version: {
-    color: '#aaa',
+    color: '#ced0ce',
     marginRight: 25,
     fontSize: 18,
   },
