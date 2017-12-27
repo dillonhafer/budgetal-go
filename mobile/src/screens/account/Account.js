@@ -24,7 +24,7 @@ import { navigateRoot } from 'navigators';
 import colors from 'utils/colors';
 import { error } from 'notify';
 import { PrimaryButton, DangerButton } from 'forms';
-import { WebBrowser } from 'expo';
+import { WebBrowser, Constants } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 class AccountScreen extends PureComponent {
@@ -103,10 +103,20 @@ class AccountScreen extends PureComponent {
   };
 
   renderButton = ({ item }) => {
+    const right = item.right || (
+      <MaterialCommunityIcons
+        name="chevron-right"
+        size={22}
+        style={{ paddingRight: 10 }}
+        color={'#ced0ce'}
+      />
+    );
+
     return (
       <TouchableOpacity
         style={[styles.listItem, item.style]}
         onPress={item.onPress}
+        disabled={!!!item.onPress}
       >
         <View
           style={{ flexDirection: 'row', width: '86%', alignItems: 'center' }}
@@ -120,12 +130,7 @@ class AccountScreen extends PureComponent {
           </View>
           <Text style={styles.listItemText}>{item.label}</Text>
         </View>
-        <MaterialCommunityIcons
-          name="chevron-right"
-          size={22}
-          style={{ paddingRight: 10 }}
-          color={'#ced0ce'}
-        />
+        {right}
       </TouchableOpacity>
     );
   };
@@ -164,7 +169,13 @@ class AccountScreen extends PureComponent {
         label: 'Legal',
         icon: { name: 'gavel', color: '#aaa' },
         onPress: this.navLegal,
+      },
+      {
+        key: 'version',
+        label: 'Version',
+        icon: { name: 'information', color: '#aaa' },
         style: styles.last,
+        right: <Text style={styles.version}>{Constants.manifest.version}</Text>,
       },
     ];
 
@@ -301,6 +312,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     borderBottomColor: colors.lines,
+  },
+  version: {
+    color: '#aaa',
+    marginRight: 25,
+    fontSize: 18,
   },
 });
 
