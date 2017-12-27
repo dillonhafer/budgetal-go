@@ -21,6 +21,16 @@
                 "panel": "new"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "bump-version",
+            "type": "shell",
+            "command": "ruby ${workspaceFolder}/mobile/bump-version.rb",
+            "presentation": {
+                "reveal": "never",
+                "panel": "new"
+            },
+            "problemMatcher": []
         }
     ]
 }
