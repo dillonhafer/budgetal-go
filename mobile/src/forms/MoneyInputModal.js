@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, Modal, View, Text } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
 
 // Components
 import { BlurView } from 'expo';
@@ -8,6 +8,7 @@ import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
 import MoneyKeyboard from 'utils/MoneyKeyboard';
 import { PrimaryButton } from 'forms';
+import Modal from 'react-native-modalbox';
 
 class MoneyInputModal extends Component {
   state = {
@@ -34,10 +35,13 @@ class MoneyInputModal extends Component {
 
     return (
       <Modal
-        visible={visible}
-        animationType={'slide'}
-        transparent={true}
-        onRequestClose={this.onCancel}
+        style={{
+          backgroundColor: 'transparent',
+        }}
+        coverScreen={true}
+        isOpen={visible}
+        backdrop={false}
+        onClosed={this.onCancel}
       >
         <BlurView tint="light" intensity={95} style={styles.modal}>
           <TouchableOpacity style={styles.closeButton} onPress={this.onCancel}>
@@ -81,6 +85,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingTop: 25,
     paddingBottom: 15,
+    maxWidth: 50,
   },
 });
 
