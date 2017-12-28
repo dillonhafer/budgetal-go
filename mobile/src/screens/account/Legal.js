@@ -50,6 +50,9 @@ class LegalScreen extends PureComponent {
           <Project>
             React Native Swipeout, Copyright (c) 2015 Dan Cormier
           </Project>
+          <Project>
+            React Native Modalbox, Copyright (c) 2016 Maxime Mezrahi
+          </Project>
 
           <Text style={styles.license}>
             The MIT License (MIT) http://opensource.org/licenses/MIT/ Copyright
