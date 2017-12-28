@@ -26,6 +26,8 @@ const AnnualBudgetNavigatorStack = StackNavigator(
           new Date().getFullYear();
 
         return {
+          headerLeft: null,
+          gesturesEnabled: false,
           title: `Annual Budgets`,
           headerBackTitle: `${year}`,
           headerStyle,

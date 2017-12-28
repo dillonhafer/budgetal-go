@@ -56,6 +56,8 @@ const BudgetNavigatorStack = StackNavigator(
 
         const headerBackTitle = budgetDate.format('MMM');
         return {
+          headerLeft: null,
+          gesturesEnabled: false,
           title: 'Budgets',
           headerBackTitle,
           headerStyle,

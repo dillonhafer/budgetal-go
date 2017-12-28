@@ -18,7 +18,11 @@ const AccountNavigatorStack = StackNavigator(
   {
     AccountScreen: {
       screen: AccountScreen,
-      navigationOptions: { headerStyle },
+      navigationOptions: {
+        headerStyle,
+        headerLeft: null,
+        gesturesEnabled: false,
+      },
     },
     AccountEdit: {
       screen: AccountEditScreen,
