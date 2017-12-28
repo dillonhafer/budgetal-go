@@ -321,3 +321,16 @@ func resolveHostIp() string {
 	}
 	return ""
 }
+
+func (u *User) SendPushNotification(title, body string) error {
+	url := "https://exp.host/--/api/v2/push/send"
+	values := map[string]string{
+		"to":    u.PushNotificationToken.String,
+		"title": title,
+		"body":  body,
+		"sound": "default",
+	}
+	jsonValue, _ := json.Marshal(values)
+	_, err := http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
+	return err
+}

@@ -108,6 +108,7 @@ func App() *buffalo.App {
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
 		app.GET("/admin/test-email", WithCurrentUser(AdminTestEmail))
 		app.GET("/admin/error", WithCurrentUser(AdminErrorPage))
+		app.POST("/admin/test-push-notification", WithCurrentUser(AdminTestPushNotification))
 
 		// Sessions
 		app.GET("/sessions", WithCurrentUser(SessionsIndex))

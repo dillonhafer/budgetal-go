@@ -52,6 +52,27 @@ func AdminTestEmail(c buffalo.Context, currentUser *models.User) error {
 
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
+func AdminTestPushNotification(c buffalo.Context, currentUser *models.User) error {
+	if currentUser.Admin != true {
+		return c.Render(401, r.JSON(""))
+	}
+
+	var params = struct {
+		Title string `json:"title"`
+		Body  string `json:"body"`
+	}{
+		"",
+		"",
+	}
+
+	if err := BindParams(c, &params); err != nil {
+		return err
+	}
+
+	currentUser.SendPushNotification(params.Title, params.Body)
+
+	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
+}
 
 func AdminErrorPage(c buffalo.Context, currentUser *models.User) error {
 	if currentUser.Admin != true {

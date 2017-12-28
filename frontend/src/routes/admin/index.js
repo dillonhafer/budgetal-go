@@ -5,23 +5,48 @@ import {
   AdminUsersRequest,
   AdminTestEmailRequest,
   AdminErrorRequest,
+  AdminTestPushNotificationRequest,
 } from 'api/admin';
 import moment from 'moment';
 
 // Antd
-import { Card, Button, Table } from 'antd';
+import { Card, Button, Table, Modal, Input } from 'antd';
 
 export default class Admin extends Component {
   state = {
     isAdmin: false,
     testEmailLoading: false,
     errorLoading: false,
+    pushNotificationLoading: false,
+    pushNotificationVisible: false,
     users: [],
   };
 
   componentDidMount() {
     this.checkForAdmin();
   }
+
+  testPushNotification = async () => {
+    this.setState({ pushNotificationLoading: true });
+    try {
+      const title = document.getElementsByName('pnTitle')[0].value;
+      const body = document.getElementsByName('pnBody')[0].value;
+
+      const resp = await AdminTestPushNotificationRequest({ title, body });
+      if (resp && resp.ok) {
+        notice('Sent Push Notification');
+      } else {
+        error('Could not send Push Notification');
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      this.setState({
+        pushNotificationLoading: false,
+        pushNotificationVisible: false,
+      });
+    }
+  };
 
   sendTestEmail = async () => {
     this.setState({ testEmailLoading: true });
@@ -117,7 +142,12 @@ export default class Admin extends Component {
   }
 
   render() {
-    const { isAdmin, testEmailLoading, errorLoading } = this.state;
+    const {
+      isAdmin,
+      testEmailLoading,
+      errorLoading,
+      pushNotificationLoading,
+    } = this.state;
     if (!isAdmin) {
       return null;
     }
@@ -145,6 +175,31 @@ export default class Admin extends Component {
           >
             {errorLoading ? 'Loading...' : 'Test 500'}
           </Button>
+          &nbsp;
+          <Button
+            icon="shake"
+            type="primary"
+            size="large"
+            onClick={() => this.setState({ pushNotificationVisible: true })}
+          >
+            Test Push Notification
+          </Button>
+          <Modal
+            title="Test Push Notification"
+            okText="Send Notification"
+            width={300}
+            confirmLoading={pushNotificationLoading}
+            visible={this.state.pushNotificationVisible}
+            onOk={this.testPushNotification}
+            onCancel={() => this.setState({ pushNotificationVisible: false })}
+          >
+            <form>
+              <label>Title</label>
+              <Input name="pnTitle" />
+              <label>Body</label>
+              <Input name="pnBody" />
+            </form>
+          </Modal>
         </Card>
         <br />
         <Card noHovering title={'Users'}>
