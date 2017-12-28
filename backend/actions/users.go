@@ -4,7 +4,26 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
+	"github.com/markbates/pop/nulls"
 )
+
+func UsersUpdatePushNotificationToken(c buffalo.Context, currentUser *models.User) error {
+	var params = struct {
+		PushNotificationToken string `json:"token"`
+	}{
+		"",
+	}
+	if err := c.Bind(&params); err != nil {
+		return err
+	}
+
+	if params.PushNotificationToken != "" {
+		currentUser.PushNotificationToken = nulls.String{String: params.PushNotificationToken, Valid: true}
+		models.DB.Update(currentUser)
+	}
+
+	return c.Render(200, r.JSON(map[string]string{"message": "ok"}))
+}
 
 func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
 	var params = struct {

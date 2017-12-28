@@ -9,6 +9,19 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 )
 
+func (as *ActionSuite) Test_Users_UpdatePushNotificationToken_RequiresUser() {
+	r := as.JSON("/update-push-notification-token").Put(map[string]string{"token": "PushNotificationToken"})
+	as.Equal(401, r.Code)
+}
+
+func (as *ActionSuite) Test_Users_UpdatePushNotificationToken() {
+	user := as.SignedInUser()
+	r := as.JSON("/update-push-notification-token").Put(map[string]string{"token": "PushNotificationToken"})
+	as.DB.Reload(&user)
+	as.Equal(200, r.Code)
+	as.Equal("PushNotificationToken", user.PushNotificationToken.String)
+}
+
 func (as *ActionSuite) Test_Users_Update_RequiresUser() {
 	r := as.JSON("/update-user").Patch(map[string]string{})
 	as.Equal(401, r.Code)

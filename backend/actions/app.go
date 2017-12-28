@@ -102,6 +102,7 @@ func App() *buffalo.App {
 		app.PATCH("/update-user", WithCurrentUser(UsersUpdate))
 		app.PUT("/update-user", WithCurrentUser(UsersUpdate))
 		app.PATCH("/update-password", WithCurrentUser(UsersChangePassword))
+		app.PUT("/update-push-notification-token", WithCurrentUser(UsersUpdatePushNotificationToken))
 
 		// Admin
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
