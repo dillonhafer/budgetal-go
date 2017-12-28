@@ -41,6 +41,7 @@ class MoneyInputModal extends Component {
         coverScreen={true}
         isOpen={visible}
         backdrop={false}
+        backButtonClose={true}
         onClosed={this.onCancel}
       >
         <BlurView tint="light" intensity={95} style={styles.modal}>

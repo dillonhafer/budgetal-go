@@ -8,7 +8,6 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  Modal,
 } from 'react-native';
 
 // Redux
@@ -27,6 +26,7 @@ import { SetCurrentUser } from 'utils/authentication';
 import { ImagePicker, BlurView } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Modal from 'react-native-modalbox';
 
 class AccountEditScreen extends Component {
   static navigationOptions = {
@@ -150,10 +150,14 @@ class AccountEditScreen extends Component {
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.container}>
         <Modal
-          animationType={'slide'}
-          transparent={true}
-          visible={showImagePicker}
-          onRequestClose={this.hideImagePicker}
+          style={{
+            backgroundColor: 'transparent',
+          }}
+          coverScreen={true}
+          isOpen={showImagePicker}
+          backdrop={false}
+          backButtonClose={true}
+          onClosed={this.hideImagePicker}
         >
           <BlurView tint="dark" intensity={95} style={styles.modal}>
             <TouchableOpacity
