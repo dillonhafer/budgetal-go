@@ -20,6 +20,7 @@ const store = createStore(reducers);
 
 // App
 import RootNavigator from 'navigators/root';
+import registerForPushNotifications from 'utils/registerForPushNotifications';
 StatusBar.setBarStyle('light-content', true);
 
 // Linking
@@ -65,6 +66,10 @@ export default class App extends Component {
     orientation: Device.isPortrait() ? 'portrait' : 'landscape',
     devicetype: Device.isTablet() ? 'tablet' : 'phone',
   };
+
+  componentWillMount() {
+    registerForPushNotifications();
+  }
 
   componentDidMount() {
     Linking.addEventListener('url', this._handleOpenURL);

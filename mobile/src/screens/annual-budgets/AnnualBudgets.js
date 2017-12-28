@@ -65,7 +65,9 @@ class AnnualBudgetsScreen extends PureComponent {
   };
 
   componentDidMount() {
-    this.loadBudgetItems({ year: new Date().getFullYear() });
+    setTimeout(() => {
+      this.loadBudgetItems({ year: new Date().getFullYear() });
+    }, 500);
   }
 
   deleteItem = async item => {

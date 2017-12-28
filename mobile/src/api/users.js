@@ -18,6 +18,10 @@ export function UpdateAccountInfoRequest(formData) {
   });
 }
 
+export function UpdatePushNotificationTokenRequest(token) {
+  return _put('/update-push-notification-token', { token });
+}
+
 export function ChangePasswordRequest({ password, currentPassword }) {
   return _patch('/update-password', { password, currentPassword });
 }

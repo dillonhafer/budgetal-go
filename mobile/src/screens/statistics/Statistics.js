@@ -35,10 +35,12 @@ class StatisticsScreen extends PureComponent {
   };
 
   componentDidMount() {
-    this.loadStatistics({
-      month: new Date().getMonth() + 1,
-      year: new Date().getFullYear(),
-    });
+    setTimeout(() => {
+      this.loadStatistics({
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear(),
+      });
+    }, 800);
   }
 
   renderCategory = ({ item: budgetCategory }) => {
