@@ -5,7 +5,7 @@
     "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "24.0.0",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "ios": {
       "supportsTablet": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.budgetal.app",
-      "versionCode": 4,
+      "versionCode": 5,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app"
     },
     "icon": "./app-store-assets/logo.png",
