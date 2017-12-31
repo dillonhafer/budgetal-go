@@ -4,7 +4,6 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop/nulls"
 )
 
 func UsersUpdatePushNotificationToken(c buffalo.Context, currentUser *models.User) error {
@@ -13,13 +12,12 @@ func UsersUpdatePushNotificationToken(c buffalo.Context, currentUser *models.Use
 	}{
 		"",
 	}
-	if err := c.Bind(&params); err != nil {
+	if err := BindParams(c, &params); err != nil {
 		return err
 	}
 
 	if params.PushNotificationToken != "" {
-		currentUser.PushNotificationToken = nulls.String{String: params.PushNotificationToken, Valid: true}
-		models.DB.Update(currentUser)
+		currentUser.AppendPushNotificationToken(params.PushNotificationToken)
 	}
 
 	return c.Render(200, r.JSON(map[string]string{"message": "ok"}))

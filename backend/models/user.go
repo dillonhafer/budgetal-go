@@ -21,36 +21,58 @@ import (
 	"time"
 
 	"github.com/disintegration/imaging"
+	"github.com/fatih/color"
 	"github.com/gobuffalo/envy"
 	"github.com/markbates/pop"
 	"github.com/markbates/pop/nulls"
+	"github.com/markbates/pop/slices"
 	"github.com/markbates/validate"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	ID                    int            `json:"-" db:"id"`
-	Email                 string         `json:"email" db:"email"`
-	FirstName             string         `json:"firstName" db:"first_name"`
-	LastName              string         `json:"lastName" db:"last_name"`
-	Admin                 bool           `json:"admin" db:"admin"`
-	PasswordResetToken    nulls.String   `json:"-" db:"password_reset_token"`
-	PasswordResetSentAt   nulls.Time     `json:"-" db:"password_reset_sent_at"`
-	AvatarFileName        nulls.String   `json:"-" db:"avatar_file_name"`
-	AvatarContentType     sql.NullString `json:"-" db:"avatar_content_type"`
-	AvatarFileSize        sql.NullInt64  `json:"-" db:"avatar_file_size"`
-	AvatarUpdatedAt       time.Time      `json:"-" db:"avatar_updated_at"`
-	EncryptedPassword     string         `json:"-" db:"encrypted_password"`
-	CreatedAt             time.Time      `json:"-" db:"created_at"`
-	UpdatedAt             time.Time      `json:"-" db:"updated_at"`
-	CurrentSession        *Session       `json:"-" db:"-"`
-	PushNotificationToken nulls.String   `json:"-" db:"push_notification_token"`
+	ID                     int            `json:"-" db:"id"`
+	Email                  string         `json:"email" db:"email"`
+	FirstName              string         `json:"firstName" db:"first_name"`
+	LastName               string         `json:"lastName" db:"last_name"`
+	Admin                  bool           `json:"admin" db:"admin"`
+	PasswordResetToken     nulls.String   `json:"-" db:"password_reset_token"`
+	PasswordResetSentAt    nulls.Time     `json:"-" db:"password_reset_sent_at"`
+	AvatarFileName         nulls.String   `json:"-" db:"avatar_file_name"`
+	AvatarContentType      sql.NullString `json:"-" db:"avatar_content_type"`
+	AvatarFileSize         sql.NullInt64  `json:"-" db:"avatar_file_size"`
+	AvatarUpdatedAt        time.Time      `json:"-" db:"avatar_updated_at"`
+	EncryptedPassword      string         `json:"-" db:"encrypted_password"`
+	CreatedAt              time.Time      `json:"-" db:"created_at"`
+	UpdatedAt              time.Time      `json:"-" db:"updated_at"`
+	CurrentSession         *Session       `json:"-" db:"-"`
+	PushNotificationTokens slices.String  `json:"-" db:"push_notification_tokens"`
 }
 
 // String is not required by pop and may be deleted
 func (u User) String() string {
 	ju, _ := json.Marshal(u)
 	return string(ju)
+}
+
+func (u *User) AppendPushNotificationToken(token string) error {
+	var s = struct {
+		ID    int    `db:"id"`
+		Token string `db:"token"`
+	}{
+		u.ID,
+		token,
+	}
+
+	query := `
+	  update users
+	  set push_notification_tokens = array_append(push_notification_tokens, :token)
+	  where id = :id
+	  and not array[:token] <@ push_notification_tokens;
+	`
+	println(color.YellowString(query))
+	_, err := DB.Store.NamedExec(query, s)
+	return err
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
@@ -315,22 +337,41 @@ func resolveHostIp() string {
 		networkIp, ok := netInterfaceAddress.(*net.IPNet)
 		if ok && !networkIp.IP.IsLoopback() && networkIp.IP.To4() != nil {
 			ip := networkIp.IP.String()
-			fmt.Println("Resolved Host IP: " + ip)
 			return ip
 		}
 	}
 	return ""
 }
 
+type PushNotification struct {
+	To    string `json:"to"`
+	Title string `json:"title"`
+	Body  string `json:"body"`
+	Sound string `json:"sound"`
+}
+
 func (u *User) SendPushNotification(title, body string) error {
 	url := "https://exp.host/--/api/v2/push/send"
-	values := map[string]string{
-		"to":    u.PushNotificationToken.String,
-		"title": title,
-		"body":  body,
-		"sound": "default",
+
+	var pushNotifications []PushNotification
+	for _, to := range u.PushNotificationTokens {
+		if to != "" {
+			pn := PushNotification{
+				To:    to,
+				Title: title,
+				Body:  body,
+				Sound: `default`,
+			}
+			pushNotifications = append(pushNotifications, pn)
+		}
 	}
-	jsonValue, _ := json.Marshal(values)
+
+	if len(pushNotifications) == 0 {
+		return nil
+	}
+
+	jsonValue, _ := json.Marshal(pushNotifications)
 	_, err := http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
+
 	return err
 }

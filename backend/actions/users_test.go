@@ -19,7 +19,8 @@ func (as *ActionSuite) Test_Users_UpdatePushNotificationToken() {
 	r := as.JSON("/update-push-notification-token").Put(map[string]string{"token": "PushNotificationToken"})
 	as.DB.Reload(&user)
 	as.Equal(200, r.Code)
-	as.Equal("PushNotificationToken", user.PushNotificationToken.String)
+	as.Equal(1, len(user.PushNotificationTokens))
+	as.Equal("PushNotificationToken", user.PushNotificationTokens[0])
 }
 
 func (as *ActionSuite) Test_Users_Update_RequiresUser() {
