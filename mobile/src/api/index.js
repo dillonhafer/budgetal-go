@@ -7,7 +7,7 @@ import { error } from 'notify';
 import { Constants, Util } from 'expo';
 
 // Default URL to production
-let baseURL = 'https://beta-api.budgetal.com';
+let baseURL = 'https://api.budgetal.com';
 
 if (__DEV__) {
   const expoHost = Constants.manifest.debuggerHost;
