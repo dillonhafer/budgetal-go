@@ -25,6 +25,7 @@
       "image": "./src/images/budgetal-splash.png",
       "backgroundColor": "#108ee9",
       "resizeMode": "cover"
-    }
+    },
+    "assetBundlePatterns": ["src/images/**"]
   }
 }
