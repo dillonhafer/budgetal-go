@@ -366,12 +366,22 @@ func (u *User) SendPushNotification(title, body string) error {
 		}
 	}
 
-	if len(pushNotifications) == 0 {
+	notificationCount := len(pushNotifications)
+	if notificationCount == 0 {
 		return nil
 	}
 
+	word := "notifications"
+	if notificationCount == 1 {
+		word = "notification"
+	}
+	println(fmt.Sprintf("Sending %d %s", notificationCount, word))
+
 	jsonValue, _ := json.Marshal(pushNotifications)
 	_, err := http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
+	if err != nil {
+		println(fmt.Sprintf("%v", err))
+	}
 
 	return err
 }
