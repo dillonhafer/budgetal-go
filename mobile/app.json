@@ -5,7 +5,7 @@
     "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "24.0.0",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "ios": {
       "supportsTablet": true,
@@ -17,7 +17,7 @@
     },
     "android": {
       "package": "com.budgetal.app",
-      "versionCode": 5,
+      "versionCode": 6,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app"
     },
     "icon": "./app-store-assets/logo.png",
@@ -26,6 +26,8 @@
       "backgroundColor": "#108ee9",
       "resizeMode": "cover"
     },
-    "assetBundlePatterns": ["src/images/**"]
+    "assetBundlePatterns": [
+      "src/images/**"
+    ]
   }
 }
