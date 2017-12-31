@@ -1,7 +1,13 @@
 import { Permissions, Notifications } from 'expo';
 import { UpdatePushNotificationTokenRequest } from 'api/users';
+import { IsAuthenticated } from 'utils/authentication';
 
 async function registerForPushNotificationsAsync() {
+  const authenticated = await IsAuthenticated();
+  if (!authenticated) {
+    return;
+  }
+
   const { status: existingStatus } = await Permissions.getAsync(
     Permissions.NOTIFICATIONS,
   );
