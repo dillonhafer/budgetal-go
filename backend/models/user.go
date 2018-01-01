@@ -378,7 +378,17 @@ func (u *User) SendPushNotification(title, body string) error {
 	println(fmt.Sprintf("Sending %d %s", notificationCount, word))
 
 	jsonValue, _ := json.Marshal(pushNotifications)
-	_, err := http.Post(url, "application/json", bytes.NewBuffer(jsonValue))
+	var netTransport = &http.Transport{
+		Dial: (&net.Dialer{
+			Timeout: 5 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout: 5 * time.Second,
+	}
+	var budgetalClient = &http.Client{
+		Timeout:   time.Second * 5,
+		Transport: netTransport,
+	}
+	_, err := budgetalClient.Post(url, "application/json", bytes.NewBuffer(jsonValue))
 	if err != nil {
 		println(fmt.Sprintf("%v", err))
 	}

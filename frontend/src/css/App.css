@@ -178,6 +178,10 @@ div.ant-layout-header {
   height: 18px !important;
 }
 
+.hide {
+  display: none;
+}
+
 .ant-table-pagination {
   float: none !important;
 }

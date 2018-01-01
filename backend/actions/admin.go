@@ -69,7 +69,11 @@ func AdminTestPushNotification(c buffalo.Context, currentUser *models.User) erro
 		return err
 	}
 
-	currentUser.SendPushNotification(params.Title, params.Body)
+	err := currentUser.SendPushNotification(params.Title, params.Body)
+
+	if err != nil {
+		return c.Render(422, r.JSON(map[string]string{"error": "Could not send Push Notification"}))
+	}
 
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }

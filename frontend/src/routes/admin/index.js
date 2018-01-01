@@ -26,24 +26,29 @@ export default class Admin extends Component {
     this.checkForAdmin();
   }
 
-  testPushNotification = async () => {
+  testPushNotification = async e => {
+    e.preventDefault();
+    const titleField = document.getElementsByName('pnTitle')[0];
+    const bodyField = document.getElementsByName('pnBody')[0];
     this.setState({ pushNotificationLoading: true });
     try {
-      const title = document.getElementsByName('pnTitle')[0].value;
-      const body = document.getElementsByName('pnBody')[0].value;
+      const title = titleField.value;
+      const body = bodyField.value;
 
       const resp = await AdminTestPushNotificationRequest({ title, body });
       if (resp && resp.ok) {
         notice('Sent Push Notification');
-      } else {
-        error('Could not send Push Notification');
+        this.setState({
+          pushNotificationVisible: false,
+        });
+        titleField.value = '';
+        bodyField.value = '';
       }
     } catch (err) {
       console.log(err);
     } finally {
       this.setState({
         pushNotificationLoading: false,
-        pushNotificationVisible: false,
       });
     }
   };
@@ -193,11 +198,12 @@ export default class Admin extends Component {
             onOk={this.testPushNotification}
             onCancel={() => this.setState({ pushNotificationVisible: false })}
           >
-            <form>
+            <form onSubmit={this.testPushNotification}>
               <label>Title</label>
-              <Input name="pnTitle" />
+              <Input name="pnTitle" required="true" />
               <label>Body</label>
-              <Input name="pnBody" />
+              <Input name="pnBody" required="true" />
+              <input type="submit" className="hide" value="Submit" />
             </form>
           </Modal>
         </Card>
