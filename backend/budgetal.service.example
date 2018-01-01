@@ -4,23 +4,7 @@ ConditionPathExists=/home/deploy/budgetal-beta/budgetal
 After=network.target
 
 [Service]
-Environment=GO_ENV=production
-Environment=APP_HOST=https://example.com
-Environment=DATABASE_URL=postgres:///budgetal_production?host=/var/run/postgresql&fallback_application_name=Budgetal-Go
-Environment=CORS=https://example.com
-
-Environment=SMTP_USER=sendgriduser
-Environment=SMTP_PASSWORD=keep it secret, keep it safe
-Environment=SMTP_HOST=smtp.sendgrid.net
-Environment=SMTP_PORT=587
-Environment=ERROR_NOTIFICATION_EMAILS=email@example.com,email2@example.com
-
-Environment=AWS_S3_ACCESS_KEY_ID=keyid
-Environment=AWS_S3_SECRET_ACCESS_KEY=se/cr/et
-Environment=AWS_S3_TOKEN=
-Environment=AWS_S3_REGION=us-east-1
-Environment=AWS_S3_BUCKET=my-bucket
-
+EnvironmentFile=/home/deploy/budgetal-beta/budgetal-env
 Type=simple
 User=deploy
 Group=deploy

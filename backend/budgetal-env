@@ -1,0 +1,16 @@
+GO_ENV=production
+APP_HOST=https://example.com
+DATABASE_URL=postgres:///budgetal_production?host=/var/run/postgresql&fallback_application_name=Budgetal-Go
+CORS=https://example.com
+
+SMTP_USER=sendgriduser
+SMTP_PASSWORD=keep it secret, keep it safe
+SMTP_HOST=smtp.sendgrid.net
+SMTP_PORT=587
+ERROR_NOTIFICATION_EMAILS=email@example.com,email2@example.com
+
+AWS_S3_ACCESS_KEY_ID=keyid
+AWS_S3_SECRET_ACCESS_KEY=se/cr/et
+AWS_S3_TOKEN=
+AWS_S3_REGION=us-east-1
+AWS_S3_BUCKET=my-bucket
