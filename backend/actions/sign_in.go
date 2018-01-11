@@ -3,13 +3,15 @@ package actions
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
+	"github.com/markbates/pop/nulls"
 )
 
 // SignIn default implementation.
 func SignIn(c buffalo.Context) error {
 	var params struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Email      string `json:"email"`
+		Password   string `json:"password"`
+		DeviceName string `json:"deviceName"`
 	}
 	var response struct {
 		Token string       `json:"token"`
@@ -17,7 +19,7 @@ func SignIn(c buffalo.Context) error {
 	}
 	err := map[string]string{"error": "Incorrect Email or Password"}
 
-	if err := c.Bind(&params); err != nil {
+	if err := BindParams(c, &params); err != nil {
 		return err
 	}
 
@@ -42,11 +44,15 @@ func SignIn(c buffalo.Context) error {
 		ipAddress = c.Request().RemoteAddr
 	}
 
+	deviceNameValid := params.DeviceName != ""
+	deviceName := nulls.String{params.DeviceName, deviceNameValid}
+
 	session := &models.Session{
 		UserAgent:           c.Request().UserAgent(),
 		AuthenticationToken: RandomHex(16),
 		UserID:              user.ID,
 		IpAddress:           ipAddress,
+		DeviceName:          deviceName,
 	}
 	query := session.Create()
 	c.Logger().Debug(query)
