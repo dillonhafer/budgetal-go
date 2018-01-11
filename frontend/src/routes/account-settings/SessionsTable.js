@@ -114,6 +114,11 @@ class SessionsTable extends Component {
       color = colors.primary;
     }
 
+    if (/firefox/i.test(hua)) {
+      icon = 'global';
+      color = '#E55B0A';
+    }
+
     if (/iOS/i.test(hua)) {
       icon = 'apple';
       color = '#323232';
