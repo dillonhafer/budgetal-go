@@ -1,7 +1,12 @@
 import { _get, _post, _delete } from 'api';
+import { Constants } from 'expo';
 
 export function SignInRequest({ email, password }) {
-  return _post('/sign-in', { email, password });
+  return _post('/sign-in', {
+    email,
+    password,
+    deviceName: Constants.deviceName,
+  });
 }
 
 export function SignOutRequest() {

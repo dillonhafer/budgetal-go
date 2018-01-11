@@ -165,10 +165,14 @@ class SessionsScreen extends PureComponent {
 
   renderItem = ({ item: session }) => {
     const isCurrent = session.authenticationToken === this.state.currentSession;
-    const buttons = isCurrent ? [] : this.sessionButtons(session);
 
     return (
-      <Swipeout autoClose={true} backgroundColor={'#fff'} right={buttons}>
+      <Swipeout
+        autoClose={true}
+        backgroundColor={colors.error}
+        disabled={isCurrent}
+        right={this.sessionButtons(session)}
+      >
         <View style={[styles.listItem, session.style]}>
           <View
             style={[
@@ -184,12 +188,13 @@ class SessionsScreen extends PureComponent {
             </View>
             <View style={{ width: '86%' }}>
               <Text style={styles.listItemText}>
-                {humanUA(session.userAgent)}{' '}
-                <Text style={{ color: colors.error }}>
-                  {isCurrent ? '(current session)' : ''}
-                </Text>
+                {humanUA(session.userAgent)}
+                {session.deviceName ? ` - ${session.deviceName}` : ''}{' '}
               </Text>
               <Text>{moment(session.createdAt).fromNow()}</Text>
+              {isCurrent && (
+                <Text style={{ color: colors.error }}>(current session)</Text>
+              )}
             </View>
           </View>
         </View>
@@ -246,6 +251,7 @@ class SessionsScreen extends PureComponent {
           <TouchableOpacity onPress={this.toggleDelete}>
             <Text style={styles.listItemText}>
               {humanUA(session.userAgent)}
+              {session.deviceName ? ` - ${session.deviceName}` : ''}
             </Text>
             <Text>{moment(session.createdAt).fromNow()}</Text>
           </TouchableOpacity>
