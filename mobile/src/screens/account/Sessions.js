@@ -215,6 +215,11 @@ class SessionsScreen extends PureComponent {
       icon = 'apple-safari';
     }
 
+    if (/firefox/i.test(hua)) {
+      icon = 'firefox';
+      color = '#E55B0A';
+    }
+
     if (/on iOS/i.test(hua)) {
       icon = 'apple';
       color = '#333';
