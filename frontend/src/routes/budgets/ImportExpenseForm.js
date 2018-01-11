@@ -129,6 +129,8 @@ class ImportExpenseForm extends Component {
           <Col span={14}>
             <Cascader
               options={options}
+              allowClear={false}
+              size="large"
               onChange={this.onChange}
               placeholder="Please select"
             />

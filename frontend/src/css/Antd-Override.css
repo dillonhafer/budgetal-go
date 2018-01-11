@@ -48,3 +48,7 @@ div.ant-layout-header {
 .ant-upload-list-item-actions a {
   display: none;
 }
+
+ul.ant-cascader-menu {
+  height: 385px;
+}
