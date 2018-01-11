@@ -94,8 +94,8 @@ class SessionsTable extends Component {
     });
   };
 
-  browser(ua) {
-    const hua = humanUA(ua);
+  browser(session) {
+    const hua = humanUA(session.userAgent);
     let icon = 'global';
     let color = '#000';
 
@@ -136,6 +136,7 @@ class SessionsTable extends Component {
           style={{ color, fontSize: '20px', marginRight: '5px' }}
         />{' '}
         {hua}
+        {session.deviceName ? ` - ${session.deviceName}` : ''}
       </div>
     );
   }
@@ -177,7 +178,7 @@ class SessionsTable extends Component {
     return sessions.map((session, key) => {
       return {
         key,
-        browser: this.browser(session.userAgent),
+        browser: this.browser(session),
         sign_in: this.sessionDate(session.createdAt),
         sign_out: this.sessionDate(session.expiredAt),
         ip: session.ipAddress,
@@ -204,7 +205,7 @@ class SessionsTable extends Component {
         );
         return {
           key,
-          browser: this.browser(session.userAgent),
+          browser: this.browser(session),
           sign_in: this.sessionDate(session.createdAt),
           sign_out: signOut,
           orderKey: moment(session.createdAt).unix(),
