@@ -27,6 +27,7 @@ import {
   FontAwesome,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
+import moment from 'moment';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
@@ -199,6 +200,10 @@ class BudgetCategoryScreen extends PureComponent {
   };
 
   render() {
+    const currentMonth = this.props.budget.month;
+    const previousMonthDigit = currentMonth === 1 ? 12 : currentMonth - 1;
+    const previousMonth = moment.months()[previousMonthDigit - 1];
+
     const category = this.props.navigation.state.params.budgetCategory;
     const items = this.props.budgetItems.filter(
       i => i.budgetCategoryId === category.id,
@@ -217,7 +222,10 @@ class BudgetCategoryScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}
           ListFooterComponent={
-            <PrimaryButton title="Import" onPress={this.onImportPress} />
+            <PrimaryButton
+              title={`Import ${previousMonth} Items`}
+              onPress={this.onImportPress}
+            />
           }
         />
       </View>
