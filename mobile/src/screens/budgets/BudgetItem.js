@@ -44,6 +44,10 @@ class BudgetItemScreen extends PureComponent {
     };
   };
 
+  state = {
+    scrollEnabled: true,
+  };
+
   deleteExpense = async expense => {
     const resp = await DeleteExpenseRequest(expense.id);
     if (resp && resp.ok) {
@@ -116,6 +120,9 @@ class BudgetItemScreen extends PureComponent {
         autoClose={true}
         backgroundColor={colors.primary}
         right={buttons}
+        scroll={scrollEnabled => {
+          this.setState({ scrollEnabled });
+        }}
       >
         <View style={styles.expenseRow} key={expense.id}>
           <Text style={{ width: '70%', textAlign: 'center' }}>
@@ -171,6 +178,7 @@ class BudgetItemScreen extends PureComponent {
           ListHeaderComponent={() => {
             return this.renderHeader(expenseSections.length);
           }}
+          scrollEnabled={this.state.scrollEnabled}
           style={styles.list}
           keyExtractor={i => i.id}
           sections={expenseSections}

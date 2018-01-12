@@ -42,6 +42,7 @@ class SessionsScreen extends PureComponent {
       expired: [],
     },
     currentSession: '',
+    scrollEnabled: true,
   };
 
   componentDidMount = () => {
@@ -172,6 +173,9 @@ class SessionsScreen extends PureComponent {
         backgroundColor={colors.error}
         disabled={isCurrent}
         right={this.sessionButtons(session)}
+        scroll={scrollEnabled => {
+          this.setState({ scrollEnabled });
+        }}
       >
         <View style={[styles.listItem, session.style]}>
           <View
@@ -314,6 +318,7 @@ class SessionsScreen extends PureComponent {
               onRefresh={this.onRefresh}
             />
           }
+          scrollEnabled={this.state.scrollEnabled}
           ItemSeparatorComponent={this.renderSeparator}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderItem}

@@ -50,6 +50,10 @@ class BudgetCategoryScreen extends PureComponent {
     };
   };
 
+  state = {
+    scrollEnabled: true,
+  };
+
   importPreviousItems = async () => {
     const budgetCategory = this.props.navigation.state.params.budgetCategory;
     const resp = await ImportCategoryRequest(budgetCategory.id);
@@ -124,6 +128,9 @@ class BudgetCategoryScreen extends PureComponent {
       <Swipeout
         buttonWidth={84}
         autoClose={true}
+        scroll={scrollEnabled => {
+          this.setState({ scrollEnabled });
+        }}
         backgroundColor={colors.primary}
         right={buttons}
       >
@@ -200,6 +207,7 @@ class BudgetCategoryScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <FlatList
+          scrollEnabled={this.state.scrollEnabled}
           ListHeaderComponent={() => {
             return this.renderHeader(items.length);
           }}

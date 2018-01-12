@@ -62,6 +62,7 @@ class AnnualBudgetsScreen extends PureComponent {
     loading: false,
     refreshing: false,
     year: new Date().getFullYear(),
+    scrollEnabled: true,
   };
 
   componentDidMount() {
@@ -169,6 +170,9 @@ class AnnualBudgetsScreen extends PureComponent {
         autoClose={true}
         backgroundColor={colors.yellow}
         right={buttons}
+        scroll={scrollEnabled => {
+          this.setState({ scrollEnabled });
+        }}
       >
         <View style={styles.itemRow} key={budgetItem.id}>
           <View>
@@ -250,6 +254,7 @@ class AnnualBudgetsScreen extends PureComponent {
               onRefresh={this.onRefresh}
             />
           }
+          scrollEnabled={this.state.scrollEnabled}
           style={styles.list}
           keyExtractor={i => i.id}
           data={annualBudgetItems}
