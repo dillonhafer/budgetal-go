@@ -216,6 +216,14 @@ class SessionsScreen extends PureComponent {
       icon = 'internet-explorer';
     }
 
+    if (/ie/i.test(hua)) {
+      icon = 'internet-explorer';
+    }
+
+    if (/edge/i.test(hua)) {
+      icon = 'edge';
+    }
+
     if (/safari/i.test(hua)) {
       icon = 'apple-safari';
     }
@@ -233,6 +241,11 @@ class SessionsScreen extends PureComponent {
     if (/on Android/i.test(hua)) {
       icon = 'android';
       color = '#76c258';
+    }
+
+    if (/opera/i.test(hua)) {
+      icon = 'opera';
+      color = '#ff1b2e';
     }
 
     return <MaterialCommunityIcons name={icon} size={28} color={color} />;
