@@ -1,10 +1,28 @@
 import React, { Component } from 'react';
 import { humanUA } from 'helpers';
-import { notice, colors } from 'window';
-import { Table, Button, Modal, Icon } from 'antd';
+import { notice } from 'window';
+import { Table, Button, Modal } from 'antd';
 import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
 import moment from 'moment';
 import { orderBy } from 'lodash';
+
+import GoogleChromeIcon from 'mdi-react/GoogleChromeIcon';
+import InternetExplorerIcon from 'mdi-react/InternetExplorerIcon';
+import AppleSafariIcon from 'mdi-react/AppleSafariIcon';
+import FirefoxIcon from 'mdi-react/FirefoxIcon';
+import AppleIcon from 'mdi-react/AppleIcon';
+import AndroidIcon from 'mdi-react/AndroidIcon';
+import EarthIcon from 'mdi-react/EarthIcon';
+
+const uaIcons = {
+  global: <EarthIcon />,
+  chrome: <GoogleChromeIcon className="chrome-icon" />,
+  explorer: <InternetExplorerIcon className="explorer-icon" />,
+  safari: <AppleSafariIcon className="safari-icon" />,
+  firefox: <FirefoxIcon className="firefox-icon" />,
+  ios: <AppleIcon className="ios-icon" />,
+  android: <AndroidIcon className="android-icon" />,
+};
 
 const activeHeaders = [
   {
@@ -96,46 +114,39 @@ class SessionsTable extends Component {
 
   browser(session) {
     const hua = humanUA(session.userAgent);
-    let icon = 'global';
-    let color = '#000';
+    let icon = 'earth';
 
     if (/chrome/i.test(hua)) {
       icon = 'chrome';
-      color = '#f4c20f';
     }
 
     if (/explorer/i.test(hua)) {
       icon = 'windows';
-      color = '#0077d7';
     }
 
     if (/safari/i.test(hua)) {
-      icon = 'compass';
-      color = colors.primary;
+      icon = 'safari';
     }
 
     if (/firefox/i.test(hua)) {
-      icon = 'global';
-      color = '#E55B0A';
+      icon = 'firefox';
     }
 
     if (/iOS/i.test(hua)) {
-      icon = 'apple';
-      color = '#323232';
+      icon = 'ios';
     }
 
     if (/Android/i.test(hua)) {
       icon = 'android';
-      color = '#76c258';
     }
 
     return (
-      <div style={{ display: 'flex', alignItems: 'middle' }}>
-        <Icon
-          type={icon}
-          style={{ color, fontSize: '20px', marginRight: '5px' }}
-        />{' '}
-        {hua}
+      <div
+        className="ua-icons"
+        style={{ display: 'flex', alignItems: 'center' }}
+      >
+        {uaIcons[icon]}
+        {` ${hua}`}
         {session.deviceName ? ` - ${session.deviceName}` : ''}
       </div>
     );

@@ -221,3 +221,25 @@ tr.newYear {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+.ua-icons .mdi-icon {
+  margin-right: 5px;
+}
+.ua-icons .chrome-icon {
+  fill: #f4c20f;
+}
+.ua-icons .explorer-icon {
+  fill: #0077d7;
+}
+.ua-icons .safari-icon {
+  fill: #108ee9;
+}
+.ua-icons .firefox-icon {
+  fill: #e55b0a;
+}
+.ua-icons .ios-icon {
+  fill: #323232;
+}
+.ua-icons .android-icon {
+  fill: #76c258;
+}
