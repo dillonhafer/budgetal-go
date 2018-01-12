@@ -2,6 +2,7 @@ import React from 'react';
 import { ChangePasswordRequest } from 'api/users';
 import { error, notice } from 'window';
 import { Button, Col, Form, Icon, Input } from 'antd';
+import { GetCurrentUser } from 'authentication';
 
 const formItemLayout = {
   labelCol: { span: 12 },
@@ -53,9 +54,11 @@ class ChangePasswordForm extends React.Component {
   render() {
     const { loading } = this.state;
     const { getFieldDecorator } = this.props.form;
+    const user = GetCurrentUser();
     return (
       <Form layout="horizontal" onSubmit={this.handleSubmit}>
         <Col span={24}>
+          <Input type="hidden" autoComplete="username" value={user.email} />
           <Form.Item {...formItemLayout} label="New Password" hasFeedback>
             {getFieldDecorator('password', {
               rules: [
@@ -64,7 +67,13 @@ class ChangePasswordForm extends React.Component {
                   message: 'Password is required',
                 },
               ],
-            })(<Input addonBefore={<Icon type="lock" />} type="password" />)}
+            })(
+              <Input
+                addonBefore={<Icon type="lock" />}
+                autoComplete="new-password"
+                type="password"
+              />,
+            )}
           </Form.Item>
           <Form.Item
             {...formItemLayout}
@@ -81,7 +90,13 @@ class ChangePasswordForm extends React.Component {
                   validator: this.checkPasswordConfirmation,
                 },
               ],
-            })(<Input addonBefore={<Icon type="lock" />} type="password" />)}
+            })(
+              <Input
+                addonBefore={<Icon type="lock" />}
+                autoComplete="new-password"
+                type="password"
+              />,
+            )}
           </Form.Item>
           <Form.Item {...formItemLayout} label="Current Password" hasFeedback>
             {getFieldDecorator('currentPassword', {
@@ -91,7 +106,13 @@ class ChangePasswordForm extends React.Component {
                   message: 'Current Password is required',
                 },
               ],
-            })(<Input addonBefore={<Icon type="lock" />} type="password" />)}
+            })(
+              <Input
+                addonBefore={<Icon type="lock" />}
+                autoComplete="current-password"
+                type="password"
+              />,
+            )}
           </Form.Item>
           <Col span={12} offset={12}>
             <Button

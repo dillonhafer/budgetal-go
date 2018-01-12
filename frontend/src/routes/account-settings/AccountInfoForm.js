@@ -190,7 +190,12 @@ class AccountInfoForm extends React.Component {
                       message: 'First Name is required',
                     },
                   ],
-                })(<Input addonBefore={<Icon type="user" />} />)}
+                })(
+                  <Input
+                    autoComplete="given-name"
+                    addonBefore={<Icon type="user" />}
+                  />,
+                )}
               </Form.Item>
               <Form.Item {...this.formItemLayout} label="Last Name" hasFeedback>
                 {getFieldDecorator('lastName', {
@@ -202,7 +207,12 @@ class AccountInfoForm extends React.Component {
                       message: 'Last Name is required',
                     },
                   ],
-                })(<Input addonBefore={<Icon type="user" />} />)}
+                })(
+                  <Input
+                    autoComplete="family-name"
+                    addonBefore={<Icon type="user" />}
+                  />,
+                )}
               </Form.Item>
               <Form.Item {...this.formItemLayout} label="Email" hasFeedback>
                 {getFieldDecorator('email', {
@@ -218,7 +228,13 @@ class AccountInfoForm extends React.Component {
                       message: 'E-mail is required',
                     },
                   ],
-                })(<Input addonBefore={<Icon type="mail" />} type="email" />)}
+                })(
+                  <Input
+                    autoComplete="username"
+                    addonBefore={<Icon type="mail" />}
+                    type="email"
+                  />,
+                )}
               </Form.Item>
               <Form.Item>
                 <div className="text-right">
@@ -249,7 +265,11 @@ class AccountInfoForm extends React.Component {
                     },
                   ],
                 })(
-                  <Input addonBefore={<Icon type="lock" />} type="password" />,
+                  <Input
+                    autoComplete="current-password"
+                    addonBefore={<Icon type="lock" />}
+                    type="password"
+                  />,
                 )}
               </Form.Item>
             </Form>
