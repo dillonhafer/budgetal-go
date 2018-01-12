@@ -231,6 +231,9 @@ tr.newYear {
 .ua-icons .explorer-icon {
   fill: #0077d7;
 }
+.ua-icons .edge-icon {
+  fill: #0077d7;
+}
 .ua-icons .safari-icon {
   fill: #108ee9;
 }
@@ -242,4 +245,7 @@ tr.newYear {
 }
 .ua-icons .android-icon {
   fill: #76c258;
+}
+.ua-icons .opera-icon {
+  fill: #ff1b2e;
 }

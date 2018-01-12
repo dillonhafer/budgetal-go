@@ -13,15 +13,19 @@ import FirefoxIcon from 'mdi-react/FirefoxIcon';
 import AppleIcon from 'mdi-react/AppleIcon';
 import AndroidIcon from 'mdi-react/AndroidIcon';
 import EarthIcon from 'mdi-react/EarthIcon';
+import EdgeIcon from 'mdi-react/EdgeIcon';
+import OperaIcon from 'mdi-react/OperaIcon';
 
 const uaIcons = {
-  global: <EarthIcon />,
+  earth: <EarthIcon />,
   chrome: <GoogleChromeIcon className="chrome-icon" />,
   explorer: <InternetExplorerIcon className="explorer-icon" />,
   safari: <AppleSafariIcon className="safari-icon" />,
   firefox: <FirefoxIcon className="firefox-icon" />,
   ios: <AppleIcon className="ios-icon" />,
   android: <AndroidIcon className="android-icon" />,
+  edge: <EdgeIcon className="edge-icon" />,
+  opera: <OperaIcon className="opera-icon" />,
 };
 
 const activeHeaders = [
@@ -120,8 +124,12 @@ class SessionsTable extends Component {
       icon = 'chrome';
     }
 
-    if (/explorer/i.test(hua)) {
-      icon = 'windows';
+    if (/ie/i.test(hua)) {
+      icon = 'explorer';
+    }
+
+    if (/edge/i.test(hua)) {
+      icon = 'edge';
     }
 
     if (/safari/i.test(hua)) {
@@ -140,13 +148,17 @@ class SessionsTable extends Component {
       icon = 'android';
     }
 
+    if (/opera/i.test(hua)) {
+      icon = 'opera';
+    }
+
     return (
       <div
         className="ua-icons"
         style={{ display: 'flex', alignItems: 'center' }}
       >
         {uaIcons[icon]}
-        {` ${hua}`}
+        {hua}
         {session.deviceName ? ` - ${session.deviceName}` : ''}
       </div>
     );
