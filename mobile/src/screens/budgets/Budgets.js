@@ -30,15 +30,15 @@ import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 import Spin from 'utils/Spin';
-import Device from 'utils/Device';
-const isTablet = Device.isTablet();
 
+import { GetCurrentUser } from 'utils/authentication';
 class BudgetsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
     headerRight: <EditIncomeModal />,
   });
 
   state = {
+    admin: false, // Feature Flag
     loading: false,
     refreshing: false,
   };
@@ -48,6 +48,8 @@ class BudgetsScreen extends PureComponent {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
     });
+    // Feature Flag
+    GetCurrentUser().then(user => this.setState({ admin: user.admin }));
   }
 
   refresh = async () => {
@@ -104,7 +106,7 @@ class BudgetsScreen extends PureComponent {
     }
 
     const isCurrent =
-      isTablet &&
+      this.props.screenProps.isTablet &&
       this.props.currentBudgetCategory.id > 0 &&
       this.props.currentBudgetCategory.id === budgetCategory.id;
     let activeRowStyles = {};
@@ -175,6 +177,47 @@ class BudgetsScreen extends PureComponent {
     }
   }
 
+  renderFooter = () => {
+    // Feature Flag
+    if (!this.state.admin) {
+      return null;
+    }
+
+    return (
+      <View>
+        {this.renderSeparator()}
+        <TouchableHighlight
+          underlayColor={'#DDD'}
+          style={styles.categoryRow}
+          key={`footer`}
+          onPress={this.onImportPress}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image
+              style={styles.categoryImage}
+              source={require('images/csv.png')}
+            />
+            <View
+              style={{
+                flexDirection: 'column',
+                flex: 1,
+              }}
+            >
+              <View>
+                <Text style={styles.importText}>Import Expenses</Text>
+                <Text style={styles.importText}>From CSV</Text>
+              </View>
+            </View>
+          </View>
+        </TouchableHighlight>
+      </View>
+    );
+  };
+
+  onImportPress = () => {
+    this.props.screenProps.layoutNavigate('ImportExpenses');
+  };
+
   render() {
     const { budget } = this.props;
     const { loading, refreshing } = this.state;
@@ -199,6 +242,7 @@ class BudgetsScreen extends PureComponent {
           data={this.props.budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
+          ListFooterComponent={this.renderFooter}
         />
         <Spin spinning={loading && !refreshing} />
       </View>
@@ -231,6 +275,11 @@ const styles = StyleSheet.create({
     color: '#444',
     fontSize: 18,
     marginBottom: 5,
+  },
+  importText: {
+    textAlign: 'center',
+    fontWeight: '700',
+    color: '#444',
   },
 });
 

@@ -9,11 +9,11 @@
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "ios": {
       "buildNumber": "2",
-      "usesIcloudStorage": true,
       "supportsTablet": true,
       "associatedDomains": [
         "applinks:www.budgetal.com"
       ],
+      "usesIcloudStorage": true,
       "bundleIdentifier": "com.budgetal.app",
       "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8",
       "infoPlist": {

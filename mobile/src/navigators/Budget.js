@@ -16,6 +16,7 @@ import EditBudgetItemScreen from 'screens/budgets/EditBudgetItem';
 // Expenses
 import NewBudgetItemExpenseScreen from 'screens/budgets/NewBudgetItemExpense';
 import EditBudgetItemExpenseScreen from 'screens/budgets/EditBudgetItemExpense';
+import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
@@ -117,6 +118,13 @@ const BudgetNavigatorStack = StackNavigator(
         headerStyle,
       }),
     },
+    ImportExpenses: {
+      screen: ImportExpensesScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: `Import Expenses`,
+        headerStyle,
+      }),
+    },
   },
   {
     cardStyle: {
@@ -181,6 +189,14 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
         headerStyle,
+      }),
+    },
+    ImportExpenses: {
+      screen: ImportExpensesScreen,
+      path: 'importExpenses',
+      navigationOptions: ({ navigation }) => ({
+        headerStyle,
+        title: 'Import Expenses',
       }),
     },
   },
