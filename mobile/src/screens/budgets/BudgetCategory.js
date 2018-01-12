@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
-  TouchableOpacity,
+  TouchableHighlight,
   Text,
   StatusBar,
   Alert,
@@ -65,9 +65,7 @@ class BudgetCategoryScreen extends PureComponent {
       okText: `Import ${budgetCategory.name}`,
       cancelText: 'Cancel',
       title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${
-        budgetCategory.name
-      } category?`,
+      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
       onOk: this.importPreviousItems,
       onCancel() {},
     });
@@ -126,10 +124,11 @@ class BudgetCategoryScreen extends PureComponent {
       <Swipeout
         buttonWidth={84}
         autoClose={true}
-        backgroundColor={'#fff'}
+        backgroundColor={colors.primary}
         right={buttons}
       >
-        <TouchableOpacity
+        <TouchableHighlight
+          underlayColor={'#DDD'}
           style={styles.itemRow}
           key={budgetItem.id}
           onPress={() => {
@@ -143,7 +142,7 @@ class BudgetCategoryScreen extends PureComponent {
             <ProgressLabel spent={amountSpent} remaining={remaining} />
             <Progress percent={percentage} status={status} />
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </Swipeout>
     );
   };

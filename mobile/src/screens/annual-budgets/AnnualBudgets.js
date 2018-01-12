@@ -165,7 +165,11 @@ class AnnualBudgetsScreen extends PureComponent {
     const buttons = this.itemButtons(budgetItem);
 
     return (
-      <Swipeout autoClose={true} backgroundColor={'#fff'} right={buttons}>
+      <Swipeout
+        autoClose={true}
+        backgroundColor={colors.yellow}
+        right={buttons}
+      >
         <View style={styles.itemRow} key={budgetItem.id}>
           <View>
             <Text style={styles.itemName}>{budgetItem.name}</Text>

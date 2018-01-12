@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
-  TouchableOpacity,
+  TouchableHighlight,
   Text,
   Image,
   FlatList,
@@ -102,7 +102,8 @@ class BudgetsScreen extends PureComponent {
     }
 
     return (
-      <TouchableOpacity
+      <TouchableHighlight
+        underlayColor={'#DDD'}
         style={styles.categoryRow}
         key={budgetCategory.id}
         onPress={() => {
@@ -122,7 +123,7 @@ class BudgetsScreen extends PureComponent {
             <Progress percent={percent} status={status} />
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   };
 

@@ -114,7 +114,7 @@ class BudgetItemScreen extends PureComponent {
       <Swipeout
         buttonWidth={84}
         autoClose={true}
-        backgroundColor={'#fff'}
+        backgroundColor={colors.primary}
         right={buttons}
       >
         <View style={styles.expenseRow} key={expense.id}>
