@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import {
+  TouchableOpacity,
+  Clipboard,
+  StyleSheet,
+  View,
+  Text,
+} from 'react-native';
 
 // Components
 import { BlurView } from 'expo';
@@ -13,14 +19,15 @@ import Modal from 'react-native-modalbox';
 class MoneyInputModal extends Component {
   state = {
     amount: '0',
+    pastValue: null,
   };
 
   onNumberChanged = number => {
-    this.setState({ amount: number });
+    this.setState({ amount: number, pasteValue: null });
   };
 
   onCancel = () => {
-    this.setState({ amount: '0' });
+    this.setState({ amount: '0', pasteValue: null });
     this.props.onCancel();
   };
 
@@ -28,8 +35,13 @@ class MoneyInputModal extends Component {
     this.props.onOk(this.state.amount);
   };
 
+  onPaste = async () => {
+    const pasteValue = await Clipboard.getString();
+    this.setState({ pasteValue });
+  };
+
   render() {
-    const { amount } = this.state;
+    const { amount, pasteValue } = this.state;
     const { title, visible, onOk, onCancel, defaultValue } = this.props;
     const invalid = amount <= 0;
 
@@ -45,13 +57,22 @@ class MoneyInputModal extends Component {
         onClosed={this.onCancel}
       >
         <BlurView tint="light" intensity={95} style={styles.modal}>
-          <TouchableOpacity style={styles.closeButton} onPress={this.onCancel}>
-            <Ionicons
-              name="ios-close-circle-outline"
-              size={34}
-              color={colors.primary}
-            />
-          </TouchableOpacity>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={this.onCancel}
+            >
+              <Ionicons
+                name="ios-close-circle-outline"
+                size={34}
+                color={colors.primary}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.pasteButton} onPress={this.onPaste}>
+              <Ionicons name="ios-copy" size={34} color={colors.primary} />
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.content}>
             <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
@@ -65,6 +86,7 @@ class MoneyInputModal extends Component {
           </View>
 
           <MoneyKeyboard
+            pasteValue={pasteValue}
             defaultValue={defaultValue}
             onChange={this.onNumberChanged}
             onPress={invalid ? null : this.onOk}
@@ -82,11 +104,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: '100%',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    marginTop: 22,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   closeButton: {
+    padding: 10,
     paddingLeft: 15,
-    paddingTop: 25,
-    paddingBottom: 15,
-    maxWidth: 50,
+  },
+  pasteButton: {
+    padding: 10,
+    paddingRight: 15,
   },
 });
 

@@ -40,6 +40,23 @@ class MoneyKeyboard extends Component {
     return currencyf((number / 100).toFixed(2));
   }
 
+  updateIncome = income => {
+    this.setState({ income });
+    const floatValue = parseFloat(
+      this.formatNumber(income)
+        .replace(',', '')
+        .replace('$', ''),
+    );
+    this.props.onChange(floatValue);
+  };
+
+  componentWillReceiveProps(next) {
+    if (next.pasteValue !== this.props.pasteValue && next.pasteValue !== null) {
+      const income = next.pasteValue.replace(/\D/g, '');
+      this.updateIncome(income);
+    }
+  }
+
   handleOnPress = valuePressed => {
     LayoutAnimation.easeInEaseOut();
     const _income = `${this.state.income || this.props.defaultValue || '0'}`;
@@ -53,13 +70,7 @@ class MoneyKeyboard extends Component {
       default:
         income += income.length >= 9 ? '' : valuePressed;
     }
-    this.setState({ income });
-    const floatValue = parseFloat(
-      this.formatNumber(income)
-        .replace(',', '')
-        .replace('$', ''),
-    );
-    this.props.onChange(floatValue);
+    this.updateIncome(income);
   };
 
   render() {
