@@ -99,6 +99,7 @@ export default class App extends Component {
   async loadAssetsAsync() {
     const imageAssets = cacheImages([
       require('images/app_logo.png'),
+      require('images/csv.png'),
       require('images/Charity.png'),
       require('images/Saving.png'),
       require('images/Housing.png'),
