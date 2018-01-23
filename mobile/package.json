@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "jest-expo": "^24.0.0",
+    "jest-expo": "^25.0.0",
     "react-native-scripts": "1.8.1",
     "react-test-renderer": "16.0.0"
   },
@@ -19,15 +19,15 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "expo": "^24.0.0",
+    "expo": "^25.0.0",
     "qs": "^6.5.1",
-    "react": "16.0.0",
+    "react": "16.2.0",
     "react-native":
-      "https://github.com/expo/react-native/archive/sdk-24.0.0.tar.gz",
+      "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-modalbox": "^1.4.2",
     "react-native-swipeout": "^2.3.3",
-    "react-navigation": "^1.0.0-beta.21",
+    "react-navigation": "^1.0.0-beta.27",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "ua-parser-js": "^0.7.17"
