@@ -138,19 +138,11 @@ export default class App extends Component {
       );
     }
 
-    return [
-      <View
-        key="spacer"
-        style={{
-          width: '100%',
-          backgroundColor: '#000',
-          height: Platform.OS === 'ios' ? 0 : 24,
-        }}
-      />,
-      <Provider key="app" store={store}>
+    return (
+      <Provider store={store}>
         <RootNavigator uriPrefix={prefix} />
-      </Provider>,
-    ];
+      </Provider>
+    );
   }
 }
 
