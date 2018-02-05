@@ -116,7 +116,7 @@ class AccountScreen extends PureComponent {
   }
 
   renderButton = ({ item }) => {
-    const right = item.right || (
+    const defaultRight = isTablet ? null : (
       <Ionicons
         name="ios-arrow-forward"
         size={22}
@@ -124,6 +124,7 @@ class AccountScreen extends PureComponent {
         color={'#ced0ce'}
       />
     );
+
     const { activeSidebarScreen } = this.props.screenProps;
     let activeRowStyles = {};
     let activeTextStyles = {};
@@ -158,7 +159,7 @@ class AccountScreen extends PureComponent {
             {item.label}
           </Text>
         </View>
-        {!isTablet && right}
+        {item.right || defaultRight}
       </TouchableOpacity>
     );
   };
