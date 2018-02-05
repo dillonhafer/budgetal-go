@@ -12,7 +12,7 @@ let baseURL = 'https://api.budgetal.com';
 if (__DEV__) {
   const expoHost = Constants.manifest.debuggerHost;
   const port = '3000';
-  baseURL = 'http://' + expoHost.replace(':19001', `:${port}`);
+  baseURL = 'http://' + expoHost.replace(/:\d+/, `:${port}`);
 }
 
 const base = async (path, method, headers = {}, body = {}) => {

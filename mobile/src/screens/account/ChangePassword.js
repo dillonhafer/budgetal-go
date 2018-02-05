@@ -75,7 +75,6 @@ class ChangePasswordScreen extends Component {
         <View style={{ height: 30 }} />
         <FieldContainer position="first">
           <TextInput
-            autoFocus={true}
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}

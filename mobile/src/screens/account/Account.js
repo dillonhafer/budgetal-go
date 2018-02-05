@@ -27,6 +27,9 @@ import { PrimaryButton, DangerButton } from 'forms';
 import { WebBrowser, Constants } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import Device from 'utils/Device';
+const isTablet = Device.isTablet();
+
 class AccountScreen extends PureComponent {
   state = {
     loading: false,
@@ -60,19 +63,21 @@ class AccountScreen extends PureComponent {
   };
 
   editAccount = () => {
-    this.props.navigation.navigate('AccountEdit', { user: this.props.user });
+    this.props.screenProps.layoutNavigate('AccountEdit', {
+      user: this.props.user,
+    });
   };
 
   navChangePassword = () => {
-    this.props.navigation.navigate('ChangePassword');
+    this.props.screenProps.layoutNavigate('ChangePassword');
   };
 
   navSessions = () => {
-    this.props.navigation.navigate('Sessions');
+    this.props.screenProps.layoutNavigate('Sessions');
   };
 
   navLegal = () => {
-    this.props.navigation.navigate('Legal');
+    this.props.screenProps.layoutNavigate('Legal');
   };
 
   confirmSignOut = () => {
@@ -119,12 +124,25 @@ class AccountScreen extends PureComponent {
         color={'#ced0ce'}
       />
     );
+    const { activeSidebarScreen } = this.props.screenProps;
+    let activeRowStyles = {};
+    let activeTextStyles = {};
+    const activeSidebar = activeSidebarScreen === item.label.replace(' ', '');
+    if (activeSidebar) {
+      activeRowStyles = {
+        backgroundColor: colors.primary,
+        borderColor: colors.primary,
+      };
+      activeTextStyles = { color: '#fff' };
+    }
+
+    const onPress = activeSidebar ? () => {} : item.onPress;
 
     return (
       <TouchableOpacity
-        style={[styles.listItem, item.style]}
-        onPress={item.onPress}
-        disabled={!!!item.onPress}
+        style={[styles.listItem, item.style, activeRowStyles]}
+        onPress={onPress}
+        disabled={activeSidebar || !!!item.onPress}
       >
         <View
           style={{ flexDirection: 'row', width: '86%', alignItems: 'center' }}
@@ -136,9 +154,11 @@ class AccountScreen extends PureComponent {
               color={'#fff'}
             />
           </View>
-          <Text style={styles.listItemText}>{item.label}</Text>
+          <Text style={[styles.listItemText, activeTextStyles]}>
+            {item.label}
+          </Text>
         </View>
-        {right}
+        {!isTablet && right}
       </TouchableOpacity>
     );
   };
