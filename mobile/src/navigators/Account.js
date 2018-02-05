@@ -20,7 +20,7 @@ const headerStyle = {
   height: 44,
 };
 const sidebarHeaderStyle = {
-  height: 43,
+  height: 43.5,
 };
 
 const AccountNavigatorStack = StackNavigator(
