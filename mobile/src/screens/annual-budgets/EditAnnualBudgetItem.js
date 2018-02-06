@@ -33,7 +33,7 @@ import moment from 'moment';
 
 class EditAnnualBudgetItemScreen extends Component {
   goBack = () => {
-    this.props.navigation.goBack();
+    this.props.screenProps.goBack();
   };
 
   inputs = [];
@@ -88,11 +88,13 @@ class EditAnnualBudgetItemScreen extends Component {
         paid,
       });
 
+      let goBack = false;
       if (resp && resp.ok) {
         this.props.itemUpdated(resp.annualBudgetItem);
-        this.goBack();
         notice('Item saved');
+        goBack = true;
       }
+      return goBack;
     } catch (err) {
       console.log(err);
       error('Something went wrong');
@@ -101,16 +103,21 @@ class EditAnnualBudgetItemScreen extends Component {
 
   handleOnPress = async () => {
     this.setState({ loading: true });
+    let goBack = false;
     try {
       if (this.validateFields()) {
-        await this.updateItem();
+        goBack = await this.updateItem();
       } else {
         error('Form is not valid');
       }
     } catch (err) {
       // console.log(err)
     } finally {
-      this.setState({ loading: false });
+      if (goBack) {
+        this.goBack();
+      } else {
+        this.setState({ loading: false });
+      }
     }
   };
 
@@ -131,7 +138,6 @@ class EditAnnualBudgetItemScreen extends Component {
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">
           <TextInput
-            autoFocus={true}
             style={{ height: 50 }}
             placeholder="Name"
             defaultValue={name}
@@ -193,6 +199,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     paddingBottom: 40,
+    paddingTop: 15,
   },
 });
 

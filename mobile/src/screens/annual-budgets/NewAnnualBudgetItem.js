@@ -17,6 +17,7 @@ import { CreateAnnualBudgetItemRequest } from 'api/annual-budget-items';
 // Helpers
 import { error, notice } from 'notify';
 import { range } from 'lodash';
+import colors from 'utils/colors';
 
 // Components
 import {
@@ -33,7 +34,7 @@ import moment from 'moment';
 
 class NewAnnualBudgetItemScreen extends Component {
   goBack = () => {
-    this.props.navigation.goBack();
+    this.props.screenProps.goBack();
   };
 
   inputs = [];
@@ -81,11 +82,14 @@ class NewAnnualBudgetItemScreen extends Component {
         paid,
       });
 
+      let goBack = false;
       if (resp && resp.ok) {
         this.props.itemAdded(resp.annualBudgetItem);
-        this.goBack();
         notice('Item saved');
+        goBack = true;
       }
+
+      return goBack;
     } catch (err) {
       console.log(err);
       error('Something went wrong');
@@ -94,16 +98,21 @@ class NewAnnualBudgetItemScreen extends Component {
 
   handleOnPress = async () => {
     this.setState({ loading: true });
+    let goBack = false;
     try {
       if (this.validateFields()) {
-        await this.createItem();
+        goBack = await this.createItem();
       } else {
         error('Form is not valid');
       }
     } catch (err) {
       // console.log(err)
     } finally {
-      this.setState({ loading: false });
+      if (goBack) {
+        this.goBack();
+      } else {
+        this.setState({ loading: false });
+      }
     }
   };
 
@@ -116,7 +125,6 @@ class NewAnnualBudgetItemScreen extends Component {
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">
           <TextInput
-            autoFocus={true}
             style={{ height: 50 }}
             placeholder="Name"
             underlineColorAndroid={'transparent'}
@@ -172,10 +180,11 @@ class NewAnnualBudgetItemScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ececec',
+    backgroundColor: colors.background,
     alignItems: 'center',
     flexDirection: 'column',
     paddingBottom: 40,
+    paddingTop: 15,
   },
 });
 

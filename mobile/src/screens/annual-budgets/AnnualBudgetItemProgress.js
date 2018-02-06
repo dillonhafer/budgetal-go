@@ -7,6 +7,8 @@ import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { round, times } from 'lodash';
+import Device from 'utils/Device';
+const isTablet = Device.isTablet();
 
 class AnnualBudgetItemProgress extends PureComponent {
   renderItem = ({ item }) => {
@@ -71,6 +73,7 @@ class AnnualBudgetItemProgress extends PureComponent {
       <View style={styles.container}>
         <FlatList
           style={styles.list}
+          contentContainerStyle={styles.listContainer}
           data={data}
           renderItem={this.renderItem}
           ItemSeparatorComponent={this.renderSeparator}
@@ -84,11 +87,20 @@ class AnnualBudgetItemProgress extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     flexDirection: 'column',
+    backgroundColor: isTablet ? 'transparent' : '#fff',
   },
-  list: { width: '100%' },
+  list: {
+    width: '100%',
+  },
+  listContainer: {
+    backgroundColor: '#fff',
+    borderColor: '#fff',
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: isTablet ? 20 : 0,
+  },
   listSeparatorContainer: {
     backgroundColor: '#fff',
   },

@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react';
-import { View, Image, Text } from 'react-native';
+import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+
+import TabletNavigator from 'navigators/TabletNavigator';
 
 // Screens
 import AnnualBudgetsScreen from 'screens/annual-budgets/AnnualBudgets';
@@ -14,6 +16,8 @@ import moment from 'moment';
 const headerStyle = {
   height: 44,
 };
+
+const sidebarHeaderStyle = {};
 
 const AnnualBudgetNavigatorStack = StackNavigator(
   {
@@ -66,7 +70,48 @@ const AnnualBudgetNavigatorStack = StackNavigator(
   },
 );
 
-class AnnualBudgetNavigator extends PureComponent {
+const AnnualBudgetSidebarNavigatorStack = StackNavigator(
+  {
+    Main: {
+      screen: View,
+      navigationOptions: { header: null },
+    },
+    AnnualBudgetProgress: {
+      screen: AnnualBudgetItemProgressScreen,
+      path: 'annual-budgets/:budgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: 'Progress',
+        headerStyle,
+      }),
+    },
+    NewAnnualBudgetItem: {
+      screen: NewAnnualBudgetItemScreen,
+      path: 'newAnnualBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: 'New Annual Item',
+        headerStyle,
+      }),
+    },
+    EditAnnualBudgetItem: {
+      screen: EditAnnualBudgetItemScreen,
+      path: 'editAnnualBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.annualBudgetItem.name}`,
+        headerStyle,
+      }),
+    },
+  },
+  {
+    cardStyle: {
+      shadowOpacity: 0,
+    },
+  },
+);
+
+class AnnualBudgetNavigator extends TabletNavigator {
+  MainNavigator = AnnualBudgetNavigatorStack;
+  SideNavigator = AnnualBudgetSidebarNavigatorStack;
+
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Annual',
@@ -74,14 +119,6 @@ class AnnualBudgetNavigator extends PureComponent {
       <Ionicons name="md-calendar" size={32} color={tintColor} />
     ),
   };
-
-  render() {
-    return (
-      <AnnualBudgetNavigatorStack
-        screenProps={{ parentNavigation: this.props.navigation }}
-      />
-    );
-  }
 }
 
 export default AnnualBudgetNavigator;

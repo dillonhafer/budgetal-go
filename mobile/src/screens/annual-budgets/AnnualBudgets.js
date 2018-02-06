@@ -45,16 +45,19 @@ const B = ({ style, children }) => {
 };
 
 class AnnualBudgetsScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => {
+  static navigationOptions = ({ navigation, screenProps }) => {
+    const showNewButton =
+      screenProps.activeSidebarScreen !== 'NewAnnualBudgetItem';
     const { params = {} } = navigation.state;
     const annualBudgetId = params.annualBudgetId;
     const onPress = () => {
-      navigation.navigate('NewAnnualBudgetItem', {
+      screenProps.layoutNavigate('NewAnnualBudgetItem', {
         annualBudgetId,
       });
     };
+
     return {
-      headerRight: <PlusButton onPress={onPress} />,
+      headerRight: <PlusButton disabled={!showNewButton} onPress={onPress} />,
     };
   };
 
@@ -72,6 +75,7 @@ class AnnualBudgetsScreen extends PureComponent {
   }
 
   deleteItem = async item => {
+    this.props.screenProps.goBack();
     const resp = await DeleteAnnualBudgetItemRequest(item.id);
     if (resp && resp.ok) {
       this.props.removeItem(item);
@@ -88,7 +92,7 @@ class AnnualBudgetsScreen extends PureComponent {
   };
 
   navProgress = budgetItem => {
-    this.props.navigation.navigate('AnnualBudgetProgress', {
+    this.props.screenProps.layoutNavigate('AnnualBudgetProgress', {
       budgetItem,
     });
   };
@@ -141,7 +145,7 @@ class AnnualBudgetsScreen extends PureComponent {
         backgroundColor: colors.primary,
         underlayColor: colors.primary + '70',
         onPress: () =>
-          this.props.navigation.navigate('EditAnnualBudgetItem', {
+          this.props.screenProps.layoutNavigate('EditAnnualBudgetItem', {
             annualBudgetItem: item,
           }),
       },
