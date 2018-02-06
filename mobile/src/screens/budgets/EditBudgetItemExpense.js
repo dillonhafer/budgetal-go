@@ -128,7 +128,6 @@ class EditBudgetItemExpenseScreen extends Component {
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">
           <TextInput
-            autoFocus={true}
             style={{ height: 50 }}
             placeholder="Name"
             defaultValue={name}
