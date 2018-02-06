@@ -20,6 +20,12 @@ class TabletNavigator extends PureComponent {
             ref={sidebar => {
               this.sidebar = sidebar;
             }}
+            screenProps={{
+              activeSidebarScreen: this.state.activeSidebarScreen,
+              layoutNavigate: this.layoutNavigate,
+              goBack: this.goBack,
+              parentNavigation: this.props.navigation,
+            }}
           />
         </View>
       );
@@ -50,6 +56,15 @@ class TabletNavigator extends PureComponent {
     }
   };
 
+  goBack = (routeName = 'Main', params) => {
+    if (isTablet) {
+      this.setState({ activeSidebarScreen: routeName });
+      this.sidebarNavigate(routeName, params);
+    } else {
+      this.main._navigation.goBack();
+    }
+  };
+
   render() {
     const { MainNavigator, SideNavigator } = this;
     return (
@@ -62,6 +77,7 @@ class TabletNavigator extends PureComponent {
             screenProps={{
               activeSidebarScreen: this.state.activeSidebarScreen,
               layoutNavigate: this.layoutNavigate,
+              goBack: this.goBack,
               parentNavigation: this.props.navigation,
             }}
           />
