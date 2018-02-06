@@ -30,6 +30,8 @@ import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 import Spin from 'utils/Spin';
+import Device from 'utils/Device';
+const isTablet = Device.isTablet();
 
 class BudgetsScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => ({
@@ -101,13 +103,26 @@ class BudgetsScreen extends PureComponent {
       status = 'success';
     }
 
+    const isCurrent =
+      isTablet &&
+      this.props.currentBudgetCategory.id > 0 &&
+      this.props.currentBudgetCategory.id === budgetCategory.id;
+    let activeRowStyles = {};
+    if (isCurrent) {
+      activeRowStyles = {
+        backgroundColor: '#ddd',
+      };
+    }
+
     return (
       <TouchableHighlight
         underlayColor={'#DDD'}
-        style={styles.categoryRow}
+        disabled={isCurrent}
+        style={[styles.categoryRow, activeRowStyles]}
         key={budgetCategory.id}
         onPress={() => {
-          this.props.navigation.navigate('BudgetCategory', {
+          this.props.changeCategory(budgetCategory);
+          this.props.screenProps.layoutNavigate('BudgetCategory', {
             budgetCategory,
           });
         }}
@@ -144,6 +159,8 @@ class BudgetsScreen extends PureComponent {
       String(month) !== String(this.props.budget.month) ||
       String(year) !== String(this.props.budget.year)
     ) {
+      this.props.screenProps.goBack();
+      this.props.changeCategory({ id: -1 });
       this.loadBudget({ month, year });
     }
   };

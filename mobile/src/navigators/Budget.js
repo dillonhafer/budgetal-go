@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
+import TabletNavigator from 'navigators/TabletNavigator';
+
 // Screens
 import BudgetsScreen from 'screens/budgets/Budgets';
 import BudgetCategoryScreen from 'screens/budgets/BudgetCategory';
@@ -119,11 +121,80 @@ const BudgetNavigatorStack = StackNavigator(
   {
     cardStyle: {
       backgroundColor: '#ececec',
+      shadowOpacity: 0,
     },
   },
 );
 
-class BudgetNavigator extends PureComponent {
+const BudgetSidebarNavigatorStack = StackNavigator(
+  {
+    Main: {
+      screen: View,
+      navigationOptions: { header: null },
+    },
+    BudgetCategory: {
+      screen: BudgetCategoryScreen,
+      path: 'budgetCategories/:budgetCategory',
+      navigationOptions: ({ navigation }) => ({
+        title: navigation.state.params.budgetCategory.name,
+        headerTitle: (
+          <CategoryTitle name={navigation.state.params.budgetCategory.name} />
+        ),
+        headerStyle,
+      }),
+    },
+    BudgetItem: {
+      screen: BudgetItemScreen,
+      path: 'budgetItems/:budgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: navigation.state.params.budgetItem.name,
+        headerStyle,
+      }),
+    },
+    NewBudgetItem: {
+      screen: NewBudgetItemScreen,
+      path: 'newBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: 'New Budget Item',
+        headerStyle,
+      }),
+    },
+    EditBudgetItem: {
+      screen: EditBudgetItemScreen,
+      path: 'editBudgetItem',
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.budgetItem.name}`,
+        headerStyle,
+      }),
+    },
+    NewBudgetItemExpense: {
+      screen: NewBudgetItemExpenseScreen,
+      path: 'newBudgetItemExpense',
+      navigationOptions: ({ navigation }) => ({
+        title: 'New Expense',
+        headerStyle,
+      }),
+    },
+    EditBudgetItemExpense: {
+      screen: EditBudgetItemExpenseScreen,
+      path: 'editBudgetItemExpense',
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
+        headerStyle,
+      }),
+    },
+  },
+  {
+    cardStyle: {
+      shadowOpacity: 0,
+    },
+  },
+);
+
+class BudgetNavigator extends TabletNavigator {
+  MainNavigator = BudgetNavigatorStack;
+  SideNavigator = BudgetSidebarNavigatorStack;
+
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Budgets',
@@ -131,14 +202,6 @@ class BudgetNavigator extends PureComponent {
       <Ionicons name="md-calculator" size={32} color={tintColor} />
     ),
   };
-
-  render() {
-    return (
-      <BudgetNavigatorStack
-        screenProps={{ parentNavigation: this.props.navigation }}
-      />
-    );
-  }
 }
 
 export default BudgetNavigator;
