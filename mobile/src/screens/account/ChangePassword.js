@@ -43,9 +43,16 @@ class ChangePasswordScreen extends Component {
     const { password, currentPassword } = this.state;
     const resp = await ChangePasswordRequest({ password, currentPassword });
     if (resp && resp.ok) {
+      this.clearInputs();
       notice(resp.message);
       this.props.navigation.goBack();
     }
+  };
+
+  clearInputs = () => {
+    this.inputs['password'].clear();
+    this.inputs['passwordConfirmation'].clear();
+    this.inputs['currentPassword'].clear();
   };
 
   handleOnPress = () => {

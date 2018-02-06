@@ -111,6 +111,7 @@ class AccountEditScreen extends Component {
     try {
       const resp = await UpdateAccountInfoRequest(data);
       if (resp && resp.ok) {
+        this.clearInputs();
         notice('Account Updated');
         this.props.updateCurrentUser(resp.user);
         SetCurrentUser(resp.user);
@@ -119,6 +120,10 @@ class AccountEditScreen extends Component {
     } catch (err) {
       error(err.error);
     }
+  };
+
+  clearInputs = () => {
+    this.inputs['currentPassword'].clear();
   };
 
   handleOnPress = () => {
