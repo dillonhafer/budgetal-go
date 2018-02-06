@@ -315,6 +315,7 @@ const styles = StyleSheet.create({
     height: 70,
     borderWidth: 2,
     borderColor: '#aaa',
+    backgroundColor: '#aaa',
     borderRadius: 35,
   },
   nameText: {

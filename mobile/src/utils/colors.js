@@ -3,7 +3,7 @@ const colors = {
   disabled: '#cacaca',
   success: '#87d068',
   error: '#ff5500',
-  background: '#ececec',
+  background: '#e9e9ef',
   lines: '#ced0ce',
   yellow: '#ffd478',
 };

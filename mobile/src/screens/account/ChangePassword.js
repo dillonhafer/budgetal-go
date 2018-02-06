@@ -6,6 +6,7 @@ import { ChangePasswordRequest } from 'api/users';
 
 // Helpers
 import { error, notice } from 'notify';
+import colors from 'utils/colors';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
@@ -142,7 +143,7 @@ class ChangePasswordScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ececec',
+    backgroundColor: colors.background,
     alignItems: 'center',
     flexDirection: 'column',
   },

@@ -19,6 +19,7 @@ import { UpdateAccountInfoRequest } from 'api/users';
 
 // Helpers
 import { error, notice } from 'notify';
+import colors from 'utils/colors';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
@@ -285,7 +286,7 @@ class AccountEditScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ececec',
+    backgroundColor: colors.background,
     alignItems: 'center',
     flexDirection: 'column',
     paddingBottom: 40,
@@ -298,6 +299,7 @@ const styles = StyleSheet.create({
     height: 150,
     borderWidth: 3,
     borderColor: '#aaa',
+    backgroundColor: '#aaa',
     borderRadius: 75,
   },
   modal: {
