@@ -45,6 +45,7 @@ const AccountNavigatorStack = StackNavigator(
   {
     cardStyle: {
       backgroundColor: '#ececec',
+      shadowOpacity: 0,
     },
   },
 );
@@ -73,11 +74,7 @@ const AccountSidebarNavigatorStack = StackNavigator(
       navigationOptions: { headerStyle: sidebarHeaderStyle },
     },
   },
-  {
-    cardStyle: {
-      shadowOpacity: 0,
-    },
-  },
+  {},
 );
 
 class AccountNavigator extends TabletNavigator {

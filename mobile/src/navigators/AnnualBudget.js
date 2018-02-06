@@ -66,6 +66,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
   {
     cardStyle: {
       backgroundColor: '#ececec',
+      shadowOpacity: 0,
     },
   },
 );
@@ -101,11 +102,7 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
       }),
     },
   },
-  {
-    cardStyle: {
-      shadowOpacity: 0,
-    },
-  },
+  {},
 );
 
 class AnnualBudgetNavigator extends TabletNavigator {
