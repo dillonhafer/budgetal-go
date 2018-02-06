@@ -94,31 +94,33 @@ class MoneyKeyboard extends Component {
             )}
           </View>
         </View>
-        <View style={keyboardStyles.numberRow}>
-          <KeyboardNumber onPress={this.handleOnPress} number={'1'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'2'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'3'} />
-        </View>
+        <View style={{ alignItems: 'center' }}>
+          <View style={keyboardStyles.numberRow}>
+            <KeyboardNumber onPress={this.handleOnPress} number={'1'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'2'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'3'} />
+          </View>
 
-        <View style={keyboardStyles.numberRow}>
-          <KeyboardNumber onPress={this.handleOnPress} number={'4'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'5'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'6'} />
-        </View>
+          <View style={keyboardStyles.numberRow}>
+            <KeyboardNumber onPress={this.handleOnPress} number={'4'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'5'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'6'} />
+          </View>
 
-        <View style={keyboardStyles.numberRow}>
-          <KeyboardNumber onPress={this.handleOnPress} number={'7'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'8'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'9'} />
-        </View>
+          <View style={keyboardStyles.numberRow}>
+            <KeyboardNumber onPress={this.handleOnPress} number={'7'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'8'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'9'} />
+          </View>
 
-        <View style={keyboardStyles.numberRow}>
-          <KeyboardNumber onPress={this.handleOnPress} number={'00'} />
-          <KeyboardNumber onPress={this.handleOnPress} number={'0'} />
-          <KeyboardNumber
-            onPress={this.handleOnPress}
-            number={<Ionicons name="ios-backspace-outline" size={28} />}
-          />
+          <View style={keyboardStyles.numberRow}>
+            <KeyboardNumber onPress={this.handleOnPress} number={'00'} />
+            <KeyboardNumber onPress={this.handleOnPress} number={'0'} />
+            <KeyboardNumber
+              onPress={this.handleOnPress}
+              number={<Ionicons name="ios-backspace-outline" size={28} />}
+            />
+          </View>
         </View>
       </View>
     );
@@ -136,6 +138,8 @@ const keyboardStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
+    width: '100%',
+    maxWidth: 400,
   },
   numberButton: {
     width: 60,
