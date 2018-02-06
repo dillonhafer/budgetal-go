@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 
 // Components
-import { Ionicons } from '@expo/vector-icons';
 import { FindStatisticRequest } from 'api/statistics';
 import { currencyf, categoryImage } from 'utils/helpers';
 import DatePicker from 'utils/DatePicker';
@@ -19,9 +18,6 @@ import Spin from 'utils/Spin';
 class StatisticsScreen extends PureComponent {
   static navigationOptions = {
     title: 'Statistics',
-    tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-stats" size={32} color={tintColor} />
-    ),
   };
 
   state = {

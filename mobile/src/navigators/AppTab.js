@@ -6,17 +6,11 @@ import { TabNavigator } from 'react-navigation';
 import AccountNavigator from 'navigators/Account';
 import BudgetNavigator from 'navigators/Budget';
 import AnnualBudgetNavigator from 'navigators/AnnualBudget';
-
-// Screens
-import StatisticsScreen from 'screens/statistics/Statistics';
+import StatisticsNavigator from 'navigators/Statistics';
 
 import colors from 'utils/colors';
 import Device from 'utils/Device';
 import moment from 'moment';
-
-const headerStyle = {
-  height: 44,
-};
 
 const AppTabNavigator = TabNavigator(
   {
@@ -27,10 +21,7 @@ const AppTabNavigator = TabNavigator(
       screen: AnnualBudgetNavigator,
     },
     Statistics: {
-      screen: StatisticsScreen,
-      navigationOptions: ({ navigation }) => ({
-        headerStyle,
-      }),
+      screen: StatisticsNavigator,
     },
     Account: {
       screen: AccountNavigator,
