@@ -69,6 +69,7 @@ class TabletNavigator extends PureComponent {
     const { MainNavigator, SideNavigator } = this;
     return (
       <View style={styles.container}>
+        {this.renderSideItem(SideNavigator)}
         <View style={styles.mainContainer}>
           <MainNavigator
             ref={main => {
@@ -82,7 +83,6 @@ class TabletNavigator extends PureComponent {
             }}
           />
         </View>
-        {this.renderSideItem(SideNavigator)}
       </View>
     );
   }
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    ...(isTablet ? { flexDirection: 'row' } : {}),
+    ...(isTablet ? { flexDirection: 'row-reverse' } : {}),
   },
   mainContainer: {
     flex: 1,
