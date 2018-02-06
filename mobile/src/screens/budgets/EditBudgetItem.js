@@ -138,10 +138,11 @@ class EditBudgetItemScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ececec',
+    backgroundColor: 'transparent',
     alignItems: 'center',
     flexDirection: 'column',
     paddingBottom: 40,
+    paddingTop: 15,
   },
 });
 
