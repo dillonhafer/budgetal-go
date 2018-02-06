@@ -1,11 +1,8 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { StackNavigator, NavigationActions } from 'react-navigation';
+import React from 'react';
+import { View } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 
-// Utils
-import Device from 'utils/Device';
-const isTablet = Device.isTablet();
-import colors from 'utils/colors';
+import TabletNavigator from './TabletNavigator';
 
 // Screens
 import AccountScreen from 'screens/account/Account';
@@ -83,7 +80,10 @@ const AccountSidebarNavigatorStack = StackNavigator(
   },
 );
 
-class AccountNavigator extends PureComponent {
+class AccountNavigator extends TabletNavigator {
+  MainNavigator = AccountNavigatorStack;
+  SideNavigator = AccountSidebarNavigatorStack;
+
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Account',
@@ -91,87 +91,6 @@ class AccountNavigator extends PureComponent {
       <Ionicons name="md-person" size={32} color={tintColor} />
     ),
   };
-
-  state = {
-    activeSidebarScreen: '',
-  };
-
-  renderSideItem = () => {
-    if (isTablet) {
-      return (
-        <View style={styles.sidebarContainer}>
-          <AccountSidebarNavigatorStack
-            ref={sidebar => {
-              this.sidebar = sidebar;
-            }}
-          />
-        </View>
-      );
-    } else {
-      return null;
-    }
-  };
-
-  sidebarNavigate = (routeName, params = {}) => {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({
-          routeName,
-          params,
-        }),
-      ],
-    });
-    this.sidebar.dispatch(resetAction);
-  };
-
-  layoutNavigate = (routeName, params) => {
-    if (isTablet) {
-      this.setState({ activeSidebarScreen: routeName });
-      this.sidebarNavigate(routeName, params);
-    } else {
-      this.main._navigation.navigate(routeName, params);
-    }
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.mainContainer}>
-          <AccountNavigatorStack
-            ref={main => {
-              this.main = main;
-            }}
-            screenProps={{
-              activeSidebarScreen: this.state.activeSidebarScreen,
-              layoutNavigate: this.layoutNavigate,
-              parentNavigation: this.props.navigation,
-            }}
-          />
-        </View>
-        {this.renderSideItem()}
-      </View>
-    );
-  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-    ...(isTablet ? { flexDirection: 'row' } : {}),
-  },
-  mainContainer: {
-    flex: 1,
-    ...(isTablet ? { maxWidth: '35%' } : {}),
-  },
-  sidebarContainer: {
-    flex: 1,
-    backgroundColor: colors.background,
-    borderWidth: 0.5,
-    borderColor: 'transparent',
-    borderLeftColor: colors.lines,
-  },
-});
 
 export default AccountNavigator;
