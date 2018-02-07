@@ -76,6 +76,7 @@ class TabletNavigator extends PureComponent {
               this.main = main;
             }}
             screenProps={{
+              isTablet,
               activeSidebarScreen: this.state.activeSidebarScreen,
               layoutNavigate: this.layoutNavigate,
               goBack: this.goBack,
