@@ -193,7 +193,7 @@ class ImportExpenseModal extends Component {
           <div style={style}>
             <div style={{ marginTop: 16, height: 180 }}>
               <Dragger
-                accept=".csv"
+                accept="text/csv"
                 showUploadList={false}
                 customRequest={this.parseFile}
               >
