@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {
-  Alert,
   StyleSheet,
   Text,
   StatusBar,
@@ -15,34 +14,18 @@ import {
   itemsFetched,
   updatedSelectedItem,
   hideForm,
-  removeItem,
 } from 'actions/annual-budget-items';
 
 // API
-import {
-  AllAnnualBudgetItemsRequest,
-  DeleteAnnualBudgetItemRequest,
-} from 'api/annual-budget-items';
+import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 // Components
-import {
-  Ionicons,
-  FontAwesome,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
-import moment from 'moment';
+import { FontAwesome } from '@expo/vector-icons';
 import colors from 'utils/colors';
-import { currencyf } from 'utils/helpers';
-import { round } from 'lodash';
 import DatePicker from 'utils/DatePicker';
-import { notice, confirm } from 'notify';
 import PlusButton from 'utils/PlusButton';
 import Spin from 'utils/Spin';
-import Swipeout from 'react-native-swipeout';
-
-const B = ({ style, children }) => {
-  return <Text style={[{ fontWeight: '800' }, style]}>{children}</Text>;
-};
+import AnnualBudgetItemRow from './AnnualBudgetItemRow';
 
 class AnnualBudgetsScreen extends PureComponent {
   static navigationOptions = ({ navigation, screenProps }) => {
@@ -74,29 +57,6 @@ class AnnualBudgetsScreen extends PureComponent {
     }, 500);
   }
 
-  deleteItem = async item => {
-    this.props.screenProps.goBack();
-    const resp = await DeleteAnnualBudgetItemRequest(item.id);
-    if (resp && resp.ok) {
-      this.props.removeItem(item);
-      notice(`${item.name} Deleted`);
-    }
-  };
-
-  confirmDelete = item => {
-    confirm({
-      title: `Delete ${item.name}?`,
-      okText: 'Delete',
-      onOk: () => this.deleteItem(item),
-    });
-  };
-
-  navProgress = budgetItem => {
-    this.props.screenProps.layoutNavigate('AnnualBudgetProgress', {
-      budgetItem,
-    });
-  };
-
   loadBudgetItems = async ({ year }) => {
     this.setState({ loading: true });
     try {
@@ -116,85 +76,12 @@ class AnnualBudgetsScreen extends PureComponent {
     }
   };
 
-  itemButtons = item => {
-    return [
-      {
-        component: (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <MaterialCommunityIcons
-              name="chart-line"
-              color={'#fff'}
-              size={20}
-            />
-          </View>
-        ),
-        backgroundColor: colors.yellow,
-        underlayColor: colors.yellow + '70',
-        onPress: () => this.navProgress(item),
-      },
-      {
-        component: (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
-          </View>
-        ),
-        backgroundColor: colors.primary,
-        underlayColor: colors.primary + '70',
-        onPress: () =>
-          this.props.screenProps.layoutNavigate('EditAnnualBudgetItem', {
-            annualBudgetItem: item,
-          }),
-      },
-      {
-        component: (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
-          </View>
-        ),
-        backgroundColor: colors.error,
-        underlayColor: colors.error + '70',
-        onPress: () => this.confirmDelete(item),
-      },
-    ];
-  };
-
-  renderItem = ({ item: budgetItem }) => {
-    const month = currencyf(round(budgetItem.amount / budgetItem.interval));
-    const color = budgetItem.paid ? colors.success : colors.disabled;
-    const buttons = this.itemButtons(budgetItem);
-
+  renderItem = ({ item }) => {
     return (
-      <Swipeout
-        autoClose={true}
-        backgroundColor={colors.yellow}
-        right={buttons}
-        scroll={scrollEnabled => {
-          this.setState({ scrollEnabled });
-        }}
-      >
-        <View style={styles.itemRow} key={budgetItem.id}>
-          <View>
-            <Text style={styles.itemName}>{budgetItem.name}</Text>
-            <Text style={{ textAlign: 'center' }}>
-              In order to reach <B>{currencyf(budgetItem.amount)}</B>
-            </Text>
-            <Text style={{ textAlign: 'center' }}>
-              by <B>{moment(budgetItem.dueDate).format('LL')}</B>
-            </Text>
-            <Text style={{ textAlign: 'center' }}>you need to save</Text>
-            <B style={{ textAlign: 'center' }}>{month}/month</B>
-          </View>
-          <View style={[styles.tag, { backgroundColor: color }]}>
-            <Text style={styles.tagText}>Paid</Text>
-          </View>
-        </View>
-      </Swipeout>
+      <AnnualBudgetItemRow
+        budgetItem={item}
+        screenProps={this.props.screenProps}
+      />
     );
   };
 
@@ -281,27 +168,6 @@ const styles = StyleSheet.create({
   list: {
     alignSelf: 'stretch',
   },
-  itemRow: {
-    backgroundColor: '#fff',
-    padding: 15,
-    justifyContent: 'center',
-  },
-  itemName: {
-    textAlign: 'center',
-    fontWeight: '700',
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  tag: {
-    alignSelf: 'center',
-    padding: 5,
-    borderRadius: 5,
-    width: 50,
-  },
-  tagText: {
-    textAlign: 'center',
-    color: '#fff',
-  },
 });
 
 export default connect(
@@ -312,9 +178,6 @@ export default connect(
   dispatch => ({
     itemsFetched: (annualBudgetId, annualBudgetItems) => {
       dispatch(itemsFetched(annualBudgetId, annualBudgetItems));
-    },
-    removeItem: item => {
-      dispatch(removeItem(item));
     },
   }),
 )(AnnualBudgetsScreen);
