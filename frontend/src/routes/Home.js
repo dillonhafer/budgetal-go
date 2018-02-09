@@ -23,14 +23,14 @@ class Home extends Component {
           </Col>
           <Col md={12} sm={24}>
             <Row type="flex" align="middle" justify="center">
-              <Col md={3} sm={24}>
+              <Col md={4} sm={24}>
                 <img
                   alt="Budgetal"
-                  style={{ paddingLeft: '14px', width: '64px' }}
+                  style={{ margin: '14px', width: '64px' }}
                   src={'/app_logo.png'}
                 />
               </Col>
-              <Col md={21} sm={24}>
+              <Col md={20} sm={24}>
                 <span className="app-title">Budgetal</span>
               </Col>
             </Row>

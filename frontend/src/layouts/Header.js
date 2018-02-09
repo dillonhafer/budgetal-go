@@ -156,7 +156,7 @@ export default class Header extends Component {
           <div id="headerTop" />
         </BackTop>
 
-        <Link to="/" aria-Label="Home">
+        <Link to="/" aria-label="Home">
           <div className="logo" />
         </Link>
 
