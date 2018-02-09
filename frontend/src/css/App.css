@@ -87,6 +87,10 @@ h1 {
 }
 
 /* Footer */
+.ant-layout-footer a {
+  color: #444;
+  text-decoration: underline;
+}
 .help-modal .ant-modal-close {
   background: white;
   border-radius: 50%;

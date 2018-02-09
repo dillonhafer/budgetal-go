@@ -22,38 +22,43 @@ class ApplicationLayout extends Component {
   render() {
     return (
       <Layout.Content>
-        <Route
-          render={({ location }) => (
-            <div>
-              <Switch key={location.key} location={location}>
-                <Route exact path="/" component={Home} />
-                <Route path="/privacy" component={Privacy} />
-                <Route
-                  path="/calculators/mortgage"
-                  component={MortgageCalculator}
-                />
-                <PrivateRoute path="/budgets/:year/:month" component={Budget} />
-                <PrivateRoute
-                  path="/annual-budgets/:year"
-                  component={AnnualBudget}
-                />
-                <PrivateRoute
-                  path="/monthly-statistics/:year/:month"
-                  component={Statistics}
-                />
-                <PrivateRoute
-                  path="/account-settings"
-                  component={AccountSettings}
-                />
-                <Route path="/admin" component={Admin} />
-                <Route path="/reset-password" component={ResetPassword} />
+        <main>
+          <Route
+            render={({ location }) => (
+              <div>
+                <Switch key={location.key} location={location}>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/privacy" component={Privacy} />
+                  <Route
+                    path="/calculators/mortgage"
+                    component={MortgageCalculator}
+                  />
+                  <PrivateRoute
+                    path="/budgets/:year/:month"
+                    component={Budget}
+                  />
+                  <PrivateRoute
+                    path="/annual-budgets/:year"
+                    component={AnnualBudget}
+                  />
+                  <PrivateRoute
+                    path="/monthly-statistics/:year/:month"
+                    component={Statistics}
+                  />
+                  <PrivateRoute
+                    path="/account-settings"
+                    component={AccountSettings}
+                  />
+                  <Route path="/admin" component={Admin} />
+                  <Route path="/reset-password" component={ResetPassword} />
 
-                <Route path="/maintenance" component={Maintenance} />
-                <Route component={NoMatch} />
-              </Switch>
-            </div>
-          )}
-        />
+                  <Route path="/maintenance" component={Maintenance} />
+                  <Route component={NoMatch} />
+                </Switch>
+              </div>
+            )}
+          />
+        </main>
       </Layout.Content>
     );
   }
