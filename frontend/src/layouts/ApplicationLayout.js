@@ -21,8 +21,8 @@ import Maintenance from 'routes/Maintenance';
 class ApplicationLayout extends Component {
   render() {
     return (
-      <Layout.Content>
-        <main>
+      <main>
+        <Layout.Content>
           <Route
             render={({ location }) => (
               <div>
@@ -58,8 +58,8 @@ class ApplicationLayout extends Component {
               </div>
             )}
           />
-        </main>
-      </Layout.Content>
+        </Layout.Content>
+      </main>
     );
   }
 }
