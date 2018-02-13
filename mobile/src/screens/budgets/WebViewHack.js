@@ -15,7 +15,7 @@ const html = `
       window.postMessage(reader.result)
     };
     reader.onerror = function (error) {
-      alert("Something went wrong:", error)
+      console.log("Something went wrong:", error)
     };
   }
   document.getElementById('csv').addEventListener('change', getBase64)

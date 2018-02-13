@@ -13,6 +13,7 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
+import { updateBudgetCategory } from 'actions/budgets';
 
 // Helpers
 import { error, notice } from 'notify';
@@ -31,6 +32,28 @@ import ImportExpenseRow from './ImportExpenseRow';
 const tabletMargin = 20;
 const tabletWidthSubtrahend = isTablet ? tabletMargin * 2 : 0;
 
+@connect(null, d => ({
+  changeCategory: c => {
+    d(updateBudgetCategory({ budgetCategory: c }));
+  },
+}))
+class DoneButton extends PureComponent {
+  render() {
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          this.props.changeCategory({ id: -1, name: '' });
+          this.props.screenProps.layoutNavigate('Main');
+        }}
+      >
+        <Text style={{ color: colors.iosBlue, padding: 20, fontWeight: '700' }}>
+          Done
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+}
+
 class ImportExpenseScreen extends PureComponent {
   static navigationOptions = ({ navigation, screenProps }) => {
     if (!screenProps.isTablet) {
@@ -38,15 +61,7 @@ class ImportExpenseScreen extends PureComponent {
     }
 
     return {
-      headerLeft: (
-        <TouchableOpacity onPress={() => screenProps.layoutNavigate('Main')}>
-          <Text
-            style={{ color: colors.iosBlue, padding: 20, fontWeight: '700' }}
-          >
-            Done
-          </Text>
-        </TouchableOpacity>
-      ),
+      headerLeft: <DoneButton screenProps={screenProps} />,
     };
   };
 
@@ -55,10 +70,8 @@ class ImportExpenseScreen extends PureComponent {
   }
 
   copyOfProps = () => {
-    this.budgetCategories = [...this.props.budgetCategories];
-    this.budgetItems = [...this.props.budgetItems];
-    const budgetCategoryId = this.budgetCategories[0].id;
-    this.defaultBudgetItem = this.budgetItems.find(
+    const budgetCategoryId = this.props.budgetCategories[0].id;
+    this.defaultBudgetItem = this.props.budgetItems.find(
       i => i.budgetCategoryId === budgetCategoryId,
     ) || { id: 0, budgetCategoryId: 0 };
   };
@@ -244,9 +257,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({
-    ...state.budget,
-  }),
-  dispatch => ({}),
-)(ImportExpenseScreen);
+export default connect(state => ({
+  ...state.budget,
+}))(ImportExpenseScreen);
