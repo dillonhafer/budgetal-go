@@ -183,12 +183,22 @@ class BudgetsScreen extends PureComponent {
       return null;
     }
 
+    const isCurrent =
+      this.props.screenProps.isTablet &&
+      this.props.currentBudgetCategory.name === 'import';
+
+    let activeRowStyles = {};
+    if (isCurrent) {
+      activeRowStyles.backgroundColor = '#ddd';
+    }
+
     return (
       <View>
         {this.renderSeparator()}
         <TouchableHighlight
           underlayColor={'#DDD'}
-          style={styles.categoryRow}
+          disabled={isCurrent}
+          style={[styles.categoryRow, activeRowStyles]}
           key={`footer`}
           onPress={this.onImportPress}
         >
@@ -215,6 +225,7 @@ class BudgetsScreen extends PureComponent {
   };
 
   onImportPress = () => {
+    this.props.changeCategory({ id: -1, name: 'import' });
     this.props.screenProps.layoutNavigate('ImportExpenses');
   };
 
