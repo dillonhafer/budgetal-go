@@ -178,11 +178,6 @@ class BudgetsScreen extends PureComponent {
   }
 
   renderFooter = () => {
-    // Feature Flag
-    if (!this.state.admin) {
-      return null;
-    }
-
     const isCurrent =
       this.props.screenProps.isTablet &&
       this.props.currentBudgetCategory.name === 'import';
