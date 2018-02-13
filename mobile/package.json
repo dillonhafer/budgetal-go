@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "expo": "^25.0.0",
+    "papaparse": "^4.3.6",
     "qs": "^6.5.1",
     "react": "16.2.0",
     "react-native":

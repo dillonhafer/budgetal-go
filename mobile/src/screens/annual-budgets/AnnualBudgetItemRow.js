@@ -48,7 +48,11 @@ class AnnualBudgetItemRow extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
             <MaterialCommunityIcons
               name="chart-line"
@@ -57,8 +61,8 @@ class AnnualBudgetItemRow extends PureComponent {
             />
           </View>
         ),
-        backgroundColor: colors.yellow,
-        underlayColor: colors.yellow + '70',
+        backgroundColor: colors.lines,
+        underlayColor: colors.lines + '70',
         onPress: this.progress,
       },
       {
