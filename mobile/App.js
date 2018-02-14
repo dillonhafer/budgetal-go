@@ -19,6 +19,8 @@ import reducers from 'reducers';
 const store = createStore(reducers);
 
 // App
+import colors from 'utils/colors';
+import DropdownAlert from 'react-native-dropdownalert';
 import RootNavigator from 'navigators/root';
 import registerForPushNotifications from 'utils/registerForPushNotifications';
 StatusBar.setBarStyle('light-content', true);
@@ -126,6 +128,17 @@ export default class App extends Component {
 
   onFinish = () => {
     this.setState({ preLoaded: true });
+    global.alertWithType = this.dropdown.alertWithType;
+  };
+
+  renderAlertImage = props => {
+    const isError = this.dropdown.state.type === 'error';
+    const name = isError ? 'ios-alert-outline' : 'ios-checkmark-circle-outline';
+    return (
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Ionicons name={name} size={32} color={'#fff'} />
+      </View>
+    );
   };
 
   render() {
@@ -141,7 +154,16 @@ export default class App extends Component {
 
     return (
       <Provider store={store}>
-        <RootNavigator uriPrefix={prefix} />
+        <React.Fragment>
+          <RootNavigator uriPrefix={prefix} />
+          <DropdownAlert
+            closeInterval={2000}
+            renderImage={this.renderAlertImage}
+            successColor={colors.success + 'f9'}
+            errorColor={colors.error + 'f9'}
+            ref={ref => (this.dropdown = ref)}
+          />
+        </React.Fragment>
       </Provider>
     );
   }

@@ -58,6 +58,10 @@ class LegalScreen extends PureComponent {
             <Project>
               React Native Modalbox, Copyright (c) 2016 Maxime Mezrahi
             </Project>
+            <Project>
+              React Native Dropdownalert, Copyright (c) 2016 - 2017
+              testshallpass
+            </Project>
 
             <Text style={styles.license}>
               The MIT License (MIT) http://opensource.org/licenses/MIT/

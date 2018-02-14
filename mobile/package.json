@@ -23,8 +23,8 @@
     "papaparse": "^4.3.6",
     "qs": "^6.5.1",
     "react": "16.2.0",
-    "react-native":
-      "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-25.0.0.tar.gz",
+    "react-native-dropdownalert": "^3.3.0",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
     "react-native-modalbox": "^1.4.2",
     "react-native-swipeout": "^2.3.3",
