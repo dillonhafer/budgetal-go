@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   LayoutAnimation,
   Picker,
@@ -13,7 +12,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import { range } from 'lodash';
 
-class DateInput extends Component {
+class DateInput extends PureComponent {
   state = {
     showDatePicker: false,
     internalDate: null,
@@ -31,7 +30,7 @@ class DateInput extends Component {
   };
 
   render() {
-    const { defaultValue, placeholder, onChange, format } = this.props;
+    const { defaultValue, format } = this.props;
     const { internalDate, showDatePicker } = this.state;
     const date = internalDate || defaultValue || moment();
     const dateFormat = format || 'MMMM DD, YYYY';
@@ -61,8 +60,9 @@ class DateInput extends Component {
             <Picker
               style={{ width: '50%' }}
               selectedValue={month}
-              onValueChange={(itemValue, itemIndex) =>
-                this.onValueChange({ month: itemValue, year, day })}
+              onValueChange={itemValue =>
+                this.onValueChange({ month: itemValue, year, day })
+              }
             >
               {moment.months().map(m => {
                 return <Picker.Item key={m} label={m} value={m} />;
@@ -71,10 +71,11 @@ class DateInput extends Component {
             <Picker
               style={{ width: '20%' }}
               selectedValue={day}
-              onValueChange={(itemValue, itemIndex) =>
-                this.onValueChange({ day: itemValue, month, year })}
+              onValueChange={itemValue =>
+                this.onValueChange({ day: itemValue, month, year })
+              }
             >
-              {range(1, 1 + date.daysInMonth()).map((y, i) => {
+              {range(1, 1 + date.daysInMonth()).map(y => {
                 return (
                   <Picker.Item key={y} label={String(y)} value={String(y)} />
                 );
@@ -83,10 +84,11 @@ class DateInput extends Component {
             <Picker
               style={{ width: '30%' }}
               selectedValue={year}
-              onValueChange={(itemValue, itemIndex) =>
-                this.onValueChange({ year: itemValue, month, day })}
+              onValueChange={itemValue =>
+                this.onValueChange({ year: itemValue, month, day })
+              }
             >
-              {range(2015, new Date().getFullYear() + 3).map((y, i) => {
+              {range(2015, new Date().getFullYear() + 3).map(y => {
                 return (
                   <Picker.Item key={y} label={String(y)} value={String(y)} />
                 );

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { View, Text, Modal, StyleSheet, Switch } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Text, StyleSheet, Switch } from 'react-native';
 import colors from 'utils/colors';
 
-class SwitchInput extends Component {
+class SwitchInput extends PureComponent {
   state = {
     internalValue: null,
   };
@@ -28,7 +28,8 @@ class SwitchInput extends Component {
             value={selectedValue}
             onTintColor={onTintColor || colors.primary}
             onValueChange={internalValue =>
-              this.onValueChange({ internalValue })}
+              this.onValueChange({ internalValue })
+            }
           />
         </View>
       </View>

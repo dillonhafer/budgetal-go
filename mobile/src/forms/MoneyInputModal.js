@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   TouchableOpacity,
   Clipboard,
@@ -11,12 +11,10 @@ import {
 import { BlurView } from 'expo';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import colors from 'utils/colors';
-import { currencyf } from 'utils/helpers';
 import MoneyKeyboard from 'utils/MoneyKeyboard';
-import { PrimaryButton } from 'forms';
 import Modal from 'react-native-modalbox';
 
-class MoneyInputModal extends Component {
+class MoneyInputModal extends PureComponent {
   state = {
     amount: '0',
     pastValue: null,
@@ -42,7 +40,7 @@ class MoneyInputModal extends Component {
 
   render() {
     const { amount, pasteValue } = this.state;
-    const { title, visible, onOk, onCancel, defaultValue } = this.props;
+    const { title, visible, defaultValue } = this.props;
     const invalid = amount <= 0;
 
     return (

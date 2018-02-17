@@ -1,18 +1,16 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
   StyleSheet,
   LayoutAnimation,
   Picker,
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { range } from 'lodash';
 
-class SelectInput extends Component {
+class SelectInput extends PureComponent {
   state = {
     showPicker: false,
     internalValue: null,
@@ -29,7 +27,7 @@ class SelectInput extends Component {
   };
 
   render() {
-    const { defaultValue, placeholder, onChange, format, data } = this.props;
+    const { defaultValue, placeholder, data } = this.props;
     const { internalValue, showPicker } = this.state;
     const selectedValue = internalValue || defaultValue;
 
@@ -58,8 +56,9 @@ class SelectInput extends Component {
             <Picker
               style={{ width: '100%' }}
               selectedValue={selectedValue}
-              onValueChange={(itemValue, itemIndex) =>
-                this.onValueChange({ internalValue: itemValue })}
+              onValueChange={itemValue =>
+                this.onValueChange({ internalValue: itemValue })
+              }
             >
               {(data || []).map((m, i) => {
                 return (
