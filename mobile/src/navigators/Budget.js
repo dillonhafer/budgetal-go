@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -20,7 +20,7 @@ import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
-import { categoryImage, currencyf } from 'utils/helpers';
+import { categoryImage } from 'utils/helpers';
 
 const headerStyle = {
   height: 44,
@@ -89,7 +89,7 @@ const BudgetNavigatorStack = StackNavigator(
     NewBudgetItem: {
       screen: NewBudgetItemScreen,
       path: 'newBudgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'New Budget Item',
         headerStyle,
       }),
@@ -105,7 +105,7 @@ const BudgetNavigatorStack = StackNavigator(
     NewBudgetItemExpense: {
       screen: NewBudgetItemExpenseScreen,
       path: 'newBudgetItemExpense',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'New Expense',
         headerStyle,
       }),
@@ -120,7 +120,7 @@ const BudgetNavigatorStack = StackNavigator(
     },
     ImportExpenses: {
       screen: ImportExpensesScreen,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: `Import Expenses`,
         headerStyle,
       }),
@@ -162,7 +162,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
     NewBudgetItem: {
       screen: NewBudgetItemScreen,
       path: 'newBudgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'New Budget Item',
         headerStyle,
       }),
@@ -178,7 +178,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
     NewBudgetItemExpense: {
       screen: NewBudgetItemExpenseScreen,
       path: 'newBudgetItemExpense',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'New Expense',
         headerStyle,
       }),
@@ -194,7 +194,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
     ImportExpenses: {
       screen: ImportExpensesScreen,
       path: 'importExpenses',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         headerStyle,
         title: 'Import Expenses',
       }),
@@ -214,6 +214,7 @@ class BudgetNavigator extends TabletNavigator {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Budgets',
+    // eslint-disable-next-line react/display-name
     tabBarIcon: ({ tintColor }) => (
       <Ionicons name="md-calculator" size={32} color={tintColor} />
     ),

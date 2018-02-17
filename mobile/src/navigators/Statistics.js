@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from './TabletNavigator';
@@ -36,7 +35,7 @@ const StatisticsSidebarNavigatorStack = StackNavigator(
   {
     MonthlyChart: {
       screen: MonthlyChartScreen,
-      navigationOptions: ({ navigation }) => {
+      navigationOptions: () => {
         return {
           headerStyle: sidebarHeaderStyle,
           title: `Chart View`,
@@ -54,6 +53,7 @@ class StatisticsNavigator extends TabletNavigator {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Statistics',
+    // eslint-disable-next-line react/display-name
     tabBarIcon: ({ tintColor }) => (
       <Ionicons name="md-stats" size={32} color={tintColor} />
     ),

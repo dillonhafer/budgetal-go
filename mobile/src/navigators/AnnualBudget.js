@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
@@ -11,13 +11,10 @@ import EditAnnualBudgetItemScreen from 'screens/annual-budgets/EditAnnualBudgetI
 import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetItemProgress';
 
 import { Ionicons } from '@expo/vector-icons';
-import moment from 'moment';
 
 const headerStyle = {
   height: 44,
 };
-
-const sidebarHeaderStyle = {};
 
 const AnnualBudgetNavigatorStack = StackNavigator(
   {
@@ -41,7 +38,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
     AnnualBudgetProgress: {
       screen: AnnualBudgetItemProgressScreen,
       path: 'annual-budgets/:budgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'Progress',
         headerStyle,
       }),
@@ -49,7 +46,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
     NewAnnualBudgetItem: {
       screen: NewAnnualBudgetItemScreen,
       path: 'newAnnualBudgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'New Annual Item',
         headerStyle,
       }),
@@ -80,7 +77,7 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
     AnnualBudgetProgress: {
       screen: AnnualBudgetItemProgressScreen,
       path: 'annual-budgets/:budgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'Progress',
         headerStyle,
       }),
@@ -88,7 +85,7 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
     NewAnnualBudgetItem: {
       screen: NewAnnualBudgetItemScreen,
       path: 'newAnnualBudgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'New Annual Item',
         headerStyle,
       }),
@@ -112,6 +109,7 @@ class AnnualBudgetNavigator extends TabletNavigator {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Annual',
+    // eslint-disable-next-line react/display-name
     tabBarIcon: ({ tintColor }) => (
       <Ionicons name="md-calendar" size={32} color={tintColor} />
     ),

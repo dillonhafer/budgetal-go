@@ -1,7 +1,5 @@
-import React from 'react';
-import { StackNavigator } from 'react-navigation';
-
 // Naviagators
+import { StackNavigator } from 'react-navigation';
 import AppTabNavigator from 'navigators/AppTab';
 
 // Screens
@@ -20,21 +18,21 @@ const RootNavigator = StackNavigator(
     Main: { screen: MainScreen },
     SignIn: {
       screen: SignInScreen,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: `Sign In`,
         headerStyle,
       }),
     },
     ForgotPassword: {
       screen: ForgotPasswordScreen,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: `Forgot Password`,
         headerStyle,
       }),
     },
     Register: {
       screen: RegisterScreen,
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: `Register`,
         headerStyle,
       }),
@@ -43,7 +41,7 @@ const RootNavigator = StackNavigator(
     ResetPassword: {
       screen: ResetPasswordScreen,
       path: 'reset-password/:resetPasswordToken',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: `Reset Password`,
         headerStyle,
       }),

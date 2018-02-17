@@ -1,4 +1,3 @@
-import React from 'react';
 import { Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 
@@ -10,7 +9,6 @@ import StatisticsNavigator from 'navigators/Statistics';
 
 import colors from 'utils/colors';
 import Device from 'utils/Device';
-import moment from 'moment';
 
 const AppTabNavigator = TabNavigator(
   {
