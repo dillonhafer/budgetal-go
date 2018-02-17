@@ -6,7 +6,6 @@ import {
   StatusBar,
   View,
   Image,
-  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 
@@ -216,7 +215,7 @@ class AccountEditScreen extends Component {
             ref={input => {
               this.inputs['email'] = input;
             }}
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('firstName');
             }}
             returnKeyType="next"
@@ -235,7 +234,7 @@ class AccountEditScreen extends Component {
             underlineColorAndroid={'transparent'}
             defaultValue={firstName}
             returnKeyType="next"
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('lastName');
             }}
             onChangeText={firstName => this.setState({ firstName })}
@@ -252,7 +251,7 @@ class AccountEditScreen extends Component {
             underlineColorAndroid={'transparent'}
             defaultValue={lastName}
             returnKeyType="next"
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('currentPassword');
             }}
             onChangeText={lastName => this.setState({ lastName })}

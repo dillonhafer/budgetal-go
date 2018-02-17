@@ -7,13 +7,11 @@ import {
   View,
   SectionList,
   TouchableOpacity,
-  LayoutAnimation,
   RefreshControl,
 } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
-import { toggleDelete } from 'actions/sessions';
 
 // API
 import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
@@ -25,12 +23,12 @@ import colors from 'utils/colors';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import { humanUA } from 'utils/helpers';
-import { notice } from 'notify';
+import { notice, error } from 'notify';
 import Spin from 'utils/Spin';
 import Swipeout from 'react-native-swipeout';
 
 class SessionsScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = () => ({
     title: 'Sessions',
   });
 
@@ -83,7 +81,7 @@ class SessionsScreen extends PureComponent {
         this.setState({ sessions: { active, expired } });
       }
     } catch (err) {
-      console.log(err);
+      error('Error downloading session information');
     } finally {
       this.setState({ loading: false });
     }
@@ -255,7 +253,7 @@ class SessionsScreen extends PureComponent {
     return <MaterialCommunityIcons name={icon} size={28} color={color} />;
   }
 
-  renderExpiredItem = ({ index, section, item: session }, p) => {
+  renderExpiredItem = ({ index, section, item: session }) => {
     const lastStyle = section.data.length === index + 1 ? styles.last : {};
     return (
       <View style={[styles.listItem, styles.expiredListItem, lastStyle]}>
@@ -282,7 +280,7 @@ class SessionsScreen extends PureComponent {
     try {
       await this.fetchSessions();
     } catch (err) {
-      console.log(err);
+      error('There was a problem refreshing the session data');
     } finally {
       this.setState({ refreshing: false });
     }
@@ -375,12 +373,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#444',
   },
-  listItemIcon: { marginRight: 7 },
-  first: {
-    borderWidth: 1,
-    borderColor: '#fff',
-    borderTopColor: colors.lines,
-  },
   last: {
     borderWidth: 1,
     borderColor: '#fff',
@@ -388,9 +380,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({
-    ...state.sessions,
-  }),
-  dispatch => ({}),
-)(SessionsScreen);
+export default connect(state => ({
+  ...state.sessions,
+}))(SessionsScreen);

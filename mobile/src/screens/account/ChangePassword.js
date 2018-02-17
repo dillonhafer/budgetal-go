@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, StatusBar, View } from 'react-native';
+import { StyleSheet, TextInput, StatusBar, View } from 'react-native';
 
 // API
 import { ChangePasswordRequest } from 'api/users';
@@ -71,12 +71,7 @@ class ChangePasswordScreen extends Component {
   };
 
   render() {
-    const {
-      password,
-      passwordConfirmation,
-      currentPassword,
-      loading,
-    } = this.state;
+    const { loading } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
@@ -93,7 +88,7 @@ class ChangePasswordScreen extends Component {
             }}
             placeholder="Password"
             returnKeyType="next"
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('passwordConfirmation');
             }}
             onChangeText={password => this.setState({ password })}
@@ -111,11 +106,12 @@ class ChangePasswordScreen extends Component {
             }}
             placeholder="Password Confirmation"
             returnKeyType="next"
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('currentPassword');
             }}
             onChangeText={passwordConfirmation =>
-              this.setState({ passwordConfirmation })}
+              this.setState({ passwordConfirmation })
+            }
           />
         </FieldContainer>
 

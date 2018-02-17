@@ -21,9 +21,9 @@ import { RemoveAuthentication } from 'utils/authentication';
 import { navigateRoot } from 'navigators';
 
 // Components
+import { notice, error } from 'notify';
 import colors from 'utils/colors';
-import { error } from 'notify';
-import { PrimaryButton, DangerButton } from 'forms';
+import { DangerButton } from 'forms';
 import { WebBrowser, Constants } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -49,7 +49,10 @@ class AccountScreen extends PureComponent {
       await SignOutRequest();
       await RemoveAuthentication();
       navigateRoot(this.props.screenProps.parentNavigation.dispatch);
-    } catch (err) {}
+      notice('You are now signed out');
+    } catch (err) {
+      error('Something went wrong. Try closing the app.');
+    }
   };
 
   openPrivacyPage = async () => {
@@ -143,7 +146,7 @@ class AccountScreen extends PureComponent {
       <TouchableOpacity
         style={[styles.listItem, item.style, activeRowStyles]}
         onPress={onPress}
-        disabled={activeSidebar || !!!item.onPress}
+        disabled={activeSidebar || !item.onPress}
       >
         <View
           style={{ flexDirection: 'row', width: '86%', alignItems: 'center' }}
@@ -387,9 +390,6 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({
-    user: state.users,
-  }),
-  dispatch => ({}),
-)(AccountScreen);
+export default connect(state => ({
+  user: state.users,
+}))(AccountScreen);
