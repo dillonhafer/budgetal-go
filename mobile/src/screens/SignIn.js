@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   StatusBar,
-  View,
   TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
@@ -76,7 +75,7 @@ class SignInScreen extends Component {
   };
 
   render() {
-    const { email, password, loading } = this.state;
+    const { loading } = this.state;
     const valid = this.validateFields();
     return (
       <KeyboardAvoidingView
@@ -100,7 +99,7 @@ class SignInScreen extends Component {
             ref={input => {
               this.inputs['email'] = input;
             }}
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('password');
             }}
             returnKeyType="next"
@@ -159,11 +158,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    updateCurrentUser: user => {
-      dispatch(updateCurrentUser(user));
-    },
-  }),
-)(SignInScreen);
+export default connect(null, dispatch => ({
+  updateCurrentUser: user => {
+    dispatch(updateCurrentUser(user));
+  },
+}))(SignInScreen);

@@ -5,8 +5,6 @@ import {
   StyleSheet,
   Text,
   StatusBar,
-  Image,
-  View,
   KeyboardAvoidingView,
 } from 'react-native';
 
@@ -119,7 +117,7 @@ class ResetPasswordScreen extends Component {
             }}
             placeholder="Password"
             returnKeyType="next"
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('passwordConfirmation');
             }}
             onChangeText={password => this.setState({ password })}
@@ -139,7 +137,8 @@ class ResetPasswordScreen extends Component {
             returnKeyType="done"
             onSubmitEditing={this.handleOnPress}
             onChangeText={passwordConfirmation =>
-              this.setState({ passwordConfirmation })}
+              this.setState({ passwordConfirmation })
+            }
           />
         </FieldContainer>
         <PrimaryButton

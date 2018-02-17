@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import {
-  TouchableOpacity,
   TextInput,
   StyleSheet,
   Text,
   StatusBar,
-  Image,
-  View,
   KeyboardAvoidingView,
 } from 'react-native';
 
@@ -79,7 +76,7 @@ class RegisterScreen extends Component {
   }
 
   render() {
-    const { email, password, loading } = this.state;
+    const { loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -104,7 +101,7 @@ class RegisterScreen extends Component {
             ref={input => {
               this.inputs['email'] = input;
             }}
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('password');
             }}
             returnKeyType="next"
@@ -124,7 +121,7 @@ class RegisterScreen extends Component {
             }}
             placeholder="Password"
             returnKeyType="next"
-            onSubmitEditing={_ => {
+            onSubmitEditing={() => {
               this.focusNextField('passwordConfirmation');
             }}
             onChangeText={password => this.setState({ password })}
@@ -144,7 +141,8 @@ class RegisterScreen extends Component {
             returnKeyType="done"
             onSubmitEditing={this.handleOnPress}
             onChangeText={passwordConfirmation =>
-              this.setState({ passwordConfirmation })}
+              this.setState({ passwordConfirmation })
+            }
           />
         </FieldContainer>
         <PrimaryButton
@@ -166,11 +164,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    updateCurrentUser: user => {
-      dispatch(updateCurrentUser(user));
-    },
-  }),
-)(RegisterScreen);
+export default connect(null, dispatch => ({
+  updateCurrentUser: user => {
+    dispatch(updateCurrentUser(user));
+  },
+}))(RegisterScreen);

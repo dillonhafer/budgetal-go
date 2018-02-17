@@ -4,8 +4,6 @@ import {
   StyleSheet,
   Text,
   StatusBar,
-  View,
-  TouchableOpacity,
   KeyboardAvoidingView,
 } from 'react-native';
 
@@ -18,7 +16,6 @@ import { navigateRoot } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
-import colors from 'utils/colors';
 import { validEmail } from 'utils/helpers';
 
 class ForgotPasswordScreen extends Component {
@@ -52,14 +49,14 @@ class ForgotPasswordScreen extends Component {
         error('Email is invalid');
       }
     } catch (err) {
-      // console.log(err)
+      error('Could not reset password');
     } finally {
       this.setState({ loading: false });
     }
   };
 
   render() {
-    const { email, loading } = this.state;
+    const { loading } = this.state;
     const valid = this.validateFields();
 
     return (

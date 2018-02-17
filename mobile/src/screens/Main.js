@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import {
   TouchableOpacity,
   StatusBar,
-  TextInput,
   StyleSheet,
   Text,
   Image,
   View,
-  Button,
-  KeyboardAvoidingView,
   Platform,
 } from 'react-native';
 import colors from 'utils/colors';
@@ -20,7 +17,7 @@ import { connect } from 'react-redux';
 import { updateCurrentUser } from 'actions/users';
 import { LinearGradient } from 'expo';
 
-const LogoSeparator = ({ color }) => {
+const LogoSeparator = () => {
   const styles = StyleSheet.create({
     container: {
       marginTop: 70,
@@ -196,11 +193,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    updateCurrentUser: user => {
-      dispatch(updateCurrentUser(user));
-    },
-  }),
-)(MainScreen);
+export default connect(null, dispatch => ({
+  updateCurrentUser: user => {
+    dispatch(updateCurrentUser(user));
+  },
+}))(MainScreen);
