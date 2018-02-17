@@ -7,7 +7,7 @@ import {
   LayoutAnimation,
   Platform,
 } from 'react-native';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import colors from 'utils/colors';
 

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import colors from 'utils/colors';
 
-export default class Progress extends Component {
+export default class Progress extends PureComponent {
   render() {
     const { status, percent } = this.props;
     let color = colors.primary;

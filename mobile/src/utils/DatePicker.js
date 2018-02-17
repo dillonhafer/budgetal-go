@@ -29,7 +29,7 @@ class DatePicker extends Component {
   };
 
   render() {
-    const { month, year, onChange } = this.props;
+    const { month, year } = this.props;
 
     let date = moment(`${year}-${month}`, 'YYYY-MM');
     let yearWidth = '40%';
@@ -53,8 +53,9 @@ class DatePicker extends Component {
             <Picker
               style={{ width: monthWidth }}
               selectedValue={`${this.state.month || month}`}
-              onValueChange={(itemValue, itemIndex) =>
-                this.onValueChange({ month: itemValue, year })}
+              onValueChange={itemValue =>
+                this.onValueChange({ month: itemValue, year })
+              }
             >
               {moment.months().map((m, i) => {
                 return <Picker.Item key={m} label={m} value={String(i + 1)} />;
@@ -63,10 +64,11 @@ class DatePicker extends Component {
             <Picker
               style={{ width: yearWidth }}
               selectedValue={`${this.state.year || year}`}
-              onValueChange={(itemValue, itemIndex) =>
-                this.onValueChange({ year: itemValue, month })}
+              onValueChange={itemValue =>
+                this.onValueChange({ year: itemValue, month })
+              }
             >
-              {range(2015, new Date().getFullYear() + 3).map((y, i) => {
+              {range(2015, new Date().getFullYear() + 3).map(y => {
                 return (
                   <Picker.Item key={y} label={String(y)} value={String(y)} />
                 );
