@@ -144,7 +144,8 @@ class ImportExpenseRow extends PureComponent {
               style={{ width: '50%' }}
               selectedValue={String(this.state.budgetItemId)}
               onValueChange={itemValue =>
-                this.setState({ budgetItemId: parseInt(itemValue, 10) || 0 })}
+                this.setState({ budgetItemId: parseInt(itemValue, 10) || 0 })
+              }
             >
               {this.props.budgetItems
                 .filter(i => {
@@ -235,9 +236,6 @@ class ImportExpenseRow extends PureComponent {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   breadcrumb: {
     fontSize: 22,
     fontWeight: '700',

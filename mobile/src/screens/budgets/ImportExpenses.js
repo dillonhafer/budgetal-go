@@ -3,12 +3,10 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableHighlight,
   TouchableOpacity,
   FlatList,
   StatusBar,
   ScrollView,
-  WebView,
 } from 'react-native';
 
 // Redux
@@ -16,7 +14,7 @@ import { connect } from 'react-redux';
 import { updateBudgetCategory } from 'actions/budgets';
 
 // Helpers
-import { error, notice } from 'notify';
+import { error } from 'notify';
 import Device from 'utils/Device';
 const isTablet = Device.isTablet();
 import { DocumentPicker } from 'expo';
@@ -32,30 +30,33 @@ import ImportExpenseRow from './ImportExpenseRow';
 const tabletMargin = 20;
 const tabletWidthSubtrahend = isTablet ? tabletMargin * 2 : 0;
 
-@connect(null, d => ({
+const DoneButton = connect(null, dispatch => ({
   changeCategory: c => {
-    d(updateBudgetCategory({ budgetCategory: c }));
+    dispatch(updateBudgetCategory({ budgetCategory: c }));
   },
-}))
-class DoneButton extends PureComponent {
-  render() {
-    return (
-      <TouchableOpacity
-        onPress={() => {
-          this.props.changeCategory({ id: -1, name: '' });
-          this.props.screenProps.layoutNavigate('Main');
-        }}
-      >
-        <Text style={{ color: colors.iosBlue, padding: 20, fontWeight: '700' }}>
-          Done
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-}
+}))(
+  class DoneButton extends PureComponent {
+    render() {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            this.props.changeCategory({ id: -1, name: '' });
+            this.props.screenProps.layoutNavigate('Main');
+          }}
+        >
+          <Text
+            style={{ color: colors.iosBlue, padding: 20, fontWeight: '700' }}
+          >
+            Done
+          </Text>
+        </TouchableOpacity>
+      );
+    }
+  },
+);
 
 class ImportExpenseScreen extends PureComponent {
-  static navigationOptions = ({ navigation, screenProps }) => {
+  static navigationOptions = ({ screenProps }) => {
     if (!screenProps.isTablet) {
       return {};
     }

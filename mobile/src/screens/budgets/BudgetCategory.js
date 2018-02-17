@@ -4,29 +4,20 @@ import {
   TouchableHighlight,
   Text,
   StatusBar,
-  Alert,
   View,
   FlatList,
 } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
-import {
-  importedBudgetItems,
-  updateBudgetCategory,
-  removeBudgetItem,
-} from 'actions/budgets';
+import { importedBudgetItems, removeBudgetItem } from 'actions/budgets';
 
 // API
 import { ImportCategoryRequest } from 'api/budgets';
 import { DeleteItemRequest } from 'api/budget-items';
 
 // Components
-import {
-  Ionicons,
-  FontAwesome,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
@@ -70,7 +61,9 @@ class BudgetCategoryScreen extends PureComponent {
       okText: `Import ${budgetCategory.name}`,
       cancelText: 'Cancel',
       title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
+      content: `Do you want to import budget items from your previous month's ${
+        budgetCategory.name
+      } category?`,
       onOk: this.importPreviousItems,
       onCancel() {},
     });
@@ -168,7 +161,7 @@ class BudgetCategoryScreen extends PureComponent {
   };
 
   renderHeader = length => {
-    if (!!length) {
+    if (length > 0) {
       return null;
     }
     return (

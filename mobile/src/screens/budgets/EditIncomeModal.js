@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -11,7 +11,7 @@ import { UpdateIncomeRequest } from 'api/budgets';
 // Components
 import { Ionicons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
-import { notice } from 'notify';
+import { notice, error } from 'notify';
 import MoneyInputModal from 'forms/MoneyInputModal';
 
 class EditIncomeModal extends Component {
@@ -37,21 +37,18 @@ class EditIncomeModal extends Component {
       if (resp && resp.ok) {
         this.props.updateIncome(income);
         this.hideModal();
-        setTimeout(() => {
-          notice('Saved Monthly Income');
-        }, 500);
+        notice('Saved Monthly Income');
       }
     } catch (err) {
-      console.log(err);
+      error('Could not update monthly income');
     } finally {
       this.setState({ loading: false });
     }
   };
 
   render() {
-    const { visible, loading, income } = this.state;
+    const { visible } = this.state;
     const { budget } = this.props;
-    const invalid = income <= 0;
 
     return (
       <View>
@@ -88,20 +85,6 @@ class EditIncomeModal extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  modal: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
-  },
-  closeButton: {
-    paddingLeft: 15,
-    paddingTop: 25,
-    paddingBottom: 15,
-  },
-});
 
 export default connect(
   state => ({

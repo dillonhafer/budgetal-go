@@ -1,13 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  StatusBar,
-  View,
-  SectionList,
-  Alert,
-} from 'react-native';
+import { StyleSheet, Text, StatusBar, View, SectionList } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -18,13 +10,9 @@ import { DeleteExpenseRequest } from 'api/budget-item-expenses';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
-import {
-  Ionicons,
-  FontAwesome,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
+import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
-import { notice, confirm, error } from 'notify';
+import { notice, confirm } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
@@ -57,8 +45,6 @@ class BudgetItemScreen extends PureComponent {
   };
 
   confirmDelete = expense => {
-    const okOk = () => {};
-
     confirm({
       title: `Delete ${expense.name}?`,
       okText: 'Delete',
@@ -145,7 +131,7 @@ class BudgetItemScreen extends PureComponent {
   };
 
   renderHeader = length => {
-    if (!!length) {
+    if (length > 0) {
       return null;
     }
     return (

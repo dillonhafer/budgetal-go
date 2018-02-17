@@ -71,8 +71,7 @@ class NewBudgetItemScreen extends PureComponent {
         notice('Item saved');
       }
     } catch (err) {
-      console.log(err);
-      error('Something went wrong');
+      error('Could not create item');
     }
   };
 
@@ -92,7 +91,7 @@ class NewBudgetItemScreen extends PureComponent {
   };
 
   render() {
-    const { name, amount, loading, showMoneyKeyboard } = this.state;
+    const { name, amount, loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -142,11 +141,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    createdBudgetItem: item => {
-      dispatch(createdBudgetItem(item));
-    },
-  }),
-)(NewBudgetItemScreen);
+export default connect(null, dispatch => ({
+  createdBudgetItem: item => {
+    dispatch(createdBudgetItem(item));
+  },
+}))(NewBudgetItemScreen);

@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text,
   TextInput,
   StatusBar,
   View,
-  Image,
   ScrollView,
-  TouchableOpacity,
 } from 'react-native';
 
 // Redux
@@ -19,6 +16,7 @@ import { CreateExpenseRequest } from 'api/budget-item-expenses';
 
 // Helpers
 import { error, notice } from 'notify';
+import moment from 'moment';
 
 // Components
 import {
@@ -29,11 +27,6 @@ import {
 } from 'forms';
 import MoneyInput from 'forms/MoneyInput';
 import DateInput from 'forms/DateInput';
-
-import { SetCurrentUser } from 'utils/authentication';
-import { ImagePicker, BlurView } from 'expo';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import moment from 'moment';
 
 class NewBudgetItemExpenseScreen extends Component {
   goBack = () => {
@@ -87,8 +80,7 @@ class NewBudgetItemExpenseScreen extends Component {
         notice('Expense saved');
       }
     } catch (err) {
-      console.log(err);
-      error('Something went wrong');
+      error('Could not create expense');
     }
   };
 
@@ -108,7 +100,7 @@ class NewBudgetItemExpenseScreen extends Component {
   };
 
   render() {
-    const { name, amount, date, loading, showMoneyKeyboard } = this.state;
+    const { name, amount, loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -161,11 +153,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    createdExpense: expense => {
-      dispatch(createdExpense(expense));
-    },
-  }),
-)(NewBudgetItemExpenseScreen);
+export default connect(null, dispatch => ({
+  createdExpense: expense => {
+    dispatch(createdExpense(expense));
+  },
+}))(NewBudgetItemExpenseScreen);

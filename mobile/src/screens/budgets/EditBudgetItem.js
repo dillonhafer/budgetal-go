@@ -75,8 +75,7 @@ class EditBudgetItemScreen extends Component {
         notice('Item saved');
       }
     } catch (err) {
-      console.log(err);
-      error('Something went wrong');
+      error('Could not update item');
     }
   };
 
@@ -96,7 +95,7 @@ class EditBudgetItemScreen extends Component {
   };
 
   render() {
-    const { name, amount, loading, showMoneyKeyboard } = this.state;
+    const { name, amount, loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -146,11 +145,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    updateBudgetItem: item => {
-      dispatch(updateBudgetItem(item));
-    },
-  }),
-)(EditBudgetItemScreen);
+export default connect(null, dispatch => ({
+  updateBudgetItem: item => {
+    dispatch(updateBudgetItem(item));
+  },
+}))(EditBudgetItemScreen);

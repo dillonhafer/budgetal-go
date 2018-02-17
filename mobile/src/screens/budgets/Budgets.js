@@ -18,13 +18,8 @@ import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
 import { BudgetRequest } from 'api/budgets';
 
 // Components
-import { Feather } from '@expo/vector-icons';
-import {
-  categoryImage,
-  currencyf,
-  reduceSum,
-  percentSpent,
-} from 'utils/helpers';
+import { error } from 'notify';
+import { categoryImage, reduceSum, percentSpent } from 'utils/helpers';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
@@ -33,7 +28,7 @@ import Spin from 'utils/Spin';
 
 import { GetCurrentUser } from 'utils/authentication';
 class BudgetsScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => ({
+  static navigationOptions = () => ({
     headerRight: <EditIncomeModal />,
   });
 
@@ -58,7 +53,7 @@ class BudgetsScreen extends PureComponent {
       const { year, month } = this.props.budget;
       await this.loadBudget({ year, month });
     } catch (err) {
-      console.log(err);
+      error('There was a problem refreshing the list');
     } finally {
       this.setState({ refreshing: false });
     }
