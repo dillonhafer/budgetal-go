@@ -10,16 +10,13 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import {
-  itemsFetched,
-  updatedSelectedItem,
-  hideForm,
-} from 'actions/annual-budget-items';
+import { itemsFetched } from 'actions/annual-budget-items';
 
 // API
 import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 // Components
+import { error } from 'notify';
 import { FontAwesome } from '@expo/vector-icons';
 import colors from 'utils/colors';
 import DatePicker from 'utils/DatePicker';
@@ -70,7 +67,7 @@ class AnnualBudgetsScreen extends PureComponent {
         this.props.itemsFetched(resp.annualBudgetId, resp.annualBudgetItems);
       }
     } catch (err) {
-      console.log(err);
+      error('Problem downloading Annual budget data');
     } finally {
       this.setState({ loading: false });
     }
@@ -85,8 +82,8 @@ class AnnualBudgetsScreen extends PureComponent {
     );
   };
 
-  renderHeader = length => {
-    if (!!length) {
+  renderHeader = items => {
+    if (items > 0) {
       return null;
     }
     return (
@@ -116,7 +113,7 @@ class AnnualBudgetsScreen extends PureComponent {
     try {
       await this.loadBudgetItems({ year: this.state.year });
     } catch (err) {
-      console.log(err);
+      error('There was a problem refreshing the list');
     } finally {
       this.setState({ refreshing: false });
     }

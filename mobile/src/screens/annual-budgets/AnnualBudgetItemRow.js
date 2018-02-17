@@ -177,11 +177,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    removeItem: item => {
-      dispatch(removeItem(item));
-    },
-  }),
-)(AnnualBudgetItemRow);
+export default connect(null, dispatch => ({
+  removeItem: item => {
+    dispatch(removeItem(item));
+  },
+}))(AnnualBudgetItemRow);

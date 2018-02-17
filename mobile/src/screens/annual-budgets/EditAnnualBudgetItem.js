@@ -96,8 +96,7 @@ class EditAnnualBudgetItemScreen extends Component {
       }
       return goBack;
     } catch (err) {
-      console.log(err);
-      error('Something went wrong');
+      error('Could not update item');
     }
   };
 
@@ -122,15 +121,7 @@ class EditAnnualBudgetItemScreen extends Component {
   };
 
   render() {
-    const {
-      name,
-      amount,
-      date,
-      interval,
-      paid,
-      loading,
-      showMoneyKeyboard,
-    } = this.state;
+    const { name, amount, interval, paid, loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -163,7 +154,8 @@ class EditAnnualBudgetItemScreen extends Component {
             placeholder="Interval"
             defaultValue={interval}
             onChange={interval =>
-              this.setState({ interval: parseInt(interval, 10) })}
+              this.setState({ interval: parseInt(interval, 10) })
+            }
             data={range(1, 13).map(n => {
               return { label: String(n), value: String(n) };
             })}
@@ -203,11 +195,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    itemUpdated: item => {
-      dispatch(itemUpdated(item));
-    },
-  }),
-)(EditAnnualBudgetItemScreen);
+export default connect(null, dispatch => ({
+  itemUpdated: item => {
+    dispatch(itemUpdated(item));
+  },
+}))(EditAnnualBudgetItemScreen);
