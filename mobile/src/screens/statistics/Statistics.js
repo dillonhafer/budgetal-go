@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 // Components
+import { error } from 'notify';
 import { FindStatisticRequest } from 'api/statistics';
 import { currencyf, categoryImage } from 'utils/helpers';
 import DatePicker from 'utils/DatePicker';
@@ -94,7 +95,7 @@ class StatisticsScreen extends PureComponent {
         this.setState({ budgetCategories });
       }
     } catch (err) {
-      console.log(err);
+      error('There was a problem downloading statistics');
     } finally {
       this.setState({ loading: false });
     }
@@ -128,7 +129,7 @@ class StatisticsScreen extends PureComponent {
       const { year, month } = this.state.budget;
       await this.loadStatistics({ year, month });
     } catch (err) {
-      console.log(err);
+      error('There was a problem refreshing statistics');
     } finally {
       this.setState({ refreshing: false });
     }
