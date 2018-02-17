@@ -16,6 +16,8 @@ const initialState = {
   showForm: false,
 };
 
+let ANNUAL_ITEMS_UPDATED_IDX, ANNUAL_ITEMS_REMOVED_IDX;
+
 export default function annulBudgetItemState(state = initialState, action) {
   switch (action.type) {
     case ANNUAL_ITEMS_ADDED:
@@ -26,7 +28,7 @@ export default function annulBudgetItemState(state = initialState, action) {
       };
 
     case ANNUAL_ITEMS_UPDATED:
-      const ANNUAL_ITEMS_UPDATED_IDX = state.annualBudgetItems.findIndex(
+      ANNUAL_ITEMS_UPDATED_IDX = state.annualBudgetItems.findIndex(
         i => i.id === action.item.id,
       );
       return {
@@ -45,7 +47,7 @@ export default function annulBudgetItemState(state = initialState, action) {
       };
 
     case ANNUAL_ITEMS_REMOVED:
-      const ANNUAL_ITEMS_REMOVED_IDX = state.annualBudgetItems.findIndex(
+      ANNUAL_ITEMS_REMOVED_IDX = state.annualBudgetItems.findIndex(
         i => i.id === action.item.id,
       );
       return {

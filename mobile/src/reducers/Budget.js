@@ -47,6 +47,8 @@ const initialBudgetState = {
   currentBudgetCategory: initialBudgetCategory(),
 };
 
+let item_deleted_idx, expense_deleted_idx;
+
 export default function budgetState(state = initialBudgetState, action) {
   switch (action.type) {
     case BUDGET_LOADED:
@@ -126,7 +128,7 @@ export default function budgetState(state = initialBudgetState, action) {
         ],
       };
     case BUDGET_ITEM_DELETED:
-      const item_deleted_idx = state.budgetItems.findIndex(i => {
+      item_deleted_idx = state.budgetItems.findIndex(i => {
         return (
           i.budgetCategoryId === action.budgetItem.budgetCategoryId &&
           i.id === action.budgetItem.id
@@ -143,7 +145,7 @@ export default function budgetState(state = initialBudgetState, action) {
         }),
       };
     case BUDGET_ITEM_EXPENSE_REMOVED:
-      const expense_deleted_idx = state.budgetItemExpenses.findIndex(e => {
+      expense_deleted_idx = state.budgetItemExpenses.findIndex(e => {
         return (
           e.budgetItemId === action.budgetItemExpense.budgetItemId &&
           e.id === action.budgetItemExpense.id
