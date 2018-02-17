@@ -18,6 +18,7 @@
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
+    "react/no-unescaped-entities": [0],
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react-native/no-unused-styles": 2,
