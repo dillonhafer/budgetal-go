@@ -1,20 +1,20 @@
 import React, { PureComponent } from 'react';
-import { View, TouchableHighlight, Text } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, TouchableOpacity, Text } from 'react-native';
 import colors from 'utils/colors';
+import ImportAnimation from 'components/ImportAnimation';
 
 class CsvUploadButton extends PureComponent {
   render() {
     const { onPress } = this.props;
 
     return (
-      <TouchableHighlight
+      <TouchableOpacity
         style={{
           alignSelf: 'center',
           width: '75%',
           justifyContent: 'center',
         }}
-        underlayColor={'#cccccc77'}
+        activeOpacity={0.4}
         onPress={onPress}
       >
         <View
@@ -27,14 +27,7 @@ class CsvUploadButton extends PureComponent {
             padding: 30,
           }}
         >
-          <Ionicons
-            name="ios-cloud-upload-outline"
-            size={64}
-            color={colors.primary}
-            style={{
-              textAlign: 'center',
-            }}
-          />
+          <ImportAnimation />
           <Text
             style={{
               textAlign: 'center',
@@ -58,7 +51,7 @@ class CsvUploadButton extends PureComponent {
             date, description, amount
           </Text>
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 }
