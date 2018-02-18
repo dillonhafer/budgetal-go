@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 
-import { Ionicons } from '@expo/vector-icons';
+import PieAnimation from 'components/PieAnimation';
 import colors from 'utils/colors';
 
 class MonthlyChart extends PureComponent {
@@ -29,7 +29,7 @@ class MonthlyChart extends PureComponent {
         >
           Charts for Tablets coming soon!
         </Text>
-        <Ionicons name="ios-pie" size={64} color={colors.primary} />
+        <PieAnimation />
       </View>
     );
   }
