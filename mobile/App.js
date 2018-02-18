@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
+  Alert,
   View,
   StatusBar,
   Dimensions,
@@ -131,7 +130,7 @@ export default class App extends Component {
     global.alertWithType = this.dropdown.alertWithType;
   };
 
-  renderAlertImage = props => {
+  renderAlertImage = () => {
     const isError = this.dropdown.state.type === 'error';
     const name = isError ? 'ios-alert-outline' : 'ios-checkmark-circle-outline';
     return (
@@ -141,13 +140,20 @@ export default class App extends Component {
     );
   };
 
+  onError = () => {
+    Alert.alert(
+      'Loading Error',
+      "Please make sure you're online or try restarting Budgetal",
+    );
+  };
+
   render() {
     if (!this.state.preLoaded) {
       return (
         <AppLoading
           startAsync={this.loadAssetsAsync}
           onFinish={this.onFinish}
-          onError={console.warn}
+          onError={this.onError}
         />
       );
     }
@@ -168,12 +174,3 @@ export default class App extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
