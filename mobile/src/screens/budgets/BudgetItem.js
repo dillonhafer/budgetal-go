@@ -10,13 +10,14 @@ import { DeleteExpenseRequest } from 'api/budget-item-expenses';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import { notice, confirm } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';
+import MoneyAnimation from 'components/MoneyAnimation';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -136,7 +137,7 @@ class BudgetItemScreen extends PureComponent {
     }
     return (
       <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
-        <FontAwesome name="money" size={32} color={colors.success} />
+        <MoneyAnimation />
         <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
           There aren't any expenses yet
         </Text>

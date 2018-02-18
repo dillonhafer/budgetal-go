@@ -17,7 +17,8 @@ import { ImportCategoryRequest } from 'api/budgets';
 import { DeleteItemRequest } from 'api/budget-items';
 
 // Components
-import { FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import MoneyAnimation from 'components/MoneyAnimation';
 import moment from 'moment';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
@@ -166,7 +167,7 @@ class BudgetCategoryScreen extends PureComponent {
     }
     return (
       <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
-        <FontAwesome name="money" size={32} color={colors.success} />
+        <MoneyAnimation />
         <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
           There aren't any buget items yet
         </Text>
