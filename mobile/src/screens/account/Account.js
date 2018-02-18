@@ -322,15 +322,18 @@ const styles = StyleSheet.create({
     borderRightColor: '#fff',
   },
   imageContainer: {
-    paddingLeft: 25,
-  },
-  image: {
+    marginLeft: 25,
+    borderRadius: 35,
     width: 70,
     height: 70,
     borderWidth: 2,
     borderColor: '#aaa',
     backgroundColor: '#aaa',
-    borderRadius: 35,
+    overflow: 'hidden',
+  },
+  image: {
+    width: 70,
+    height: 70,
   },
   nameText: {
     fontSize: 18,

@@ -296,15 +296,18 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   imageContainer: {
-    padding: 20,
-  },
-  image: {
-    width: 150,
-    height: 150,
+    margin: 20,
     borderWidth: 3,
     borderColor: '#aaa',
     backgroundColor: '#aaa',
     borderRadius: 75,
+    width: 150,
+    height: 150,
+    overflow: 'hidden',
+  },
+  image: {
+    width: 150,
+    height: 150,
   },
   modal: {
     flex: 1,
