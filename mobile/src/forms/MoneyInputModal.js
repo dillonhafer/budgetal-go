@@ -9,10 +9,11 @@ import {
 
 // Components
 import { BlurView } from 'expo';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import colors from 'utils/colors';
 import MoneyKeyboard from 'utils/MoneyKeyboard';
 import Modal from 'react-native-modalbox';
+import MoneyAnimation from 'components/MoneyAnimation';
 
 class MoneyInputModal extends PureComponent {
   state = {
@@ -68,13 +69,17 @@ class MoneyInputModal extends PureComponent {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.pasteButton} onPress={this.onPaste}>
-              <Ionicons name="ios-copy" size={34} color={colors.primary} />
+              <Ionicons
+                name="ios-clipboard-outline"
+                size={34}
+                color={colors.primary}
+              />
             </TouchableOpacity>
           </View>
 
           <View style={styles.content}>
             <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
-              <FontAwesome name="money" size={32} color={colors.success} />
+              <MoneyAnimation />
               <Text
                 style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}
               >
@@ -101,6 +106,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     height: '100%',
+  },
+  content: {
+    backgroundColor: '#fff',
   },
   headerContainer: {
     flexDirection: 'row',
