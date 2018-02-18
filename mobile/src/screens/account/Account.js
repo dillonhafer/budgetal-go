@@ -24,7 +24,7 @@ import { navigateRoot } from 'navigators';
 import { notice, error } from 'notify';
 import colors from 'utils/colors';
 import { DangerButton } from 'forms';
-import { WebBrowser, Constants } from 'expo';
+import { WebBrowser, Constants, Util } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Device from 'utils/Device';
@@ -81,6 +81,10 @@ class AccountScreen extends PureComponent {
 
   navLegal = () => {
     this.props.screenProps.layoutNavigate('Legal');
+  };
+
+  checkForUpdate = () => {
+    Util.reload();
   };
 
   confirmSignOut = () => {
@@ -205,6 +209,13 @@ class AccountScreen extends PureComponent {
             label: 'Help',
             icon: { name: 'help-circle' },
             onPress: this.openHelpPage,
+            style: styles.last,
+          },
+          {
+            key: 'update',
+            label: 'Check for updates',
+            icon: { name: 'update' },
+            onPress: this.checkForUpdate,
             style: styles.last,
           },
         ],
