@@ -149,7 +149,7 @@ class AccountScreen extends PureComponent {
         disabled={activeSidebar || !item.onPress}
       >
         <View
-          style={{ flexDirection: 'row', width: '86%', alignItems: 'center' }}
+          style={{ flexDirection: 'row', width: '75%', alignItems: 'center' }}
         >
           <View style={styles.listItemIcon}>
             <MaterialCommunityIcons
@@ -376,8 +376,9 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.lines,
   },
   version: {
+    width: '25%',
+    textAlign: 'center',
     color: '#ced0ce',
-    marginRight: 25,
     fontSize: 18,
   },
   headerText: {
