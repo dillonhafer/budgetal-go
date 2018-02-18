@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
+  SafeAreaView,
   TouchableOpacity,
   Clipboard,
   StyleSheet,
@@ -56,7 +57,7 @@ class MoneyInputModal extends PureComponent {
         onClosed={this.onCancel}
       >
         <BlurView tint="light" intensity={95} style={styles.modal}>
-          <View style={styles.headerContainer}>
+          <SafeAreaView style={styles.headerContainer}>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={this.onCancel}
@@ -75,7 +76,7 @@ class MoneyInputModal extends PureComponent {
                 color={colors.primary}
               />
             </TouchableOpacity>
-          </View>
+          </SafeAreaView>
 
           <View style={styles.content}>
             <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>

@@ -3,6 +3,7 @@ import {
   TouchableOpacity,
   StatusBar,
   StyleSheet,
+  SafeAreaView,
   Text,
   Image,
   View,
@@ -126,7 +127,7 @@ class MainScreen extends Component {
             • pertaining to a plan
           </Text>
         </View>
-        <View style={styles.buttonRow}>
+        <SafeAreaView style={styles.buttonRow}>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigate('SignIn')}
@@ -140,7 +141,7 @@ class MainScreen extends Component {
           >
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
-        </View>
+        </SafeAreaView>
       </View>
     );
   }
