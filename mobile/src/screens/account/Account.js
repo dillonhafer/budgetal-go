@@ -209,7 +209,6 @@ class AccountScreen extends PureComponent {
             label: 'Help',
             icon: { name: 'help-circle' },
             onPress: this.openHelpPage,
-            style: styles.last,
           },
           {
             key: 'update',
