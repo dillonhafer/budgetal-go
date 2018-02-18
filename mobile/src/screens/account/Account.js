@@ -216,6 +216,7 @@ class AccountScreen extends PureComponent {
             icon: { name: 'update' },
             onPress: this.checkForUpdate,
             style: styles.last,
+            right: <View />,
           },
         ],
       },
