@@ -1,8 +1,5 @@
 import { Dimensions } from 'react-native';
-
-const msp = (dim, limit) => {
-  return dim.scale * dim.width >= limit || dim.scale * dim.height >= limit;
-};
+import { Constants } from 'expo';
 
 const isPortrait = () => {
   const dim = Dimensions.get('screen');
@@ -15,10 +12,7 @@ const isLandscape = () => {
 };
 
 const isTablet = () => {
-  const dim = Dimensions.get('screen');
-  return (
-    (dim.scale < 2 && msp(dim, 1000)) || (dim.scale >= 2 && msp(dim, 1900))
-  );
+  return Constants.platform.ios.userInterfaceIdiom === 'tablet';
 };
 
 const isPhone = () => {
