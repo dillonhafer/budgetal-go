@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var downloads = `${process.env['HOME']}/Downloads`;
-import { abort, log } from './utils';
+const { abort, log } = require('./utils');
 
 // Get Credentials
 var os = require('os');
