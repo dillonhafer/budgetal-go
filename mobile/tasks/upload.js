@@ -1,12 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var downloads = `${process.env['HOME']}/Downloads`;
-
-// Helper
-const abort = msg => {
-  console.log(msg);
-  process.exit(1);
-};
+import { abort, log } from './utils';
 
 // Get Credentials
 var os = require('os');
@@ -37,15 +32,15 @@ fs.readdir(downloads, (err, files) => {
     ipa.fullPath
   } -u ${user} -p '${passwd}'`;
 
-  console.log(`Uploading file: ${ipa.file}`);
+  log(`Uploading file: ${ipa.file}`);
   const { exec } = require('child_process');
   exec(validate, (err, stdout, stderr) => {
     if (err) {
       abort(err);
       return;
     }
-    console.log(stdout);
-    console.log(stderr);
+    log(stdout);
+    log(stderr);
   });
 
   exec(upload, (err, stdout, stderr) => {
@@ -53,7 +48,7 @@ fs.readdir(downloads, (err, files) => {
       abort(err);
       return;
     }
-    console.log(stdout);
-    console.log(stderr);
+    log(stdout);
+    log(stderr);
   });
 });
