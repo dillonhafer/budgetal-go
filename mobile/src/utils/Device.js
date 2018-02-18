@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { Constants } from 'expo';
 
 const isPortrait = () => {
@@ -12,7 +12,9 @@ const isLandscape = () => {
 };
 
 const isTablet = () => {
-  return Constants.platform.ios.userInterfaceIdiom === 'tablet';
+  if (Platform.OS === 'ios') {
+    return Constants.platform.ios.userInterfaceIdiom === 'tablet';
+  }
 };
 
 const isPhone = () => {
