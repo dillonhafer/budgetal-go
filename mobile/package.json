@@ -19,7 +19,8 @@
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "release": "node tasks/release.js",
-    "upload": "node tasks/upload.js"
+    "upload": "node tasks/upload.js",
+    "ver": "node tasks/version.js"
   },
   "jest": {
     "preset": "jest-expo"
