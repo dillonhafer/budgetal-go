@@ -54,7 +54,8 @@ const expoPublish = () => {
 const expoBuildIos = () => {
   log('Running exp build:ios');
   try {
-    execSync('exp build:ios');
+    const buildOutput = execSync('exp build:ios');
+    log(buildOutput);
     return true;
   } catch (err) {
     return false;
