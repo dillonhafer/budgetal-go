@@ -54,7 +54,7 @@ const expoPublish = () => {
 const expoBuildIos = () => {
   log('Running exp build:ios');
   try {
-    const buildOutput = execSync('exp build:ios');
+    const buildOutput = execSync('exp build:ios').toString();
     log(buildOutput);
     return true;
   } catch (err) {
@@ -71,15 +71,6 @@ const pushGitRemote = () => {
   }
 };
 
-const gitDoff = () => {
-  log('Reverse version commit');
-  try {
-    execSync('git reset HEAD^');
-  } catch (err) {
-    abort('Could not undo commit');
-  }
-};
-
 checkCleanGit();
 bumpVersion();
 expoPublish();
@@ -87,6 +78,4 @@ expoPublish();
 if (expoBuildIos()) {
   commitGitVersion(newBuildNumber);
   pushGitRemote();
-} else {
-  gitDoff();
 }
