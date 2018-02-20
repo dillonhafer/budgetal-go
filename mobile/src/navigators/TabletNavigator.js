@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     flex: 1,
-    ...(isTablet ? { maxWidth: '35%' } : {}),
+    ...(isTablet ? { maxWidth: '38%' } : {}),
   },
   sidebarContainer: {
     flex: 1,
