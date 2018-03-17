@@ -1,6 +1,6 @@
 var fs = require('fs');
-const { exec } = require('child_process');
-const { abort, log } = require('./utils');
+const { execSync } = require('child_process');
+const { task, info, abort, log } = require('./utils');
 
 // Get Credentials
 var os = require('os');
@@ -12,82 +12,49 @@ if (user.toString() === '' || passwd.toString() === '') {
 
 // Prepare for file download
 const fileName = 'tmp/tmp-ipa-name.ipa';
-const createTmpDir = next => {
-  log(`Preparing for file download`);
-  exec('mkdir -p tmp', err => {
-    if (err) {
-      abort(err);
-      return;
-    }
+let downloadUrl = '';
 
-    next();
-  });
+const createTmpDir = () => {
+  task(`Preparing for file download`);
+  execSync('mkdir -p tmp');
 };
 
 // Get expo download Url
-const getDownloadUrl = next => {
-  log(`Getting download url`);
-  exec('exp url:ipa', (err, stdout) => {
-    if (err) {
-      abort(err);
-      return;
-    }
-    const downloadUrl = stdout.trim();
-    next(downloadUrl);
-  });
+const getDownloadUrl = () => {
+  task(`Getting download url`);
+  downloadUrl = execSync('exp url:ipa');
 };
 
 // Download from expo
-const download = (downloadUrl, next) => {
-  log(`Downloading file from`);
-  log(`${downloadUrl}`);
-  log(`to ${fileName}`);
-  exec(`wget -q -O ${fileName} ${downloadUrl}`, err => {
-    if (err) {
-      abort(err);
-      return;
-    }
-    next();
-  });
+const download = () => {
+  if (downloadUrl === '') {
+    abort('downloadUrl not found');
+  }
+
+  task(`Downloading file from`);
+  info(`${downloadUrl}`);
+  info(`to ${fileName}`);
+  execSync(`wget -q -O ${fileName} ${downloadUrl}`);
 };
 
 // Validate with iTunes
-const validate = next => {
-  log(`Validating with iTunes`);
+const validate = () => {
+  task(`Validating with iTunes`);
   const validate = `altool --validate-app -f ${fileName} -u ${user} -p '${passwd}'`;
-  exec(validate, (err, stdout, stderr) => {
-    if (err) {
-      abort(err);
-      return;
-    }
-    log(stdout);
-    log(stderr);
-    next();
-  });
+  execSync(validate);
 };
 
 // Upload to iTunes
 const uploadTask = () => {
   const upload = `altool --upload-app -f ${fileName} -u ${user} -p '${passwd}'`;
-  log(`Uploading to iTunes`);
-  exec(upload, (err, stdout, stderr) => {
-    if (err) {
-      abort(err);
-      return;
-    }
-    log(stdout);
-    log(stderr);
-    log('Done.');
-  });
+  task(`Uploading to iTunes`);
+  execSync(upload);
+  log('Done.');
 };
 
 // Main
-createTmpDir(() => {
-  getDownloadUrl(url => {
-    download(url, () => {
-      validate(() => {
-        uploadTask();
-      });
-    });
-  });
-});
+createTmpDir();
+getDownloadUrl();
+download();
+validate();
+uploadTask();
