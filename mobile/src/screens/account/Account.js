@@ -24,7 +24,7 @@ import { navigateRoot } from 'navigators';
 import { notice, error } from 'notify';
 import colors from 'utils/colors';
 import { DangerButton } from 'forms';
-import { WebBrowser, Constants, Util } from 'expo';
+import { WebBrowser, Constants, Updates } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Device from 'utils/Device';
@@ -32,7 +32,9 @@ const isTablet = Device.isTablet();
 
 class AccountScreen extends PureComponent {
   state = {
+    isAvailable: false,
     loading: false,
+    updateDownloading: false,
   };
 
   static navigationOptions = {
@@ -83,8 +85,33 @@ class AccountScreen extends PureComponent {
     this.props.screenProps.layoutNavigate('Legal');
   };
 
-  checkForUpdate = () => {
-    Util.reload();
+  componentDidMount() {
+    this.checkForUpdate();
+  }
+
+  checkForUpdate = async () => {
+    if (this.state.isAvailable) {
+      try {
+        this.setState({ updateDownloading: true });
+        await Updates.fetchUpdateAsync(event => {
+          if (event.type === Updates.EventType.DOWNLOAD_FINISHED) {
+            Updates.reload();
+          }
+        });
+      } catch (e) {
+        //
+      } finally {
+        this.setState({ updateDownloading: false });
+      }
+      return;
+    }
+
+    try {
+      const { isAvailable } = await Updates.checkForUpdateAsync();
+      this.setState({ isAvailable });
+    } catch (e) {
+      //
+    }
   };
 
   confirmSignOut = () => {
@@ -145,6 +172,9 @@ class AccountScreen extends PureComponent {
     }
 
     const onPress = activeSidebar ? () => {} : item.onPress;
+    const iconStyles = item.icon.backgroundColor
+      ? [styles.listItemIcon, { backgroundColor: item.icon.backgroundColor }]
+      : styles.listItemIcon;
 
     return (
       <TouchableOpacity
@@ -168,7 +198,7 @@ class AccountScreen extends PureComponent {
               paddingBottom: 8,
             }}
           >
-            <View style={styles.listItemIcon}>
+            <View style={iconStyles}>
               <MaterialCommunityIcons
                 name={item.icon.name}
                 size={22}
@@ -226,9 +256,18 @@ class AccountScreen extends PureComponent {
           },
           {
             key: 'update',
-            label: 'Check for updates',
-            icon: { name: 'update' },
-            onPress: this.checkForUpdate,
+            label: this.state.updateDownloading
+              ? 'Downloading Update...'
+              : this.state.isAvailable
+                ? 'Download Update'
+                : 'Check for updates',
+            icon: {
+              name: 'update',
+              backgroundColor: this.state.updateDownloading
+                ? colors.yellow
+                : this.state.isAvailable ? colors.success : colors.primary,
+            },
+            onPress: this.state.updateDownloading ? null : this.checkForUpdate,
             style: styles.last,
             right: <View />,
           },
@@ -386,7 +425,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.primary,
-    borderColor: colors.primary,
+    borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 6,
   },
