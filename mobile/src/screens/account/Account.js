@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   View,
+  Platform,
   SectionList,
 } from 'react-native';
 
@@ -182,7 +183,7 @@ class AccountScreen extends PureComponent {
         <View
           style={{
             flexDirection: 'row',
-            width: '75%',
+            width: '65%',
             alignItems: 'center',
           }}
         >
@@ -190,7 +191,7 @@ class AccountScreen extends PureComponent {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              width: '18%',
+              width: '22%',
               paddingTop: 8,
               paddingBottom: 8,
             }}
@@ -213,6 +214,10 @@ class AccountScreen extends PureComponent {
   };
 
   render() {
+    const buildNumber = Platform.select({
+      ios: Constants.manifest.ios.buildNumber,
+      android: Constants.manifest.android.versionCode,
+    });
     const { loading } = this.state;
     const { user } = this.props;
     const buttons = [
@@ -286,7 +291,9 @@ class AccountScreen extends PureComponent {
             icon: { name: 'information' },
             style: styles.last,
             right: (
-              <Text style={styles.version}>{Constants.manifest.version}</Text>
+              <Text style={styles.version} adjustsFontSizeToFit={true}>
+                {Constants.manifest.version} ({buildNumber})
+              </Text>
             ),
           },
         ],
@@ -437,10 +444,11 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.lines,
   },
   version: {
-    width: '25%',
-    textAlign: 'center',
+    width: '35%',
+    textAlign: 'right',
+    paddingRight: 15,
     color: '#ced0ce',
-    fontSize: 18,
+    fontSize: 16,
   },
   headerText: {
     marginTop: 15,
