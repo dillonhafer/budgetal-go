@@ -93,13 +93,10 @@ class AccountScreen extends PureComponent {
     if (this.state.isAvailable) {
       try {
         this.setState({ updateDownloading: true });
-        await Updates.fetchUpdateAsync(event => {
-          if (event.type === Updates.EventType.DOWNLOAD_FINISHED) {
-            Updates.reload();
-          }
-        });
+        await Updates.fetchUpdateAsync();
+        Updates.reload();
       } catch (e) {
-        //
+        error('Could not download update');
       } finally {
         this.setState({ updateDownloading: false });
       }
