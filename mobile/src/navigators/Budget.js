@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Platform } from 'react-native';
+import { BlurView } from 'expo';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from 'navigators/TabletNavigator';
@@ -131,6 +132,15 @@ const BudgetNavigatorStack = StackNavigator(
       backgroundColor: '#ececec',
       shadowOpacity: 0,
     },
+    navigationOptions: {
+      headerTransparent: true,
+      headerBackground: Platform.select({
+        ios: <BlurView style={{ flex: 1 }} intensity={98} />,
+        android: (
+          <View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.7)' }} />
+        ),
+      }),
+    },
   },
 );
 
@@ -203,6 +213,15 @@ const BudgetSidebarNavigatorStack = StackNavigator(
   {
     cardStyle: {
       shadowOpacity: 0,
+    },
+    navigationOptions: {
+      headerTransparent: true,
+      headerBackground: Platform.select({
+        ios: <BlurView tint="light" style={{ flex: 1 }} intensity={98} />,
+        android: (
+          <View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.7)' }} />
+        ),
+      }),
     },
   },
 );

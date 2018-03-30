@@ -225,12 +225,9 @@ class BudgetsScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" animated={true} />
-        <DatePicker
-          month={budget.month}
-          year={budget.year}
-          onChange={this.onDateChange}
-        />
         <FlatList
+          contentInset={{ top: 64 }}
+          contentOffset={{ y: -64 }}
           refreshControl={
             <RefreshControl
               tintColor={'lightskyblue'}
@@ -244,6 +241,15 @@ class BudgetsScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
           ListFooterComponent={this.renderFooter}
+          ListHeaderComponent={() => {
+            return (
+              <DatePicker
+                month={budget.month}
+                year={budget.year}
+                onChange={this.onDateChange}
+              />
+            );
+          }}
         />
         <Spin spinning={loading && !refreshing} />
       </View>

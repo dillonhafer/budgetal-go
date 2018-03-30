@@ -162,6 +162,8 @@ class BudgetItemScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <SectionList
+          contentInset={{ top: 64 }}
+          contentOffset={{ y: -64 }}
           ListHeaderComponent={() => {
             return this.renderHeader(expenseSections.length);
           }}

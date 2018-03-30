@@ -95,7 +95,11 @@ class NewBudgetItemScreen extends PureComponent {
     const valid = this.validateFields();
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        contentInset={{ top: 64 }}
+        contentOffset={{ y: -64 }}
+      >
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">
           <TextInput

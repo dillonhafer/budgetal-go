@@ -206,6 +206,8 @@ class BudgetCategoryScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <FlatList
+          contentInset={{ top: 64 }}
+          contentOffset={{ y: -64 }}
           scrollEnabled={this.state.scrollEnabled}
           ListHeaderComponent={() => {
             return this.renderHeader(items.length);
