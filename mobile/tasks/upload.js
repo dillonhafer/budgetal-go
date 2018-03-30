@@ -1,6 +1,6 @@
 var fs = require('fs');
 const { execSync } = require('child_process');
-const { task, info, abort, log } = require('./utils');
+const { task, info, abort } = require('./utils');
 
 // Get Credentials
 var os = require('os');
@@ -49,7 +49,7 @@ const uploadTask = () => {
   const upload = `altool --upload-app -f ${fileName} -u ${user} -p '${passwd}'`;
   task(`Uploading to iTunes`);
   execSync(upload);
-  log('Done.');
+  info('Done.');
 };
 
 // Main

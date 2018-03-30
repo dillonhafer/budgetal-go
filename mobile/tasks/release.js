@@ -1,12 +1,12 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
-const { abort, log } = require('./utils');
+const { task, info, abort } = require('./utils');
 
 const checkCleanGit = () => {
-  log('Checking for clean git status');
+  task('Checking for clean git status');
   try {
     execSync('git diff-index --quiet HEAD --');
-    log('Git repo is clean');
+    info('Git repo is clean');
   } catch (err) {
     abort('Dirty git repo', err);
   }
@@ -14,13 +14,13 @@ const checkCleanGit = () => {
 
 let newBuildNumber;
 const bumpVersion = () => {
-  log('Bumping version');
+  task('Bumping version');
   // Load file
   let app = JSON.parse(fs.readFileSync('app.json', 'utf8'));
 
   // Compute new version
   newBuildNumber = app.expo.android.versionCode + 1;
-  log(`New version: ${newBuildNumber}`);
+  info(`New version: ${newBuildNumber}`);
 
   // Bump Version
   app.expo.ios.buildNumber = newBuildNumber.toString();
@@ -32,7 +32,7 @@ const bumpVersion = () => {
 };
 
 const commitGitVersion = build => {
-  log('Committing new version');
+  task('Committing new version');
   const add = `git add -A`;
   const commit = `git commit -m 'Bump version to ${build}'`;
   try {
@@ -43,7 +43,7 @@ const commitGitVersion = build => {
   }
 };
 const expoPublish = () => {
-  log('Running exp publish');
+  task('Running exp publish');
   try {
     execSync('exp publish');
   } catch (err) {
@@ -52,11 +52,11 @@ const expoPublish = () => {
 };
 
 const expoBuildIos = () => {
-  log('Running exp build:ios');
+  task('Running exp build:ios');
   try {
     const buildOutput = execSync('exp build:ios').toString();
     const url = buildOutput.match(/(https:\/\/expo\.io\/build.*)/)[0];
-    log(`Open status URL: ${url}`);
+    info(`Open status URL: ${url}`);
     execSync(`open ${url}`);
     return true;
   } catch (err) {
@@ -65,7 +65,7 @@ const expoBuildIos = () => {
 };
 
 const pushGitRemote = () => {
-  log('Push to github');
+  task('Push to github');
   try {
     execSync('git push');
   } catch (err) {
