@@ -11,8 +11,7 @@
       "checkAutomatically": "ON_ERROR_RECOVERY"
     },
     "ios": {
-      "buildNumber": "20",
-      "loadJSInBackgroundExperimental": true,
+      "buildNumber": "21",
       "supportsTablet": true,
       "associatedDomains": ["applinks:www.budgetal.com"],
       "usesIcloudStorage": true,
@@ -31,7 +30,7 @@
     },
     "android": {
       "package": "com.budgetal.app",
-      "versionCode": 20,
+      "versionCode": 21,
       "playStoreUrl":
         "https://play.google.com/store/apps/details?id=com.budgetal.app"
     },
