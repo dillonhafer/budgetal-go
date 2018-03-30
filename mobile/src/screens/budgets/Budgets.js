@@ -239,7 +239,7 @@ class BudgetsScreen extends PureComponent {
             />
           }
           style={styles.list}
-          keyExtractor={i => i.id}
+          keyExtractor={i => String(i.id)}
           data={this.props.budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}

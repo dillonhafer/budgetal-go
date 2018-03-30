@@ -144,7 +144,7 @@ class AnnualBudgetsScreen extends PureComponent {
           }
           scrollEnabled={this.state.scrollEnabled}
           style={styles.list}
-          keyExtractor={i => i.id}
+          keyExtractor={i => String(i.id)}
           data={annualBudgetItems}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}

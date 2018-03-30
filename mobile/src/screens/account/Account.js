@@ -153,14 +153,28 @@ class AccountScreen extends PureComponent {
         disabled={activeSidebar || !item.onPress}
       >
         <View
-          style={{ flexDirection: 'row', width: '75%', alignItems: 'center' }}
+          style={{
+            flexDirection: 'row',
+            width: '75%',
+            alignItems: 'center',
+          }}
         >
-          <View style={styles.listItemIcon}>
-            <MaterialCommunityIcons
-              name={item.icon.name}
-              size={22}
-              color={'#fff'}
-            />
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '18%',
+              paddingTop: 8,
+              paddingBottom: 8,
+            }}
+          >
+            <View style={styles.listItemIcon}>
+              <MaterialCommunityIcons
+                name={item.icon.name}
+                size={22}
+                color={'#fff'}
+              />
+            </View>
           </View>
           <Text style={[styles.listItemText, activeTextStyles]}>
             {item.label}
@@ -371,9 +385,6 @@ const styles = StyleSheet.create({
     height: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '3%',
-    marginLeft: '3%',
-    marginRight: '3%',
     backgroundColor: colors.primary,
     borderColor: colors.primary,
     borderWidth: 1,

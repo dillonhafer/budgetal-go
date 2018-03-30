@@ -211,7 +211,7 @@ class BudgetCategoryScreen extends PureComponent {
             return this.renderHeader(items.length);
           }}
           style={styles.list}
-          keyExtractor={i => i.id}
+          keyExtractor={i => String(i.id)}
           data={items}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}

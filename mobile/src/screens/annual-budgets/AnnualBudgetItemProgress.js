@@ -61,7 +61,7 @@ class AnnualBudgetItemProgress extends PureComponent {
       const amount = monthlyAmount * (key + 1);
 
       return {
-        key,
+        key: String(key),
         date,
         icon,
         color,
