@@ -107,6 +107,11 @@ class AccountScreen extends PureComponent {
     try {
       const { isAvailable } = await Updates.checkForUpdateAsync();
       this.setState({ isAvailable });
+      if (isAvailable) {
+        notice('New Update');
+      } else {
+        notice("You're up to date!");
+      }
     } catch (e) {
       //
     }
