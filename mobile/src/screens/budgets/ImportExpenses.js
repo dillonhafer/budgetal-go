@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { updateBudgetCategory } from 'actions/budgets';
 
 // Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { error } from 'notify';
 import Device from 'utils/Device';
 const isTablet = Device.isTablet();
@@ -196,7 +197,7 @@ class ImportExpenseScreen extends PureComponent {
         }}
       >
         <StatusBar barStyle="dark-content" />
-        <ScrollView style={{ width: '100%' }}>
+        <ScrollView style={{ width: '100%' }} {...BlurViewInsetProps}>
           <View style={styles.listContainer}>
             <View style={styles.headerContainer}>
               {expenses.length === 0 && (

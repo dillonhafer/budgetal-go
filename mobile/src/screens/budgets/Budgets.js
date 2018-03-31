@@ -27,6 +27,8 @@ import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 import Spin from 'utils/Spin';
 
 import { GetCurrentUser } from 'utils/authentication';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
+
 class BudgetsScreen extends PureComponent {
   static navigationOptions = () => ({
     headerRight: <EditIncomeModal />,
@@ -226,8 +228,7 @@ class BudgetsScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" animated={true} />
         <FlatList
-          contentInset={{ top: 64 }}
-          contentOffset={{ y: -64 }}
+          {...BlurViewInsetProps}
           refreshControl={
             <RefreshControl
               tintColor={'lightskyblue'}

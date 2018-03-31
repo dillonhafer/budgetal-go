@@ -16,6 +16,7 @@ import { CreateItemRequest } from 'api/budget-items';
 
 // Helpers
 import { error, notice } from 'notify';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
@@ -97,8 +98,7 @@ class NewBudgetItemScreen extends PureComponent {
     return (
       <ScrollView
         contentContainerStyle={styles.container}
-        contentInset={{ top: 64 }}
-        contentOffset={{ y: -64 }}
+        {...BlurViewInsetProps}
       >
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">

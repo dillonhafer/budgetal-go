@@ -22,9 +22,10 @@ import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { categoryImage } from 'utils/helpers';
+import { NavigationHeight } from 'utils/navigation-helpers';
 
 const headerStyle = {
-  height: 44,
+  height: NavigationHeight,
 };
 
 const CategoryTitle = ({ name }) => {

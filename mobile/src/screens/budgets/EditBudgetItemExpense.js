@@ -15,6 +15,7 @@ import { updateExpense } from 'actions/budget-item-expenses';
 import { UpdateExpenseRequest } from 'api/budget-item-expenses';
 
 // Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { error, notice } from 'notify';
 import moment from 'moment';
 
@@ -111,8 +112,7 @@ class EditBudgetItemExpenseScreen extends Component {
     return (
       <ScrollView
         contentContainerStyle={styles.container}
-        contentInset={{ top: 64 }}
-        contentOffset={{ y: -64 }}
+        {...BlurViewInsetProps}
       >
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">

@@ -8,6 +8,9 @@ import { removeExpense } from 'actions/budget-item-expenses';
 // API
 import { DeleteExpenseRequest } from 'api/budget-item-expenses';
 
+// Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
+
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -162,8 +165,7 @@ class BudgetItemScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <SectionList
-          contentInset={{ top: 64 }}
-          contentOffset={{ y: -64 }}
+          {...BlurViewInsetProps}
           ListHeaderComponent={() => {
             return this.renderHeader(expenseSections.length);
           }}

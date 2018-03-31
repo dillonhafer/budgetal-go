@@ -15,6 +15,7 @@ import { updateBudgetItem } from 'actions/budgets';
 import { UpdateItemRequest } from 'api/budget-items';
 
 // Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { error, notice } from 'notify';
 
 // Components
@@ -101,8 +102,7 @@ class EditBudgetItemScreen extends Component {
     return (
       <ScrollView
         contentContainerStyle={styles.container}
-        contentInset={{ top: 64 }}
-        contentOffset={{ y: -64 }}
+        {...BlurViewInsetProps}
       >
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">

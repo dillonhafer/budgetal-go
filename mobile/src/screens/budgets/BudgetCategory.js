@@ -16,6 +16,9 @@ import { importedBudgetItems, removeBudgetItem } from 'actions/budgets';
 import { ImportCategoryRequest } from 'api/budgets';
 import { DeleteItemRequest } from 'api/budget-items';
 
+// Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
+
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MoneyAnimation from 'components/MoneyAnimation';
@@ -206,8 +209,7 @@ class BudgetCategoryScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <FlatList
-          contentInset={{ top: 64 }}
-          contentOffset={{ y: -64 }}
+          {...BlurViewInsetProps}
           scrollEnabled={this.state.scrollEnabled}
           ListHeaderComponent={() => {
             return this.renderHeader(items.length);
