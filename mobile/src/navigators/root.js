@@ -9,8 +9,9 @@ import ForgotPasswordScreen from 'screens/ForgotPassword';
 import ResetPasswordScreen from 'screens/ResetPassword';
 import RegisterScreen from 'screens/Register';
 
+import { NavigationHeight } from 'utils/navigation-helpers';
 const headerStyle = {
-  height: 44,
+  height: NavigationHeight,
 };
 
 const RootNavigator = StackNavigator(

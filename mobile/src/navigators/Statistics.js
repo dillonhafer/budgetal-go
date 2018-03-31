@@ -9,11 +9,15 @@ import MonthlyChartScreen from 'screens/statistics/MonthlyChart';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import {
+  NavigationHeight,
+  SidebarNavigationHeight,
+} from 'utils/navigation-helpers';
 const headerStyle = {
-  height: 44,
+  height: NavigationHeight,
 };
 const sidebarHeaderStyle = {
-  height: 43.5,
+  height: SidebarNavigationHeight,
 };
 
 const AccountNavigatorStack = StackNavigator(

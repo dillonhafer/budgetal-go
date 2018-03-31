@@ -12,8 +12,9 @@ import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetI
 
 import { Ionicons } from '@expo/vector-icons';
 
+import { NavigationHeight } from 'utils/navigation-helpers';
 const headerStyle = {
-  height: 44,
+  height: NavigationHeight,
 };
 
 const AnnualBudgetNavigatorStack = StackNavigator(
