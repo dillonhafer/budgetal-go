@@ -1,6 +1,9 @@
 import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, Text, StatusBar, View } from 'react-native';
 
+// Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
+
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Device from 'utils/Device';
@@ -31,7 +34,7 @@ class LegalScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <ScrollView style={{ width: '100%' }}>
+        <ScrollView style={{ width: '100%' }} {...BlurViewInsetProps}>
           <View style={styles.listContainer}>
             <Text style={styles.subText}>
               Budgetal uses third party open source software

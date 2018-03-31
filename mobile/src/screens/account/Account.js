@@ -20,6 +20,7 @@ import { RemoveAuthentication } from 'utils/authentication';
 
 // Navigation
 import { navigateRoot } from 'navigators';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { notice, error } from 'notify';
@@ -309,6 +310,7 @@ class AccountScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <SectionList
+          {...BlurViewInsetProps}
           ListHeaderComponent={() => {
             return (
               <View>

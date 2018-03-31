@@ -16,6 +16,9 @@ import { connect } from 'react-redux';
 // API
 import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
 
+// Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
+
 // Components
 import { GetAuthenticationToken } from 'utils/authentication';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -306,6 +309,7 @@ class SessionsScreen extends PureComponent {
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
         <SectionList
+          {...BlurViewInsetProps}
           style={styles.list}
           keyExtractor={s => s.authenticationToken}
           sections={sessions}
@@ -330,7 +334,6 @@ class SessionsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
     alignItems: 'center',
     flexDirection: 'column',
   },

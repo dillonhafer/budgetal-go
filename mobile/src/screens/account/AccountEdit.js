@@ -18,7 +18,7 @@ import { UpdateAccountInfoRequest } from 'api/users';
 
 // Helpers
 import { error, notice } from 'notify';
-import colors from 'utils/colors';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
@@ -153,7 +153,10 @@ class AccountEditScreen extends Component {
 
     const uri = image || avatarUrl;
     return (
-      <KeyboardAwareScrollView contentContainerStyle={styles.container}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container}
+        {...BlurViewInsetProps}
+      >
         <Modal
           style={{
             backgroundColor: 'transparent',
@@ -290,7 +293,7 @@ class AccountEditScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
+    backgroundColor: 'transparent',
     alignItems: 'center',
     flexDirection: 'column',
     paddingBottom: 40,

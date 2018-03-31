@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { StyleSheet, TextInput, StatusBar, View } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  StatusBar,
+  ScrollView,
+  View,
+} from 'react-native';
 
 // API
 import { ChangePasswordRequest } from 'api/users';
@@ -7,6 +13,7 @@ import { ChangePasswordRequest } from 'api/users';
 // Helpers
 import { error, notice } from 'notify';
 import colors from 'utils/colors';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
@@ -73,7 +80,10 @@ class ChangePasswordScreen extends Component {
   render() {
     const { loading } = this.state;
     return (
-      <View style={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        {...BlurViewInsetProps}
+      >
         <StatusBar barStyle="dark-content" />
         <View style={{ height: 30 }} />
         <FieldContainer position="first">
@@ -138,7 +148,7 @@ class ChangePasswordScreen extends Component {
           onPress={this.handleOnPress}
           loading={loading}
         />
-      </View>
+      </ScrollView>
     );
   }
 }
