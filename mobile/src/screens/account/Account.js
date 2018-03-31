@@ -88,7 +88,13 @@ class AccountScreen extends PureComponent {
   };
 
   componentDidMount() {
-    this.checkForUpdate();
+    Updates.checkForUpdateAsync()
+      .then(({ isAvailable }) => {
+        this.setState({ isAvailable });
+      })
+      .catch(() => {
+        // ignore failures
+      });
   }
 
   checkForUpdate = async () => {
@@ -114,7 +120,7 @@ class AccountScreen extends PureComponent {
         notice("You're up to date!");
       }
     } catch (e) {
-      //
+      error('Could not check for updates');
     }
   };
 
