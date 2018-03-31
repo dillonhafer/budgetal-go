@@ -15,6 +15,7 @@ import { FindStatisticRequest } from 'api/statistics';
 import { currencyf, categoryImage } from 'utils/helpers';
 import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 class StatisticsScreen extends PureComponent {
   static navigationOptions = {
@@ -135,17 +136,24 @@ class StatisticsScreen extends PureComponent {
     }
   };
 
+  renderHeader = () => {
+    const { budget } = this.state;
+    return (
+      <DatePicker
+        month={budget.month}
+        year={budget.year}
+        onChange={this.onDateChange}
+      />
+    );
+  };
+
   render() {
     const { refreshing, loading, budget, budgetCategories } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <DatePicker
-          month={budget.month}
-          year={budget.year}
-          onChange={this.onDateChange}
-        />
         <FlatList
+          {...BlurViewInsetProps}
           style={styles.list}
           refreshControl={
             <RefreshControl
@@ -157,6 +165,7 @@ class StatisticsScreen extends PureComponent {
           data={budgetCategories}
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
+          ListHeaderComponent={this.renderHeader}
         />
         <Spin spinning={loading && !refreshing} />
       </View>

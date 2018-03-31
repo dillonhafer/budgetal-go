@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import {
   NavigationHeight,
   SidebarNavigationHeight,
+  BlurViewNavigationOptions,
 } from 'utils/navigation-helpers';
 const headerStyle = {
   height: NavigationHeight,
@@ -32,6 +33,7 @@ const AccountNavigatorStack = StackNavigator(
       backgroundColor: '#ececec',
       shadowOpacity: 0,
     },
+    navigationOptions: BlurViewNavigationOptions,
   },
 );
 
