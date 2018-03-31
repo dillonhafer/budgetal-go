@@ -217,8 +217,42 @@ class BudgetsScreen extends PureComponent {
     this.props.screenProps.layoutNavigate('ImportExpenses');
   };
 
-  render() {
+  renderHeader = () => {
     const { budget } = this.props;
+
+    const amountBudgeted = reduceSum(this.props.budgetItems);
+    const amountSpent = reduceSum(this.props.budgetItemExpenses);
+    const remaining = amountBudgeted - amountSpent;
+    const percent = percentSpent(amountBudgeted, amountSpent);
+    let status = 'normal';
+    if (remaining < 0) {
+      status = 'exception';
+    } else if (remaining === 0.0) {
+      status = 'success';
+    }
+
+    return (
+      <React.Fragment>
+        <DatePicker
+          month={budget.month}
+          year={budget.year}
+          onChange={this.onDateChange}
+        />
+        <View
+          style={{
+            padding: 15,
+            borderBottomWidth: 1,
+            borderBottomColor: '#ccc',
+          }}
+        >
+          <ProgressLabel spent={amountSpent} remaining={remaining} />
+          <Progress percent={percent} status={status} />
+        </View>
+      </React.Fragment>
+    );
+  };
+
+  render() {
     const { loading, refreshing } = this.state;
     return (
       <View style={styles.container}>
@@ -238,15 +272,7 @@ class BudgetsScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
           ListFooterComponent={this.renderFooter}
-          ListHeaderComponent={() => {
-            return (
-              <DatePicker
-                month={budget.month}
-                year={budget.year}
-                onChange={this.onDateChange}
-              />
-            );
-          }}
+          ListHeaderComponent={this.renderHeader}
         />
         <Spin spinning={loading && !refreshing} />
       </View>
