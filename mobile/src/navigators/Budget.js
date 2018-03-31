@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Image, Text, Platform } from 'react-native';
-import { BlurView } from 'expo';
+import { View, Image, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from 'navigators/TabletNavigator';
@@ -22,7 +21,10 @@ import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { categoryImage } from 'utils/helpers';
-import { NavigationHeight } from 'utils/navigation-helpers';
+import {
+  NavigationHeight,
+  BlurViewNavigationOptions,
+} from 'utils/navigation-helpers';
 
 const headerStyle = {
   height: NavigationHeight,
@@ -133,15 +135,7 @@ const BudgetNavigatorStack = StackNavigator(
       backgroundColor: '#ececec',
       shadowOpacity: 0,
     },
-    navigationOptions: {
-      headerTransparent: true,
-      headerBackground: Platform.select({
-        ios: <BlurView style={{ flex: 1 }} intensity={98} />,
-        android: (
-          <View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.7)' }} />
-        ),
-      }),
-    },
+    navigationOptions: BlurViewNavigationOptions,
   },
 );
 
@@ -215,15 +209,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
     cardStyle: {
       shadowOpacity: 0,
     },
-    navigationOptions: {
-      headerTransparent: true,
-      headerBackground: Platform.select({
-        ios: <BlurView tint="light" style={{ flex: 1 }} intensity={98} />,
-        android: (
-          <View style={{ flex: 1, backgroundColor: 'rgba(255,255,255,0.7)' }} />
-        ),
-      }),
-    },
+    navigationOptions: BlurViewNavigationOptions,
   },
 );
 
