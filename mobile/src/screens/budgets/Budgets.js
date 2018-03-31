@@ -26,7 +26,6 @@ import DatePicker from 'utils/DatePicker';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 import Spin from 'utils/Spin';
 
-import { GetCurrentUser } from 'utils/authentication';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 class BudgetsScreen extends PureComponent {
@@ -35,7 +34,6 @@ class BudgetsScreen extends PureComponent {
   });
 
   state = {
-    admin: false, // Feature Flag
     loading: false,
     refreshing: false,
   };
@@ -45,8 +43,6 @@ class BudgetsScreen extends PureComponent {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
     });
-    // Feature Flag
-    GetCurrentUser().then(user => this.setState({ admin: user.admin }));
   }
 
   refresh = async () => {
