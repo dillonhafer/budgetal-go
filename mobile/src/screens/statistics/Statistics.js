@@ -148,7 +148,7 @@ class StatisticsScreen extends PureComponent {
   };
 
   render() {
-    const { refreshing, loading, budget, budgetCategories } = this.state;
+    const { refreshing, loading, budgetCategories } = this.state;
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
