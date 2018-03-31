@@ -64,7 +64,7 @@ class StatisticsNavigator extends TabletNavigator {
     tabBarIcon: ({ tintColor }) => (
       <Ionicons
         name="md-stats"
-        style={{ width: 32 }}
+        style={{ width: 32, textAlign: 'center' }}
         size={32}
         color={tintColor}
       />

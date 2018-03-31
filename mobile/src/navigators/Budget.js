@@ -225,7 +225,7 @@ class BudgetNavigator extends TabletNavigator {
     tabBarIcon: ({ tintColor }) => (
       <Ionicons
         name="md-calculator"
-        style={{ width: 32 }}
+        style={{ width: 32, textAlign: 'center' }}
         size={32}
         color={tintColor}
       />

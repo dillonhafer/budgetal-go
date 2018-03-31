@@ -101,7 +101,7 @@ class AccountNavigator extends TabletNavigator {
     tabBarIcon: ({ tintColor }) => (
       <Ionicons
         name="md-person"
-        style={{ width: 32 }}
+        style={{ width: 32, textAlign: 'center' }}
         size={32}
         color={tintColor}
       />

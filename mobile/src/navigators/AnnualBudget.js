@@ -119,7 +119,7 @@ class AnnualBudgetNavigator extends TabletNavigator {
     tabBarIcon: ({ tintColor }) => (
       <Ionicons
         name="md-calendar"
-        style={{ width: 32 }}
+        style={{ width: 32, textAlign: 'center' }}
         size={32}
         color={tintColor}
       />
