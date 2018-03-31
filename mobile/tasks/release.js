@@ -1,6 +1,7 @@
 const fs = require('fs');
 const { execSync } = require('child_process');
 const { task, info, abort } = require('./utils');
+const Upload = require('./upload');
 
 const checkCleanGit = () => {
   task('Checking for clean git status');
@@ -80,4 +81,11 @@ expoPublish();
 if (expoBuildIos()) {
   commitGitVersion(newBuildNumber);
   pushGitRemote();
+
+  // Download IPA/Upload to iTunes
+  Upload.createTmpDir();
+  Upload.getDownloadUrl();
+  Upload.download();
+  Upload.validate();
+  Upload.uploadTask();
 }

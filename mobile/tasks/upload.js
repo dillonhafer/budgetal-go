@@ -52,9 +52,10 @@ const uploadTask = () => {
   info('Done.');
 };
 
-// Main
-createTmpDir();
-getDownloadUrl();
-download();
-validate();
-uploadTask();
+module.exports = {
+  createTmpDir,
+  getDownloadUrl,
+  download,
+  validate,
+  uploadTask,
+};
