@@ -31,6 +31,7 @@ import DateInput from 'forms/DateInput';
 import SelectInput from 'forms/SelectInput';
 import SwitchInput from 'forms/SwitchInput';
 import moment from 'moment';
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 class NewAnnualBudgetItemScreen extends Component {
   goBack = () => {
@@ -120,7 +121,10 @@ class NewAnnualBudgetItemScreen extends Component {
     const valid = this.validateFields();
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        {...BlurViewInsetProps}
+      >
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">
           <TextInput

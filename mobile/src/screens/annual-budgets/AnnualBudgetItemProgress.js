@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, FlatList, Text } from 'react-native';
 
 // Components
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import moment from 'moment';
 import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
@@ -72,6 +73,7 @@ class AnnualBudgetItemProgress extends PureComponent {
     return (
       <View style={styles.container}>
         <FlatList
+          {...BlurViewInsetProps}
           style={styles.list}
           contentContainerStyle={styles.listContainer}
           data={data}

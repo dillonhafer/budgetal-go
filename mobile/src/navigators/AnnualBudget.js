@@ -12,7 +12,10 @@ import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetI
 
 import { Ionicons } from '@expo/vector-icons';
 
-import { NavigationHeight } from 'utils/navigation-helpers';
+import {
+  NavigationHeight,
+  BlurViewNavigationOptions,
+} from 'utils/navigation-helpers';
 const headerStyle = {
   height: NavigationHeight,
 };
@@ -66,6 +69,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       backgroundColor: '#ececec',
       shadowOpacity: 0,
     },
+    navigationOptions: BlurViewNavigationOptions,
   },
 );
 
@@ -100,7 +104,7 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
       }),
     },
   },
-  {},
+  { navigationOptions: BlurViewNavigationOptions },
 );
 
 class AnnualBudgetNavigator extends TabletNavigator {

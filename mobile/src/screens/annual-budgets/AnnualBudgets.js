@@ -15,6 +15,9 @@ import { itemsFetched } from 'actions/annual-budget-items';
 // API
 import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
+// Helpers
+import { BlurViewInsetProps } from 'utils/navigation-helpers';
+
 // Components
 import { error } from 'notify';
 import { FontAwesome } from '@expo/vector-icons';
@@ -82,17 +85,21 @@ class AnnualBudgetsScreen extends PureComponent {
     );
   };
 
-  renderHeader = items => {
-    if (items > 0) {
-      return null;
-    }
+  renderHeader = () => {
     return (
-      <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
-        <FontAwesome name="money" size={32} color={colors.success} />
-        <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
-          There aren't any items yet
-        </Text>
-      </View>
+      <React.Fragment>
+        <DatePicker year={this.state.year} onChange={this.onDateChange} />
+        {this.props.annualBudgetItems.length === 0 && (
+          <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
+            <FontAwesome name="money" size={32} color={colors.success} />
+            <Text
+              style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}
+            >
+              There aren't any items yet
+            </Text>
+          </View>
+        )}
+      </React.Fragment>
     );
   };
 
@@ -130,11 +137,9 @@ class AnnualBudgetsScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <DatePicker year={this.state.year} onChange={this.onDateChange} />
         <FlatList
-          ListHeaderComponent={() => {
-            return this.renderHeader(annualBudgetItems.length);
-          }}
+          {...BlurViewInsetProps}
+          ListHeaderComponent={this.renderHeader}
           refreshControl={
             <RefreshControl
               tintColor={'lightskyblue'}
