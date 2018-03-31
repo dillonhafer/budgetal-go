@@ -59,9 +59,15 @@ class StatisticsNavigator extends TabletNavigator {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Statistics',
+    // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-stats" size={32} color={tintColor} />
+      <Ionicons
+        name="md-stats"
+        style={{ width: 32 }}
+        size={32}
+        color={tintColor}
+      />
     ),
   };
 }

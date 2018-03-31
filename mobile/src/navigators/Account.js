@@ -96,9 +96,15 @@ class AccountNavigator extends TabletNavigator {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Account',
+    // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-person" size={32} color={tintColor} />
+      <Ionicons
+        name="md-person"
+        style={{ width: 32 }}
+        size={32}
+        color={tintColor}
+      />
     ),
   };
 }

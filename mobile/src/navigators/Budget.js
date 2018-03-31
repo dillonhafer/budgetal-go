@@ -220,9 +220,15 @@ class BudgetNavigator extends TabletNavigator {
   static navigationOptions = {
     header: null,
     tabBarLabel: 'Budgets',
+    // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name
     tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-calculator" size={32} color={tintColor} />
+      <Ionicons
+        name="md-calculator"
+        style={{ width: 32 }}
+        size={32}
+        color={tintColor}
+      />
     ),
   };
 }
