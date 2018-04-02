@@ -1,0 +1,5 @@
+task :test do
+  `yarn test --color`
+end
+
+task default: :test
