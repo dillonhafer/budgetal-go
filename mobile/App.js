@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import {
-  Alert,
-  View,
-  StatusBar,
-  Dimensions,
-  Platform,
-  Linking,
-} from 'react-native';
-import { Constants, ScreenOrientation } from 'expo';
+import { View, StatusBar, Dimensions, Platform, Linking } from 'react-native';
+import { Constants, ScreenOrientation, AppLoading, Asset, Font } from 'expo';
 import qs from 'qs';
 import Device from 'utils/Device';
 
@@ -38,7 +31,6 @@ if (Platform.OS === 'ios' && Device.isTablet()) {
 }
 
 // Preload font icons
-import { AppLoading, Asset, Font } from 'expo';
 import {
   FontAwesome,
   Ionicons,
@@ -113,7 +105,6 @@ export default class App extends Component {
       require('images/Personal.png'),
       require('images/Recreation.png'),
       require('images/Debts.png'),
-      require('images/csv.png'),
     ]);
 
     const fontAssets = cacheFonts([
@@ -140,20 +131,13 @@ export default class App extends Component {
     );
   };
 
-  onError = () => {
-    Alert.alert(
-      'Loading Error',
-      "Please make sure you're online or try restarting Budgetal",
-    );
-  };
-
   render() {
     if (!this.state.preLoaded) {
       return (
         <AppLoading
           startAsync={this.loadAssetsAsync}
           onFinish={this.onFinish}
-          onError={this.onError}
+          onError={console.warn} // eslint-disable-line no-console
         />
       );
     }
@@ -163,7 +147,7 @@ export default class App extends Component {
         <React.Fragment>
           <RootNavigator uriPrefix={prefix} />
           <DropdownAlert
-            closeInterval={2000}
+            closeInterval={1000}
             renderImage={this.renderAlertImage}
             successColor={colors.success + 'f9'}
             errorColor={colors.error + 'f9'}
