@@ -13,8 +13,13 @@ const isLandscape = () => {
 
 const isTablet = () => {
   if (Platform.OS === 'ios') {
-    return Constants.platform.ios.userInterfaceIdiom === 'tablet';
+    return (
+      Constants.platform.ios &&
+      Constants.platform.ios.userInterfaceIdiom === 'tablet'
+    );
   }
+
+  return false;
 };
 
 const isPhone = () => {

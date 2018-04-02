@@ -11,7 +11,7 @@ let baseURL = 'https://api.budgetal.com';
 
 // eslint-disable-next-line no-undef
 if (__DEV__) {
-  const expoHost = Constants.manifest.debuggerHost;
+  const expoHost = Constants.manifest.debuggerHost || '';
   const port = '3000';
   baseURL = 'http://' + expoHost.replace(/:\d+/, `:${port}`);
 }
