@@ -39,12 +39,6 @@ class BudgetItem extends Component {
     loading: false,
   };
 
-  componentWillReceiveProps = nextProps => {
-    if (this.props.budgetItem.id !== nextProps.budgetItem.id) {
-      this.props.form.resetFields();
-    }
-  };
-
   updateAmount = amount => {
     const updatedItem = Object.assign({}, this.props.budgetItem, {
       amount: String(amount).replace(/\$\s?|(,*)/g, ''),
@@ -125,8 +119,9 @@ class BudgetItem extends Component {
       okType: 'danger',
       cancelText: 'Cancel',
       title: `Delete ${this.props.budgetItem.name}`,
-      content: `Are you sure you want to delete ${this.props.budgetItem
-        .name}? This cannot be undone.`,
+      content: `Are you sure you want to delete ${
+        this.props.budgetItem.name
+      }? This cannot be undone.`,
       onOk: () => {
         this.deleteBudgetItem(this.props.budgetItem);
       },
@@ -209,7 +204,8 @@ class BudgetItem extends Component {
                     min={1}
                     placeholder="(1.00)"
                     formatter={value =>
-                      `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                      `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    }
                     parser={value => value.replace(/\$\s?|(,*)/g, '')}
                   />,
                 )}
