@@ -50,9 +50,16 @@ class MoneyKeyboard extends Component {
     this.props.onChange(floatValue);
   };
 
-  componentWillReceiveProps(next) {
-    if (next.pasteValue !== this.props.pasteValue && next.pasteValue !== null) {
-      const income = next.pasteValue.replace(/\D/g, '');
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.pasteValue &&
+      prevProps.pasteValue !== this.props.pasteValue
+    ) {
+      let newIncome = this.props.pasteValue;
+      if (this.props.pasteValue.indexOf('.') === -1) {
+        newIncome = this.props.pasteValue + '.00';
+      }
+      const income = this.props.pasteValue && newIncome.replace(/\D/g, '');
       this.updateIncome(income);
     }
   }

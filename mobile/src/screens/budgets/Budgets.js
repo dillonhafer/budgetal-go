@@ -160,13 +160,13 @@ class BudgetsScreen extends PureComponent {
     }
   };
 
-  componentWillReceiveProps(next) {
+  componentDidUpdate() {
     if (
       this.props.navigation.state &&
       this.props.navigation.state.params &&
-      this.props.navigation.state.params.income !== next.budget.income
+      this.props.navigation.state.params.income !== this.props.budget.income
     ) {
-      this.props.navigation.setParams({ income: next.budget.income });
+      this.props.navigation.setParams({ income: this.props.budget.income });
     }
   }
 

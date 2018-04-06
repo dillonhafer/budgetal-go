@@ -4,10 +4,8 @@ import { BlurView } from 'expo';
 import colors from 'utils/colors';
 
 class Spin extends Component {
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.spinning !== this.props.spinning) {
-      LayoutAnimation.easeInEaseOut();
-    }
+  componentDidUpdate() {
+    LayoutAnimation.easeInEaseOut();
   }
 
   spinView() {

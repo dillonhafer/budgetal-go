@@ -60,11 +60,8 @@ export default class App extends Component {
     devicetype: Device.isTablet() ? 'tablet' : 'phone',
   };
 
-  componentWillMount() {
-    registerForPushNotifications();
-  }
-
   componentDidMount() {
+    registerForPushNotifications();
     Linking.addEventListener('url', this._handleOpenURL);
     Dimensions.addEventListener('change', () => {
       this.setState({
