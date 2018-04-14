@@ -6,6 +6,8 @@ import {
 import { error } from 'notify';
 import { Constants, Util } from 'expo';
 
+const FETCH_TIMEOUT_MESSAGE = 'Request timed out';
+
 // Default URL to production
 let baseURL = 'https://api.budgetal.com';
 
@@ -15,6 +17,33 @@ if (__DEV__) {
   const port = '3000';
   baseURL = 'http://' + expoHost.replace(/:\d+/, `:${port}`);
 }
+
+let didTimeOut = false;
+const fetchWithTimeout = (url, req, FETCH_TIMEOUT = 5000) => {
+  return new Promise(function(resolve, reject) {
+    const timeout = setTimeout(function() {
+      didTimeOut = true;
+      const timeoutError = { error: FETCH_TIMEOUT_MESSAGE };
+      reject(timeoutError);
+    }, FETCH_TIMEOUT);
+
+    fetch(url, req)
+      .then(function(response) {
+        clearTimeout(timeout);
+        if (!didTimeOut) {
+          resolve(response);
+        }
+      })
+      .catch(function(err) {
+        // Rejection already happened with setTimeout
+        if (didTimeOut) return;
+        reject(err);
+      })
+      .finally(function() {
+        didTimeOut = false;
+      });
+  });
+};
 
 const base = async (path, method, headers = {}, body = {}) => {
   try {
@@ -49,7 +78,7 @@ const base = async (path, method, headers = {}, body = {}) => {
     if (Platform.OS === 'ios') {
       StatusBar.setNetworkActivityIndicatorVisible(true);
     }
-    const resp = await fetch(baseURL + path, req);
+    const resp = await fetchWithTimeout(baseURL + path, req);
 
     switch (resp.status) {
       case 503:
@@ -83,7 +112,8 @@ const base = async (path, method, headers = {}, body = {}) => {
     const json = (await resp.json()) || {};
     return { ...json, ok: true };
   } catch (err) {
-    error(err.error || 'Something went wrong');
+    const errorMessage = err.error || 'Something went wrong';
+    error(errorMessage, 2000);
   } finally {
     if (Platform.OS === 'ios') {
       StatusBar.setNetworkActivityIndicatorVisible(false);
