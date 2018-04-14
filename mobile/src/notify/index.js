@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
 
-export const error = msg => {
-  global.alertWithType('error', 'Error', msg);
+export const error = (msg, delay) => {
+  global.alertWithType('error', 'Error', msg, { delay });
 };
 
 export const notice = msg => {

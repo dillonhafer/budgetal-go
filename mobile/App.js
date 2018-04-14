@@ -55,6 +55,7 @@ function cacheFonts(fonts) {
 
 export default class App extends Component {
   state = {
+    delay: 1000,
     preLoaded: false,
     orientation: Device.isPortrait() ? 'portrait' : 'landscape',
     devicetype: Device.isTablet() ? 'tablet' : 'phone',
@@ -116,7 +117,22 @@ export default class App extends Component {
 
   onFinish = () => {
     this.setState({ preLoaded: true });
-    global.alertWithType = this.dropdown.alertWithType;
+    global.alertWithType = this.alertWithType;
+  };
+
+  alertWithType = (type, title, message, options) => {
+    const originalDelay = this.state.delay;
+    if (options.delay) {
+      this.setState({ delay: options.delay });
+    }
+
+    this.dropdown.alertWithType(type, title, message);
+
+    if (options.delay) {
+      setTimeout(() => {
+        this.setState({ delay: originalDelay });
+      }, options.delay);
+    }
   };
 
   renderAlertImage = () => {
@@ -145,7 +161,7 @@ export default class App extends Component {
         <React.Fragment>
           <RootNavigator uriPrefix={prefix} />
           <DropdownAlert
-            closeInterval={1000}
+            closeInterval={this.state.delay}
             renderImage={this.renderAlertImage}
             successColor={colors.success + 'f9'}
             errorColor={colors.error + 'f9'}
