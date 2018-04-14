@@ -102,6 +102,7 @@ export default class App extends Component {
       require('images/Personal.png'),
       require('images/Recreation.png'),
       require('images/Debts.png'),
+      require('images/onepassword.png'),
     ]);
 
     const fontAssets = cacheFonts([

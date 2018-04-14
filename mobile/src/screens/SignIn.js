@@ -6,6 +6,7 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  Image,
   KeyboardAvoidingView,
 } from 'react-native';
 
@@ -25,8 +26,10 @@ import { navigateHome } from 'navigators';
 import { PrimaryButton, FieldContainer } from 'forms';
 import colors from 'utils/colors';
 import { validEmail } from 'utils/helpers';
-import GenericPasswordExtension from 'react-native-generic-password-activity';
 
+import OnePassword from 'react-native-onepassword';
+import GenericPasswordExtension from 'react-native-generic-password-activity';
+import onepasswordImage from 'images/onepassword.png';
 const PASSWORD_DOMAIN = 'budgetal.com';
 
 class SignInScreen extends Component {
@@ -36,7 +39,18 @@ class SignInScreen extends Component {
     email: '',
     password: '',
     loading: false,
+    onepassword: false,
   };
+
+  componentDidMount() {
+    OnePassword.isSupported()
+      .then(() => {
+        this.setState({ onepassword: true });
+      })
+      .catch(() => {
+        this.setState({ onepassword: false });
+      });
+  }
 
   validateFields = () => {
     const { email, password } = this.state;
@@ -85,6 +99,17 @@ class SignInScreen extends Component {
     });
   };
 
+  handleOnePassword = () => {
+    OnePassword.findLogin(`https://${PASSWORD_DOMAIN}`)
+      .then(credentials => {
+        this.handleValueFromPasswordExtension('email', credentials.username);
+        this.handleValueFromPasswordExtension('password', credentials.password);
+      })
+      .catch(() => {
+        error('Could not get password from 1password');
+      });
+  };
+
   getEmailFromManager = email => {
     this.handleValueFromPasswordExtension('email', email);
   };
@@ -94,7 +119,7 @@ class SignInScreen extends Component {
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, onepassword } = this.state;
     const valid = this.validateFields();
     return (
       <KeyboardAvoidingView
@@ -126,12 +151,26 @@ class SignInScreen extends Component {
             onChangeText={email => this.setState({ email })}
           />
           <View style={{ paddingHorizontal: 15 }}>
-            <GenericPasswordExtension
-              type="username"
-              domain={PASSWORD_DOMAIN}
-              onPress={this.getEmailFromManager}
-              color={colors.primary}
-            />
+            {onepassword ? (
+              <TouchableOpacity onPress={this.handleOnePassword}>
+                <Image
+                  source={onepasswordImage}
+                  style={{
+                    tintColor: colors.primary,
+                    width: 33,
+                    height: 33,
+                    paddingHorizontal: 5,
+                  }}
+                />
+              </TouchableOpacity>
+            ) : (
+              <GenericPasswordExtension
+                type="username"
+                domain={PASSWORD_DOMAIN}
+                onPress={this.getEmailFromManager}
+                color={colors.primary}
+              />
+            )}
           </View>
         </FieldContainer>
         <FieldContainer>
@@ -149,14 +188,16 @@ class SignInScreen extends Component {
             onSubmitEditing={this.handleOnPress}
             onChangeText={password => this.setState({ password })}
           />
-          <View style={{ paddingHorizontal: 15 }}>
-            <GenericPasswordExtension
-              type="password"
-              domain={PASSWORD_DOMAIN}
-              onPress={this.getPasswordFromManager}
-              color={colors.primary}
-            />
-          </View>
+          {!onepassword && (
+            <View style={{ paddingHorizontal: 15 }}>
+              <GenericPasswordExtension
+                type="password"
+                domain={PASSWORD_DOMAIN}
+                onPress={this.getPasswordFromManager}
+                color={colors.primary}
+              />
+            </View>
+          )}
         </FieldContainer>
         <PrimaryButton
           title="Sign In"

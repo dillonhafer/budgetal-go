@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"1PasswordExtension@git+https://github.com/jjshammas/onepassword-app-extension.git":
+  version "1.6.4"
+  resolved "git+https://github.com/jjshammas/onepassword-app-extension.git#acf20f71c890e92ee489fc8e7bb0f7df922e855d"
+
 "@babel/code-frame@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.36.tgz#2349d7ec04b3a06945ae173280ef8579b63728e4"
@@ -5548,6 +5552,12 @@ react-native-modalbox@^1.4.2:
   dependencies:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"
+
+react-native-onepassword@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-onepassword/-/react-native-onepassword-1.0.6.tgz#f4c2f07253fffcd3bb4fb795cfb1e11158221a54"
+  dependencies:
+    "1PasswordExtension" "git+https://github.com/jjshammas/onepassword-app-extension.git"
 
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
