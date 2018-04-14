@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   TextInput,
+  View,
   StyleSheet,
   Text,
   StatusBar,
@@ -24,6 +25,9 @@ import { navigateHome } from 'navigators';
 import { PrimaryButton, FieldContainer } from 'forms';
 import colors from 'utils/colors';
 import { validEmail } from 'utils/helpers';
+import GenericPasswordExtension from 'react-native-generic-password-activity';
+
+const PASSWORD_DOMAIN = 'budgetal.com';
 
 class SignInScreen extends Component {
   inputs = [];
@@ -74,6 +78,21 @@ class SignInScreen extends Component {
     this.props.navigation.navigate('ForgotPassword');
   };
 
+  handleValueFromPasswordExtension = (field, value) => {
+    this.setState({ [field]: value });
+    this.inputs[field].setNativeProps({
+      text: value,
+    });
+  };
+
+  getEmailFromManager = email => {
+    this.handleValueFromPasswordExtension('email', email);
+  };
+
+  getPasswordFromManager = password => {
+    this.handleValueFromPasswordExtension('password', password);
+  };
+
   render() {
     const { loading } = this.state;
     const valid = this.validateFields();
@@ -91,7 +110,7 @@ class SignInScreen extends Component {
           <TextInput
             autoFocus={true}
             keyboardType="email-address"
-            style={{ height: 50 }}
+            style={{ height: 50, flex: 2 }}
             placeholder="Email"
             autoCapitalize={'none'}
             underlineColorAndroid={'transparent'}
@@ -106,10 +125,18 @@ class SignInScreen extends Component {
             enablesReturnKeyAutomatically={true}
             onChangeText={email => this.setState({ email })}
           />
+          <View style={{ paddingHorizontal: 15 }}>
+            <GenericPasswordExtension
+              type="username"
+              domain={PASSWORD_DOMAIN}
+              onPress={this.getEmailFromManager}
+              color={colors.primary}
+            />
+          </View>
         </FieldContainer>
         <FieldContainer>
           <TextInput
-            style={{ height: 50 }}
+            style={{ height: 50, flex: 2 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
             autoCapitalize={'none'}
@@ -122,6 +149,14 @@ class SignInScreen extends Component {
             onSubmitEditing={this.handleOnPress}
             onChangeText={password => this.setState({ password })}
           />
+          <View style={{ paddingHorizontal: 15 }}>
+            <GenericPasswordExtension
+              type="password"
+              domain={PASSWORD_DOMAIN}
+              onPress={this.getPasswordFromManager}
+              color={colors.primary}
+            />
+          </View>
         </FieldContainer>
         <PrimaryButton
           title="Sign In"

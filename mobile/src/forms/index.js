@@ -72,6 +72,8 @@ export const FieldContainer = props => {
         borderRightColor: '#fff',
         borderLeftColor: '#fff',
         alignSelf: 'stretch',
+        flexDirection: props.children.length > 1 ? 'row' : 'column',
+        alignItems: props.children.length > 1 ? 'center' : null,
       }}
     >
       {props.children}
@@ -96,4 +98,3 @@ export const CustomFieldContainer = props => {
     </View>
   );
 };
-

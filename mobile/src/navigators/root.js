@@ -52,6 +52,7 @@ const RootNavigator = StackNavigator(
     cardStyle: {
       backgroundColor: '#ececec',
     },
+    headerMode: 'screen',
   },
 );
 

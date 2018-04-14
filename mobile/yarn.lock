@@ -5478,6 +5478,10 @@ react-is@^16.3.0:
   version "16.3.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.0.tgz#f0e8bfd8c09b480dd610b8639d9ed65c13601224"
 
+react-is@^16.3.1:
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.3.1.tgz#ee66e6d8283224a83b3030e110056798488359ba"
+
 react-lifecycles-compat@^1.0.2:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-1.1.0.tgz#6641d0709bd5505329b5c90322147ef2d343485c"
@@ -5507,6 +5511,10 @@ react-native-dropdownalert@^3.3.0:
   resolved "https://registry.yarnpkg.com/react-native-dropdownalert/-/react-native-dropdownalert-3.3.0.tgz#fd22ac8aa5f84901e413235238636d4cbfd44631"
   dependencies:
     prop-types "15.5.10"
+
+react-native-generic-password-activity@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-generic-password-activity/-/react-native-generic-password-activity-1.0.0.tgz#a65669b03f52f3853031f3a095c535889782e214"
 
 react-native-gesture-handler@1.0.0-alpha.41:
   version "1.0.0-alpha.41"
@@ -5697,12 +5705,14 @@ react-redux@^5.0.2, react-redux@^5.0.6:
     loose-envify "^1.1.0"
     prop-types "^15.5.10"
 
-react-test-renderer@16.0.0:
-  version "16.0.0"
-  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0.tgz#9fe7b8308f2f71f29fc356d4102086f131c9cb15"
+react-test-renderer@^16.3.0-alpha.1:
+  version "16.3.1"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.3.1.tgz#d9257936d8535bd40f57f3d5a84e7b0452fb17f2"
   dependencies:
     fbjs "^0.8.16"
     object-assign "^4.1.1"
+    prop-types "^15.6.0"
+    react-is "^16.3.1"
 
 react-test-renderer@^16.3.0-alpha.2:
   version "16.3.0"

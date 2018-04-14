@@ -77,29 +77,27 @@ class MainScreen extends Component {
   }
 
   checkForUser = async () => {
+    let foundUser = false;
     try {
-      const signedIn = await IsAuthenticated();
-      if (signedIn) {
+      foundUser = await IsAuthenticated();
+      if (foundUser) {
         const user = await GetCurrentUser();
         this.props.updateCurrentUser(user);
-        this.setState({ checking: false });
         navigateHome(this.props.navigation.dispatch);
-      } else {
+      }
+    } finally {
+      if (!foundUser) {
         this.setState({ checking: false });
       }
-    } catch (err) {
-      this.setState({ checking: false });
     }
   };
 
   render() {
     const { navigate } = this.props.navigation;
-    if (this.state.checking) {
-      return null;
-    }
+    const { checking } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { opacity: checking ? 0 : 1 }]}>
         <StatusBar barStyle="light-content" />
         <LinearGradient
           colors={['transparent', 'rgba(255,255,255,0.4)']}
