@@ -1,7 +1,14 @@
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import {
+  Keyboard,
+  // InputAccessoryView,
+  TouchableOpacity,
+  Text,
+  View,
+} from 'react-native';
 import colors from 'utils/colors';
 
+const InputAccessoryView = () => null;
 export const PrimaryButton = ({ title, onPress, loading }) => {
   return (
     <Button
@@ -58,7 +65,7 @@ export const Button = ({ title, color, onPress, loading }) => {
     </View>
   );
 };
-
+export const inputAccessoryViewID = 'AccessoryDoneID';
 export const FieldContainer = props => {
   return (
     <View
@@ -77,6 +84,9 @@ export const FieldContainer = props => {
       }}
     >
       {props.children}
+      <InputAccessoryView nativeID={inputAccessoryViewID}>
+        <Button onPress={Keyboard.dismiss} title="Done" />
+      </InputAccessoryView>
     </View>
   );
 };
