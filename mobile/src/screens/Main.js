@@ -97,49 +97,51 @@ class MainScreen extends Component {
     const { checking } = this.state;
 
     return (
-      <View style={[styles.container, { opacity: checking ? 0 : 1 }]}>
-        <StatusBar barStyle="light-content" />
-        <LinearGradient
-          colors={['transparent', 'rgba(255,255,255,0.4)']}
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-          }}
-        />
-        <LogoSeparator />
-        <View style={styles.quoteContainer}>
-          <Text style={styles.quoteText}>Budgetal | ˈbəjətal</Text>
-          <Text
-            style={[
-              styles.quoteText,
-              {
-                fontSize: 14,
-                fontFamily:
-                  Platform.OS === 'ios' ? 'HelveticaNeue-LightItalic' : '',
-              },
-            ]}
-          >
-            • pertaining to a plan
-          </Text>
+      <View style={{ flex: 1, backgroundColor: colors.primary }}>
+        <View style={[styles.container, { opacity: checking ? 0 : 1 }]}>
+          <StatusBar barStyle="light-content" />
+          <LinearGradient
+            colors={['transparent', 'rgba(255,255,255,0.4)']}
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+            }}
+          />
+          <LogoSeparator />
+          <View style={styles.quoteContainer}>
+            <Text style={styles.quoteText}>Budgetal | ˈbəjətal</Text>
+            <Text
+              style={[
+                styles.quoteText,
+                {
+                  fontSize: 14,
+                  fontFamily:
+                    Platform.OS === 'ios' ? 'HelveticaNeue-LightItalic' : '',
+                },
+              ]}
+            >
+              • pertaining to a plan
+            </Text>
+          </View>
+          <SafeAreaView style={styles.buttonRow}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigate('SignIn')}
+            >
+              <Text style={styles.buttonText}>Sign In</Text>
+            </TouchableOpacity>
+            <View style={styles.separator} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigate('Register')}
+            >
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
         </View>
-        <SafeAreaView style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigate('SignIn')}
-          >
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
-          <View style={styles.separator} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigate('Register')}
-          >
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
       </View>
     );
   }
