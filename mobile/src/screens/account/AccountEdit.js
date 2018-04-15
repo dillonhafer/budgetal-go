@@ -171,6 +171,7 @@ class AccountEditScreen extends Component {
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => {
+                this.hideImagePicker();
                 this.handleImage(ImagePicker.launchCameraAsync);
               }}
             >
@@ -181,6 +182,7 @@ class AccountEditScreen extends Component {
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => {
+                this.hideImagePicker();
                 StatusBar.setBarStyle('dark-content', true);
                 this.handleImage(ImagePicker.launchImageLibraryAsync);
               }}
