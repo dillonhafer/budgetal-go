@@ -58,7 +58,6 @@ const expoBuildIos = () => {
     const buildOutput = execSync('exp build:ios').toString();
     const url = buildOutput.match(/(https:\/\/expo\.io\/build.*)/)[0];
     info(`Open status URL: ${url}`);
-    execSync(`open ${url}`);
     return true;
   } catch (err) {
     return false;
