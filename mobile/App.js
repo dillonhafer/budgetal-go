@@ -65,16 +65,19 @@ export default class App extends Component {
   componentDidMount() {
     registerForPushNotifications();
     Linking.addEventListener('url', this._handleOpenURL);
-    Dimensions.addEventListener('change', () => {
-      this.setState({
-        orientation: Device.isPortrait() ? 'portrait' : 'landscape',
-      });
-    });
+    Dimensions.addEventListener('change', this._handleDimensionalShifts);
   }
 
   componentWillUnmount() {
+    Dimensions.removeEventListener('change', this._handleDimensionalShifts);
     Linking.removeEventListener('url', this._handleOpenURL);
   }
+
+  _handleDimensionalShifts = () => {
+    this.setState({
+      orientation: Device.isPortrait() ? 'portrait' : 'landscape',
+    });
+  };
 
   _handleOpenURL = ({ url }) => {
     let queryString = url.replace(Constants.linkingUri, '');
