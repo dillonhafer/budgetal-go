@@ -121,7 +121,7 @@ export default class App extends Component {
     global.alertWithType = this.alertWithType;
   };
 
-  alertWithType = (type, title, message, options) => {
+  alertWithType = (type, title, message, options = {}) => {
     const originalDelay = this.state.delay;
     if (options.delay) {
       this.setState({ delay: options.delay });

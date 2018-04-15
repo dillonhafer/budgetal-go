@@ -4,8 +4,8 @@ export const error = (msg, delay) => {
   global.alertWithType('error', 'Error', msg, { delay });
 };
 
-export const notice = msg => {
-  global.alertWithType('success', 'Success', msg);
+export const notice = (msg, delay) => {
+  global.alertWithType('success', 'Success', msg, { delay });
 };
 
 export const confirm = ({
