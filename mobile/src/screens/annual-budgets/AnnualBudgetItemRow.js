@@ -48,26 +48,6 @@ class AnnualBudgetItemRow extends PureComponent {
       {
         component: (
           <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <MaterialCommunityIcons
-              name="chart-line"
-              color={'#fff'}
-              size={20}
-            />
-          </View>
-        ),
-        backgroundColor: colors.lines,
-        underlayColor: colors.lines + '70',
-        onPress: this.progress,
-      },
-      {
-        component: (
-          <View
             style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
           >
             <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
@@ -116,11 +96,7 @@ class AnnualBudgetItemRow extends PureComponent {
         backgroundColor={buttons[0].backgroundColor}
         right={buttons}
       >
-        <TouchableHighlight
-          disabled={!isTablet}
-          underlayColor={'#CCC'}
-          onPress={this.progress}
-        >
+        <TouchableHighlight underlayColor={'#CCC'} onPress={this.progress}>
           <View style={styles.itemRow} key={budgetItem.id}>
             <View>
               <Text style={styles.itemName}>{budgetItem.name}</Text>
