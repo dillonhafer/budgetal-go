@@ -62,10 +62,10 @@ class BudgetCategoryScreen extends PureComponent {
   onImportPress = () => {
     const budgetCategory = this.props.navigation.state.params.budgetCategory;
     confirm({
-      okText: `Import ${budgetCategory.name}`,
+      okText: `Copy ${budgetCategory.name}`,
       cancelText: 'Cancel',
-      title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${
+      title: 'Copy Budget Items',
+      content: `Do you want to copy budget items from your previous month's ${
         budgetCategory.name
       } category?`,
       onOk: this.importPreviousItems,
@@ -220,10 +220,12 @@ class BudgetCategoryScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}
           ListFooterComponent={
-            <PrimaryButton
-              title={`Import ${previousMonth} Items`}
-              onPress={this.onImportPress}
-            />
+            <View style={{ paddingBottom: 30 }}>
+              <PrimaryButton
+                title={`Copy ${previousMonth} Items`}
+                onPress={this.onImportPress}
+              />
+            </View>
           }
         />
       </View>
