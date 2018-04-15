@@ -1,4 +1,7 @@
 import {
+  LOAD_BUDGET,
+  REFRESH_BUDGET,
+  BUDGET_REQUEST_FINISHED,
   BUDGET_LOADED,
   BUDGET_CATEGORY_UPDATED,
   BUDGET_ITEM_UPDATED,
@@ -21,6 +24,28 @@ export const budgetLoaded = ({
     budgetCategories,
     budgetItems,
     budgetItemExpenses,
+  };
+};
+
+export const budgetRequestFinished = () => {
+  return {
+    type: BUDGET_REQUEST_FINISHED,
+  };
+};
+
+export const loadBudget = ({ year, month }) => {
+  return {
+    type: LOAD_BUDGET,
+    year,
+    month,
+  };
+};
+
+export const refreshBudget = ({ year, month }) => {
+  return {
+    type: REFRESH_BUDGET,
+    year,
+    month,
   };
 };
 

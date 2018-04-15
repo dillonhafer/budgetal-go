@@ -1,6 +1,9 @@
 import moment from 'moment';
 
 import {
+  LOAD_BUDGET,
+  REFRESH_BUDGET,
+  BUDGET_REQUEST_FINISHED,
   BUDGET_LOADED,
   BUDGET_INCOME_UPDATED,
   BUDGET_CATEGORY_UPDATED,
@@ -41,6 +44,8 @@ const initialBudgetState = {
     month: new Date().getMonth() + 1,
     income: 0,
   },
+  budgetLoading: false,
+  budgetRefreshing: false,
   budgetCategories: initialBudgetCategories,
   budgetItems: [],
   budgetItemExpenses: [],
@@ -51,6 +56,22 @@ let item_deleted_idx, expense_deleted_idx;
 
 export default function budgetState(state = initialBudgetState, action) {
   switch (action.type) {
+    case LOAD_BUDGET:
+      return {
+        ...state,
+        budgetLoading: true,
+      };
+    case REFRESH_BUDGET:
+      return {
+        ...state,
+        budgetRefreshing: true,
+      };
+    case BUDGET_REQUEST_FINISHED:
+      return {
+        ...state,
+        budgetRefreshing: false,
+        budgetLoading: false,
+      };
     case BUDGET_LOADED:
       return {
         ...state,

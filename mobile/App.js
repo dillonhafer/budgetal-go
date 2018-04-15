@@ -5,10 +5,11 @@ import qs from 'qs';
 import Device from 'utils/Device';
 
 // Redux
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from 'reducers';
-const store = createStore(reducers);
+import apiMiddleware from 'api/middleware';
+const store = createStore(reducers, {}, applyMiddleware(apiMiddleware));
 
 // App
 import colors from 'utils/colors';

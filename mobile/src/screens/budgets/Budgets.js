@@ -12,13 +12,13 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
-
-// API
-import { BudgetRequest } from 'api/budgets';
+import {
+  loadBudget,
+  refreshBudget,
+  updateBudgetCategory,
+} from 'actions/budgets';
 
 // Components
-import { error } from 'notify';
 import { categoryImage, reduceSum, percentSpent } from 'utils/helpers';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
@@ -33,11 +33,6 @@ class BudgetsScreen extends PureComponent {
     headerRight: <EditIncomeModal />,
   });
 
-  state = {
-    loading: false,
-    refreshing: false,
-  };
-
   componentDidMount() {
     this.loadBudget({
       month: new Date().getMonth() + 1,
@@ -45,35 +40,12 @@ class BudgetsScreen extends PureComponent {
     });
   }
 
-  refresh = async () => {
-    this.setState({ refreshing: true });
-    try {
-      const { year, month } = this.props.budget;
-      await this.loadBudget({ year, month });
-    } catch (err) {
-      error('There was a problem refreshing the list');
-    } finally {
-      this.setState({ refreshing: false });
-    }
+  refresh = () => {
+    this.props.refreshBudget(this.props.budget);
   };
 
-  loadBudget = async ({ month, year }) => {
-    this.setState({ loading: true });
-    try {
-      const resp = await BudgetRequest({ month, year });
-      if (resp && resp.ok) {
-        this.props.navigation.setParams({
-          month,
-          year,
-          income: resp.budget.income,
-        });
-        this.props.budgetLoaded(resp);
-      }
-    } catch (err) {
-      // console.log(err);
-    } finally {
-      this.setState({ loading: false });
-    }
+  loadBudget = ({ month, year }) => {
+    this.props.loadBudget({ month, year });
   };
 
   renderCategory = ({ item: budgetCategory }) => {
@@ -253,7 +225,8 @@ class BudgetsScreen extends PureComponent {
   };
 
   render() {
-    const { loading, refreshing } = this.state;
+    const { budgetLoading: loading, budgetRefreshing: refreshing } = this.props;
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" animated={true} />
@@ -318,20 +291,11 @@ export default connect(
     ...state.budget,
   }),
   dispatch => ({
-    budgetLoaded: ({
-      budget,
-      budgetCategories,
-      budgetItems,
-      budgetItemExpenses,
-    }) => {
-      dispatch(
-        budgetLoaded({
-          budget,
-          budgetCategories,
-          budgetItems,
-          budgetItemExpenses,
-        }),
-      );
+    loadBudget: ({ month, year }) => {
+      dispatch(loadBudget({ month, year }));
+    },
+    refreshBudget: ({ month, year }) => {
+      dispatch(refreshBudget({ month, year }));
     },
     changeCategory: budgetCategory => {
       dispatch(updateBudgetCategory({ budgetCategory }));
