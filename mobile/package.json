@@ -18,6 +18,7 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js",
+    "test:watch": "node node_modules/jest/bin/jest.js --watch",
     "release": "node tasks/release.js",
     "upload": "node tasks/upload.js",
     "ver": "node tasks/version.js"
@@ -31,7 +32,6 @@
     "eslint-plugin-react-native": "^3.2.1",
     "expo": "^27.0.0",
     "papaparse": "^4.3.6",
-    "qs": "^6.5.1",
     "react": "16.3.1",
     "react-native":
       "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, StatusBar, Dimensions, Platform, Linking } from 'react-native';
 import { Constants, ScreenOrientation, AppLoading, Asset, Font } from 'expo';
-import qs from 'qs';
 import Device from 'utils/Device';
+import queryString from 'utils/queryString';
 
 // Redux
 import { createStore, applyMiddleware } from 'redux';
@@ -80,9 +80,9 @@ export default class App extends Component {
   };
 
   _handleOpenURL = ({ url }) => {
-    let queryString = url.replace(Constants.linkingUri, '');
-    if (queryString) {
-      const { reset_password_token } = qs.parse(queryString);
+    let qs = url.replace(Constants.linkingUri, '');
+    if (qs) {
+      const { reset_password_token } = queryString(qs);
       if (reset_password_token && reset_password_token.length) {
         Linking.openURL(
           `${Constants.linkingUri}://reset-password/${reset_password_token}`,

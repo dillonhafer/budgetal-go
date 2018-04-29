@@ -105,10 +105,6 @@ class LegalScreen extends PureComponent {
               Contributors
             </Project>
 
-            <Project>
-              qs, Copyright (c) 2014 Nathan LaFreniere and other contributors.
-            </Project>
-
             <View style={styles.licenseContainer}>
               <Text style={styles.license}>
                 Redistribution and use in source and binary forms, with or
