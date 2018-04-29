@@ -101,10 +101,6 @@ class LegalScreen extends PureComponent {
             </Text>
 
             <Project>
-              Expo, Copyright (c) 2015-present, 650 Industries, Inc.
-            </Project>
-
-            <Project>
               React Navigation, Copyright (c) 2016-present, React Navigation
               Contributors
             </Project>
