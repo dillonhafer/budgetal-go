@@ -23,12 +23,15 @@ import { error, notice } from 'notify';
 import { navigateHome } from 'navigators';
 
 // Components
-import { PrimaryButton, FieldContainer } from 'forms';
+import {
+  PrimaryButton,
+  FieldContainer,
+  NavigationInputAccessoryView,
+} from 'forms';
 import colors from 'utils/colors';
 import { validEmail } from 'utils/helpers';
 
 import OnePassword from 'react-native-onepassword';
-import GenericPasswordExtension from 'react-native-generic-password-activity';
 import onepasswordImage from 'images/onepassword.png';
 const PASSWORD_DOMAIN = 'budgetal.com';
 
@@ -84,9 +87,13 @@ class SignInScreen extends Component {
     }
   };
 
-  focusNextField(key) {
-    this.inputs[key].focus();
-  }
+  focusEmail = () => {
+    this.inputs['email'].focus();
+  };
+
+  focusPassword = () => {
+    this.inputs['password'].focus();
+  };
 
   navForgotPassword = () => {
     this.props.navigation.navigate('ForgotPassword');
@@ -138,20 +145,19 @@ class SignInScreen extends Component {
             style={{ height: 50, flex: 2 }}
             placeholder="Email"
             autoCapitalize={'none'}
+            inputAccessoryViewID={'email'}
             underlineColorAndroid={'transparent'}
             autoCorrect={false}
             ref={input => {
               this.inputs['email'] = input;
             }}
-            onSubmitEditing={() => {
-              this.focusNextField('password');
-            }}
+            onSubmitEditing={this.focusPassword}
             returnKeyType="next"
             enablesReturnKeyAutomatically={true}
             onChangeText={email => this.setState({ email })}
           />
           <View style={{ paddingHorizontal: 15 }}>
-            {onepassword ? (
+            {onepassword && (
               <TouchableOpacity onPress={this.handleOnePassword}>
                 <Image
                   source={onepasswordImage}
@@ -163,13 +169,6 @@ class SignInScreen extends Component {
                   }}
                 />
               </TouchableOpacity>
-            ) : (
-              <GenericPasswordExtension
-                type="username"
-                domain={PASSWORD_DOMAIN}
-                onPress={this.getEmailFromManager}
-                color={colors.primary}
-              />
             )}
           </View>
         </FieldContainer>
@@ -179,6 +178,7 @@ class SignInScreen extends Component {
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
             autoCapitalize={'none'}
+            inputAccessoryViewID={'password'}
             underlineColorAndroid={'transparent'}
             ref={input => {
               this.inputs['password'] = input;
@@ -188,16 +188,6 @@ class SignInScreen extends Component {
             onSubmitEditing={this.handleOnPress}
             onChangeText={password => this.setState({ password })}
           />
-          {!onepassword && (
-            <View style={{ paddingHorizontal: 15 }}>
-              <GenericPasswordExtension
-                type="password"
-                domain={PASSWORD_DOMAIN}
-                onPress={this.getPasswordFromManager}
-                color={colors.primary}
-              />
-            </View>
-          )}
         </FieldContainer>
         <PrimaryButton
           title="Sign In"
@@ -210,6 +200,8 @@ class SignInScreen extends Component {
         >
           <Text style={styles.forgotPasswordText}>Forgot password</Text>
         </TouchableOpacity>
+        <NavigationInputAccessoryView input="email" next={this.focusPassword} />
+        <NavigationInputAccessoryView input="password" prev={this.focusEmail} />
       </KeyboardAvoidingView>
     );
   }
