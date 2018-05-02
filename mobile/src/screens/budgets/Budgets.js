@@ -25,7 +25,6 @@ import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 import Spin from 'utils/Spin';
-
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 class BudgetsScreen extends PureComponent {

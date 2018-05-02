@@ -5,7 +5,12 @@
     "es6": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -14,7 +19,7 @@
     "sourceType": "module"
   },
   "parser": "babel-eslint",
-  "plugins": ["react", "react-native"],
+  "plugins": ["react", "react-native", "import"],
   "rules": {
     "indent": ["error", 2, { "SwitchCase": 1 }],
     "linebreak-style": ["error", "unix"],
@@ -22,6 +27,14 @@
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
     "react-native/no-unused-styles": 2,
-    "react/prop-types": [2, { "skipUndeclared": true }]
+    "react/prop-types": [2, { "skipUndeclared": true }],
+    "import/no-unresolved": 2
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "moduleDirectory": ["src", "node_modules"]
+      }
+    }
   }
 }
