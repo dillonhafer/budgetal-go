@@ -9,7 +9,9 @@ export const PrimaryButton = ({ title, onPress, loading }) => {
   return (
     <Button
       color={colors.primary}
+      backgroundColor={colors.primary}
       title={title}
+      titleColor={'#fff'}
       onPress={onPress}
       loading={loading}
     />
@@ -20,6 +22,8 @@ export const DangerButton = ({ title, onPress, loading }) => {
   return (
     <Button
       color={colors.error}
+      backgroundColor={'#fff'}
+      titleColor={colors.error}
       title={title}
       onPress={onPress}
       loading={loading}
@@ -27,19 +31,33 @@ export const DangerButton = ({ title, onPress, loading }) => {
   );
 };
 
-export const Button = ({ title, color, onPress, loading }) => {
+export const Button = ({
+  title,
+  color,
+  backgroundColor,
+  titleColor,
+  onPress,
+  loading,
+}) => {
   const styles = {
-    marginTop: 10,
+    margin: 10,
     padding: 10,
-    backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: '#aaa',
-    borderLeftColor: 'white',
-    borderRightColor: 'white',
+    backgroundColor,
+    borderWidth: 2,
+    height: 45.5,
+    borderRadius: 45.5 / 2,
+    borderColor: color,
+    justifyContent: 'center',
+    alignItems: 'center',
   };
   return (
     <View style={{ alignSelf: 'stretch', opacity: loading ? 0.4 : 1 }}>
-      <TouchableOpacity disabled={loading} style={styles} onPress={onPress}>
+      <TouchableOpacity
+        disabled={loading}
+        style={styles}
+        activeOpacity={0.4}
+        onPress={onPress}
+      >
         <View
           style={{
             flexDirection: 'row',
@@ -50,11 +68,12 @@ export const Button = ({ title, color, onPress, loading }) => {
           <Text
             style={{
               textAlign: 'center',
-              color: color,
-              fontSize: 18,
+              color: titleColor,
+              fontSize: 13,
+              fontWeight: '900',
             }}
           >
-            {title}
+            {title.toUpperCase()}
           </Text>
         </View>
       </TouchableOpacity>
