@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from './TabletNavigator';
@@ -12,11 +12,12 @@ import LegalScreen from 'screens/account/Legal';
 import ChangePasswordScreen from 'screens/account/ChangePassword';
 import SessionsScreen from 'screens/account/Sessions';
 
-import { Ionicons } from '@expo/vector-icons';
 import {
   NavigationHeight,
   SidebarNavigationHeight,
   BlurViewNavigationOptions,
+  BurgerNavigationOptions,
+  drawerIcon,
 } from 'utils/navigation-helpers';
 
 const headerStyle = {
@@ -32,21 +33,29 @@ const AccountNavigatorStack = StackNavigator(
       screen: AccountScreen,
       navigationOptions: {
         headerStyle,
-        headerLeft: null,
         gesturesEnabled: false,
+        ...BurgerNavigationOptions,
       },
     },
     AccountEdit: {
       screen: AccountEditScreen,
       path: 'edit-account/:user',
-      navigationOptions: { headerStyle },
+      navigationOptions: {
+        headerStyle,
+      },
     },
     ChangePassword: {
       screen: ChangePasswordScreen,
       navigationOptions: { headerStyle },
     },
-    Sessions: { screen: SessionsScreen, navigationOptions: { headerStyle } },
-    Legal: { screen: LegalScreen, navigationOptions: { headerStyle } },
+    Sessions: {
+      screen: SessionsScreen,
+      navigationOptions: { headerStyle },
+    },
+    Legal: {
+      screen: LegalScreen,
+      navigationOptions: { headerStyle },
+    },
   },
   {
     cardStyle: {
@@ -61,7 +70,6 @@ const AccountSidebarNavigatorStack = StackNavigator(
   {
     Main: {
       screen: View,
-      navigationOptions: { header: null },
     },
     Legal: {
       screen: LegalScreen,
@@ -94,18 +102,14 @@ class AccountNavigator extends TabletNavigator {
   SideNavigator = AccountSidebarNavigatorStack;
 
   static navigationOptions = {
-    header: null,
-    tabBarLabel: 'Account',
-    // Width 32 Fix for react-navigation bugs
+    contentOptions: {
+      labelStyle: { margin: 0 },
+    },
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ tintColor }) => (
-      <Ionicons
-        name="md-person"
-        style={{ width: 32, textAlign: 'center' }}
-        size={32}
-        color={tintColor}
-      />
+    drawerLabel: ({ tintColor }) => (
+      <Text style={{ color: tintColor, fontWeight: 'bold' }}>ACCOUNT</Text>
     ),
+    drawerIcon: drawerIcon('md-person'),
   };
 }
 

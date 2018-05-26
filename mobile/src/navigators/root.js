@@ -1,6 +1,6 @@
 // Naviagators
 import { StackNavigator } from 'react-navigation';
-import AppTabNavigator from 'navigators/AppTab';
+import AppDrawerNavigator from 'navigators/AppDrawer';
 
 // Screens
 import MainScreen from 'screens/Main';
@@ -38,7 +38,12 @@ const RootNavigator = StackNavigator(
         headerStyle,
       }),
     },
-    App: { screen: AppTabNavigator },
+    App: {
+      screen: AppDrawerNavigator,
+      navigationOptions: {
+        header: null,
+      },
+    },
     ResetPassword: {
       screen: ResetPasswordScreen,
       path: 'reset-password/:resetPasswordToken',

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from './TabletNavigator';
@@ -7,12 +8,12 @@ import TabletNavigator from './TabletNavigator';
 import StatisticsScreen from 'screens/statistics/Statistics';
 import MonthlyChartScreen from 'screens/statistics/MonthlyChart';
 
-import { Ionicons } from '@expo/vector-icons';
-
 import {
   NavigationHeight,
   SidebarNavigationHeight,
   BlurViewNavigationOptions,
+  BurgerNavigationOptions,
+  drawerIcon,
 } from 'utils/navigation-helpers';
 const headerStyle = {
   height: NavigationHeight,
@@ -33,7 +34,10 @@ const AccountNavigatorStack = StackNavigator(
       backgroundColor: '#ececec',
       shadowOpacity: 0,
     },
-    navigationOptions: BlurViewNavigationOptions,
+    navigationOptions: {
+      ...BlurViewNavigationOptions,
+      ...BurgerNavigationOptions,
+    },
   },
 );
 
@@ -57,18 +61,11 @@ class StatisticsNavigator extends TabletNavigator {
   SideNavigator = StatisticsSidebarNavigatorStack;
 
   static navigationOptions = {
-    header: null,
-    tabBarLabel: 'Statistics',
-    // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ tintColor }) => (
-      <Ionicons
-        name="md-stats"
-        style={{ width: 32, textAlign: 'center' }}
-        size={32}
-        color={tintColor}
-      />
+    drawerLabel: ({ tintColor }) => (
+      <Text style={{ color: tintColor, fontWeight: 'bold' }}>STATISTICS</Text>
     ),
+    drawerIcon: drawerIcon('md-stats'),
   };
 }
 

@@ -23,15 +23,10 @@ import { categoryImage, reduceSum, percentSpent } from 'utils/helpers';
 import Progress from 'utils/Progress';
 import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
-import EditIncomeModal from 'screens/budgets/EditIncomeModal';
 import Spin from 'utils/Spin';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 class BudgetsScreen extends PureComponent {
-  static navigationOptions = () => ({
-    headerRight: <EditIncomeModal />,
-  });
-
   componentDidMount() {
     this.loadBudget({
       month: new Date().getMonth() + 1,

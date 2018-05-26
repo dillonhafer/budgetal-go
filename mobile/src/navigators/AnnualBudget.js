@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from 'navigators/TabletNavigator';
@@ -10,12 +10,13 @@ import NewAnnualBudgetItemScreen from 'screens/annual-budgets/NewAnnualBudgetIte
 import EditAnnualBudgetItemScreen from 'screens/annual-budgets/EditAnnualBudgetItem';
 import AnnualBudgetItemProgressScreen from 'screens/annual-budgets/AnnualBudgetItemProgress';
 
-import { Ionicons } from '@expo/vector-icons';
-
 import {
   NavigationHeight,
   BlurViewNavigationOptions,
+  BurgerNavigationOptions,
+  drawerIcon,
 } from 'utils/navigation-helpers';
+
 const headerStyle = {
   height: NavigationHeight,
 };
@@ -31,11 +32,11 @@ const AnnualBudgetNavigatorStack = StackNavigator(
           new Date().getFullYear();
 
         return {
-          headerLeft: null,
           gesturesEnabled: false,
           title: `Annual Budgets`,
           headerBackTitle: `${year}`,
           headerStyle,
+          ...BurgerNavigationOptions,
         };
       },
     },
@@ -112,18 +113,15 @@ class AnnualBudgetNavigator extends TabletNavigator {
   SideNavigator = AnnualBudgetSidebarNavigatorStack;
 
   static navigationOptions = {
-    header: null,
-    tabBarLabel: 'Annual',
+    // eslint-disable-next-line react/display-name
+    drawerLabel: ({ tintColor }) => (
+      <Text style={{ color: tintColor, fontWeight: 'bold' }}>
+        ANNUAL BUDGETS
+      </Text>
+    ),
     // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name
-    tabBarIcon: ({ tintColor }) => (
-      <Ionicons
-        name="md-calendar"
-        style={{ width: 32, textAlign: 'center' }}
-        size={32}
-        color={tintColor}
-      />
-    ),
+    drawerIcon: drawerIcon('md-calendar'),
   };
 }
 

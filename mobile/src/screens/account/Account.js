@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import {
-  Alert,
   StyleSheet,
   Text,
   StatusBar,
@@ -14,19 +13,14 @@ import {
 // Redux
 import { connect } from 'react-redux';
 
-// API
-import { SignOutRequest } from 'api/sessions';
-import { RemoveAuthentication } from 'utils/authentication';
-
 // Navigation
-import { navigateRoot } from 'navigators';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { notice, error } from 'notify';
 import colors from 'utils/colors';
 import { DangerButton } from 'forms';
-import { WebBrowser, Constants, Updates } from 'expo';
+import { Constants, Updates } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Device from 'utils/Device';
@@ -46,27 +40,6 @@ class AccountScreen extends PureComponent {
     tabBarIcon: ({ tintColor }) => (
       <Ionicons name="md-person" size={32} color={tintColor} />
     ),
-  };
-
-  signOut = async () => {
-    try {
-      await SignOutRequest();
-      await RemoveAuthentication();
-      navigateRoot(this.props.screenProps.parentNavigation.dispatch);
-      notice('You are now signed out');
-    } catch (err) {
-      error('Something went wrong. Try closing the app.');
-    }
-  };
-
-  openPrivacyPage = async () => {
-    await WebBrowser.openBrowserAsync('https://www.budgetal.com/privacy');
-  };
-
-  openHelpPage = async () => {
-    await WebBrowser.openBrowserAsync(
-      'https://docs.google.com/forms/d/e/1FAIpQLSd-r56BTzaLCSeEUIhNeA_cGaGB7yssQByQnBIScFKuMxwhNA/viewform',
-    );
   };
 
   editAccount = () => {
@@ -122,25 +95,6 @@ class AccountScreen extends PureComponent {
     } catch (e) {
       error('Could not check for updates');
     }
-  };
-
-  confirmSignOut = () => {
-    Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Sign Out',
-          style: 'destructive',
-          onPress: this.signOut,
-        },
-      ],
-      { cancelable: true },
-    );
   };
 
   renderSeparator = () => {
@@ -253,21 +207,8 @@ class AccountScreen extends PureComponent {
         ],
       },
       {
-        title: 'SUPPORT',
+        title: 'UPDATES',
         data: [
-          {
-            key: 'privacy',
-            label: 'Privacy',
-            icon: { name: 'eye' },
-            onPress: this.openPrivacyPage,
-            style: styles.first,
-          },
-          {
-            key: 'help',
-            label: 'Help',
-            icon: { name: 'help-circle' },
-            onPress: this.openHelpPage,
-          },
           {
             key: 'update',
             label: this.state.updateDownloading
@@ -279,34 +220,13 @@ class AccountScreen extends PureComponent {
               name: 'update',
               backgroundColor: this.state.updateDownloading
                 ? colors.yellow
-                : this.state.isAvailable ? colors.success : colors.primary,
+                : this.state.isAvailable
+                  ? colors.success
+                  : colors.primary,
             },
             onPress: this.state.updateDownloading ? null : this.checkForUpdate,
-            style: styles.last,
-            right: <View />,
-          },
-        ],
-      },
-      {
-        title: 'ABOUT',
-        data: [
-          {
-            key: 'legal',
-            label: 'Legal',
-            icon: { name: 'gavel' },
-            onPress: this.navLegal,
             style: styles.first,
-          },
-          {
-            key: 'version',
-            label: 'Version',
-            icon: { name: 'information' },
-            style: styles.last,
-            right: (
-              <Text style={styles.version} adjustsFontSizeToFit={true}>
-                {Constants.manifest.version} ({buildNumber})
-              </Text>
-            ),
+            right: <View />,
           },
         ],
       },
@@ -354,19 +274,6 @@ class AccountScreen extends PureComponent {
           ItemSeparatorComponent={this.renderSeparator}
           renderSectionHeader={this.renderHeader}
           renderItem={this.renderButton}
-          ListFooterComponent={() => {
-            return (
-              <View>
-                <View style={{ height: 50 }} />
-                <DangerButton
-                  title="Sign Out"
-                  onPress={this.confirmSignOut}
-                  loading={loading}
-                />
-                <View style={{ height: 20 }} />
-              </View>
-            );
-          }}
         />
       </View>
     );
