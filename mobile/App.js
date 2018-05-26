@@ -92,23 +92,27 @@ export default class App extends Component {
   };
 
   async loadAssetsAsync() {
-    const imageAssets = cacheImages([
-      require('images/app_logo.png'),
-      require('images/csv.png'),
-      require('images/Charity.png'),
-      require('images/Saving.png'),
-      require('images/Housing.png'),
-      require('images/Utilities.png'),
-      require('images/Food.png'),
-      require('images/Clothing.png'),
-      require('images/Transportation.png'),
-      require('images/Health.png'),
-      require('images/Insurance.png'),
-      require('images/Personal.png'),
-      require('images/Recreation.png'),
-      require('images/Debts.png'),
-      require('images/onepassword.png'),
-    ]);
+    let imageAssets = [];
+
+    if (__DEV__) {
+      imageAssets = cacheImages([
+        require('images/app_logo.png'),
+        require('images/csv.png'),
+        require('images/Charity.png'),
+        require('images/Saving.png'),
+        require('images/Housing.png'),
+        require('images/Utilities.png'),
+        require('images/Food.png'),
+        require('images/Clothing.png'),
+        require('images/Transportation.png'),
+        require('images/Health.png'),
+        require('images/Insurance.png'),
+        require('images/Personal.png'),
+        require('images/Recreation.png'),
+        require('images/Debts.png'),
+        require('images/onepassword.png'),
+      ]);
+    }
 
     const fontAssets = cacheFonts([
       FontAwesome.font,
