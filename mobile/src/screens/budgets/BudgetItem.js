@@ -27,7 +27,7 @@ import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
 import MoneyAnimation from 'components/MoneyAnimation';
-import Card from 'components/Card';
+import Card, { SplitBackground } from 'components/Card';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -183,25 +183,14 @@ class BudgetItemScreen extends PureComponent {
       const remaining = amountBudgeted - amountSpent;
 
       return (
-        <View>
-          <View
-            style={{
-              height: 100,
-              backgroundColor: '#fff',
-              zIndex: 0,
-            }}
+        <SplitBackground>
+          <Card
+            label={budgetItem.name}
+            budgeted={amountBudgeted}
+            spent={amountSpent}
+            remaining={remaining}
           />
-          <View style={{ zIndex: 1, backgroundColor: '#d8dce0' }}>
-            <View style={{ marginTop: -90 }}>
-              <Card
-                label={budgetItem.name}
-                budgeted={amountBudgeted}
-                spent={amountSpent}
-                remaining={remaining}
-              />
-            </View>
-          </View>
-        </View>
+        </SplitBackground>
       );
     }
     return (
@@ -278,7 +267,6 @@ class BudgetItemScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#d8dce0',
     backgroundColor: '#fff',
     alignItems: 'center',
     flexDirection: 'column',

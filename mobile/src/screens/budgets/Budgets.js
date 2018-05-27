@@ -26,7 +26,7 @@ import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
-import Card from 'components/Card';
+import Card, { SplitBackground } from 'components/Card';
 
 class BudgetsScreen extends PureComponent {
   componentDidMount() {
@@ -181,25 +181,14 @@ class BudgetsScreen extends PureComponent {
           year={budget.year}
           onChange={this.onDateChange}
         />
-        <View>
-          <View
-            style={{
-              height: 100,
-              backgroundColor: '#fff',
-              zIndex: 0,
-            }}
+        <SplitBackground>
+          <Card
+            label="Budgeted"
+            budgeted={amountBudgeted}
+            spent={amountSpent}
+            remaining={remaining}
           />
-          <View style={{ zIndex: 1, backgroundColor: '#d8dce0' }}>
-            <View style={{ marginTop: -90 }}>
-              <Card
-                label="Budgeted"
-                budgeted={amountBudgeted}
-                spent={amountSpent}
-                remaining={remaining}
-              />
-            </View>
-          </View>
-        </View>
+        </SplitBackground>
       </React.Fragment>
     );
   };

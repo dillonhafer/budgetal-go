@@ -31,7 +31,7 @@ import { PrimaryButton } from 'forms';
 import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';
 
-import Card from 'components/Card';
+import Card, { SplitBackground } from 'components/Card';
 
 class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -189,26 +189,15 @@ class BudgetCategoryScreen extends PureComponent {
       const remaining = amountBudgeted - amountSpent;
 
       return (
-        <View>
-          <View
-            style={{
-              height: 100,
-              backgroundColor: '#fff',
-              zIndex: 0,
-            }}
+        <SplitBackground>
+          <Card
+            image={categoryImage(budgetCategory.name)}
+            label={budgetCategory.name}
+            budgeted={amountBudgeted}
+            spent={amountSpent}
+            remaining={remaining}
           />
-          <View style={{ zIndex: 1, backgroundColor: '#d8dce0' }}>
-            <View style={{ marginTop: -90 }}>
-              <Card
-                image={categoryImage(budgetCategory.name)}
-                label={budgetCategory.name}
-                budgeted={amountBudgeted}
-                spent={amountSpent}
-                remaining={remaining}
-              />
-            </View>
-          </View>
-        </View>
+        </SplitBackground>
       );
     }
     return (
