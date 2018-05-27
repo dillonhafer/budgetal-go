@@ -79,10 +79,7 @@ const BudgetNavigatorStack = StackNavigator(
       screen: BudgetCategoryScreen,
       path: 'budgetCategories/:budgetCategory',
       navigationOptions: ({ navigation }) => ({
-        title: navigation.state.params.budgetCategory.name,
-        headerTitle: (
-          <CategoryTitle name={navigation.state.params.budgetCategory.name} />
-        ),
+        title: 'Budget Items',
         headerStyle,
       }),
     },

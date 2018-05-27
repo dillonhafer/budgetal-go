@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
-  TouchableHighlight,
+  TouchableOpacity,
   Text,
   StatusBar,
   View,
@@ -26,11 +26,12 @@ import moment from 'moment';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
-import ProgressLabel from 'utils/ProgressLabel';
-import { reduceSum, percentSpent } from 'utils/helpers';
+import { reduceSum, categoryImage, percentSpent } from 'utils/helpers';
 import { PrimaryButton } from 'forms';
 import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';
+
+import Card from 'components/Card';
 
 class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -129,11 +130,9 @@ class BudgetCategoryScreen extends PureComponent {
         scroll={scrollEnabled => {
           this.setState({ scrollEnabled });
         }}
-        backgroundColor={colors.primary}
         right={buttons}
       >
-        <TouchableHighlight
-          underlayColor={'#DDD'}
+        <TouchableOpacity
           style={styles.itemRow}
           key={budgetItem.id}
           onPress={() => {
@@ -145,12 +144,17 @@ class BudgetCategoryScreen extends PureComponent {
             });
           }}
         >
-          <View>
-            <Text style={styles.itemName}>{budgetItem.name}</Text>
-            <ProgressLabel spent={amountSpent} remaining={remaining} />
+          <Card
+            label={budgetItem.name}
+            color={'#fff'}
+            light={true}
+            budgeted={amountBudgeted}
+            spent={amountSpent}
+            remaining={remaining}
+          >
             <Progress percent={percentage} status={status} />
-          </View>
-        </TouchableHighlight>
+          </Card>
+        </TouchableOpacity>
       </Swipeout>
     );
   };
@@ -169,7 +173,43 @@ class BudgetCategoryScreen extends PureComponent {
 
   renderHeader = length => {
     if (length > 0) {
-      return null;
+      const { budgetCategory } = this.props.navigation.state.params;
+      const items = this.props.budgetItems.filter(
+        i => i.budgetCategoryId === budgetCategory.id,
+      );
+      const itemIds = items.map(i => {
+        return i.id;
+      });
+      const expenses = this.props.budgetItemExpenses.filter(e => {
+        return itemIds.includes(e.budgetItemId);
+      });
+
+      const amountSpent = reduceSum(expenses);
+      const amountBudgeted = reduceSum(items);
+      const remaining = amountBudgeted - amountSpent;
+
+      return (
+        <View>
+          <View
+            style={{
+              height: 100,
+              backgroundColor: '#fff',
+              zIndex: 0,
+            }}
+          />
+          <View style={{ zIndex: 1, backgroundColor: '#d8dce0' }}>
+            <View style={{ marginTop: -90 }}>
+              <Card
+                image={categoryImage(budgetCategory.name)}
+                label={budgetCategory.name}
+                budgeted={amountBudgeted}
+                spent={amountSpent}
+                remaining={remaining}
+              />
+            </View>
+          </View>
+        </View>
+      );
     }
     return (
       <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
@@ -211,6 +251,12 @@ class BudgetCategoryScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            { top: 300, backgroundColor: '#d8dce0' },
+          ]}
+        />
         <FlatList
           {...BlurViewInsetProps}
           scrollEnabled={this.state.scrollEnabled}
@@ -220,7 +266,6 @@ class BudgetCategoryScreen extends PureComponent {
           style={styles.list}
           keyExtractor={i => String(i.id)}
           data={items}
-          ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderItem}
           ListFooterComponent={
             <View style={{ paddingBottom: 30 }}>
@@ -247,14 +292,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   itemRow: {
-    backgroundColor: '#fff',
-    padding: 15,
+    backgroundColor: '#d8dce0',
     justifyContent: 'center',
-  },
-  itemName: {
-    textAlign: 'center',
-    fontWeight: '700',
-    fontSize: 20,
   },
 });
 

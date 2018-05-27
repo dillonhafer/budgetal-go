@@ -41,6 +41,7 @@ export const Button = ({
 }) => {
   const styles = {
     margin: 10,
+    marginHorizontal: 20,
     padding: 10,
     backgroundColor,
     borderWidth: 2,
