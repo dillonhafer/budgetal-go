@@ -72,29 +72,31 @@ class BudgetsScreen extends PureComponent {
       this.props.currentBudgetCategory.id === budgetCategory.id;
 
     return (
-      <TouchableOpacity
-        key={budgetCategory.id}
-        disabled={isCurrent}
-        activeOpacity={0.6}
-        onPress={() => {
-          this.props.changeCategory(budgetCategory);
-          this.props.screenProps.layoutNavigate('BudgetCategory', {
-            budgetCategory,
-          });
-        }}
-      >
-        <Card
-          image={categoryImage(budgetCategory.name)}
-          label={budgetCategory.name}
-          color={'#fff'}
-          light={true}
-          budgeted={amountBudgeted}
-          spent={amountSpent}
-          remaining={remaining}
+      <View style={styles.categoryRow}>
+        <TouchableOpacity
+          key={budgetCategory.id}
+          disabled={isCurrent}
+          activeOpacity={0.6}
+          onPress={() => {
+            this.props.changeCategory(budgetCategory);
+            this.props.screenProps.layoutNavigate('BudgetCategory', {
+              budgetCategory,
+            });
+          }}
         >
-          <Progress percent={percent} status={status} />
-        </Card>
-      </TouchableOpacity>
+          <Card
+            image={categoryImage(budgetCategory.name)}
+            label={budgetCategory.name}
+            color={'#fff'}
+            light={true}
+            budgeted={amountBudgeted}
+            spent={amountSpent}
+            remaining={remaining}
+          >
+            <Progress percent={percent} status={status} />
+          </Card>
+        </TouchableOpacity>
+      </View>
     );
   };
 
@@ -233,7 +235,7 @@ class BudgetsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d8dce0',
+    backgroundColor: '#fff',
     alignItems: 'center',
     flexDirection: 'column',
   },
@@ -242,8 +244,6 @@ const styles = StyleSheet.create({
   },
   categoryRow: {
     backgroundColor: '#d8dce0',
-    padding: 15,
-    justifyContent: 'center',
   },
   categoryImage: {
     width: 64,
