@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {
   TouchableOpacity,
+  Keyboard,
   StatusBar,
   StyleSheet,
-  SafeAreaView,
+  LayoutAnimation,
   Text,
   Image,
   View,
-  Platform,
 } from 'react-native';
 import colors from 'utils/colors';
 import { IsAuthenticated, GetCurrentUser } from 'utils/authentication';
@@ -16,21 +16,22 @@ import { navigateHome } from 'navigators';
 // Redux
 import { connect } from 'react-redux';
 import { updateCurrentUser } from 'actions/users';
-import { LinearGradient } from 'expo';
 
-const LogoSeparator = () => {
+import SignIn from './SignIn';
+
+const LogoSeparator = ({ keyboardVisible }) => {
   const styles = StyleSheet.create({
     container: {
-      marginTop: 70,
+      height: keyboardVisible ? 0 : null,
+      marginTop: keyboardVisible ? 40 : 70,
       flexDirection: 'row',
-      alignSelf: 'stretch',
       justifyContent: 'center',
       alignItems: 'center',
     },
     logo: {
       alignSelf: 'center',
-      height: 60,
-      width: 60,
+      height: keyboardVisible ? 0 : 60,
+      width: keyboardVisible ? 0 : 60,
       borderWidth: 2,
       borderColor: '#fff',
       borderRadius: 13,
@@ -70,10 +71,34 @@ class MainScreen extends Component {
 
   state = {
     checking: true,
+    keyboardVisible: false,
+  };
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow = () => {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ keyboardVisible: true });
+  };
+
+  _keyboardDidHide = () => {
+    LayoutAnimation.easeInEaseOut();
+    this.setState({ keyboardVisible: false });
   };
 
   componentDidMount() {
     this.checkForUser();
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
   }
 
   checkForUser = async () => {
@@ -94,53 +119,24 @@ class MainScreen extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    const { checking } = this.state;
+    const { keyboardVisible, checking } = this.state;
 
     return (
       <View style={{ flex: 1, backgroundColor: colors.primary }}>
         <View style={[styles.container, { opacity: checking ? 0 : 1 }]}>
           <StatusBar barStyle="light-content" />
-          <LinearGradient
-            colors={['transparent', 'rgba(255,255,255,0.4)']}
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-            }}
-          />
-          <LogoSeparator />
-          <View style={styles.quoteContainer}>
-            <Text style={styles.quoteText}>Budgetal | ˈbəjətal</Text>
-            <Text
-              style={[
-                styles.quoteText,
-                {
-                  fontSize: 14,
-                  fontFamily:
-                    Platform.OS === 'ios' ? 'HelveticaNeue-LightItalic' : '',
-                },
-              ]}
-            >
-              • pertaining to a plan
-            </Text>
-          </View>
-          <SafeAreaView style={styles.buttonRow}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigate('SignIn')}
-            >
-              <Text style={styles.buttonText}>Sign In</Text>
-            </TouchableOpacity>
-            <View style={styles.separator} />
+          <LogoSeparator keyboardVisible={keyboardVisible} />
+          <SignIn navigation={this.props.navigation} />
+          <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
               onPress={() => navigate('Register')}
             >
-              <Text style={styles.buttonText}>Register</Text>
+              <Text style={styles.registerButtonText}>
+                I DON'T HAVE AN ACCOUNT
+              </Text>
             </TouchableOpacity>
-          </SafeAreaView>
+          </View>
         </View>
       </View>
     );
@@ -154,43 +150,18 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
-  quoteContainer: {
-    alignSelf: 'stretch',
-    padding: 40,
-    paddingBottom: 100,
-  },
-  quoteText: {
-    backgroundColor: 'transparent',
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: '700',
-    fontFamily: Platform.OS === 'ios' ? 'HelveticaNeue-Light' : '',
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    borderWidth: 0.5,
-    borderTopColor: '#fff',
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor: 'transparent',
-    alignSelf: 'stretch',
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
   button: {
-    flex: 1,
-    alignSelf: 'stretch',
-    backgroundColor: colors.primary + '80',
     padding: 18,
   },
-  buttonText: {
-    color: '#fff',
+  registerButtonText: {
+    fontSize: 11,
+    color: colors.primary,
     fontWeight: '700',
     textAlign: 'center',
-  },
-  separator: {
-    alignSelf: 'stretch',
-    width: 0.5,
-    backgroundColor: '#fff',
   },
 });
 

@@ -4,10 +4,8 @@ import {
   View,
   StyleSheet,
   Text,
-  StatusBar,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView,
 } from 'react-native';
 
 // Redux
@@ -23,13 +21,11 @@ import { error, notice } from 'notify';
 import { navigateHome } from 'navigators';
 
 // Components
-import {
-  PrimaryButton,
-  FieldContainer,
-  NavigationInputAccessoryView,
-} from 'forms';
+import { PrimarySquareButton, NavigationInputAccessoryView } from 'forms';
 import colors from 'utils/colors';
 import { validEmail } from 'utils/helpers';
+
+import { FormCard, SplitBackground } from 'components/Card';
 
 import OnePassword from 'react-native-onepassword';
 import onepasswordImage from 'images/onepassword.png';
@@ -129,34 +125,31 @@ class SignInScreen extends Component {
     const { loading, onepassword } = this.state;
     const valid = this.validateFields();
     return (
-      <KeyboardAvoidingView
-        behvaior="padding"
-        keyboardVerticalOffset={60}
-        style={styles.container}
-      >
-        <StatusBar barStyle="dark-content" />
-        <Text style={{ fontSize: 16, margin: 10, color: '#999' }}>
-          Welcome back!
-        </Text>
-        <FieldContainer position="first">
-          <TextInput
-            autoFocus={true}
-            keyboardType="email-address"
-            style={{ height: 50, flex: 2 }}
-            placeholder="Email"
-            autoCapitalize={'none'}
-            inputAccessoryViewID={'email'}
-            underlineColorAndroid={'transparent'}
-            autoCorrect={false}
-            ref={input => {
-              this.inputs['email'] = input;
+      <SplitBackground top={colors.primary} bottom={'#fff'}>
+        <FormCard>
+          <Text style={styles.label}>EMAIL</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
-            onSubmitEditing={this.focusPassword}
-            returnKeyType="next"
-            enablesReturnKeyAutomatically={true}
-            onChangeText={email => this.setState({ email })}
-          />
-          <View style={{ paddingHorizontal: 15 }}>
+          >
+            <TextInput
+              keyboardType="email-address"
+              style={styles.input}
+              autoCapitalize={'none'}
+              inputAccessoryViewID={'email'}
+              underlineColorAndroid={'transparent'}
+              autoCorrect={false}
+              ref={input => {
+                this.inputs['email'] = input;
+              }}
+              onSubmitEditing={this.focusPassword}
+              returnKeyType="next"
+              enablesReturnKeyAutomatically={true}
+              onChangeText={email => this.setState({ email })}
+            />
             {onepassword && (
               <TouchableOpacity onPress={this.handleOnePassword}>
                 <Image
@@ -166,63 +159,78 @@ class SignInScreen extends Component {
                     width: 33,
                     height: 33,
                     paddingHorizontal: 5,
+                    marginLeft: 5,
+                    marginBottom: 10,
                   }}
                 />
               </TouchableOpacity>
             )}
           </View>
-        </FieldContainer>
-        <FieldContainer>
-          <TextInput
-            style={{ height: 50, flex: 2 }}
-            enablesReturnKeyAutomatically={true}
-            secureTextEntry={true}
-            autoCapitalize={'none'}
-            inputAccessoryViewID={'password'}
-            underlineColorAndroid={'transparent'}
-            ref={input => {
-              this.inputs['password'] = input;
+          <Text style={styles.label}>PASSWORD</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
-            placeholder="Password"
-            returnKeyType="done"
-            onSubmitEditing={this.handleOnPress}
-            onChangeText={password => this.setState({ password })}
-          />
-        </FieldContainer>
-        <PrimaryButton
-          title="Sign In"
+          >
+            <TextInput
+              style={styles.input}
+              enablesReturnKeyAutomatically={true}
+              secureTextEntry={true}
+              autoCapitalize={'none'}
+              inputAccessoryViewID={'password'}
+              underlineColorAndroid={'transparent'}
+              ref={input => {
+                this.inputs['password'] = input;
+              }}
+              returnKeyType="done"
+              onSubmitEditing={this.handleOnPress}
+              onChangeText={password => this.setState({ password })}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.forgotPasswordButton}
+            onPress={this.navForgotPassword}
+          >
+            <Text style={styles.forgotPasswordText}>FORGOT PASSWORD</Text>
+          </TouchableOpacity>
+        </FormCard>
+        <PrimarySquareButton
           onPress={this.handleOnPress}
           loading={!valid || loading}
+          title="sign in"
         />
-        <TouchableOpacity
-          style={styles.forgotPasswordLink}
-          onPress={this.navForgotPassword}
-        >
-          <Text style={styles.forgotPasswordText}>Forgot password</Text>
-        </TouchableOpacity>
         <NavigationInputAccessoryView input="email" next={this.focusPassword} />
         <NavigationInputAccessoryView input="password" prev={this.focusEmail} />
-      </KeyboardAvoidingView>
+      </SplitBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ececec',
-    alignItems: 'center',
-    flexDirection: 'column',
+  forgotPasswordButton: {
+    padding: 3,
   },
   forgotPasswordText: {
-    textAlign: 'left',
+    fontSize: 10,
     color: colors.primary,
+    fontWeight: '700',
+    textAlign: 'right',
   },
-  forgotPasswordLink: {
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    padding: 10,
-    paddingRight: 20,
+  input: {
+    flex: 1,
+    marginBottom: 10,
+    borderRadius: 3,
+    height: 40,
+    backgroundColor: '#eee',
+    paddingLeft: 10,
+  },
+  label: {
+    color: '#aaa',
+    fontWeight: 'bold',
+    fontSize: 11,
+    padding: 5,
   },
 });
 

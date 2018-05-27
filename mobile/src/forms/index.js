@@ -5,6 +5,20 @@ export {
   default as NavigationInputAccessoryView,
 } from './NavigationInputAccessoryView';
 
+export const PrimarySquareButton = ({ title, onPress, loading }) => {
+  return (
+    <Button
+      color={colors.primary}
+      backgroundColor={colors.primary}
+      title={title}
+      titleColor={'#fff'}
+      onPress={onPress}
+      loading={loading}
+      borderRadius={3}
+    />
+  );
+};
+
 export const PrimaryButton = ({ title, onPress, loading }) => {
   return (
     <Button
@@ -31,6 +45,7 @@ export const DangerButton = ({ title, onPress, loading }) => {
   );
 };
 
+const buttonHeight = 36;
 export const Button = ({
   title,
   color,
@@ -38,18 +53,21 @@ export const Button = ({
   titleColor,
   onPress,
   loading,
+  borderRadius,
 }) => {
   const styles = {
     margin: 10,
     marginHorizontal: 20,
-    padding: 10,
+    padding: 8,
     backgroundColor,
     borderWidth: 2,
-    height: 45.5,
-    borderRadius: 45.5 / 2,
+    borderRadius: borderRadius || buttonHeight / 2,
     borderColor: color,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowOffset: { width: 0, height: 3 },
+    shadowColor: backgroundColor,
+    shadowOpacity: 0.2,
   };
   return (
     <View style={{ alignSelf: 'stretch', opacity: loading ? 0.4 : 1 }}>

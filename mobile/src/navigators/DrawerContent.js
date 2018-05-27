@@ -81,6 +81,7 @@ class DrawerContent extends PureComponent {
       await RemoveAuthentication();
       navigateRoot(this.props.navigation.dispatch);
       notice('You are now signed out');
+      StatusBar.setBarStyle('default', true);
     } catch (err) {
       error('Something went wrong. Try closing the app.');
     }
