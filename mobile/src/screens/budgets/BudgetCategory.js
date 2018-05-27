@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
-  Text,
   StatusBar,
   View,
   FlatList,
@@ -21,7 +20,6 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import MoneyAnimation from 'components/MoneyAnimation';
 import moment from 'moment';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
