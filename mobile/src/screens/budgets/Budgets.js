@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   TouchableHighlight,
+  TouchableOpacity,
   Text,
   Image,
   FlatList,
@@ -21,7 +22,6 @@ import {
 // Components
 import { categoryImage, reduceSum, percentSpent } from 'utils/helpers';
 import Progress from 'utils/Progress';
-import ProgressLabel from 'utils/ProgressLabel';
 import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
@@ -70,19 +70,12 @@ class BudgetsScreen extends PureComponent {
       this.props.screenProps.isTablet &&
       this.props.currentBudgetCategory.id > 0 &&
       this.props.currentBudgetCategory.id === budgetCategory.id;
-    let activeRowStyles = {};
-    if (isCurrent) {
-      activeRowStyles = {
-        backgroundColor: '#ddd',
-      };
-    }
 
     return (
-      <TouchableHighlight
-        underlayColor={'#DDD'}
-        disabled={isCurrent}
-        style={[styles.categoryRow, activeRowStyles]}
+      <TouchableOpacity
         key={budgetCategory.id}
+        disabled={isCurrent}
+        activeOpacity={0.6}
         onPress={() => {
           this.props.changeCategory(budgetCategory);
           this.props.screenProps.layoutNavigate('BudgetCategory', {
@@ -90,30 +83,18 @@ class BudgetsScreen extends PureComponent {
           });
         }}
       >
-        <View style={{ flexDirection: 'row' }}>
-          <Image
-            style={styles.categoryImage}
-            source={categoryImage(budgetCategory.name)}
-          />
-          <View style={{ flexDirection: 'column', flex: 1 }}>
-            <Text style={styles.categoryName}>{budgetCategory.name}</Text>
-            <ProgressLabel spent={amountSpent} remaining={remaining} />
-            <Progress percent={percent} status={status} />
-          </View>
-        </View>
-      </TouchableHighlight>
-    );
-  };
-
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: '100%',
-          backgroundColor: '#CED0CE',
-        }}
-      />
+        <Card
+          image={categoryImage(budgetCategory.name)}
+          label={budgetCategory.name}
+          color={'#fff'}
+          light={true}
+          budgeted={amountBudgeted}
+          spent={amountSpent}
+          remaining={remaining}
+        >
+          <Progress percent={percent} status={status} />
+        </Card>
+      </TouchableOpacity>
     );
   };
 
@@ -150,7 +131,6 @@ class BudgetsScreen extends PureComponent {
 
     return (
       <View>
-        {this.renderSeparator()}
         <TouchableHighlight
           underlayColor={'#DDD'}
           disabled={isCurrent}
@@ -191,13 +171,6 @@ class BudgetsScreen extends PureComponent {
     const amountBudgeted = reduceSum(this.props.budgetItems);
     const amountSpent = reduceSum(this.props.budgetItemExpenses);
     const remaining = amountBudgeted - amountSpent;
-    const percent = percentSpent(amountBudgeted, amountSpent);
-    let status = 'normal';
-    if (remaining < 0) {
-      status = 'exception';
-    } else if (remaining === 0.0) {
-      status = 'success';
-    }
 
     return (
       <React.Fragment>
@@ -206,12 +179,25 @@ class BudgetsScreen extends PureComponent {
           year={budget.year}
           onChange={this.onDateChange}
         />
-        <Card
-          label="Budgeted"
-          budgeted={amountBudgeted}
-          spent={amountSpent}
-          remaining={remaining}
-        />
+        <View>
+          <View
+            style={{
+              height: 100,
+              backgroundColor: '#fff',
+              zIndex: 0,
+            }}
+          />
+          <View style={{ zIndex: 1, backgroundColor: '#d8dce0' }}>
+            <View style={{ marginTop: -90 }}>
+              <Card
+                label="Budgeted"
+                budgeted={amountBudgeted}
+                spent={amountSpent}
+                remaining={remaining}
+              />
+            </View>
+          </View>
+        </View>
       </React.Fragment>
     );
   };
@@ -234,7 +220,6 @@ class BudgetsScreen extends PureComponent {
           style={styles.list}
           keyExtractor={i => String(i.id)}
           data={this.props.budgetCategories}
-          ItemSeparatorComponent={this.renderSeparator}
           renderItem={this.renderCategory}
           ListFooterComponent={this.renderFooter}
           ListHeaderComponent={this.renderHeader}
@@ -248,7 +233,7 @@ class BudgetsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#d8dce0',
     alignItems: 'center',
     flexDirection: 'column',
   },
@@ -256,7 +241,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   categoryRow: {
-    backgroundColor: '#fff',
+    backgroundColor: '#d8dce0',
     padding: 15,
     justifyContent: 'center',
   },
@@ -264,12 +249,6 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     margin: 10,
-  },
-  categoryName: {
-    fontWeight: '700',
-    color: '#444',
-    fontSize: 18,
-    marginBottom: 5,
   },
   importText: {
     textAlign: 'center',

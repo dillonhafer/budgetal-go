@@ -99,6 +99,16 @@ const styles = StyleSheet.create({
   },
 });
 
+const sharedStyles = {
+  headerText: {
+    color: '#fff',
+    marginBottom: 10,
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+};
+
+const darkTextColor = '#fff';
 const darkStyles = StyleSheet.create({
   headerText: {
     color: '#fff',
@@ -107,16 +117,16 @@ const darkStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   headerValueText: {
-    color: '#fff',
+    color: darkTextColor,
     fontWeight: 'bold',
     fontSize: 29,
   },
   secondaryLabel: {
-    color: '#fff',
+    color: darkTextColor,
     fontSize: 10,
   },
   secondaryValue: {
-    color: '#fff',
+    color: darkTextColor,
     fontWeight: 'bold',
     fontSize: 15,
   },
