@@ -26,8 +26,9 @@ import { notice, confirm } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
-import MoneyAnimation from 'components/MoneyAnimation';
 import Card, { SplitBackground } from 'components/Card';
+import EmptyList from 'components/EmptyList';
+import ListBackgroundFill from 'components/ListBackgroundFill';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -170,38 +171,32 @@ class BudgetItemScreen extends PureComponent {
     );
   };
 
-  renderHeader = length => {
-    if (length > 0) {
-      const { budgetItem } = this.props.navigation.state.params;
+  renderHeader = () => {
+    const { budgetItem } = this.props.navigation.state.params;
 
-      const expenses = this.props.budgetItemExpenses.filter(e => {
-        return budgetItem.id === e.budgetItemId;
-      });
+    const expenses = this.props.budgetItemExpenses.filter(e => {
+      return budgetItem.id === e.budgetItemId;
+    });
 
-      const amountSpent = reduceSum(expenses);
-      const amountBudgeted = budgetItem.amount;
-      const remaining = amountBudgeted - amountSpent;
+    const amountSpent = reduceSum(expenses);
+    const amountBudgeted = budgetItem.amount;
+    const remaining = amountBudgeted - amountSpent;
 
-      return (
-        <SplitBackground>
-          <Card
-            label={budgetItem.name}
-            budgeted={amountBudgeted}
-            spent={amountSpent}
-            remaining={remaining}
-          />
-        </SplitBackground>
-      );
-    }
     return (
-      <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
-        <MoneyAnimation />
-        <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
-          There aren't any expenses yet
-        </Text>
-      </View>
+      <SplitBackground>
+        <Card
+          label={budgetItem.name}
+          budgeted={amountBudgeted}
+          spent={amountSpent}
+          remaining={remaining}
+        />
+      </SplitBackground>
     );
   };
+
+  empty() {
+    return <EmptyList message="There aren't any expenses yet" />;
+  }
 
   render() {
     const item = this.props.navigation.state.params.budgetItem;
@@ -240,23 +235,17 @@ class BudgetItemScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            { top: 300, backgroundColor: '#d8dce0' },
-          ]}
-        />
+        <ListBackgroundFill />
         <SectionList
           {...BlurViewInsetProps}
-          ListHeaderComponent={() => {
-            return this.renderHeader(expenseSections.length);
-          }}
+          ListHeaderComponent={this.renderHeader}
           style={styles.list}
           contentContainerStyle={styles.contentStyles}
           stickySectionHeadersEnabled={false}
           keyExtractor={i => i.id}
           sections={expenseSections}
           renderSectionHeader={this.renderSectionHeader}
+          ListEmptyComponent={this.empty}
           renderItem={this.renderExpense}
         />
       </View>
