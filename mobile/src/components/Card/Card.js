@@ -29,7 +29,11 @@ class Card extends PureComponent {
           )}
           <View style={{ flex: 1 }}>
             <Text style={themeStyles.headerText}>{label}</Text>
-            <Text style={themeStyles.headerValueText}>
+            <Text
+              style={themeStyles.headerValueText}
+              adjustsFontSizeToFit={true}
+              numberOfLines={1}
+            >
               {currencyf(budgeted)}
             </Text>
           </View>
@@ -46,7 +50,11 @@ class Card extends PureComponent {
               </View>
               <View>
                 <Text style={themeStyles.secondaryLabel}>Spent</Text>
-                <Text style={themeStyles.secondaryValue}>
+                <Text
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={themeStyles.secondaryValue}
+                >
                   {currencyf(spent)}
                 </Text>
               </View>
@@ -61,9 +69,13 @@ class Card extends PureComponent {
                   size={32}
                 />
               </View>
-              <View>
+              <View style={{ paddingRight: 25 }}>
                 <Text style={themeStyles.secondaryLabel}>Remaining</Text>
-                <Text style={themeStyles.secondaryValue}>
+                <Text
+                  adjustsFontSizeToFit={true}
+                  numberOfLines={1}
+                  style={themeStyles.secondaryValue}
+                >
                   {currencyf(remaining)}
                 </Text>
               </View>
@@ -128,7 +140,6 @@ const darkStyles = StyleSheet.create({
   secondaryValue: {
     color: darkTextColor,
     fontWeight: 'bold',
-    fontSize: 15,
   },
   icon: {
     marginRight: 8,
@@ -156,7 +167,6 @@ const lightStyles = StyleSheet.create({
   secondaryValue: {
     color: lightTextColor,
     fontWeight: 'bold',
-    fontSize: 15,
   },
   icon: {
     marginRight: 8,
