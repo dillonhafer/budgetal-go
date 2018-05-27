@@ -26,6 +26,8 @@ import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
+import Card from 'components/Card';
+
 class BudgetsScreen extends PureComponent {
   componentDidMount() {
     this.loadBudget({
@@ -204,16 +206,12 @@ class BudgetsScreen extends PureComponent {
           year={budget.year}
           onChange={this.onDateChange}
         />
-        <View
-          style={{
-            padding: 15,
-            borderBottomWidth: 1,
-            borderBottomColor: '#ccc',
-          }}
-        >
-          <ProgressLabel spent={amountSpent} remaining={remaining} />
-          <Progress percent={percent} status={status} />
-        </View>
+        <Card
+          label="Budgeted"
+          budgeted={amountBudgeted}
+          spent={amountSpent}
+          remaining={remaining}
+        />
       </React.Fragment>
     );
   };
