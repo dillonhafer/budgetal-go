@@ -1,5 +1,13 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, StatusBar, View, SectionList } from 'react-native';
+import {
+  LayoutAnimation,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  StatusBar,
+  View,
+  SectionList,
+} from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -14,13 +22,13 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { currencyf } from 'utils/helpers';
+import { currencyf, reduceSum } from 'utils/helpers';
 import { notice, confirm } from 'notify';
 import moment from 'moment';
 import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
-import Swipeout from 'react-native-swipeout';
 import MoneyAnimation from 'components/MoneyAnimation';
+import Card from 'components/Card';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -37,7 +45,7 @@ class BudgetItemScreen extends PureComponent {
   };
 
   state = {
-    scrollEnabled: true,
+    visibleExpenseId: null,
   };
 
   deleteExpense = async expense => {
@@ -58,69 +66,96 @@ class BudgetItemScreen extends PureComponent {
     });
   };
 
-  renderSeparator = () => {
-    return (
-      <View
-        style={{
-          height: 1,
-          width: '100%',
-          backgroundColor: '#CED0CE',
-        }}
-      />
-    );
-  };
-
-  expenseButtons = expense => {
-    return [
-      {
-        component: (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
-          </View>
-        ),
-        backgroundColor: colors.primary,
-        underlayColor: colors.primary + '70',
-        onPress: () =>
-          this.props.navigation.navigate('EditBudgetItemExpense', {
-            budgetItemExpense: expense,
-          }),
-      },
-      {
-        component: (
-          <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-          >
-            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
-          </View>
-        ),
-        backgroundColor: colors.error,
-        underlayColor: colors.error + '70',
-        onPress: () => this.confirmDelete(expense),
-      },
-    ];
+  toggleVisibleExpense = id => {
+    this.setState({
+      visibleExpenseId: id === this.state.visibleExpenseId ? null : id,
+    });
   };
 
   renderExpense = ({ item: expense }) => {
-    const buttons = this.expenseButtons(expense);
+    const borderRadiusStyles = {
+      first: styles.firstRow,
+      last: styles.lastRow,
+      only: styles.onlyRow,
+    }[expense.position];
+    const visible = this.state.visibleExpenseId === expense.id;
+
     return (
-      <Swipeout
-        buttonWidth={84}
-        autoClose={true}
-        backgroundColor={colors.primary}
-        right={buttons}
-        scroll={scrollEnabled => {
-          this.setState({ scrollEnabled });
-        }}
-      >
+      <View style={[styles.expenseRowContainer, borderRadiusStyles]}>
         <View style={styles.expenseRow} key={expense.id}>
-          <Text style={{ width: '70%', textAlign: 'center' }}>
-            {expense.name}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity
+              onPress={() => {
+                this.toggleVisibleExpense(expense.id);
+              }}
+            >
+              <MaterialCommunityIcons
+                name="dots-horizontal-circle"
+                size={22}
+                color={'#aaa'}
+                style={styles.expenseOptionsIcon}
+              />
+            </TouchableOpacity>
+            <Text style={styles.expenseText}>{expense.name}</Text>
+          </View>
           <Text style={styles.amount}>{currencyf(expense.amount)}</Text>
         </View>
-      </Swipeout>
+        {visible && (
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('EditBudgetItemExpense', {
+                  budgetItemExpense: expense,
+                })
+              }
+              style={{
+                flex: 1,
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="pencil"
+                  color={colors.primary}
+                  size={20}
+                  style={{ marginRight: 5 }}
+                />
+                <Text style={{ color: colors.primary }}>EDIT</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => this.confirmDelete(expense)}
+              style={{
+                flex: 1,
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="delete"
+                  color={colors.error}
+                  size={20}
+                  style={{ marginRight: 5 }}
+                />
+                <Text style={{ color: colors.error }}>DELETE</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
     );
   };
 
@@ -128,7 +163,9 @@ class BudgetItemScreen extends PureComponent {
     return (
       <View style={styles.header}>
         <Text style={styles.headerText}>
-          {moment(section.title, 'YYYY-MM-DD').format('MMMM DD')}
+          {moment(section.title, 'YYYY-MM-DD')
+            .format('MMMM DD')
+            .toUpperCase()}
         </Text>
       </View>
     );
@@ -136,7 +173,37 @@ class BudgetItemScreen extends PureComponent {
 
   renderHeader = length => {
     if (length > 0) {
-      return null;
+      const { budgetItem } = this.props.navigation.state.params;
+
+      const expenses = this.props.budgetItemExpenses.filter(e => {
+        return budgetItem.id === e.budgetItemId;
+      });
+
+      const amountSpent = reduceSum(expenses);
+      const amountBudgeted = budgetItem.amount;
+      const remaining = amountBudgeted - amountSpent;
+
+      return (
+        <View>
+          <View
+            style={{
+              height: 100,
+              backgroundColor: '#fff',
+              zIndex: 0,
+            }}
+          />
+          <View style={{ zIndex: 1, backgroundColor: '#d8dce0' }}>
+            <View style={{ marginTop: -90 }}>
+              <Card
+                label={budgetItem.name}
+                budgeted={amountBudgeted}
+                spent={amountSpent}
+                remaining={remaining}
+              />
+            </View>
+          </View>
+        </View>
+      );
     }
     return (
       <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
@@ -153,7 +220,7 @@ class BudgetItemScreen extends PureComponent {
     const expenses = this.props.budgetItemExpenses.filter(
       i => i.budgetItemId === item.id,
     );
-    const expenseSections = transform(
+    const sections = transform(
       groupBy(orderBy(expenses, ['date', 'id'], ['desc', 'desc']), 'date'),
       (result, value, key) => {
         result.push({ data: value, title: key });
@@ -161,19 +228,46 @@ class BudgetItemScreen extends PureComponent {
       [],
     );
 
+    const expenseSections = sections.map(sec => {
+      return {
+        ...sec,
+        data: sec.data.map((ex, i) => {
+          let position = '';
+          if (i === 0) {
+            position = 'first';
+          }
+          if (i === sec.data.length - 1) {
+            position = 'last';
+          }
+
+          if (sec.data.length === 1) {
+            position = 'only';
+          }
+
+          return { ...ex, position };
+        }),
+      };
+    });
+
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
+        <View
+          style={[
+            StyleSheet.absoluteFill,
+            { top: 300, backgroundColor: '#d8dce0' },
+          ]}
+        />
         <SectionList
           {...BlurViewInsetProps}
           ListHeaderComponent={() => {
             return this.renderHeader(expenseSections.length);
           }}
-          scrollEnabled={this.state.scrollEnabled}
           style={styles.list}
+          contentContainerStyle={styles.contentStyles}
+          stickySectionHeadersEnabled={false}
           keyExtractor={i => i.id}
           sections={expenseSections}
-          ItemSeparatorComponent={this.renderSeparator}
           renderSectionHeader={this.renderSectionHeader}
           renderItem={this.renderExpense}
         />
@@ -185,6 +279,7 @@ class BudgetItemScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: '#d8dce0',
     backgroundColor: '#fff',
     alignItems: 'center',
     flexDirection: 'column',
@@ -192,31 +287,61 @@ const styles = StyleSheet.create({
   list: {
     alignSelf: 'stretch',
   },
+  contentStyles: {
+    backgroundColor: '#d8dce0',
+    minHeight: '100%',
+  },
+  expenseRowContainer: {
+    flex: 1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowColor: '#aaa',
+    shadowOpacity: 0.3,
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    padding: 10,
+    paddingVertical: 15,
+  },
   expenseRow: {
     flex: 1,
-    width: '100%',
     flexDirection: 'row',
-    backgroundColor: '#fff',
-    padding: 20,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
+  firstRow: {
+    borderTopLeftRadius: 3,
+    borderTopRightRadius: 3,
+  },
+  lastRow: {
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3,
+  },
+  onlyRow: {
+    borderRadius: 3,
+  },
+  expenseOptionsIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 24,
+    width: 24,
+    marginRight: 5,
+  },
+  expenseText: {
+    fontWeight: 'bold',
+  },
   amount: {
-    width: '30%',
     color: colors.error,
-    textAlign: 'center',
     fontWeight: '800',
+    fontSize: 16,
   },
   header: {
-    borderWidth: 0.5,
-    borderColor: '#AAA',
-    backgroundColor: '#f7f7f7',
-    borderLeftColor: '#f7f7f7',
-    borderRightColor: '#f7f7f7',
+    margin: 20,
+    marginBottom: 5,
+    backgroundColor: 'transparent',
     padding: 5,
   },
   headerText: {
-    color: '#AAA',
+    color: '#555',
+    fontWeight: 'bold',
   },
 });
 

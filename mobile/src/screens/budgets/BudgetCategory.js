@@ -139,6 +139,9 @@ class BudgetCategoryScreen extends PureComponent {
           onPress={() => {
             this.props.navigation.navigate('BudgetItem', {
               budgetItem,
+              amountSpent,
+              amountBudgeted,
+              remaining,
             });
           }}
         >
