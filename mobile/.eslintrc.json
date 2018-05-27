@@ -28,9 +28,13 @@
     "react/jsx-uses-vars": "error",
     "react-native/no-unused-styles": 2,
     "react/prop-types": [2, { "skipUndeclared": true }],
-    "import/no-unresolved": 2
+    "import/no-unresolved": 2,
+    "import/named": 2,
+    "import/namespace": 2,
+    "import/default": 2
   },
   "settings": {
+    "import/core-modules": ["expo"],
     "import/resolver": {
       "node": {
         "moduleDirectory": ["src", "node_modules"]

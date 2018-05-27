@@ -94,6 +94,7 @@ export default class App extends Component {
   async loadAssetsAsync() {
     let imageAssets = [];
 
+    // eslint-disable-next-line no-undef
     if (__DEV__) {
       imageAssets = cacheImages([
         require('images/app_logo.png'),

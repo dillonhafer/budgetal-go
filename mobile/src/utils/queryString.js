@@ -1,4 +1,4 @@
-export const queryString = url => {
+const queryString = url => {
   const path = decodeURIComponent(url).split('?');
   if (path.length !== 2) {
     return {};
