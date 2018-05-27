@@ -32,6 +32,7 @@ import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';
 
 import Card, { SplitBackground } from 'components/Card';
+import EmptyList from '../../components/EmptyList';
 
 class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -171,44 +172,38 @@ class BudgetCategoryScreen extends PureComponent {
     );
   };
 
-  renderHeader = length => {
-    if (length > 0) {
-      const { budgetCategory } = this.props.navigation.state.params;
-      const items = this.props.budgetItems.filter(
-        i => i.budgetCategoryId === budgetCategory.id,
-      );
-      const itemIds = items.map(i => {
-        return i.id;
-      });
-      const expenses = this.props.budgetItemExpenses.filter(e => {
-        return itemIds.includes(e.budgetItemId);
-      });
+  renderHeader = () => {
+    const { budgetCategory } = this.props.navigation.state.params;
+    const items = this.props.budgetItems.filter(
+      i => i.budgetCategoryId === budgetCategory.id,
+    );
+    const itemIds = items.map(i => {
+      return i.id;
+    });
+    const expenses = this.props.budgetItemExpenses.filter(e => {
+      return itemIds.includes(e.budgetItemId);
+    });
 
-      const amountSpent = reduceSum(expenses);
-      const amountBudgeted = reduceSum(items);
-      const remaining = amountBudgeted - amountSpent;
+    const amountSpent = reduceSum(expenses);
+    const amountBudgeted = reduceSum(items);
+    const remaining = amountBudgeted - amountSpent;
 
-      return (
-        <SplitBackground>
-          <Card
-            image={categoryImage(budgetCategory.name)}
-            label={budgetCategory.name}
-            budgeted={amountBudgeted}
-            spent={amountSpent}
-            remaining={remaining}
-          />
-        </SplitBackground>
-      );
-    }
     return (
-      <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
-        <MoneyAnimation />
-        <Text style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}>
-          There aren't any buget items yet
-        </Text>
-      </View>
+      <SplitBackground>
+        <Card
+          image={categoryImage(budgetCategory.name)}
+          label={budgetCategory.name}
+          budgeted={amountBudgeted}
+          spent={amountSpent}
+          remaining={remaining}
+        />
+      </SplitBackground>
     );
   };
+
+  empty() {
+    return <EmptyList message="There aren't any budget items yet" />;
+  }
 
   deleteItem = async item => {
     const resp = await DeleteItemRequest(item.id);
@@ -249,13 +244,13 @@ class BudgetCategoryScreen extends PureComponent {
         <FlatList
           {...BlurViewInsetProps}
           scrollEnabled={this.state.scrollEnabled}
-          ListHeaderComponent={() => {
-            return this.renderHeader(items.length);
-          }}
+          ListHeaderComponent={this.renderHeader}
           style={styles.list}
+          contentContainerStyle={styles.contentStyles}
           keyExtractor={i => String(i.id)}
           data={items}
           renderItem={this.renderItem}
+          ListEmptyComponent={this.empty}
           ListFooterComponent={
             <View style={{ paddingBottom: 30 }}>
               <PrimaryButton
@@ -279,6 +274,10 @@ const styles = StyleSheet.create({
   },
   list: {
     alignSelf: 'stretch',
+  },
+  contentStyles: {
+    backgroundColor: '#d8dce0',
+    minHeight: '100%',
   },
   itemRow: {
     backgroundColor: '#d8dce0',
