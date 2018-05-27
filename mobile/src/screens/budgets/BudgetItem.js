@@ -1,34 +1,22 @@
 import React, { PureComponent } from 'react';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  StatusBar,
-  View,
-  SectionList,
-} from 'react-native';
+import { StyleSheet, Text, StatusBar, View, SectionList } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
 import { removeExpense } from 'actions/budget-item-expenses';
-
-// API
-import { DeleteExpenseRequest } from 'api/budget-item-expenses';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { currencyf, reduceSum } from 'utils/helpers';
-import { notice, confirm } from 'notify';
+import { reduceSum } from 'utils/helpers';
 import moment from 'moment';
-import colors from 'utils/colors';
 import PlusButton from 'utils/PlusButton';
 import Card, { SplitBackground } from 'components/Card';
 import EmptyList from 'components/EmptyList';
 import ListBackgroundFill from 'components/ListBackgroundFill';
+import Expense from 'components/Expense';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -48,114 +36,22 @@ class BudgetItemScreen extends PureComponent {
     visibleExpenseId: null,
   };
 
-  deleteExpense = async expense => {
-    const resp = await DeleteExpenseRequest(expense.id);
-    if (resp && resp.ok) {
-      this.props.removeExpense(expense);
-      notice(`${expense.name} Deleted`);
-    }
-  };
-
-  confirmDelete = expense => {
-    confirm({
-      title: `Delete ${expense.name}?`,
-      okText: 'Delete',
-      onOk: () => {
-        this.deleteExpense(expense);
-      },
-    });
-  };
-
   toggleVisibleExpense = id => {
     this.setState({
       visibleExpenseId: id === this.state.visibleExpenseId ? null : id,
     });
   };
 
-  renderExpense = ({ item: expense }) => {
-    const borderRadiusStyles = {
-      first: styles.firstRow,
-      last: styles.lastRow,
-      only: styles.onlyRow,
-    }[expense.position];
-    const visible = this.state.visibleExpenseId === expense.id;
-
+  renderExpense = ({ item }) => {
+    const active = this.state.visibleExpenseId === item.id;
     return (
-      <View style={[styles.expenseRowContainer, borderRadiusStyles]}>
-        <View style={styles.expenseRow} key={expense.id}>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <TouchableOpacity
-              onPress={() => {
-                this.toggleVisibleExpense(expense.id);
-              }}
-            >
-              <MaterialCommunityIcons
-                name="dots-horizontal-circle"
-                size={22}
-                color={'#aaa'}
-                style={styles.expenseOptionsIcon}
-              />
-            </TouchableOpacity>
-            <Text style={styles.expenseText}>{expense.name}</Text>
-          </View>
-          <Text style={styles.amount}>{currencyf(expense.amount)}</Text>
-        </View>
-        {visible && (
-          <View style={{ flexDirection: 'row', marginTop: 10 }}>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('EditBudgetItemExpense', {
-                  budgetItemExpense: expense,
-                })
-              }
-              style={{
-                flex: 1,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="pencil"
-                  color={colors.primary}
-                  size={20}
-                  style={{ marginRight: 5 }}
-                />
-                <Text style={{ color: colors.primary }}>EDIT</Text>
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => this.confirmDelete(expense)}
-              style={{
-                flex: 1,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <MaterialCommunityIcons
-                  name="delete"
-                  color={colors.error}
-                  size={20}
-                  style={{ marginRight: 5 }}
-                />
-                <Text style={{ color: colors.error }}>DELETE</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
+      <Expense
+        expense={item}
+        active={active}
+        navigation={this.props.navigation}
+        removeExpense={this.props.removeExpense}
+        toggleVisibleExpense={this.toggleVisibleExpense}
+      />
     );
   };
 
@@ -266,48 +162,6 @@ const styles = StyleSheet.create({
   contentStyles: {
     backgroundColor: '#d8dce0',
     minHeight: '100%',
-  },
-  expenseRowContainer: {
-    flex: 1,
-    shadowOffset: { width: 0, height: 4 },
-    shadowColor: '#aaa',
-    shadowOpacity: 0.3,
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
-    padding: 10,
-    paddingVertical: 15,
-  },
-  expenseRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  firstRow: {
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3,
-  },
-  lastRow: {
-    borderBottomLeftRadius: 3,
-    borderBottomRightRadius: 3,
-  },
-  onlyRow: {
-    borderRadius: 3,
-  },
-  expenseOptionsIcon: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 24,
-    width: 24,
-    marginRight: 5,
-  },
-  expenseText: {
-    fontWeight: 'bold',
-  },
-  amount: {
-    color: colors.error,
-    fontWeight: '800',
-    fontSize: 16,
   },
   header: {
     margin: 20,
