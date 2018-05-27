@@ -9,12 +9,18 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { range } from 'lodash';
+import colors from 'utils/colors';
+import { Ionicons } from '@expo/vector-icons';
 
 class DatePicker extends Component {
   state = {
     showPicker: false,
     month: null,
     year: null,
+    months: moment.months().map((m, i) => {
+      return <Picker.Item key={m} label={m} value={i + 1} />;
+    }),
+    years: range(2015, new Date().getFullYear() + 3),
   };
 
   onValueChange = ({ month, year }) => {
@@ -43,23 +49,32 @@ class DatePicker extends Component {
       format = 'YYYY';
     }
 
+    const selectedMonth = parseInt(this.state.month || month, 10);
+
     return (
       <View style={styles.container}>
         <TouchableOpacity style={styles.dateButton} onPress={this.togglePicker}>
-          <Text style={styles.currentDate}>{date.format(format)}</Text>
+          <View style={styles.dateTextContainer}>
+            <Text style={styles.currentDate}>{date.format(format)}</Text>
+            {!this.state.showPicker && (
+              <Ionicons
+                name="ios-arrow-down"
+                color={colors.primary}
+                size={26}
+              />
+            )}
+          </View>
         </TouchableOpacity>
         {this.state.showPicker && (
           <View style={styles.picker}>
             <Picker
               style={{ width: monthWidth }}
-              selectedValue={`${this.state.month || month}`}
+              selectedValue={selectedMonth}
               onValueChange={itemValue =>
                 this.onValueChange({ month: itemValue, year })
               }
             >
-              {moment.months().map((m, i) => {
-                return <Picker.Item key={m} label={m} value={String(i + 1)} />;
-              })}
+              {this.state.months}
             </Picker>
             <Picker
               style={{ width: yearWidth }}
@@ -83,27 +98,36 @@ class DatePicker extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#e7e7e7',
+    flex: 1,
+    backgroundColor: '#fff',
     flexDirection: 'column',
-    borderColor: '#e7e7e7',
-    borderBottomColor: '#aaa',
-    borderWidth: 0.5,
-    width: '100%',
+    marginTop: 10,
   },
   picker: {
-    borderColor: 'transparent',
-    borderTopColor: '#aaa',
-    borderWidth: 0.5,
     flexDirection: 'row',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: colors.primary,
+    borderLeftWidth: 0,
+    borderRightWidth: 0,
   },
   dateButton: {
     padding: 10,
   },
   currentDate: {
-    textAlign: 'center',
+    textAlign: 'left',
     fontWeight: '800',
     fontSize: 18,
     color: '#444',
+  },
+  dateTextContainer: {
+    borderWidth: 0,
+    borderColor: '#fff',
+    marginHorizontal: 10,
+    borderBottomColor: colors.primary,
+    borderBottomWidth: 2,
+    paddingBottom: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
 export default DatePicker;
