@@ -35,7 +35,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 class NewAnnualBudgetItemScreen extends Component {
   goBack = () => {
-    this.props.screenProps.goBack();
+    this.props.navigation.goBack();
   };
 
   inputs = [];
