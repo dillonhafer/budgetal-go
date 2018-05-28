@@ -30,7 +30,8 @@ import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';
 
 import Card, { SplitBackground } from 'components/Card';
-import EmptyList from '../../components/EmptyList';
+import EmptyList from 'components/EmptyList';
+import ListBackgroundFill from 'components/ListBackgroundFill';
 
 class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -233,12 +234,7 @@ class BudgetCategoryScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            { top: 300, backgroundColor: '#d8dce0' },
-          ]}
-        />
+        <ListBackgroundFill />
         <FlatList
           {...BlurViewInsetProps}
           scrollEnabled={this.state.scrollEnabled}

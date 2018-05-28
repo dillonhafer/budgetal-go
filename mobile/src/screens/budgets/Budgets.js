@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
-  TouchableHighlight,
   TouchableOpacity,
   Text,
   Image,
@@ -26,7 +25,8 @@ import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
-import Card, { SplitBackground } from 'components/Card';
+import Card, { FormCard, SplitBackground } from 'components/Card';
+import ListBackgroundFill from 'components/ListBackgroundFill';
 
 class BudgetsScreen extends PureComponent {
   componentDidMount() {
@@ -132,32 +132,39 @@ class BudgetsScreen extends PureComponent {
     }
 
     return (
-      <View>
-        <TouchableHighlight
-          underlayColor={'#DDD'}
+      <View style={[styles.categoryRow, { marginBottom: 15 }]}>
+        <TouchableOpacity
+          activeOpacity={0.6}
           disabled={isCurrent}
-          style={[styles.categoryRow, activeRowStyles]}
-          key={`footer`}
+          style={activeRowStyles}
           onPress={this.onImportPress}
         >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Image
-              style={styles.categoryImage}
-              source={require('images/csv.png')}
-            />
+          <FormCard>
             <View
               style={{
-                flexDirection: 'column',
-                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              <View>
-                <Text style={styles.importText}>Import Expenses</Text>
-                <Text style={styles.importText}>From CSV</Text>
+              <Image
+                style={styles.categoryImage}
+                source={require('images/csv.png')}
+              />
+              <View
+                style={{
+                  flexDirection: 'column',
+                  flex: 1,
+                }}
+              >
+                <View>
+                  <Text style={styles.importText}>Import Expenses</Text>
+                  <Text style={styles.importText}>From CSV</Text>
+                </View>
               </View>
             </View>
-          </View>
-        </TouchableHighlight>
+          </FormCard>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -199,6 +206,7 @@ class BudgetsScreen extends PureComponent {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" animated={true} />
+        <ListBackgroundFill />
         <FlatList
           {...BlurViewInsetProps}
           refreshControl={
@@ -209,6 +217,7 @@ class BudgetsScreen extends PureComponent {
             />
           }
           style={styles.list}
+          contentContainerStyle={styles.contentStyles}
           keyExtractor={i => String(i.id)}
           data={this.props.budgetCategories}
           renderItem={this.renderCategory}
@@ -230,6 +239,10 @@ const styles = StyleSheet.create({
   },
   list: {
     alignSelf: 'stretch',
+  },
+  contentStyles: {
+    backgroundColor: '#d8dce0',
+    minHeight: '100%',
   },
   categoryRow: {
     backgroundColor: '#d8dce0',
