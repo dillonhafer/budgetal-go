@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     flexDirection: 'column',
-    marginTop: 10,
+    paddingTop: 10,
   },
   picker: {
     flexDirection: 'row',
