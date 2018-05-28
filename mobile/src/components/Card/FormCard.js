@@ -5,7 +5,7 @@ class FormCard extends PureComponent {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ marginTop: 10 }}>{this.props.children}</View>
+        <View>{this.props.children}</View>
       </View>
     );
   }
