@@ -75,7 +75,6 @@ const pushGitRemote = () => {
 
 checkCleanGit();
 bumpVersion();
-expoPublish();
 
 if (expoBuildIos()) {
   commitGitVersion(newBuildNumber);
