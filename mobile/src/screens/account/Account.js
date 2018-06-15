@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   View,
-  Platform,
   SectionList,
 } from 'react-native';
 
@@ -19,8 +18,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { notice, error } from 'notify';
 import colors from 'utils/colors';
-import { DangerButton } from 'forms';
-import { Constants, Updates } from 'expo';
+import { Updates } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import Device from 'utils/Device';
@@ -180,11 +178,6 @@ class AccountScreen extends PureComponent {
   };
 
   render() {
-    const buildNumber = Platform.select({
-      ios: Constants.manifest.ios.buildNumber,
-      android: Constants.manifest.android.versionCode,
-    });
-    const { loading } = this.state;
     const { user } = this.props;
     const buttons = [
       {
@@ -362,13 +355,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#fff',
     borderBottomColor: colors.lines,
-  },
-  version: {
-    width: '35%',
-    textAlign: 'right',
-    paddingRight: 15,
-    color: '#ced0ce',
-    fontSize: 16,
   },
   headerText: {
     marginTop: 15,
