@@ -11,7 +11,7 @@
       "checkAutomatically": "ON_ERROR_RECOVERY"
     },
     "ios": {
-      "buildNumber": "31",
+      "buildNumber": "32",
       "supportsTablet": true,
       "associatedDomains": [
         "applinks:www.budgetal.com"
@@ -29,7 +29,7 @@
     },
     "android": {
       "package": "com.budgetal.app",
-      "versionCode": 31,
+      "versionCode": 32,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app"
     },
     "icon": "./app-store-assets/logo.png",
