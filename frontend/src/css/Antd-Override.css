@@ -1,4 +1,6 @@
 .ant-notification {
+  width: 245px;
+  margin-right: 15px;
   max-width: 90%;
 }
 
