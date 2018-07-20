@@ -1,6 +1,6 @@
 {
   "name": "budgetal",
-  "version": "0.1.0",
+  "version": "1.17.1",
   "private": true,
   "devDependencies": {
     "eslint-config-airbnb": "^16.1.0",
