@@ -10,9 +10,7 @@ import {
 } from 'react-native';
 
 // Components
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import Device from 'utils/Device';
-const isTablet = Device.isTablet();
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Project = ({ children }) => {
   return (
@@ -135,6 +133,10 @@ class LegalModal extends PureComponent {
               <Project>
                 React Navigation, Copyright (c) 2016-present, React Navigation
                 Contributors
+              </Project>
+
+              <Project>
+                React Native Snap Carousel, Copyright (c) 2017, Archriss
               </Project>
 
               <View style={styles.licenseContainer}>
