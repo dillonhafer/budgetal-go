@@ -18,7 +18,6 @@ import NewBudgetItemExpenseScreen from 'screens/budgets/NewBudgetItemExpense';
 import EditBudgetItemExpenseScreen from 'screens/budgets/EditBudgetItemExpense';
 import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 
-import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { categoryImage } from 'utils/helpers';
 import {
@@ -78,7 +77,7 @@ const BudgetNavigatorStack = StackNavigator(
     BudgetCategory: {
       screen: BudgetCategoryScreen,
       path: 'budgetCategories/:budgetCategory',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'Budget Items',
         headerStyle,
       }),
@@ -86,7 +85,7 @@ const BudgetNavigatorStack = StackNavigator(
     BudgetItem: {
       screen: BudgetItemScreen,
       path: 'budgetItems/:budgetItem',
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: () => ({
         title: 'Expenses',
         headerStyle,
       }),
