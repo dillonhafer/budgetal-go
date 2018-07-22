@@ -7,6 +7,7 @@ import AccountNavigator from 'navigators/Account';
 import BudgetNavigator from 'navigators/Budget';
 import AnnualBudgetNavigator from 'navigators/AnnualBudget';
 import StatisticsNavigator from 'navigators/Statistics';
+import NetWorthNavigator from 'navigators/NetWorth';
 
 import colors from 'utils/colors';
 
@@ -25,6 +26,9 @@ const AppDrawerNavigator = DrawerNavigator(
     },
     Statistics: {
       screen: StatisticsNavigator,
+    },
+    NetWorth: {
+      screen: NetWorthNavigator,
     },
     Account: {
       screen: AccountNavigator,
