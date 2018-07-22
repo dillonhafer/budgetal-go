@@ -33,12 +33,10 @@ class StatisticsScreen extends PureComponent {
   };
 
   componentDidMount() {
-    setTimeout(() => {
-      this.loadStatistics({
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-      });
-    }, 800);
+    this.loadStatistics({
+      month: new Date().getMonth() + 1,
+      year: new Date().getFullYear(),
+    });
   }
 
   renderCategory = ({ item: budgetCategory }) => {
@@ -83,7 +81,7 @@ class StatisticsScreen extends PureComponent {
           let percentSpent = 0;
           if (parseFloat(cat.amountSpent) > 0) {
             percentSpent = Math.round(
-              parseFloat(cat.amountSpent) / totalSpent * 100,
+              (parseFloat(cat.amountSpent) / totalSpent) * 100,
             );
           }
           return {
