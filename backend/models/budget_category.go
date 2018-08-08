@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/markbates/pop"
+	"github.com/gobuffalo/pop"
 )
 
 type BudgetCategory struct {

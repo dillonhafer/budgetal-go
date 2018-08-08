@@ -3,7 +3,7 @@ package actions
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/gobuffalo/uuid"
 )
 
 type AllSessionsResponse struct {

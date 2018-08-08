@@ -6,7 +6,7 @@ import (
 
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop"
+	"github.com/gobuffalo/pop"
 )
 
 type BudgetItem struct {

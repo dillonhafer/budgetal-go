@@ -3,7 +3,7 @@ package actions
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/markbates/pop/nulls"
+	"github.com/gobuffalo/pop/nulls"
 )
 
 // SignIn default implementation.

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gobuffalo/buffalo"
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/gobuffalo/uuid"
 )
 
 func AllowedYear(year int) bool {

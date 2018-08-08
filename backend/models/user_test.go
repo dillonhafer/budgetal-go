@@ -2,7 +2,7 @@ package models_test
 
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
-	"github.com/markbates/pop/nulls"
+	"github.com/gobuffalo/pop/nulls"
 )
 
 func (as *ModelSuite) Test_User_Json() {

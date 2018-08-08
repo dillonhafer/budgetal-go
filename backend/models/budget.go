@@ -5,7 +5,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/markbates/pop"
+	"github.com/gobuffalo/pop"
 )
 
 type Budget struct {

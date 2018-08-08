@@ -23,10 +23,10 @@ import (
 	"github.com/disintegration/imaging"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/envy"
-	"github.com/markbates/pop"
-	"github.com/markbates/pop/nulls"
-	"github.com/markbates/pop/slices"
-	"github.com/markbates/validate"
+	"github.com/gobuffalo/pop"
+	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/pop/slices"
+	"github.com/gobuffalo/validate"
 	"golang.org/x/crypto/bcrypt"
 )
 

@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/fatih/color"
-	"github.com/markbates/pop/nulls"
-	"github.com/satori/go.uuid"
+	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/uuid"
 )
 
 type Session struct {

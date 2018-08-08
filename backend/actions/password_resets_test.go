@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
-	"github.com/markbates/pop/nulls"
+	"github.com/gobuffalo/pop/nulls"
 )
 
 func (as *ActionSuite) Test_Users_UpdatePassword() {
