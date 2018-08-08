@@ -11,15 +11,24 @@ import { Link, NavLink } from 'react-router-dom';
 import { notice } from 'window';
 
 const ProfileImage = ({ user }) => {
+  let src = '/missing-profile.png';
   const onError = e => {
     e.target.src = '/missing-profile.png';
   };
-  const defaultSrc = '/missing-profile.png';
+
+  if (user.avatarUrl) {
+    src = user.avatarUrl;
+  }
+
+  if (process.env.NODE_ENV === 'development' && user.avatarUrl) {
+    src = new URL(user.avatarUrl).pathname;
+  }
+
   return (
     <img
       alt={user.firstName}
       className="nav-user-logo"
-      src={user.avatarUrl || defaultSrc}
+      src={src}
       onError={onError}
     />
   );
