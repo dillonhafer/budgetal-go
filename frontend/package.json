@@ -22,7 +22,6 @@
   },
   "scripts": {
     "start": "source APP_ENV && react-scripts start",
-    "build-integration": "NODE_PATH=src:src/utils:src/constants REACT_APP_BASE_URL=http://localhost:3000 react-scripts build && mv build integration-build",
     "test": "source APP_ENV && react-scripts test --env=jsdom",
     "build": "react-scripts build",
     "eject": "react-scripts eject"
