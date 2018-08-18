@@ -59,7 +59,11 @@ class Expense extends PureComponent {
             </TouchableOpacity>
             <Text style={styles.expenseText}>{expense.name}</Text>
           </View>
-          <Text style={styles.amount}>{currencyf(expense.amount)}</Text>
+          <Text
+            style={[styles.amount, { color: this.props.color || colors.error }]}
+          >
+            {currencyf(expense.amount)}
+          </Text>
         </View>
         {active && (
           <View style={styles.crudRow}>
@@ -121,15 +125,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   firstRow: {
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 3,
+    borderTopLeftRadius: 9,
+    borderTopRightRadius: 9,
   },
   lastRow: {
-    borderBottomLeftRadius: 3,
-    borderBottomRightRadius: 3,
+    borderBottomLeftRadius: 9,
+    borderBottomRightRadius: 9,
   },
   onlyRow: {
-    borderRadius: 3,
+    borderRadius: 9,
   },
   expenseOptionsIcon: {
     alignItems: 'center',
