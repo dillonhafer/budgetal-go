@@ -61,7 +61,7 @@ export const Button = ({
     padding: 8,
     backgroundColor,
     borderWidth: 2,
-    borderRadius: borderRadius || buttonHeight / 2,
+    borderRadius: borderRadius || buttonHeight / 4,
     borderColor: color,
     justifyContent: 'center',
     alignItems: 'center',
