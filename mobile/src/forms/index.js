@@ -5,6 +5,9 @@ export {
   default as NavigationInputAccessoryView,
 } from './NavigationInputAccessoryView';
 
+export { default as MoneyInput } from './MoneyInput';
+export { default as OptionInput } from './OptionInput';
+
 export const PrimarySquareButton = ({ title, onPress, loading }) => {
   return (
     <Button
@@ -19,7 +22,7 @@ export const PrimarySquareButton = ({ title, onPress, loading }) => {
   );
 };
 
-export const PrimaryButton = ({ title, onPress, loading }) => {
+export const PrimaryButton = ({ disabled, title, onPress, loading }) => {
   return (
     <Button
       color={colors.primary}
@@ -27,7 +30,7 @@ export const PrimaryButton = ({ title, onPress, loading }) => {
       title={title}
       titleColor={'#fff'}
       onPress={onPress}
-      loading={loading}
+      loading={loading || disabled}
     />
   );
 };
