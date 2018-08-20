@@ -9,6 +9,7 @@
       "components/*": ["components/*"],
       "forms/*": ["forms/*"],
       "images/*": ["images/*"],
+      "fonts/*": ["fonts/*"],
       "navigators/*": ["navigators/*"],
       "notify/*": ["notify/*"],
       "reducers/*": ["reducers/*"],

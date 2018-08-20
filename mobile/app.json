@@ -38,8 +38,6 @@
       "backgroundColor": "#108ee9",
       "resizeMode": "cover"
     },
-    "assetBundlePatterns": [
-      "src/images/**"
-    ]
+    "assetBundlePatterns": ["src/images/**", "src/fonts/**"]
   }
 }
