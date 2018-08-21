@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import {
   StyleSheet,
   Image,
-  Text,
   StatusBar,
   FlatList,
   View,
@@ -16,6 +15,7 @@ import { currencyf, categoryImage } from 'utils/helpers';
 import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { Bold } from 'components/Text';
 
 class StatisticsScreen extends PureComponent {
   static navigationOptions = {
@@ -54,11 +54,11 @@ class StatisticsScreen extends PureComponent {
               justifyContent: 'center',
             }}
           >
-            <Text style={styles.categoryName}>{budgetCategory.name}</Text>
-            <Text style={styles.categoryName}>
+            <Bold style={styles.categoryName}>{budgetCategory.name}</Bold>
+            <Bold style={styles.categoryName}>
               {currencyf(budgetCategory.amountSpent)} -{' '}
               {budgetCategory.percentSpent}%
-            </Text>
+            </Bold>
           </View>
         </View>
       </View>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import { BudgetalText } from 'components/Text';
+import { BudgetalText, HeaderText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
 
@@ -26,7 +26,10 @@ const AccountNavigatorStack = StackNavigator(
   {
     Statistics: {
       screen: StatisticsScreen,
-      navigationOptions: { headerStyle },
+      navigationOptions: {
+        headerStyle,
+        headerTitle: <HeaderText>STATISTICS</HeaderText>,
+      },
     },
   },
   {
@@ -48,7 +51,7 @@ const StatisticsSidebarNavigatorStack = StackNavigator(
       navigationOptions: () => {
         return {
           headerStyle: sidebarHeaderStyle,
-          title: `Chart View`,
+          headerTitle: <HeaderText>CHART VIEW</HeaderText>,
         };
       },
     },
