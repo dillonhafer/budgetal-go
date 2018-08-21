@@ -3,7 +3,6 @@ import {
   TextInput,
   View,
   StyleSheet,
-  Text,
   TouchableOpacity,
   Image,
 } from 'react-native';
@@ -30,6 +29,7 @@ import { FormCard, SplitBackground } from 'components/Card';
 import { StoreReview } from 'expo';
 import OnePassword from 'react-native-onepassword';
 import onepasswordImage from 'images/onepassword.png';
+import { Label } from 'components/Text';
 const PASSWORD_DOMAIN = 'budgetal.com';
 
 class SignInScreen extends Component {
@@ -130,7 +130,7 @@ class SignInScreen extends Component {
       <SplitBackground top={colors.primary} bottom={'#fff'}>
         <FormCard>
           <View style={{ marginTop: 10 }}>
-            <Text style={styles.label}>EMAIL</Text>
+            <Label style={styles.label}>EMAIL</Label>
             <View
               style={{
                 flexDirection: 'row',
@@ -169,7 +169,7 @@ class SignInScreen extends Component {
                 </TouchableOpacity>
               )}
             </View>
-            <Text style={styles.label}>PASSWORD</Text>
+            <Label style={styles.label}>PASSWORD</Label>
             <View
               style={{
                 flexDirection: 'row',
@@ -196,7 +196,7 @@ class SignInScreen extends Component {
               style={styles.forgotPasswordButton}
               onPress={this.navForgotPassword}
             >
-              <Text style={styles.forgotPasswordText}>FORGOT PASSWORD</Text>
+              <Label style={styles.forgotPasswordText}>FORGOT PASSWORD</Label>
             </TouchableOpacity>
           </View>
         </FormCard>

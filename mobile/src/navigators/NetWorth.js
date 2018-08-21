@@ -58,7 +58,7 @@ class NetWorthNavigator extends TabletNavigator {
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>NET WORTH</Text>
+      <BudgetalText style={{ color: tintColor }}>NET WORTH</BudgetalText>
     ),
     drawerIcon: drawerIcon('md-trending-up'),
   };

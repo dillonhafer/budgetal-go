@@ -12,6 +12,7 @@ import {
 import colors from 'utils/colors';
 import { IsAuthenticated, GetCurrentUser } from 'utils/authentication';
 import { navigateHome } from 'navigators';
+import { Bold } from 'components/Text';
 
 // Redux
 import { connect } from 'react-redux';
@@ -50,6 +51,7 @@ const LogoSeparator = ({ keyboardVisible }) => {
       textAlign: 'center',
       color: '#fff',
       backgroundColor: 'transparent',
+      fontFamily: 'Montserrat-Light',
     },
   });
   return (
@@ -132,9 +134,9 @@ class MainScreen extends Component {
               style={styles.button}
               onPress={() => navigate('Register')}
             >
-              <Text style={styles.registerButtonText}>
+              <Bold style={styles.registerButtonText}>
                 I DON'T HAVE AN ACCOUNT
-              </Text>
+              </Bold>
             </TouchableOpacity>
           </View>
         </View>
@@ -160,13 +162,15 @@ const styles = StyleSheet.create({
   registerButtonText: {
     fontSize: 11,
     color: colors.primary,
-    fontWeight: '700',
     textAlign: 'center',
   },
 });
 
-export default connect(null, dispatch => ({
-  updateCurrentUser: user => {
-    dispatch(updateCurrentUser(user));
-  },
-}))(MainScreen);
+export default connect(
+  null,
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  }),
+)(MainScreen);

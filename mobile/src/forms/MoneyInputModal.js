@@ -5,7 +5,6 @@ import {
   Clipboard,
   StyleSheet,
   View,
-  Text,
 } from 'react-native';
 
 // Components
@@ -15,6 +14,7 @@ import colors from 'utils/colors';
 import MoneyKeyboard from 'utils/MoneyKeyboard';
 import Modal from 'react-native-modalbox';
 import MoneyAnimation from 'components/MoneyAnimation';
+import { Medium } from 'components/Text';
 
 class MoneyInputModal extends PureComponent {
   state = {
@@ -81,11 +81,9 @@ class MoneyInputModal extends PureComponent {
           <View style={styles.content}>
             <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
               <MoneyAnimation />
-              <Text
-                style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}
-              >
+              <Medium style={{ margin: 5, textAlign: 'center' }}>
                 {title}
-              </Text>
+              </Medium>
             </View>
           </View>
 

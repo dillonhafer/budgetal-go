@@ -1,3 +1,4 @@
+import React from 'react';
 // Naviagators
 import { StackNavigator } from 'react-navigation';
 import AppDrawerNavigator from 'navigators/AppDrawer';
@@ -9,6 +10,7 @@ import ForgotPasswordScreen from 'screens/ForgotPassword';
 import ResetPasswordScreen from 'screens/ResetPassword';
 import RegisterScreen from 'screens/Register';
 
+import { HeaderText } from 'components/Text';
 import { NavigationHeight } from 'utils/navigation-helpers';
 const headerStyle = {
   height: NavigationHeight,
@@ -27,14 +29,14 @@ const RootNavigator = StackNavigator(
     ForgotPassword: {
       screen: ForgotPasswordScreen,
       navigationOptions: () => ({
-        title: `Forgot Password`,
+        headerTitle: <HeaderText numberOfLines={1}>FORGOT PASSWORD</HeaderText>,
         headerStyle,
       }),
     },
     Register: {
       screen: RegisterScreen,
       navigationOptions: () => ({
-        title: `Register`,
+        headerTitle: <HeaderText>REGISTER</HeaderText>,
         headerStyle,
       }),
     },
@@ -48,7 +50,7 @@ const RootNavigator = StackNavigator(
       screen: ResetPasswordScreen,
       path: 'reset-password/:resetPasswordToken',
       navigationOptions: () => ({
-        title: `Reset Password`,
+        headerTitle: <HeaderText>RESET PASSWORD</HeaderText>,
         headerStyle,
       }),
     },

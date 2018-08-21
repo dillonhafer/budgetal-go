@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { BudgetalText } from 'components/Text';
 
 import TabletNavigator from 'navigators/TabletNavigator';
 
@@ -115,9 +116,7 @@ class AnnualBudgetNavigator extends TabletNavigator {
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>
-        ANNUAL BUDGETS
-      </Text>
+      <BudgetalText style={{ color: tintColor }}>ANNUAL BUDGETS</BudgetalText>
     ),
     // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name

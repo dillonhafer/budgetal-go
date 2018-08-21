@@ -22,6 +22,8 @@ import { navigateRoot } from 'navigators';
 import { notice, error } from 'notify';
 import { RemoveAuthentication } from 'utils/authentication';
 
+import { Small, Bold, Medium } from 'components/Text';
+
 const buildNumber = Platform.select({
   ios: Constants.manifest.ios.buildNumber,
   android: Constants.manifest.android.versionCode,
@@ -45,10 +47,10 @@ class LHC extends PureComponent {
             <Image style={styles.image} source={{ uri: user.avatarUrl }} />
           </View>
           <View style={styles.nameContainer}>
-            <Text style={styles.nameText}>
+            <Bold style={styles.nameText}>
               {[user.firstName, user.lastName].join(' ')}
-            </Text>
-            <Text style={styles.emailText}>{user.email}</Text>
+            </Bold>
+            <Medium style={styles.emailText}>{user.email}</Medium>
           </View>
         </TouchableOpacity>
       </View>
@@ -141,9 +143,9 @@ class DrawerContent extends PureComponent {
           />
           <View style={styles.footer}>
             <View>
-              <Text style={styles.versionText}>
-                {`Version\n${Constants.manifest.version} (${buildNumber})`}
-              </Text>
+              <Bold style={styles.versionText}>
+                {`VERSION\n${Constants.manifest.version} (${buildNumber})`}
+              </Bold>
 
               <TouchableOpacity
                 onPress={() => {
@@ -151,7 +153,7 @@ class DrawerContent extends PureComponent {
                   this.setState({ legalModalVisible: true });
                 }}
               >
-                <Text style={styles.legal}>Legal</Text>
+                <Small style={styles.legal}>LEGAL</Small>
               </TouchableOpacity>
               <LegalModal
                 visible={this.state.legalModalVisible}
@@ -178,13 +180,11 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontSize: 12,
-    fontWeight: 'bold',
   },
   legal: {
     flex: 1,
     color: '#fff',
     textAlign: 'center',
-    fontSize: 12,
     textDecorationLine: 'underline',
   },
   footer: {
@@ -216,12 +216,10 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 18,
-    fontWeight: '700',
     color: '#fff',
   },
   emailText: {
     color: '#fff',
-    fontWeight: 'bold',
   },
 });
 

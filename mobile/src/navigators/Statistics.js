@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { BudgetalText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
 
@@ -63,7 +63,7 @@ class StatisticsNavigator extends TabletNavigator {
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>STATISTICS</Text>
+      <BudgetalText style={{ color: tintColor }}>STATISTICS</BudgetalText>
     ),
     drawerIcon: drawerIcon('md-stats'),
   };

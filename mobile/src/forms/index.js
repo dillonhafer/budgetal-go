@@ -1,5 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import { ButtonText } from 'components/Text';
 import colors from 'utils/colors';
 export {
   default as NavigationInputAccessoryView,
@@ -87,16 +88,13 @@ export const Button = ({
             justifyContent: 'center',
           }}
         >
-          <Text
+          <ButtonText
             style={{
-              textAlign: 'center',
               color: titleColor,
-              fontSize: 13,
-              fontWeight: '900',
             }}
           >
             {title.toUpperCase()}
-          </Text>
+          </ButtonText>
         </View>
       </TouchableOpacity>
     </View>

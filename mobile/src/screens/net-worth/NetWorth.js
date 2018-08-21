@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Text,
   Image,
-  TouchableHighlight,
   StatusBar,
   View,
 } from 'react-native';
@@ -32,6 +31,7 @@ class NetWorthScreen extends PureComponent {
   state = {
     scrollWidth: 320,
   };
+
   componentDidMount() {
     this.loadNetWorthItems({ year: new Date().getFullYear() });
   }

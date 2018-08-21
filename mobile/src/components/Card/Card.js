@@ -3,6 +3,7 @@ import colors from 'utils/colors';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { currencyf } from 'utils/helpers';
+import { Medium, Bold } from 'components/Text';
 
 class Card extends PureComponent {
   render() {
@@ -32,14 +33,14 @@ class Card extends PureComponent {
             </View>
           )}
           <View style={{ flex: 1 }}>
-            <Text style={themeStyles.headerText}>{label}</Text>
-            <Text
+            <Medium style={themeStyles.headerText}>{label}</Medium>
+            <Medium
               style={themeStyles.headerValueText}
               adjustsFontSizeToFit={true}
               numberOfLines={1}
             >
               {currencyf(budgeted, '$', decimal)}
-            </Text>
+            </Medium>
           </View>
         </View>
         <View style={styles.secondaryRow}>
@@ -53,14 +54,14 @@ class Card extends PureComponent {
                 />
               </View>
               <View>
-                <Text style={themeStyles.secondaryLabel}>{spentLabel}</Text>
-                <Text
+                <Medium style={themeStyles.secondaryLabel}>{spentLabel}</Medium>
+                <Medium
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}
                   style={themeStyles.secondaryValue}
                 >
                   {currencyf(spent, '$', decimal)}
-                </Text>
+                </Medium>
               </View>
             </View>
           </View>
@@ -74,14 +75,16 @@ class Card extends PureComponent {
                 />
               </View>
               <View style={{ paddingRight: 25 }}>
-                <Text style={themeStyles.secondaryLabel}>{remainingLabel}</Text>
-                <Text
+                <Medium style={themeStyles.secondaryLabel}>
+                  {remainingLabel}
+                </Medium>
+                <Medium
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}
                   style={themeStyles.secondaryValue}
                 >
                   {currencyf(remaining, undefined, decimal)}
-                </Text>
+                </Medium>
               </View>
             </View>
           </View>
