@@ -11,6 +11,7 @@ import {
 
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { HeaderText, Bold } from 'components/Text';
 
 const Project = ({ children }) => {
   return (
@@ -42,13 +43,15 @@ class LegalModal extends PureComponent {
           <View style={styles.header}>
             <View style={{ width: '20%' }} />
             <View>
-              <Text style={{ fontWeight: '700', fontSize: 17 }}>Legal</Text>
+              <HeaderText style={{ fontWeight: '700', fontSize: 17 }}>
+                Legal
+              </HeaderText>
             </View>
             <TouchableOpacity
               style={{ width: '20%', alignItems: 'center' }}
               onPress={this.props.onClose}
             >
-              <Text
+              <Bold
                 style={{
                   padding: 10,
                   color: '#037aff',
@@ -56,7 +59,7 @@ class LegalModal extends PureComponent {
                 }}
               >
                 Done
-              </Text>
+              </Bold>
             </TouchableOpacity>
           </View>
           <ScrollView style={{ backgroundColor: '#fff', width: '100%' }}>
