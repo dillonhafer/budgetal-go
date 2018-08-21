@@ -108,7 +108,7 @@ const BudgetNavigatorStack = StackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT ${navigation.state.params.budgetItem.name.toUpperCase()}
+            EDIT {navigation.state.params.budgetItem.name.toUpperCase()}
           </HeaderText>
         ),
         headerStyle,
@@ -126,14 +126,18 @@ const BudgetNavigatorStack = StackNavigator(
       screen: EditBudgetItemExpenseScreen,
       path: 'editBudgetItemExpense',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.state.params.budgetItemExpense.name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
     ImportExpenses: {
       screen: ImportExpensesScreen,
       navigationOptions: () => ({
-        title: `Import Expenses`,
+        headerTitle: <HeaderText>IMPORT EXPENSES</HeaderText>,
         headerStyle,
       }),
     },
