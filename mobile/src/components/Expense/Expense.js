@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
+import { Medium } from 'components/Text';
 
 // API
 import { DeleteExpenseRequest } from 'api/budget-item-expenses';
@@ -57,13 +58,21 @@ class Expense extends PureComponent {
                 style={styles.expenseOptionsIcon}
               />
             </TouchableOpacity>
-            <Text style={styles.expenseText}>{expense.name}</Text>
+            <Medium
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.03}
+              numberOfLines={2}
+              ellipsizeMode={'middle'}
+              style={styles.expenseText}
+            >
+              {expense.name}
+            </Medium>
           </View>
-          <Text
+          <Medium
             style={[styles.amount, { color: this.props.color || colors.error }]}
           >
             {currencyf(expense.amount)}
-          </Text>
+          </Medium>
         </View>
         {active && (
           <View style={styles.crudRow}>
@@ -78,9 +87,9 @@ class Expense extends PureComponent {
                   name="pencil"
                   color={colors.primary}
                   size={20}
-                  style={{ marginRight: 5 }}
+                  style={{ width: 20, marginRight: 5 }}
                 />
-                <Text style={{ color: colors.primary }}>EDIT</Text>
+                <Medium style={{ color: colors.primary }}>EDIT</Medium>
               </View>
             </TouchableOpacity>
 
@@ -97,7 +106,7 @@ class Expense extends PureComponent {
                   size={20}
                   style={{ marginRight: 5 }}
                 />
-                <Text style={{ color: colors.error }}>DELETE</Text>
+                <Medium style={{ color: colors.error }}>DELETE</Medium>
               </View>
             </TouchableOpacity>
           </View>
@@ -121,7 +130,6 @@ const styles = StyleSheet.create({
   expenseRow: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
   },
   firstRow: {
@@ -150,12 +158,14 @@ const styles = StyleSheet.create({
     color: colors.error,
     fontWeight: '800',
     fontSize: 16,
+    textAlign: 'right',
   },
   crudRow: {
     flexDirection: 'row',
     marginTop: 10,
   },
   nameRow: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },

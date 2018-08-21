@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, StatusBar, View, SectionList } from 'react-native';
+import { StyleSheet, StatusBar, View, SectionList } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -17,6 +17,7 @@ import Card, { SplitBackground } from 'components/Card';
 import EmptyList from 'components/EmptyList';
 import ListBackgroundFill from 'components/ListBackgroundFill';
 import Expense from 'components/Expense';
+import { Bold } from 'components/Text';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
@@ -58,11 +59,11 @@ class BudgetItemScreen extends PureComponent {
   renderSectionHeader = ({ section }) => {
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>
+        <Bold style={styles.headerText}>
           {moment(section.title, 'YYYY-MM-DD')
             .format('MMMM DD')
             .toUpperCase()}
-        </Text>
+        </Bold>
       </View>
     );
   };
