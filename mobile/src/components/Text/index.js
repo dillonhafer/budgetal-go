@@ -62,7 +62,20 @@ export const ButtonText = props => {
   );
 };
 
+export const LightText = props => {
+  const { style, children, ...rest } = props;
+
+  return (
+    <Text style={[styles.light, style]} {...rest}>
+      {children}
+    </Text>
+  );
+};
+
 const styles = StyleSheet.create({
+  light: {
+    fontFamily: 'Montserrat-Light',
+  },
   label: {
     fontSize: 12,
     fontFamily: 'Montserrat-Bold',

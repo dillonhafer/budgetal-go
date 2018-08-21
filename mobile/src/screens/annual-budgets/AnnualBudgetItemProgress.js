@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 
 // Components
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
@@ -8,6 +8,7 @@ import colors from 'utils/colors';
 import { currencyf } from 'utils/helpers';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { round, times } from 'lodash';
+import { Bold, Medium } from 'components/Text';
 import Device from 'utils/Device';
 const isTablet = Device.isTablet();
 
@@ -22,9 +23,9 @@ class AnnualBudgetItemProgress extends PureComponent {
             size={22}
             style={{ marginRight: 5 }}
           />
-          <Text style={styles.date}>{item.date}</Text>
+          <Medium style={styles.date}>{item.date}</Medium>
         </View>
-        <Text style={styles.amount}>{currencyf(item.amount)}</Text>
+        <Bold style={styles.amount}>{currencyf(item.amount)}</Bold>
       </View>
     );
   };
@@ -41,8 +42,8 @@ class AnnualBudgetItemProgress extends PureComponent {
     const item = this.props.navigation.state.params.budgetItem;
     return (
       <View style={{ padding: 10, alignItems: 'center' }}>
-        <Text style={styles.headerText}>Accumulation Progress for</Text>
-        <Text style={styles.headerText}>{item.name}</Text>
+        <Bold style={styles.headerText}>Accumulation Progress for</Bold>
+        <Bold style={styles.headerText}>{item.name}</Bold>
       </View>
     );
   };
@@ -108,7 +109,8 @@ const styles = StyleSheet.create({
   },
   listSeparator: {
     height: 1,
-    width: '100%',
+    flex: 1,
+    marginHorizontal: 15,
     backgroundColor: colors.lines,
   },
   dateRow: {
@@ -125,7 +127,8 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   row: {
-    padding: 10,
+    marginHorizontal: 15,
+    paddingVertical: 15,
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',

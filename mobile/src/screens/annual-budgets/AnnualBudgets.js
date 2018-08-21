@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import {
   StyleSheet,
-  Text,
   StatusBar,
   FlatList,
   View,
@@ -19,6 +18,7 @@ import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
+import { Bold } from 'components/Text';
 import { error } from 'notify';
 import { FontAwesome } from '@expo/vector-icons';
 import colors from 'utils/colors';
@@ -90,11 +90,11 @@ class AnnualBudgetsScreen extends PureComponent {
         {this.props.annualBudgetItems.length === 0 && (
           <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
             <FontAwesome name="money" size={32} color={colors.success} />
-            <Text
+            <Bold
               style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}
             >
               There aren't any items yet
-            </Text>
+            </Bold>
           </View>
         )}
       </React.Fragment>
