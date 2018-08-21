@@ -27,9 +27,9 @@ const AppDrawerNavigator = DrawerNavigator(
     Statistics: {
       screen: StatisticsNavigator,
     },
-    NetWorth: {
-      screen: NetWorthNavigator,
-    },
+    // NetWorth: {
+    //   screen: NetWorthNavigator,
+    // },
     Account: {
       screen: AccountNavigator,
     },

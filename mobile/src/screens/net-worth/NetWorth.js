@@ -41,29 +41,38 @@ class NetWorthScreen extends PureComponent {
   };
 
   renderCategory = ({ item: month }) => {
-    const isCurrent = true;
     // this.props.screenProps.isTablet &&
     // this.props.currentBudgetCategory.id > 0 &&
     // this.props.currentBudgetCategory.id === month.id;
 
+    const year = this.props.netWorth.year;
     const { assets, liabilities } = month;
+    const totalAssets = assets.reduce((acc, a) => acc + a.amount, 0.0);
+    const totalLiabilities = liabilities.reduce(
+      (acc, l) => acc + l.amount,
+      0.0,
+    );
 
     return (
       <View>
         <TouchableOpacity
           key={month.label}
-          disabled={isCurrent}
           activeOpacity={0.9}
-          onPress={() => {}}
+          onPress={() =>
+            this.props.screenProps.layoutNavigate('MonthListScreen', {
+              month,
+              year,
+            })
+          }
         >
           <Card
             marginHorizontal={0}
-            label={`${month.label} 2018`}
-            budgeted={assets - liabilities}
+            label={`${month.label} ${year}`}
+            budgeted={totalAssets - totalLiabilities}
             spentLabel={'Liabilities'}
-            spent={liabilities}
+            spent={totalLiabilities}
             remainingLabel={'Assets'}
-            remaining={assets}
+            remaining={totalAssets}
             decimal={0}
           />
         </TouchableOpacity>
@@ -189,18 +198,70 @@ export default connect(
     netWorth: {
       year: 2018,
       months: [
-        { label: 'Janurary', assets: 5000000, liabilities: 487888 },
-        { label: 'Feburary', assets: 5001000, liabilities: 485888 },
-        { label: 'March', assets: 5002000, liabilities: 483888 },
-        { label: 'April', assets: 5002000, liabilities: 483888 },
-        { label: 'May', assets: 5002000, liabilities: 483888 },
-        { label: 'June', assets: 5002000, liabilities: 483888 },
-        { label: 'July', assets: 5002000, liabilities: 483888 },
-        { label: 'August', assets: 5002000, liabilities: 483888 },
-        { label: 'September', assets: 5002000, liabilities: 483888 },
-        { label: 'October', assets: 5002000, liabilities: 483888 },
-        { label: 'November', assets: 5002000, liabilities: 483888 },
-        { label: 'December', assets: 5002000, liabilities: 483888 },
+        {
+          label: 'Janurary',
+          assets: [{ id: 0, name: 'House', amount: 5000000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 482888 }],
+        },
+        {
+          label: 'Feburary',
+          assets: [{ id: 0, name: 'House', amount: 5001000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 477000 }],
+        },
+        {
+          label: 'March',
+          assets: [{ id: 0, name: 'House', amount: 5002000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 472300 }],
+        },
+        {
+          label: 'April',
+          assets: [{ id: 0, name: 'House', amount: 5003000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 467500 }],
+        },
+        {
+          label: 'May',
+          assets: [{ id: 0, name: 'House', amount: 5004000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'June',
+          assets: [{ id: 0, name: 'House', amount: 5005000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'July',
+          assets: [{ id: 0, name: 'House', amount: 5006000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'August',
+          assets: [
+            { id: 0, name: 'House', amount: 5007000 },
+            { id: 2, name: 'IRA', amount: 399447 },
+            { id: 3, name: '401K', amount: 99388 },
+          ],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'September',
+          assets: [{ id: 0, name: 'House', amount: 5008000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'October',
+          assets: [{ id: 0, name: 'House', amount: 5009000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'November',
+          assets: [{ id: 0, name: 'House', amount: 5010000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
+        {
+          label: 'December',
+          assets: [{ id: 0, name: 'House', amount: 5011000 }],
+          liabilities: [{ id: 1, name: 'Mortgage', amount: 487888 }],
+        },
       ],
     },
   }),

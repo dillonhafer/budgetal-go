@@ -1,21 +1,28 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { BudgetalText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
 
 // Screens
 import NetWorthScreen from 'screens/net-worth/NetWorth';
-import MonthlyChartScreen from 'screens/statistics/MonthlyChart';
+import MonthListScreen from 'screens/net-worth/MonthList';
+import NewMonthItemScreen from 'screens/net-worth/NewMonthItem';
+import EditMonthItemScreen from 'screens/net-worth/EditMonthItem';
 
 import {
+  NavigationHeight,
   SidebarNavigationHeight,
   drawerIcon,
   BurgerNavigationOptions,
+  BlurViewNavigationOptions,
 } from 'utils/navigation-helpers';
 const sidebarHeaderStyle = {
   height: SidebarNavigationHeight,
   width: 300,
+};
+const headerStyle = {
+  height: NavigationHeight,
 };
 
 const NetWorthNavigatorStack = StackNavigator(
@@ -25,6 +32,32 @@ const NetWorthNavigatorStack = StackNavigator(
       navigationOptions: () => ({
         title: 'Net Worth',
         ...BurgerNavigationOptions,
+      }),
+    },
+    MonthListScreen: {
+      screen: MonthListScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.month.label} ${
+          navigation.state.params.year
+        }`,
+        headerStyle,
+        ...BlurViewNavigationOptions,
+      }),
+    },
+    EditMonthItemScreen: {
+      screen: EditMonthItemScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: `Edit ${navigation.state.params.item.name}`,
+        headerStyle,
+        ...BlurViewNavigationOptions,
+      }),
+    },
+    NewMonthItemScreen: {
+      screen: NewMonthItemScreen,
+      navigationOptions: ({ navigation }) => ({
+        title: `New ${navigation.state.params.title}`,
+        headerStyle,
+        ...BlurViewNavigationOptions,
       }),
     },
   },
@@ -38,14 +71,13 @@ const NetWorthNavigatorStack = StackNavigator(
 
 const NetWorthSidebarNavigatorStack = StackNavigator(
   {
-    MonthlyChart: {
-      screen: MonthlyChartScreen,
-      navigationOptions: () => {
-        return {
-          headerStyle: sidebarHeaderStyle,
-          title: `NW - N/A`,
-        };
-      },
+    MonthListScreen: {
+      screen: MonthListScreen,
+      navigationOptions: screenProps => ({
+        headerStyle: sidebarHeaderStyle,
+        title: `${screenProps.month.name} 2019`,
+        ...BurgerNavigationOptions,
+      }),
     },
   },
   {},
