@@ -7,9 +7,10 @@ import queryString from 'utils/queryString';
 // Redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import reducers from 'reducers';
 import apiMiddleware from 'api/middleware';
-const store = createStore(reducers, {}, applyMiddleware(apiMiddleware));
+const store = createStore(reducers, applyMiddleware(thunk, apiMiddleware));
 
 // App
 import colors from 'utils/colors';
