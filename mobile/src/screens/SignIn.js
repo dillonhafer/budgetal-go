@@ -67,6 +67,8 @@ class SignInScreen extends Component {
       navigateHome(this.props.navigation.dispatch);
       notice('You are now signed in!');
       setTimeout(StoreReview.requestReview, 2000);
+    } else {
+      this.setState({ loading: false });
     }
   };
 
@@ -79,8 +81,6 @@ class SignInScreen extends Component {
         error('Email/Password are invalid');
       }
     } catch (err) {
-      // console.log(err)
-    } finally {
       this.setState({ loading: false });
     }
   };
