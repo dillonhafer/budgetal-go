@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Helpers
+import { Bold, Medium } from 'components/Text';
 import { currencyf } from 'utils/helpers';
 import colors from 'utils/colors';
 import { confirm } from 'notify';
@@ -24,6 +25,7 @@ class ListItem extends PureComponent {
     amount: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
+    deleteConfirmation: PropTypes.string,
     position: PropTypes.oneOf(Object.keys(positions)).isRequired,
   };
 
@@ -31,6 +33,7 @@ class ListItem extends PureComponent {
     confirm({
       title: `Delete ${this.props.label}?`,
       okText: 'Delete',
+      content: this.props.deleteConfirmation,
       onOk: this.props.onDelete,
     });
   };
@@ -58,9 +61,9 @@ class ListItem extends PureComponent {
                 style={styles.expenseOptionsIcon}
               />
             </TouchableOpacity>
-            <Text style={styles.expenseText}>{label}</Text>
+            <Bold style={styles.expenseText}>{label}</Bold>
           </View>
-          <Text style={[styles.amount, { color }]}>{amount}</Text>
+          <Bold style={[styles.amount, { color }]}>{amount}</Bold>
         </View>
         {active && (
           <View style={styles.crudRow}>
@@ -77,7 +80,7 @@ class ListItem extends PureComponent {
                   size={20}
                   style={{ marginRight: 5 }}
                 />
-                <Text style={{ color: colors.primary }}>EDIT</Text>
+                <Medium style={{ color: colors.primary }}>EDIT</Medium>
               </View>
             </TouchableOpacity>
 
@@ -94,7 +97,7 @@ class ListItem extends PureComponent {
                   size={20}
                   style={{ marginRight: 5 }}
                 />
-                <Text style={{ color: colors.error }}>DELETE</Text>
+                <Medium style={{ color: colors.error }}>DELETE</Medium>
               </View>
             </TouchableOpacity>
           </View>

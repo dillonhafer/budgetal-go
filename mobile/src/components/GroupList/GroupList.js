@@ -5,6 +5,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import ListBackgroundFill from 'components/ListBackgroundFill';
 import { currencyf } from 'utils/helpers';
 import ListItem, { positions } from './ListItem';
+import { Bold } from 'components/Text';
 
 class GroupList extends Component {
   static propTypes = {
@@ -15,8 +16,10 @@ class GroupList extends Component {
     keyExtractor: PropTypes.func,
     onEdit: PropTypes.func,
     onDelete: PropTypes.func,
+    deleteConfirmation: PropTypes.string,
     stickySectionHeadersEnabled: PropTypes.bool,
     sections: PropTypes.array,
+    inset: PropTypes.bool,
   };
 
   state = {
@@ -56,9 +59,18 @@ class GroupList extends Component {
         color={section.color}
         position={position}
         onDelete={() => this.props.onDelete(item)}
+        deleteConfirmation={this.props.deleteConfirmation}
         onEdit={() => this.props.onEdit(item)}
         onToggle={() => this.toggleVisibleExpense(rowId)}
       />
+    );
+  };
+
+  renderSectionHeader = ({ section }) => {
+    return (
+      <View style={styles.header}>
+        <Bold style={styles.headerText}>{section.title.toUpperCase()}</Bold>
+      </View>
     );
   };
 
@@ -78,7 +90,9 @@ class GroupList extends Component {
           stickySectionHeadersEnabled={stickySectionHeadersEnabled}
           keyExtractor={this.props.keyExtractor}
           sections={this.props.sections}
-          renderSectionHeader={this.props.renderSectionHeader}
+          renderSectionHeader={
+            this.props.renderSectionHeader || this.renderSectionHeader
+          }
           renderSectionFooter={this.props.renderSectionFooter}
           ListEmptyComponent={this.props.renderEmptyComponent}
           renderItem={this.renderItem}
@@ -102,6 +116,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#d8dce0',
     minHeight: '100%',
     paddingBottom: 10,
+  },
+  header: {
+    marginHorizontal: 20,
+    marginVertical: 10,
+    backgroundColor: 'transparent',
+    paddingVertical: 5,
+  },
+  headerText: {
+    color: '#555',
+    fontWeight: 'bold',
   },
 });
 
