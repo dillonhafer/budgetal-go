@@ -1,6 +1,15 @@
 import { BudgetRequest } from 'api/budgets';
+import { AllNetWorthsRequest } from 'api/net-worth';
 import { budgetLoaded, budgetRequestFinished } from 'actions/budgets';
-import { LOAD_BUDGET, REFRESH_BUDGET } from 'redux-constants/action-types';
+
+import { netWorthLoaded, netWorthRequestFinished } from 'actions/net-worth';
+
+import {
+  LOAD_BUDGET,
+  REFRESH_BUDGET,
+  LOAD_NET_WORTH_YEAR,
+  REFRESH_NET_WORTH_YEAR,
+} from 'redux-constants/action-types';
 
 const apiMiddleware = () => next => action => {
   next(action);
@@ -16,6 +25,18 @@ const apiMiddleware = () => next => action => {
         })
         .finally(() => {
           next(budgetRequestFinished());
+        });
+      break;
+    case LOAD_NET_WORTH_YEAR:
+    case REFRESH_NET_WORTH_YEAR:
+      AllNetWorthsRequest({ year: action.year })
+        .then(resp => {
+          if (resp.ok) {
+            next(netWorthLoaded(resp));
+          }
+        })
+        .finally(() => {
+          next(netWorthRequestFinished());
         });
       break;
     default:
