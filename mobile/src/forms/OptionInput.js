@@ -13,11 +13,11 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'utils/colors';
 import { FieldContainer } from 'forms';
+import { Medium } from 'components/Text';
 
 class OptionInput extends PureComponent {
   state = {
     visible: false,
-    internalValue: null,
   };
 
   togglePicker = () => {
@@ -28,18 +28,17 @@ class OptionInput extends PureComponent {
     this.setState({ visible: false });
   };
 
-  onValueChange = internalValue => {
-    this.setState({ internalValue, visible: false });
-    this.props.onChange(internalValue);
+  onValueChange = selectedItem => {
+    this.setState({ selectedItem, visible: false });
+    this.props.onChange(selectedItem);
   };
 
   render() {
     const { defaultValue, placeholder } = this.props;
-    const { internalValue, visible } = this.state;
-    const selectedValue = internalValue || defaultValue;
+    const { selectedItem = { value: defaultValue }, visible } = this.state;
 
     let placeholderStyles = {};
-    if (!selectedValue) {
+    if (!selectedItem.value) {
       placeholderStyles.opacity = 0.5;
     }
 
@@ -48,7 +47,7 @@ class OptionInput extends PureComponent {
         <TouchableOpacity style={styles.rowButton} onPress={this.togglePicker}>
           <View>
             <Text style={placeholderStyles}>
-              {selectedValue || placeholder}
+              {selectedItem.label || placeholder}
             </Text>
           </View>
           <MaterialCommunityIcons
@@ -80,7 +79,9 @@ class OptionInput extends PureComponent {
                   color={colors.primary}
                 />
               </TouchableOpacity>
-              <Text style={{ fontWeight: '700' }}>{placeholder}</Text>
+              <Medium style={{ fontWeight: '700' }}>
+                {placeholder.toUpperCase()}
+              </Medium>
               <View style={styles.headerRight} />
             </SafeAreaView>
 
@@ -90,13 +91,13 @@ class OptionInput extends PureComponent {
                   <TouchableOpacity
                     style={styles.amountButton}
                     onPress={() => {
-                      this.onValueChange(o.value);
+                      this.onValueChange(o);
                     }}
                   >
                     <View>
                       <Text style={styles.displayAmount}>{o.label}</Text>
                     </View>
-                    {selectedValue === o.value && (
+                    {selectedItem.value === o.value && (
                       <MaterialCommunityIcons
                         name="check"
                         size={22}
