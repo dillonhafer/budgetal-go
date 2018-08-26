@@ -1,14 +1,16 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation';
-import { BudgetalText } from 'components/Text';
+import { HeaderText, BudgetalText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
 
 // Screens
-import NetWorthScreen from 'screens/net-worth/NetWorth';
+import NetWorthScreen from 'screens/net-worth';
 import MonthListScreen from 'screens/net-worth/MonthList';
 import NewMonthItemScreen from 'screens/net-worth/NewMonthItem';
 import EditMonthItemScreen from 'screens/net-worth/EditMonthItem';
+import NewAssetLiabilityScreen from 'screens/net-worth/NewAssetLiability';
+import EditAssetLiabilityScreen from 'screens/net-worth/EditAssetLiability';
 
 import {
   NavigationHeight,
@@ -30,16 +32,20 @@ const NetWorthNavigatorStack = StackNavigator(
     NetWorthScreen: {
       screen: NetWorthScreen,
       navigationOptions: () => ({
-        title: 'Net Worth',
+        headerTitle: <HeaderText>NET WORTH</HeaderText>,
         ...BurgerNavigationOptions,
+        ...BlurViewNavigationOptions,
       }),
     },
     MonthListScreen: {
       screen: MonthListScreen,
       navigationOptions: ({ navigation }) => ({
-        title: `${navigation.state.params.month.label} ${
-          navigation.state.params.year
-        }`,
+        headerTitle: (
+          <HeaderText>
+            {navigation.getParam('month').label.toUpperCase()}{' '}
+            {navigation.getParam('year')}
+          </HeaderText>
+        ),
         headerStyle,
         ...BlurViewNavigationOptions,
       }),
@@ -47,7 +53,11 @@ const NetWorthNavigatorStack = StackNavigator(
     EditMonthItemScreen: {
       screen: EditMonthItemScreen,
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.item.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.getParam('item').name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
         ...BlurViewNavigationOptions,
       }),
@@ -55,7 +65,33 @@ const NetWorthNavigatorStack = StackNavigator(
     NewMonthItemScreen: {
       screen: NewMonthItemScreen,
       navigationOptions: ({ navigation }) => ({
-        title: `New ${navigation.state.params.title}`,
+        headerTitle: (
+          <HeaderText>
+            NEW {navigation.getParam('title').toUpperCase()}
+          </HeaderText>
+        ),
+        headerStyle,
+        ...BlurViewNavigationOptions,
+      }),
+    },
+    NewAssetLiabilityScreen: {
+      screen: NewAssetLiabilityScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: (
+          <HeaderText>NEW {navigation.getParam('title')}</HeaderText>
+        ),
+        headerStyle,
+        ...BlurViewNavigationOptions,
+      }),
+    },
+    EditAssetLiabilityScreen: {
+      screen: EditAssetLiabilityScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.getParam('item').name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
         ...BlurViewNavigationOptions,
       }),
