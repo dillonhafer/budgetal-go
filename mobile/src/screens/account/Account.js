@@ -31,15 +31,6 @@ class AccountScreen extends PureComponent {
     updateDownloading: false,
   };
 
-  static navigationOptions = {
-    title: 'Account Settings',
-    headerBackTitle: 'Settings',
-    tabBarLabel: 'Account',
-    tabBarIcon: ({ tintColor }) => (
-      <Ionicons name="md-person" size={32} color={tintColor} />
-    ),
-  };
-
   editAccount = () => {
     this.props.screenProps.layoutNavigate('AccountEdit', {
       user: this.props.user,
@@ -218,7 +209,7 @@ class AccountScreen extends PureComponent {
                   : colors.primary,
             },
             onPress: this.state.updateDownloading ? null : this.checkForUpdate,
-            style: styles.first,
+            style: [styles.first, styles.last],
             right: <View />,
           },
         ],

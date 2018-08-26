@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from './TabletNavigator';
 import colors from 'utils/colors';
+import { HeaderText } from 'components/Text';
 
 // Screens
 import AccountScreen from 'screens/account/Account';
@@ -33,6 +34,8 @@ const AccountNavigatorStack = StackNavigator(
       screen: AccountScreen,
       navigationOptions: {
         headerStyle,
+        headerTitle: <HeaderText>ACCOUNT SETTINGS</HeaderText>,
+        headerBackTitle: '',
         gesturesEnabled: false,
         ...BurgerNavigationOptions,
       },
@@ -42,19 +45,22 @@ const AccountNavigatorStack = StackNavigator(
       path: 'edit-account/:user',
       navigationOptions: {
         headerStyle,
+        headerTitle: <HeaderText>ACCOUNT EDIT</HeaderText>,
       },
     },
     ChangePassword: {
       screen: ChangePasswordScreen,
-      navigationOptions: { headerStyle },
+      navigationOptions: {
+        headerStyle,
+        headerTitle: <HeaderText>CHANGE PASSWORD</HeaderText>,
+      },
     },
     Sessions: {
       screen: SessionsScreen,
-      navigationOptions: { headerStyle },
-    },
-    Legal: {
-      screen: LegalScreen,
-      navigationOptions: { headerStyle },
+      navigationOptions: {
+        headerStyle,
+        headerTitle: <HeaderText>SESSIONS</HeaderText>,
+      },
     },
   },
   {
