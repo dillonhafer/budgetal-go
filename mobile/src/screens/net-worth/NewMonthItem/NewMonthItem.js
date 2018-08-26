@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, StatusBar, View, ScrollView } from 'react-native';
 
-// Redux
-import { connect } from 'react-redux';
-import { createdExpense } from 'actions/budget-item-expenses';
-
-// API
-import { CreateExpenseRequest } from 'api/budget-item-expenses';
-
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { error, notice } from 'notify';
@@ -26,73 +19,53 @@ class NewMonthItemScreen extends Component {
     this.props.navigation.goBack();
   };
 
-  inputs = [];
-
   state = {
     loading: false,
-    showMoneyKeyboard: false,
-    name: '',
     amount: 0.0,
   };
 
-  componentDidMount() {
-    const { budgetItem } = this.props.navigation.state.params;
-    this.setState({ budgetItem });
-  }
-
   validateFields = () => {
-    const { name, amount } = this.state;
-    return name.length > 0 && amount > 0;
+    const { assetId, amount } = this.state;
+    return assetId && amount > 0;
   };
 
-  showMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-content', true);
-    this.setState({ showMoneyKeyboard: true });
-  };
-
-  hideMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-dark', true);
-    this.setState({ showMoneyKeyboard: false });
-  };
-
-  createExpense = async () => {
-    const { name, amount, date, budgetItem } = this.state;
-
-    try {
-      const resp = await CreateExpenseRequest({
-        name,
-        amount,
-        date: date.format('YYYY-MM-DD'),
-        budgetItemId: budgetItem.id,
-      });
-
-      if (resp && resp.ok) {
-        this.props.createdExpense(resp.budgetItemExpense);
-        this.goBack();
-        notice('Expense saved');
-      }
-    } catch (err) {
-      error('Could not create expense');
-    }
-  };
-
-  handleOnPress = async () => {
+  handleOnPress = () => {
     this.setState({ loading: true });
-    try {
-      if (this.validateFields()) {
-        await this.createExpense();
-      } else {
-        error('Form is not valid');
-      }
-    } catch (err) {
-      // console.log(err)
-    } finally {
-      this.setState({ loading: false });
+    if (!this.validateFields()) {
+      return error('Form is not valid');
     }
+
+    const year = this.props.navigation.getParam('year');
+    const month = this.props.navigation.getParam('month');
+    const title = this.props.navigation.getParam('title').toUpperCase();
+
+    const { assetId, amount } = this.state;
+    const isAsset = title === 'ASSET';
+
+    this.props
+      .createNetWorthItem({
+        year,
+        month,
+        item: {
+          assetId,
+          amount,
+          isAsset,
+        },
+      })
+      .then(() => {
+        this.goBack();
+        notice(`${title} SAVED`);
+      })
+      .catch(() => {
+        error(`COULD NOT CREATE ${title}`);
+      })
+      .then(() => {
+        this.setState({ loading: false });
+      });
   };
 
   render() {
-    const { name, amount, loading } = this.state;
+    const { amount, loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -106,13 +79,14 @@ class NewMonthItemScreen extends Component {
             navigation={this.props.navigation}
             options={this.props.navigation.state.params.options}
             placeholder="Select An Item"
-            defaultValue={name}
-            onChange={name => this.setState({ name })}
+            onChange={({ value: assetId, label: name }) =>
+              this.setState({ assetId, name })
+            }
           />
         </FieldContainer>
         <FieldContainer>
           <MoneyInput
-            title="Expense Amount"
+            title="Amount"
             displayAmount={amount}
             defaultValue={(amount * 100).toFixed()}
             onChange={amount => this.setState({ amount })}
@@ -144,11 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  null,
-  dispatch => ({
-    createdExpense: expense => {
-      dispatch(createdExpense(expense));
-    },
-  }),
-)(NewMonthItemScreen);
+export default NewMonthItemScreen;

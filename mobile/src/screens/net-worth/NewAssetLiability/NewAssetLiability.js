@@ -1,25 +1,47 @@
 import React, { Component } from 'react';
-import { StyleSheet, StatusBar, View, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  StatusBar,
+  View,
+  ScrollView,
+} from 'react-native';
+import PropTypes from 'prop-types';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { error, notice } from 'notify';
 
 // Components
-import { PrimaryButton, DangerButton, FieldContainer, MoneyInput } from 'forms';
+import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
 
-class EditMonthItemScreen extends Component {
+class NewAssetLiabilityScreen extends Component {
+  static propTypes = {
+    navigation: PropTypes.object,
+    createAssetLiability: PropTypes.func,
+  };
+
   goBack = () => {
     this.props.navigation.goBack();
   };
 
+  inputs = [];
+
   state = {
     loading: false,
+    showMoneyKeyboard: false,
+    name: null,
+    asset: {
+      name: '',
+      isAsset: true,
+    },
   };
 
   validateFields = () => {
-    const { amount } = this.state;
-    return amount && amount > 0;
+    const {
+      asset: { name },
+    } = this.state;
+    return name && name.length > 0;
   };
 
   handleOnPress = () => {
@@ -28,23 +50,21 @@ class EditMonthItemScreen extends Component {
       return error('Form is not valid');
     }
 
-    const item = this.props.navigation.getParam('item');
-    const name = item.name.toUpperCase();
-    const { amount } = this.state;
+    const { asset } = this.state;
+    const title = this.props.navigation.getParam('title');
+    const isAsset = title === 'ASSET';
 
     this.props
-      .updateNetWorthItem({
-        item: {
-          ...item,
-          amount,
-        },
+      .createAssetLiability({
+        name: asset.name,
+        isAsset,
       })
       .then(() => {
         this.goBack();
-        notice(`${name} SAVED`);
+        notice(`${title} SAVED`);
       })
       .catch(() => {
-        error(`COULD NOT SAVE ${name}`);
+        error(`COULD NOT CREATE ${title}`);
       })
       .then(() => {
         this.setState({ loading: false });
@@ -52,8 +72,7 @@ class EditMonthItemScreen extends Component {
   };
 
   render() {
-    const item = this.props.navigation.getParam('item');
-    const { amount = item.amount, loading } = this.state;
+    const { asset, loading } = this.state;
     const valid = this.validateFields();
 
     return (
@@ -63,11 +82,16 @@ class EditMonthItemScreen extends Component {
       >
         <StatusBar barStyle="dark-content" />
         <FieldContainer position="first">
-          <MoneyInput
-            title="Item Amount"
-            displayAmount={amount}
-            defaultValue={(amount * 100).toFixed()}
-            onChange={amount => this.setState({ amount })}
+          <TextInput
+            style={{ height: 50 }}
+            placeholder="Name"
+            defaultValue={asset.name}
+            returnKeyType="done"
+            onSubmitEditing={this.handleOnPress}
+            underlineColorAndroid={'transparent'}
+            onChangeText={name =>
+              this.setState({ asset: { ...this.state.asset, name } })
+            }
           />
         </FieldContainer>
 
@@ -96,4 +120,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditMonthItemScreen;
+export default NewAssetLiabilityScreen;

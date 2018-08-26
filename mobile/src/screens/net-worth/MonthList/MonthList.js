@@ -1,16 +1,53 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Card, { SplitBackground } from 'components/Card';
-import { reduceSum } from 'utils/helpers';
 import colors from 'utils/colors';
 import GroupList from 'components/GroupList';
 import { PrimaryButton } from 'forms';
+import { Bold } from 'components/Text';
+import { groupBy } from 'lodash';
+import { reduceSum } from 'utils/helpers';
+import { notice, error } from 'notify';
 
 class MonthList extends Component {
+  items = () => {
+    const pm = this.props.navigation.getParam('month');
+    const month = this.props.months.find(
+      m => m.year === pm.year && m.month === pm.month,
+    );
+
+    const { true: assets = [], false: liabilities = [] } = groupBy(
+      month.items,
+      'isAsset',
+    );
+
+    return { assets, liabilities };
+  };
+
+  deleteItem = item => {
+    this.setState({ loading: true });
+    const name = item.name.toUpperCase();
+
+    this.props
+      .deleteNetWorthItem({ item })
+      .then(() => {
+        notice(`DELETED ${name}`);
+      })
+      .catch(() => {
+        error(`COULD NOT DELETE ${name}`);
+      })
+      .then(() => {
+        this.setState({ loading: false });
+      });
+  };
+
   renderHeader = () => {
-    const { month, year } = this.props.navigation.state.params;
-    const totalAssets = reduceSum(month.assets);
-    const totalLiabilities = reduceSum(month.liabilities);
+    const month = this.props.navigation.getParam('month');
+    const year = this.props.navigation.getParam('year');
+
+    const { assets, liabilities } = this.items();
+    const totalAssets = reduceSum(assets);
+    const totalLiabilities = reduceSum(liabilities);
     const netWorth = totalAssets - totalLiabilities;
 
     return (
@@ -31,19 +68,20 @@ class MonthList extends Component {
   renderSectionHeader = ({ section }) => {
     return (
       <View style={styles.header}>
-        <Text style={styles.headerText}>{section.title.toUpperCase()}</Text>
+        <Bold style={styles.headerText}>{section.title.toUpperCase()}</Bold>
       </View>
     );
   };
 
   renderSectionFooter = ({ section }) => {
     const options = {
-      Assets: ['House', '401k', 'IRA'],
-      Liabilities: ['Mortgage'],
+      Assets: this.props.assets,
+      Liabilities: this.props.liabilities,
     }[section.title]
-      .filter(o => !section.data.map(o => o.name).includes(o))
-      .map(o => ({ label: o, value: o }));
+      .filter(o => !section.data.map(o => o.assetId).includes(o.id))
+      .map(o => ({ label: o.name, value: o.id }));
 
+    const { year, month } = this.props.navigation.getParam('month');
     const title = section.title === 'Assets' ? 'Asset' : 'Liability';
     return (
       <PrimaryButton
@@ -54,22 +92,34 @@ class MonthList extends Component {
             section,
             title,
             options,
+            year,
+            month,
           });
         }}
       />
     );
   };
 
-  deleteItem = item => {
-    // eslint-disable-next-line
-    console.log(item);
-  };
-
   render() {
-    const { month } = this.props.navigation.state.params;
+    const { assets, liabilities } = this.items();
     const sectionData = [
-      { title: 'Assets', color: colors.success, data: month.assets },
-      { title: 'Liabilities', color: colors.error, data: month.liabilities },
+      {
+        title: 'Assets',
+        color: colors.success,
+        data: assets.map(a => {
+          const name = this.props.assets.find(as => as.id === a.assetId).name;
+          return { ...a, name };
+        }),
+      },
+      {
+        title: 'Liabilities',
+        color: colors.error,
+        data: liabilities.map(l => {
+          const name = this.props.liabilities.find(as => as.id === l.assetId)
+            .name;
+          return { ...l, name };
+        }),
+      },
     ];
 
     return (
@@ -85,7 +135,6 @@ class MonthList extends Component {
           });
         }}
         onDelete={this.deleteItem}
-        // renderEmptyComponent={this.empty}
       />
     );
   }
