@@ -2,6 +2,8 @@ package models
 
 import (
 	"time"
+
+	"github.com/dillonhafer/coke/models"
 )
 
 // NetWorth db model
@@ -18,8 +20,8 @@ type NetWorth struct {
 // NetWorths db model
 type NetWorths []NetWorth
 
-// CreateYearTemplates create 12 months of net worths
-func (nw *NetWorths) CreateYearTemplates(userID, year int) {
+func (nw *NetWorths) createYearTemplates(userID, year int) {
+
 	for m := 1; m <= 12; m++ {
 		month := NetWorth{
 			UserID: userID,
@@ -28,5 +30,14 @@ func (nw *NetWorths) CreateYearTemplates(userID, year int) {
 		}
 		DB.Create(&month)
 		*nw = append(*nw, month)
+	}
+}
+
+// FindOrCreateYearTemplates finds or creates 12 months of net worths
+func (nw *NetWorths) FindOrCreateYearTemplates(userID, year int) {
+	models.DB.Where("user_id = ? and year = ?", userID, year).All(&nw)
+
+	if len(*nw) == 0 {
+		nw.createYearTemplates(userID, year)
 	}
 }

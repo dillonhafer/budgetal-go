@@ -29,11 +29,7 @@ func NetWorthsIndex(c buffalo.Context, currentUser *models.User) error {
 
 	// // Net Worth Items
 	months := models.NetWorths{}
-	models.DB.Where("user_id = ? and year = ?", currentUser.ID, year).All(&months)
-
-	if len(months) == 0 {
-		months.CreateYearTemplates(currentUser.ID, year)
-	}
+	months.FindOrCreateYearTemplates(currentUser.ID, year)
 
 	response := map[string]interface{}{
 		"assets":      assets,
