@@ -25,6 +25,7 @@ func AssetsLiabilitiesCreate(c buffalo.Context, currentUser *models.User) error 
 	return c.Render(200, r.JSON(map[string]*models.AssetLiability{"assetLiability": item}))
 }
 
+// AssetsLiabilitiesUpdate updates an AssetLiability
 func AssetsLiabilitiesUpdate(c buffalo.Context, currentUser *models.User) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -52,6 +53,7 @@ func AssetsLiabilitiesUpdate(c buffalo.Context, currentUser *models.User) error 
 	return c.Render(200, r.JSON(map[string]*models.AssetLiability{"assetLiability": item}))
 }
 
+// AssetsLiabilitiesDelete deletes an AssetLiability and its items
 func AssetsLiabilitiesDelete(c buffalo.Context, currentUser *models.User) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -82,8 +84,8 @@ func AssetsLiabilitiesDelete(c buffalo.Context, currentUser *models.User) error 
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
 
-func findAssetLiability(id, user_id int) (*models.AssetLiability, error) {
+func findAssetLiability(id, userID int) (*models.AssetLiability, error) {
 	al := models.AssetLiability{}
-	err := models.DB.Where("user_id = ? and id = ?", user_id, id).First(&al)
+	err := models.DB.Where("user_id = ? and id = ?", userID, id).First(&al)
 	return &al, err
 }
