@@ -12,6 +12,7 @@ import Carousel from 'react-native-snap-carousel';
 import Card, { SplitBackground } from 'components/Card';
 import { reduceSum } from 'utils/helpers';
 import { groupBy } from 'lodash';
+import { notice, error } from 'notify';
 
 const { width: ScreenWidth } = Dimensions.get('window');
 
@@ -127,6 +128,23 @@ class NetWorthScreen extends PureComponent {
     );
   };
 
+  deleteAssetLiability = item => {
+    this.setState({ loading: true });
+    const name = item.name.toUpperCase();
+
+    this.props
+      .deleteAssetLiability(item)
+      .then(() => {
+        notice(`DELETED ${name}`);
+      })
+      .catch(() => {
+        error(`COULD NOT DELETE ${name}`);
+      })
+      .then(() => {
+        this.setState({ loading: false });
+      });
+  };
+
   render() {
     const { refreshing, loading } = this.props;
     const sectionData = [
@@ -154,9 +172,7 @@ class NetWorthScreen extends PureComponent {
           });
         }}
         deleteConfirmation={`⚠️ Are you sure?\nThis will remove all items from past records.\n⛔️ This cannot be undone.`}
-        onDelete={item => {
-          this.props.deleteAssetLiability(item);
-        }}
+        onDelete={this.deleteAssetLiability}
         ListFooterComponent={<Spin spinning={loading && !refreshing} />}
       />
     );

@@ -12,10 +12,10 @@ import {
 
 export const createAssetLiability = asset => dispatch =>
   new Promise((resolve, reject) =>
-    CreateAssetRequest({ asset })
+    CreateAssetRequest(asset)
       .then(resp => {
         if (resp.ok) {
-          resolve(dispatch(assetAdded(resp.asset)));
+          resolve(dispatch(assetAdded(resp.assetLiability)));
         } else {
           reject(resp.error);
         }
@@ -27,10 +27,10 @@ export const createAssetLiability = asset => dispatch =>
 
 export const updateAssetLiability = asset => dispatch =>
   new Promise((resolve, reject) =>
-    UpdateAssetRequest({ asset })
+    UpdateAssetRequest(asset)
       .then(resp => {
         if (resp.ok) {
-          resolve(dispatch(assetUpdated(resp.asset)));
+          resolve(dispatch(assetUpdated(resp.assetLiability)));
         } else {
           reject(resp.error);
         }
@@ -45,7 +45,7 @@ export const deleteAssetLiability = asset => dispatch =>
     DeleteAssetRequest(asset.id)
       .then(resp => {
         if (resp.ok) {
-          resolve(dispatch(assetDeleted(resp.asset)));
+          resolve(dispatch(assetDeleted(asset)));
         } else {
           reject(resp.error);
         }
