@@ -76,8 +76,22 @@ func (as *ActionSuite) Test_AssetsLiabilities_Delete_Works() {
 	}
 	models.DB.Create(al)
 
+	nw := &models.NetWorth{
+		Month:  1,
+		Year:   2018,
+		UserID: user.ID,
+	}
+	models.DB.Create(nw)
+	models.DB.Create(&models.NetWorthItem{
+		NetWorthID:       nw.ID,
+		AssetLiabilityID: al.ID,
+		Amount:           json.Number("100.00"),
+	})
+
 	// Expect there to be an asset
-	count, _ := models.DB.Count(models.AssetLiability{})
+	count, _ := models.DB.Count(models.NetWorthItem{})
+	as.Equal(1, count)
+	count, _ = models.DB.Count(models.AssetLiability{})
 	as.Equal(1, count)
 
 	// Update Asset
@@ -91,6 +105,8 @@ func (as *ActionSuite) Test_AssetsLiabilities_Delete_Works() {
 
 	// Expect there to be an asset
 	count, _ = models.DB.Count(models.AssetLiability{})
+	as.Equal(0, count)
+	count, _ = models.DB.Count(models.NetWorthItem{})
 	as.Equal(0, count)
 }
 

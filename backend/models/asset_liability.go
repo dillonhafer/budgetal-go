@@ -2,6 +2,10 @@ package models
 
 import (
 	"time"
+
+	"github.com/fatih/color"
+	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/pop"
 )
 
 // AssetLiability is a db model
@@ -40,4 +44,16 @@ func (als *AssetsLiabilities) Partition() (AssetsLiabilities, AssetsLiabilities)
 		}
 	}
 	return assets, liabilities
+}
+
+// DestroyAllNetWorthItems deletes all child records
+func (al *AssetLiability) DestroyAllNetWorthItems(tx *pop.Connection, logger buffalo.Logger) error {
+	query := `
+		delete from net_worth_items
+		where asset_liability_id = :id
+	  `
+	logger.Debug(color.YellowString(query))
+
+	_, err := tx.Store.NamedExec(query, al)
+	return err
 }

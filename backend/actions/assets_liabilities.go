@@ -5,6 +5,7 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/pop"
 )
 
 // AssetsLiabilitiesCreate creates an AssetLiability
@@ -62,11 +63,21 @@ func AssetsLiabilitiesDelete(c buffalo.Context, currentUser *models.User) error 
 		return c.Render(403, r.JSON("Permission Denied"))
 	}
 
-	deleteErr := models.DB.Destroy(item)
-	if deleteErr != nil {
-		err := map[string]string{"error": "Item is invalid"}
-		return c.Render(422, r.JSON(err))
-	}
+	// delete assets/liabilities (transactionally)
+	models.DB.Transaction(func(tx *pop.Connection) error {
+		expenseDeleteErrors := item.DestroyAllNetWorthItems(tx, c.Logger())
+		if expenseDeleteErrors != nil {
+			return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+		}
+
+		// delete item
+		deleteErr := tx.Destroy(item)
+		if deleteErr != nil {
+			return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+		}
+
+		return nil
+	})
 
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }
