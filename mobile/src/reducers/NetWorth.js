@@ -87,7 +87,9 @@ export default function netWorthState(state = initialState, action) {
         ...state,
         months: state.months.map(m => ({
           ...m,
-          items: m.items.map(i => (i.id === action.item.id ? action.item : i)),
+          items: m.items.map(
+            i => (i.id === action.item.id ? { ...i, ...action.item } : i),
+          ),
         })),
       };
     case NET_WORTH_ITEM_DELETED:

@@ -27,7 +27,7 @@ export const createNetWorthItem = ({ year, month, item }) => dispatch =>
 
 export const updateNetWorthItem = ({ item }) => dispatch =>
   new Promise((resolve, reject) =>
-    UpdateItemRequest({ item })
+    UpdateItemRequest(item)
       .then(resp => {
         if (resp.ok) {
           resolve(dispatch(netWorthItemUpdated(resp.item)));
