@@ -5,27 +5,27 @@ import (
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/pop"
 )
 
 // NetWorthItemsCreate creates a Net worth item
 func NetWorthItemsCreate(c buffalo.Context, currentUser *models.User) error {
-	item := &models.AssetLiability{}
+	item := &models.NetWorthItem{}
 	if err := c.Bind(item); err != nil {
 		return err
 	}
-	item.UserID = currentUser.ID
 
-	createError := models.DB.Create(item)
-	if createError != nil {
-		err := map[string]string{"error": "Item is invalid"}
-		return c.Render(422, r.JSON(err))
-	}
+	// item.AssetLiabilityID = currentUser.ID
 
-	return c.Render(200, r.JSON(map[string]*models.AssetLiability{"assetLiability": item}))
+	// createError := models.DB.Create(item)
+	// if createError != nil {
+	// 	err := map[string]string{"error": "Item is invalid"}
+	// 	return c.Render(422, r.JSON(err))
+	// }
+
+	return c.Render(200, r.JSON(map[string]*models.NetWorthItem{"item": item}))
 }
 
-// NetWorthItemsUpdate updates an AssetLiability
+// NetWorthItemsUpdate updates a Net worth item
 func NetWorthItemsUpdate(c buffalo.Context, currentUser *models.User) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -53,33 +53,23 @@ func NetWorthItemsUpdate(c buffalo.Context, currentUser *models.User) error {
 	return c.Render(200, r.JSON(map[string]*models.NetWorthItem{"item": item}))
 }
 
-// NetWorthItemsDelete deletes an AssetLiability and its items
+// NetWorthItemsDelete deletes a Net worth item
 func NetWorthItemsDelete(c buffalo.Context, currentUser *models.User) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.Render(404, r.JSON("Not Found"))
 	}
 
-	item, err := findAssetLiability(id, currentUser.ID)
+	item, err := findNetWorthItem(id, currentUser.ID)
 	if err != nil {
 		return c.Render(403, r.JSON("Permission Denied"))
 	}
 
-	// delete assets/liabilities (transactionally)
-	models.DB.Transaction(func(tx *pop.Connection) error {
-		expenseDeleteErrors := item.DestroyAllNetWorthItems(tx, c.Logger())
-		if expenseDeleteErrors != nil {
-			return c.Render(422, r.JSON(map[string]bool{"ok": false}))
-		}
-
-		// delete item
-		deleteErr := tx.Destroy(item)
-		if deleteErr != nil {
-			return c.Render(422, r.JSON(map[string]bool{"ok": false}))
-		}
-
-		return nil
-	})
+	// delete item
+	deleteErr := models.DB.Destroy(item)
+	if deleteErr != nil {
+		return c.Render(422, r.JSON(map[string]bool{"ok": false}))
+	}
 
 	return c.Render(200, r.JSON(map[string]bool{"ok": true}))
 }

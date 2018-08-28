@@ -42,7 +42,7 @@ export const updateNetWorthItem = ({ item }) => dispatch =>
 
 export const deleteNetWorthItem = ({ item }) => dispatch =>
   new Promise((resolve, reject) =>
-    DeleteItemRequest({ item })
+    DeleteItemRequest(item.id)
       .then(resp => {
         if (resp.ok) {
           resolve(dispatch(netWorthItemDeleted(item)));

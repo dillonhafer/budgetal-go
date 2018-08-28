@@ -18,7 +18,7 @@ func (as *ModelSuite) Test_NetWorthItem_Json() {
 
 	as.Contains(netWorth, `"id":1`)
 	as.Contains(netWorth, `"netWorthId":2`)
-	as.Contains(netWorth, `"assetLiabilityId":3`)
+	as.Contains(netWorth, `"assetId":3`)
 	as.Contains(netWorth, `"amount":34.32`)
 }
 
