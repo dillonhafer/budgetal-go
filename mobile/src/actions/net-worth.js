@@ -6,11 +6,18 @@ import {
 } from 'redux-constants/action-types';
 
 export const netWorthLoaded = ({ assets, liabilities, months }) => {
+  const assetIds = assets.map(a => a.id);
   return {
     type: NET_WORTH_YEAR_LOADED,
     assets,
     liabilities,
-    months,
+    months: months.map(m => ({
+      ...m,
+      items: m.items.map(i => ({
+        ...i,
+        isAsset: assetIds.includes(i.assetId),
+      })),
+    })),
   };
 };
 
