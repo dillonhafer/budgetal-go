@@ -9,7 +9,7 @@ import (
 type NetWorthItem struct {
 	ID               int         `json:"id" db:"id"`
 	NetWorthID       int         `json:"netWorthId" db:"net_worth_id"`
-	AssetLiabilityID int         `json:"assetLiabilityId" db:"asset_liability_id"`
+	AssetLiabilityID int         `json:"assetId" db:"asset_liability_id"`
 	Amount           json.Number `json:"amount" db:"amount"`
 	CreatedAt        time.Time   `json:"-" db:"created_at"`
 	UpdatedAt        time.Time   `json:"-" db:"updated_at"`

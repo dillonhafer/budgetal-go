@@ -12,7 +12,7 @@ type NetWorth struct {
 	UserID    int           `json:"userId" db:"user_id"`
 	Year      int           `json:"year" db:"year"`
 	Month     int           `json:"month" db:"month"`
-	Items     NetWorthItems `json:"items" has_many:"net_worth_items"`
+	Items     NetWorthItems `json:"items" fk_id:"net_worth_id" has_many:"net_worth_items"`
 	CreatedAt time.Time     `json:"-" db:"created_at"`
 	UpdatedAt time.Time     `json:"-" db:"updated_at"`
 }
@@ -35,7 +35,9 @@ func (nw *NetWorths) createYearTemplates(userID, year int) {
 
 // FindOrCreateYearTemplates finds or creates 12 months of net worths
 func (nw *NetWorths) FindOrCreateYearTemplates(userID, year int) {
-	models.DB.Where("user_id = ? and year = ?", userID, year).All(&nw)
+	*nw = nil
+	models.DB.Where("user_id = ? and year = ?", userID, year).All(nw)
+	models.DB.Load(nw, "Items")
 
 	if len(*nw) == 0 {
 		nw.createYearTemplates(userID, year)
