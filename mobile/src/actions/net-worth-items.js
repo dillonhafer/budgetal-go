@@ -15,7 +15,14 @@ export const createNetWorthItem = ({ year, month, item }) => dispatch =>
     CreateItemRequest({ year, month, item })
       .then(resp => {
         if (resp.ok) {
-          resolve(dispatch(netWorthItemAdded(year, month, resp.item)));
+          resolve(
+            dispatch(
+              netWorthItemAdded(year, month, {
+                ...resp.item,
+                isAsset: item.isAsset,
+              }),
+            ),
+          );
         } else {
           reject(resp.error);
         }

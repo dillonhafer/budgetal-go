@@ -9,18 +9,37 @@ import (
 
 // NetWorthItemsCreate creates a Net worth item
 func NetWorthItemsCreate(c buffalo.Context, currentUser *models.User) error {
+	year, err := strconv.Atoi(c.Param("year"))
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+	month, err := strconv.Atoi(c.Param("month"))
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
 	item := &models.NetWorthItem{}
 	if err := c.Bind(item); err != nil {
 		return err
 	}
 
-	// item.AssetLiabilityID = currentUser.ID
+	// Find NetWorth
+	nw := models.NetWorth{}
+	models.DB.Where("year = ? and month = ? and user_id = ?", year, month, currentUser.ID).First(&nw)
 
-	// createError := models.DB.Create(item)
-	// if createError != nil {
-	// 	err := map[string]string{"error": "Item is invalid"}
-	// 	return c.Render(422, r.JSON(err))
-	// }
+	// Find Asset
+	al := models.AssetLiability{}
+	models.DB.Where("id = ? and user_id = ?", item.AssetLiabilityID, currentUser.ID).First(&al)
+
+	// Set Approved Foreign Keys
+	item.NetWorthID = nw.ID
+	item.AssetLiabilityID = al.ID
+
+	createError := models.DB.Create(item)
+	if createError != nil {
+		err := map[string]string{"error": "Item is invalid"}
+		return c.Render(422, r.JSON(err))
+	}
 
 	return c.Render(200, r.JSON(map[string]*models.NetWorthItem{"item": item}))
 }
