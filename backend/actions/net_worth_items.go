@@ -29,7 +29,11 @@ func NetWorthItemsCreate(c buffalo.Context, currentUser *models.User) error {
 
 	// Find Asset
 	al := models.AssetLiability{}
-	models.DB.Where("id = ? and user_id = ?", item.AssetLiabilityID, currentUser.ID).First(&al)
+	assetError := models.DB.Where("id = ? and user_id = ?", item.AssetLiabilityID, currentUser.ID).First(&al)
+	if assetError != nil {
+		err := map[string]string{"error": "Permission Denied"}
+		return c.Render(403, r.JSON(err))
+	}
 
 	// Set Approved Foreign Keys
 	item.NetWorthID = nw.ID
