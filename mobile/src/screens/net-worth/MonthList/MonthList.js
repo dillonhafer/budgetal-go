@@ -88,7 +88,7 @@ class MonthList extends Component {
         disabled={options.length === 0}
         title={`Add ${title}`}
         onPress={() => {
-          this.props.screenProps.layoutNavigate('NewMonthItemScreen', {
+          this.props.navigation.navigate('NewMonthItemScreen', {
             section,
             title,
             options,
@@ -130,7 +130,7 @@ class MonthList extends Component {
         renderSectionHeader={this.renderSectionHeader}
         renderSectionFooter={this.renderSectionFooter}
         onEdit={item => {
-          this.props.screenProps.layoutNavigate('EditMonthItemScreen', {
+          this.props.navigation.navigate('EditMonthItemScreen', {
             item,
           });
         }}

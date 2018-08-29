@@ -16,7 +16,7 @@ import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
 
 class EditAssetLiabilityScreen extends Component {
   goBack = () => {
-    this.props.navigation.goBack();
+    this.props.screenProps.goBack();
   };
 
   state = {

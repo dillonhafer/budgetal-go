@@ -13,12 +13,11 @@ class AssetManagementScreen extends Component {
         sections={sectionData}
         renderSectionHeader={() => <View style={{ height: 50 }} />}
         onEdit={item => {
-          this.props.screenProps.layoutNavigate('EditMonthItemScreen', {
+          this.props.navigation.navigate('EditMonthItemScreen', {
             item,
           });
         }}
         onDelete={this.deleteItem}
-        // renderEmptyComponent={this.empty}
       />
     );
   }

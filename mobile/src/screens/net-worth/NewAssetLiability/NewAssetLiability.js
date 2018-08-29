@@ -17,12 +17,13 @@ import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
 
 class NewAssetLiabilityScreen extends Component {
   static propTypes = {
+    screenProps: PropTypes.object,
     navigation: PropTypes.object,
     createAssetLiability: PropTypes.func,
   };
 
   goBack = () => {
-    this.props.navigation.goBack();
+    this.props.screenProps.goBack();
   };
 
   inputs = [];
