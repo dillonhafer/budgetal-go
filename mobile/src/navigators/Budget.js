@@ -163,7 +163,9 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       navigationOptions: ({ navigation }) => ({
         title: navigation.state.params.budgetCategory.name,
         headerTitle: (
-          <CategoryTitle name={navigation.state.params.budgetCategory.name} />
+          <CategoryTitle
+            name={navigation.state.params.budgetCategory.name.toUpperCase()}
+          />
         ),
         headerStyle,
       }),
@@ -172,7 +174,13 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       screen: BudgetItemScreen,
       path: 'budgetItems/:budgetItem',
       navigationOptions: ({ navigation }) => ({
-        title: navigation.state.params.budgetItem.name,
+        headerTitle: (
+          <HeaderText>
+            {navigation
+              .getParam('budgetItem', { name: 'ITEM' })
+              .name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
@@ -180,7 +188,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       screen: NewBudgetItemScreen,
       path: 'newBudgetItem',
       navigationOptions: () => ({
-        title: 'New Budget Item',
+        headerTitle: <HeaderText>NEW BUDGET ITEM</HeaderText>,
         headerStyle,
       }),
     },
@@ -188,7 +196,14 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       screen: EditBudgetItemScreen,
       path: 'editBudgetItem',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.budgetItem.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT{' '}
+            {navigation
+              .getParam('budgetItem', { name: 'ITEM' })
+              .name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
@@ -196,7 +211,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       screen: NewBudgetItemExpenseScreen,
       path: 'newBudgetItemExpense',
       navigationOptions: () => ({
-        title: 'New Expense',
+        headerTitle: <HeaderText>NEW EXPENSE</HeaderText>,
         headerStyle,
       }),
     },
@@ -204,7 +219,14 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       screen: EditBudgetItemExpenseScreen,
       path: 'editBudgetItemExpense',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT{' '}
+            {navigation
+              .getParam('budgetItemExpense', { name: 'EXPENSE' })
+              .name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
@@ -213,7 +235,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       path: 'importExpenses',
       navigationOptions: () => ({
         headerStyle,
-        title: 'Import Expenses',
+        headerTitle: <HeaderText>IMPORT EXPENSES</HeaderText>,
       }),
     },
   },
