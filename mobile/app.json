@@ -21,7 +21,8 @@
       "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8",
       "infoPlist": {
         "NSCameraUsageDescription": "Budgetal only uses the camera to allow you to upload a profile avatar.",
-        "NSPhotoLibraryUsageDescription": "Budgetal only uses the photo library to allow you to upload a profile avatar"
+        "NSPhotoLibraryUsageDescription": "Budgetal only uses the photo library to allow you to upload a profile avatar",
+        "NSLocationAlwaysUsageDescription": "Budgetal does not use your location. We Expo to build but we do not use the location APIs they provide."
       },
       "config": {
         "usesNonExemptEncryption": false
