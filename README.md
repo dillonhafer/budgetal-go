@@ -98,3 +98,7 @@ See [`grifts/deploy.go`](backend/grifts/deploy.go) for configuration details.
 1. Full deploy: `buffalo t deploy`
 2. Backend deploy: `buffalo t deploy:backend`
 3. Frontend deploy: `buffalo t deploy:frontend`
+
+## Migrations
+
+`./budgetal migrate`
