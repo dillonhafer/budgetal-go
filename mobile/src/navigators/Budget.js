@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { View, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from 'navigators/TabletNavigator';
@@ -18,7 +18,6 @@ import NewBudgetItemExpenseScreen from 'screens/budgets/NewBudgetItemExpense';
 import EditBudgetItemExpenseScreen from 'screens/budgets/EditBudgetItemExpense';
 import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 
-import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 import { categoryImage } from 'utils/helpers';
 import {
@@ -28,6 +27,11 @@ import {
   drawerIcon,
 } from 'utils/navigation-helpers';
 import EditIncomeModal from 'screens/budgets/EditIncomeModal';
+import {
+  BudgetalText,
+  HeaderText,
+  headerBackTitleStyle,
+} from 'components/Text';
 
 const headerStyle = {
   height: NavigationHeight,
@@ -43,9 +47,7 @@ const CategoryTitle = ({ name }) => {
       }}
     >
       <Image style={{ width: 20, height: 20 }} source={categoryImage(name)} />
-      <Text style={{ marginLeft: 5, fontSize: 17, fontWeight: '600' }}>
-        {name}
-      </Text>
+      <HeaderText style={{ marginLeft: 5 }}>{name}</HeaderText>
     </View>
   );
 };
@@ -64,12 +66,13 @@ const BudgetNavigatorStack = StackNavigator(
           new Date().getMonth() + 1;
         const budgetDate = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
 
-        const headerBackTitle = budgetDate.format('MMM');
+        const headerBackTitle = budgetDate.format('MMM').toUpperCase();
         return {
           headerRight: <EditIncomeModal />,
           gesturesEnabled: false,
-          title: 'Budgets',
+          headerTitle: <HeaderText>BUDGETS</HeaderText>,
           headerBackTitle,
+          headerBackTitleStyle,
           headerStyle,
           ...BurgerNavigationOptions,
         };
@@ -78,16 +81,16 @@ const BudgetNavigatorStack = StackNavigator(
     BudgetCategory: {
       screen: BudgetCategoryScreen,
       path: 'budgetCategories/:budgetCategory',
-      navigationOptions: ({ navigation }) => ({
-        title: 'Budget Items',
+      navigationOptions: () => ({
+        headerTitle: <HeaderText>BUDGET ITEMS</HeaderText>,
         headerStyle,
       }),
     },
     BudgetItem: {
       screen: BudgetItemScreen,
       path: 'budgetItems/:budgetItem',
-      navigationOptions: ({ navigation }) => ({
-        title: 'Expenses',
+      navigationOptions: () => ({
+        headerTitle: <HeaderText>EXPENSES</HeaderText>,
         headerStyle,
       }),
     },
@@ -95,7 +98,7 @@ const BudgetNavigatorStack = StackNavigator(
       screen: NewBudgetItemScreen,
       path: 'newBudgetItem',
       navigationOptions: () => ({
-        title: 'New Budget Item',
+        headerTitle: <HeaderText>NEW ITEM</HeaderText>,
         headerStyle,
       }),
     },
@@ -103,7 +106,11 @@ const BudgetNavigatorStack = StackNavigator(
       screen: EditBudgetItemScreen,
       path: 'editBudgetItem',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.budgetItem.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.state.params.budgetItem.name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
@@ -111,7 +118,7 @@ const BudgetNavigatorStack = StackNavigator(
       screen: NewBudgetItemExpenseScreen,
       path: 'newBudgetItemExpense',
       navigationOptions: () => ({
-        title: 'New Expense',
+        headerTitle: <HeaderText>NEW EXPENSE</HeaderText>,
         headerStyle,
       }),
     },
@@ -119,14 +126,18 @@ const BudgetNavigatorStack = StackNavigator(
       screen: EditBudgetItemExpenseScreen,
       path: 'editBudgetItemExpense',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.budgetItemExpense.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.state.params.budgetItemExpense.name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
     ImportExpenses: {
       screen: ImportExpensesScreen,
       navigationOptions: () => ({
-        title: `Import Expenses`,
+        headerTitle: <HeaderText>IMPORT EXPENSES</HeaderText>,
         headerStyle,
       }),
     },
@@ -221,7 +232,7 @@ class BudgetNavigator extends TabletNavigator {
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>BUDGETS</Text>
+      <BudgetalText style={{ color: tintColor }}>BUDGETS</BudgetalText>
     ),
     // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name

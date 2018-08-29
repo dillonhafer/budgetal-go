@@ -3,7 +3,6 @@ import {
   TextInput,
   View,
   StyleSheet,
-  Text,
   TouchableOpacity,
   Image,
 } from 'react-native';
@@ -27,8 +26,10 @@ import { validEmail } from 'utils/helpers';
 
 import { FormCard, SplitBackground } from 'components/Card';
 
+import { StoreReview } from 'expo';
 import OnePassword from 'react-native-onepassword';
 import onepasswordImage from 'images/onepassword.png';
+import { Label } from 'components/Text';
 const PASSWORD_DOMAIN = 'budgetal.com';
 
 class SignInScreen extends Component {
@@ -65,6 +66,9 @@ class SignInScreen extends Component {
       SetCurrentUser(resp.user);
       navigateHome(this.props.navigation.dispatch);
       notice('You are now signed in!');
+      setTimeout(StoreReview.requestReview, 2000);
+    } else {
+      this.setState({ loading: false });
     }
   };
 
@@ -77,8 +81,6 @@ class SignInScreen extends Component {
         error('Email/Password are invalid');
       }
     } catch (err) {
-      // console.log(err)
-    } finally {
       this.setState({ loading: false });
     }
   };
@@ -128,7 +130,7 @@ class SignInScreen extends Component {
       <SplitBackground top={colors.primary} bottom={'#fff'}>
         <FormCard>
           <View style={{ marginTop: 10 }}>
-            <Text style={styles.label}>EMAIL</Text>
+            <Label style={styles.label}>EMAIL</Label>
             <View
               style={{
                 flexDirection: 'row',
@@ -167,7 +169,7 @@ class SignInScreen extends Component {
                 </TouchableOpacity>
               )}
             </View>
-            <Text style={styles.label}>PASSWORD</Text>
+            <Label style={styles.label}>PASSWORD</Label>
             <View
               style={{
                 flexDirection: 'row',
@@ -194,7 +196,7 @@ class SignInScreen extends Component {
               style={styles.forgotPasswordButton}
               onPress={this.navForgotPassword}
             >
-              <Text style={styles.forgotPasswordText}>FORGOT PASSWORD</Text>
+              <Label style={styles.forgotPasswordText}>FORGOT PASSWORD</Label>
             </TouchableOpacity>
           </View>
         </FormCard>
@@ -236,8 +238,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, dispatch => ({
-  updateCurrentUser: user => {
-    dispatch(updateCurrentUser(user));
-  },
-}))(SignInScreen);
+export default connect(
+  null,
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  }),
+)(SignInScreen);

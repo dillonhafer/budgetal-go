@@ -1,9 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import { ButtonText } from 'components/Text';
 import colors from 'utils/colors';
 export {
   default as NavigationInputAccessoryView,
 } from './NavigationInputAccessoryView';
+
+export { default as MoneyInput } from './MoneyInput';
+export { default as OptionInput } from './OptionInput';
 
 export const PrimarySquareButton = ({ title, onPress, loading }) => {
   return (
@@ -19,7 +23,7 @@ export const PrimarySquareButton = ({ title, onPress, loading }) => {
   );
 };
 
-export const PrimaryButton = ({ title, onPress, loading }) => {
+export const PrimaryButton = ({ disabled, title, onPress, loading }) => {
   return (
     <Button
       color={colors.primary}
@@ -27,7 +31,7 @@ export const PrimaryButton = ({ title, onPress, loading }) => {
       title={title}
       titleColor={'#fff'}
       onPress={onPress}
-      loading={loading}
+      loading={loading || disabled}
     />
   );
 };
@@ -61,7 +65,7 @@ export const Button = ({
     padding: 8,
     backgroundColor,
     borderWidth: 2,
-    borderRadius: borderRadius || buttonHeight / 2,
+    borderRadius: borderRadius || buttonHeight / 4,
     borderColor: color,
     justifyContent: 'center',
     alignItems: 'center',
@@ -84,16 +88,13 @@ export const Button = ({
             justifyContent: 'center',
           }}
         >
-          <Text
+          <ButtonText
             style={{
-              textAlign: 'center',
               color: titleColor,
-              fontSize: 13,
-              fontWeight: '900',
             }}
           >
             {title.toUpperCase()}
-          </Text>
+          </ButtonText>
         </View>
       </TouchableOpacity>
     </View>

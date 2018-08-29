@@ -31,10 +31,6 @@ import Spin from 'utils/Spin';
 import Swipeout from 'react-native-swipeout';
 
 class SessionsScreen extends PureComponent {
-  static navigationOptions = () => ({
-    title: 'Sessions',
-  });
-
   state = {
     loading: false,
     refreshing: false,

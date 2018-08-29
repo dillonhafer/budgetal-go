@@ -3,7 +3,6 @@ import {
   LayoutAnimation,
   Picker,
   View,
-  Text,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -11,6 +10,7 @@ import moment from 'moment';
 import { range } from 'lodash';
 import colors from 'utils/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { Bold } from 'components/Text';
 
 class DatePicker extends Component {
   state = {
@@ -55,7 +55,7 @@ class DatePicker extends Component {
       <View style={styles.container}>
         <TouchableOpacity style={styles.dateButton} onPress={this.togglePicker}>
           <View style={styles.dateTextContainer}>
-            <Text style={styles.currentDate}>{date.format(format)}</Text>
+            <Bold style={styles.currentDate}>{date.format(format)}</Bold>
             {!this.state.showPicker && (
               <Ionicons
                 name="ios-arrow-down"
@@ -69,6 +69,7 @@ class DatePicker extends Component {
           <View style={styles.picker}>
             <Picker
               style={{ width: monthWidth }}
+              itemStyle={{ fontFamily: 'Montserrat-Medium' }}
               selectedValue={selectedMonth}
               onValueChange={itemValue =>
                 this.onValueChange({ month: itemValue, year })
@@ -79,6 +80,7 @@ class DatePicker extends Component {
             <Picker
               style={{ width: yearWidth }}
               selectedValue={`${this.state.year || year}`}
+              itemStyle={{ fontFamily: 'Montserrat-Medium' }}
               onValueChange={itemValue =>
                 this.onValueChange({ year: itemValue, month })
               }

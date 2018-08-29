@@ -3,6 +3,7 @@ import colors from 'utils/colors';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { currencyf } from 'utils/helpers';
+import { Medium, Bold } from 'components/Text';
 
 class Card extends PureComponent {
   render() {
@@ -14,13 +15,17 @@ class Card extends PureComponent {
       image,
       color,
       light,
+      marginHorizontal = 20,
+      decimal = 2,
+      spentLabel = 'Spent',
+      remainingLabel = 'Remaining',
     } = this.props;
 
     const themeStyles = light ? lightStyles : darkStyles;
     const backgroundColor = color || colors.primary;
 
     return (
-      <View style={[styles.container, { backgroundColor }]}>
+      <View style={[styles.container, { marginHorizontal, backgroundColor }]}>
         <View style={{ flexDirection: 'row' }}>
           {image && (
             <View>
@@ -28,14 +33,14 @@ class Card extends PureComponent {
             </View>
           )}
           <View style={{ flex: 1 }}>
-            <Text style={themeStyles.headerText}>{label}</Text>
-            <Text
+            <Medium style={themeStyles.headerText}>{label}</Medium>
+            <Medium
               style={themeStyles.headerValueText}
               adjustsFontSizeToFit={true}
               numberOfLines={1}
             >
-              {currencyf(budgeted)}
-            </Text>
+              {currencyf(budgeted, '$', decimal)}
+            </Medium>
           </View>
         </View>
         <View style={styles.secondaryRow}>
@@ -49,14 +54,14 @@ class Card extends PureComponent {
                 />
               </View>
               <View>
-                <Text style={themeStyles.secondaryLabel}>Spent</Text>
-                <Text
+                <Medium style={themeStyles.secondaryLabel}>{spentLabel}</Medium>
+                <Medium
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}
                   style={themeStyles.secondaryValue}
                 >
-                  {currencyf(spent)}
-                </Text>
+                  {currencyf(spent, '$', decimal)}
+                </Medium>
               </View>
             </View>
           </View>
@@ -70,34 +75,40 @@ class Card extends PureComponent {
                 />
               </View>
               <View style={{ paddingRight: 25 }}>
-                <Text style={themeStyles.secondaryLabel}>Remaining</Text>
-                <Text
+                <Medium style={themeStyles.secondaryLabel}>
+                  {remainingLabel}
+                </Medium>
+                <Medium
                   adjustsFontSizeToFit={true}
                   numberOfLines={1}
                   style={themeStyles.secondaryValue}
                 >
-                  {currencyf(remaining)}
-                </Text>
+                  {currencyf(remaining, undefined, decimal)}
+                </Medium>
               </View>
             </View>
           </View>
         </View>
-        <View style={{ marginTop: 10 }}>{this.props.children}</View>
+        <View style={{ marginTop: this.props.children ? 10 : 0 }}>
+          {this.props.children}
+        </View>
       </View>
     );
   }
 }
 
+const borderRadius = 12;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
-    borderRadius: 6,
+    borderRadius,
     padding: 20,
     marginVertical: 10,
     marginHorizontal: 20,
-    shadowOffset: { width: 0, height: 5 },
+    shadowOffset: { wdth: 0, height: 5 },
     shadowColor: '#aaa',
     shadowOpacity: 0.6,
+    justifyContent: 'space-between',
   },
   secondaryRow: {
     flexDirection: 'row',

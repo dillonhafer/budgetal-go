@@ -1,6 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import {
+  BudgetalText,
+  HeaderText,
+  headerBackTitleStyle,
+} from 'components/Text';
 
 import TabletNavigator from 'navigators/TabletNavigator';
 
@@ -33,9 +38,10 @@ const AnnualBudgetNavigatorStack = StackNavigator(
 
         return {
           gesturesEnabled: false,
-          title: `Annual Budgets`,
+          headerTitle: <HeaderText>ANNUAL BUDGETS</HeaderText>,
           headerBackTitle: `${year}`,
           headerStyle,
+          headerBackTitleStyle,
           ...BurgerNavigationOptions,
         };
       },
@@ -44,7 +50,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       screen: AnnualBudgetItemProgressScreen,
       path: 'annual-budgets/:budgetItem',
       navigationOptions: () => ({
-        title: 'Progress',
+        headerTitle: <HeaderText>PROGRESS</HeaderText>,
         headerStyle,
       }),
     },
@@ -52,7 +58,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       screen: NewAnnualBudgetItemScreen,
       path: 'newAnnualBudgetItem',
       navigationOptions: () => ({
-        title: 'New Annual Item',
+        headerTitle: <HeaderText>NEW ANNUAL ITEM</HeaderText>,
         headerStyle,
       }),
     },
@@ -60,7 +66,11 @@ const AnnualBudgetNavigatorStack = StackNavigator(
       screen: EditAnnualBudgetItemScreen,
       path: 'editAnnualBudgetItem',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.annualBudgetItem.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.state.params.annualBudgetItem.name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
@@ -84,7 +94,7 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
       screen: AnnualBudgetItemProgressScreen,
       path: 'annual-budgets/:budgetItem',
       navigationOptions: () => ({
-        title: 'Progress',
+        headerTitle: <HeaderText>PROGRESS</HeaderText>,
         headerStyle,
       }),
     },
@@ -92,7 +102,7 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
       screen: NewAnnualBudgetItemScreen,
       path: 'newAnnualBudgetItem',
       navigationOptions: () => ({
-        title: 'New Annual Item',
+        headerTitle: <HeaderText>NEW ANNUAL ITEM</HeaderText>,
         headerStyle,
       }),
     },
@@ -100,7 +110,11 @@ const AnnualBudgetSidebarNavigatorStack = StackNavigator(
       screen: EditAnnualBudgetItemScreen,
       path: 'editAnnualBudgetItem',
       navigationOptions: ({ navigation }) => ({
-        title: `Edit ${navigation.state.params.annualBudgetItem.name}`,
+        headerTitle: (
+          <HeaderText>
+            EDIT {navigation.state.params.annualBudgetItem.name.toUpperCase()}
+          </HeaderText>
+        ),
         headerStyle,
       }),
     },
@@ -115,9 +129,7 @@ class AnnualBudgetNavigator extends TabletNavigator {
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>
-        ANNUAL BUDGETS
-      </Text>
+      <BudgetalText style={{ color: tintColor }}>ANNUAL BUDGETS</BudgetalText>
     ),
     // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name

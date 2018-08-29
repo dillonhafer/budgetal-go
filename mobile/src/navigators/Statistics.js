@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { BudgetalText, HeaderText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
 
@@ -26,7 +26,10 @@ const AccountNavigatorStack = StackNavigator(
   {
     Statistics: {
       screen: StatisticsScreen,
-      navigationOptions: { headerStyle },
+      navigationOptions: {
+        headerStyle,
+        headerTitle: <HeaderText>STATISTICS</HeaderText>,
+      },
     },
   },
   {
@@ -48,7 +51,7 @@ const StatisticsSidebarNavigatorStack = StackNavigator(
       navigationOptions: () => {
         return {
           headerStyle: sidebarHeaderStyle,
-          title: `Chart View`,
+          headerTitle: <HeaderText>CHART VIEW</HeaderText>,
         };
       },
     },
@@ -63,7 +66,7 @@ class StatisticsNavigator extends TabletNavigator {
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>STATISTICS</Text>
+      <BudgetalText style={{ color: tintColor }}>STATISTICS</BudgetalText>
     ),
     drawerIcon: drawerIcon('md-stats'),
   };

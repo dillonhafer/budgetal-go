@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { BudgetalText } from 'components/Text';
 
 class DrawerItem extends PureComponent {
   render() {
@@ -22,7 +23,7 @@ class DrawerItem extends PureComponent {
             />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.labelText}>{label}</Text>
+            <BudgetalText style={styles.labelText}>{label}</BudgetalText>
           </View>
         </View>
       </TouchableOpacity>
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
   },
   labelText: {
     color: '#fff',
-    fontWeight: 'bold',
   },
 });
 

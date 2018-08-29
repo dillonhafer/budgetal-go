@@ -7,7 +7,7 @@ export const validEmail = email => {
 };
 
 export const percentSpent = (budgeted, spent) => {
-  const p = spent / budgeted * 100;
+  const p = (spent / budgeted) * 100;
   if (p > 99.99) {
     return 100;
   }
@@ -30,13 +30,14 @@ export const reduceSum = (array, property = 'amount') => {
   );
 };
 
-export const currencyf = (number, dollarSign = '$') => {
+export const currencyf = (number, dollarSign = '$', fixed = 2) => {
   if (isNaN(parseFloat(number))) {
     number = 0;
   }
   const group3Regex = /(\d)(?=(\d{3})+\.)/g;
   const newNumber = parseFloat(number).toFixed(2);
-  return dollarSign + newNumber.replace(group3Regex, '$1,');
+  const str = dollarSign + newNumber.replace(group3Regex, '$1,');
+  return fixed > 0 ? str : str.slice(0, -3);
 };
 
 export const humanUA = userAgent => {

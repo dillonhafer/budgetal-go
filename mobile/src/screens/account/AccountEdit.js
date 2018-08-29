@@ -29,10 +29,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Modal from 'react-native-modalbox';
 
 class AccountEditScreen extends Component {
-  static navigationOptions = {
-    title: 'Account Edit',
-  };
-
   inputs = [];
 
   state = {

@@ -7,9 +7,10 @@ import queryString from 'utils/queryString';
 // Redux
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import reducers from 'reducers';
 import apiMiddleware from 'api/middleware';
-const store = createStore(reducers, {}, applyMiddleware(apiMiddleware));
+const store = createStore(reducers, applyMiddleware(thunk, apiMiddleware));
 
 // App
 import colors from 'utils/colors';
@@ -120,6 +121,16 @@ export default class App extends Component {
       Ionicons.font,
       MaterialCommunityIcons.font,
       Feather.font,
+      { 'Montserrat-Bold': require('fonts/Montserrat-Bold.ttf') },
+      { 'Montserrat-ExtraBold': require('fonts/Montserrat-ExtraBold.ttf') },
+      { 'Montserrat-ExtraLight': require('fonts/Montserrat-ExtraLight.ttf') },
+      { 'Montserrat-Italic': require('fonts/Montserrat-Italic.ttf') },
+      { 'Montserrat-Light': require('fonts/Montserrat-Light.ttf') },
+      { 'Montserrat-Medium': require('fonts/Montserrat-Medium.ttf') },
+      {
+        'Montserrat-MediumItalic': require('fonts/Montserrat-MediumItalic.ttf'),
+      },
+      { 'Montserrat-Regular': require('fonts/Montserrat-Regular.ttf') },
     ]);
     await Promise.all([...imageAssets, ...fontAssets]);
   }

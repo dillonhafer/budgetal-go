@@ -133,6 +133,19 @@ func App() *buffalo.App {
 		app.DELETE("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesDelete))
 		// Autocomplete
 		app.GET("/past-expenses/{name}", WithCurrentUser(PastExpenses))
+
+		// Net Worth
+		app.GET("/net-worths/{year}", WithCurrentUser(NetWorthsIndex))
+
+		// Net Worth Items
+		app.POST("/net-worths/{year}/{month}/net-worth-items", WithCurrentUser(NetWorthItemsCreate))
+		app.PATCH("/net-worth-items/{id}", WithCurrentUser(NetWorthItemsUpdate))
+		app.DELETE("/net-worth-items/{id}", WithCurrentUser(NetWorthItemsDelete))
+
+		// Assets and Liabilities
+		app.POST("/assets-liabilities", WithCurrentUser(AssetsLiabilitiesCreate))
+		app.PATCH("/assets-liabilities/{id}", WithCurrentUser(AssetsLiabilitiesUpdate))
+		app.DELETE("/assets-liabilities/{id}", WithCurrentUser(AssetsLiabilitiesDelete))
 	}
 
 	return app

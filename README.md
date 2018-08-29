@@ -25,12 +25,22 @@ yarn install
 yarn start
 ```
 
+**Mobile setup**:
+
+Mobile is an [Expo](https://expo.io) app
+
+```
+cd mobile
+yarn install
+yarn start
+```
+
 **iTerm automation**
 
 If you are using iTerm and/or Visual Studio Code, there is a Task/AppleScript to start all
 the servers for you. Simply run the task `budgetal-servers`
 
-You can manually run the AppleScript with the following (if using another editor): 
+You can manually run the AppleScript with the following (if using another editor):
 
 ```sh
 #!/bin/bash

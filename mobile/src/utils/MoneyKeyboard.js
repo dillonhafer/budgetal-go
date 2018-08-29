@@ -10,6 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { currencyf } from 'utils/helpers';
 import colors from 'utils/colors';
+import { Medium } from 'components/Text';
 
 const KeyboardNumber = ({ number, onPress }) => {
   const isDelete = String(number).length > 2;
@@ -87,9 +88,9 @@ class MoneyKeyboard extends Component {
     return (
       <View style={keyboardStyles.container}>
         <View style={keyboardStyles.valueContainer}>
-          <Text numberOfLines={1} style={keyboardStyles.valueText}>
+          <Medium numberOfLines={1} style={keyboardStyles.valueText}>
             {this.formatNumber(displayIncome)}
-          </Text>
+          </Medium>
           <View style={keyboardStyles.submitButtonContainer}>
             {onPress && (
               <TouchableOpacity
@@ -173,7 +174,6 @@ const keyboardStyles = StyleSheet.create({
     fontSize: 26,
     padding: 10,
     fontWeight: '700',
-    fontFamily,
   },
   submitButtonContainer: {
     width: '15%',

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, TouchableHighlight } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ import moment from 'moment';
 import colors from 'utils/colors';
 
 // Components
+import { Bold, Medium, LightText } from 'components/Text';
 import Swipeout from 'react-native-swipeout';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -99,24 +100,27 @@ class AnnualBudgetItemRow extends PureComponent {
         <TouchableHighlight underlayColor={'#CCC'} onPress={this.progress}>
           <View style={styles.itemRow} key={budgetItem.id}>
             <View>
-              <Text style={styles.itemName}>{budgetItem.name}</Text>
-              <Text style={{ textAlign: 'center' }}>
+              <Bold style={styles.itemName}>{budgetItem.name}</Bold>
+              <Medium style={{ textAlign: 'center' }}>
                 In order to reach{' '}
-                <Text style={styles.boldText}>
+                <Bold style={styles.boldText}>
                   {currencyf(budgetItem.amount)}
-                </Text>
-              </Text>
-              <Text style={{ textAlign: 'center' }}>
+                </Bold>
+              </Medium>
+              <Medium style={{ textAlign: 'center' }}>
                 by{' '}
-                <Text style={styles.boldText}>
+                <Bold style={styles.boldText}>
                   {moment(budgetItem.dueDate).format('LL')}
-                </Text>
-              </Text>
-              <Text style={{ textAlign: 'center' }}>you need to save</Text>
-              <Text style={styles.boldText}>{this.month()}/month</Text>
+                </Bold>
+              </Medium>
+              <Medium style={{ textAlign: 'center' }}>you need to save</Medium>
+              <Bold style={styles.boldText}>
+                {this.month()}
+                /month
+              </Bold>
             </View>
             <View style={[styles.tag, { backgroundColor: color }]}>
-              <Text style={styles.tagText}>Paid</Text>
+              <LightText style={styles.tagText}>Paid</LightText>
             </View>
           </View>
         </TouchableHighlight>
@@ -153,8 +157,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, dispatch => ({
-  removeItem: item => {
-    dispatch(removeItem(item));
-  },
-}))(AnnualBudgetItemRow);
+export default connect(
+  null,
+  dispatch => ({
+    removeItem: item => {
+      dispatch(removeItem(item));
+    },
+  }),
+)(AnnualBudgetItemRow);
