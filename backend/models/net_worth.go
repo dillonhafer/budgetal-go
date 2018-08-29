@@ -2,8 +2,6 @@ package models
 
 import (
 	"time"
-
-	"github.com/dillonhafer/coke/models"
 )
 
 // NetWorth db model
@@ -33,14 +31,32 @@ func (nw *NetWorths) createYearTemplates(userID, year int) {
 	}
 }
 
+// LoadItems loads all net worth items in one trip to the database, avoiding n+1 issues
+func (nw *NetWorths) LoadItems() {
+	netWorthIds := make([]interface{}, len(*nw))
+	for i, n := range *nw {
+		(*nw)[i].Items = NetWorthItems{}
+		netWorthIds[i] = n.ID
+	}
+	items := &NetWorthItems{}
+	DB.Where("net_worth_id in (?)", netWorthIds...).All(items)
+	for _, item := range *items {
+		for i, netWorth := range *nw {
+			if netWorth.ID == item.NetWorthID {
+				(*nw)[i].Items = append(netWorth.Items, item)
+			}
+		}
+	}
+}
+
 // FindOrCreateYearTemplates finds or creates 12 months of net worths
 func (nw *NetWorths) FindOrCreateYearTemplates(userID, year int) {
 	*nw = nil
-	models.DB.Where("user_id = ? and year = ?", userID, year).All(nw)
+	DB.Where("user_id = ? and year = ?", userID, year).All(nw)
 
 	if len(*nw) == 0 {
 		nw.createYearTemplates(userID, year)
 	}
 
-	models.DB.Load(nw, "Items")
+	nw.LoadItems()
 }
