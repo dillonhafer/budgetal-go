@@ -37,9 +37,10 @@ func (nw *NetWorths) createYearTemplates(userID, year int) {
 func (nw *NetWorths) FindOrCreateYearTemplates(userID, year int) {
 	*nw = nil
 	models.DB.Where("user_id = ? and year = ?", userID, year).All(nw)
-	models.DB.Load(nw, "Items")
 
 	if len(*nw) == 0 {
 		nw.createYearTemplates(userID, year)
 	}
+
+	models.DB.Load(nw, "Items")
 }
