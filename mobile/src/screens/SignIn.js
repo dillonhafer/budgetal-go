@@ -20,7 +20,7 @@ import { error, notice } from 'notify';
 import { navigateHome } from 'navigators';
 
 // Components
-import { PrimarySquareButton, NavigationInputAccessoryView } from 'forms';
+import { PrimarySquareButton } from 'forms';
 import colors from 'utils/colors';
 import { validEmail } from 'utils/helpers';
 
@@ -128,85 +128,89 @@ class SignInScreen extends Component {
     const valid = this.validateFields();
     return (
       <SplitBackground top={colors.primary} bottom={'#fff'}>
-        <FormCard>
-          <View style={{ marginTop: 10 }}>
-            <Label style={styles.label}>EMAIL</Label>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <TextInput
-                keyboardType="email-address"
-                style={styles.input}
-                autoCapitalize={'none'}
-                inputAccessoryViewID={'email'}
-                underlineColorAndroid={'transparent'}
-                autoCorrect={false}
-                ref={input => {
-                  this.inputs['email'] = input;
-                }}
-                onSubmitEditing={this.focusPassword}
-                returnKeyType="next"
-                enablesReturnKeyAutomatically={true}
-                onChangeText={email => this.setState({ email })}
-              />
-              {onepassword && (
-                <TouchableOpacity onPress={this.handleOnePassword}>
-                  <Image
-                    source={onepasswordImage}
-                    style={{
-                      tintColor: colors.primary,
-                      width: 33,
-                      height: 33,
-                      paddingHorizontal: 5,
-                      marginLeft: 5,
-                      marginBottom: 10,
+        <View style={{ alignItems: 'center' }}>
+          <View style={{ width: '100%', maxWidth: 350 }}>
+            <FormCard>
+              <View style={{ marginTop: 10 }}>
+                <Label style={styles.label}>EMAIL</Label>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <TextInput
+                    keyboardType="email-address"
+                    style={styles.input}
+                    autoCapitalize={'none'}
+                    inputAccessoryViewID={'email'}
+                    underlineColorAndroid={'transparent'}
+                    autoCorrect={false}
+                    ref={input => {
+                      this.inputs['email'] = input;
                     }}
+                    onSubmitEditing={this.focusPassword}
+                    returnKeyType="next"
+                    enablesReturnKeyAutomatically={true}
+                    onChangeText={email => this.setState({ email })}
                   />
+                  {onepassword && (
+                    <TouchableOpacity onPress={this.handleOnePassword}>
+                      <Image
+                        source={onepasswordImage}
+                        style={{
+                          tintColor: colors.primary,
+                          width: 33,
+                          height: 33,
+                          paddingHorizontal: 5,
+                          marginLeft: 5,
+                          marginBottom: 10,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <Label style={styles.label}>PASSWORD</Label>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <TextInput
+                    style={styles.input}
+                    enablesReturnKeyAutomatically={true}
+                    secureTextEntry={true}
+                    autoCapitalize={'none'}
+                    inputAccessoryViewID={'password'}
+                    underlineColorAndroid={'transparent'}
+                    ref={input => {
+                      this.inputs['password'] = input;
+                    }}
+                    returnKeyType="done"
+                    onSubmitEditing={this.handleOnPress}
+                    onChangeText={password => this.setState({ password })}
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.forgotPasswordButton}
+                  onPress={this.navForgotPassword}
+                >
+                  <Label style={styles.forgotPasswordText}>
+                    FORGOT PASSWORD
+                  </Label>
                 </TouchableOpacity>
-              )}
-            </View>
-            <Label style={styles.label}>PASSWORD</Label>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <TextInput
-                style={styles.input}
-                enablesReturnKeyAutomatically={true}
-                secureTextEntry={true}
-                autoCapitalize={'none'}
-                inputAccessoryViewID={'password'}
-                underlineColorAndroid={'transparent'}
-                ref={input => {
-                  this.inputs['password'] = input;
-                }}
-                returnKeyType="done"
-                onSubmitEditing={this.handleOnPress}
-                onChangeText={password => this.setState({ password })}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.forgotPasswordButton}
-              onPress={this.navForgotPassword}
-            >
-              <Label style={styles.forgotPasswordText}>FORGOT PASSWORD</Label>
-            </TouchableOpacity>
+              </View>
+            </FormCard>
+            <PrimarySquareButton
+              onPress={this.handleOnPress}
+              loading={!valid || loading}
+              title="sign in"
+            />
           </View>
-        </FormCard>
-        <PrimarySquareButton
-          onPress={this.handleOnPress}
-          loading={!valid || loading}
-          title="sign in"
-        />
-        <NavigationInputAccessoryView input="email" next={this.focusPassword} />
-        <NavigationInputAccessoryView input="password" prev={this.focusEmail} />
+        </View>
       </SplitBackground>
     );
   }

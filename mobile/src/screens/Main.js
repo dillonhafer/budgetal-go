@@ -13,12 +13,15 @@ import colors from 'utils/colors';
 import { IsAuthenticated, GetCurrentUser } from 'utils/authentication';
 import { navigateHome } from 'navigators';
 import { Bold } from 'components/Text';
+import Device from 'utils/Device';
 
 // Redux
 import { connect } from 'react-redux';
 import { updateCurrentUser } from 'actions/users';
 
 import SignIn from './SignIn';
+
+const isTablet = Device.isTablet();
 
 const LogoSeparator = ({ keyboardVisible }) => {
   const styles = StyleSheet.create({
@@ -82,11 +85,17 @@ class MainScreen extends Component {
   }
 
   _keyboardDidShow = () => {
+    if (isTablet) {
+      return;
+    }
     LayoutAnimation.easeInEaseOut();
     this.setState({ keyboardVisible: true });
   };
 
   _keyboardDidHide = () => {
+    if (isTablet) {
+      return;
+    }
     LayoutAnimation.easeInEaseOut();
     this.setState({ keyboardVisible: false });
   };
