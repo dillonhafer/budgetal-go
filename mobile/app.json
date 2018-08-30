@@ -13,7 +13,7 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "buildNumber": "38",
+      "buildNumber": "39",
       "supportsTablet": true,
       "associatedDomains": [
         "applinks:www.budgetal.com"
@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.budgetal.app",
-      "versionCode": 38,
+      "versionCode": 39,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app"
     },
     "icon": "./app-store-assets/logo.png",
