@@ -23,7 +23,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 import { SetCurrentUser } from 'utils/authentication';
-import { ImagePicker, BlurView } from 'expo';
+import { ImagePicker, BlurView, Permissions } from 'expo';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modalbox';
@@ -166,9 +166,16 @@ class AccountEditScreen extends Component {
           <BlurView tint="dark" intensity={95} style={styles.modal}>
             <TouchableOpacity
               style={styles.modalButton}
-              onPress={() => {
-                this.hideImagePicker();
-                this.handleImage(ImagePicker.launchCameraAsync);
+              onPress={async () => {
+                const { status: cam } = await Permissions.askAsync(
+                  Permissions.CAMERA,
+                );
+                const { status: roll } = await Permissions.askAsync(
+                  Permissions.CAMERA_ROLL,
+                );
+                if (cam === 'granted' && roll === 'granted') {
+                  this.handleImage(ImagePicker.launchCameraAsync);
+                }
               }}
             >
               <MaterialCommunityIcons name="camera" size={80} color={'#fff'} />
@@ -177,10 +184,14 @@ class AccountEditScreen extends Component {
 
             <TouchableOpacity
               style={styles.modalButton}
-              onPress={() => {
-                this.hideImagePicker();
-                StatusBar.setBarStyle('dark-content', true);
-                this.handleImage(ImagePicker.launchImageLibraryAsync);
+              onPress={async () => {
+                const { status } = await Permissions.askAsync(
+                  Permissions.CAMERA_ROLL,
+                );
+                if (status === 'granted') {
+                  StatusBar.setBarStyle('dark-content', true);
+                  this.handleImage(ImagePicker.launchImageLibraryAsync);
+                }
               }}
             >
               <MaterialCommunityIcons
