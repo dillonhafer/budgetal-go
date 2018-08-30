@@ -27,6 +27,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 import Card, { FormCard, SplitBackground } from 'components/Card';
 import ListBackgroundFill from 'components/ListBackgroundFill';
+import AskForReview from 'utils/StoreReview';
 
 class BudgetsScreen extends PureComponent {
   componentDidMount() {
@@ -42,6 +43,9 @@ class BudgetsScreen extends PureComponent {
 
   loadBudget = ({ month, year }) => {
     this.props.loadBudget({ month, year });
+    if (this.props.budgetItemExpenses.length > 0) {
+      AskForReview();
+    }
   };
 
   renderCategory = ({ item: budgetCategory }) => {
@@ -112,6 +116,7 @@ class BudgetsScreen extends PureComponent {
   };
 
   componentDidUpdate() {
+
     if (
       this.props.navigation.state &&
       this.props.navigation.state.params &&

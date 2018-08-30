@@ -26,7 +26,6 @@ import { validEmail } from 'utils/helpers';
 
 import { FormCard, SplitBackground } from 'components/Card';
 
-import { StoreReview } from 'expo';
 import OnePassword from 'react-native-onepassword';
 import onepasswordImage from 'images/onepassword.png';
 import { Label } from 'components/Text';
@@ -66,7 +65,6 @@ class SignInScreen extends Component {
       SetCurrentUser(resp.user);
       navigateHome(this.props.navigation.dispatch);
       notice('You are now signed in!');
-      setTimeout(StoreReview.requestReview, 2000);
     } else {
       this.setState({ loading: false });
     }
