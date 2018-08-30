@@ -14,6 +14,8 @@ import { error, notice } from 'notify';
 
 // Components
 import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
+import Device from 'utils/Device';
+const isTablet = Device.isTablet();
 
 class NewAssetLiabilityScreen extends Component {
   static propTypes = {
@@ -23,7 +25,11 @@ class NewAssetLiabilityScreen extends Component {
   };
 
   goBack = () => {
-    this.props.screenProps.goBack();
+    if (isTablet) {
+      this.props.screenProps.goBack();
+    } else {
+      this.props.navigation.goBack();
+    }
   };
 
   inputs = [];
