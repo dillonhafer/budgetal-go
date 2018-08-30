@@ -43,19 +43,13 @@ const commitGitVersion = build => {
     abort('Failed to commit new version');
   }
 };
-const expoPublish = () => {
-  task('Running exp publish');
-  try {
-    execSync('exp publish');
-  } catch (err) {
-    abort('Failed to publish');
-  }
-};
 
 const expoBuildIos = () => {
   task('Running exp build:ios');
   try {
-    const buildOutput = execSync('exp build:ios').toString();
+    const buildOutput = execSync(
+      'exp build:ios --release-channel production',
+    ).toString();
     const url = buildOutput.match(/(https:\/\/expo\.io\/build.*)/)[0];
     info(`Open status URL: ${url}`);
     return true;
