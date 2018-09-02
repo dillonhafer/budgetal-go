@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 
 class SplitBackground extends PureComponent {
   render() {
@@ -26,9 +26,22 @@ const styles = StyleSheet.create({
   gray: {
     zIndex: 1,
     backgroundColor: '#d8dce0',
+    ...Platform.select({
+      android: {
+        marginTop: -90,
+        paddingTop: 90,
+      },
+    }),
   },
   negativeMargin: {
-    marginTop: -90,
+    ...Platform.select({
+      ios: {
+        marginTop: -90,
+      },
+      android: {
+        marginTop: -90,
+      },
+    }),
   },
 });
 
