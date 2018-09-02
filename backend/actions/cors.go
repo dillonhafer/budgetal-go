@@ -13,6 +13,18 @@ func CorsPreware() *cors.Cors {
 		AllowedOrigins:   allowedOrigins,
 		AllowCredentials: true,
 		AllowedMethods:   []string{"GET", "PUT", "PATCH", "DELETE", "POST", "OPTIONS"},
-		AllowedHeaders:   []string{"Accept", "Content-Type", AUTH_HEADER_KEY},
+		AllowedHeaders: []string{
+			"DNT",
+			"X-CustomHeader",
+			"X-Budgetal-Session",
+			"Keep-Alive",
+			"User-Agent",
+			"X-Requested-With",
+			"If-Modified-Since",
+			"Cache-Control",
+			"Accept",
+			"Content-Type",
+			AUTH_HEADER_KEY,
+		},
 	})
 }
