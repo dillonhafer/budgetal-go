@@ -60,6 +60,7 @@ func App() *buffalo.App {
 		app = buffalo.New(buffalo.Options{
 			Env:          ENV,
 			SessionStore: sessions.Null{},
+			PreWares:     []buffalo.PreWare{CorsPreware().Handler},
 		})
 
 		app.ErrorHandlers[500] = func(status int, err error, c buffalo.Context) error {
