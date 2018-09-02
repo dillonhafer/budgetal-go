@@ -55,6 +55,7 @@ class MoneyInputModal extends PureComponent {
         backdrop={false}
         backButtonClose={true}
         onClosed={this.onCancel}
+        onRequestClose={() => {}}
       >
         <BlurView tint="light" intensity={95} style={styles.modal}>
           <SafeAreaView style={styles.headerContainer}>

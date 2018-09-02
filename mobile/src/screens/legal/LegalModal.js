@@ -36,6 +36,7 @@ class LegalModal extends PureComponent {
         animationType="slide"
         transparent={false}
         visible={this.props.visible}
+        onRequestClose={() => {}}
       >
         <SafeAreaView
           style={[StyleSheet.absoluteFill, { backgroundColor: '#f9f9f9' }]}

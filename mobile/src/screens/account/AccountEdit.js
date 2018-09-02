@@ -162,6 +162,7 @@ class AccountEditScreen extends Component {
           backdrop={false}
           backButtonClose={true}
           onClosed={this.hideImagePicker}
+          onRequestClose={() => {}}
         >
           <BlurView tint="dark" intensity={95} style={styles.modal}>
             <TouchableOpacity
