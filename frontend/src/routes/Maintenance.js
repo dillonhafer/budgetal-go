@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
 import { message, Progress } from 'antd';
-import { _raw_get } from 'api';
+import { maintenanceCheck } from 'api';
 
 class Maintenance extends Component {
   state = {
@@ -19,26 +19,30 @@ class Maintenance extends Component {
     clearInterval(this.interval);
   }
 
-  checkStatus = async () => {
+  checkStatus = () => {
     const hide = message.loading('Checking status...', 0);
-    const resp = await _raw_get('/');
+    maintenanceCheck()
+      .then(r => {
+        if (r.status === 0) {
+          throw r;
+        }
 
-    if (resp.status === 503) {
-      setTimeout(() => {
-        hide();
-        message.warning('We are still in maintenance');
-        this.setState({ timer: 15 });
-        this.interval = setInterval(this.countDown, 1000);
-      }, 3000);
-    } else {
-      setTimeout(() => {
-        hide();
-        message.success('We are back online!');
         setTimeout(() => {
-          window.location = '/';
-        }, 500);
-      }, 3000);
-    }
+          hide();
+          message.success('We are back online!');
+          setTimeout(() => {
+            window.location = '/';
+          }, 500);
+        }, 3000);
+      })
+      .catch(() => {
+        setTimeout(() => {
+          hide();
+          message.warning('We are still in maintenance');
+          this.setState({ timer: 15 });
+          this.interval = setInterval(this.countDown, 1000);
+        }, 3000);
+      });
   };
 
   countDown = () => {
@@ -63,7 +67,7 @@ class Maintenance extends Component {
           <Progress
             type="circle"
             status="active"
-            percent={timer / 15 * 100}
+            percent={(timer / 15) * 100}
             format={p => `${timer}`}
           />
         </div>

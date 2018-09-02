@@ -32,10 +32,6 @@ const base = async (path, method, headers = {}, body = {}) => {
     const resp = await fetch(baseURL + path, req);
 
     switch (resp.status) {
-      case 503:
-        error('We are performing maintenance. We should be done shortly.');
-        window.location = '/maintenance';
-        return;
       case 500:
       case 404:
         error('Something went wrong');
@@ -63,7 +59,10 @@ const base = async (path, method, headers = {}, body = {}) => {
     const json = await resp.json();
     return { ...json, ok: true };
   } catch (err) {
-    error(err.error || 'Something went wrong');
+    // Most likely we encountered a CORS problem (503 on heroku)
+    error('We are performing maintenance. We should be done shortly.');
+    window.location = '/maintenance';
+    return;
   }
 };
 
@@ -83,10 +82,6 @@ export const _delete = (path, body = {}, headers = {}) => {
   return base(path, 'DELETE', headers, body);
 };
 
-export const _raw_get = (path, body = {}, headers = {}) => {
-  return fetch(baseURL + path, {
-    method: 'GET',
-    headers,
-    body,
-  });
+export const maintenanceCheck = () => {
+  return fetch(baseURL);
 };
