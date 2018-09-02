@@ -95,9 +95,8 @@ There is a built-in deploy command for deploying to an ubuntu server running ngi
 
 See [`grifts/deploy.go`](backend/grifts/deploy.go) for configuration details.
 
-1. Full deploy: `buffalo t deploy`
-2. Backend deploy: `buffalo t deploy:backend`
-3. Frontend deploy: `buffalo t deploy:frontend`
+1. Backend build: `buffalo t deploy:backend-build`
+2. Frontend deploy (firebase): `cd frontend && yarn release`
 
 ## Migrations
 
