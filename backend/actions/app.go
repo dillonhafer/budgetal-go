@@ -11,6 +11,7 @@ import (
 
 var AUTH_HEADER_KEY = envy.Get("BUDGETAL_HEADER", "X-Budgetal-Session")
 var AUTH_COOKIE_KEY = envy.Get("BUDGETAL_COOKIE", "_budgetal_session")
+var COOKIE_DOMAIN = envy.Get("COOKIE_DOMAIN", "api.budgetal.com")
 
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App

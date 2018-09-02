@@ -39,6 +39,7 @@ func SetAuthenticationCookie(res http.ResponseWriter, value uuid.UUID) {
 	cookie := &http.Cookie{
 		Expires:  time.Now().Add(time.Hour * 87600),
 		Name:     AUTH_COOKIE_KEY,
+		Domain:   COOKIE_DOMAIN,
 		Value:    value.String(),
 		Secure:   ENV == "production",
 		HttpOnly: true,
