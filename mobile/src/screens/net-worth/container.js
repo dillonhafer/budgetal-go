@@ -11,7 +11,7 @@ export default connect(
     loadNetWorthItems: ({ year }) => {
       dispatch(loadYear({ year }));
     },
-    refreshBudget: ({ year }) => {
+    refreshNetWorthItems: ({ year }) => {
       dispatch(refreshYear({ year }));
     },
     deleteAssetLiability: asset => dispatch(deleteAssetLiability(asset)),

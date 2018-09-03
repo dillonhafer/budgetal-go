@@ -1,5 +1,11 @@
 import React, { PureComponent } from 'react';
-import { TouchableOpacity, StatusBar, View, Dimensions } from 'react-native';
+import {
+  RefreshControl,
+  TouchableOpacity,
+  StatusBar,
+  View,
+  Dimensions,
+} from 'react-native';
 
 // Components
 import DatePicker from 'utils/DatePicker';
@@ -27,6 +33,10 @@ class NetWorthScreen extends PureComponent {
 
   loadNetWorthItems = ({ year }) => {
     this.props.loadNetWorthItems({ year });
+  };
+
+  refresh = () => {
+    this.props.refreshNetWorthItems({ year: this.props.year });
   };
 
   items = month => {
@@ -161,20 +171,31 @@ class NetWorthScreen extends PureComponent {
     ];
 
     return (
-      <GroupList
-        keyExtractor={i => i.id}
-        sections={sectionData}
-        renderHeader={this.renderCarousel}
-        renderSectionFooter={this.renderSectionFooter}
-        onEdit={item => {
-          this.props.screenProps.layoutNavigate('EditAssetLiabilityScreen', {
-            item,
-          });
-        }}
-        deleteConfirmation={`⚠️ Are you sure?\nThis will remove all items from past records.\n⛔️ This cannot be undone.`}
-        onDelete={this.deleteAssetLiability}
-        ListFooterComponent={<Spin spinning={loading && !refreshing} />}
-      />
+      <React.Fragment>
+        <GroupList
+          refreshControl={
+            <RefreshControl
+              tintColor={'lightskyblue'}
+              refreshing={refreshing}
+              onRefresh={this.refresh}
+            />
+          }
+          keyExtractor={i => i.id}
+          sections={sectionData}
+          renderHeader={this.renderCarousel}
+          renderSectionFooter={this.renderSectionFooter}
+          onEdit={item => {
+            this.props.screenProps.layoutNavigate('EditAssetLiabilityScreen', {
+              item,
+            });
+          }}
+          deleteConfirmation={`⚠️ Are you sure?\nThis will remove all items from past records.\n⛔️ This cannot be undone.`}
+          onDelete={this.deleteAssetLiability}
+          ListFooterComponent={<Spin spinning={loading && !refreshing} />}
+        />
+
+        <Spin spinning={loading && !refreshing} />
+      </React.Fragment>
     );
   }
 }

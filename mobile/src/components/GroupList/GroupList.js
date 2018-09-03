@@ -9,6 +9,7 @@ import { Bold } from 'components/Text';
 
 class GroupList extends Component {
   static propTypes = {
+    refreshControl: PropTypes.any,
     renderHeader: PropTypes.func,
     renderSectionHeader: PropTypes.func,
     renderSectionFooter: PropTypes.func,
@@ -83,6 +84,7 @@ class GroupList extends Component {
         <ListBackgroundFill />
         <SectionList
           {...BlurViewInsetProps}
+          refreshControl={this.props.refreshControl}
           extraData={this.state.visibleRowId}
           ListHeaderComponent={this.props.renderHeader}
           style={styles.list}
