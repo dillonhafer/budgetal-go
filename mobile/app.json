@@ -4,8 +4,8 @@
     "name": "Budgetal",
     "slug": "budgetal",
     "privacy": "unlisted",
-    "sdkVersion": "29.0.0",
-    "version": "2.0.0",
+    "sdkVersion": "30.0.0",
+    "version": "2.0.1",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "updates": {
       "enabled": false,
@@ -15,9 +15,7 @@
     "ios": {
       "buildNumber": "39",
       "supportsTablet": true,
-      "associatedDomains": [
-        "applinks:www.budgetal.com"
-      ],
+      "associatedDomains": ["applinks:www.budgetal.com"],
       "usesIcloudStorage": true,
       "bundleIdentifier": "com.budgetal.app",
       "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8",
@@ -41,9 +39,6 @@
       "backgroundColor": "#108ee9",
       "resizeMode": "cover"
     },
-    "assetBundlePatterns": [
-      "src/images/**",
-      "src/fonts/**"
-    ]
+    "assetBundlePatterns": ["src/images/**", "src/fonts/**"]
   }
 }

@@ -2,15 +2,6 @@
   "name": "budgetal",
   "version": "1.17.1",
   "private": true,
-  "devDependencies": {
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.6.1",
-    "jest-expo": "^29.0.0",
-    "react-native-scripts": "1.8.1",
-    "react-test-renderer": "^16.3.0-alpha.1"
-  },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native-scripts start",
@@ -27,13 +18,10 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "babel-eslint": "^8.2.1",
-    "eslint": "^4.18.0",
-    "eslint-plugin-react-native": "^3.2.1",
-    "expo": "^29.0.0",
+    "expo": "^30.0.0",
     "papaparse": "^4.3.6",
     "react": "16.3.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
     "react-native-dropdownalert": "^3.3.0",
     "react-native-generic-password-activity": "^1.0.0",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
@@ -46,5 +34,17 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
     "ua-parser-js": "^0.7.17"
+  },
+  "devDependencies": {
+    "babel-eslint": "^8.2.1",
+    "eslint": "^4.18.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "eslint-plugin-react-native": "^3.2.1",
+    "jest-expo": "^30.0.0",
+    "react-native-scripts": "1.8.1",
+    "react-test-renderer": "^16.3.0-alpha.1"
   }
 }
