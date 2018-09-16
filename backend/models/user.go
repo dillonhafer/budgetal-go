@@ -21,58 +21,35 @@ import (
 	"time"
 
 	"github.com/disintegration/imaging"
-	"github.com/fatih/color"
 	"github.com/gobuffalo/envy"
 	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/pop/nulls"
-	"github.com/gobuffalo/pop/slices"
 	"github.com/gobuffalo/validate"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	ID                     int            `json:"-" db:"id"`
-	Email                  string         `json:"email" db:"email"`
-	FirstName              string         `json:"firstName" db:"first_name"`
-	LastName               string         `json:"lastName" db:"last_name"`
-	Admin                  bool           `json:"admin" db:"admin"`
-	PasswordResetToken     nulls.String   `json:"-" db:"password_reset_token"`
-	PasswordResetSentAt    nulls.Time     `json:"-" db:"password_reset_sent_at"`
-	AvatarFileName         nulls.String   `json:"-" db:"avatar_file_name"`
-	AvatarContentType      sql.NullString `json:"-" db:"avatar_content_type"`
-	AvatarFileSize         sql.NullInt64  `json:"-" db:"avatar_file_size"`
-	AvatarUpdatedAt        time.Time      `json:"-" db:"avatar_updated_at"`
-	EncryptedPassword      string         `json:"-" db:"encrypted_password"`
-	CreatedAt              time.Time      `json:"-" db:"created_at"`
-	UpdatedAt              time.Time      `json:"-" db:"updated_at"`
-	CurrentSession         *Session       `json:"-" db:"-"`
-	PushNotificationTokens slices.String  `json:"-" db:"push_notification_tokens"`
+	ID                  int            `json:"-" db:"id"`
+	Email               string         `json:"email" db:"email"`
+	FirstName           string         `json:"firstName" db:"first_name"`
+	LastName            string         `json:"lastName" db:"last_name"`
+	Admin               bool           `json:"admin" db:"admin"`
+	PasswordResetToken  nulls.String   `json:"-" db:"password_reset_token"`
+	PasswordResetSentAt nulls.Time     `json:"-" db:"password_reset_sent_at"`
+	AvatarFileName      nulls.String   `json:"-" db:"avatar_file_name"`
+	AvatarContentType   sql.NullString `json:"-" db:"avatar_content_type"`
+	AvatarFileSize      sql.NullInt64  `json:"-" db:"avatar_file_size"`
+	AvatarUpdatedAt     time.Time      `json:"-" db:"avatar_updated_at"`
+	EncryptedPassword   string         `json:"-" db:"encrypted_password"`
+	CreatedAt           time.Time      `json:"-" db:"created_at"`
+	UpdatedAt           time.Time      `json:"-" db:"updated_at"`
+	CurrentSession      *Session       `json:"-" db:"-"`
 }
 
 // String is not required by pop and may be deleted
 func (u User) String() string {
 	ju, _ := json.Marshal(u)
 	return string(ju)
-}
-
-func (u *User) AppendPushNotificationToken(token string) error {
-	var s = struct {
-		ID    int    `db:"id"`
-		Token string `db:"token"`
-	}{
-		u.ID,
-		token,
-	}
-
-	query := `
-	  update users
-	  set push_notification_tokens = array_append(push_notification_tokens, :token)
-	  where id = :id
-	  and not array[:token] <@ push_notification_tokens;
-	`
-	println(color.YellowString(query))
-	_, err := DB.Store.NamedExec(query, s)
-	return err
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {
@@ -353,11 +330,16 @@ type PushNotification struct {
 func (u *User) SendPushNotification(title, body string) error {
 	url := "https://exp.host/--/api/v2/push/send"
 
+	activeSessions := Sessions{}
+	DB.Where("expired_at is null and push_notification_token is not null and user_id = ?", u.ID).All(&activeSessions)
+
 	var pushNotifications []PushNotification
-	for _, to := range u.PushNotificationTokens {
-		if to != "" {
+	for _, session := range activeSessions {
+		to := session.PushNotificationToken
+
+		if to.Valid {
 			pn := PushNotification{
-				To:    to,
+				To:    to.String,
 				Title: title,
 				Body:  body,
 				Sound: `default`,

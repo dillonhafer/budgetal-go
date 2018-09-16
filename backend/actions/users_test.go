@@ -15,12 +15,17 @@ func (as *ActionSuite) Test_Users_UpdatePushNotificationToken_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_Users_UpdatePushNotificationToken() {
+	deviceToken := "MyExpPushToken[1234]"
 	user := as.SignedInUser()
-	r := as.JSON("/update-push-notification-token").Put(map[string]string{"token": "PushNotificationToken"})
-	as.DB.Reload(&user)
+	r := as.JSON("/update-push-notification-token").Put(map[string]string{"token": deviceToken})
+
+	sessions := models.Sessions{}
+	models.DB.Where("push_notification_token is not null").All(&sessions)
+
 	as.Equal(200, r.Code)
-	as.Equal(1, len(user.PushNotificationTokens))
-	as.Equal("PushNotificationToken", user.PushNotificationTokens[0])
+	as.Equal(1, len(sessions))
+	as.Equal(user.ID, sessions[0].UserID)
+	as.Equal(deviceToken, sessions[0].PushNotificationToken.String)
 }
 
 func (as *ActionSuite) Test_Users_Update_RequiresUser() {

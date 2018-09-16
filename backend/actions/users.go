@@ -4,22 +4,19 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
+	"github.com/gobuffalo/pop/nulls"
 )
 
 func UsersUpdatePushNotificationToken(c buffalo.Context, currentUser *models.User) error {
 	var params = struct {
-		PushNotificationToken string `json:"token"`
-	}{
-		"",
-	}
+		PushNotificationToken nulls.String `json:"token"`
+	}{}
+
 	if err := BindParams(c, &params); err != nil {
 		return err
 	}
 
-	if params.PushNotificationToken != "" {
-		currentUser.AppendPushNotificationToken(params.PushNotificationToken)
-	}
-
+	currentUser.CurrentSession.UpdatePushNotificationToken(params.PushNotificationToken)
 	return c.Render(200, r.JSON(map[string]string{"message": "ok"}))
 }
 

@@ -122,8 +122,6 @@ export default class App extends Component {
       MaterialCommunityIcons.font,
       Feather.font,
       { 'Montserrat-Bold': require('fonts/Montserrat-Bold.ttf') },
-      { 'Montserrat-ExtraBold': require('fonts/Montserrat-ExtraBold.ttf') },
-      { 'Montserrat-ExtraLight': require('fonts/Montserrat-ExtraLight.ttf') },
       { 'Montserrat-Italic': require('fonts/Montserrat-Italic.ttf') },
       { 'Montserrat-Light': require('fonts/Montserrat-Light.ttf') },
       { 'Montserrat-Medium': require('fonts/Montserrat-Medium.ttf') },
@@ -158,8 +156,14 @@ export default class App extends Component {
   renderAlertImage = () => {
     const isError = this.dropdown.state.type === 'error';
     const name = isError ? 'ios-alert-outline' : 'ios-checkmark-circle-outline';
+    const style = {
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginTop: Platform.OS === 'ios' ? 0 : 20,
+    };
+
     return (
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <View style={style}>
         <Ionicons name={name} size={32} color={'#fff'} />
       </View>
     );
