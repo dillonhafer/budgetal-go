@@ -35,7 +35,8 @@
       },
       "package": "com.budgetal.app",
       "versionCode": 42,
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app"
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app",
+      "permissions": []
     },
     "icon": "./app-store-assets/logo.png",
     "notification": {
