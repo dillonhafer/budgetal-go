@@ -106,7 +106,7 @@ const BudgetNavigatorStack = StackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT {navigation.state.params.budgetItem.name.toUpperCase()}
+            EDIT {navigation.getParam('budgetItem').name.toUpperCase()}
           </HeaderText>
         ),
         headerStyle,
@@ -126,7 +126,7 @@ const BudgetNavigatorStack = StackNavigator(
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT {navigation.state.params.budgetItemExpense.name.toUpperCase()}
+            EDIT {navigation.getParam('budgetItemExpense').name.toUpperCase()}
           </HeaderText>
         ),
         headerStyle,
@@ -159,10 +159,10 @@ const BudgetSidebarNavigatorStack = StackNavigator(
       screen: BudgetCategoryScreen,
       path: 'budgetCategories/:budgetCategory',
       navigationOptions: ({ navigation }) => ({
-        title: navigation.state.params.budgetCategory.name,
+        title: navigation.getParam('budgetCategory').name,
         headerTitle: (
           <CategoryTitle
-            name={navigation.state.params.budgetCategory.name.toUpperCase()}
+            name={navigation.getParam('budgetCategory').name.toUpperCase()}
           />
         ),
         headerStyle,
