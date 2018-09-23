@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { execSync } = require('child_process');
+const { execSync, exec } = require('child_process');
 const { task, info, abort } = require('./utils');
 const Upload = require('./upload');
 
@@ -44,11 +44,12 @@ const commitGitVersion = build => {
   }
 };
 
-const expoBuildIos = () => {
-  task('Running exp build:ios');
+const expoBuild = (platform, runAsync = false) => {
+  task(`Running exp build:${platform}`);
   try {
-    const buildOutput = execSync(
-      'exp build:ios --release-channel production',
+    const execFunction = runAsync ? exec : execSync;
+    const buildOutput = execFunction(
+      `exp build:${platform} --release-channel production`,
     ).toString();
     const url = buildOutput.match(/(https:\/\/expo\.io\/build.*)/)[0];
     info(`Open status URL: ${url}`);
@@ -70,9 +71,12 @@ const pushGitRemote = () => {
 checkCleanGit();
 bumpVersion();
 
-if (expoBuildIos()) {
+if (expoBuild('ios')) {
   commitGitVersion(newBuildNumber);
   pushGitRemote();
+
+  // Build android in background
+  expoBuild('android', true);
 
   // Download IPA/Upload to iTunes
   Upload.createTmpDir();
