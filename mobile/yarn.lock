@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"1PasswordExtension@git+https://github.com/jjshammas/onepassword-app-extension.git":
-  version "1.6.4"
-  resolved "git+https://github.com/jjshammas/onepassword-app-extension.git#acf20f71c890e92ee489fc8e7bb0f7df922e855d"
-
 "@babel/code-frame@7.0.0-beta.36":
   version "7.0.0-beta.36"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.36.tgz#2349d7ec04b3a06945ae173280ef8579b63728e4"
@@ -5928,10 +5924,6 @@ react-native-dropdownalert@^3.3.0:
   dependencies:
     prop-types "15.5.10"
 
-react-native-generic-password-activity@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-generic-password-activity/-/react-native-generic-password-activity-1.0.0.tgz#a65669b03f52f3853031f3a095c535889782e214"
-
 react-native-gesture-handler@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.0.6.tgz#8a672ca0c7a1b706dffee4e230e5cf0197d2cdb8"
@@ -5964,12 +5956,6 @@ react-native-modalbox@^1.4.2:
   dependencies:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"
-
-react-native-onepassword@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-onepassword/-/react-native-onepassword-1.0.6.tgz#f4c2f07253fffcd3bb4fb795cfb1e11158221a54"
-  dependencies:
-    "1PasswordExtension" "git+https://github.com/jjshammas/onepassword-app-extension.git"
 
 react-native-reanimated@1.0.0-alpha.6:
   version "1.0.0-alpha.6"
