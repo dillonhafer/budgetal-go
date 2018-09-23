@@ -33,19 +33,21 @@ export const budgetRequestFinished = () => {
   };
 };
 
-export const loadBudget = ({ year, month }) => {
+export const loadBudget = ({ year, month, navigation }) => {
   return {
     type: LOAD_BUDGET,
     year,
     month,
+    navigation,
   };
 };
 
-export const refreshBudget = ({ year, month }) => {
+export const refreshBudget = ({ year, month, navigation }) => {
   return {
     type: REFRESH_BUDGET,
     year,
     month,
+    navigation,
   };
 };
 

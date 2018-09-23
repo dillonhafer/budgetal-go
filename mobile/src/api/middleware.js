@@ -21,6 +21,10 @@ const apiMiddleware = () => next => action => {
         .then(resp => {
           if (resp.ok) {
             next(budgetLoaded(resp));
+            action.navigation.setParams({
+              month: action.month,
+              year: action.year,
+            });
           }
         })
         .finally(() => {

@@ -58,12 +58,10 @@ const BudgetNavigatorStack = StackNavigator(
       screen: BudgetsScreen,
       path: 'budgets/:year/:month',
       navigationOptions: ({ navigation }) => {
-        const year =
-          (navigation.state.params && navigation.state.params.year) ||
-          new Date().getFullYear();
-        const month =
-          (navigation.state.params && navigation.state.params.month) ||
-          new Date().getMonth() + 1;
+        const today = new Date();
+
+        const year = navigation.getParam('year', today.getFullYear());
+        const month = navigation.getParam('month', today.getMonth() + 1);
         const budgetDate = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
 
         const headerBackTitle = budgetDate.format('MMM').toUpperCase();

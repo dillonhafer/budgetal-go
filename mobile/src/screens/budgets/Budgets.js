@@ -38,11 +38,15 @@ class BudgetsScreen extends PureComponent {
   }
 
   refresh = () => {
-    this.props.refreshBudget(this.props.budget);
+    this.props.refreshBudget({
+      month: this.props.budget.month,
+      year: this.props.budget.year,
+      navigation: this.props.navigation,
+    });
   };
 
   loadBudget = ({ month, year }) => {
-    this.props.loadBudget({ month, year });
+    this.props.loadBudget({ month, year, navigation: this.props.navigation });
     if (this.props.budgetItemExpenses.length > 0) {
       AskForReview();
     }
@@ -114,17 +118,6 @@ class BudgetsScreen extends PureComponent {
       this.loadBudget({ month, year });
     }
   };
-
-  componentDidUpdate() {
-
-    if (
-      this.props.navigation.state &&
-      this.props.navigation.state.params &&
-      this.props.navigation.state.params.income !== this.props.budget.income
-    ) {
-      this.props.navigation.setParams({ income: this.props.budget.income });
-    }
-  }
 
   renderFooter = () => {
     const isCurrent =
@@ -269,11 +262,11 @@ export default connect(
     ...state.budget,
   }),
   dispatch => ({
-    loadBudget: ({ month, year }) => {
-      dispatch(loadBudget({ month, year }));
+    loadBudget: ({ month, year, navigation }) => {
+      dispatch(loadBudget({ month, year, navigation }));
     },
-    refreshBudget: ({ month, year }) => {
-      dispatch(refreshBudget({ month, year }));
+    refreshBudget: ({ month, year, navigation }) => {
+      dispatch(refreshBudget({ month, year, navigation }));
     },
     changeCategory: budgetCategory => {
       dispatch(updateBudgetCategory({ budgetCategory }));
