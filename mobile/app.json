@@ -13,7 +13,7 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "buildNumber": "44",
+      "buildNumber": "45",
       "supportsTablet": true,
       "associatedDomains": [
         "applinks:www.budgetal.com"
@@ -36,7 +36,7 @@
         "foregroundImage": "./app-store-assets/android-app-foreground.png"
       },
       "package": "com.budgetal.app",
-      "versionCode": 44,
+      "versionCode": 45,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app",
       "permissions": []
     },
