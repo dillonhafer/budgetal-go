@@ -49,7 +49,7 @@ const expoBuild = (platform, runAsync = false) => {
   try {
     const execFunction = runAsync ? exec : execSync;
     const buildOutput = execFunction(
-      `exp build:${platform} --release-channel production`,
+      `expo-cli build:${platform} --release-channel production`,
     ).toString();
     const url = buildOutput.match(/(https:\/\/expo\.io\/build.*)/)[0];
     info(`Open status URL: ${url}`);
