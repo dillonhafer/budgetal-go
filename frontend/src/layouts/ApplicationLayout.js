@@ -13,6 +13,7 @@ import Statistics from 'routes/statistics';
 import Admin from 'routes/admin';
 import ResetPassword from 'routes/reset-password';
 import AccountSettings from 'routes/account-settings';
+import NetWorth from 'routes/NetWorth';
 
 // Error Routes
 import NoMatch from 'routes/NoMatch';
@@ -41,6 +42,7 @@ class ApplicationLayout extends Component {
                     path="/annual-budgets/:year"
                     component={AnnualBudget}
                   />
+                  <PrivateRoute path="/net-worth/:year" component={NetWorth} />
                   <PrivateRoute
                     path="/monthly-statistics/:year/:month"
                     component={Statistics}

@@ -59,7 +59,8 @@ export default class Header extends Component {
       items.push(
         <Menu.Item key="admin-link">
           <Link to="/admin">
-            <Icon type="lock" />Admin Panel
+            <Icon type="lock" />
+            Admin Panel
           </Link>
         </Menu.Item>,
       );
@@ -81,10 +82,14 @@ export default class Header extends Component {
         <Menu.Item key="annual-budgets">
           <NavLink to={`/annual-budgets/${year}`}>Annual Budgets</NavLink>
         </Menu.Item>,
+        <Menu.Item key="net-worth">
+          <NavLink to={`/net-worth/${year}`}>Net Worth</NavLink>
+        </Menu.Item>,
         <Menu.SubMenu key="submenu-calc" title="Calculators">
           <Menu.Item key="mortgage-calculator">
             <Link to={`/calculators/mortgage`}>
-              <Icon type="home" />Mortgage
+              <Icon type="home" />
+              Mortgage
             </Link>
           </Menu.Item>
         </Menu.SubMenu>,
@@ -93,26 +98,30 @@ export default class Header extends Component {
           title={
             <span>
               <ProfileImage user={user} />
-              Hello{user.firstName ? `, ${user.firstName}` : ''}!
+              Hello
+              {user.firstName ? `, ${user.firstName}` : ''}!
             </span>
           }
         >
           <Menu.Item key="stats">
             <Link to={`/monthly-statistics/${year}/${month}`}>
-              <Icon type="pie-chart" />Statistics (for geeks)
+              <Icon type="pie-chart" />
+              Statistics (for geeks)
             </Link>
           </Menu.Item>
           <Menu.Divider key="divider1" />
           <Menu.Item key="account-settings">
             <Link to="/account-settings">
-              <Icon type="setting" />Account Settings
+              <Icon type="setting" />
+              Account Settings
             </Link>
           </Menu.Item>
           <Menu.Divider key="divider2" />
           {this.adminLink(user.admin)}
           <Menu.Item key="sign-out">
             <a onClick={this.signOut} title="Sign out" rel="nofollow">
-              <Icon type="logout" />Sign out
+              <Icon type="logout" />
+              Sign out
             </a>
           </Menu.Item>
         </Menu.SubMenu>,
@@ -122,7 +131,8 @@ export default class Header extends Component {
         <Menu.SubMenu key="submenu-calc" title="Calculators">
           <Menu.Item key="mortgage-calculator">
             <Link to="/calculators/mortgage">
-              <Icon type="home" />Mortgage
+              <Icon type="home" />
+              Mortgage
             </Link>
           </Menu.Item>
         </Menu.SubMenu>,
@@ -141,6 +151,8 @@ export default class Header extends Component {
         return ['detailed-budgets'];
       case /\/annual-budgets/.test(location):
         return ['annual-budgets'];
+      case /\/net-worth/.test(location):
+        return ['net-worth'];
       case /\/calculators\/mortgage/.test(location):
         return ['mortgage-calculator'];
       default:
