@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import ReactHighcharts from 'react-highcharts';
 import { colors } from 'window';
 
+ReactHighcharts.Highcharts.setOptions({
+  lang: {
+    thousandsSep: ',',
+  },
+});
+
 export default class Highchart extends Component {
   static defaultProps = {
     assets: [],
@@ -10,9 +16,6 @@ export default class Highchart extends Component {
 
   setTheme(colors) {
     ReactHighcharts.Highcharts.theme = {
-      lang: {
-        thousandsSep: ',',
-      },
       legend: { itemStyle: { fontWeight: 'bold', fontSize: '13px' } },
       yAxis: {
         minorTickInterval: 'auto',
@@ -20,6 +23,7 @@ export default class Highchart extends Component {
         labels: { style: { fontSize: '12px' } },
       },
     };
+
     ReactHighcharts.Highcharts.setOptions(ReactHighcharts.Highcharts.theme);
   }
 
