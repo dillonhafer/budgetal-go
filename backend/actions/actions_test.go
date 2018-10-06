@@ -50,9 +50,13 @@ func (as *ActionSuite) CreateSession(userId int) models.Session {
 }
 
 func signInUser(admin bool, as *ActionSuite) models.User {
-	// Create User
 	user := as.CreateUser(admin)
+	as.SignInUser(user)
 
+	return user
+}
+
+func (as *ActionSuite) SignInUser(user models.User) {
 	// Create Session
 	session := as.CreateSession(user.ID)
 
@@ -60,8 +64,6 @@ func signInUser(admin bool, as *ActionSuite) models.User {
 	cookie := fmt.Sprintf("%s=%s; Expires=Tue, 09 Nov 2027 00:17:27 GMT; HttpOnly", AUTH_COOKIE_KEY, session.AuthenticationKey)
 	as.Willie.Headers[AUTH_HEADER_KEY] = session.AuthenticationToken
 	as.Willie.Cookies = cookie
-
-	return user
 }
 
 func (as *ActionSuite) CreateBudget(userId, year, month int, income string) (models.Budget, models.BudgetCategories) {

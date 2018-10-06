@@ -138,6 +138,7 @@ func App() *buffalo.App {
 
 		// Net Worth
 		app.GET("/net-worths/{year}", WithCurrentUser(NetWorthsIndex))
+		app.POST("/net-worths/{year}/{month}/import", WithCurrentUser(NetWorthsImport))
 
 		// Net Worth Items
 		app.POST("/net-worths/{year}/{month}/net-worth-items", WithCurrentUser(NetWorthItemsCreate))

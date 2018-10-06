@@ -1,7 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"time"
+
+	"github.com/gobuffalo/pop"
 )
 
 // NetWorth db model
@@ -59,4 +62,48 @@ func (nw *NetWorths) FindOrCreateYearTemplates(userID, year int) {
 	}
 
 	nw.LoadItems()
+}
+
+func (nw *NetWorth) ImportPreviousItems() (string, NetWorthItems) {
+	var previousMonth, previousYear int
+	if nw.Month > 1 {
+		previousMonth = nw.Month - 1
+		previousYear = nw.Year
+	} else {
+		previousMonth = 12
+		previousYear = nw.Year - 1
+	}
+
+	previousNetWorth := NetWorth{}
+	DB.Where(`
+		user_id = ? and year = ? and month = ?
+	`, nw.UserID, previousYear, previousMonth).First(&previousNetWorth)
+
+	previousItems := NetWorthItems{}
+	DB.BelongsTo(&previousNetWorth).Order(`created_at`).All(&previousItems)
+
+	// Transactionally import all items
+	newItems := NetWorthItems{}
+	DB.Transaction(func(tx *pop.Connection) error {
+		for _, item := range previousItems {
+			newItem := NetWorthItem{
+				NetWorthID:       nw.ID,
+				AssetLiabilityID: item.AssetLiabilityID,
+				Amount:           item.Amount,
+			}
+			err := tx.Create(&newItem)
+			if err != nil {
+				return err
+			}
+			newItems = append(newItems, newItem)
+		}
+		return nil
+	})
+
+	count := len(previousItems)
+	message := "There was nothing to import"
+	if count > 0 {
+		message = fmt.Sprintf("Imported %s", pluralize(count, "item", "items"))
+	}
+	return message, newItems
 }

@@ -91,11 +91,3 @@ func (budgetCategory *BudgetCategory) ImportPreviousItems() (string, BudgetItems
 	}
 	return message, newItems
 }
-
-func pluralize(count int, singular, plural string) string {
-	word := plural
-	if count == 1 {
-		word = singular
-	}
-	return fmt.Sprintf("%d %s", count, word)
-}

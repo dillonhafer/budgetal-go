@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gobuffalo/envy"
@@ -19,4 +20,12 @@ func init() {
 		log.Fatal(err)
 	}
 	pop.Debug = env == "development"
+}
+
+func pluralize(count int, singular, plural string) string {
+	word := plural
+	if count == 1 {
+		word = singular
+	}
+	return fmt.Sprintf("%d %s", count, word)
 }

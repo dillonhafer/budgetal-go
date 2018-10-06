@@ -39,3 +39,41 @@ func NetWorthsIndex(c buffalo.Context, currentUser *models.User) error {
 
 	return c.Render(200, r.JSON(response))
 }
+
+// NetWorthsImport creates and returns net worth items from a previous month for the current one
+func NetWorthsImport(c buffalo.Context, currentUser *models.User) error {
+	year, err := strconv.Atoi(c.Param("year"))
+	if err != nil || !AllowedNetWorthYear(year) {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+	month, err := strconv.Atoi(c.Param("month"))
+	if err != nil || !AllowedMonth(month) {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
+	var params = struct {
+		Year  int
+		Month int
+	}{
+		year,
+		month,
+	}
+
+	netWorth, err := findNetWorth(params.Year, params.Month, currentUser.ID)
+	if err != nil {
+		return c.Render(404, r.JSON("Not Found"))
+	}
+
+	message, items := netWorth.ImportPreviousItems()
+	response := map[string]interface{}{
+		"message": message,
+		"items":   items,
+	}
+	return c.Render(200, r.JSON(response))
+}
+
+func findNetWorth(year, month, userID int) (*models.NetWorth, error) {
+	nw := models.NetWorth{}
+	err := models.DB.Where("user_id = ? and year = ? and month = ?", userID, year, month).First(&nw)
+	return &nw, err
+}
