@@ -55,7 +55,7 @@ func (nw *NetWorths) LoadItems() {
 // FindOrCreateYearTemplates finds or creates 12 months of net worths
 func (nw *NetWorths) FindOrCreateYearTemplates(userID, year int) {
 	*nw = nil
-	DB.Where("user_id = ? and year = ?", userID, year).All(nw)
+	DB.Where("user_id = ? and year = ?", userID, year).Order("month").All(nw)
 
 	if len(*nw) == 0 {
 		nw.createYearTemplates(userID, year)
