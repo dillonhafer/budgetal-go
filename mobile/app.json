@@ -13,9 +13,11 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "buildNumber": "45",
+      "buildNumber": "46",
       "supportsTablet": true,
-      "associatedDomains": ["applinks:www.budgetal.com"],
+      "associatedDomains": [
+        "applinks:www.budgetal.com"
+      ],
       "usesIcloudStorage": true,
       "bundleIdentifier": "com.budgetal.app",
       "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8",
@@ -34,7 +36,7 @@
         "foregroundImage": "./app-store-assets/android-app-foreground.png"
       },
       "package": "com.budgetal.app",
-      "versionCode": 45,
+      "versionCode": 46,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app",
       "permissions": []
     },
@@ -48,6 +50,9 @@
       "backgroundColor": "#108ee9",
       "resizeMode": "cover"
     },
-    "assetBundlePatterns": ["src/images/**", "src/fonts/**"]
+    "assetBundlePatterns": [
+      "src/images/**",
+      "src/fonts/**"
+    ]
   }
 }
