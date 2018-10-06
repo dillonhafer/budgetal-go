@@ -3,8 +3,6 @@ package models
 import (
 	"fmt"
 	"time"
-
-	"github.com/gobuffalo/pop"
 )
 
 // NetWorth db model
@@ -84,21 +82,18 @@ func (nw *NetWorth) ImportPreviousItems() (string, NetWorthItems) {
 
 	// Transactionally import all items
 	newItems := NetWorthItems{}
-	DB.Transaction(func(tx *pop.Connection) error {
-		for _, item := range previousItems {
-			newItem := NetWorthItem{
-				NetWorthID:       nw.ID,
-				AssetLiabilityID: item.AssetLiabilityID,
-				Amount:           item.Amount,
-			}
-			err := tx.Create(&newItem)
-			if err != nil {
-				return err
-			}
-			newItems = append(newItems, newItem)
+	for _, item := range previousItems {
+		newItem := NetWorthItem{
+			NetWorthID:       nw.ID,
+			AssetLiabilityID: item.AssetLiabilityID,
+			Amount:           item.Amount,
 		}
-		return nil
-	})
+		err := DB.Create(&newItem)
+		if err != nil {
+			continue
+		}
+		newItems = append(newItems, newItem)
+	}
 
 	count := len(newItems)
 	message := "There was nothing to import"
