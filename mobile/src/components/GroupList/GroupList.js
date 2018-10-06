@@ -11,6 +11,7 @@ class GroupList extends Component {
   static propTypes = {
     refreshControl: PropTypes.any,
     renderHeader: PropTypes.func,
+    renderFooter: PropTypes.func,
     renderSectionHeader: PropTypes.func,
     renderSectionFooter: PropTypes.func,
     renderEmptyComponent: PropTypes.func,
@@ -87,6 +88,7 @@ class GroupList extends Component {
           refreshControl={this.props.refreshControl}
           extraData={this.state.visibleRowId}
           ListHeaderComponent={this.props.renderHeader}
+          ListFooterComponent={this.props.renderFooter}
           style={styles.list}
           contentContainerStyle={styles.contentStyles}
           stickySectionHeadersEnabled={stickySectionHeadersEnabled}
