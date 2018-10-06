@@ -6,8 +6,8 @@ import GroupList from 'components/GroupList';
 import { PrimaryButton } from 'forms';
 import { Bold } from 'components/Text';
 import { groupBy } from 'lodash';
-import { reduceSum } from 'utils/helpers';
-import { notice, error } from 'notify';
+import { reduceSum, monthName } from 'utils/helpers';
+import { notice, confirm, error } from 'notify';
 
 class MonthList extends Component {
   items = () => {
@@ -22,6 +22,24 @@ class MonthList extends Component {
     );
 
     return { assets, liabilities };
+  };
+
+  importPreviousItems = async () => {
+    const nw = this.props.navigation.getParam('month');
+    this.props.importNetWorthItems(nw).catch(() => {
+      error(`COULD NOT IMPORT`);
+    });
+  };
+
+  onImportPress = () => {
+    confirm({
+      okText: `Copy`,
+      cancelText: 'Cancel',
+      title: 'Copy Net Worth Items',
+      content: `Do you want to copy net worth items from ${this.prevMonth()}?`,
+      onOk: this.importPreviousItems,
+      onCancel() {},
+    });
   };
 
   deleteItem = item => {
@@ -70,6 +88,20 @@ class MonthList extends Component {
       <View style={styles.header}>
         <Bold style={styles.headerText}>{section.title.toUpperCase()}</Bold>
       </View>
+    );
+  };
+
+  prevMonth = () => {
+    const nw = this.props.navigation.getParam('month');
+    return monthName(nw.month === 1 ? 12 : nw.month - 1);
+  };
+
+  renderFooter = () => {
+    return (
+      <PrimaryButton
+        title={`Copy ${this.prevMonth()} Items`}
+        onPress={this.onImportPress}
+      />
     );
   };
 
@@ -127,6 +159,7 @@ class MonthList extends Component {
         keyExtractor={i => i.id}
         sections={sectionData}
         renderHeader={this.renderHeader}
+        renderFooter={this.renderFooter}
         renderSectionHeader={this.renderSectionHeader}
         renderSectionFooter={this.renderSectionFooter}
         onEdit={item => {

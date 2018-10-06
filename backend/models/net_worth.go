@@ -100,8 +100,9 @@ func (nw *NetWorth) ImportPreviousItems() (string, NetWorthItems) {
 		return nil
 	})
 
-	count := len(previousItems)
+	count := len(newItems)
 	message := "There was nothing to import"
+
 	if count > 0 {
 		message = fmt.Sprintf("Imported %s", pluralize(count, "item", "items"))
 	}
