@@ -108,7 +108,17 @@ export default function netWorthState(state = initialState, action) {
           if (m.id === action.netWorthId) {
             return {
               ...m,
-              items: [...m.items, action.items],
+              items: [
+                ...m.items,
+                ...action.items.map(i => {
+                  const isAsset =
+                    state.assets.findIndex(a => a.id === i.assetId) > -1;
+                  return {
+                    ...i,
+                    isAsset,
+                  };
+                }),
+              ],
             };
           }
 
