@@ -100,6 +100,7 @@ func (as *ActionSuite) Test_NetWorth_Import_Works() {
 
 	postTotal, _ := models.DB.Count(&models.NetWorthItems{})
 	as.Equal(4, postTotal)
+	as.Equal(2, len(rb.Items))
 }
 
 func (as *ActionSuite) Test_NetWorths_Import_RequiresUser() {

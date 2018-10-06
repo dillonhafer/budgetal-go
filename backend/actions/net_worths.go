@@ -65,11 +65,14 @@ func NetWorthsImport(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	message, items := netWorth.ImportPreviousItems()
-	response := map[string]interface{}{
-		"message": message,
-		"items":   items,
+	var resp = struct {
+		Message string               `json:"message"`
+		Items   models.NetWorthItems `json:"items"`
+	}{
+		message,
+		items,
 	}
-	return c.Render(200, r.JSON(response))
+	return c.Render(200, r.JSON(resp))
 }
 
 func findNetWorth(year, month, userID int) (*models.NetWorth, error) {
