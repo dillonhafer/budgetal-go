@@ -5,6 +5,7 @@ import { availableYears, monthName } from 'helpers';
 import { Spin, Select } from 'antd';
 import Graphchart from 'graphchart';
 import moment from 'moment';
+import MonthModal from './MonthModal';
 
 const Option = Select.Option;
 
@@ -15,12 +16,54 @@ class NetWorth extends Component {
     this.loadNetWorthItems({ year });
   }
 
+  state = {
+    selectedMonth: {
+      name: '',
+      number: 1,
+      year: this.props.match.params.year,
+      assets: [],
+      liabilities: [],
+    },
+  };
+
   loadNetWorthItems = ({ year }) => {
     this.props.loadNetWorthItems({ year });
   };
 
   changeYear = year => {
     this.props.history.push(`/net-worth/${year}`);
+  };
+
+  handleMonthClick = ({ name, month }) => {
+    const assets = this.props.months
+      .find(m => m.month === month)
+      .items.filter(i => i.isAsset)
+      .map(i => ({
+        id: i.id,
+        name: this.props.assets.find(a => a.id === i.assetId).name,
+        amount: i.amount,
+      }));
+
+    const liabilities = this.props.months
+      .find(m => m.month === month)
+      .items.filter(i => !i.isAsset)
+      .map(i => ({
+        id: i.id,
+        name: this.props.liabilities.find(a => a.id === i.assetId).name,
+        amount: i.amount,
+      }));
+
+    this.setState({
+      selectedMonth: {
+        name,
+        number: month,
+        year: this.props.match.params.year,
+        assets,
+        liabilities,
+      },
+    });
+
+    this.monthModal.open();
   };
 
   render() {
@@ -79,7 +122,7 @@ class NetWorth extends Component {
         </h1>
         <div style={{ paddingBottom: 25 }}>
           <i>
-            **Currently Net Worth can only be modified from the&nbsp;
+            *Currently Net Worth can only be modified from the&nbsp;
             <a
               target="_blank"
               style={{ textDecoration: 'underline' }}
@@ -111,6 +154,11 @@ class NetWorth extends Component {
               assets={assetData}
               liabilities={liabilityData}
               netWorth={netWorthData}
+              onMonthClick={this.handleMonthClick}
+            />
+            <MonthModal
+              ref={monthModal => (this.monthModal = monthModal)}
+              month={this.state.selectedMonth}
             />
           </div>
         </Spin>
