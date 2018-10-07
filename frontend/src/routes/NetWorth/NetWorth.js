@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { orderBy } from 'lodash';
 import { title } from 'window';
 import { availableYears, monthName } from 'helpers';
 import { Spin, Select } from 'antd';
@@ -35,23 +36,29 @@ class NetWorth extends Component {
   };
 
   handleMonthClick = ({ name, month }) => {
-    const assets = this.props.months
-      .find(m => m.month === month)
-      .items.filter(i => i.isAsset)
-      .map(i => ({
-        id: i.id,
-        name: this.props.assets.find(a => a.id === i.assetId).name,
-        amount: i.amount,
-      }));
+    const assets = orderBy(
+      this.props.months
+        .find(m => m.month === month)
+        .items.filter(i => i.isAsset)
+        .map(i => ({
+          id: i.id,
+          name: this.props.assets.find(a => a.id === i.assetId).name,
+          amount: i.amount,
+        })),
+      'name',
+    );
 
-    const liabilities = this.props.months
-      .find(m => m.month === month)
-      .items.filter(i => !i.isAsset)
-      .map(i => ({
-        id: i.id,
-        name: this.props.liabilities.find(a => a.id === i.assetId).name,
-        amount: i.amount,
-      }));
+    const liabilities = orderBy(
+      this.props.months
+        .find(m => m.month === month)
+        .items.filter(i => !i.isAsset)
+        .map(i => ({
+          id: i.id,
+          name: this.props.liabilities.find(a => a.id === i.assetId).name,
+          amount: i.amount,
+        })),
+      'name',
+    );
 
     this.setState({
       selectedMonth: {
