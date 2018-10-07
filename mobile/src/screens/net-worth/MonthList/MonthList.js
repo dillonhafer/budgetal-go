@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import Card, { SplitBackground } from 'components/Card';
 import colors from 'utils/colors';
 import GroupList from 'components/GroupList';
-import { PrimaryButton } from 'forms';
+import { SecondaryButton, PrimaryButton } from 'forms';
 import { Bold } from 'components/Text';
 import { groupBy } from 'lodash';
 import { reduceSum, monthName } from 'utils/helpers';
@@ -98,7 +98,7 @@ class MonthList extends Component {
 
   renderFooter = () => {
     return (
-      <PrimaryButton
+      <SecondaryButton
         title={`Copy ${this.prevMonth()} Items`}
         onPress={this.onImportPress}
       />

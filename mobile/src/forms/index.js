@@ -15,7 +15,6 @@ export const PrimarySquareButton = ({ title, onPress, loading }) => {
       color={colors.primary}
       backgroundColor={colors.primary}
       title={title}
-      titleColor={'#fff'}
       onPress={onPress}
       loading={loading}
       borderRadius={3}
@@ -29,7 +28,19 @@ export const PrimaryButton = ({ disabled, title, onPress, loading }) => {
       color={colors.primary}
       backgroundColor={colors.primary}
       title={title}
-      titleColor={'#fff'}
+      onPress={onPress}
+      loading={loading || disabled}
+    />
+  );
+};
+
+export const SecondaryButton = ({ disabled, title, onPress, loading }) => {
+  return (
+    <Button
+      color={colors.primary}
+      backgroundColor={'#fff'}
+      title={title}
+      titleColor={colors.primary}
       onPress={onPress}
       loading={loading || disabled}
     />
@@ -54,7 +65,7 @@ export const Button = ({
   title,
   color,
   backgroundColor,
-  titleColor,
+  titleColor = '#fff',
   onPress,
   loading,
   borderRadius,
