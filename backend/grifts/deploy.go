@@ -44,10 +44,26 @@ var _ = grift.Set("release", func(c *grift.Context) error {
 
 	Comment("Commit new version")
 	QuietCommandInDir("budgetal-production", "git", "add", ".")
-	QuietCommandInDir("budgetal-production", "git", "commit", "-m", "'New version'")
+	QuietCommandInDir("budgetal-production", "git", "commit", "-m", "New version")
 
+	QuietCommandInDir("budgetal-production", "git", "checkout", "--orphan", "new-version")
+
+	// Add all files and commit them
+	QuietCommandInDir("budgetal-production", "git", "add", "-A")
+	QuietCommandInDir("budgetal-production", "git", "commit", "-m", "New version")
+
+	// Deletes the master branch
+	QuietCommandInDir("budgetal-production", "git", "branch", "-D", "master")
+
+	// Rename the current branch to master
+	QuietCommandInDir("budgetal-production", "git", "branch", "-m", "master")
+
+	// Remove the old files
+	QuietCommandInDir("budgetal-production", "git", "gc", "--aggressive", "--prune=all")
+
+	// Force push master branch to heroku
 	Comment("Push to heroku")
-	QuietCommandInDir("budgetal-production", "git", "push", "heroku", "master")
+	QuietCommandInDir("budgetal-production", "git", "push", "-f", "heroku", "master")
 
 	Comment("Run migrations")
 	QuietCommandInDir("budgetal-production", "heroku", "run", "'bin/./budgetal migrate'")
