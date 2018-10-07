@@ -25,7 +25,7 @@ import colors from 'utils/colors';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
 import { reduceSum, categoryImage, percentSpent } from 'utils/helpers';
-import { PrimaryButton } from 'forms';
+import { SecondaryButton } from 'forms';
 import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';
 
@@ -247,7 +247,7 @@ class BudgetCategoryScreen extends PureComponent {
           ListEmptyComponent={this.empty}
           ListFooterComponent={
             <View style={{ paddingBottom: 30 }}>
-              <PrimaryButton
+              <SecondaryButton
                 title={`Copy ${previousMonth} Items`}
                 onPress={this.onImportPress}
               />
