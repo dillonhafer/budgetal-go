@@ -36,6 +36,12 @@ export default class Highchart extends Component {
     return false;
   }
 
+  handleMonthClick = ({ point }) => {
+    const month = point.index + 1;
+    const name = point.series.name;
+    this.props.onMonthClick({ name, month });
+  };
+
   config(assets, liabilities, netWorth) {
     const defaultConfig = {
       chart: {
@@ -55,10 +61,16 @@ export default class Highchart extends Component {
       },
       plotOptions: {
         series: {
+          allowPointSelect: true,
           label: {
             connectorAllowed: false,
           },
           pointStart: 0,
+          point: {
+            events: {
+              click: this.handleMonthClick,
+            },
+          },
         },
       },
       xAxis: {
