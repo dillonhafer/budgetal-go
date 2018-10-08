@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "actions/*": ["actions/*"],
+      "api/*": ["api/*"],
+      "constants/*": ["constants/*"],
+      "css/*": ["css/*"],
+      "images/*": ["images/*"],
+      "layouts/*": ["layouts/*"],
+      "reducers/*": ["reducers/*"],
+      "routes/*": ["routes/*"],
+      "utils/*": ["utils/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
