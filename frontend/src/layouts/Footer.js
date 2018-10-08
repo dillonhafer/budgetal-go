@@ -19,7 +19,8 @@ export default class Footer extends Component {
   render() {
     return (
       <Layout.Footer>
-        Budgetal © 2013-{new Date().getFullYear()} All rights reserved
+        Budgetal © 2013-
+        {new Date().getFullYear()} All rights reserved
         <p>
           <Link to="/privacy">Privacy</Link> |{' '}
           <a onClick={this.handleHelpClick}>Help</a>
@@ -34,6 +35,7 @@ export default class Footer extends Component {
         >
           <iframe title="help" src={HELP_FRAME} className="help-frame" />
         </Modal>
+        <p>Version 2.1.0 (47)</p>
       </Layout.Footer>
     );
   }
