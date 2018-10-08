@@ -1,10 +1,42 @@
 import React, { Component } from 'react';
 import { Modal, Table } from 'antd';
 import { monthName, currencyf } from 'helpers';
+import { error } from 'window';
 
 class MonthModal extends Component {
   state = {
     visible: false,
+  };
+
+  lastMonth = () => {
+    const previousMonth =
+      this.props.month.number === 1 ? 12 : this.props.month.number - 1;
+    return monthName(previousMonth);
+  };
+
+  importNetWorthItems = () => {
+    this.props
+      .importNetWorthItems({
+        year: this.props.month.year,
+        month: this.props.month.number,
+      })
+      .catch(() => {
+        error(`Could not import`);
+      });
+    this.close();
+  };
+
+  onImportPress = e => {
+    e.preventDefault();
+
+    Modal.confirm({
+      okText: `Copy`,
+      cancelText: 'Cancel',
+      title: 'Copy Net Worth Items',
+      content: `Do you want copy net worth items from ${this.lastMonth()}?`,
+      onOk: this.importNetWorthItems,
+      onCancel() {},
+    });
   };
 
   open = () => {
@@ -52,7 +84,9 @@ class MonthModal extends Component {
         width={400}
         visible={visible}
         onCancel={this.close}
-        footer={null}
+        onOk={this.onImportPress}
+        cancelText="Close"
+        okText={`Copy ${this.lastMonth()} Items`}
       >
         <h3>Assets</h3>
         <Table

@@ -166,6 +166,7 @@ class NetWorth extends Component {
             <MonthModal
               ref={monthModal => (this.monthModal = monthModal)}
               month={this.state.selectedMonth}
+              importNetWorthItems={this.props.importNetWorthItems}
             />
           </div>
         </Spin>

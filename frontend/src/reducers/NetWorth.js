@@ -9,6 +9,7 @@ import {
   NET_WORTH_ITEM_ADDED,
   NET_WORTH_ITEM_UPDATED,
   NET_WORTH_ITEM_DELETED,
+  NET_WORTH_ITEMS_IMPORTED,
 } from 'constants/action-types';
 
 const initialState = {
@@ -99,6 +100,30 @@ export default function netWorthState(state = initialState, action) {
           ...m,
           items: m.items.filter(i => i.id !== action.item.id),
         })),
+      };
+    case NET_WORTH_ITEMS_IMPORTED:
+      return {
+        ...state,
+        months: state.months.map(m => {
+          if (m.id === action.netWorthId) {
+            return {
+              ...m,
+              items: [
+                ...m.items,
+                ...action.items.map(i => {
+                  const isAsset =
+                    state.assets.findIndex(a => a.id === i.assetId) > -1;
+                  return {
+                    ...i,
+                    isAsset,
+                  };
+                }),
+              ],
+            };
+          }
+
+          return m;
+        }),
       };
     default:
       return state;

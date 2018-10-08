@@ -3,8 +3,10 @@ import {
   REFRESH_NET_WORTH_YEAR,
   NET_WORTH_YEAR_LOADED,
   NET_WORTH_REQUEST_FINISHED,
+  NET_WORTH_ITEMS_IMPORTED,
 } from 'constants/action-types';
-import { AllNetWorthsRequest } from 'api/net-worth';
+import { AllNetWorthsRequest, ImportNetWorthRequest } from 'api/net-worth';
+import { notice } from 'window';
 
 export const netWorthLoaded = ({ assets, liabilities, months }) => {
   const assetIds = assets.map(a => a.id);
@@ -55,5 +57,33 @@ export const refreshYear = ({ year }) => {
   return {
     type: REFRESH_NET_WORTH_YEAR,
     year,
+  };
+};
+
+export const importNetWorthItems = ({ year, month }) => dispatch =>
+  new Promise((resolve, reject) =>
+    ImportNetWorthRequest({ year, month })
+      .then(resp => {
+        if (resp.ok) {
+          if (resp.items.length) {
+            resolve(
+              dispatch(importedNetWorths(resp.items, resp.items[0].netWorthId)),
+            );
+          }
+          notice(resp.message);
+        } else {
+          reject(resp.error);
+        }
+      })
+      .catch(error => {
+        reject(error);
+      }),
+  );
+
+const importedNetWorths = (items, netWorthId) => {
+  return {
+    type: NET_WORTH_ITEMS_IMPORTED,
+    items,
+    netWorthId,
   };
 };

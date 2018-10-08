@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { loadYear, refreshYear } from 'actions/net-worth';
+import { loadYear, refreshYear, importNetWorthItems } from 'actions/net-worth';
 import { deleteAssetLiability } from 'actions/net-worth-assets';
 import NetWorthScreen from './NetWorth';
 
@@ -15,5 +15,7 @@ export default connect(
       dispatch(refreshYear({ year }));
     },
     deleteAssetLiability: asset => dispatch(deleteAssetLiability(asset)),
+    importNetWorthItems: ({ year, month }) =>
+      dispatch(importNetWorthItems({ year, month })),
   }),
 )(NetWorthScreen);
