@@ -24,7 +24,7 @@
   "scripts": {
     "start": "source APP_ENV && react-scripts start",
     "test": "source APP_ENV && react-scripts test --env=jsdom",
-    "build": "react-scripts build",
+    "build": "source .env.production && react-scripts build",
     "eject": "react-scripts eject",
     "release": "source .env.production && react-scripts build && firebase deploy"
   }

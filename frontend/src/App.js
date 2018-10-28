@@ -5,11 +5,10 @@ import { IsAuthenticated } from 'authentication';
 import 'css/App.css';
 
 // Locale
-import { LocaleProvider } from 'antd';
+import { Layout, LocaleProvider } from 'antd';
 import enUS from 'antd/lib/locale-provider/en_US';
 
 // Layout
-import Layout from 'antd/lib/layout';
 import Header from 'layouts/Header';
 import ApplicationLayout from 'layouts/ApplicationLayout';
 import Footer from 'layouts/Footer';

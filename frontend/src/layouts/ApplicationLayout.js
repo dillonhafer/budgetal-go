@@ -23,10 +23,17 @@ class ApplicationLayout extends Component {
   render() {
     return (
       <main>
-        <Layout.Content>
+        <Layout.Content style={{ background: 'unset' }}>
           <Route
             render={({ location }) => (
-              <div>
+              <div
+                style={{
+                  borderRadius: '24px',
+                  paddingBottom: '24px',
+                  paddingTop: '24px',
+                  background: 'white',
+                }}
+              >
                 <Switch key={location.key} location={location}>
                   <Route exact path="/" component={Home} />
                   <Route path="/privacy" component={Privacy} />
