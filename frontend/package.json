@@ -12,20 +12,20 @@
     "mdi-react": "^2.1.19",
     "papaparse": "^4.3.6",
     "rc-select": "^7.3.1",
-    "react-highcharts": "^13.0.0",
+    "react-highcharts": "^16.0.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
-    "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
     "ua-parser-js": "^0.7.17"
   },
   "scripts": {
-    "start": "source APP_ENV && react-scripts start",
+    "start": "yarn clean-ant && source APP_ENV && react-scripts start",
     "test": "source APP_ENV && react-scripts test --env=jsdom",
-    "build": "source .env.production && react-scripts build",
+    "build": "yarn clean-ant && source .env.production && react-scripts build",
     "eject": "react-scripts eject",
-    "release": "source .env.production && react-scripts build && firebase deploy"
+    "clean-ant": "./clean-ant",
+    "release": "yarn clean-ant && source .env.production && react-scripts build && firebase deploy"
   }
 }
