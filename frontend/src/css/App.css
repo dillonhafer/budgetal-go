@@ -1,6 +1,10 @@
 @import './Antd.css';
 @import './Antd-Override.css';
 
+div[data-evergreen-toaster-container] > span {
+  z-index: 10000;
+}
+
 html,
 body {
   background: #ececec;

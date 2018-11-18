@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { Modal, Table } from 'antd';
-import { monthName, currencyf } from 'helpers';
+import { monthName } from 'helpers';
 import { error } from 'window';
+import { Alert, Dialog, Heading, Text } from 'evergreen-ui';
+import AssetTable from './AssetTable';
 
 class MonthModal extends Component {
   state = {
+    loading: false,
     visible: false,
+    confirmationVisible: false,
   };
 
   lastMonth = () => {
@@ -15,28 +18,25 @@ class MonthModal extends Component {
   };
 
   importNetWorthItems = () => {
+    this.setState({ loading: true, confirmationVisible: false });
     this.props
       .importNetWorthItems({
         year: this.props.month.year,
         month: this.props.month.number,
       })
+      .then(() => {
+        this.close();
+        this.setState({ loading: false });
+      })
       .catch(() => {
         error(`Could not import`);
+        this.setState({ loading: false });
+        this.close();
       });
-    this.close();
   };
 
-  onImportPress = e => {
-    e.preventDefault();
-
-    Modal.confirm({
-      okText: `Copy`,
-      cancelText: 'Cancel',
-      title: 'Copy Net Worth Items',
-      content: `Do you want copy net worth items from ${this.lastMonth()}?`,
-      onOk: this.importNetWorthItems,
-      onCancel() {},
-    });
+  onImportPress = () => {
+    this.setState({ confirmationVisible: true });
   };
 
   open = () => {
@@ -44,68 +44,47 @@ class MonthModal extends Component {
   };
 
   close = () => {
-    this.setState({ visible: false });
+    this.setState({ visible: false, confirmationVisible: false });
   };
 
   render() {
-    const { visible } = this.state;
+    const { visible, loading, confirmationVisible } = this.state;
     const { month } = this.props;
-    const columns = ['Name', 'Amount'].map(title => {
-      return {
-        title: (
-          <div style={{ textAlign: title === 'Amount' ? 'right' : 'left' }}>
-            {title}
-          </div>
-        ),
-        key: title.toLowerCase(),
-        dataIndex: title.toLowerCase(),
-      };
-    });
-
-    const assets = month.assets.map(m => {
-      return {
-        key: m.id,
-        name: <span>{m.name}</span>,
-        amount: <div style={{ textAlign: 'right' }}>{currencyf(m.amount)}</div>,
-      };
-    });
-
-    const liabilities = month.liabilities.map(m => {
-      return {
-        key: m.id,
-        name: <span>{m.name}</span>,
-        amount: <div style={{ textAlign: 'right' }}>{currencyf(m.amount)}</div>,
-      };
-    });
 
     return (
-      <Modal
+      <Dialog
+        isShown={visible}
         title={`${month.name} for ${monthName(month.number)} ${month.year}`}
-        width={400}
-        visible={visible}
-        onCancel={this.close}
-        onOk={this.onImportPress}
+        onCloseComplete={this.close}
+        isConfirmLoading={loading}
         cancelText="Close"
-        okText={`Copy ${this.lastMonth()} Items`}
+        onConfirm={this.onImportPress}
+        confirmLabel={`Copy ${this.lastMonth()} Items`}
       >
-        <h3>Assets</h3>
-        <Table
-          dataSource={assets}
-          pagination={false}
-          size="middle"
-          columns={columns}
-          locale={{ emptyText: 'No Assets' }}
-        />
-        <br />
-        <h3>Liabilities</h3>
-        <Table
-          dataSource={liabilities}
-          pagination={false}
-          size="middle"
-          columns={columns}
-          locale={{ emptyText: 'No Liabilties' }}
-        />
-      </Modal>
+        <Heading marginBottom={16}>Assets</Heading>
+        <AssetTable items={month.assets} emptyText="No Assets" />
+
+        <Heading marginTop={16} marginBottom={16}>
+          Liabilities
+        </Heading>
+        <AssetTable items={month.liabilities} emptyText="No Liabilities" />
+        <Dialog
+          width={350}
+          hasHeader={false}
+          confirmLabel={`Copy ${this.lastMonth()} Items`}
+          onConfirm={this.importNetWorthItems}
+          onCloseComplete={() => {
+            this.setState({ confirmationVisible: false });
+          }}
+          isShown={confirmationVisible}
+        >
+          <Alert intent="none" title="Copy Net Worth Items">
+            <Text>
+              Do you want copy net worth items from {this.lastMonth()}?
+            </Text>
+          </Alert>
+        </Dialog>
+      </Dialog>
     );
   }
 }

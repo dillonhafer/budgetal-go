@@ -66,17 +66,17 @@ export const importNetWorthItems = ({ year, month }) => dispatch =>
       .then(resp => {
         if (resp.ok) {
           if (resp.items.length) {
-            resolve(
+            return resolve(
               dispatch(importedNetWorths(resp.items, resp.items[0].netWorthId)),
             );
           }
-          notice(resp.message);
+          return resolve(notice(resp.message));
         } else {
-          reject(resp.error);
+          return reject(resp.error);
         }
       })
       .catch(error => {
-        reject(error);
+        return reject(error);
       }),
   );
 
