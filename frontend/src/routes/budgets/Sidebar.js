@@ -4,7 +4,8 @@ import moment from 'moment';
 import ImportExpenseModal from './ImportExpenseModal';
 import { updateBudgetCategory } from 'actions/budgets';
 
-import { Menu, DatePicker, Button } from 'antd';
+import { Menu, DatePicker } from 'antd';
+import { Button } from 'evergreen-ui';
 
 class Sidebar extends Component {
   state = {
@@ -68,12 +69,13 @@ class Sidebar extends Component {
             );
           })}
           <Menu.Item id={'import-csv'} key={'import-csv'}>
-            <Button icon="upload" type="primary">
-              Import Expenses
-            </Button>
+            <Button iconBefore="import">Import Expenses</Button>
           </Menu.Item>
         </Menu>
         <ImportExpenseModal
+          budgetItems={this.props.budgetItems}
+          budgetCategories={this.props.budgetCategories}
+          budgetItemExpenses={this.props.budgetItemExpenses}
           hidden={showImportExpenseModal}
           cancel={this.hideImportExpenseModal}
         />
