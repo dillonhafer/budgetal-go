@@ -9,29 +9,19 @@ import {
 import { connect } from 'react-redux';
 import { itemAdded, itemUpdated } from 'actions/annual-budget-items';
 
-// Antd
+import Form from 'components/Form';
 import {
-  Form,
-  Button,
-  Input,
-  Select,
-  Row,
-  InputNumber,
-  DatePicker,
+  TextInputField,
+  Pane,
+  SelectField,
   Switch,
-  Modal,
-} from 'antd';
-const Option = Select.Option;
-const FormItem = Form.Item;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
+  Dialog,
+} from 'evergreen-ui';
 
 class AnnualBudgetItemForm extends Component {
   state = {
     loading: false,
+    budgetItem: this.props.budgetItem,
   };
 
   createItem = async item => {
@@ -69,131 +59,111 @@ class AnnualBudgetItemForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        const item = {
-          ...values,
-          id: this.props.budgetItem.id,
-          interval: parseInt(values.interval, 10),
-          annualBudgetId: this.props.budgetItem.annualBudgetId,
-        };
+    const item = {
+      ...this.state.budgetItem,
+      id: this.props.budgetItem.id,
+      interval: parseInt(this.state.budgetItem.interval, 10),
+      annualBudgetId: this.props.budgetItem.annualBudgetId,
+    };
 
-        if (item.id) {
-          this.updateItem(item);
-        } else {
-          this.createItem(item);
-        }
-      } else {
-        console.log(err);
-      }
-    });
+    if (item.id) {
+      this.updateItem(item);
+    } else {
+      this.createItem(item);
+    }
   };
 
   render() {
-    const { loading } = this.state;
-    const { getFieldDecorator } = this.props.form;
-    const { visible, onCancel, budgetItem } = this.props;
-    const okText = budgetItem.id ? 'Update Item' : 'Create Item';
+    const { budgetItem, loading } = this.state;
+    const { visible, onCancel } = this.props;
+    const confirmLabel = budgetItem.id ? 'Update Item' : 'Create Item';
     return (
-      <Modal
+      <Dialog
+        isShown={visible}
         title="Annual Budget Item"
-        width={300}
-        confirmLoading={loading}
-        visible={visible}
-        okText={okText}
-        onOk={this.handleSubmit}
-        onCancel={onCancel}
+        width={350}
+        onCloseComplete={onCancel}
+        isConfirmLoading={loading}
+        cancelText="Close"
+        onConfirm={this.handleSubmit}
+        confirmLabel={confirmLabel}
       >
         <Form onSubmit={this.handleSubmit}>
-          <FormItem {...layout} hasFeedback label="Name">
-            {getFieldDecorator('name', {
-              rules: [{ required: true, message: 'Name is required' }],
-            })(<Input type="text" placeholder="Life Insurance" />)}
-          </FormItem>
-          <FormItem {...layout} hasFeedback label="Amount">
-            {getFieldDecorator('amount', {
-              rules: [
-                {
-                  type: 'number',
-                  min: 1,
-                  required: true,
-                  message: 'Amount is required',
+          <TextInputField
+            required
+            label="Name"
+            onChange={e => {
+              this.setState({
+                budgetItem: { ...budgetItem, name: e.target.value },
+              });
+            }}
+            placeholder="Life Insurance"
+            isInvalid={budgetItem.name && budgetItem.name.trim().length <= 0}
+          />
+          <TextInputField
+            type="number"
+            required
+            min="1"
+            label="Amount"
+            onChange={e => {
+              this.setState({
+                budgetItem: { ...budgetItem, amount: e.target.value },
+              });
+            }}
+            placeholder="(10.00)"
+            isInvalid={budgetItem.amount <= 0}
+          />
+          <TextInputField
+            required
+            type="date"
+            label="Due Date"
+            onChange={dueDate => {
+              this.setState({
+                budgetItem: {
+                  ...budgetItem,
+                  dueDate: dueDate.format('YYYY-mm-dd'),
                 },
-              ],
-            })(
-              <InputNumber
-                formatter={value =>
-                  `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                name="amount"
-                style={{ width: '100%' }}
-                min={1}
-                placeholder="(10.00)"
-              />,
-            )}
-          </FormItem>
-          <FormItem {...layout} hasFeedback label="Due Date">
-            {getFieldDecorator('dueDate', {
-              rules: [{ required: true, message: 'Date is required' }],
-            })(
-              <DatePicker
-                size="large"
-                allowClear={false}
-                style={{ width: '100%' }}
-              />,
-            )}
-          </FormItem>
-          <FormItem {...layout} hasFeedback label="Months">
-            {getFieldDecorator('interval', {})(
-              <Select>
-                <Option value="1">1</Option>
-                <Option value="2">2</Option>
-                <Option value="3">3</Option>
-                <Option value="4">4</Option>
-                <Option value="5">5</Option>
-                <Option value="6">6</Option>
-                <Option value="7">7</Option>
-                <Option value="8">8</Option>
-                <Option value="9">9</Option>
-                <Option value="10">10</Option>
-                <Option value="11">11</Option>
-                <Option value="12">12</Option>
-              </Select>,
-            )}
-          </FormItem>
-          <Row type="flex" justify="end">
-            <FormItem {...layout}>
-              {getFieldDecorator('paid', {
-                valuePropName: 'checked',
-              })(<Switch checkedChildren="paid" unCheckedChildren="paid" />)}
-            </FormItem>
-          </Row>
-          <div style={{ display: 'none' }}>
-            <FormItem>
-              <Button loading={loading} htmlType="submit" />
-            </FormItem>
-          </div>
+              });
+            }}
+            placeholder="2018-08-23"
+            isInvalid={
+              budgetItem.dueDate && budgetItem.dueDate.trim().length <= 0
+            }
+          />
+
+          <SelectField label="Months" width="100%">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </SelectField>
+          <Pane display="flex" justifyContent="flex-end">
+            <label>Paid?</label>
+            <Switch
+              onChange={e => {
+                this.setState({
+                  budgetItem: { ...budgetItem, paid: e.target.checked },
+                });
+              }}
+              height={32}
+            />
+          </Pane>
         </Form>
-      </Modal>
-    ); // Button allows for enter to submit
+      </Dialog>
+    );
   }
 }
 
-const mapPropsToFields = props => {
-  const item = props.budgetItem;
-  return Object.keys(item).reduce((acc, k) => {
-    let value;
-    if (k === 'interval') {
-      value = String(item[k]);
-    } else {
-      value = item[k];
-    }
-    return { ...acc, [k]: { value } };
-  }, {});
-};
-
 export default connect(
-  state => ({}),
+  null,
   dispatch => ({
     itemUpdated: item => {
       dispatch(itemUpdated(item));
@@ -202,4 +172,4 @@ export default connect(
       dispatch(itemAdded(item));
     },
   }),
-)(Form.create({ mapPropsToFields })(AnnualBudgetItemForm));
+)(AnnualBudgetItemForm);

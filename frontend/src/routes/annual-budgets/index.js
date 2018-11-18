@@ -14,35 +14,43 @@ import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
 
 import moment from 'moment';
 
-import { Spin, Row, Col, Button, Select } from 'antd';
-
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
-
-import 'css/annual-budget-items.css';
+import { Spinner, Text, Button, Pane, Heading, Select } from 'evergreen-ui';
 
 const AnnualBudgetItemList = ({ annualBudgetItems, onClick, loading }) => {
   return (
-    <Row className="card-grid">
+    <Pane
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
+      flexWrap="wrap"
+    >
       {annualBudgetItems.map(item => (
         <AnnualBudgetItem item={item} key={item.id} loading={loading} />
       ))}
-      <Col className="card text-center" span={8}>
+      <Pane
+        width={380}
+        minHeight={200}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Button
-          type="primary"
-          icon="plus-circle"
-          className="add-item-button"
+          height={40}
+          appearance="primary"
           onClick={onClick}
-          size="large"
+          iconBefore="add"
         >
           Add an Item
         </Button>
-      </Col>
-    </Row>
+      </Pane>
+      <Pane width={380} />
+    </Pane>
   );
 };
-
-const Option = Select.Option;
 
 class AnnualBudget extends Component {
   state = {
@@ -70,8 +78,8 @@ class AnnualBudget extends Component {
     }
   };
 
-  changeYear = year => {
-    this.props.history.push(`/annual-budgets/${year}`);
+  changeYear = e => {
+    this.props.history.push(`/annual-budgets/${e.target.value}`);
   };
 
   showNewModal = () => {
@@ -94,39 +102,43 @@ class AnnualBudget extends Component {
     const { year } = this.props.match.params;
     return (
       <div>
-        <h1>
-          Annual Budget for {year}
-          <div
-            style={{
-              float: 'right',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+        <Pane
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Heading size={800}>ANNUAL BUDGET FOR {year}</Heading>
+          <Select
+            value={year}
+            onChange={this.changeYear}
+            flex="unset"
+            width={100}
           >
-            <Select
-              size="large"
-              style={{ width: '100px' }}
-              defaultValue={year}
-              onChange={this.changeYear}
-            >
-              {availableYears().map(y => {
-                return (
-                  <Option key={y} value={y.toString()}>
-                    {y}
-                  </Option>
-                );
-              })}
-            </Select>
-          </div>
-        </h1>
-        <Spin delay={300} tip="Loading..." size="large" spinning={loading}>
-          <AnnualBudgetItemList
-            loading={loading}
-            annualBudgetItems={annualBudgetItems}
-            onClick={this.showNewModal}
-          />
-        </Spin>
+            {availableYears().map(y => {
+              return (
+                <option key={y} value={y.toString()}>
+                  {y}
+                </option>
+              );
+            })}
+          </Select>
+        </Pane>
+
+        <Pane marginY={16}>
+          {(loading && (
+            <Pane textAlign="center" marginY={56}>
+              <Spinner marginX="auto" />
+              <Text marginY={16}>Loading...</Text>
+            </Pane>
+          )) || (
+            <AnnualBudgetItemList
+              loading={loading}
+              annualBudgetItems={annualBudgetItems}
+              onClick={this.showNewModal}
+            />
+          )}
+        </Pane>
 
         <AnnualBudgetItemForm
           budgetItem={selectedBudgetItem}
