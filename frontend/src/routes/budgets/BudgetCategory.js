@@ -6,7 +6,7 @@ import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
 
 // Components
 import BudgetItemList from './BudgetItemList';
-import { ImportCategoryRequest } from 'api/budgets';
+import { ImportCategoryRequest } from '@shared/api/budgets';
 import { notice } from 'window';
 import { currencyf, reduceSum } from '@shared/helpers';
 

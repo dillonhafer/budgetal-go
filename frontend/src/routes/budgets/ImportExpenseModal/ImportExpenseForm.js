@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { importedExpense } from 'actions/budget-item-expenses';
 
 // API
-import { CreateExpenseRequest } from 'api/budget-item-expenses';
+import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
 
 // Components
 import { IconButton, Pane, Select, Tooltip } from 'evergreen-ui';

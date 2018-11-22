@@ -31,7 +31,7 @@
   integrity sha512-ojhgxzUHZ7am3D2jHkMzPpsBAiB005GF5YU4ea+8DNPybMk01JJUM9V9YRlF/GE95tcOm8DxQvWA2jq19bGalQ==
 
 "@shared@file:../shared":
-  version "0.0.2"
+  version "0.0.3"
 
 abab@^1.0.3:
   version "1.0.4"

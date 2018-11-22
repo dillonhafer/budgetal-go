@@ -1,6 +1,6 @@
 import React from 'react';
 import { notice, error } from 'window';
-import { UpdateAccountInfoRequest } from 'api/users';
+import { UpdateAccountInfoRequest } from '@shared/api/users';
 import { GetCurrentUser } from 'authentication';
 import { get, round, assign } from 'lodash';
 import { Button, Col, Form, Icon, Input, Modal, Row, Upload } from 'antd';

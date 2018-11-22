@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FindStatisticRequest } from 'api/statistics';
+import { FindStatisticRequest } from '@shared/api/statistics';
 import { title, scrollTop, error } from 'window';
 import { availableYears, currencyf } from '@shared/helpers';
 import moment from 'moment';

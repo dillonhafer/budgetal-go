@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updatedSelectedItem, removeItem } from 'actions/annual-budget-items';
 
-import { DeleteAnnualBudgetItemRequest } from 'api/annual-budget-items';
+import { DeleteAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
 import moment from 'moment';
 import { notice } from 'window';
 import ProgressModal from './ProgressModal';

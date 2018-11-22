@@ -8,7 +8,7 @@ import {
   CreateAssetRequest,
   UpdateAssetRequest,
   DeleteAssetRequest,
-} from 'api/assets-liabilities';
+} from '@shared/api/assets-liabilities';
 
 export const createAssetLiability = asset => dispatch =>
   new Promise((resolve, reject) =>

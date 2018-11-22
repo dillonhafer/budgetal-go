@@ -10,7 +10,7 @@ import {
 
 import { title } from 'window';
 import { availableYears } from '@shared/helpers';
-import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
+import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
 import moment from 'moment';
 

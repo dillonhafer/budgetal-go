@@ -15,8 +15,8 @@ import BudgetItemExpenseList from './BudgetItemExpenseList';
 import {
   CreateItemRequest,
   UpdateItemRequest,
-  DestroyItemRequest,
-} from 'api/budget-items';
+  DeleteItemRequest,
+} from '@shared/api/budget-items';
 
 // Helpers
 import classNames from 'classnames';
@@ -86,7 +86,7 @@ class BudgetItem extends Component {
   deleteBudgetItem = async () => {
     try {
       if (this.props.budgetItem.id !== null) {
-        const resp = await DestroyItemRequest(this.props.budgetItem.id);
+        const resp = await DeleteItemRequest(this.props.budgetItem.id);
         if (resp !== null) {
           notice('Deleted ' + this.props.budgetItem.name);
         }
@@ -130,7 +130,7 @@ class BudgetItem extends Component {
   };
 
   percentSpent = () => {
-    const p = this.amountSpent() / this.props.budgetItem.amount * 100;
+    const p = (this.amountSpent() / this.props.budgetItem.amount) * 100;
 
     if (p > 99.99) {
       return 100;

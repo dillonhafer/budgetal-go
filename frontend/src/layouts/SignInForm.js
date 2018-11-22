@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SignInRequest } from 'api/sessions';
+import { SignInRequest } from '@shared/api/sessions';
 import { notice } from 'window';
 import { SetAuthenticationToken, SetCurrentUser } from 'authentication';
 

@@ -5,7 +5,7 @@ import {
   NET_WORTH_REQUEST_FINISHED,
   NET_WORTH_ITEMS_IMPORTED,
 } from 'constants/action-types';
-import { AllNetWorthsRequest, ImportNetWorthRequest } from 'api/net-worth';
+import { AllNetWorthsRequest, ImportNetWorthRequest } from '@shared/api/net-worth';
 import { notice } from 'window';
 
 export const netWorthLoaded = ({ assets, liabilities, months }) => {

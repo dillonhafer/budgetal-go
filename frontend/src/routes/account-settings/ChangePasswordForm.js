@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChangePasswordRequest } from 'api/users';
+import { ChangePasswordRequest } from '@shared/api/users';
 import { error, notice } from 'window';
 import { Button, Col, Form, Icon, Input } from 'antd';
 import { GetCurrentUser } from 'authentication';

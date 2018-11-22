@@ -14,7 +14,7 @@ import {
   UpdateExpenseRequest,
   DeleteExpenseRequest,
   PastExpensesRequest,
-} from 'api/budget-item-expenses';
+} from '@shared/api/budget-item-expenses';
 
 // Helpers
 import moment from 'moment';

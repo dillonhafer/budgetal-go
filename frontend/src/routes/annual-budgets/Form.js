@@ -3,7 +3,7 @@ import { notice } from 'window';
 import {
   CreateAnnualBudgetItemRequest,
   UpdateAnnualBudgetItemRequest,
-} from 'api/annual-budget-items';
+} from '@shared/api/annual-budget-items';
 
 // Redux
 import { connect } from 'react-redux';

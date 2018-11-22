@@ -8,7 +8,7 @@ import {
   CreateItemRequest,
   UpdateItemRequest,
   DeleteItemRequest,
-} from 'api/net-worth-items';
+} from '@shared/api/net-worth-items';
 
 export const createNetWorthItem = ({ year, month, item }) => dispatch =>
   new Promise((resolve, reject) =>

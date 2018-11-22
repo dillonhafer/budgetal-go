@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RegisterRequest } from 'api/users';
+import { RegisterRequest } from '@shared/api/users';
 import { notice } from 'window';
 import { SetAuthenticationToken, SetCurrentUser } from 'authentication';
 

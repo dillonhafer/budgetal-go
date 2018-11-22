@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateIncome } from 'actions/budgets';
 
 // API
-import { UpdateIncomeRequest } from 'api/budgets';
+import { UpdateIncomeRequest } from '@shared/api/budgets';
 
 // Helpers
 import { currencyf } from '@shared/helpers';

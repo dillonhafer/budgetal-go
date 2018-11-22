@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
 
 // Components
-import { BudgetRequest } from 'api/budgets';
+import { BudgetRequest } from '@shared/api/budgets';
 import Sidebar from './Sidebar';
 import BudgetCategory from './BudgetCategory';
 import MonthlyOverview from './MonthlyOverview';

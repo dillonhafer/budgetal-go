@@ -6,7 +6,7 @@ import {
   AdminTestEmailRequest,
   AdminErrorRequest,
   AdminTestPushNotificationRequest,
-} from 'api/admin';
+} from '@shared/api/admin';
 import moment from 'moment';
 
 // Antd
