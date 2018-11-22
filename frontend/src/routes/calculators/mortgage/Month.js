@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import { Popover, Tag } from 'antd';
 
 class Month extends Component {

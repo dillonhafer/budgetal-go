@@ -20,7 +20,7 @@ import {
 
 // Helpers
 import classNames from 'classnames';
-import { currencyf, reduceSum } from 'helpers';
+import { currencyf, reduceSum } from '@shared/helpers';
 import { notice } from 'window';
 import {
   Button,

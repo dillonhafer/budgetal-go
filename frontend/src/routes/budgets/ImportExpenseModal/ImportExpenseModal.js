@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Papa from 'papaparse';
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import moment from 'moment';
 import { groupBy } from 'lodash';
 

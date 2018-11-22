@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 // Helpers
-import { currencyf, reduceSum } from 'helpers';
+import { currencyf, reduceSum } from '@shared/helpers';
 
 // Components
 import { Progress, Alert } from 'antd';

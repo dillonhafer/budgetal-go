@@ -5,7 +5,7 @@ import { times } from 'lodash';
 import { Radio, Table, Icon } from 'antd';
 
 import Month from './Month';
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 

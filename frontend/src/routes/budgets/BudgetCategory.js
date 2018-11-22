@@ -8,7 +8,7 @@ import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
 import BudgetItemList from './BudgetItemList';
 import { ImportCategoryRequest } from 'api/budgets';
 import { notice } from 'window';
-import { currencyf, reduceSum } from 'helpers';
+import { currencyf, reduceSum } from '@shared/helpers';
 
 import { Card, Modal, Icon, Progress } from 'antd';
 

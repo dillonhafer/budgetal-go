@@ -8,7 +8,7 @@ import { updateIncome } from 'actions/budgets';
 import { UpdateIncomeRequest } from 'api/budgets';
 
 // Helpers
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import { notice } from 'window';
 
 // Components

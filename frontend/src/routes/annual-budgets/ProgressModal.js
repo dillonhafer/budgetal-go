@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import { times, round } from 'lodash';
 import moment from 'moment';
 

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { FindStatisticRequest } from 'api/statistics';
 import { title, scrollTop, error } from 'window';
-import { availableYears } from 'helpers';
-import { currencyf } from 'helpers';
+import { availableYears, currencyf } from '@shared/helpers';
 import moment from 'moment';
 
 import Highchart from 'highchart';
@@ -127,7 +126,7 @@ class Statistics extends Component {
           let percentSpent = 0;
           if (parseFloat(cat.amountSpent) > 0) {
             percentSpent = Math.round(
-              parseFloat(cat.amountSpent) / totalSpent * 100,
+              (parseFloat(cat.amountSpent) / totalSpent) * 100,
             );
           }
           return {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { monthName } from 'helpers';
+import { monthName } from '@shared/helpers';
 import { error } from 'window';
 import { Alert, Dialog, Heading, Text } from 'evergreen-ui';
 import AssetTable from './AssetTable';

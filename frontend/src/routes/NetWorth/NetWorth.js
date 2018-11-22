@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { orderBy } from 'lodash';
 import { title } from 'window';
-import { availableYears, monthName } from 'helpers';
+import { availableYears, monthName } from '@shared/helpers';
 import Graphchart from 'graphchart';
 import moment from 'moment';
 import MonthModal from './MonthModal';

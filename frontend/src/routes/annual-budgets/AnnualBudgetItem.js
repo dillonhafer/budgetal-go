@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import moment from 'moment';
 import { round } from 'lodash';
 import { Badge, Pane, Text, Paragraph, Heading, Strong } from 'evergreen-ui';

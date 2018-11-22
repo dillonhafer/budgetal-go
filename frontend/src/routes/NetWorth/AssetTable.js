@@ -8,7 +8,7 @@ import {
   toaster,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 
 class AssetTable extends Component {
   static propTypes = {

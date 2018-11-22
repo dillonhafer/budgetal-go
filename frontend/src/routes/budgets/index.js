@@ -14,7 +14,7 @@ import { Row, Col, Spin } from 'antd';
 
 // Helpers
 import { title } from 'window';
-import { monthName } from 'helpers';
+import { monthName } from '@shared/helpers';
 import 'css/budgets.css';
 
 class Budget extends Component {
