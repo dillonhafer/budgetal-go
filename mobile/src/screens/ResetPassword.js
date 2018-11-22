@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 // API
-import { ResetPasswordRequest } from 'api/users';
+import { ResetPasswordRequest } from '@shared/api/users';
 
 // Helpers
 import { error, notice } from 'notify';

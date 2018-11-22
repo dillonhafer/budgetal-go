@@ -1,5 +1,5 @@
 import { Permissions, Notifications } from 'expo';
-import { UpdatePushNotificationTokenRequest } from 'api/users';
+import { UpdatePushNotificationTokenRequest } from '@shared/api/users';
 import { IsAuthenticated } from 'utils/authentication';
 
 async function registerForPushNotificationsAsync() {

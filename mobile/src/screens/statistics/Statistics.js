@@ -10,7 +10,7 @@ import {
 
 // Components
 import { error } from 'notify';
-import { FindStatisticRequest } from 'api/statistics';
+import { FindStatisticRequest } from '@shared/api/statistics';
 import { categoryImage } from 'images';
 import { currencyf } from '@shared/helpers';
 import DatePicker from 'utils/DatePicker';

@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { itemUpdated } from 'actions/annual-budget-items';
 
 // API
-import { UpdateAnnualBudgetItemRequest } from 'api/annual-budget-items';
+import { UpdateAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
 
 // Helpers
 import { error, notice } from 'notify';

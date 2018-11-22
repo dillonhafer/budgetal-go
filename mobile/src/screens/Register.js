@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { updateCurrentUser } from 'actions/users';
 
 // API
-import { RegisterRequest } from 'api/users';
+import { RegisterRequest } from '@shared/api/users';
 import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
 
 // Helpers

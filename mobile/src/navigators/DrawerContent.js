@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 import DrawerItem from './DrawerItem';
 
 // Sign out helpers
-import { SignOutRequest } from 'api/sessions';
+import { SignOutRequest } from '@shared/api/sessions';
 import { navigateRoot } from 'navigators';
 import { notice, error } from 'notify';
 import { RemoveAuthentication } from 'utils/authentication';

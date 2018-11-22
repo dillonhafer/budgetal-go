@@ -14,7 +14,7 @@ import {
 import { connect } from 'react-redux';
 
 // API
-import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
+import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';

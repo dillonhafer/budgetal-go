@@ -1,5 +1,5 @@
-import { BudgetRequest } from 'api/budgets';
-import { AllNetWorthsRequest } from 'api/net-worth';
+import { BudgetRequest } from '@shared/api/budgets';
+import { AllNetWorthsRequest } from '@shared/api/net-worth';
 import { budgetLoaded, budgetRequestFinished } from 'actions/budgets';
 
 import { netWorthLoaded, netWorthRequestFinished } from 'actions/net-worth';

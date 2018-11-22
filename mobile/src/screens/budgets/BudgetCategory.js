@@ -12,8 +12,8 @@ import { connect } from 'react-redux';
 import { importedBudgetItems, removeBudgetItem } from 'actions/budgets';
 
 // API
-import { ImportCategoryRequest } from 'api/budgets';
-import { DeleteItemRequest } from 'api/budget-items';
+import { ImportCategoryRequest } from '@shared/api/budgets';
+import { DeleteItemRequest } from '@shared/api/budget-items';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';

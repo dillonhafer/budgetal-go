@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { updateBudgetItem } from 'actions/budgets';
 
 // API
-import { UpdateItemRequest } from 'api/budget-items';
+import { UpdateItemRequest } from '@shared/api/budget-items';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 // API
-import { PasswordResetRequest } from 'api/users';
+import { PasswordResetRequest } from '@shared/api/users';
 
 // Helpers
 import { error, notice } from 'notify';
