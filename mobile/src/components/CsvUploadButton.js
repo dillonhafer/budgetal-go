@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import ImportAnimation from 'components/ImportAnimation';
 
 class CsvUploadButton extends PureComponent {

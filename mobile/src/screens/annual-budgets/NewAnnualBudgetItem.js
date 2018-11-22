@@ -17,7 +17,7 @@ import { CreateAnnualBudgetItemRequest } from 'api/annual-budget-items';
 // Helpers
 import { error, notice } from 'notify';
 import { range } from 'lodash';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 // Components
 import {

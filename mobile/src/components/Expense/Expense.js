@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Helpers
 import { currencyf } from 'utils/helpers';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { notice, confirm } from 'notify';
 import { Medium } from 'components/Text';
 

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 class SwitchInput extends PureComponent {
   state = {

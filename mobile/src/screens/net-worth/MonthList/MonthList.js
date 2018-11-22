@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Card, { SplitBackground } from 'components/Card';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import GroupList from 'components/GroupList';
 import { SecondaryButton, PrimaryButton } from 'forms';
 import { Bold } from 'components/Text';

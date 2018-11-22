@@ -13,7 +13,7 @@ import { currencyf } from 'utils/helpers';
 import { round } from 'lodash';
 import { notice, confirm } from 'notify';
 import moment from 'moment';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 // Components
 import { Bold, Medium, LightText } from 'components/Text';

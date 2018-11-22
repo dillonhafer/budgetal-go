@@ -17,7 +17,7 @@ import { navigateRoot } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 class ResetPasswordScreen extends Component {
   static navigationOptions = ({ navigation }) => {

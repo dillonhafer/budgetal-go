@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { range } from 'lodash';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { Bold } from 'components/Text';
 

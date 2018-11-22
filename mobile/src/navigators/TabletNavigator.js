@@ -5,7 +5,7 @@ import { NavigationActions } from 'react-navigation';
 // Utils
 import Device from 'utils/Device';
 const isTablet = Device.isTablet();
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 class TabletNavigator extends PureComponent {
   state = {

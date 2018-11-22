@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { ButtonText } from 'components/Text';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 export {
   default as NavigationInputAccessoryView,
 } from './NavigationInputAccessoryView';

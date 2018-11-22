@@ -7,7 +7,7 @@ import BudgetNavigator from 'navigators/Budget';
 import AnnualBudgetNavigator from 'navigators/AnnualBudget';
 import StatisticsNavigator from 'navigators/Statistics';
 
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import Device from 'utils/Device';
 
 const AppTabNavigator = TabNavigator(

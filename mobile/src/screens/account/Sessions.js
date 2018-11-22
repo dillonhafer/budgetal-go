@@ -22,7 +22,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { GetAuthenticationToken } from 'utils/authentication';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import { humanUA } from 'utils/helpers';

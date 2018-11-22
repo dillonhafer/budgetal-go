@@ -18,6 +18,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@shared": "file:../shared",
     "expo": "^30.0.0",
     "papaparse": "^4.3.6",
     "react": "16.3.1",

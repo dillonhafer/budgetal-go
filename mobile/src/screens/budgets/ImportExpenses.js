@@ -22,7 +22,7 @@ import { DocumentPicker } from 'expo';
 
 import Papa from 'papaparse';
 import moment from 'moment';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 import WebViewHack from './WebViewHack';
 import CsvUploadButton from 'components/CsvUploadButton';

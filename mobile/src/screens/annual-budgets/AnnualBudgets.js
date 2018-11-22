@@ -21,7 +21,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { Bold } from 'components/Text';
 import { error } from 'notify';
 import { FontAwesome } from '@expo/vector-icons';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import DatePicker from 'utils/DatePicker';
 import PlusButton from 'utils/PlusButton';
 import Spin from 'utils/Spin';

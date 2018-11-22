@@ -12,7 +12,7 @@ import { ChangePasswordRequest } from 'api/users';
 
 // Helpers
 import { error, notice } from 'notify';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components

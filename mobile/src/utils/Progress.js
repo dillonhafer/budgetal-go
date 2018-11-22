@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View } from 'react-native';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 export default class Progress extends PureComponent {
   render() {

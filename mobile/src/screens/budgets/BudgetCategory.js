@@ -21,7 +21,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
 import { reduceSum, categoryImage, percentSpent } from 'utils/helpers';

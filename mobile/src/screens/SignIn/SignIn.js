@@ -11,7 +11,7 @@ import { navigateHome } from 'navigators';
 
 // Components
 import { PrimarySquareButton } from 'forms';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { validEmail } from 'utils/helpers';
 import { FormCard, SplitBackground } from 'components/Card';
 import { Label } from 'components/Text';
