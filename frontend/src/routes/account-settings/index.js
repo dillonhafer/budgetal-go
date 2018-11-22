@@ -5,7 +5,7 @@ import SessionsTable from './SessionsTable';
 
 import { title, scrollTop } from 'window';
 import { Icon, Row, Col, Card } from 'antd';
-import { colors } from 'window';
+import { colors } from '@shared/theme';
 
 class AccountSettings extends Component {
   componentDidMount() {
