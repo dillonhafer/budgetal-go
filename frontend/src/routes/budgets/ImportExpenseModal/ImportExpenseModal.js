@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Papa from 'papaparse';
 import { currencyf } from 'helpers';
 import moment from 'moment';
+import { groupBy } from 'lodash';
 
 import ImportRow from './ImportRow';
 import ImportField from './ImportField';
@@ -32,10 +33,11 @@ class ImportExpenseModal extends PureComponent {
 
   options = () => {
     if (this._options.length === 0) {
-      this._options = {
-        categories: this.props.budgetCategories,
-        items: this.props.budgetItems,
-      };
+      const groups = groupBy(this.props.budgetItems, 'budgetCategoryId');
+      this._options = this.props.budgetCategories.map(c => ({
+        label: c.name,
+        options: groups[`${c.id}`],
+      }));
     }
 
     return this._options;

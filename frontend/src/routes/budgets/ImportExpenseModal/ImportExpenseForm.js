@@ -9,15 +9,14 @@ import { importedExpense } from 'actions/budget-item-expenses';
 import { CreateExpenseRequest } from 'api/budget-item-expenses';
 
 // Components
-import { Pane, IconButton, Tooltip, Popover, Menu, Button } from 'evergreen-ui';
+import { IconButton, Pane, Select, Tooltip } from 'evergreen-ui';
 
 // Helpers
 import { notice, error } from 'window';
 
 class ImportExpenseForm extends PureComponent {
   state = {
-    categoryId: null,
-    itemId: null,
+    itemId: 0,
     loading: false,
   };
 
@@ -26,7 +25,7 @@ class ImportExpenseForm extends PureComponent {
   };
 
   disabled = () => {
-    return this.state.itemId === null || this.state.categoryId === null;
+    return this.state.itemId === 0;
   };
 
   save = async () => {
@@ -60,75 +59,38 @@ class ImportExpenseForm extends PureComponent {
     this.props.removeExpense(this.props.expense);
   };
 
-  onChange = ids => {
-    const [categoryId, itemId] = ids;
-    this.setState({ categoryId, itemId });
-  };
-
   render() {
     const disabled = this.disabled() || this.state.loading;
     return (
       <Pane style={{ display: 'flex', flexDirection: 'row' }}>
         <Pane>
-          <Popover
-            content={({ close }) => (
-              <Pane
-                display="flex"
-                justifyContent="center"
-                flexDirection="column"
-              >
-                <Pane display={this.state.categoryId ? 'none' : 'block'}>
-                  <Menu>
-                    {this.props.options.categories.map(o => (
-                      <Menu.Item
-                        onSelect={e => {
-                          this.setState({ categoryId: o.id });
-                        }}
-                        key={o.id}
-                      >
-                        {o.name}
-                      </Menu.Item>
-                    ))}
-                  </Menu>
-                </Pane>
-                <Pane display={this.state.categoryId ? 'block' : 'none'}>
-                  <Menu>
-                    <Menu.Item
-                      icon="arrow-left"
-                      onSelect={() => {
-                        this.setState({ categoryId: null, itemId: null });
-                      }}
-                    >
-                      back
-                    </Menu.Item>
-                    <Menu.OptionsGroup
-                      title="Budget Items"
-                      options={this.props.options.items
-                        .filter(
-                          o => o.budgetCategoryId === this.state.categoryId,
-                        )
-                        .map(o => ({
-                          label: o.name,
-                          value: o.id,
-                        }))}
-                      selected={this.state.itemId}
-                      onChange={itemId => {
-                        this.setState({ itemId });
-                        close();
-                      }}
-                    />
-                  </Menu>
-                </Pane>
-              </Pane>
-            )}
-          >
-            <Button width={100} textAlign="center">
-              {(this.state.itemId &&
-                this.props.options.items.find(i => i.id === this.state.itemId)
-                  .name) ||
-                'Budget Item'}
-            </Button>
-          </Popover>
+          <Pane>
+            <Select
+              width={140}
+              value={this.state.itemId}
+              onChange={e => {
+                this.setState({ itemId: parseInt(e.target.value, 10) });
+              }}
+            >
+              <option value="0">Choose Item:</option>
+              {this.props.options.reduce((acc, cat) => {
+                if (cat.options) {
+                  return [
+                    ...acc,
+                    <optgroup key={cat.label} label={cat.label}>
+                      {cat.options.map(o => (
+                        <option key={o.id} value={o.id}>
+                          {o.name}
+                        </option>
+                      ))}
+                    </optgroup>,
+                  ];
+                }
+
+                return acc;
+              }, [])}
+            </Select>
+          </Pane>
         </Pane>
         <Pane marginX={8}>
           <IconButton
