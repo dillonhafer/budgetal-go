@@ -7,6 +7,7 @@
     "extends": "react-app"
   },
   "dependencies": {
+    "@shared": "file:../shared",
     "antd": "^2.13.10",
     "classnames": "^2.2.5",
     "evergreen-ui": "^4.2.0",
@@ -22,8 +23,7 @@
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
     "redux-thunk": "^2.3.0",
-    "ua-parser-js": "^0.7.17",
-    "@shared": "file:../shared"
+    "ua-parser-js": "^0.7.17"
   },
   "scripts": {
     "start": "yarn clean-ant && source APP_ENV && react-scripts start",
