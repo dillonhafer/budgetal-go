@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 
 class ProgressLabel extends PureComponent {
   render() {

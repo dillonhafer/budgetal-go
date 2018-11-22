@@ -16,7 +16,7 @@ import { PrimaryButton } from 'forms';
 
 import Carousel from 'react-native-snap-carousel';
 import Card, { SplitBackground } from 'components/Card';
-import { reduceSum } from 'utils/helpers';
+import { reduceSum } from '@shared/helpers';
 import { groupBy } from 'lodash';
 import { notice, error } from 'notify';
 

@@ -19,7 +19,7 @@ import EditBudgetItemExpenseScreen from 'screens/budgets/EditBudgetItemExpense';
 import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
 
 import moment from 'moment';
-import { categoryImage } from 'utils/helpers';
+import { categoryImage } from 'images';
 import {
   NavigationHeight,
   BlurViewNavigationOptions,

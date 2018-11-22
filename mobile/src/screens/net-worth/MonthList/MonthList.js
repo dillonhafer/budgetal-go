@@ -6,7 +6,7 @@ import GroupList from 'components/GroupList';
 import { SecondaryButton, PrimaryButton } from 'forms';
 import { Bold } from 'components/Text';
 import { groupBy } from 'lodash';
-import { reduceSum, monthName } from 'utils/helpers';
+import { reduceSum, monthName } from '@shared/helpers';
 import { notice, confirm, error } from 'notify';
 
 class MonthList extends Component {

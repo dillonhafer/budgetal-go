@@ -21,7 +21,7 @@ import { navigateHome } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
-import { validEmail } from 'utils/helpers';
+import { validEmail } from '@shared/helpers';
 
 class RegisterScreen extends Component {
   inputs = [];
@@ -164,8 +164,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, dispatch => ({
-  updateCurrentUser: user => {
-    dispatch(updateCurrentUser(user));
-  },
-}))(RegisterScreen);
+export default connect(
+  null,
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  }),
+)(RegisterScreen);

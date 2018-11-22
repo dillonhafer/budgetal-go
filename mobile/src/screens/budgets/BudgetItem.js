@@ -10,7 +10,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
-import { reduceSum } from 'utils/helpers';
+import { reduceSum } from '@shared/helpers';
 import moment from 'moment';
 import PlusButton from 'utils/PlusButton';
 import Card, { SplitBackground } from 'components/Card';

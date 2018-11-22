@@ -710,7 +710,7 @@
     join-component "^1.1.0"
 
 "@shared@file:../shared":
-  version "0.0.1"
+  version "0.0.2"
 
 Base64@~0.1.3:
   version "0.1.4"

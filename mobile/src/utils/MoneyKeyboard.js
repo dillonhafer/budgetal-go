@@ -8,7 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { colors } from '@shared/theme';
 import { Medium } from 'components/Text';
 

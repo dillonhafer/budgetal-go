@@ -19,7 +19,7 @@ import { CreateExpenseRequest } from 'api/budget-item-expenses';
 import { colors } from '@shared/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { notice } from 'notify';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 
 const findFirstItemId = (categoryId, items) => {
   return (items.find(i => i.budgetCategoryId === categoryId) || { id: 0 }).id;

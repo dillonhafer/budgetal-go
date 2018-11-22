@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Helpers
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { colors } from '@shared/theme';
 import { notice, confirm } from 'notify';
 import { Medium } from 'components/Text';

@@ -9,7 +9,7 @@ import { removeItem } from 'actions/annual-budget-items';
 import { DeleteAnnualBudgetItemRequest } from 'api/annual-budget-items';
 
 // Helpers
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { round } from 'lodash';
 import { notice, confirm } from 'notify';
 import moment from 'moment';

@@ -19,7 +19,8 @@ import {
 } from 'actions/budgets';
 
 // Components
-import { categoryImage, reduceSum, percentSpent } from 'utils/helpers';
+import { categoryImage } from 'images';
+import { reduceSum, percentSpent } from '@shared/helpers';
 import Progress from 'utils/Progress';
 import DatePicker from 'utils/DatePicker';
 import Spin from 'utils/Spin';

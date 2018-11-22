@@ -16,7 +16,7 @@ import { navigateRoot } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
-import { validEmail } from 'utils/helpers';
+import { validEmail } from '@shared/helpers';
 
 class ForgotPasswordScreen extends Component {
   state = {

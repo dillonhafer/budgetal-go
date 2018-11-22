@@ -10,7 +10,7 @@ import { UpdateIncomeRequest } from 'api/budgets';
 
 // Components
 import { Ionicons } from '@expo/vector-icons';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { notice, error } from 'notify';
 import MoneyInputModal from 'forms/MoneyInputModal';
 

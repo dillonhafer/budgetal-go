@@ -5,7 +5,7 @@ import { View, StyleSheet, FlatList } from 'react-native';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import moment from 'moment';
 import { colors } from '@shared/theme';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { round, times } from 'lodash';
 import { Bold, Medium } from 'components/Text';

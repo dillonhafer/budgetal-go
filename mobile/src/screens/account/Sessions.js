@@ -25,7 +25,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
 import moment from 'moment';
 import { orderBy } from 'lodash';
-import { humanUA } from 'utils/helpers';
+import { humanUA } from '@shared/helpers';
 import { notice, error } from 'notify';
 import Spin from 'utils/Spin';
 import Swipeout from 'react-native-swipeout';

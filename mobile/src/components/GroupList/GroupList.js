@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, StatusBar, SectionList, StyleSheet } from 'react-native';
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import ListBackgroundFill from 'components/ListBackgroundFill';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import ListItem, { positions } from './ListItem';
 import { Bold } from 'components/Text';
 
