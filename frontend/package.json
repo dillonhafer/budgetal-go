@@ -22,8 +22,7 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.3.0",
-    "ua-parser-js": "^0.7.17"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "yarn clean-ant && source APP_ENV && react-scripts start",
