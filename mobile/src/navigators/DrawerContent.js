@@ -6,7 +6,6 @@ import {
   StatusBar,
   View,
   Platform,
-  Text,
   StyleSheet,
   ScrollView,
 } from 'react-native';
