@@ -2,14 +2,17 @@ import React from 'react';
 
 const formStyles = {
   hiddenSubmit: {
-    display: 'none',
+    opacity: 0,
+    height: 0,
   },
 };
 
 const Form = ({ children, ...rest }) => (
   <form {...rest}>
     {children}
-    <input type="submit" style={formStyles.hiddenSubmit} />
+    <div style={formStyles.hiddenSubmit}>
+      <input type="submit" />
+    </div>
   </form>
 );
 
