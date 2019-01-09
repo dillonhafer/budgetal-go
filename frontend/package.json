@@ -6,11 +6,16 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "devDependencies": {
+    "enzyme": "^3.8.0",
+    "raf": "^3.4.1"
+  },
   "dependencies": {
     "@shared": "file:../shared",
     "antd": "^2.13.10",
     "classnames": "^2.2.5",
     "evergreen-ui": "^4.2.0",
+    "formik": "^1.4.2",
     "mdi-react": "^2.1.19",
     "papaparse": "^4.3.6",
     "rc-select": "^7.3.1",
@@ -22,7 +27,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.14",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.26.6"
   },
   "scripts": {
     "start": "yarn clean-ant && source APP_ENV && react-scripts start",
