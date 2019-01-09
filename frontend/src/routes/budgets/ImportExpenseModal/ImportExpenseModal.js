@@ -29,11 +29,16 @@ class ImportExpenseModal extends PureComponent {
 
   state = initialState;
 
+  _itemLength = 0;
   _options = [];
 
   options = () => {
-    if (this._options.length === 0) {
+    if (
+      this._options.length === 0 ||
+      this._itemLength !== this.props.budgetItems.length
+    ) {
       const groups = groupBy(this.props.budgetItems, 'budgetCategoryId');
+      this._itemLength = this.props.budgetItems.length;
       this._options = this.props.budgetCategories.map(c => ({
         label: c.name,
         options: groups[`${c.id}`],
