@@ -12,9 +12,10 @@ import {
   Popover,
   Position,
   Table,
-  toaster,
 } from 'evergreen-ui';
 import { notice, error } from 'window';
+import orderBy from 'lodash/orderBy';
+import AssetLiabilityForm from './AssetLiabilityForm';
 
 const TableHeader = ({ title }) => (
   <Pane
@@ -47,15 +48,23 @@ class AssetListTable extends Component {
   state = {
     isSubmitting: false,
     showDeleteConfirmation: false,
-    item: { name: '' },
+    assetLiabilityFormVisible: false,
+    item: null,
   };
 
   handleOnAdd = () => {
-    toaster.danger(`Not Implemented Yet`);
+    const isAsset = this.props.title === 'Assets';
+    this.setState({
+      item: { name: '', isAsset },
+      assetLiabilityFormVisible: true,
+    });
   };
 
   handleOnEdit = item => {
-    toaster.danger(`Editing ${item.name} Is Not Implemented Yet`);
+    this.setState({
+      item,
+      assetLiabilityFormVisible: true,
+    });
   };
 
   handleOnDelete = item => {
@@ -70,7 +79,7 @@ class AssetListTable extends Component {
         this.setState({
           isSubmitting: false,
           showDeleteConfirmation: false,
-          item: { name: '' },
+          item: null,
         });
       })
       .catch(() => {
@@ -90,7 +99,7 @@ class AssetListTable extends Component {
             <Table.TextHeaderCell />
           </Table.Head>
           <Table.Body>
-            {items.map(item => (
+            {orderBy(items, 'name', 'asc').map(item => (
               <Table.Row key={`${item.id}`}>
                 <Table.TextCell>{item.name}</Table.TextCell>
                 <Table.TextCell align="right">
@@ -160,14 +169,15 @@ class AssetListTable extends Component {
           onCloseComplete={() => {
             this.setState({
               showDeleteConfirmation: false,
-              item: { name: '' },
+              item: null,
             });
           }}
           isShown={this.state.showDeleteConfirmation}
         >
           <Alert
             intent="danger"
-            title={`Are you sure you want to delete ${this.state.item.name}?`}
+            title={`Are you sure you want to delete ${this.state.item &&
+              this.state.item.name}?`}
           >
             <Paragraph>
               This will remove all items from past records. This cannot be
@@ -175,6 +185,12 @@ class AssetListTable extends Component {
             </Paragraph>
           </Alert>
         </Dialog>
+        <AssetLiabilityForm
+          item={this.state.item}
+          visible={this.state.assetLiabilityFormVisible}
+          onCancel={() => this.setState({ item: null })}
+          close={() => this.setState({ assetLiabilityFormVisible: false })}
+        />
       </Pane>
     );
   }
