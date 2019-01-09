@@ -11,8 +11,8 @@ import (
 func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {
 	SignedInUser(as)
 
-	annualBudgetItems := &models.AnnualBudgets{}
-	count, _ := as.DB.Count(annualBudgetItems)
+	annualBudgets := &models.AnnualBudgets{}
+	count, _ := as.DB.Count(annualBudgets)
 
 	as.Equal(count, 0)
 
@@ -27,12 +27,12 @@ func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {
 	as.DB.First(b)
 	as.Equal(b.ID, rb.AnnualBudgetID)
 
-	count, _ = as.DB.Count(annualBudgetItems)
+	count, _ = as.DB.Count(annualBudgets)
 	as.Equal(count, 1)
 
 	// Idempotent
 	as.JSON("/annual-budgets/2017").Get()
-	count, _ = as.DB.Count(annualBudgetItems)
+	count, _ = as.DB.Count(annualBudgets)
 	as.Equal(count, 1)
 }
 
