@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from 'react-redux';
@@ -20,6 +21,12 @@ import {
 } from 'evergreen-ui';
 
 class EditMenu extends Component {
+  static propTypes = {
+    item: PropTypes.object.isRequired,
+    updatedSelectedItem: PropTypes.func.isRequired,
+    removeItem: PropTypes.func.isRequired,
+  };
+
   state = {
     showDeleteConfirmation: false,
     showProgress: false,
@@ -39,21 +46,12 @@ class EditMenu extends Component {
 
   handleEdit = () => {
     const { item } = this.props;
-    const i = { ...item, dueDate: moment(item.dueDate) };
+    const i = { ...item, dueDate: moment(item.dueDate).format('YYYY-MM-DD') };
     this.props.updatedSelectedItem(i);
   };
 
   handleDelete = () => {
     this.setState({ showDeleteConfirmation: true });
-
-    // Modal.confirm({
-    //   title: `Are you sure you want to delete ${this.props.item.name}?`,
-    //   content: 'This cannot be undone',
-    //   okText: 'Delete',
-    //   okType: 'danger',
-    //   cancelText: 'Cancel',
-    //   onOk: this.deleteItem,
-    // });
   };
 
   deleteItem = async () => {
@@ -119,7 +117,7 @@ class EditMenu extends Component {
 }
 
 export default connect(
-  state => ({}),
+  null,
   dispatch => ({
     updatedSelectedItem: selectedBudgetItem => {
       dispatch(updatedSelectedItem(selectedBudgetItem));

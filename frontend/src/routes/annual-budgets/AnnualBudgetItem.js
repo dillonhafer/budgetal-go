@@ -20,7 +20,7 @@ class AnnualBudgetItem extends Component {
         marginBottom={0}
         minWidth={252}
         display="flex"
-        flex="1 0 25%"
+        flex="1 0 30%"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"

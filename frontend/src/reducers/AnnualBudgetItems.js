@@ -11,7 +11,7 @@ import {
 const initialState = {
   annualBudgetId: null,
   annualBudgetItems: [],
-  selectedBudgetItem: {},
+  selectedBudgetItem: null,
   visible: false,
   showForm: false,
 };
@@ -74,6 +74,7 @@ export default function annulBudgetItemState(state = initialState, action) {
       return {
         ...state,
         visible: false,
+        selectedBudgetItem: initialState.selectedBudgetItem,
       };
 
     case ANNUAL_ITEMS_TOGGLE_YEAR_FORM:

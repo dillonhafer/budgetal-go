@@ -12,11 +12,38 @@ import { title } from 'window';
 import { availableYears } from '@shared/helpers';
 import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
-import moment from 'moment';
-
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
 import { Spinner, Text, Button, Pane, Heading, Select } from 'evergreen-ui';
+
+const padding = (group, length) => {
+  return length <= 3 ? 3 % length : length % 3 === 0 ? 0 : 3 - (length % 3);
+};
+
+const itemPadding = itemLength => {
+  const blankItems = [];
+  const amountToPad = padding(3, itemLength);
+
+  for (let i = 0; i < amountToPad; i++) {
+    blankItems.push(
+      <Pane
+        key={i}
+        margin={16}
+        marginLeft={0}
+        marginBottom={0}
+        minWidth={252}
+        minHeight={200}
+        display="flex"
+        flex="1 0 30%"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      />,
+    );
+  }
+
+  return blankItems;
+};
 
 const AnnualBudgetItemList = ({ annualBudgetItems, onClick, loading }) => {
   return (
@@ -30,10 +57,15 @@ const AnnualBudgetItemList = ({ annualBudgetItems, onClick, loading }) => {
       {annualBudgetItems.map(item => (
         <AnnualBudgetItem item={item} key={item.id} loading={loading} />
       ))}
+
       <Pane
-        width={380}
+        margin={16}
+        marginLeft={0}
+        marginBottom={0}
+        minWidth={252}
         minHeight={200}
         display="flex"
+        flex="1 0 30%"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
@@ -47,7 +79,8 @@ const AnnualBudgetItemList = ({ annualBudgetItems, onClick, loading }) => {
           Add an Item
         </Button>
       </Pane>
-      <Pane width={380} />
+
+      {itemPadding(annualBudgetItems.length + 1)}
     </Pane>
   );
 };
@@ -85,8 +118,8 @@ class AnnualBudget extends Component {
   showNewModal = () => {
     const selectedBudgetItem = {
       name: '',
-      dueDate: moment(),
-      amount: 1,
+      dueDate: '',
+      amount: 0,
       paid: false,
       interval: 12,
       annualBudgetId: this.props.annualBudgetId,
@@ -97,9 +130,9 @@ class AnnualBudget extends Component {
 
   render() {
     const { annualBudgetItems, visible, selectedBudgetItem } = this.props;
-
     const { loading } = this.state;
     const { year } = this.props.match.params;
+
     return (
       <div>
         <Pane
@@ -162,7 +195,7 @@ export default connect(
     updatedSelectedItem: selectedBudgetItem => {
       dispatch(updatedSelectedItem(selectedBudgetItem));
     },
-    hideForm: _ => {
+    hideForm: () => {
       dispatch(hideForm());
     },
   }),

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { notice } from 'window';
+import { notice, error } from 'window';
 import {
   CreateAnnualBudgetItemRequest,
   UpdateAnnualBudgetItemRequest,
@@ -17,15 +17,31 @@ import {
   Switch,
   Dialog,
 } from 'evergreen-ui';
+import DateSelect from 'components/DateSelect';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+const budgetItemValidations = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
+  amount: Yup.number()
+    .min(1, 'Amount must be at least $1.00')
+    .required('Amount is required'),
+  dueDate: Yup.date().required('Due Date is required'),
+  interval: Yup.number()
+    .min(1, 'Interval must be 1-12')
+    .max(12, 'Interval must be 1-12')
+    .required('Interval is required'),
+});
+
+const validationMessages = (errors, touched) => {
+  return {
+    isInvalid: errors && touched,
+    validationMessage: touched ? errors : null,
+  };
+};
 
 class AnnualBudgetItemForm extends Component {
-  state = {
-    loading: false,
-    budgetItem: this.props.budgetItem,
-  };
-
-  createItem = async item => {
-    this.setState({ loading: true });
+  createItem = async (item, setSubmitting) => {
     try {
       const resp = await CreateAnnualBudgetItemRequest({
         ...item,
@@ -36,14 +52,13 @@ class AnnualBudgetItemForm extends Component {
         notice(`Created ${item.name}`);
       }
     } catch (err) {
-      //ignore for now
+      error('Something went wrong');
     } finally {
-      this.setState({ loading: false });
+      setSubmitting(false);
     }
   };
 
-  updateItem = async item => {
-    this.setState({ loading: true });
+  updateItem = async (item, setSubmitting) => {
     try {
       const resp = await UpdateAnnualBudgetItemRequest(item);
       if (resp && resp.ok) {
@@ -51,87 +66,95 @@ class AnnualBudgetItemForm extends Component {
         notice(`Updated ${item.name}`);
       }
     } catch (err) {
-      //ignore for now
+      error('Something went wrong');
     } finally {
-      this.setState({ loading: false });
+      setSubmitting(false);
     }
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = (values, { setSubmitting }) => {
     const item = {
-      ...this.state.budgetItem,
+      ...values,
       id: this.props.budgetItem.id,
-      interval: parseInt(this.state.budgetItem.interval, 10),
       annualBudgetId: this.props.budgetItem.annualBudgetId,
     };
 
     if (item.id) {
-      this.updateItem(item);
+      this.updateItem(item, setSubmitting);
     } else {
-      this.createItem(item);
+      this.createItem(item, setSubmitting);
     }
   };
 
-  render() {
-    const { budgetItem, loading } = this.state;
-    const { visible, onCancel } = this.props;
+  onCloseComplete = reset => {
+    reset();
+    this.props.onCancel();
+  };
+
+  renderForm = ({
+    values,
+    touched,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    handleReset,
+  }) => {
+    const { visible, budgetItem } = this.props;
     const confirmLabel = budgetItem.id ? 'Update Item' : 'Create Item';
+
     return (
       <Dialog
         isShown={visible}
         title="Annual Budget Item"
         width={350}
-        onCloseComplete={onCancel}
-        isConfirmLoading={loading}
+        onCloseComplete={() => {
+          this.onCloseComplete(handleReset);
+        }}
+        isConfirmLoading={isSubmitting}
         cancelText="Close"
-        onConfirm={this.handleSubmit}
-        confirmLabel={confirmLabel}
+        onConfirm={handleSubmit}
+        confirmLabel={isSubmitting ? 'Loading...' : confirmLabel}
       >
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <TextInputField
-            required
             label="Name"
-            onChange={e => {
-              this.setState({
-                budgetItem: { ...budgetItem, name: e.target.value },
-              });
-            }}
+            name="name"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.name}
             placeholder="Life Insurance"
-            isInvalid={budgetItem.name && budgetItem.name.trim().length <= 0}
+            {...validationMessages(errors.name, touched.name)}
           />
           <TextInputField
             type="number"
-            required
-            min="1"
+            name="amount"
             label="Amount"
-            onChange={e => {
-              this.setState({
-                budgetItem: { ...budgetItem, amount: e.target.value },
-              });
-            }}
+            value={values.amount}
+            onChange={handleChange}
+            onBlur={handleBlur}
             placeholder="(10.00)"
-            isInvalid={budgetItem.amount <= 0}
+            {...validationMessages(errors.amount, touched.amount)}
           />
-          <TextInputField
-            required
-            type="date"
+          <DateSelect
             label="Due Date"
-            onChange={dueDate => {
-              this.setState({
-                budgetItem: {
-                  ...budgetItem,
-                  dueDate: dueDate.format('YYYY-mm-dd'),
-                },
-              });
-            }}
-            placeholder="2018-08-23"
-            isInvalid={
-              budgetItem.dueDate && budgetItem.dueDate.trim().length <= 0
-            }
+            name="dueDate"
+            required
+            defaultValue={values.dueDate}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            {...validationMessages(errors.dueDate, touched.dueDate)}
           />
-
-          <SelectField label="Months" width="100%">
+          <SelectField
+            value={values.interval}
+            name="interval"
+            label="Months"
+            width="100%"
+            onChange={handleChange}
+            onBlur={handleBlur}
+            {...validationMessages(errors.interval, touched.interval)}
+          >
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -146,18 +169,32 @@ class AnnualBudgetItemForm extends Component {
             <option value="12">12</option>
           </SelectField>
           <Pane display="flex" justifyContent="flex-end">
-            <label>Paid?</label>
             <Switch
-              onChange={e => {
-                this.setState({
-                  budgetItem: { ...budgetItem, paid: e.target.checked },
-                });
-              }}
+              name="paid"
+              label="Months"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              checked={values.paid}
               height={32}
             />
           </Pane>
         </Form>
       </Dialog>
+    );
+  };
+
+  render() {
+    if (this.props.budgetItem === null) {
+      return null;
+    }
+
+    return (
+      <Formik
+        initialValues={this.props.budgetItem}
+        onSubmit={this.handleSubmit}
+        validationSchema={budgetItemValidations}
+        render={this.renderForm}
+      />
     );
   }
 }
