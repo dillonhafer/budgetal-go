@@ -33,6 +33,13 @@ class NetWorth extends Component {
     this.props.history.push(`/net-worth/${e.target.value}`);
   };
 
+  reloadMonthModal = () => {
+    this.handleMonthClick({
+      name: this.state.selectedMonth.name,
+      month: this.state.selectedMonth.number,
+    });
+  };
+
   handleMonthClick = ({ name, month }) => {
     const assets = orderBy(
       this.props.months
@@ -142,6 +149,7 @@ class NetWorth extends Component {
           <MonthModal
             ref={monthModal => (this.monthModal = monthModal)}
             month={this.state.selectedMonth}
+            reload={this.reloadMonthModal}
             importNetWorthItems={this.props.importNetWorthItems}
           />
         </Pane>

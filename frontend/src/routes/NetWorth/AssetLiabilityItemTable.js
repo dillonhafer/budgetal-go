@@ -56,6 +56,7 @@ class AssetLiabilityItemTable extends Component {
       .deleteNetWorthItem(item)
       .then(() => {
         notice(`${item.name} Deleted`);
+        this.props.reload();
       })
       .finally(() => {
         this.setState({
@@ -196,9 +197,10 @@ class AssetLiabilityItemTable extends Component {
           options={this.state.options}
           visible={this.state.assetLiabilityFormVisible}
           onCancel={() => this.setState({ item: null })}
-          close={() =>
-            this.setState({ assetLiabilityFormVisible: false, options: [] })
-          }
+          close={() => {
+            this.setState({ assetLiabilityFormVisible: false, options: [] });
+            setTimeout(this.props.reload, 200);
+          }}
         />
       </React.Fragment>
     );

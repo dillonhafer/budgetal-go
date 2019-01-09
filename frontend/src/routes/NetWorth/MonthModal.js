@@ -25,13 +25,12 @@ class MonthModal extends Component {
         month: this.props.month.number,
       })
       .then(() => {
-        this.close();
+        this.props.reload();
         this.setState({ loading: false });
       })
       .catch(() => {
         error(`Could not import`);
         this.setState({ loading: false });
-        this.close();
       });
   };
 
@@ -68,6 +67,7 @@ class MonthModal extends Component {
           year={month.year}
           emptyText="No Assets"
           buttonTitle="Add Asset"
+          reload={this.props.reload}
         />
 
         <Heading marginTop={16} marginBottom={16}>
@@ -79,6 +79,7 @@ class MonthModal extends Component {
           year={month.year}
           emptyText="No Liabilities"
           buttonTitle="Add Liability"
+          reload={this.props.reload}
         />
         <Dialog
           width={350}
