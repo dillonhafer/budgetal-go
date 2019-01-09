@@ -7,7 +7,7 @@ import {
 } from 'redux-constants/action-types';
 import { notice } from 'notify';
 
-import { ImportNetWorthRequest } from 'api/net-worth';
+import { ImportNetWorthRequest } from '@shared/api/net-worth';
 
 export const netWorthLoaded = ({ assets, liabilities, months }) => {
   const assetIds = assets.map(a => a.id);

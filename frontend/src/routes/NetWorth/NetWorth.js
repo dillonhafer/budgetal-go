@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-
 import { orderBy } from 'lodash';
 import { title } from 'window';
-import { availableYears, monthName } from 'helpers';
-import { Spin, Select } from 'antd';
+import { availableYears, monthName } from '@shared/helpers';
 import Graphchart from 'graphchart';
 import moment from 'moment';
 import MonthModal from './MonthModal';
-
-const Option = Select.Option;
+import { Heading, Pane, Text, Select, Spinner } from 'evergreen-ui';
+import AssetLiabilityTable from './AssetLiabilityTable';
 
 class NetWorth extends Component {
   componentDidMount() {
@@ -31,8 +29,15 @@ class NetWorth extends Component {
     this.props.loadNetWorthItems({ year });
   };
 
-  changeYear = year => {
-    this.props.history.push(`/net-worth/${year}`);
+  changeYear = e => {
+    this.props.history.push(`/net-worth/${e.target.value}`);
+  };
+
+  reloadMonthModal = () => {
+    this.handleMonthClick({
+      name: this.state.selectedMonth.name,
+      month: this.state.selectedMonth.number,
+    });
   };
 
   handleMonthClick = ({ name, month }) => {
@@ -43,6 +48,7 @@ class NetWorth extends Component {
         .map(i => ({
           id: i.id,
           name: this.props.assets.find(a => a.id === i.assetId).name,
+          assetId: i.assetId,
           amount: i.amount,
         })),
       'name',
@@ -55,6 +61,7 @@ class NetWorth extends Component {
         .map(i => ({
           id: i.id,
           name: this.props.liabilities.find(a => a.id === i.assetId).name,
+          assetId: i.assetId,
           amount: i.amount,
         })),
       'name',
@@ -89,8 +96,11 @@ class NetWorth extends Component {
 
     const netWorthData = assetData.map((a, i) => {
       const y = a.y - liabilityData[i].y;
+      const _year = months[i].year;
+      const _month = months[i].month;
+
       const future = moment().isBefore(
-        `${months[i].year}-${months[i].month}-01`,
+        `${_year}-${_month > 9 ? _month : '0' + _month}-01`,
       );
 
       return {
@@ -100,77 +110,72 @@ class NetWorth extends Component {
     });
 
     return (
-      <div>
-        <h1>
-          NET WORTH FOR {year}
-          <div
-            style={{
-              float: 'right',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <Select
-              size="large"
-              style={{ width: '100px' }}
-              defaultValue={year}
-              onChange={this.changeYear}
-            >
-              {availableYears().map(y => {
-                return (
-                  <Option key={y} value={y.toString()}>
-                    {y}
-                  </Option>
-                );
-              })}
-            </Select>
-          </div>
-        </h1>
-        <div style={{ paddingBottom: 25 }}>
-          <i>
-            *Currently Net Worth can only be modified from the&nbsp;
-            <a
-              target="_blank"
-              style={{ textDecoration: 'underline' }}
-              rel="noopener noreferrer"
-              href="https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8"
-            >
-              iOS
-            </a>
-            {' and '}
-            <a
-              target="_blank"
-              style={{ textDecoration: 'underline' }}
-              rel="noopener noreferrer"
-              href="https://play.google.com/store/apps/details?id=com.budgetal.app"
-            >
-              Android
-            </a>
-            &nbsp;apps
-          </i>
-        </div>
-        <Spin
-          delay={300}
-          tip="Loading..."
-          size="large"
-          spinning={loading || refreshing}
+      <Pane>
+        <Pane
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          <div>
-            <Graphchart
-              assets={assetData}
-              liabilities={liabilityData}
-              netWorth={netWorthData}
-              onMonthClick={this.handleMonthClick}
-            />
-            <MonthModal
-              ref={monthModal => (this.monthModal = monthModal)}
-              month={this.state.selectedMonth}
-              importNetWorthItems={this.props.importNetWorthItems}
-            />
-          </div>
-        </Spin>
-      </div>
+          <Heading size={800}>NET WORTH FOR {year}</Heading>
+          <Select
+            value={year}
+            onChange={this.changeYear}
+            flex="unset"
+            width={100}
+          >
+            {availableYears().map(y => {
+              return (
+                <option key={y} value={y.toString()}>
+                  {y}
+                </option>
+              );
+            })}
+          </Select>
+        </Pane>
+        {(loading || refreshing) && (
+          <Pane textAlign="center" marginY={56}>
+            <Spinner marginX="auto" />
+            <Text marginY={16}>Loading...</Text>
+          </Pane>
+        )}
+        <Pane display={loading || refreshing ? 'none' : ''} paddingTop={32}>
+          <Graphchart
+            assets={assetData}
+            liabilities={liabilityData}
+            netWorth={netWorthData}
+            onMonthClick={this.handleMonthClick}
+          />
+          <MonthModal
+            ref={monthModal => (this.monthModal = monthModal)}
+            month={this.state.selectedMonth}
+            reload={this.reloadMonthModal}
+            importNetWorthItems={this.props.importNetWorthItems}
+          />
+        </Pane>
+        <Pane
+          display={loading || refreshing ? 'none' : 'flex'}
+          flexWrap="wrap"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
+          <AssetLiabilityTable
+            title="Assets"
+            items={this.props.assets}
+            emptyText={'No Assets'}
+            buttonTitle="Add Asset"
+            deleteAssetLiability={this.props.deleteAssetLiability}
+          />
+          <Pane width={16} />
+          <AssetLiabilityTable
+            title="Liabilities"
+            items={this.props.liabilities}
+            emptyText={'No Liabilities'}
+            buttonTitle="Add Liability"
+            deleteAssetLiability={this.props.deleteAssetLiability}
+          />
+        </Pane>
+      </Pane>
     );
   }
 }

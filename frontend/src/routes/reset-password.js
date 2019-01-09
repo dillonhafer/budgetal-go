@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { notice, error } from 'window';
-import { ResetPasswordRequest } from 'api/users';
+import { ResetPasswordRequest } from '@shared/api/users';
 
 import { Button, Icon, Form, Input } from 'antd';
 

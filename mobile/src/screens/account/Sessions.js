@@ -14,7 +14,7 @@ import {
 import { connect } from 'react-redux';
 
 // API
-import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
+import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
@@ -22,10 +22,10 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { GetAuthenticationToken } from 'utils/authentication';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import moment from 'moment';
 import { orderBy } from 'lodash';
-import { humanUA } from 'utils/helpers';
+import { humanUA } from '@shared/helpers';
 import { notice, error } from 'notify';
 import Spin from 'utils/Spin';
 import Swipeout from 'react-native-swipeout';

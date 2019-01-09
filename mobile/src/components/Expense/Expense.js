@@ -3,13 +3,13 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Helpers
-import { currencyf } from 'utils/helpers';
-import colors from 'utils/colors';
+import { currencyf } from '@shared/helpers';
+import { colors } from '@shared/theme';
 import { notice, confirm } from 'notify';
 import { Medium } from 'components/Text';
 
 // API
-import { DeleteExpenseRequest } from 'api/budget-item-expenses';
+import { DeleteExpenseRequest } from '@shared/api/budget-item-expenses';
 
 class Expense extends PureComponent {
   deleteExpense = async () => {

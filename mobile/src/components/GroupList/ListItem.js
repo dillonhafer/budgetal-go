@@ -5,8 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Helpers
 import { Bold, Medium } from 'components/Text';
-import { currencyf } from 'utils/helpers';
-import colors from 'utils/colors';
+import { currencyf } from '@shared/helpers';
+import { colors } from '@shared/theme';
 import { confirm } from 'notify';
 
 export const positions = {

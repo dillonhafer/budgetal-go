@@ -13,7 +13,7 @@ import apiMiddleware from 'api/middleware';
 const store = createStore(reducers, applyMiddleware(thunk, apiMiddleware));
 
 // App
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import DropdownAlert from 'react-native-dropdownalert';
 import RootNavigator from 'navigators/root';
 import registerForPushNotifications from 'utils/registerForPushNotifications';

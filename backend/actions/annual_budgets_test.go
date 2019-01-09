@@ -11,8 +11,8 @@ import (
 func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {
 	SignedInUser(as)
 
-	annualBudgetItems := &models.AnnualBudgets{}
-	count, _ := as.DB.Count(annualBudgetItems)
+	annualBudgets := &models.AnnualBudgets{}
+	count, _ := as.DB.Count(annualBudgets)
 
 	as.Equal(count, 0)
 
@@ -27,13 +27,38 @@ func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {
 	as.DB.First(b)
 	as.Equal(b.ID, rb.AnnualBudgetID)
 
-	count, _ = as.DB.Count(annualBudgetItems)
+	count, _ = as.DB.Count(annualBudgets)
 	as.Equal(count, 1)
 
 	// Idempotent
 	as.JSON("/annual-budgets/2017").Get()
-	count, _ = as.DB.Count(annualBudgetItems)
+	count, _ = as.DB.Count(annualBudgets)
 	as.Equal(count, 1)
+}
+
+func (as *ActionSuite) Test_AnnualBudgets_Index_ReturnsBudgetItems() {
+	user := SignedInUser(as)
+	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
+	b.FindOrCreate()
+	i := models.AnnualBudgetItem{
+		AnnualBudgetID: b.ID,
+		Amount:         json.Number("0.00"),
+		Name:           "Insurance",
+		DueDate:        "2017-12-12",
+		Paid:           true,
+		Interval:       8,
+	}
+	as.DB.Create(&i)
+
+	r := as.JSON("/annual-budgets/2017").Get()
+	as.Equal(200, r.Code)
+	var rb struct {
+		AnnualBudgetID    int                      `json:"annualBudgetId"`
+		AnnualBudgetItems models.AnnualBudgetItems `json:"annualBudgetItems"`
+	}
+	json.NewDecoder(r.Body).Decode(&rb)
+
+	as.Equal("2017-12-12", rb.AnnualBudgetItems[0].DueDate)
 }
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_BadYear() {

@@ -16,6 +16,18 @@ type AnnualBudgetItem struct {
 	CreatedAt      time.Time   `json:"-" db:"created_at"`
 	UpdatedAt      time.Time   `json:"-" db:"updated_at"`
 }
+
+func (a *AnnualBudgetItem) MarshalJSON() ([]byte, error) {
+	type Alias AnnualBudgetItem
+	return json.Marshal(&struct {
+		*Alias
+		DueDate string `json:"dueDate"`
+	}{
+		Alias:   (*Alias)(a),
+		DueDate: a.DueDate[0:10],
+	})
+}
+
 type AnnualBudgetItems []AnnualBudgetItem
 
 func (item *AnnualBudgetItem) Update(params *AnnualBudgetItem) error {

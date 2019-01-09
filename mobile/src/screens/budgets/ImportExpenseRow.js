@@ -13,13 +13,13 @@ import { connect } from 'react-redux';
 import { createdExpense } from 'actions/budget-item-expenses';
 
 // API
-import { CreateExpenseRequest } from 'api/budget-item-expenses';
+import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
 
 // Helpers
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { notice } from 'notify';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 
 const findFirstItemId = (categoryId, items) => {
   return (items.find(i => i.budgetCategoryId === categoryId) || { id: 0 }).id;

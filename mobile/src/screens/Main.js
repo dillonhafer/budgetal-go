@@ -9,7 +9,7 @@ import {
   Image,
   View,
 } from 'react-native';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { IsAuthenticated, GetCurrentUser } from 'utils/authentication';
 import { navigateHome } from 'navigators';
 import { Bold } from 'components/Text';

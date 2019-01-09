@@ -9,40 +9,81 @@ import {
 } from 'actions/annual-budget-items';
 
 import { title } from 'window';
-import { availableYears } from 'helpers';
-import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
-
-import moment from 'moment';
-
-import { Spin, Row, Col, Button, Select } from 'antd';
+import { availableYears } from '@shared/helpers';
+import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
+import { Spinner, Text, Button, Pane, Heading, Select } from 'evergreen-ui';
 
-import 'css/annual-budget-items.css';
+const padding = (group, length) => {
+  return length <= 3 ? 3 % length : length % 3 === 0 ? 0 : 3 - (length % 3);
+};
+
+const itemPadding = itemLength => {
+  const blankItems = [];
+  const amountToPad = padding(3, itemLength);
+
+  for (let i = 0; i < amountToPad; i++) {
+    blankItems.push(
+      <Pane
+        key={i}
+        margin={16}
+        marginLeft={0}
+        marginBottom={0}
+        minWidth={252}
+        minHeight={200}
+        display="flex"
+        flex="1 0 30%"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      />,
+    );
+  }
+
+  return blankItems;
+};
 
 const AnnualBudgetItemList = ({ annualBudgetItems, onClick, loading }) => {
   return (
-    <Row className="card-grid">
+    <Pane
+      display="flex"
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
+      flexWrap="wrap"
+    >
       {annualBudgetItems.map(item => (
         <AnnualBudgetItem item={item} key={item.id} loading={loading} />
       ))}
-      <Col className="card text-center" span={8}>
+
+      <Pane
+        margin={16}
+        marginLeft={0}
+        marginBottom={0}
+        minWidth={252}
+        minHeight={200}
+        display="flex"
+        flex="1 0 30%"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
         <Button
-          type="primary"
-          icon="plus-circle"
-          className="add-item-button"
+          height={40}
+          appearance="primary"
           onClick={onClick}
-          size="large"
+          iconBefore="add"
         >
           Add an Item
         </Button>
-      </Col>
-    </Row>
+      </Pane>
+
+      {itemPadding(annualBudgetItems.length + 1)}
+    </Pane>
   );
 };
-
-const Option = Select.Option;
 
 class AnnualBudget extends Component {
   state = {
@@ -70,15 +111,15 @@ class AnnualBudget extends Component {
     }
   };
 
-  changeYear = year => {
-    this.props.history.push(`/annual-budgets/${year}`);
+  changeYear = e => {
+    this.props.history.push(`/annual-budgets/${e.target.value}`);
   };
 
   showNewModal = () => {
     const selectedBudgetItem = {
       name: '',
-      dueDate: moment(),
-      amount: 1,
+      dueDate: '',
+      amount: 0,
       paid: false,
       interval: 12,
       annualBudgetId: this.props.annualBudgetId,
@@ -89,44 +130,48 @@ class AnnualBudget extends Component {
 
   render() {
     const { annualBudgetItems, visible, selectedBudgetItem } = this.props;
-
     const { loading } = this.state;
     const { year } = this.props.match.params;
+
     return (
       <div>
-        <h1>
-          Annual Budget for {year}
-          <div
-            style={{
-              float: 'right',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+        <Pane
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Heading size={800}>ANNUAL BUDGET FOR {year}</Heading>
+          <Select
+            value={year}
+            onChange={this.changeYear}
+            flex="unset"
+            width={100}
           >
-            <Select
-              size="large"
-              style={{ width: '100px' }}
-              defaultValue={year}
-              onChange={this.changeYear}
-            >
-              {availableYears().map(y => {
-                return (
-                  <Option key={y} value={y.toString()}>
-                    {y}
-                  </Option>
-                );
-              })}
-            </Select>
-          </div>
-        </h1>
-        <Spin delay={300} tip="Loading..." size="large" spinning={loading}>
-          <AnnualBudgetItemList
-            loading={loading}
-            annualBudgetItems={annualBudgetItems}
-            onClick={this.showNewModal}
-          />
-        </Spin>
+            {availableYears().map(y => {
+              return (
+                <option key={y} value={y.toString()}>
+                  {y}
+                </option>
+              );
+            })}
+          </Select>
+        </Pane>
+
+        <Pane marginY={16}>
+          {(loading && (
+            <Pane textAlign="center" marginY={56}>
+              <Spinner marginX="auto" />
+              <Text marginY={16}>Loading...</Text>
+            </Pane>
+          )) || (
+            <AnnualBudgetItemList
+              loading={loading}
+              annualBudgetItems={annualBudgetItems}
+              onClick={this.showNewModal}
+            />
+          )}
+        </Pane>
 
         <AnnualBudgetItemForm
           budgetItem={selectedBudgetItem}
@@ -150,7 +195,7 @@ export default connect(
     updatedSelectedItem: selectedBudgetItem => {
       dispatch(updatedSelectedItem(selectedBudgetItem));
     },
-    hideForm: _ => {
+    hideForm: () => {
       dispatch(hideForm());
     },
   }),

@@ -12,8 +12,8 @@ import { connect } from 'react-redux';
 import { importedBudgetItems, removeBudgetItem } from 'actions/budgets';
 
 // API
-import { ImportCategoryRequest } from 'api/budgets';
-import { DeleteItemRequest } from 'api/budget-items';
+import { ImportCategoryRequest } from '@shared/api/budgets';
+import { DeleteItemRequest } from '@shared/api/budget-items';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
@@ -21,10 +21,11 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from 'moment';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { notice, confirm } from 'notify';
 import Progress from 'utils/Progress';
-import { reduceSum, categoryImage, percentSpent } from 'utils/helpers';
+import { categoryImage } from 'images';
+import { reduceSum, percentSpent } from '@shared/helpers';
 import { SecondaryButton } from 'forms';
 import PlusButton from 'utils/PlusButton';
 import Swipeout from 'react-native-swipeout';

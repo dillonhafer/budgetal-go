@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import MoneyInputModal from 'forms/MoneyInputModal';
 

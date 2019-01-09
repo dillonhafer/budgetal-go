@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { FieldContainer } from 'forms';
 import { Medium } from 'components/Text';
 

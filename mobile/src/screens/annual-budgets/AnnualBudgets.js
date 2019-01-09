@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { itemsFetched } from 'actions/annual-budget-items';
 
 // API
-import { AllAnnualBudgetItemsRequest } from 'api/annual-budget-items';
+import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
 // Helpers
 import { BlurViewInsetProps } from 'utils/navigation-helpers';
@@ -21,7 +21,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 import { Bold } from 'components/Text';
 import { error } from 'notify';
 import { FontAwesome } from '@expo/vector-icons';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import DatePicker from 'utils/DatePicker';
 import PlusButton from 'utils/PlusButton';
 import Spin from 'utils/Spin';

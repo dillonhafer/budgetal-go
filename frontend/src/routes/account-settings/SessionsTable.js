@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { humanUA } from 'helpers';
+import { humanUA } from '@shared/helpers';
 import { notice } from 'window';
 import { Table, Button, Modal } from 'antd';
-import { EndSessionRequest, AllSessionsRequest } from 'api/sessions';
+import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 

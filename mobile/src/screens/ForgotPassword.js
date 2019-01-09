@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 // API
-import { PasswordResetRequest } from 'api/users';
+import { PasswordResetRequest } from '@shared/api/users';
 
 // Helpers
 import { error, notice } from 'notify';
@@ -16,7 +16,7 @@ import { navigateRoot } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
-import { validEmail } from 'utils/helpers';
+import { validEmail } from '@shared/helpers';
 
 class ForgotPasswordScreen extends Component {
   state = {

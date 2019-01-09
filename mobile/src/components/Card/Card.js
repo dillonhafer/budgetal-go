@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
-import colors from 'utils/colors';
-import { Image, View, Text, StyleSheet } from 'react-native';
+import { colors } from '@shared/theme';
+import { Image, View, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { currencyf } from 'utils/helpers';
-import { Medium, Bold } from 'components/Text';
+import { currencyf } from '@shared/helpers';
+import { Medium } from 'components/Text';
 
 class Card extends PureComponent {
   render() {

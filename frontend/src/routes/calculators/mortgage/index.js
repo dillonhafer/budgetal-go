@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import MonthChart from './MonthChart';
 import { title, scrollTop } from 'window';
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import { connect } from 'react-redux';
 import { MORTGAGE_CALCULATOR_UPDATED } from 'action-types';
 

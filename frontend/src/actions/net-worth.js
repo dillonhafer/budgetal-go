@@ -5,7 +5,7 @@ import {
   NET_WORTH_REQUEST_FINISHED,
   NET_WORTH_ITEMS_IMPORTED,
 } from 'constants/action-types';
-import { AllNetWorthsRequest, ImportNetWorthRequest } from 'api/net-worth';
+import { AllNetWorthsRequest, ImportNetWorthRequest } from '@shared/api/net-worth';
 import { notice } from 'window';
 
 export const netWorthLoaded = ({ assets, liabilities, months }) => {
@@ -66,17 +66,17 @@ export const importNetWorthItems = ({ year, month }) => dispatch =>
       .then(resp => {
         if (resp.ok) {
           if (resp.items.length) {
-            resolve(
+            return resolve(
               dispatch(importedNetWorths(resp.items, resp.items[0].netWorthId)),
             );
           }
-          notice(resp.message);
+          return resolve(notice(resp.message));
         } else {
-          reject(resp.error);
+          return reject(resp.error);
         }
       })
       .catch(error => {
-        reject(error);
+        return reject(error);
       }),
   );
 

@@ -6,14 +6,14 @@ import { connect } from 'react-redux';
 import { removeItem } from 'actions/annual-budget-items';
 
 // API
-import { DeleteAnnualBudgetItemRequest } from 'api/annual-budget-items';
+import { DeleteAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
 
 // Helpers
-import { currencyf } from 'utils/helpers';
+import { currencyf } from '@shared/helpers';
 import { round } from 'lodash';
 import { notice, confirm } from 'notify';
 import moment from 'moment';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 // Components
 import { Bold, Medium, LightText } from 'components/Text';
@@ -37,7 +37,7 @@ class AnnualBudgetItemRow extends PureComponent {
 
   deleteItem = async () => {
     this.props.screenProps.goBack();
-    const resp = await DeleteAnnualBudgetItemRequest(this.props.budgetItem.id);
+    const resp = await DeleteAnnualBudgetItemRequest(this.props.budgetItem);
     if (resp && resp.ok) {
       this.props.removeItem(this.props.budgetItem);
       notice(`${this.props.budgetItem.name} Deleted`);

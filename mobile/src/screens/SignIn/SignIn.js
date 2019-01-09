@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 // API
-import { SignInRequest } from 'api/sessions';
+import { Constants } from 'expo';
+import { SignInRequest } from '@shared/api/sessions';
 import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
 
 // Helpers
@@ -11,10 +12,11 @@ import { navigateHome } from 'navigators';
 
 // Components
 import { PrimarySquareButton } from 'forms';
-import colors from 'utils/colors';
-import { validEmail } from 'utils/helpers';
+import { colors } from '@shared/theme';
+import { validEmail } from '@shared/helpers';
 import { FormCard, SplitBackground } from 'components/Card';
 import { Label } from 'components/Text';
+const deviceName = Constants.deviceName;
 
 class SignInScreen extends Component {
   inputs = [];
@@ -32,7 +34,7 @@ class SignInScreen extends Component {
 
   signIn = async () => {
     const { email, password } = this.state;
-    const resp = await SignInRequest({ email, password });
+    const resp = await SignInRequest({ email, password, deviceName });
     if (resp && resp.ok) {
       SetAuthenticationToken(resp.token);
       this.props.updateCurrentUser(resp.user);

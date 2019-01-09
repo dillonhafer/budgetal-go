@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactHighcharts from 'react-highcharts';
-import { colors } from 'window';
+import { colors } from '@shared/theme';
 
 ReactHighcharts.Highcharts.setOptions({
   lang: {

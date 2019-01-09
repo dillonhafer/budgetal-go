@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import TabletNavigator from './TabletNavigator';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { HeaderText } from 'components/Text';
 
 // Screens

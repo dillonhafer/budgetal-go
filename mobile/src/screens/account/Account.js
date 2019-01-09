@@ -17,7 +17,7 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 
 // Components
 import { notice, error } from 'notify';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import { Updates } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 

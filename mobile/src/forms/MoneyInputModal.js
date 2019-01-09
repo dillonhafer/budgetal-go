@@ -10,7 +10,7 @@ import {
 // Components
 import { BlurView } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 import MoneyKeyboard from 'utils/MoneyKeyboard';
 import Modal from 'react-native-modalbox';
 import MoneyAnimation from 'components/MoneyAnimation';

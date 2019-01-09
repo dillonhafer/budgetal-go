@@ -8,8 +8,8 @@ import {
   Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { currencyf } from 'utils/helpers';
-import colors from 'utils/colors';
+import { currencyf } from '@shared/helpers';
+import { colors } from '@shared/theme';
 import { Medium } from 'components/Text';
 
 const KeyboardNumber = ({ number, onPress }) => {

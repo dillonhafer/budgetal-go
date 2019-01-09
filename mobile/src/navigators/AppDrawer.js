@@ -9,7 +9,7 @@ import AnnualBudgetNavigator from 'navigators/AnnualBudget';
 import StatisticsNavigator from 'navigators/Statistics';
 import NetWorthNavigator from 'navigators/NetWorth';
 
-import colors from 'utils/colors';
+import { colors } from '@shared/theme';
 
 const AppDrawerNavigator = DrawerNavigator(
   {

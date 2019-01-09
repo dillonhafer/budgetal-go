@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { updateCurrentUser } from 'actions/users';
 
 // API
-import { UpdateAccountInfoRequest } from 'api/users';
+import { UpdateAccountInfoRequest } from '@shared/api/users';
 
 // Helpers
 import { error, notice } from 'notify';

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 
-import { currencyf } from 'helpers';
+import { currencyf } from '@shared/helpers';
 import { times, round } from 'lodash';
 import moment from 'moment';
 
-// Antd
-import { Badge, Modal, Table } from 'antd';
+import { Pane, Table, Icon, Dialog } from 'evergreen-ui';
 
 export default class ProgressModal extends Component {
   render() {
@@ -16,43 +15,47 @@ export default class ProgressModal extends Component {
     );
     const month = round(item.amount / item.interval);
     const title = `Accumulation Progress for ${item.name}`;
-    const dataSource = times(item.interval, key => {
-      const date = startDate.add(1, 'months').format('LL');
-      const badgeStatus = moment().diff(startDate) > 0 ? 'success' : 'error';
-      return {
-        key: key,
-        date: (
-          <span>
-            <Badge status={badgeStatus} /> {date}
-          </span>
-        ),
-        amount: currencyf(month * (key + 1)),
-      };
-    });
-
-    const columns = ['Date', 'Amount'].map(title => {
-      return {
-        title,
-        key: title.toLowerCase(),
-        dataIndex: title.toLowerCase(),
-      };
-    });
 
     return (
-      <Modal
+      <Dialog
         title={title}
-        visible={visible}
-        footer={null}
+        isShown={visible}
+        hasFooter={false}
+        onCloseComplete={this.props.hideProgress}
         onCancel={this.props.hideProgress}
       >
-        <Table
-          dataSource={dataSource}
-          pagination={false}
-          size="small"
-          columns={columns}
-          bordered
-        />
-      </Modal>
+        <Table>
+          <Table.Head accountForScrollbar>
+            <Table.TextHeaderCell>Date</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Amount</Table.TextHeaderCell>
+          </Table.Head>
+          <Table.Body>
+            {times(item.interval, key => {
+              const date = startDate.add(1, 'months').format('LL');
+              const badgeStatus =
+                moment().diff(startDate) > 0 ? 'green' : 'red';
+              return (
+                <Table.Row key={`${key}`}>
+                  <Table.TextCell>
+                    <Pane display="flex" alignItems="center">
+                      <Icon
+                        icon="full-circle"
+                        color={badgeStatus}
+                        size={12}
+                        marginRight={8}
+                      />
+                      {date}
+                    </Pane>
+                  </Table.TextCell>
+                  <Table.TextCell isNumber>
+                    {currencyf(month * (key + 1))}
+                  </Table.TextCell>
+                </Table.Row>
+              );
+            })}
+          </Table.Body>
+        </Table>
+      </Dialog>
     );
   }
 }
