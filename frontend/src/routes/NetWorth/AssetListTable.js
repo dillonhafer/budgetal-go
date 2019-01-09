@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Alert,
   Button,
-  Dialog,
   Heading,
   IconButton,
   Menu,
   Pane,
-  Paragraph,
   Popover,
   Position,
   Table,
@@ -16,6 +13,7 @@ import {
 import { notice, error } from 'window';
 import orderBy from 'lodash/orderBy';
 import AssetLiabilityForm from './AssetLiabilityForm';
+import DeleteConfirmation from './DeleteConfirmation';
 
 const TableHeader = ({ title }) => (
   <Pane
@@ -157,11 +155,11 @@ class AssetListTable extends Component {
             )}
           </Table.Body>
         </Table>
-        <Dialog
-          width={450}
-          intent="danger"
-          hasHeader={false}
-          confirmLabel={`Delete`}
+        <DeleteConfirmation
+          title={`Are you sure you want to delete ${this.state.item &&
+            this.state.item.name}?`}
+          message="This will remove all items from past records. This cannot be undone."
+          isShown={this.state.showDeleteConfirmation}
           isConfirmLoading={this.state.isSubmitting}
           onConfirm={() => {
             this.handleOnDelete(this.state.item);
@@ -172,19 +170,7 @@ class AssetListTable extends Component {
               item: null,
             });
           }}
-          isShown={this.state.showDeleteConfirmation}
-        >
-          <Alert
-            intent="danger"
-            title={`Are you sure you want to delete ${this.state.item &&
-              this.state.item.name}?`}
-          >
-            <Paragraph>
-              This will remove all items from past records. This cannot be
-              undone.
-            </Paragraph>
-          </Alert>
-        </Dialog>
+        />
         <AssetLiabilityForm
           item={this.state.item}
           visible={this.state.assetLiabilityFormVisible}
