@@ -37,7 +37,7 @@ class ImportExpenseForm extends PureComponent {
           budgetItemId: this.state.itemId,
           date: expense.date,
           name: expense.name,
-          amount: expense.amount.replace('$', ''),
+          amount: expense.amount.replace(/[^\d|.]/g, ''),
         });
         if (!!resp.errors) {
           error('Something went wrong');
