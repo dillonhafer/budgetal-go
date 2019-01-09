@@ -119,10 +119,22 @@ export default class Header extends Component {
           <Menu.Divider key="divider2" />
           {this.adminLink(user.admin)}
           <Menu.Item key="sign-out">
-            <a onClick={this.signOut} title="Sign out" rel="nofollow">
+            <button
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                textAlign: 'left',
+                outline: 'none',
+                width: '100%',
+              }}
+              onClick={this.signOut}
+              title="Sign out"
+              rel="nofollow"
+            >
               <Icon type="logout" />
               Sign out
-            </a>
+            </button>
           </Menu.Item>
         </Menu.SubMenu>,
       ];

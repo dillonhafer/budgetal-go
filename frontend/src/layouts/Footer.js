@@ -23,7 +23,19 @@ export default class Footer extends Component {
         {new Date().getFullYear()} All rights reserved
         <p>
           <Link to="/privacy">Privacy</Link> |{' '}
-          <a onClick={this.handleHelpClick}>Help</a>
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              outline: 'none',
+              cursor: 'pointer',
+              textDecoration: 'underline',
+              color: '#444',
+            }}
+            onClick={this.handleHelpClick}
+          >
+            Help
+          </button>
         </p>
         <Modal
           title=""

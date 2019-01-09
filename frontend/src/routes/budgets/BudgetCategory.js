@@ -20,7 +20,9 @@ class BudgetCategory extends Component {
       okText: `Import ${budgetCategory.name}`,
       cancelText: 'Cancel',
       title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${budgetCategory.name} category?`,
+      content: `Do you want to import budget items from your previous month's ${
+        budgetCategory.name
+      } category?`,
       onOk: this.importPreviousItems,
       onCancel() {},
     });
@@ -45,7 +47,7 @@ class BudgetCategory extends Component {
   }
 
   percentSpent = (budgeted, spent) => {
-    const p = spent / budgeted * 100;
+    const p = (spent / budgeted) * 100;
     if (p > 99.99) {
       return 100;
     }
@@ -95,12 +97,19 @@ class BudgetCategory extends Component {
             </span>
           }
           extra={
-            <a
+            <button
+              style={{
+                border: 'none',
+                background: 'none',
+                color: '#108ee9',
+                cursor: 'pointer',
+                outline: 'none',
+              }}
               onClick={this.clickImport}
               title="Import items from previous budget"
             >
               <Icon type="export" />
-            </a>
+            </button>
           }
         >
           <div className="body-row">

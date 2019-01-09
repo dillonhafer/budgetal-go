@@ -5,8 +5,19 @@ import { Modal, Icon, Tabs, Row, Col } from 'antd';
 import RegisterForm from './RegisterForm';
 import PasswordResetForm from './PasswordResetForm';
 import SignInForm from './SignInForm';
+import { colors } from '@shared/theme';
 
 const TabPane = Tabs.TabPane;
+
+const styles = {
+  anchor: {
+    border: 'none',
+    background: 'none',
+    outline: 'none',
+    color: colors.primary,
+    cursor: 'pointer',
+  },
+};
 
 class SignIn extends Component {
   state = {
@@ -51,9 +62,13 @@ class SignIn extends Component {
               <PasswordResetForm />
               <Row>
                 <Col span={24} className="text-right">
-                  <a onClick={this.signIn} className="sign-in-form-sign-up">
+                  <button
+                    onClick={this.signIn}
+                    style={styles.anchor}
+                    className="sign-in-form-sign-up"
+                  >
                     Sign In <Icon type="right" />
-                  </a>
+                  </button>
                 </Col>
               </Row>
             </TabPane>
@@ -62,17 +77,22 @@ class SignIn extends Component {
               <SignInForm resetSignIn={this.props.resetSignIn} />
               <Row>
                 <Col span={12}>
-                  <a
+                  <button
+                    style={styles.anchor}
                     onClick={this.forgotPassword}
                     className="sign-sin-form-forgot"
                   >
                     <Icon type="left" /> Forgot password
-                  </a>
+                  </button>
                 </Col>
                 <Col span={12} className="text-right">
-                  <a onClick={this.register} className="sign-in-form-sign-up">
+                  <button
+                    onClick={this.register}
+                    style={styles.anchor}
+                    className="sign-in-form-sign-up"
+                  >
                     Register <Icon type="right" />
-                  </a>
+                  </button>
                 </Col>
               </Row>
             </TabPane>
@@ -80,9 +100,13 @@ class SignIn extends Component {
               <RegisterForm resetSignIn={this.props.resetSignIn} />
               <Row>
                 <Col span={24}>
-                  <a onClick={this.signIn} className="sign-sin-form-forgot">
+                  <button
+                    style={styles.anchor}
+                    onClick={this.signIn}
+                    className="sign-sin-form-forgot"
+                  >
                     <Icon type="left" /> Sign In
-                  </a>
+                  </button>
                 </Col>
               </Row>
             </TabPane>
