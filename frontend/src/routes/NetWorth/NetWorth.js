@@ -15,6 +15,7 @@ import {
   Select,
   Spinner,
 } from 'evergreen-ui';
+import AssetListTable from './AssetListTable';
 
 class NetWorth extends Component {
   componentDidMount() {
@@ -109,7 +110,7 @@ class NetWorth extends Component {
     });
 
     return (
-      <div>
+      <Pane>
         <Pane
           display="flex"
           flexDirection="row"
@@ -151,6 +152,28 @@ class NetWorth extends Component {
             importNetWorthItems={this.props.importNetWorthItems}
           />
         </Pane>
+        <Pane
+          display={loading || refreshing ? 'none' : 'flex'}
+          flexWrap="wrap"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
+          <AssetListTable
+            title="Assets"
+            items={this.props.assets}
+            emptyText={'No Assets'}
+            buttonTitle="Add Asset"
+            deleteAssetLiability={this.props.deleteAssetLiability}
+          />
+          <Pane width={16} />
+          <AssetListTable
+            title="Liabilities"
+            items={this.props.liabilities}
+            emptyText={'No Liabilities'}
+            buttonTitle="Add Liability"
+            deleteAssetLiability={this.props.deleteAssetLiability}
+          />
+        </Pane>
         <Alert
           appearance="card"
           intent="warning"
@@ -178,7 +201,7 @@ class NetWorth extends Component {
             &nbsp;apps
           </Paragraph>
         </Alert>
-      </div>
+      </Pane>
     );
   }
 }

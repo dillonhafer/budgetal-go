@@ -42,7 +42,7 @@ class AssetTable extends Component {
                   position={Position.BOTTOM_LEFT}
                   content={
                     <Menu>
-                      <Menu.Group title="Actions">
+                      <Menu.Group>
                         <Menu.Item
                           icon="edit"
                           onSelect={() => toaster.danger('Not Implemented Yet')}
@@ -51,7 +51,7 @@ class AssetTable extends Component {
                         </Menu.Item>
                       </Menu.Group>
                       <Menu.Divider />
-                      <Menu.Group title="Destructive">
+                      <Menu.Group>
                         <Menu.Item
                           icon="trash"
                           intent="danger"
