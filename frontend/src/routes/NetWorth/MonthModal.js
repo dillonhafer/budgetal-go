@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { monthName } from '@shared/helpers';
 import { error } from 'window';
 import { Alert, Dialog, Heading, Text } from 'evergreen-ui';
-import AssetTable from './AssetTable';
+import AssetLiabilityItemTable from './AssetLiabilityItemTable';
 
 class MonthModal extends Component {
   state = {
@@ -62,12 +62,15 @@ class MonthModal extends Component {
         confirmLabel={`Copy ${this.lastMonth()} Items`}
       >
         <Heading marginBottom={16}>Assets</Heading>
-        <AssetTable items={month.assets} emptyText="No Assets" />
+        <AssetLiabilityItemTable items={month.assets} emptyText="No Assets" />
 
         <Heading marginTop={16} marginBottom={16}>
           Liabilities
         </Heading>
-        <AssetTable items={month.liabilities} emptyText="No Liabilities" />
+        <AssetLiabilityItemTable
+          items={month.liabilities}
+          emptyText="No Liabilities"
+        />
         <Dialog
           width={350}
           hasHeader={false}

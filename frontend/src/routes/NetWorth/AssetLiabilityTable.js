@@ -29,7 +29,7 @@ const TableHeader = ({ title }) => (
   </Pane>
 );
 
-class AssetListTable extends Component {
+class AssetLiabilityTable extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
@@ -182,4 +182,4 @@ class AssetListTable extends Component {
   }
 }
 
-export default AssetListTable;
+export default AssetLiabilityTable;

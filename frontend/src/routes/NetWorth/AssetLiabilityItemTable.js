@@ -4,20 +4,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { deleteNetWorthItem } from 'actions/net-worth-items';
 
-import {
-  IconButton,
-  Menu,
-  Popover,
-  Position,
-  Table,
-  toaster,
-} from 'evergreen-ui';
+import { IconButton, Menu, Popover, Position, Table } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import { currencyf } from '@shared/helpers';
 import { notice, error } from 'window';
+
+// Components
+import AssetLiabilityItemForm from './AssetLiabilityItemForm';
 import DeleteConfirmation from './DeleteConfirmation';
 
-class AssetTable extends Component {
+class AssetLiabilityItemTable extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(
       PropTypes.shape({
@@ -33,9 +29,18 @@ class AssetTable extends Component {
     isSubmitting: false,
     showDeleteConfirmation: false,
     item: null,
+    assetLiabilityFormVisible: false,
   };
 
   handleOnDelete = item => {
+    this.setState({
+      showDeleteConfirmation: true,
+      assetLiabilityFormVisible: false,
+      item,
+    });
+  };
+
+  handleOnDeleteConfirm = item => {
     this.setState({ isSubmitting: true });
 
     this.props
@@ -56,7 +61,11 @@ class AssetTable extends Component {
   };
 
   handleOnEdit = item => {
-    toaster.danger(`${item.name}: Not Implemented Yet`);
+    this.setState({
+      item,
+      showDeleteConfirmation: false,
+      assetLiabilityFormVisible: true,
+    });
   };
 
   render() {
@@ -95,12 +104,7 @@ class AssetTable extends Component {
                           <Menu.Item
                             icon="trash"
                             intent="danger"
-                            onSelect={() => {
-                              this.setState({
-                                showDeleteConfirmation: true,
-                                item,
-                              });
-                            }}
+                            onSelect={() => this.handleOnDelete(item)}
                           >
                             Delete
                           </Menu.Item>
@@ -127,7 +131,7 @@ class AssetTable extends Component {
           isShown={this.state.showDeleteConfirmation}
           isConfirmLoading={this.state.isSubmitting}
           onConfirm={() => {
-            this.handleOnDelete(this.state.item);
+            this.handleOnDeleteConfirm(this.state.item);
           }}
           onCloseComplete={() => {
             this.setState({
@@ -135,6 +139,12 @@ class AssetTable extends Component {
               item: null,
             });
           }}
+        />
+        <AssetLiabilityItemForm
+          item={this.state.item}
+          visible={this.state.assetLiabilityFormVisible}
+          onCancel={() => this.setState({ item: null })}
+          close={() => this.setState({ assetLiabilityFormVisible: false })}
         />
       </React.Fragment>
     );
@@ -146,4 +156,4 @@ export default connect(
   dispatch => ({
     deleteNetWorthItem: item => dispatch(deleteNetWorthItem({ item })),
   }),
-)(AssetTable);
+)(AssetLiabilityItemTable);

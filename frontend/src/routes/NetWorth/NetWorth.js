@@ -15,7 +15,7 @@ import {
   Select,
   Spinner,
 } from 'evergreen-ui';
-import AssetListTable from './AssetListTable';
+import AssetLiabilityTable from './AssetLiabilityTable';
 
 class NetWorth extends Component {
   componentDidMount() {
@@ -158,7 +158,7 @@ class NetWorth extends Component {
           flexDirection="row"
           justifyContent="space-between"
         >
-          <AssetListTable
+          <AssetLiabilityTable
             title="Assets"
             items={this.props.assets}
             emptyText={'No Assets'}
@@ -166,7 +166,7 @@ class NetWorth extends Component {
             deleteAssetLiability={this.props.deleteAssetLiability}
           />
           <Pane width={16} />
-          <AssetListTable
+          <AssetLiabilityTable
             title="Liabilities"
             items={this.props.liabilities}
             emptyText={'No Liabilities'}
