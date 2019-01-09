@@ -5,16 +5,7 @@ import { availableYears, monthName } from '@shared/helpers';
 import Graphchart from 'graphchart';
 import moment from 'moment';
 import MonthModal from './MonthModal';
-import {
-  Alert,
-  Heading,
-  Link,
-  Pane,
-  Text,
-  Paragraph,
-  Select,
-  Spinner,
-} from 'evergreen-ui';
+import { Heading, Pane, Text, Select, Spinner } from 'evergreen-ui';
 import AssetLiabilityTable from './AssetLiabilityTable';
 
 class NetWorth extends Component {
@@ -176,33 +167,6 @@ class NetWorth extends Component {
             deleteAssetLiability={this.props.deleteAssetLiability}
           />
         </Pane>
-        <Alert
-          appearance="card"
-          intent="warning"
-          title="Limited functionality on the web"
-          marginTop={8}
-          marginBottom={8}
-        >
-          <Paragraph>
-            Currently Net Worth can only be modified from the&nbsp;
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8"
-            >
-              iOS
-            </Link>
-            {' and '}
-            <Link
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://play.google.com/store/apps/details?id=com.budgetal.app"
-            >
-              Android
-            </Link>
-            &nbsp;apps
-          </Paragraph>
-        </Alert>
       </Pane>
     );
   }
