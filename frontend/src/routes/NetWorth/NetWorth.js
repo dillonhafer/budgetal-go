@@ -50,6 +50,7 @@ class NetWorth extends Component {
         .map(i => ({
           id: i.id,
           name: this.props.assets.find(a => a.id === i.assetId).name,
+          assetId: i.assetId,
           amount: i.amount,
         })),
       'name',
@@ -62,6 +63,7 @@ class NetWorth extends Component {
         .map(i => ({
           id: i.id,
           name: this.props.liabilities.find(a => a.id === i.assetId).name,
+          assetId: i.assetId,
           amount: i.amount,
         })),
       'name',

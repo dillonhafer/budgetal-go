@@ -4,7 +4,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { deleteNetWorthItem } from 'actions/net-worth-items';
 
-import { IconButton, Menu, Popover, Position, Table } from 'evergreen-ui';
+import {
+  Button,
+  IconButton,
+  Menu,
+  Popover,
+  Position,
+  Table,
+} from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import { currencyf } from '@shared/helpers';
 import { notice, error } from 'window';
@@ -22,13 +29,15 @@ class AssetLiabilityItemTable extends Component {
         amount: PropTypes.number,
       }),
     ),
-    emptyText: PropTypes.string,
+    emptyText: PropTypes.string.isRequired,
+    buttonTitle: PropTypes.string.isRequired,
   };
 
   state = {
     isSubmitting: false,
     showDeleteConfirmation: false,
     item: null,
+    options: [],
     assetLiabilityFormVisible: false,
   };
 
@@ -68,8 +77,35 @@ class AssetLiabilityItemTable extends Component {
     });
   };
 
+  isAsset = () => {
+    return this.props.buttonTitle === 'Add Asset';
+  };
+
+  options = () => {
+    const items = this.isAsset() ? this.props.assets : this.props.liabilities;
+    const existingIds = this.props.items.map(i => i.assetId);
+    const options = items.reduce((acc, it) => {
+      if (existingIds.includes(it.id)) {
+        return acc;
+      }
+      return [...acc, { value: it.id, label: it.name }];
+    }, []);
+
+    return options;
+  };
+
+  handleOnAdd = () => {
+    const options = this.options();
+
+    this.setState({
+      item: { amount: 0, isAsset: this.isAsset(), assetId: options[0].value },
+      options,
+      assetLiabilityFormVisible: true,
+    });
+  };
+
   render() {
-    const { items, emptyText } = this.props;
+    const { items, emptyText, buttonTitle } = this.props;
 
     return (
       <React.Fragment>
@@ -122,6 +158,19 @@ class AssetLiabilityItemTable extends Component {
                 <Table.TextCell>{emptyText}</Table.TextCell>
               </Table.Row>
             )}
+            <Table.Row>
+              <Table.TextCell />
+              <Table.TextCell align="right">
+                <Button
+                  disabled={this.options().length === 0}
+                  onClick={this.handleOnAdd}
+                  iconBefore="add"
+                  appearance="primary"
+                >
+                  {buttonTitle}
+                </Button>
+              </Table.TextCell>
+            </Table.Row>
           </Table.Body>
         </Table>
         <DeleteConfirmation
@@ -141,10 +190,15 @@ class AssetLiabilityItemTable extends Component {
           }}
         />
         <AssetLiabilityItemForm
+          month={this.props.month}
+          year={this.props.year}
           item={this.state.item}
+          options={this.state.options}
           visible={this.state.assetLiabilityFormVisible}
           onCancel={() => this.setState({ item: null })}
-          close={() => this.setState({ assetLiabilityFormVisible: false })}
+          close={() =>
+            this.setState({ assetLiabilityFormVisible: false, options: [] })
+          }
         />
       </React.Fragment>
     );
@@ -152,7 +206,7 @@ class AssetLiabilityItemTable extends Component {
 }
 
 export default connect(
-  null,
+  state => state.netWorth,
   dispatch => ({
     deleteNetWorthItem: item => dispatch(deleteNetWorthItem({ item })),
   }),

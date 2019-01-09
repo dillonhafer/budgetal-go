@@ -17,7 +17,7 @@ export const createNetWorthItem = ({ year, month, item }) => dispatch =>
         if (resp.ok) {
           resolve(
             dispatch(
-              netWorthItemAdded(year, month, {
+              netWorthItemAdded(parseInt(year, 10), month, {
                 ...resp.item,
                 isAsset: item.isAsset,
               }),

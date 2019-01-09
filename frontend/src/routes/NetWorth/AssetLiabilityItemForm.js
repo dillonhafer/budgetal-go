@@ -8,7 +8,7 @@ import {
 } from 'actions/net-worth-items';
 
 import Form from 'components/Form';
-import { TextInputField, Dialog } from 'evergreen-ui';
+import { SelectField, TextInputField, Dialog } from 'evergreen-ui';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { notice, error } from 'window';
@@ -28,14 +28,12 @@ const validationMessages = (errors, touched) => {
 
 class AssetLiabilityItemForm extends Component {
   persistItem = async (item, strategyFunc, setSubmitting) => {
-    const name = item.name.toUpperCase();
-
     strategyFunc(item)
       .then(() => {
-        notice(`${name} SAVED`);
+        notice(`ITEM SAVED`);
       })
       .catch(() => {
-        error(`COULD NOT SAVE ${name}`);
+        error(`COULD NOT SAVE ITEM`);
       })
       .finally(() => {
         setSubmitting(false);
@@ -49,10 +47,15 @@ class AssetLiabilityItemForm extends Component {
       amount: values.amount,
     };
 
+    if (!item.id) {
+      item.assetId = parseInt(values.assetId, 10);
+    }
+
+    const { year, month } = this.props;
     const strategy = item.id
       ? this.props.updateNetWorthItem
       : this.props.createNetWorthItem;
-    this.persistItem(item, strategy, setSubmitting);
+    this.persistItem({ year, month, item }, strategy, setSubmitting);
   };
 
   onCloseComplete = reset => {
@@ -88,6 +91,23 @@ class AssetLiabilityItemForm extends Component {
         confirmLabel={isSubmitting ? 'Loading...' : confirmLabel}
       >
         <Form onSubmit={handleSubmit}>
+          {!this.props.item.id && (
+            <SelectField
+              value={values.assetId}
+              name="assetId"
+              label="Asset"
+              width="100%"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              {...validationMessages(errors.assetId, touched.assetId)}
+            >
+              {this.props.options.map(o => (
+                <option key={o.value} value={o.value}>
+                  {o.label}
+                </option>
+              ))}
+            </SelectField>
+          )}
           <TextInputField
             type="number"
             name="amount"
@@ -120,9 +140,13 @@ class AssetLiabilityItemForm extends Component {
 }
 
 export default connect(
-  null,
+  state => ({
+    assets: state.netWorth.assets,
+    liabilities: state.netWorth.liabilities,
+  }),
   dispatch => ({
-    createNetWorthItem: item => dispatch(createNetWorthItem({ item })),
-    updateNetWorthItem: item => dispatch(updateNetWorthItem({ item })),
+    createNetWorthItem: ({ year, month, item }) =>
+      dispatch(createNetWorthItem({ year, month, item })),
+    updateNetWorthItem: ({ item }) => dispatch(updateNetWorthItem({ item })),
   }),
 )(AssetLiabilityItemForm);

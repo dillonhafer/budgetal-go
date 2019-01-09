@@ -62,14 +62,23 @@ class MonthModal extends Component {
         confirmLabel={`Copy ${this.lastMonth()} Items`}
       >
         <Heading marginBottom={16}>Assets</Heading>
-        <AssetLiabilityItemTable items={month.assets} emptyText="No Assets" />
+        <AssetLiabilityItemTable
+          items={month.assets}
+          month={month.number}
+          year={month.year}
+          emptyText="No Assets"
+          buttonTitle="Add Asset"
+        />
 
         <Heading marginTop={16} marginBottom={16}>
           Liabilities
         </Heading>
         <AssetLiabilityItemTable
           items={month.liabilities}
+          month={month.number}
+          year={month.year}
           emptyText="No Liabilities"
+          buttonTitle="Add Liability"
         />
         <Dialog
           width={350}
