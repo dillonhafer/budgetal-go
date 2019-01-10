@@ -3,11 +3,9 @@ import { FindStatisticRequest } from '@shared/api/statistics';
 import { title, scrollTop, error } from 'window';
 import { availableYears, currencyf } from '@shared/helpers';
 import moment from 'moment';
-
 import Highchart from 'highchart';
-
-import { Spin, DatePicker, Row, Col } from 'antd';
-
+import { Heading, Select, Pane } from 'evergreen-ui';
+import times from 'lodash/times';
 import 'css/statistics.css';
 
 const monthName = month => {
@@ -16,7 +14,6 @@ const monthName = month => {
 
 class Statistics extends Component {
   state = {
-    showForm: false,
     loading: false,
     budgetCategories: [],
   };
@@ -81,10 +78,10 @@ class Statistics extends Component {
 
   missing() {
     return (
-      <div className="text-center">
+      <Pane textAlign="center" width="100%" margin="80px">
         <h2>Uh-oh!</h2>
         <p>It looks like you don't have a budget for this month</p>
-      </div>
+      </Pane>
     );
   }
 
@@ -92,6 +89,16 @@ class Statistics extends Component {
     this.props.history.push(
       `/monthly-statistics/${date.year()}/${date.month() + 1}`,
     );
+  };
+
+  handleOnDateChange = e => {
+    const date = {
+      year: this.props.match.params.year,
+      month: this.props.match.params.month,
+      [e.target.name]: e.target.value,
+    };
+
+    this.props.history.push(`/monthly-statistics/${date.year}/${date.month}`);
   };
 
   findDisabledDate = date => {
@@ -104,10 +111,6 @@ class Statistics extends Component {
     const year = date.year();
     const years = availableYears();
     return year < years[0] || year > years[years.length - 1] ? true : false;
-  };
-
-  handleVisibleChange = showForm => {
-    this.setState({ showForm });
   };
 
   loadStatistics = async () => {
@@ -147,52 +150,79 @@ class Statistics extends Component {
   render() {
     const { month, year } = this.props.match.params;
     return (
-      <div>
-        <h1>
-          Statistics for {monthName(month)} {year}
-          <div
-            style={{
-              float: 'right',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <DatePicker.MonthPicker
-              onChange={this.handleOnChange}
-              disabledDate={this.findDisabledDate}
-            />
-          </div>
-        </h1>
-        <Spin delay={300} size="large" spinning={this.state.loading}>
-          <Row>
-            {this.state.budgetCategories.length ? null : this.missing()}
-            <Col md={12}>{this.renderStatistics()}</Col>
-            <Col md={12}>
-              <ul className="stat-list">
-                {this.state.budgetCategories.map((category, key) => {
-                  const statIconClass =
-                    'stat-icon stat-icon-' +
-                    category.name.toLowerCase().replace('/', '-');
-                  return (
-                    <li key={key}>
-                      <div className="stat-list-item">
-                        <div className={statIconClass} />
-                        <b>{category.name}</b>
-                        <br />
-                        <span className="percentSpent">
-                          {currencyf(category.amountSpent)} -{' '}
-                          {category.percentSpent}%
-                        </span>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
-            </Col>
-          </Row>
-        </Spin>
-      </div>
+      <Pane>
+        <Pane
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          marginBottom={16}
+        >
+          <Heading size={800}>
+            STATISTICS FOR {monthName(month).toUpperCase()} {year}
+          </Heading>
+          <Pane>
+            <Select
+              defaultValue={month}
+              name="month"
+              onChange={this.handleOnDateChange}
+              flex="unset"
+              width={90}
+              marginRight={4}
+            >
+              {times(12, i => (
+                <option key={i} value={i + 1}>
+                  {monthName(i + 1)}
+                </option>
+              ))}
+            </Select>
+            <Select
+              defaultValue={year}
+              name="year"
+              onChange={this.handleOnDateChange}
+              flex="unset"
+              width={70}
+            >
+              {availableYears().map(y => {
+                return (
+                  <option key={y} value={y.toString()}>
+                    {y}
+                  </option>
+                );
+              })}
+            </Select>
+          </Pane>
+        </Pane>
+
+        <Pane display="flex" flexDirection="row">
+          {this.state.budgetCategories.length ? null : this.missing()}
+          <Pane display="flex" flex="1">
+            {this.renderStatistics()}
+          </Pane>
+          <Pane display="flex" flex="1">
+            <ul className="stat-list" style={{ width: '100%' }}>
+              {this.state.budgetCategories.map((category, key) => {
+                const statIconClass =
+                  'stat-icon stat-icon-' +
+                  category.name.toLowerCase().replace('/', '-');
+                return (
+                  <li key={key}>
+                    <div className="stat-list-item">
+                      <div className={statIconClass} />
+                      <b>{category.name}</b>
+                      <br />
+                      <span className="percentSpent">
+                        {currencyf(category.amountSpent)} -{' '}
+                        {category.percentSpent}%
+                      </span>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </Pane>
+        </Pane>
+      </Pane>
     );
   }
 }
