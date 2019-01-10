@@ -9,8 +9,15 @@ import {
 } from '@shared/api/admin';
 import moment from 'moment';
 
-// Antd
-import { Card, Button, Table, Modal, Input } from 'antd';
+import {
+  Avatar,
+  Button,
+  Dialog,
+  Heading,
+  Pane,
+  Table,
+  TextInputField,
+} from 'evergreen-ui';
 
 export default class Admin extends Component {
   state = {
@@ -80,34 +87,6 @@ export default class Admin extends Component {
     }
   };
 
-  columns = [
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Last Sign In',
-      dataIndex: 'last_sign_in',
-      key: 'last_sign_in',
-    },
-    {
-      title: 'IP',
-      dataIndex: 'ip',
-      key: 'ip',
-    },
-    {
-      title: '#',
-      dataIndex: 'sign_in_count',
-      key: 'sign_in_count',
-    },
-  ];
-
   checkForAdmin = async () => {
     const resp = await AdminUsersRequest();
     const isAdmin = resp && resp.ok && resp.users.length;
@@ -122,30 +101,6 @@ export default class Admin extends Component {
     }
   };
 
-  dataSource(users) {
-    return users.map((user, key) => {
-      return {
-        key: `user-key-${user.email}`,
-        name: (
-          <span>
-            <img
-              className={'nav-user-logo'}
-              src={user.avatarUrl}
-              alt={`${user.firstName} ${user.lastName}`}
-            />
-            {user.firstName || '-'}, <b>{user.lastName || '-'}</b>
-          </span>
-        ),
-        email: user.email,
-        last_sign_in: moment(user.lastSignIn).format(
-          'MMMM DD, YYYY - h:mm:ss a',
-        ),
-        ip: user.ip,
-        sign_in_count: user.signInCount,
-      };
-    });
-  }
-
   render() {
     const {
       isAdmin,
@@ -158,65 +113,132 @@ export default class Admin extends Component {
     }
 
     return (
-      <div>
-        <h1>Admin Panel</h1>
-        <Card noHovering title={'Config'}>
+      <Pane>
+        <Pane
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          marginBottom={16}
+        >
+          <Heading size={800}>ADMIN PANEL</Heading>
+        </Pane>
+        <Pane
+          display="flex"
+          padding={16}
+          marginBottom={8}
+          background="tint2"
+          borderRadius={3}
+        >
+          <Pane flex={1} alignItems="center" display="flex">
+            <Heading size={600}>TEST CONFIG</Heading>
+          </Pane>
+        </Pane>
+        <Pane>
           <Button
-            icon="mail"
-            type="primary"
-            loading={testEmailLoading}
-            size="large"
+            height={40}
+            iconBefore="envelope"
+            appearance="primary"
+            intent="none"
+            disabled={testEmailLoading}
             onClick={this.sendTestEmail}
           >
             {testEmailLoading ? 'Sending...' : 'Send Test Email'}
           </Button>
           &nbsp;
           <Button
-            icon="exception"
-            type="danger"
-            loading={errorLoading}
-            size="large"
+            height={40}
+            iconBefore="error"
+            appearance="primary"
+            intent="danger"
+            disabled={errorLoading}
             onClick={this.sendErrorTest}
           >
             {errorLoading ? 'Loading...' : 'Test 500'}
           </Button>
           &nbsp;
           <Button
-            icon="shake"
-            type="primary"
-            size="large"
+            height={40}
+            iconBefore="notifications"
+            appearance="primary"
+            intent="none"
             onClick={() => this.setState({ pushNotificationVisible: true })}
           >
             Test Push Notification
           </Button>
-          <Modal
+          <Dialog
+            preventBodyScrolling
+            isShown={this.state.pushNotificationVisible}
             title="Test Push Notification"
-            okText="Send Notification"
-            width={300}
+            width={350}
+            onCloseComplete={() => {
+              this.setState({ pushNotificationVisible: false });
+            }}
             confirmLoading={pushNotificationLoading}
-            visible={this.state.pushNotificationVisible}
-            onOk={this.testPushNotification}
-            onCancel={() => this.setState({ pushNotificationVisible: false })}
+            cancelText="Cancel"
+            onConfirm={this.testPushNotification}
+            confirmLabel={
+              pushNotificationLoading ? 'Loading...' : 'Send Notification'
+            }
           >
             <form onSubmit={this.testPushNotification}>
-              <label>Title</label>
-              <Input name="pnTitle" required="true" />
-              <label>Body</label>
-              <Input name="pnBody" required="true" />
+              <TextInputField required label="Title" name="pnTitle" />
+              <TextInputField required label="Body" name="pnBody" />
               <input type="submit" className="hide" value="Submit" />
             </form>
-          </Modal>
-        </Card>
-        <br />
-        <Card noHovering title={'Users'}>
-          <Table
-            dataSource={this.dataSource(this.state.users)}
-            pagination={false}
-            columns={this.columns}
-            bordered
-          />
-        </Card>
-      </div>
+          </Dialog>
+        </Pane>
+
+        <Pane height="48px" />
+
+        <Pane
+          display="flex"
+          padding={16}
+          marginBottom={8}
+          background="tint2"
+          borderRadius={3}
+        >
+          <Pane flex={1} alignItems="center" display="flex">
+            <Heading size={600}>USERS</Heading>
+          </Pane>
+        </Pane>
+        <Table>
+          <Table.Head accountForScrollbar>
+            <Table.TextHeaderCell>Name</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Email</Table.TextHeaderCell>
+            <Table.TextHeaderCell>Last Sign In</Table.TextHeaderCell>
+            <Table.TextHeaderCell>IP</Table.TextHeaderCell>
+            <Table.TextHeaderCell>#</Table.TextHeaderCell>
+          </Table.Head>
+          <Table.Body>
+            {this.state.users.map(user => (
+              <Table.Row key={`${user.email}`}>
+                <Table.TextCell>
+                  <Pane display="flex" alignItems="center" flexDirection="row">
+                    <Avatar
+                      {...(/.*missing-profile.*/.test(user.avatarUrl)
+                        ? {}
+                        : { src: user.avatarUrl })}
+                      name={`${user.firstName || '?'} ${user.lastName || '?'}`}
+                      size={40}
+                      marginRight={16}
+                    />
+                    <span>
+                      {user.firstName || '-'}, <b>{user.lastName || '-'}</b>
+                    </span>
+                  </Pane>
+                </Table.TextCell>
+                <Table.TextCell>{user.email}</Table.TextCell>
+                <Table.TextCell>
+                  {moment(user.lastSignIn).format('MMMM DD, YYYY - h:mm:ss a')}
+                </Table.TextCell>
+                <Table.TextCell isNumber>{user.ip}</Table.TextCell>
+                <Table.TextCell isNumber>{user.signInCount}</Table.TextCell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Pane>
     );
   }
 }
