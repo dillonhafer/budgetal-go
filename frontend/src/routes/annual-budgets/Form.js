@@ -106,6 +106,7 @@ class AnnualBudgetItemForm extends Component {
 
     return (
       <Dialog
+        preventBodyScrolling
         isShown={visible}
         title="Annual Budget Item"
         width={350}

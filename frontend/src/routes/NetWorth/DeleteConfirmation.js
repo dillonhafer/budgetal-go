@@ -11,6 +11,7 @@ const DeleteConfirmation = ({
   onCloseComplete,
 }) => (
   <Dialog
+    preventBodyScrolling
     width={450}
     intent="danger"
     hasHeader={false}

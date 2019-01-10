@@ -21,6 +21,7 @@ export default class ProgressModal extends Component {
         title={title}
         isShown={visible}
         hasFooter={false}
+        preventBodyScrolling
         onCloseComplete={this.props.hideProgress}
         onCancel={this.props.hideProgress}
       >

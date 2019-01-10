@@ -167,6 +167,7 @@ class ImportExpenseModal extends PureComponent {
 
     return (
       <Dialog
+        preventBodyScrolling
         title="Import Expenses"
         isShown={this.props.hidden}
         width={width}

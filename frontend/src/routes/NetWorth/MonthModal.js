@@ -52,6 +52,7 @@ class MonthModal extends Component {
 
     return (
       <Dialog
+        preventBodyScrolling
         isShown={visible}
         title={`${month.name} for ${monthName(month.number)} ${month.year}`}
         onCloseComplete={this.close}
@@ -82,6 +83,7 @@ class MonthModal extends Component {
           reload={this.props.reload}
         />
         <Dialog
+          preventBodyScrolling
           width={350}
           hasHeader={false}
           confirmLabel={`Copy ${this.lastMonth()} Items`}

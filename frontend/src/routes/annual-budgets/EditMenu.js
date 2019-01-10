@@ -95,6 +95,7 @@ class EditMenu extends Component {
         />
         <Dialog
           width={450}
+          preventBodyScrolling
           intent="danger"
           hasHeader={false}
           confirmLabel={`Delete`}
