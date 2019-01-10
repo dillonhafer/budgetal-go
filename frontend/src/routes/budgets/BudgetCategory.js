@@ -10,7 +10,9 @@ import { ImportCategoryRequest } from '@shared/api/budgets';
 import { notice } from 'window';
 import { currencyf, reduceSum } from '@shared/helpers';
 
-import { Card, Modal, Icon, Progress } from 'antd';
+import { Card, Modal } from 'antd';
+import Progresss from 'components/Progress';
+import { Icon } from 'evergreen-ui';
 
 class BudgetCategory extends Component {
   clickImport = e => {
@@ -108,17 +110,24 @@ class BudgetCategory extends Component {
               onClick={this.clickImport}
               title="Import items from previous budget"
             >
-              <Icon type="export" />
+              <Icon icon="import" />
             </button>
           }
         >
           <div className="body-row">
-            <div style={{ clear: 'both' }}>
-              <h3 style={{ float: 'left' }}>Spent: {currencyf(spent)}</h3>
-              <h3 style={{ float: 'right' }}>
-                Remaining: {currencyf(remaining)}
-              </h3>
-              <Progress
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <h3>Spent: {currencyf(spent)}</h3>
+                <h3>Remaining: {currencyf(remaining)}</h3>
+              </div>
+              <Progresss
                 strokeWidth={20}
                 status={status}
                 percent={percentSpent}

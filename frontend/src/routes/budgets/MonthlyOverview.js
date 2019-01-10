@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { currencyf, reduceSum } from '@shared/helpers';
 
 // Components
-import { Progress, Alert } from 'antd';
+import { Alert } from 'evergreen-ui';
+import Progress from 'components/Progress';
 
 class MonthlyOverview extends Component {
   state = {
@@ -27,7 +28,7 @@ class MonthlyOverview extends Component {
   };
 
   percentSpent() {
-    const p = this.amountSpent() / this.amountBudgeted() * 100;
+    const p = (this.amountSpent() / this.amountBudgeted()) * 100;
 
     if (isNaN(p)) {
       return 0;
@@ -47,38 +48,22 @@ class MonthlyOverview extends Component {
     const { budget } = this.props;
     const amountBudgeted = this.amountBudgeted();
     const left = budget.income - amountBudgeted;
+    const overageMessage = (
+      <div>
+        You have over budgeted by <strong>{currencyf(Math.abs(left))}</strong>
+      </div>
+    );
+    const underMessage = (
+      <div>
+        You still need to budget <strong>{currencyf(left)}</strong>
+      </div>
+    );
+
     switch (true) {
       case left > 0:
-        const underMessage = (
-          <div>
-            You still need to budget <strong>{currencyf(left)}</strong>
-          </div>
-        );
-        return [
-          <Alert
-            key={`alert`}
-            showIcon
-            message={underMessage}
-            type="warning"
-          />,
-          <br key={`br`} />,
-        ];
+        return <Alert intent="warning" title={underMessage} marginTop={16} />;
       case left < 0:
-        const overageMessage = (
-          <div>
-            You have over budgeted by{' '}
-            <strong>{currencyf(Math.abs(left))}</strong>
-          </div>
-        );
-        return [
-          <Alert
-            key={`alert`}
-            showIcon
-            message={overageMessage}
-            type="error"
-          />,
-          <br key={`br`} />,
-        ];
+        return <Alert intent="danger" title={overageMessage} marginTop={16} />;
       default:
         return null;
     }
@@ -88,17 +73,21 @@ class MonthlyOverview extends Component {
     const spent = this.percentSpent();
     const status = this.status();
     return (
-      <div>
-        <div style={{ clear: 'both' }}>
-          <h3 style={{ float: 'left' }}>
-            Spent: {currencyf(this.amountSpent())}
-          </h3>
-          <h3 style={{ float: 'right' }}>
-            Remaining: {currencyf(this.amountRemaining())}
-          </h3>
-          <Progress strokeWidth={20} status={status} percent={spent} />
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <h3>Spent: {currencyf(this.amountSpent())}</h3>
+            <h3>Remaining: {currencyf(this.amountRemaining())}</h3>
+          </div>
+          <Progress status={status} percent={spent} />
         </div>
-        <br />
         {this.warnings()}
       </div>
     );
