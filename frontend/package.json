@@ -8,6 +8,8 @@
   },
   "devDependencies": {
     "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "enzyme-to-json": "^3.3.5",
     "raf": "^3.4.1"
   },
   "dependencies": {
@@ -32,11 +34,20 @@
   },
   "scripts": {
     "start": "yarn clean-ant && source APP_ENV && react-scripts start",
-    "test": "source APP_ENV && react-scripts test --env=jsdom",
-    "build": "yarn clean-ant && source .env.production && react-scripts build",
+    "build-shared": "(cd ../shared && yarn build) && rm -rf node_modules/@shared && yarn install --check-files",
+    "test": "source APP_ENV && react-scripts test",
+    "test:w": "yarn test --watch",
+    "test:c": "yarn test --coverage",
+    "test:debug": "NODE_PATH=app/javascript node --inspect node_modules/.bin/jest --watch --runInBand",
+    "build": "yarn build-shared && yarn clean-ant && source .env.production && react-scripts build",
     "eject": "react-scripts eject",
     "clean-ant": "./clean-ant",
-    "release": "yarn clean-ant && source .env.production && react-scripts build && firebase deploy"
+    "release": "yarn build && firebase deploy"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "browserslist": [
     ">0.2%",
