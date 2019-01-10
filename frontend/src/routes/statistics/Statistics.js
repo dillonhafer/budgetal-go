@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import { FindStatisticRequest } from '@shared/api/statistics';
 import { title, scrollTop, error } from 'window';
-import { availableYears, currencyf } from '@shared/helpers';
-import moment from 'moment';
-import Highchart from 'highchart';
+import { availableYears, currencyf, monthName } from '@shared/helpers';
 import { Heading, Select, Pane } from 'evergreen-ui';
 import times from 'lodash/times';
 import 'css/statistics.css';
-
-const monthName = month => {
-  return moment.months()[month - 1];
-};
+import StatisticsChart from './StatisticsChart';
 
 class Statistics extends Component {
   state = {
@@ -25,57 +20,6 @@ class Statistics extends Component {
     this.loadStatistics();
   }
 
-  chartConfig(data) {
-    return {
-      legend: {
-        enabled: false,
-      },
-      tooltip: {
-        pointFormat: '<b>{point.percentage:.1f}%</b>',
-      },
-      plotOptions: {
-        pie: {
-          showInLegend: false,
-          innerSize: '40%',
-          cursor: 'pointer',
-          dataLabels: {
-            enabled: false,
-          },
-        },
-      },
-      series: [{ data }],
-    };
-  }
-
-  chartData(categories) {
-    return categories.map(category => {
-      return { y: category.percentSpent, name: category.name };
-    });
-  }
-
-  renderStatistics() {
-    if (this.state.budgetCategories.length > 0) {
-      const colors = [
-        '#fc121e',
-        '#fd8dd7',
-        '#fd9226',
-        '#1a98fc',
-        '#fc2a1c',
-        '#935211',
-        '#0a5591',
-        '#fed37f',
-        '#1a98fc',
-        '#929292',
-        '#fd9226',
-        '#5e5e5e',
-      ];
-
-      const data = this.chartData(this.state.budgetCategories);
-      const config = this.chartConfig(data);
-      return <Highchart config={config} colors={colors} />;
-    }
-  }
-
   missing() {
     return (
       <Pane textAlign="center" width="100%" margin="80px">
@@ -85,12 +29,6 @@ class Statistics extends Component {
     );
   }
 
-  handleOnChange = (date, dateString) => {
-    this.props.history.push(
-      `/monthly-statistics/${date.year()}/${date.month() + 1}`,
-    );
-  };
-
   handleOnDateChange = e => {
     const date = {
       year: this.props.match.params.year,
@@ -99,18 +37,6 @@ class Statistics extends Component {
     };
 
     this.props.history.push(`/monthly-statistics/${date.year}/${date.month}`);
-  };
-
-  findDisabledDate = date => {
-    if (
-      this.props.match.params.year === String(date.year()) &&
-      this.props.match.params.month === String(date.month() + 1)
-    ) {
-      return true;
-    }
-    const year = date.year();
-    const years = availableYears();
-    return year < years[0] || year > years[years.length - 1] ? true : false;
   };
 
   loadStatistics = async () => {
@@ -197,7 +123,7 @@ class Statistics extends Component {
         <Pane display="flex" flexDirection="row">
           {this.state.budgetCategories.length ? null : this.missing()}
           <Pane display="flex" flex="1">
-            {this.renderStatistics()}
+            <StatisticsChart budgetCategories={this.state.budgetCategories} />
           </Pane>
           <Pane display="flex" flex="1">
             <ul className="stat-list" style={{ width: '100%' }}>

@@ -170,7 +170,11 @@ exports[`Statistics renders 1`] = `
     <withTheme(Pane)
       display="flex"
       flex="1"
-    />
+    >
+      <StatisticsChart
+        budgetCategories={Array []}
+      />
+    </withTheme(Pane)>
     <withTheme(Pane)
       display="flex"
       flex="1"
