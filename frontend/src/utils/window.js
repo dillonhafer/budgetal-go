@@ -1,19 +1,20 @@
-import { notification } from 'antd';
+import { toaster } from 'evergreen-ui';
 
-const openNotificationWithIcon = (type, description) => {
+const openNotificationWithIcon = (type, description, heading) => {
   setTimeout(_ => {
-    notification[type]({
-      message: type.charAt(0).toUpperCase() + type.slice(1),
+    toaster[type](heading, {
       description,
+      width: '200px',
+      right: '20px',
     });
   }, 0);
 };
 
 export const notice = description => {
-  openNotificationWithIcon('success', description);
+  openNotificationWithIcon('success', description, 'Success');
 };
 export const error = description => {
-  openNotificationWithIcon('error', description);
+  openNotificationWithIcon('danger', description, 'Error');
 };
 
 export const title = string => {

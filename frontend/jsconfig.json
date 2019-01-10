@@ -11,7 +11,8 @@
       "layouts/*": ["layouts/*"],
       "reducers/*": ["reducers/*"],
       "routes/*": ["routes/*"],
-      "utils/*": ["utils/*"]
+      "utils/*": ["utils/*"],
+      "window": ["utils/window.js"]
     }
   },
   "exclude": ["node_modules"]
