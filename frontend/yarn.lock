@@ -1177,7 +1177,7 @@ acorn@^6.0.1, acorn@^6.0.2, acorn@^6.0.4:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.0.5.tgz#81730c0815f3f3b34d8efa95cb7430965f4d887a"
   integrity sha512-i33Zgp3XWtmZBMNvCr4azvOFeWVw1Rk6p3hfi3LUDvIFraOMywb1kAtrbi+med14m4Xfpqm3zRZMT+c0FNE7kg==
 
-add-dom-event-listener@1.x, add-dom-event-listener@^1.1.0:
+add-dom-event-listener@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/add-dom-event-listener/-/add-dom-event-listener-1.1.0.tgz#6a92db3a0dd0abc254e095c0f1dc14acbbaae310"
   integrity sha512-WCxx1ixHT0GQU9hb0KI/mhgRQhnU+U3GvwY6ZvVjYq8rsihIGoaIOUbY0yMPBxLH5MDtr0kz3fisWGNcbWW7Jw==
@@ -9012,20 +9012,6 @@ rc-menu@^5.0.11:
     rc-animate "2.x"
     rc-util "^4.0.2"
 
-rc-menu@^6.1.0:
-  version "6.2.2"
-  resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-6.2.2.tgz#5087bf4fcd0bc664c309662f68a82600ff716773"
-  integrity sha512-nDMdSKb95kFPOwYXesBkojbdJD8/ogiL7PTAJMslGEN8EXbjowOnbgyNnf+c1L7z83SyO0eUCzAyjJGQj+XdRQ==
-  dependencies:
-    babel-runtime "6.x"
-    classnames "2.x"
-    create-react-class "^15.5.2"
-    dom-scroll-into-view "1.x"
-    prop-types "^15.5.6"
-    rc-animate "2.x"
-    rc-trigger "^2.3.0"
-    rc-util "^4.1.0"
-
 rc-menu@~5.0.10:
   version "5.0.14"
   resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-5.0.14.tgz#73fd8e6f3525077b825c34c0318394bedce573d6"
@@ -9073,22 +9059,6 @@ rc-rate@~2.1.1:
   dependencies:
     classnames "^2.2.5"
     prop-types "^15.5.8"
-
-rc-select@^7.3.1:
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/rc-select/-/rc-select-7.3.1.tgz#0b32154f6c73e86d1465bf346ec52f33001947ca"
-  integrity sha512-H5c6NMWjjElmGZtOSa3QTfz8PQVIDt+kzQxudxfFMl6ORc71vwOA2YAw3igALJE/TRI4+ogLt+TV5xvRxpqJvg==
-  dependencies:
-    babel-runtime "^6.23.0"
-    classnames "2.x"
-    component-classes "1.x"
-    dom-scroll-into-view "1.x"
-    prop-types "^15.5.8"
-    rc-animate "2.x"
-    rc-menu "^6.1.0"
-    rc-trigger "^2.2.0"
-    rc-util "^4.0.4"
-    warning "^3.0.0"
 
 rc-select@~6.9.0:
   version "6.9.8"
@@ -9238,18 +9208,6 @@ rc-trigger@1.x:
     rc-animate "2.x"
     rc-util "4.x"
 
-rc-trigger@^2.2.0, rc-trigger@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-2.3.0.tgz#f42cfe4bc17dab4e4cd613a1d4a156738d252728"
-  integrity sha512-Zgu0eVBxGpUMZgLbTIik1JPhI5X6Xn8xvm4W0jtZYpfLVF3/I2w178Iyct/0fhCReuPZKEYznH72MdgeuK1g3Q==
-  dependencies:
-    babel-runtime "6.x"
-    create-react-class "15.x"
-    prop-types "15.x"
-    rc-align "2.x"
-    rc-animate "2.x"
-    rc-util "^4.3.0"
-
 rc-trigger@^2.2.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/rc-trigger/-/rc-trigger-2.6.2.tgz#a9c09ba5fad63af3b2ec46349c7db6cb46657001"
@@ -9278,16 +9236,6 @@ rc-util@4.x, rc-util@^4.0.2, rc-util@^4.0.4, rc-util@^4.4.0:
   integrity sha512-rbgrzm1/i8mgfwOI4t1CwWK7wGe+OwX+dNa7PVMgxZYPBADGh86eD4OcJO1UKGeajIMDUUKMluaZxvgraQIOmw==
   dependencies:
     add-dom-event-listener "^1.1.0"
-    babel-runtime "6.x"
-    prop-types "^15.5.10"
-    shallowequal "^0.2.2"
-
-rc-util@^4.1.0, rc-util@^4.3.0:
-  version "4.3.0"
-  resolved "https://registry.yarnpkg.com/rc-util/-/rc-util-4.3.0.tgz#31c61e747e3e107acfe78049f98b275a8051a398"
-  integrity sha512-PUY5w0oFnk1dBKJKhWVy6k1HOxk35d8xmWMeyWuhEG0Sfy/OuvP3aoaYy7Xx5bt55ecV5imjD6MlmAt2aC+ynQ==
-  dependencies:
-    add-dom-event-listener "1.x"
     babel-runtime "6.x"
     prop-types "^15.5.10"
     shallowequal "^0.2.2"
