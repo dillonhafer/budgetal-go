@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spinner when visible is true renders a spinner 1`] = `
+<withTheme(Pane)
+  marginY={56}
+  textAlign="center"
+>
+  <withTheme(Spinner)
+    marginX="auto"
+  />
+  <withTheme(Text)
+    marginY={16}
+  >
+    Loading...
+  </withTheme(Text)>
+</withTheme(Pane)>
+`;
