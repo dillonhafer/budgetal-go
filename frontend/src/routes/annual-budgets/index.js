@@ -14,7 +14,8 @@ import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
-import { Spinner, Text, Button, Pane, Heading, Select } from 'evergreen-ui';
+import { Button, Pane, Heading, Select } from 'evergreen-ui';
+import Spinner from 'components/Spinner';
 
 const padding = (group, length) => {
   return length <= 3 ? 3 % length : length % 3 === 0 ? 0 : 3 - (length % 3);
@@ -159,12 +160,7 @@ class AnnualBudget extends Component {
         </Pane>
 
         <Pane marginY={16}>
-          {(loading && (
-            <Pane textAlign="center" marginY={56}>
-              <Spinner marginX="auto" />
-              <Text marginY={16}>Loading...</Text>
-            </Pane>
-          )) || (
+          {(loading && <Spinner visible={loading} />) || (
             <AnnualBudgetItemList
               loading={loading}
               annualBudgetItems={annualBudgetItems}
