@@ -1,33 +1,18 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import moment from 'moment';
-import { times } from 'lodash';
-
-import { Radio, Table, Icon } from 'antd';
-
 import Month from './Month';
 import { currencyf } from '@shared/helpers';
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
+import { Pane, Table, SegmentedControl } from 'evergreen-ui';
 
-class MonthChart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      chartType: 'grid',
-    };
-  }
-
-  handleChartTypeChange = e => {
-    const chartType = e.target.value === 'grid' ? 'grid' : 'list';
-    this.setState({ chartType });
-  };
-
-  renderGrid(months, startYear, startMonth) {
+class Grid extends PureComponent {
+  render() {
+    const { months, startMonth, startYear } = this.props;
     const squares = months.map((month, i) => {
       const date = moment([startYear, startMonth, 1]).add(i, 'M');
       const key = `grid-${date.year()}-${date.month()}`;
       return <Month key={key} month={month} date={date} />;
     });
+
     return (
       <div
         style={{
@@ -40,113 +25,114 @@ class MonthChart extends Component {
       </div>
     );
   }
+}
 
-  renderList(months, startYear, startMonth) {
+class List extends PureComponent {
+  render() {
+    const { months } = this.props;
     const validMonth = month => {
       return !month.pastMonth && !month.early;
     };
-
     const today = new Date();
 
-    const columns = [
+    return (
+      <Table>
+        <Table.Head accountForScrollbar>
+          <Table.TextHeaderCell>Date</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Payment</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Extra Principle</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Principle</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Interest</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Balance</Table.TextHeaderCell>
+        </Table.Head>
+        <Table.VirtualBody height={500}>
+          {months.filter(validMonth).map((month, i) => {
+            const date = moment([
+              today.getFullYear(),
+              today.getMonth() + 1,
+              1,
+            ]).add(i, 'M');
+
+            return (
+              <Table.Row
+                key={`ds-${date.format('MMMM-YYY')}`}
+                background={date.month() === 0 ? '#edf7ff' : 'none'}
+              >
+                <Table.TextCell>{date.format('MMMM YYYY')}</Table.TextCell>
+                <Table.TextCell isNumber>
+                  {currencyf(month.principal + month.interest)}
+                </Table.TextCell>
+                <Table.TextCell isNumber>
+                  {currencyf(month.extra)}
+                </Table.TextCell>
+                <Table.TextCell isNumber>
+                  {currencyf(month.principal - month.extra)}
+                </Table.TextCell>
+                <Table.TextCell isNumber>
+                  {currencyf(month.interest)}
+                </Table.TextCell>
+                <Table.TextCell isNumber>
+                  {currencyf(month.balance)}
+                </Table.TextCell>
+              </Table.Row>
+            );
+          })}
+        </Table.VirtualBody>
+      </Table>
+    );
+  }
+}
+
+class MonthChart extends PureComponent {
+  state = {
+    chartType: 'grid',
+  };
+
+  get options() {
+    return [
       {
-        title: 'Date',
-        dataIndex: 'date',
-        key: 'date',
+        label: 'Grid',
+        value: 'grid',
       },
       {
-        title: 'Payment',
-        dataIndex: 'payment',
-        key: 'payment',
-      },
-      {
-        title: 'Extra Principle',
-        dataIndex: 'extra',
-        key: 'extra',
-      },
-      {
-        title: 'Principle',
-        dataIndex: 'principle',
-        key: 'principle',
-      },
-      {
-        title: 'Interest',
-        dataIndex: 'interest',
-        key: 'interest',
-      },
-      {
-        title: 'Balance',
-        dataIndex: 'balance',
-        key: 'balance',
+        label: 'List',
+        value: 'list',
       },
     ];
-
-    const dataSource = months.filter(validMonth).map((month, i) => {
-      const date = moment([today.getFullYear(), today.getMonth() + 1, 1]).add(
-        i,
-        'M',
-      );
-
-      return {
-        key: `ds-${date.format('MMMM-YYY')}`,
-        date: date.format('MMMM YYYY'),
-        payment: currencyf(month.principal + month.interest),
-        principle: currencyf(month.principal - month.extra),
-        extra: currencyf(month.extra),
-        interest: currencyf(month.interest),
-        balance: currencyf(month.balance),
-      };
-    });
-
-    const years = dataSource.length / 12 + 1;
-    const pageSizeOptions = times(years, i => {
-      return String((i + 1) * 12);
-    });
-
-    return (
-      <Table
-        bordered={true}
-        pagination={{
-          pageSize: 12,
-          pageSizeOptions,
-          showSizeChanger: true,
-        }}
-        dataSource={dataSource}
-        rowClassName={(r, i) => (r.date.startsWith('January') ? 'newYear' : '')}
-        columns={columns}
-      />
-    );
   }
 
   render() {
     const { months, startYear, startMonth } = this.props;
-
     const { chartType } = this.state;
-    const renderChart =
-      chartType === 'grid' ? this.renderGrid : this.renderList;
 
     return (
-      <div>
-        <div className="text-center">
-          <RadioGroup
-            defaultValue="grid"
-            size="large"
-            onChange={this.handleChartTypeChange}
-          >
-            <RadioButton value="grid">
-              <Icon type="calendar" /> <span>Grid</span>
-            </RadioButton>
-            <RadioButton value="list">
-              <Icon type="bars" /> <span>List</span>
-            </RadioButton>
-          </RadioGroup>
-        </div>
-        <br />
-        <br />
-        <div className="monthChart">
-          {renderChart(months, startYear, startMonth)}
-        </div>
-      </div>
+      <Pane>
+        <Pane display="flex" alignItems="center" justifyContent="center">
+          <SegmentedControl
+            width={240}
+            options={this.options}
+            value={chartType}
+            onChange={chartType => this.setState({ chartType })}
+          />
+        </Pane>
+        <Pane marginTop={16}>
+          <div className="monthChart">
+            {chartType === 'grid' ? (
+              <Pane display={chartType === 'grid' ? 'block' : 'none'}>
+                <Grid
+                  months={months}
+                  startYear={startYear}
+                  startMonth={startMonth}
+                />
+              </Pane>
+            ) : (
+              <Pane display={chartType === 'list' ? 'block' : 'none'}>
+                <List months={months} />
+              </Pane>
+            )}
+          </div>
+        </Pane>
+      </Pane>
     );
   }
 }

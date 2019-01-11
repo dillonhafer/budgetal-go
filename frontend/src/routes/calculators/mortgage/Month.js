@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { currencyf } from '@shared/helpers';
-import { Popover, Tag } from 'antd';
+import { Popover } from 'antd';
+import { Badge } from 'evergreen-ui';
 
 class Month extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      focused: false,
-    };
-  }
+  state = {
+    focused: false,
+  };
 
   render() {
     const { date, month } = this.props;
@@ -17,11 +15,11 @@ class Month extends Component {
 
     let div = (
       <div style={{ textAlign: 'center' }}>
-        <Tag color="blue">
+        <Badge color="blue">
           {currencyf(month.extra)} / {currencyf(month.principal - month.extra)}
-        </Tag>
+        </Badge>
         <br />
-        <Tag color="red">{currencyf(month.interest)}</Tag>
+        <Badge color="red">{currencyf(month.interest)}</Badge>
         <h3>{currencyf(month.balance)}</h3>
       </div>
     );
@@ -32,23 +30,27 @@ class Month extends Component {
       classNames = [...classNames.filter(n => n !== 'focus')];
     }
 
-    let color = '#ccc';
+    let isSolid = false;
+    let color = 'neutral';
     if (!month.early && date.format('M') === '1') {
-      color = 'gray';
+      color = 'neutral';
+      isSolid = true;
       classNames.push('year');
     }
 
     if (month.pastMonth) {
       classNames.push('past');
-      color = '#68d453';
+      color = 'green';
       if (date.format('M') === '1') {
-        color = '#268a31';
+        isSolid = true;
+        color = 'green';
       }
       div = <div>Paid Month</div>;
     }
 
     if (month.early) {
-      color = '#1a98fc';
+      color = 'blue';
+      isSolid = true;
       div = <div>Paid Early!</div>;
     }
 
@@ -63,7 +65,14 @@ class Month extends Component {
           </span>
         }
       >
-        <Tag color={color} />
+        <Badge
+          height={18}
+          width={18}
+          margin={2}
+          isInteractive
+          color={color}
+          isSolid={isSolid}
+        />
       </Popover>
     );
   }
