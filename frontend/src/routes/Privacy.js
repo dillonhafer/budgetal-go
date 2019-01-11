@@ -97,8 +97,8 @@ export default class Privacy extends Component {
               is only accessible by a limited number of persons who have special
               access rights to such systems, and are required to keep the
               information confidential. In addition, all sensitive/credit
-              information you supply is encrypted via Secure Socket Layer (SSL)
-              technology.
+              information you supply is encrypted via Transport Layer Security
+              (TLS) technology.
             </div>
             <br />
             <div className="innerText">
