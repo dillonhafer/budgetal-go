@@ -1,0 +1,194 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Admin renders 1`] = `
+<withTheme(Pane)>
+  <withTheme(Pane)
+    alignItems="center"
+    display="flex"
+    flexDirection="row"
+    justifyContent="space-between"
+    marginBottom={16}
+  >
+    <withTheme(Heading)
+      size={800}
+    >
+      ADMIN PANEL
+    </withTheme(Heading)>
+  </withTheme(Pane)>
+  <withTheme(Pane)
+    background="tint2"
+    borderRadius={3}
+    display="flex"
+    marginBottom={8}
+    padding={16}
+  >
+    <withTheme(Pane)
+      alignItems="center"
+      display="flex"
+      flex={1}
+    >
+      <withTheme(Heading)
+        size={600}
+      >
+        TEST CONFIG
+      </withTheme(Heading)>
+    </withTheme(Pane)>
+  </withTheme(Pane)>
+  <withTheme(Pane)>
+    <withTheme(Button)
+      appearance="primary"
+      disabled={false}
+      height={40}
+      iconBefore="envelope"
+      intent="none"
+      onClick={[Function]}
+    >
+      Send Test Email
+    </withTheme(Button)>
+     
+    <withTheme(Button)
+      appearance="primary"
+      disabled={false}
+      height={40}
+      iconBefore="error"
+      intent="danger"
+      onClick={[Function]}
+    >
+      Test 500
+    </withTheme(Button)>
+     
+    <withTheme(Button)
+      appearance="primary"
+      height={40}
+      iconBefore="notifications"
+      intent="none"
+      onClick={[Function]}
+    >
+      Test Push Notification
+    </withTheme(Button)>
+    <withTheme(Dialog)
+      cancelText="Cancel"
+      confirmLabel="Send Notification"
+      confirmLoading={false}
+      isShown={false}
+      onCloseComplete={[Function]}
+      onConfirm={[Function]}
+      preventBodyScrolling={true}
+      title="Test Push Notification"
+      width={350}
+    >
+      <form
+        onSubmit={[Function]}
+      >
+        <TextInputField
+          inputHeight={32}
+          inputWidth="100%"
+          label="Title"
+          name="pnTitle"
+          required={true}
+        />
+        <TextInputField
+          inputHeight={32}
+          inputWidth="100%"
+          label="Body"
+          name="pnBody"
+          required={true}
+        />
+        <input
+          className="hide"
+          type="submit"
+          value="Submit"
+        />
+      </form>
+    </withTheme(Dialog)>
+  </withTheme(Pane)>
+  <withTheme(Pane)
+    height="48px"
+  />
+  <withTheme(Pane)
+    background="tint2"
+    borderRadius={3}
+    display="flex"
+    marginBottom={8}
+    padding={16}
+  >
+    <withTheme(Pane)
+      alignItems="center"
+      display="flex"
+      flex={1}
+    >
+      <withTheme(Heading)
+        size={600}
+      >
+        USERS
+      </withTheme(Heading)>
+    </withTheme(Pane)>
+  </withTheme(Pane)>
+  <Table>
+    <TableHead
+      accountForScrollbar={true}
+      height={32}
+    >
+      <TextTableHeaderCell>
+        Name
+      </TextTableHeaderCell>
+      <TextTableHeaderCell>
+        Email
+      </TextTableHeaderCell>
+      <TextTableHeaderCell>
+        Last Sign In
+      </TextTableHeaderCell>
+      <TextTableHeaderCell>
+        IP
+      </TextTableHeaderCell>
+      <TextTableHeaderCell>
+        #
+      </TextTableHeaderCell>
+    </TableHead>
+    <TableBody>
+      <withTheme(TableRow)
+        key="lizzy+lemon@example.com"
+      >
+        <TextTableCell
+          isNumber={false}
+        >
+          <withTheme(Pane)
+            alignItems="center"
+            display="flex"
+            flexDirection="row"
+          >
+            <withTheme(Avatar)
+              marginRight={16}
+              name="Liz Lemon"
+              size={40}
+            />
+            <span>
+              Liz
+              , 
+              <b>
+                Lemon
+              </b>
+            </span>
+          </withTheme(Pane)>
+        </TextTableCell>
+        <TextTableCell
+          isNumber={false}
+        >
+          lizzy+lemon@example.com
+        </TextTableCell>
+        <TextTableCell
+          isNumber={false}
+        >
+          November 13, 2017 - 6:20:44 pm
+        </TextTableCell>
+        <TextTableCell
+          isNumber={true}
+        />
+        <TextTableCell
+          isNumber={true}
+        />
+      </withTheme(TableRow)>
+    </TableBody>
+  </Table>
+</withTheme(Pane)>
+`;
