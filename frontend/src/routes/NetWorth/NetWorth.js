@@ -5,8 +5,9 @@ import { availableYears, monthName } from '@shared/helpers';
 import Graphchart from 'graphchart';
 import moment from 'moment';
 import MonthModal from './MonthModal';
-import { Heading, Pane, Text, Select, Spinner } from 'evergreen-ui';
+import { Heading, Pane, Select } from 'evergreen-ui';
 import AssetLiabilityTable from './AssetLiabilityTable';
+import Spinner from 'components/Spinner';
 
 class NetWorth extends Component {
   componentDidMount() {
@@ -133,12 +134,7 @@ class NetWorth extends Component {
             })}
           </Select>
         </Pane>
-        {(loading || refreshing) && (
-          <Pane textAlign="center" marginY={56}>
-            <Spinner marginX="auto" />
-            <Text marginY={16}>Loading...</Text>
-          </Pane>
-        )}
+        <Spinner visible={loading || refreshing} />
         <Pane display={loading || refreshing ? 'none' : ''} paddingTop={32}>
           <Graphchart
             assets={assetData}
