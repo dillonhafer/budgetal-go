@@ -151,22 +151,13 @@ exports[`Statistics renders 1`] = `
       </withTheme(Select)>
     </withTheme(Pane)>
   </withTheme(Pane)>
+  <Spinner
+    visible={true}
+  />
   <withTheme(Pane)
     display="flex"
     flexDirection="row"
   >
-    <withTheme(Pane)
-      margin="80px"
-      textAlign="center"
-      width="100%"
-    >
-      <h2>
-        Uh-oh!
-      </h2>
-      <p>
-        It looks like you don't have a budget for this month
-      </p>
-    </withTheme(Pane)>
     <withTheme(Pane)
       display="flex"
       flex="1"

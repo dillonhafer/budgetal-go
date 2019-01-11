@@ -6,6 +6,7 @@ import { Heading, Select, Pane } from 'evergreen-ui';
 import times from 'lodash/times';
 import 'css/statistics.css';
 import StatisticsChart from './StatisticsChart';
+import Spinner from 'components/Spinner';
 
 class Statistics extends Component {
   state = {
@@ -74,6 +75,7 @@ class Statistics extends Component {
   };
 
   render() {
+    const { loading } = this.state;
     const { month, year } = this.props.match.params;
     return (
       <Pane>
@@ -120,8 +122,11 @@ class Statistics extends Component {
           </Pane>
         </Pane>
 
-        <Pane display="flex" flexDirection="row">
-          {this.state.budgetCategories.length ? null : this.missing()}
+        <Spinner visible={loading} />
+        <Pane display={'flex'} flexDirection="row">
+          {loading || this.state.budgetCategories.length > 0
+            ? null
+            : this.missing()}
           <Pane display="flex" flex="1">
             <StatisticsChart budgetCategories={this.state.budgetCategories} />
           </Pane>
