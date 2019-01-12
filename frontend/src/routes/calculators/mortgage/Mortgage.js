@@ -72,7 +72,6 @@ class MortgageCalculator extends Component {
   }
   render() {
     const {
-      currentYear,
       startYear,
       loanBalance,
       startMonth,
@@ -97,6 +96,7 @@ class MortgageCalculator extends Component {
     );
     const firstMonthPrincipal = monthlyPayment - firstMonthInterest;
 
+    let earlyMonths = 0;
     let cv = currentBalance;
     const _months = [...Array(totalMonths).keys()].map((month, i) => {
       const pastMonth = i < completedMonths;
@@ -117,6 +117,9 @@ class MortgageCalculator extends Component {
       }
 
       const early = Math.max(_balance, 0) === 0;
+      if (early) {
+        earlyMonths++;
+      }
       return {
         pastMonth,
         extra: extraMonthlyPayment,
@@ -127,7 +130,7 @@ class MortgageCalculator extends Component {
       };
     });
 
-    const earlyMonths = _months.filter(m => m.early).length;
+    const currentYear = new Date().getFullYear();
 
     return (
       <Pane>
@@ -319,12 +322,8 @@ const updateState = state => {
 };
 
 export default connect(
-  state => ({
-    ...state.mortgageCalculator,
-  }),
+  state => state.mortgageCalculator,
   dispatch => ({
-    updateState: state => {
-      dispatch(updateState(state));
-    },
+    updateState: state => dispatch(updateState(state)),
   }),
 )(MortgageCalculator);
