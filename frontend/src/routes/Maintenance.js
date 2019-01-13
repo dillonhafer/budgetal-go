@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
-import { Progress } from 'antd';
 import { maintenanceCheck } from 'api';
 import { Spinner, Text, Pane, toaster } from 'evergreen-ui';
+import ProgressCircle from 'components/Progress/Circle';
 
 class Maintenance extends Component {
   state = {
@@ -75,14 +75,7 @@ class Maintenance extends Component {
         <h1>We are performing scheduled maintenance right now.</h1>
         <hr />
         <p style={{ marginBottom: '15px' }}>Refreshing automatically in</p>
-        <div style={{ color: '#1a98fc' }}>
-          <Progress
-            type="circle"
-            status="active"
-            percent={(timer / 15) * 100}
-            format={p => `${timer}`}
-          />
-        </div>
+        <ProgressCircle size="lg" percent={(timer / 15) * 100} text={timer} />
         <p style={{ marginBottom: '30px' }}>We should be done shortly.</p>
         <img alt="503" src="/500.svg" />
       </div>
