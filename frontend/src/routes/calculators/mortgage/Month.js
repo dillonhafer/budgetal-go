@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { currencyf } from '@shared/helpers';
-import { Popover } from 'antd';
-import { Badge } from 'evergreen-ui';
+import { Badge, Strong, Text, Pane, Popover } from 'evergreen-ui';
 
 class Month extends Component {
   state = {
@@ -56,16 +55,20 @@ class Month extends Component {
 
     return (
       <Popover
+        position="top"
+        minWidth={40}
+        target={this.badge}
         content={
-          <span className="paymentPopover">
-            <div style={{ textAlign: 'center' }}>
-              <b>{date.format('MMMM YYYY')}</b>
-            </div>
+          <Pane padding={16} textAlign="center">
+            <Text>
+              <Strong>{date.format('MMMM YYYY')}</Strong>
+            </Text>
             {div}
-          </span>
+          </Pane>
         }
       >
         <Badge
+          ref={b => (this.badge = b)}
           height={18}
           width={18}
           margin={2}
