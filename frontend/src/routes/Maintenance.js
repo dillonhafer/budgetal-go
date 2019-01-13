@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
-import { message, Progress } from 'antd';
+import { Progress } from 'antd';
 import { maintenanceCheck } from 'api';
+import { Spinner, Text, Pane, toaster } from 'evergreen-ui';
 
 class Maintenance extends Component {
   state = {
@@ -20,7 +21,18 @@ class Maintenance extends Component {
   }
 
   checkStatus = () => {
-    const hide = message.loading('Checking status...', 0);
+    toaster.notify(
+      <Pane
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Spinner size={16} />
+        <Text marginLeft={8}>Checking status...</Text>
+      </Pane>,
+      0,
+    );
     maintenanceCheck()
       .then(r => {
         if (r.status === 0) {
@@ -28,8 +40,8 @@ class Maintenance extends Component {
         }
 
         setTimeout(() => {
-          hide();
-          message.success('We are back online!');
+          toaster.closeAll();
+          toaster.success('We are back online!');
           setTimeout(() => {
             window.location = '/';
           }, 500);
@@ -37,8 +49,8 @@ class Maintenance extends Component {
       })
       .catch(() => {
         setTimeout(() => {
-          hide();
-          message.warning('We are still in maintenance');
+          toaster.closeAll();
+          toaster.warning('We are still in maintenance');
           this.setState({ timer: 15 });
           this.interval = setInterval(this.countDown, 1000);
         }, 3000);
