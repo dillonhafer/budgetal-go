@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
-import { Col, Row } from 'antd';
+import { Pane } from 'evergreen-ui';
 
 class Home extends Component {
   componentDidMount() {
@@ -10,9 +10,21 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="home-screen">
-        <Row type="flex" align="middle" justify="center">
-          <Col md={12} sm={24}>
+      <Pane className="home-screen">
+        <Pane
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          minWidth={380}
+          flexWrap={'wrap'}
+        >
+          <Pane
+            minWidth={380}
+            display="flex"
+            flexDirection="column"
+            flex="1 0 40%"
+          >
             <div className="text-right">
               <img
                 src={require('images/app-logo.png')}
@@ -20,29 +32,35 @@ class Home extends Component {
                 alt="budgetal"
               />
             </div>
-          </Col>
-          <Col md={12} sm={24}>
-            <Row type="flex" align="middle" justify="center">
-              <Col md={4} sm={24}>
+          </Pane>
+          <Pane
+            minWidth={380}
+            display="flex"
+            flexDirection="column"
+            flex="1 0 40%"
+          >
+            <Pane display="flex" flexDirection="row" alignItems="center">
+              <Pane>
                 <img
                   alt="Budgetal"
                   style={{ margin: '14px', width: '64px' }}
                   src={'/app_logo.png'}
                 />
-              </Col>
-              <Col md={20} sm={24}>
+              </Pane>
+              <Pane>
                 <span className="app-title">Budgetal</span>
-              </Col>
-            </Row>
-            <Row type="flex" align="center" justify="center">
-              <Col span={24}>
+              </Pane>
+            </Pane>
+            <Pane display="flex" flexDirection="row" alignItems="center">
+              <Pane>
                 <p className="app-subtitle">
-                  Because personal finances<br /> are personal.
+                  Because personal finances
+                  <br /> are personal.
                 </p>
-              </Col>
-            </Row>
-            <Row type="flex" align="center" justify="center">
-              <Col span={24}>
+              </Pane>
+            </Pane>
+            <Pane display="flex" flexDirection="row" alignItems="center">
+              <Pane>
                 <a
                   target="_blank"
                   rel="noopener noreferrer"
@@ -66,11 +84,11 @@ class Home extends Component {
                     alt="App Store"
                   />
                 </a>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </div>
+              </Pane>
+            </Pane>
+          </Pane>
+        </Pane>
+      </Pane>
     );
   }
 }
