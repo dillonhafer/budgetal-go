@@ -1,0 +1,1952 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mortgage renders 1`] = `
+<withTheme(Pane)>
+  <withTheme(Heading)
+    size={800}
+  >
+    Mortgage Calculator
+  </withTheme(Heading)>
+  <withTheme(Pane)
+    display="flex"
+    flex="1"
+    flexDirection="row"
+    marginBottom={16}
+    marginTop={16}
+  >
+    <withTheme(Pane)
+      display="flex"
+      flex="1"
+      flexDirection="column"
+      justifyContent="space-between"
+      marginRight={32}
+    >
+      <Card
+        background="tint2"
+        padding={16}
+      >
+        <withTheme(Heading)
+          size={600}
+        >
+          Loan Details
+        </withTheme(Heading)>
+        <withTheme(Pane)
+          display="flex"
+          flexDirection="row"
+        >
+          <withTheme(Pane)
+            marginRight={32}
+          >
+            <TextInputField
+              inputHeight={32}
+              inputWidth="100%"
+              label="Original Balance"
+              max={10000000}
+              min={1000}
+              name="balance"
+              onChange={[Function]}
+              step={1000}
+              type="number"
+              value={150000}
+            />
+          </withTheme(Pane)>
+          <withTheme(Pane)>
+            <TextInputField
+              inputHeight={32}
+              inputWidth="100%"
+              label="Original Balance"
+              max={150000}
+              min={1000}
+              name="currentBalance"
+              onChange={[Function]}
+              step={1000}
+              type="number"
+              value={80000}
+            />
+          </withTheme(Pane)>
+        </withTheme(Pane)>
+        <withTheme(Pane)
+          display="flex"
+          flexDirection="row"
+        >
+          <withTheme(Pane)
+            marginRight={32}
+          >
+            <TextInputField
+              inputHeight={32}
+              inputWidth="100%"
+              label="Interest Rate"
+              max={100}
+              min={0}
+              onChange={[Function]}
+              step={0.1}
+              type="number"
+              value={3.5}
+            />
+          </withTheme(Pane)>
+          <withTheme(Pane)>
+            <TextInputField
+              inputHeight={32}
+              inputWidth="100%"
+              label="Load Term"
+              name="year"
+              onChange={[Function]}
+              value={15}
+            >
+              <option
+                value={1}
+              >
+                1 Year
+              </option>
+              <option
+                value={2}
+              >
+                2 Years
+              </option>
+              <option
+                value={3}
+              >
+                3 Years
+              </option>
+              <option
+                value={4}
+              >
+                4 Years
+              </option>
+              <option
+                value={5}
+              >
+                5 Years
+              </option>
+              <option
+                value={6}
+              >
+                6 Years
+              </option>
+              <option
+                value={7}
+              >
+                7 Years
+              </option>
+              <option
+                value={8}
+              >
+                8 Years
+              </option>
+              <option
+                value={9}
+              >
+                9 Years
+              </option>
+              <option
+                value={10}
+              >
+                10 Years
+              </option>
+              <option
+                value={11}
+              >
+                11 Years
+              </option>
+              <option
+                value={12}
+              >
+                12 Years
+              </option>
+              <option
+                value={13}
+              >
+                13 Years
+              </option>
+              <option
+                value={14}
+              >
+                14 Years
+              </option>
+              <option
+                value={15}
+              >
+                15 Years
+              </option>
+              <option
+                value={16}
+              >
+                16 Years
+              </option>
+              <option
+                value={17}
+              >
+                17 Years
+              </option>
+              <option
+                value={18}
+              >
+                18 Years
+              </option>
+              <option
+                value={19}
+              >
+                19 Years
+              </option>
+              <option
+                value={20}
+              >
+                20 Years
+              </option>
+              <option
+                value={21}
+              >
+                21 Years
+              </option>
+              <option
+                value={22}
+              >
+                22 Years
+              </option>
+              <option
+                value={23}
+              >
+                23 Years
+              </option>
+              <option
+                value={24}
+              >
+                24 Years
+              </option>
+              <option
+                value={25}
+              >
+                25 Years
+              </option>
+              <option
+                value={26}
+              >
+                26 Years
+              </option>
+              <option
+                value={27}
+              >
+                27 Years
+              </option>
+              <option
+                value={28}
+              >
+                28 Years
+              </option>
+              <option
+                value={29}
+              >
+                29 Years
+              </option>
+              <option
+                value={30}
+              >
+                30 Years
+              </option>
+            </TextInputField>
+          </withTheme(Pane)>
+        </withTheme(Pane)>
+        <withTheme(Pane)
+          display="flex"
+          flexDirection="row"
+        >
+          <TextInputField
+            inputHeight={32}
+            inputWidth="100%"
+            label="Origin Date"
+            marginRight={4}
+            name="month"
+            onChange={[Function]}
+            value={6}
+          >
+            <option
+              key="0"
+              value="1"
+            >
+              January
+            </option>
+            <option
+              key="1"
+              value="2"
+            >
+              February
+            </option>
+            <option
+              key="2"
+              value="3"
+            >
+              March
+            </option>
+            <option
+              key="3"
+              value="4"
+            >
+              April
+            </option>
+            <option
+              key="4"
+              value="5"
+            >
+              May
+            </option>
+            <option
+              key="5"
+              value="6"
+            >
+              June
+            </option>
+            <option
+              key="6"
+              value="7"
+            >
+              July
+            </option>
+            <option
+              key="7"
+              value="8"
+            >
+              August
+            </option>
+            <option
+              key="8"
+              value="9"
+            >
+              September
+            </option>
+            <option
+              key="9"
+              value="10"
+            >
+              October
+            </option>
+            <option
+              key="10"
+              value="11"
+            >
+              November
+            </option>
+            <option
+              key="11"
+              value="12"
+            >
+              December
+            </option>
+          </TextInputField>
+          <TextInputField
+            inputHeight={32}
+            inputWidth="100%"
+            label={
+              <withTheme(Text)
+                color="none"
+              >
+                .
+              </withTheme(Text)>
+            }
+            name="startYear"
+            onChange={[Function]}
+            value={2016}
+          >
+            <option
+              key="0"
+              value="2019"
+            >
+              2019
+            </option>
+            <option
+              key="1"
+              value="2018"
+            >
+              2018
+            </option>
+            <option
+              key="2"
+              value="2017"
+            >
+              2017
+            </option>
+            <option
+              key="3"
+              value="2016"
+            >
+              2016
+            </option>
+            <option
+              key="4"
+              value="2015"
+            >
+              2015
+            </option>
+            <option
+              key="5"
+              value="2014"
+            >
+              2014
+            </option>
+            <option
+              key="6"
+              value="2013"
+            >
+              2013
+            </option>
+            <option
+              key="7"
+              value="2012"
+            >
+              2012
+            </option>
+            <option
+              key="8"
+              value="2011"
+            >
+              2011
+            </option>
+            <option
+              key="9"
+              value="2010"
+            >
+              2010
+            </option>
+            <option
+              key="10"
+              value="2009"
+            >
+              2009
+            </option>
+            <option
+              key="11"
+              value="2008"
+            >
+              2008
+            </option>
+            <option
+              key="12"
+              value="2007"
+            >
+              2007
+            </option>
+            <option
+              key="13"
+              value="2006"
+            >
+              2006
+            </option>
+            <option
+              key="14"
+              value="2005"
+            >
+              2005
+            </option>
+          </TextInputField>
+        </withTheme(Pane)>
+      </Card>
+    </withTheme(Pane)>
+    <withTheme(Pane)
+      display="flex"
+      flex="1"
+      flexDirection="column"
+      justifyContent="space-between"
+    >
+      <Card
+        background="tint2"
+        padding={16}
+      >
+        <withTheme(Heading)
+          size={600}
+        >
+          Extra Payments
+        </withTheme(Heading)>
+        <TextInputField
+          inputHeight={32}
+          inputWidth="100%"
+          label="Monthly"
+          onChange={[Function]}
+          type="number"
+          value={1000}
+        />
+      </Card>
+      <Card
+        background="tint2"
+      >
+        <withTheme(Heading)
+          padding={16}
+          size={600}
+        >
+          180
+           Month Mortgage - 
+          $1,072.32
+          /month
+        </withTheme(Heading)>
+        <withTheme(Pane)
+          padding={24}
+          textAlign="center"
+        >
+          Completed 
+          <b>
+            30
+          </b>
+           out of
+           
+          <b>
+            71
+          </b>
+           
+          monthly payments
+          <br />
+          <b>
+            41
+          </b>
+           monthly payments remain.
+        </withTheme(Pane)>
+      </Card>
+    </withTheme(Pane)>
+  </withTheme(Pane)>
+  <MonthChart
+    months={
+      Array [
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
+        Object {
+          "balance": 78161.01,
+          "early": false,
+          "extra": 1000,
+          "interest": 233.33,
+          "pastMonth": false,
+          "principal": 1838.9899999999998,
+        },
+        Object {
+          "balance": 76316.65999999999,
+          "early": false,
+          "extra": 1000,
+          "interest": 227.97,
+          "pastMonth": false,
+          "principal": 1844.35,
+        },
+        Object {
+          "balance": 74466.93,
+          "early": false,
+          "extra": 1000,
+          "interest": 222.59,
+          "pastMonth": false,
+          "principal": 1849.73,
+        },
+        Object {
+          "balance": 72611.81,
+          "early": false,
+          "extra": 1000,
+          "interest": 217.2,
+          "pastMonth": false,
+          "principal": 1855.12,
+        },
+        Object {
+          "balance": 70751.27,
+          "early": false,
+          "extra": 1000,
+          "interest": 211.78,
+          "pastMonth": false,
+          "principal": 1860.54,
+        },
+        Object {
+          "balance": 68885.31,
+          "early": false,
+          "extra": 1000,
+          "interest": 206.36,
+          "pastMonth": false,
+          "principal": 1865.96,
+        },
+        Object {
+          "balance": 67013.91,
+          "early": false,
+          "extra": 1000,
+          "interest": 200.92,
+          "pastMonth": false,
+          "principal": 1871.4,
+        },
+        Object {
+          "balance": 65137.05,
+          "early": false,
+          "extra": 1000,
+          "interest": 195.46,
+          "pastMonth": false,
+          "principal": 1876.86,
+        },
+        Object {
+          "balance": 63254.71000000001,
+          "early": false,
+          "extra": 1000,
+          "interest": 189.98,
+          "pastMonth": false,
+          "principal": 1882.34,
+        },
+        Object {
+          "balance": 61366.880000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 184.49,
+          "pastMonth": false,
+          "principal": 1887.83,
+        },
+        Object {
+          "balance": 59473.55,
+          "early": false,
+          "extra": 1000,
+          "interest": 178.99,
+          "pastMonth": false,
+          "principal": 1893.33,
+        },
+        Object {
+          "balance": 57574.69,
+          "early": false,
+          "extra": 1000,
+          "interest": 173.46,
+          "pastMonth": false,
+          "principal": 1898.86,
+        },
+        Object {
+          "balance": 55670.3,
+          "early": false,
+          "extra": 1000,
+          "interest": 167.93,
+          "pastMonth": false,
+          "principal": 1904.3899999999999,
+        },
+        Object {
+          "balance": 53760.350000000006,
+          "early": false,
+          "extra": 1000,
+          "interest": 162.37,
+          "pastMonth": false,
+          "principal": 1909.9499999999998,
+        },
+        Object {
+          "balance": 51844.83000000001,
+          "early": false,
+          "extra": 1000,
+          "interest": 156.8,
+          "pastMonth": false,
+          "principal": 1915.52,
+        },
+        Object {
+          "balance": 49923.72000000001,
+          "early": false,
+          "extra": 1000,
+          "interest": 151.21,
+          "pastMonth": false,
+          "principal": 1921.11,
+        },
+        Object {
+          "balance": 47997.01000000001,
+          "early": false,
+          "extra": 1000,
+          "interest": 145.61,
+          "pastMonth": false,
+          "principal": 1926.71,
+        },
+        Object {
+          "balance": 46064.68000000001,
+          "early": false,
+          "extra": 1000,
+          "interest": 139.99,
+          "pastMonth": false,
+          "principal": 1932.33,
+        },
+        Object {
+          "balance": 44126.72000000001,
+          "early": false,
+          "extra": 1000,
+          "interest": 134.36,
+          "pastMonth": false,
+          "principal": 1937.96,
+        },
+        Object {
+          "balance": 42183.100000000006,
+          "early": false,
+          "extra": 1000,
+          "interest": 128.7,
+          "pastMonth": false,
+          "principal": 1943.62,
+        },
+        Object {
+          "balance": 40233.810000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 123.03,
+          "pastMonth": false,
+          "principal": 1949.29,
+        },
+        Object {
+          "balance": 38278.840000000004,
+          "early": false,
+          "extra": 1000,
+          "interest": 117.35,
+          "pastMonth": false,
+          "principal": 1954.9699999999998,
+        },
+        Object {
+          "balance": 36318.170000000006,
+          "early": false,
+          "extra": 1000,
+          "interest": 111.65,
+          "pastMonth": false,
+          "principal": 1960.67,
+        },
+        Object {
+          "balance": 34351.780000000006,
+          "early": false,
+          "extra": 1000,
+          "interest": 105.93,
+          "pastMonth": false,
+          "principal": 1966.3899999999999,
+        },
+        Object {
+          "balance": 32379.650000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 100.19,
+          "pastMonth": false,
+          "principal": 1972.1299999999999,
+        },
+        Object {
+          "balance": 30401.770000000004,
+          "early": false,
+          "extra": 1000,
+          "interest": 94.44,
+          "pastMonth": false,
+          "principal": 1977.8799999999999,
+        },
+        Object {
+          "balance": 28418.120000000003,
+          "early": false,
+          "extra": 1000,
+          "interest": 88.67,
+          "pastMonth": false,
+          "principal": 1983.65,
+        },
+        Object {
+          "balance": 26428.690000000002,
+          "early": false,
+          "extra": 1000,
+          "interest": 82.89,
+          "pastMonth": false,
+          "principal": 1989.4299999999998,
+        },
+        Object {
+          "balance": 24433.450000000004,
+          "early": false,
+          "extra": 1000,
+          "interest": 77.08,
+          "pastMonth": false,
+          "principal": 1995.2399999999998,
+        },
+        Object {
+          "balance": 22432.390000000003,
+          "early": false,
+          "extra": 1000,
+          "interest": 71.26,
+          "pastMonth": false,
+          "principal": 2001.06,
+        },
+        Object {
+          "balance": 20425.500000000004,
+          "early": false,
+          "extra": 1000,
+          "interest": 65.43,
+          "pastMonth": false,
+          "principal": 2006.8899999999999,
+        },
+        Object {
+          "balance": 18412.750000000004,
+          "early": false,
+          "extra": 1000,
+          "interest": 59.57,
+          "pastMonth": false,
+          "principal": 2012.75,
+        },
+        Object {
+          "balance": 16394.130000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 53.7,
+          "pastMonth": false,
+          "principal": 2018.62,
+        },
+        Object {
+          "balance": 14369.630000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 47.82,
+          "pastMonth": false,
+          "principal": 2024.5,
+        },
+        Object {
+          "balance": 12339.220000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 41.91,
+          "pastMonth": false,
+          "principal": 2030.4099999999999,
+        },
+        Object {
+          "balance": 10302.890000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 35.99,
+          "pastMonth": false,
+          "principal": 2036.33,
+        },
+        Object {
+          "balance": 8260.620000000004,
+          "early": false,
+          "extra": 1000,
+          "interest": 30.05,
+          "pastMonth": false,
+          "principal": 2042.27,
+        },
+        Object {
+          "balance": 6212.390000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 24.09,
+          "pastMonth": false,
+          "principal": 2048.23,
+        },
+        Object {
+          "balance": 4158.190000000005,
+          "early": false,
+          "extra": 1000,
+          "interest": 18.12,
+          "pastMonth": false,
+          "principal": 2054.2,
+        },
+        Object {
+          "balance": 2098.0000000000055,
+          "early": false,
+          "extra": 1000,
+          "interest": 12.13,
+          "pastMonth": false,
+          "principal": 2060.1899999999996,
+        },
+        Object {
+          "balance": 31.80000000000564,
+          "early": false,
+          "extra": 1000,
+          "interest": 6.12,
+          "pastMonth": false,
+          "principal": 2066.2,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": 0.09,
+          "pastMonth": false,
+          "principal": 2072.23,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -5.95,
+          "pastMonth": false,
+          "principal": 2078.27,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -12.01,
+          "pastMonth": false,
+          "principal": 2084.33,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -18.09,
+          "pastMonth": false,
+          "principal": 2090.41,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -24.19,
+          "pastMonth": false,
+          "principal": 2096.51,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -30.3,
+          "pastMonth": false,
+          "principal": 2102.62,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -36.44,
+          "pastMonth": false,
+          "principal": 2108.76,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -42.59,
+          "pastMonth": false,
+          "principal": 2114.91,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -48.76,
+          "pastMonth": false,
+          "principal": 2121.08,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -54.94,
+          "pastMonth": false,
+          "principal": 2127.26,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -61.15,
+          "pastMonth": false,
+          "principal": 2133.4700000000003,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -67.37,
+          "pastMonth": false,
+          "principal": 2139.69,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -73.61,
+          "pastMonth": false,
+          "principal": 2145.93,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -79.87,
+          "pastMonth": false,
+          "principal": 2152.19,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -86.15,
+          "pastMonth": false,
+          "principal": 2158.4700000000003,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -92.44,
+          "pastMonth": false,
+          "principal": 2164.76,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -98.76,
+          "pastMonth": false,
+          "principal": 2171.08,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -105.09,
+          "pastMonth": false,
+          "principal": 2177.41,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -111.44,
+          "pastMonth": false,
+          "principal": 2183.76,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -117.81,
+          "pastMonth": false,
+          "principal": 2190.13,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -124.2,
+          "pastMonth": false,
+          "principal": 2196.52,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -130.6,
+          "pastMonth": false,
+          "principal": 2202.92,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -137.03,
+          "pastMonth": false,
+          "principal": 2209.35,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -143.47,
+          "pastMonth": false,
+          "principal": 2215.79,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -149.93,
+          "pastMonth": false,
+          "principal": 2222.25,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -156.42,
+          "pastMonth": false,
+          "principal": 2228.74,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -162.92,
+          "pastMonth": false,
+          "principal": 2235.24,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -169.44,
+          "pastMonth": false,
+          "principal": 2241.76,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -175.97,
+          "pastMonth": false,
+          "principal": 2248.29,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -182.53,
+          "pastMonth": false,
+          "principal": 2254.85,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -189.11,
+          "pastMonth": false,
+          "principal": 2261.43,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -195.7,
+          "pastMonth": false,
+          "principal": 2268.02,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -202.32,
+          "pastMonth": false,
+          "principal": 2274.64,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -208.95,
+          "pastMonth": false,
+          "principal": 2281.27,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -215.61,
+          "pastMonth": false,
+          "principal": 2287.93,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -222.28,
+          "pastMonth": false,
+          "principal": 2294.6,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -228.97,
+          "pastMonth": false,
+          "principal": 2301.29,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -235.69,
+          "pastMonth": false,
+          "principal": 2308.01,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -242.42,
+          "pastMonth": false,
+          "principal": 2314.74,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -249.17,
+          "pastMonth": false,
+          "principal": 2321.49,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -255.94,
+          "pastMonth": false,
+          "principal": 2328.26,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -262.73,
+          "pastMonth": false,
+          "principal": 2335.05,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -269.54,
+          "pastMonth": false,
+          "principal": 2341.8599999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -276.37,
+          "pastMonth": false,
+          "principal": 2348.69,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -283.22,
+          "pastMonth": false,
+          "principal": 2355.54,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -290.09,
+          "pastMonth": false,
+          "principal": 2362.41,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -296.98,
+          "pastMonth": false,
+          "principal": 2369.3,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -303.89,
+          "pastMonth": false,
+          "principal": 2376.21,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -310.82,
+          "pastMonth": false,
+          "principal": 2383.14,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -317.77,
+          "pastMonth": false,
+          "principal": 2390.09,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -324.75,
+          "pastMonth": false,
+          "principal": 2397.0699999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -331.74,
+          "pastMonth": false,
+          "principal": 2404.06,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -338.75,
+          "pastMonth": false,
+          "principal": 2411.0699999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -345.78,
+          "pastMonth": false,
+          "principal": 2418.1,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -352.83,
+          "pastMonth": false,
+          "principal": 2425.1499999999996,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -359.91,
+          "pastMonth": false,
+          "principal": 2432.23,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -367,
+          "pastMonth": false,
+          "principal": 2439.3199999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -374.12,
+          "pastMonth": false,
+          "principal": 2446.44,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -381.25,
+          "pastMonth": false,
+          "principal": 2453.5699999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -388.41,
+          "pastMonth": false,
+          "principal": 2460.73,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -395.58,
+          "pastMonth": false,
+          "principal": 2467.8999999999996,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -402.78,
+          "pastMonth": false,
+          "principal": 2475.1,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -410,
+          "pastMonth": false,
+          "principal": 2482.3199999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -417.24,
+          "pastMonth": false,
+          "principal": 2489.56,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -424.5,
+          "pastMonth": false,
+          "principal": 2496.8199999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -431.79,
+          "pastMonth": false,
+          "principal": 2504.1099999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -439.09,
+          "pastMonth": false,
+          "principal": 2511.41,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -446.41,
+          "pastMonth": false,
+          "principal": 2518.73,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -453.76,
+          "pastMonth": false,
+          "principal": 2526.08,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -461.13,
+          "pastMonth": false,
+          "principal": 2533.45,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -468.52,
+          "pastMonth": false,
+          "principal": 2540.84,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -475.93,
+          "pastMonth": false,
+          "principal": 2548.25,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -483.36,
+          "pastMonth": false,
+          "principal": 2555.68,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -490.81,
+          "pastMonth": false,
+          "principal": 2563.13,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -498.29,
+          "pastMonth": false,
+          "principal": 2570.6099999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -505.79,
+          "pastMonth": false,
+          "principal": 2578.1099999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -513.31,
+          "pastMonth": false,
+          "principal": 2585.63,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -520.85,
+          "pastMonth": false,
+          "principal": 2593.17,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -528.41,
+          "pastMonth": false,
+          "principal": 2600.73,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -536,
+          "pastMonth": false,
+          "principal": 2608.3199999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -543.6,
+          "pastMonth": false,
+          "principal": 2615.92,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -551.23,
+          "pastMonth": false,
+          "principal": 2623.55,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -558.89,
+          "pastMonth": false,
+          "principal": 2631.21,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -566.56,
+          "pastMonth": false,
+          "principal": 2638.88,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -574.26,
+          "pastMonth": false,
+          "principal": 2646.58,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -581.98,
+          "pastMonth": false,
+          "principal": 2654.3,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -589.72,
+          "pastMonth": false,
+          "principal": 2662.04,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -597.48,
+          "pastMonth": false,
+          "principal": 2669.8,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -605.27,
+          "pastMonth": false,
+          "principal": 2677.59,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -613.08,
+          "pastMonth": false,
+          "principal": 2685.4,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -620.91,
+          "pastMonth": false,
+          "principal": 2693.23,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -628.77,
+          "pastMonth": false,
+          "principal": 2701.09,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -636.65,
+          "pastMonth": false,
+          "principal": 2708.97,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -644.55,
+          "pastMonth": false,
+          "principal": 2716.87,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -652.47,
+          "pastMonth": false,
+          "principal": 2724.79,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -660.42,
+          "pastMonth": false,
+          "principal": 2732.74,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -668.39,
+          "pastMonth": false,
+          "principal": 2740.71,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -676.38,
+          "pastMonth": false,
+          "principal": 2748.7,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -684.4,
+          "pastMonth": false,
+          "principal": 2756.72,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -692.44,
+          "pastMonth": false,
+          "principal": 2764.76,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -700.5,
+          "pastMonth": false,
+          "principal": 2772.8199999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -708.59,
+          "pastMonth": false,
+          "principal": 2780.91,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -716.7,
+          "pastMonth": false,
+          "principal": 2789.02,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -724.84,
+          "pastMonth": false,
+          "principal": 2797.16,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -733,
+          "pastMonth": false,
+          "principal": 2805.3199999999997,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -741.18,
+          "pastMonth": false,
+          "principal": 2813.5,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -749.38,
+          "pastMonth": false,
+          "principal": 2821.7,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -757.61,
+          "pastMonth": false,
+          "principal": 2829.93,
+        },
+        Object {
+          "balance": 0,
+          "early": true,
+          "extra": 1000,
+          "interest": -765.87,
+          "pastMonth": false,
+          "principal": 2838.19,
+        },
+      ]
+    }
+    startMonth={6}
+    startYear={2016}
+  />
+</withTheme(Pane)>
+`;

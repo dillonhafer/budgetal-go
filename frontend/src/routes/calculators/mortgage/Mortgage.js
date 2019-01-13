@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import moment from 'moment';
-import MonthChart from './MonthChart';
-import { title, scrollTop } from 'window';
-import { currencyf } from '@shared/helpers';
-import { connect } from 'react-redux';
-import { MORTGAGE_CALCULATOR_UPDATED } from 'action-types';
+import PropTypes from 'prop-types';
 
+// Components
+import MonthChart from './MonthChart';
 import {
   TextInputField,
   Text,
@@ -15,7 +12,23 @@ import {
   SelectField,
 } from 'evergreen-ui';
 
+// Helpers
+import moment from 'moment';
+import { title, scrollTop } from 'window';
+import { currencyf } from '@shared/helpers';
+
 class MortgageCalculator extends Component {
+  static propTypes = {
+    startYear: PropTypes.number.isRequired,
+    loanBalance: PropTypes.number.isRequired,
+    startMonth: PropTypes.number.isRequired,
+    interestRate: PropTypes.number.isRequired,
+    yearTerm: PropTypes.number.isRequired,
+    currentBalance: PropTypes.number.isRequired,
+    extraMonthlyPayment: PropTypes.number.isRequired,
+    updateState: PropTypes.func.isRequired,
+  };
+
   componentDidMount() {
     title('Mortgage | Calculators');
     scrollTop();
@@ -314,16 +327,4 @@ class MortgageCalculator extends Component {
   }
 }
 
-const updateState = state => {
-  return {
-    type: MORTGAGE_CALCULATOR_UPDATED,
-    state,
-  };
-};
-
-export default connect(
-  state => state.mortgageCalculator,
-  dispatch => ({
-    updateState: state => dispatch(updateState(state)),
-  }),
-)(MortgageCalculator);
+export default MortgageCalculator;
