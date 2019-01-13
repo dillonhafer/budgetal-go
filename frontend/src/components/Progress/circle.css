@@ -1,0 +1,12 @@
+.ProgressCircle_circle {
+  transition: stroke 0.2s ease, stroke-dashoffset 0.3s ease;
+  -webkit-transition: stroke 0.2s ease, stroke-dashoffset 0.3s ease;
+}
+.ProgressCircle_background {
+  transition: stroke-dashoffset 0.8s;
+  -webkit-transition: stroke-dashoffset 0.8s;
+}
+.ProgressCircle_text {
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
