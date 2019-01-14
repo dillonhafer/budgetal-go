@@ -145,12 +145,6 @@ class BudgetItem extends Component {
       labelCol: { span: 8 },
       wrapperCol: { span: 16 },
     };
-    const tailFormItemLayout = {
-      wrapperCol: {
-        offset: 8,
-        span: 16,
-      },
-    };
 
     const amountRemaining = item.amount - this.amountSpent();
     const percent = this.percentSpent();
@@ -203,17 +197,14 @@ class BudgetItem extends Component {
                   />,
                 )}
               </FormItem>
-              <FormItem {...tailFormItemLayout} className="text-right">
-                <Button
-                  appearance="primary"
-                  height={40}
-                  disabled={this.state.loading}
-                  htmlType="submit"
-                >
-                  {this.state.loading && <Spinner size={16} marginRight={8} />}
-                  Save
-                </Button>
-              </FormItem>
+              <Button
+                appearance="primary"
+                height={40}
+                disabled={this.state.loading}
+              >
+                {this.state.loading && <Spinner size={16} marginRight={8} />}
+                Save
+              </Button>
             </Form>
           </Col>
           <Col span={16}>

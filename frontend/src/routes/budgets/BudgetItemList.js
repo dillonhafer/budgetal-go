@@ -9,11 +9,12 @@ import BudgetItem from './BudgetItem';
 
 // Helpers
 import { map, find } from 'lodash';
-import { Button, Tabs, Icon } from 'antd';
+import { Tabs, Icon } from 'antd';
+import { Button, Pane } from 'evergreen-ui';
 const TabPane = Tabs.TabPane;
 
 class BudgetItemList extends Component {
-  newBudgetItem = (budgetItem, index) => {
+  newBudgetItem = budgetItem => {
     const tab = budgetItem.name ? budgetItem.name : <Icon type="question" />;
     return (
       <TabPane
@@ -53,24 +54,24 @@ class BudgetItemList extends Component {
       }) === undefined;
     const showItemList = budgetItems.length > 0;
     return (
-      <div className="row new-budget-item">
+      <Pane className="row new-budget-item">
         {showItemList && (
           <Tabs tabPosition="left">{map(budgetItems, this.newBudgetItem)}</Tabs>
         )}
         {!showItemList && (
           <p className="emptyList">You haven't added any budget items yet.</p>
         )}
-        <br />
         <Button
-          icon="plus-circle"
+          height={40}
+          marginTop={16}
+          appearance="primary"
           onClick={this.addBudgetItem}
-          type="primary"
-          size="large"
+          iconBefore="add"
           disabled={!noNewItems}
         >
           Add a Budget Item
         </Button>
-      </div>
+      </Pane>
     );
   }
 }

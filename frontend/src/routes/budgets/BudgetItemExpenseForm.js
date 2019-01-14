@@ -21,13 +21,13 @@ import moment from 'moment';
 import {
   Row,
   Col,
-  Button,
   Popconfirm,
   Form,
   InputNumber,
   DatePicker,
   AutoComplete,
 } from 'antd';
+import { Button, Spinner, Icon, IconButton } from 'evergreen-ui';
 
 import { notice } from 'window';
 class BudgetItemExpenseForm extends Component {
@@ -109,7 +109,6 @@ class BudgetItemExpenseForm extends Component {
 
   render() {
     const { loading, predictions } = this.state;
-    const icon = loading ? 'loading' : 'check';
 
     return (
       <Row>
@@ -166,7 +165,8 @@ class BudgetItemExpenseForm extends Component {
                 <InputNumber
                   min={1}
                   formatter={value =>
-                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                    `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                  }
                   parser={value => value.replace(/\$\s?|(,*)/g, '')}
                   placeholder="(10.00)"
                 />,
@@ -179,14 +179,14 @@ class BudgetItemExpenseForm extends Component {
                 <Col span={12}>
                   <Button
                     onClick={this.handleOnSubmit}
-                    icon={icon}
                     disabled={loading}
-                    shape="circle"
-                    type="primary"
-                    size="default"
-                    htmlType="submit"
-                    title="Save Expense"
-                  />
+                    appearance="primary"
+                    intent="success"
+                    paddingLeft={8}
+                    paddingRight={8}
+                  >
+                    {loading ? <Spinner size={16} /> : <Icon icon="tick" />}
+                  </Button>
                 </Col>
                 <Col span={10} offset={2}>
                   <Popconfirm
@@ -198,12 +198,10 @@ class BudgetItemExpenseForm extends Component {
                     okText={'Delete Expense'}
                     okType={'danger'}
                   >
-                    <Button
-                      className="delete-button"
-                      shape="circle"
-                      type="danger"
-                      icon="delete"
+                    <IconButton
                       title="Delete Expense"
+                      icon="trash"
+                      intent="danger"
                     />
                   </Popconfirm>
                 </Col>

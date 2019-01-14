@@ -6,7 +6,8 @@ import { newExpense } from 'actions/budget-item-expenses';
 
 // Components
 import BudgetItemExpenseForm from './BudgetItemExpenseForm';
-import { Button, Table } from 'antd';
+import { Table } from 'antd';
+import { Pane, Button } from 'evergreen-ui';
 
 // Helpers
 import { find, groupBy, orderBy } from 'lodash';
@@ -31,9 +32,11 @@ class BudgetItemExpenseList extends Component {
       find(expenses, expense => expense.id === null) !== undefined;
     return (
       <Button
-        icon="plus-circle"
+        height={32}
+        marginBottom={16}
+        appearance="primary"
         onClick={newFunction}
-        type="primary"
+        iconBefore="add"
         disabled={disabled}
       >
         Add an Expense
@@ -119,11 +122,9 @@ class BudgetItemExpenseList extends Component {
     });
 
     return (
-      <div>
+      <Pane>
         <hr />
         {this.addExpenseLink(budgetItemExpenses, this.newExpenseHandler)}
-        <br />
-        <br />
         <Table
           dataSource={dataSource}
           pagination={{
@@ -137,7 +138,7 @@ class BudgetItemExpenseList extends Component {
           locale={{ emptyText: "You haven't added any expenses yet" }}
           columns={this.columns}
         />
-      </div>
+      </Pane>
     );
   }
 }
