@@ -197,14 +197,16 @@ class BudgetItem extends Component {
                   />,
                 )}
               </FormItem>
-              <Button
-                appearance="primary"
-                height={40}
-                disabled={this.state.loading}
-              >
-                {this.state.loading && <Spinner size={16} marginRight={8} />}
-                Save
-              </Button>
+              <Pane marginBottom={16} textAlign="right">
+                <Button
+                  appearance="primary"
+                  height={40}
+                  disabled={this.state.loading}
+                >
+                  {this.state.loading && <Spinner size={16} marginRight={8} />}
+                  Save
+                </Button>
+              </Pane>
             </Form>
           </Col>
           <Col span={16}>
