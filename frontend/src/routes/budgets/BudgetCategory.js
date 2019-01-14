@@ -11,7 +11,7 @@ import { notice } from 'window';
 import { currencyf, reduceSum } from '@shared/helpers';
 
 import { Card, Modal } from 'antd';
-import Progresss from 'components/Progress';
+import Progress from 'components/Progress';
 import { Icon } from 'evergreen-ui';
 
 class BudgetCategory extends Component {
@@ -127,7 +127,7 @@ class BudgetCategory extends Component {
                 <h3>Spent: {currencyf(spent)}</h3>
                 <h3>Remaining: {currencyf(remaining)}</h3>
               </div>
-              <Progresss
+              <Progress
                 strokeWidth={20}
                 status={status}
                 percent={percentSpent}
