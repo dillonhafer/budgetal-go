@@ -16,4 +16,11 @@ const Form = ({ children, ...rest }) => (
   </form>
 );
 
+export const validationMessages = (errors, touched) => {
+  return {
+    isInvalid: errors && touched,
+    validationMessage: touched ? errors : null,
+  };
+};
+
 export default Form;

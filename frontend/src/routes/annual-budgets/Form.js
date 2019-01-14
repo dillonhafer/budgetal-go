@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { itemAdded, itemUpdated } from 'actions/annual-budget-items';
 
-import Form from 'components/Form';
+import Form, { validationMessages } from 'components/Form';
 import {
   TextInputField,
   Pane,
@@ -32,13 +32,6 @@ const budgetItemValidations = Yup.object().shape({
     .max(12, 'Interval must be 1-12')
     .required('Interval is required'),
 });
-
-const validationMessages = (errors, touched) => {
-  return {
-    isInvalid: errors && touched,
-    validationMessage: touched ? errors : null,
-  };
-};
 
 class AnnualBudgetItemForm extends Component {
   createItem = async (item, setSubmitting) => {

@@ -7,7 +7,7 @@ import {
   updateNetWorthItem,
 } from 'actions/net-worth-items';
 
-import Form from 'components/Form';
+import Form, { validationMessages } from 'components/Form';
 import { SelectField, TextInputField, Dialog } from 'evergreen-ui';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -18,13 +18,6 @@ const assetsLiabilityItemValidations = Yup.object().shape({
     .min(1, 'Amount must be at least $1.00')
     .required('Amount is required'),
 });
-
-const validationMessages = (errors, touched) => {
-  return {
-    isInvalid: errors && touched,
-    validationMessage: touched ? errors : null,
-  };
-};
 
 class AssetLiabilityItemForm extends Component {
   persistItem = async (item, strategyFunc, setSubmitting) => {

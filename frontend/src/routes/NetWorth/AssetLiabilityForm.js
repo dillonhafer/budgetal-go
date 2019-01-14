@@ -7,7 +7,7 @@ import {
   updateAssetLiability,
 } from 'actions/net-worth-assets';
 
-import Form from 'components/Form';
+import Form, { validationMessages } from 'components/Form';
 import { TextInputField, Dialog } from 'evergreen-ui';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -23,13 +23,6 @@ const assetsLiabilityValidations = (names = []) =>
       )
       .required('Name is required'),
   });
-
-const validationMessages = (errors, touched) => {
-  return {
-    isInvalid: errors && touched,
-    validationMessage: touched ? errors : null,
-  };
-};
 
 class AssetLiabilityForm extends Component {
   persistItem = async (item, strategyFunc, setSubmitting) => {
