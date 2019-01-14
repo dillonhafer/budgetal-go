@@ -9,7 +9,7 @@ import { currencyf } from '@shared/helpers';
 import { error, notice } from 'window';
 
 // Components
-import { Button, Dialog, TextInputField } from 'evergreen-ui';
+import { Pane, Button, Dialog, TextInputField } from 'evergreen-ui';
 import Form, { validationMessages } from 'components/Form';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -103,7 +103,7 @@ class MonthlyIncomeModal extends Component {
   render() {
     const { budget } = this.props;
     return (
-      <div>
+      <Pane>
         <Button
           height={32}
           appearance="primary"
@@ -123,7 +123,7 @@ class MonthlyIncomeModal extends Component {
             render={this.renderForm}
           />
         )}
-      </div>
+      </Pane>
     );
   }
 }

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MonthlyIncomeModal renders a MonthlyIncomeModal 1`] = `
-<div>
+<withTheme(Pane)>
   <withTheme(Button)
     appearance="primary"
     height={32}
@@ -88,5 +88,5 @@ exports[`MonthlyIncomeModal renders a MonthlyIncomeModal 1`] = `
       }
     }
   />
-</div>
+</withTheme(Pane)>
 `;
