@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MonthlyIncomeModal renders a MonthlyIncomeModal 1`] = `
+<div>
+  <withTheme(Button)
+    appearance="primary"
+    height={32}
+    iconBefore="edit"
+    onClick={[Function]}
+  >
+    $3,000.00
+  </withTheme(Button)>
+  <Formik
+    enableReinitialize={false}
+    initialValues={
+      Object {
+        "income": 3000,
+        "month": 8,
+        "year": 2018,
+      }
+    }
+    isInitialValid={false}
+    onSubmit={[Function]}
+    render={[Function]}
+    validateOnBlur={true}
+    validateOnChange={true}
+    validationSchema={
+      ObjectSchema {
+        "_blacklist": RefSet {
+          "list": Set {},
+          "refs": Map {},
+        },
+        "_conditions": Array [],
+        "_defaultDefault": [Function],
+        "_deps": Array [],
+        "_excludedEdges": Array [],
+        "_exclusive": Object {},
+        "_mutate": false,
+        "_nodes": Array [
+          "income",
+        ],
+        "_options": Object {
+          "abortEarly": true,
+          "recursive": true,
+        },
+        "_type": "object",
+        "_typeError": [Function],
+        "_whitelist": RefSet {
+          "list": Set {},
+          "refs": Map {},
+        },
+        "fields": Object {
+          "income": NumberSchema {
+            "_blacklist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "_conditions": Array [],
+            "_deps": Array [],
+            "_exclusive": Object {
+              "min": true,
+              "required": false,
+            },
+            "_mutate": false,
+            "_options": Object {
+              "abortEarly": true,
+              "recursive": true,
+            },
+            "_type": "number",
+            "_typeError": [Function],
+            "_whitelist": RefSet {
+              "list": Set {},
+              "refs": Map {},
+            },
+            "tests": Array [
+              [Function],
+              [Function],
+            ],
+            "transforms": Array [
+              [Function],
+            ],
+          },
+        },
+        "tests": Array [],
+        "transforms": Array [
+          [Function],
+        ],
+      }
+    }
+  />
+</div>
+`;
