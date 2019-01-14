@@ -56,8 +56,6 @@ const Circle = ({ percent, text = '', size = 'med', color = '#2db7f5' }) => {
               className="ProgressCircle_background"
               fill="transparent"
               stroke="#f5f5f5"
-              transformOrigin="50% 50%"
-              transform="rotate(-90deg)"
               strokeWidth={appliedStroke}
               style={{ strokeDashoffset }}
               r={normalizedRadius}
