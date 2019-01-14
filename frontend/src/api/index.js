@@ -59,6 +59,9 @@ const base = async (path, method, headers = {}, body = {}) => {
     const json = await resp.json();
     return { ...json, ok: true };
   } catch (err) {
+    if (err.status && err.status === 422) {
+      return err;
+    }
     // Most likely we encountered a CORS problem (503 on heroku)
     error('We are performing maintenance. We should be done shortly.');
     window.location = '/maintenance';
