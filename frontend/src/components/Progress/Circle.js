@@ -88,8 +88,8 @@ const Circle = ({ percent, text = '', size = 'med', color = '#2db7f5' }) => {
             width: '100%',
             textAlign: 'center',
             lineHeight: 1,
-            top: '50%',
-            left: 0,
+            top: '52%',
+            left: '-2px',
           }}
         >
           {text}
