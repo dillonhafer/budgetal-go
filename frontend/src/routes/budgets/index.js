@@ -9,8 +9,10 @@ import { BudgetRequest } from '@shared/api/budgets';
 import Sidebar from './Sidebar';
 import BudgetCategory from './BudgetCategory';
 import MonthlyOverview from './MonthlyOverview';
-import BudgetFormModal from './BudgetFormModal';
+import MonthlyIncomeModal from './MonthlyIncomeModal';
+
 import { Row, Col, Spin } from 'antd';
+import { Pane, Heading } from 'evergreen-ui';
 
 // Helpers
 import { title } from 'window';
@@ -72,24 +74,21 @@ class Budget extends Component {
     return (
       <div className="no-padding">
         <Spin delay={300} size="large" tip="Loading..." spinning={loading}>
-          <div className="with-padding">
-            <Row
-              type="flex"
-              justify="space-between"
-              align="middle"
-              style={{ marginBottom: '1rem' }}
+          <Pane paddingLeft={24} paddingRight={24} paddingBottom={16}>
+            <Pane
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+              paddingBottom={16}
             >
-              <Col span={16}>
-                <h1 style={{ margin: 0 }}>
-                  {monthName(budget.month)} {budget.year}
-                </h1>
-              </Col>
-              <Col span={8} style={{ textAlign: 'right' }}>
-                <BudgetFormModal />
-              </Col>
-            </Row>
+              <Heading size={800}>
+                {monthName(budget.month)} {budget.year}
+              </Heading>
+              <MonthlyIncomeModal />
+            </Pane>
             <MonthlyOverview />
-          </div>
+          </Pane>
           <Row>
             <Col span={4}>
               <Sidebar
