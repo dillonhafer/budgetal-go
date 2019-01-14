@@ -21,22 +21,21 @@ import {
 // Helpers
 import classNames from 'classnames';
 import { currencyf, reduceSum } from '@shared/helpers';
-import { notice } from 'window';
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Progress,
-  Row,
-} from 'antd';
+import { notice, error } from 'window';
+import { Col, Form, Input, InputNumber, Row } from 'antd';
+
+import ProgressCircle from 'components/Progress/Circle';
+import DeleteConfirmation from 'components/DeleteConfirmation';
+import { colors } from '@shared/theme';
+import { Pane, Button, Icon, Spinner } from 'evergreen-ui';
+
 const FormItem = Form.Item;
 
 class BudgetItem extends Component {
   state = {
     loading: false,
+    showDeleteConfirmation: false,
+    isDeleting: false,
   };
 
   updateAmount = amount => {
@@ -68,7 +67,7 @@ class BudgetItem extends Component {
         notice(`Saved ${resp.budgetItem.name}`);
       }
     } catch (err) {
-      // apiError(err.message);
+      error('Something went wrong');
     } finally {
       this.setState({ loading: false });
     }
@@ -84,6 +83,7 @@ class BudgetItem extends Component {
   };
 
   deleteBudgetItem = async () => {
+    this.setState({ isDeleting: true });
     try {
       if (this.props.budgetItem.id !== null) {
         const resp = await DeleteItemRequest(this.props.budgetItem.id);
@@ -94,7 +94,9 @@ class BudgetItem extends Component {
 
       this.props.removeBudgetItem(this.props.budgetItem);
     } catch (err) {
-      // apiError(err.message);
+      error('Something went wrong');
+    } finally {
+      this.setState({ isDeleting: false, showDeleteConfirmation: false });
     }
   };
 
@@ -113,20 +115,7 @@ class BudgetItem extends Component {
 
   handleDeleteClick = e => {
     e.preventDefault();
-    Modal.confirm({
-      wrapClassName: 'delete-button',
-      okText: `Delete ${this.props.budgetItem.name}`,
-      okType: 'danger',
-      cancelText: 'Cancel',
-      title: `Delete ${this.props.budgetItem.name}`,
-      content: `Are you sure you want to delete ${
-        this.props.budgetItem.name
-      }? This cannot be undone.`,
-      onOk: () => {
-        this.deleteBudgetItem(this.props.budgetItem);
-      },
-      onCancel() {},
-    });
+    this.setState({ showDeleteConfirmation: true });
   };
 
   percentSpent = () => {
@@ -164,13 +153,17 @@ class BudgetItem extends Component {
     };
 
     const amountRemaining = item.amount - this.amountSpent();
+    const percent = this.percentSpent();
     let msg = `You have ${currencyf(amountRemaining)} remaining to spend.`;
-    let status;
+    let text = `${percent}%`;
+    let color = colors.primary;
     if (amountRemaining < 0) {
-      status = 'exception';
+      color = colors.error;
+      text = <Icon size={32} icon="cross" />;
       msg = `You have overspent by ${currencyf(Math.abs(amountRemaining))}`;
     } else if (amountRemaining === 0.0) {
-      status = 'success';
+      color = colors.success;
+      text = <Icon size={32} icon="tick" />;
     }
 
     return (
@@ -212,11 +205,12 @@ class BudgetItem extends Component {
               </FormItem>
               <FormItem {...tailFormItemLayout} className="text-right">
                 <Button
-                  type="primary"
-                  loading={this.state.loading}
+                  appearance="primary"
+                  height={40}
                   disabled={this.state.loading}
                   htmlType="submit"
                 >
+                  {this.state.loading && <Spinner size={16} marginRight={8} />}
                   Save
                 </Button>
               </FormItem>
@@ -226,10 +220,11 @@ class BudgetItem extends Component {
             <Row type="flex" align="middle" justify="center">
               <Col xs={24} sm={24} md={12} lg={12} xl={12}>
                 <div className="text-center">
-                  <Progress
-                    type="circle"
-                    status={status}
-                    percent={this.percentSpent()}
+                  <ProgressCircle
+                    size="lg"
+                    color={color}
+                    percent={percent}
+                    text={text}
                   />
                 </div>
               </Col>
@@ -244,17 +239,26 @@ class BudgetItem extends Component {
           </Col>
         </Row>
         <BudgetItemExpenseList budgetItem={item} />
-        <br />
-        <div className="text-right">
-          <Button
-            onClick={deleteFunction}
-            type="danger"
-            className="delete-button right"
-            icon="delete"
-          >
+        <Pane textAlign="right" margin={8}>
+          <Button onClick={deleteFunction} intent="danger" iconBefore="trash">
             Delete {item.name}
           </Button>
-        </div>
+          <DeleteConfirmation
+            title={`Delete ${this.props.budgetItem.name}`}
+            message={`
+              Are you sure you want to delete ${
+                this.props.budgetItem.name
+              }? This cannot be undone.`}
+            isShown={this.state.showDeleteConfirmation}
+            isConfirmLoading={this.state.isDeleting}
+            onConfirm={() => {
+              this.deleteBudgetItem(this.props.budgetItem);
+            }}
+            onCloseComplete={() => {
+              this.setState({ showDeleteConfirmation: false });
+            }}
+          />
+        </Pane>
       </div>
     );
   }
