@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { notice, error } from 'window';
 import { ResetPasswordRequest } from '@shared/api/users';
-
-import { Button, Icon, Form, Input } from 'antd';
+import { TextInputField, Pane, Heading, Button } from 'evergreen-ui';
 
 class ResetPassword extends Component {
+  state = {
+    password: '',
+    passwordConfirmation: '',
+  };
+
   submitForm = async password => {
     try {
       let params = { reset_password_token: '' };
@@ -34,69 +38,54 @@ class ResetPassword extends Component {
     }
   };
 
-  handleConfirmPassword = (rule, value, callback) => {
-    const { getFieldValue } = this.props.form;
-    if (value && value !== getFieldValue('password')) {
-      callback("Passwords don't match");
-    }
-    callback();
+  valid = () => {
+    return (
+      this.state.password.length > 5 &&
+      this.state.password === this.state.passwordConfirmation
+    );
   };
 
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, user) => {
-      if (!err) {
-        this.submitForm(user.password);
-      }
-    });
+    if (this.valid()) {
+      this.submitForm(this.state.password);
+    } else {
+      error('Form is invalid');
+    }
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
     return (
-      <div>
-        <h1>Change your password</h1>
-        <Form onSubmit={this.handleSubmit} style={{ maxWidth: '300px' }}>
-          <Form.Item hasFeedback={true}>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Password is required' }],
-            })(
-              <Input
-                prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-                type="password"
-                placeholder="Password"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item hasFeedback={true}>
-            {getFieldDecorator('password-confirmation', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Password Confirmation is required',
-                },
-                {
-                  validator: this.handleConfirmPassword,
-                  message: 'Password Confirmation does not match password',
-                },
-              ],
-            })(
-              <Input
-                prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-                type="password"
-                placeholder="Password Confirmation"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
+      <Pane>
+        <Heading size={800}>CHANGE YOUR PASSWORD</Heading>
+        <Pane marginTop={16} width={300}>
+          <form onSubmit={this.handleSubmit}>
+            <TextInputField
+              label="Password"
+              placeholder="Password"
+              type="password"
+              onChange={({ target: { value: password } }) => {
+                this.setState({ password });
+              }}
+              value={this.state.password}
+            />
+            <TextInputField
+              label="Password Confirmation"
+              placeholder="Password Confirmation"
+              type="password"
+              value={this.state.passwordConfirmation}
+              onChange={({ target: { value: passwordConfirmation } }) => {
+                this.setState({ passwordConfirmation });
+              }}
+            />
+            <Button appearance="primary" height={40}>
               Change Password
             </Button>
-          </Form.Item>
-        </Form>
-      </div>
+          </form>
+        </Pane>
+      </Pane>
     );
   }
 }
 
-export default Form.create()(ResetPassword);
+export default ResetPassword;
