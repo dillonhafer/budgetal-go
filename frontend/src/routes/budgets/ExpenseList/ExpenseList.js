@@ -16,7 +16,7 @@ class ExpenseList extends Component {
       year: PropTypes.number.isRequired,
     }),
     budgetItem: PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.number,
       name: PropTypes.string.isRequired,
     }).isRequired,
     budgetItemExpenses: PropTypes.array,
