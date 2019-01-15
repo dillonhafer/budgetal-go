@@ -4,8 +4,8 @@ import ExpenseList from '../ExpenseList';
 
 const defaultProps = {
   budget: {
-    year: '1996',
-    month: '1',
+    year: 1996,
+    month: 1,
   },
   budgetItem: {
     id: 1,

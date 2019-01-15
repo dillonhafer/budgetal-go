@@ -12,8 +12,8 @@ import moment from 'moment';
 class ExpenseList extends Component {
   static propTypes = {
     budget: PropTypes.shape({
-      month: PropTypes.string.isRequired,
-      year: PropTypes.string.isRequired,
+      month: PropTypes.number.isRequired,
+      year: PropTypes.number.isRequired,
     }),
     budgetItem: PropTypes.shape({
       id: PropTypes.number.isRequired,

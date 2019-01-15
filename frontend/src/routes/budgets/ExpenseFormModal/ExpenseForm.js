@@ -36,7 +36,7 @@ class ExpenseForm extends Component {
       name: PropTypes.string.isRequired,
       amount: PropTypes.number.isRequired,
       date: PropTypes.string.isRequired,
-    }).isRequired,
+    }),
     unselectExpense: PropTypes.func.isRequired,
     createdExpense: PropTypes.func.isRequired,
     updateExpense: PropTypes.func.isRequired,
