@@ -6,37 +6,35 @@ import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
 
 // Components
 import BudgetItemList from './BudgetItemList';
-import { ImportCategoryRequest } from '@shared/api/budgets';
-import { notice } from 'window';
-import { currencyf, reduceSum } from '@shared/helpers';
-
-import { Modal } from 'antd';
 import Progress from 'components/Progress';
-import { Heading, Pane, Button } from 'evergreen-ui';
+import { Dialog, Alert, Text, Heading, Pane, Button } from 'evergreen-ui';
+
+// Helpers
+import { ImportCategoryRequest } from '@shared/api/budgets';
+import { notice, error } from 'window';
+import { monthName, currencyf, reduceSum } from '@shared/helpers';
 
 class BudgetCategory extends Component {
-  clickImport = e => {
-    e.preventDefault();
-    const budgetCategory = this.props.currentBudgetCategory;
-    Modal.confirm({
-      okText: `Import ${budgetCategory.name}`,
-      cancelText: 'Cancel',
-      title: 'Import Budget Items',
-      content: `Do you want to import budget items from your previous month's ${
-        budgetCategory.name
-      } category?`,
-      onOk: this.importPreviousItems,
-      onCancel() {},
-    });
+  state = {
+    importing: false,
+    importConfirmationVisible: false,
   };
 
-  importPreviousItems = async budgetCategoryId => {
-    const resp = await ImportCategoryRequest(
-      this.props.currentBudgetCategory.id,
-    );
-    if (resp && resp.ok) {
-      this.props.importedBudgetItems(resp.budgetItems);
-      notice(resp.message);
+  importPreviousItems = async () => {
+    this.setState({ importing: true });
+
+    try {
+      const resp = await ImportCategoryRequest(
+        this.props.currentBudgetCategory.id,
+      );
+      if (resp && resp.ok) {
+        this.props.importedBudgetItems(resp.budgetItems);
+        notice(resp.message);
+      }
+    } catch {
+      error('Something went wrong');
+    } finally {
+      this.setState({ importing: false, importConfirmationVisible: false });
     }
   };
 
@@ -61,7 +59,14 @@ class BudgetCategory extends Component {
     return parseInt(p, 10);
   };
 
+  lastMonth = () => {
+    const previousMonth =
+      this.props.budget.month === 1 ? 12 : this.props.budget.month - 1;
+    return monthName(previousMonth);
+  };
+
   render() {
+    const { importing, importConfirmationVisible } = this.state;
     const items = this.props.budgetItems.filter(item => {
       return item.budgetCategoryId === this.props.currentBudgetCategory.id;
     });
@@ -84,7 +89,7 @@ class BudgetCategory extends Component {
       status = 'success';
     }
 
-    const previousMonth = 'December';
+    const previousMonth = this.lastMonth();
 
     return (
       <Pane marginRight="1.5rem" marginLeft="1.5rem">
@@ -107,9 +112,32 @@ class BudgetCategory extends Component {
             </Heading>
           </Pane>
           <Pane>
-            <Button iconBefore="import" onClick={this.clickImport}>
+            <Button
+              iconBefore="import"
+              onClick={() => {
+                this.setState({ importConfirmationVisible: true });
+              }}
+            >
               Copy {previousMonth} Items
             </Button>
+            <Dialog
+              preventBodyScrolling
+              width={350}
+              hasHeader={false}
+              isConfirmLoading={importing}
+              confirmLabel={`Copy ${previousMonth} Items`}
+              onConfirm={this.importPreviousItems}
+              onCloseComplete={() => {
+                this.setState({ importConfirmationVisible: false });
+              }}
+              isShown={importConfirmationVisible}
+            >
+              <Alert intent="none" title="Copy Budget Items">
+                <Text>
+                  Do you want to copy budget items from {previousMonth}?
+                </Text>
+              </Alert>
+            </Dialog>
           </Pane>
         </Pane>
 
