@@ -41,6 +41,7 @@ class ExpenseList extends Component {
 
   addExpenseLink(expenses, newFunction) {
     const disabled =
+      !this.props.budgetItem.id ||
       find(expenses, expense => expense.id === null) !== undefined;
     return (
       <Button
