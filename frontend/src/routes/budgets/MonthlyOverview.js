@@ -73,7 +73,7 @@ class MonthlyOverview extends Component {
     const spent = this.percentSpent();
     const status = this.status();
     return (
-      <div style={{ marginBottom: 16 }}>
+      <div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
