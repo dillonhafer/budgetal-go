@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import moment from 'moment';
-import ImportExpenseModal from './ImportExpenseModal';
-import { updateBudgetCategory } from 'actions/budgets';
 
-import { Menu, DatePicker } from 'antd';
-import { Button } from 'evergreen-ui';
+// Components
+import ImportExpenseModal from '../ImportExpenseModal';
+import { Pane, Select, Button } from 'evergreen-ui';
+import { Menu } from 'antd';
+
+// Helpers
+import times from 'lodash/times';
+import { availableYears, monthName } from '@shared/helpers';
 
 class Sidebar extends Component {
   state = {
@@ -36,9 +38,20 @@ class Sidebar extends Component {
     this.setState({ showImportExpenseModal: false });
   };
 
+  handleOnDateChange = e => {
+    const date = {
+      year: this.props.year,
+      month: this.props.month,
+      [e.target.name]: e.target.value,
+    };
+
+    this.props.history.push(`/budgets/${date.year}/${date.month}`);
+  };
+
   render() {
     const { showImportExpenseModal } = this.state;
-    const { month, year, onChange } = this.props;
+    const { month, year } = this.props;
+
     return (
       <div className="icon-bar">
         <Menu
@@ -49,16 +62,37 @@ class Sidebar extends Component {
           mode="inline"
         >
           <Menu.Item disabled={true} key="date">
-            <DatePicker.MonthPicker
-              onChange={onChange}
-              format={'MMMM YYYY'}
-              allowClear={false}
-              value={moment([year, month].join('/'), 'YYYY/M')}
-              disabledDate={this.findDisabledDate}
-              cellContentRender={date => {
-                return date;
-              }}
-            />
+            <Pane>
+              <Select
+                value={month}
+                name="month"
+                onChange={this.handleOnDateChange}
+                flex="unset"
+                width={90}
+                marginRight={4}
+              >
+                {times(12, i => (
+                  <option key={i} value={i + 1}>
+                    {monthName(i + 1)}
+                  </option>
+                ))}
+              </Select>
+              <Select
+                value={year}
+                name="year"
+                onChange={this.handleOnDateChange}
+                flex="unset"
+                width={70}
+              >
+                {availableYears().map(y => {
+                  return (
+                    <option key={y} value={y.toString()}>
+                      {y}
+                    </option>
+                  );
+                })}
+              </Select>
+            </Pane>
           </Menu.Item>
           {this.props.budgetCategories.map(category => {
             const itemClass = category.name.toLowerCase().replace('/', '-');
@@ -84,13 +118,4 @@ class Sidebar extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    ...state.budget,
-  }),
-  dispatch => ({
-    changeCategory: budgetCategory => {
-      dispatch(updateBudgetCategory({ budgetCategory }));
-    },
-  }),
-)(Sidebar);
+export default Sidebar;

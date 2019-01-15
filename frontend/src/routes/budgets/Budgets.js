@@ -60,18 +60,24 @@ class Budget extends Component {
     }
   };
 
-  handleOnChange = date => {
-    this.props.history.push(`/budgets/${date.year()}/${date.month() + 1}`);
-  };
-
   render() {
     const { loading } = this.state;
     const { budget } = this.props;
     return (
       <Pane className="no-padding">
-        <Spinner visible={loading} />
+        {loading && (
+          <Pane
+            position="fixed"
+            top="100px"
+            with="100%"
+            left="50%"
+            marginLeft="-32px"
+          >
+            <Spinner visible={true} />
+          </Pane>
+        )}
         <Pane
-          opacity={loading ? 0.01 : 1}
+          opacity={loading ? 0.5 : 1}
           paddingLeft={24}
           paddingRight={24}
           paddingBottom={16}
@@ -90,12 +96,12 @@ class Budget extends Component {
           </Pane>
           <MonthlyOverview />
         </Pane>
-        <Pane display="flex" flexDirection="row" opacity={loading ? 0.01 : 1}>
+        <Pane display="flex" flexDirection="row" opacity={loading ? 0.5 : 1}>
           <Pane width={200}>
             <Sidebar
+              history={this.props.history}
               month={budget.month}
               year={budget.year}
-              onChange={this.handleOnChange}
             />
           </Pane>
           <Pane width="100%">
