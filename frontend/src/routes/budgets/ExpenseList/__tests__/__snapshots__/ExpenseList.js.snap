@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpenseList renders a ExpenseList 1`] = `
+<withTheme(Pane)>
+  <withTheme(Pane)
+    background="tint2"
+    borderRadius={3}
+    display="flex"
+    marginBottom={16}
+    padding={16}
+  >
+    <withTheme(Pane)
+      alignItems="center"
+      display="flex"
+      flex={1}
+    >
+      <withTheme(Heading)
+        size={600}
+      >
+        Expenses for 
+        Item Name
+      </withTheme(Heading)>
+    </withTheme(Pane)>
+    <withTheme(Pane)>
+      <withTheme(Button)
+        appearance="primary"
+        disabled={false}
+        iconBefore="add"
+        onClick={[Function]}
+      >
+        Add an Expense
+      </withTheme(Button)>
+    </withTheme(Pane)>
+  </withTheme(Pane)>
+  <withTheme(Pane)
+    border="muted"
+    borderRadius={3}
+    display="none"
+    marginBottom={16}
+    padding={16}
+  >
+    <withTheme(Pane)
+      alignItems="center"
+      display="flex"
+      flex={1}
+      justifyContent="center"
+    >
+      <withTheme(Icon)
+        icon="dollar"
+        marginRight={4}
+      />
+      <withTheme(Text)>
+        There are no expenses yet
+      </withTheme(Text)>
+    </withTheme(Pane)>
+  </withTheme(Pane)>
+  <Table
+    background="white"
+    border="muted"
+    borderRadius="3"
+    display=""
+  >
+    <TableHead
+      accountForScrollbar={true}
+      height={32}
+    >
+      <TextTableHeaderCell>
+        Date
+      </TextTableHeaderCell>
+      <TextTableHeaderCell
+        flexBasis={300}
+        flexGrow={1}
+      >
+        Name
+      </TextTableHeaderCell>
+      <TextTableHeaderCell>
+        Amount
+      </TextTableHeaderCell>
+      <TextTableHeaderCell />
+    </TableHead>
+    <TableVirtualBody
+      allowAutoHeight={false}
+      defaultHeight={48}
+      height={500}
+      overscanCount={5}
+      useAverageAutoHeightEstimation={true}
+    >
+      <TableHead
+        accountForScrollbar={true}
+        height={32}
+      >
+        <TextTableHeaderCell
+          flexBasis={300}
+          flexGrow={1}
+        >
+          Tuesday - Jan 01, 2019
+        </TextTableHeaderCell>
+        <TextTableHeaderCell />
+        <TextTableHeaderCell />
+        <TextTableHeaderCell />
+      </TableHead>
+      <TableBody>
+        <Connect(ExpenseRow)
+          expense={
+            Object {
+              "amount": 3000,
+              "budgetItemId": 1,
+              "date": "2019-01-01",
+              "id": 1,
+              "name": "",
+            }
+          }
+          key="1"
+        />
+      </TableBody>
+    </TableVirtualBody>
+  </Table>
+</withTheme(Pane)>
+`;

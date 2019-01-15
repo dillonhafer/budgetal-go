@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpenseRow renders a ExpenseRow 1`] = `
+<ExpenseRow
+  expense={
+    Object {
+      "amount": 3000,
+      "budgetItemId": 1,
+      "date": "2019-01-01",
+      "id": 1,
+      "name": "",
+    }
+  }
+  removeExpense={[Function]}
+  selectExpense={[Function]}
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [MockFunction] {
+        "calls": Array [
+          Array [],
+        ],
+        "results": Array [
+          Object {
+            "isThrow": false,
+            "value": undefined,
+          },
+        ],
+      },
+      "subscribe": [MockFunction],
+    }
+  }
+/>
+`;

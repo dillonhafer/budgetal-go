@@ -9,7 +9,7 @@ import {
 } from 'actions/budgets';
 
 // Components
-import BudgetItemExpenseList from './BudgetItemExpenseList';
+import ExpenseList from './ExpenseList';
 
 // API
 import {
@@ -231,7 +231,9 @@ class BudgetItem extends Component {
             </Row>
           </Col>
         </Row>
-        <BudgetItemExpenseList budgetItem={item} />
+
+        <ExpenseList budgetItem={item} />
+
         <Pane textAlign="right" margin={8}>
           <Button onClick={deleteFunction} intent="danger" iconBefore="trash">
             Delete {item.name}

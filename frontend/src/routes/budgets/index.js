@@ -6,6 +6,7 @@ import { budgetLoaded, updateBudgetCategory } from 'actions/budgets';
 
 // Components
 import { BudgetRequest } from '@shared/api/budgets';
+import ExpenseFormModal from './ExpenseFormModal';
 import Sidebar from './Sidebar';
 import BudgetCategory from './BudgetCategory';
 import MonthlyOverview from './MonthlyOverview';
@@ -102,6 +103,7 @@ class Budget extends Component {
             </Col>
           </Row>
         </Spin>
+        <ExpenseFormModal />
       </div>
     );
   }

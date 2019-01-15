@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpenseFormModal renders a ExpenseFormModal 1`] = `
+<Formik
+  enableReinitialize={false}
+  initialValues={
+    Object {
+      "amount": 3000,
+      "budgetItemId": 1,
+      "date": "2019-01-01",
+      "id": null,
+      "name": "",
+    }
+  }
+  isInitialValid={false}
+  onSubmit={[Function]}
+  render={[Function]}
+  validateOnBlur={true}
+  validateOnChange={true}
+  validationSchema={
+    ObjectSchema {
+      "_blacklist": RefSet {
+        "list": Set {},
+        "refs": Map {},
+      },
+      "_conditions": Array [],
+      "_defaultDefault": [Function],
+      "_deps": Array [],
+      "_excludedEdges": Array [],
+      "_exclusive": Object {},
+      "_mutate": false,
+      "_nodes": Array [
+        "date",
+        "amount",
+        "name",
+      ],
+      "_options": Object {
+        "abortEarly": true,
+        "recursive": true,
+      },
+      "_type": "object",
+      "_typeError": [Function],
+      "_whitelist": RefSet {
+        "list": Set {},
+        "refs": Map {},
+      },
+      "fields": Object {
+        "amount": NumberSchema {
+          "_blacklist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "_conditions": Array [],
+          "_deps": Array [],
+          "_exclusive": Object {
+            "min": true,
+            "required": false,
+          },
+          "_mutate": false,
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "number",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "tests": Array [
+            [Function],
+            [Function],
+          ],
+          "transforms": Array [
+            [Function],
+          ],
+        },
+        "date": DateSchema {
+          "_blacklist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "_conditions": Array [],
+          "_deps": Array [],
+          "_exclusive": Object {
+            "required": false,
+          },
+          "_mutate": false,
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "date",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "tests": Array [
+            [Function],
+          ],
+          "transforms": Array [
+            [Function],
+          ],
+        },
+        "name": StringSchema {
+          "_blacklist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "_conditions": Array [],
+          "_deps": Array [],
+          "_exclusive": Object {
+            "required": false,
+          },
+          "_mutate": false,
+          "_options": Object {
+            "abortEarly": true,
+            "recursive": true,
+          },
+          "_type": "string",
+          "_typeError": [Function],
+          "_whitelist": RefSet {
+            "list": Set {},
+            "refs": Map {},
+          },
+          "tests": Array [
+            [Function],
+            [Function],
+          ],
+          "transforms": Array [
+            [Function],
+          ],
+        },
+      },
+      "tests": Array [],
+      "transforms": Array [
+        [Function],
+      ],
+    }
+  }
+/>
+`;

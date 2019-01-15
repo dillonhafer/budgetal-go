@@ -14,6 +14,8 @@ import {
   BUDGET_ITEM_EXPENSE_UPDATED,
   BUDGET_ITEM_EXPENSE_REMOVED,
   BUDGET_ITEM_EXPENSE_IMPORTED,
+  BUDGET_ITEM_EXPENSE_SELECTED,
+  BUDGET_ITEM_EXPENSE_UNSELECTED,
 } from 'constants/action-types';
 
 const initialBudgetCategories = [
@@ -51,6 +53,7 @@ const initialBudgetState = {
   budgetItems: [],
   budgetItemExpenses: [],
   currentBudgetCategory: initialBudgetCategory(),
+  selectedExpense: null,
 };
 
 export default function budgetState(state = initialBudgetState, action) {
@@ -191,19 +194,10 @@ export default function budgetState(state = initialBudgetState, action) {
     case BUDGET_ITEM_EXPENSE_CREATED:
       return {
         ...state,
-        budgetItemExpenses: state.budgetItemExpenses.map(expense => {
-          if (
-            expense.budgetItemId === action.budgetItemExpense.budgetItemId &&
-            expense.id === null
-          ) {
-            return {
-              ...expense,
-              ...action.budgetItemExpense,
-            };
-          }
-
-          return expense;
-        }),
+        budgetItemExpenses: [
+          ...state.budgetItemExpenses,
+          action.budgetItemExpense,
+        ],
       };
     case BUDGET_CATEGORY_IMPORTED:
       return {
@@ -217,6 +211,18 @@ export default function budgetState(state = initialBudgetState, action) {
           ...state.budgetItemExpenses,
           action.budgetItemExpense,
         ],
+      };
+    case BUDGET_ITEM_EXPENSE_UNSELECTED:
+      return {
+        ...state,
+        showExpenseModal: false,
+        selectedExpense: null,
+      };
+    case BUDGET_ITEM_EXPENSE_SELECTED:
+      return {
+        ...state,
+        showExpenseModal: true,
+        selectedExpense: action.selectedExpense,
       };
     default:
       return state;
