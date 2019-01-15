@@ -18,7 +18,7 @@ func Test_TestEmailRender(t *testing.T) {
 	}
 
 	if len(email.Bodies) != 2 {
-		t.Errorf("Email did not have enough types, found %i", len(email.Bodies))
+		t.Errorf("Email did not have enough types, found %d", len(email.Bodies))
 	}
 
 	// HTML assertions
