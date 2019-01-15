@@ -9,13 +9,13 @@ import BudgetItem from './BudgetItem';
 
 // Helpers
 import { map, find } from 'lodash';
-import { Tabs, Icon } from 'antd';
+import { Tabs } from 'antd';
 import { Button, Pane } from 'evergreen-ui';
 const TabPane = Tabs.TabPane;
 
 class BudgetItemList extends Component {
   newBudgetItem = budgetItem => {
-    const tab = budgetItem.name ? budgetItem.name : <Icon type="question" />;
+    const tab = budgetItem.name ? budgetItem.name : '???';
     return (
       <TabPane
         tab={tab}
