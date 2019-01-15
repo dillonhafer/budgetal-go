@@ -10,9 +10,9 @@ import { ImportCategoryRequest } from '@shared/api/budgets';
 import { notice } from 'window';
 import { currencyf, reduceSum } from '@shared/helpers';
 
-import { Card, Modal } from 'antd';
+import { Modal } from 'antd';
 import Progress from 'components/Progress';
-import { Icon } from 'evergreen-ui';
+import { Heading, Pane, Button } from 'evergreen-ui';
 
 class BudgetCategory extends Component {
   clickImport = e => {
@@ -84,62 +84,57 @@ class BudgetCategory extends Component {
       status = 'success';
     }
 
+    const previousMonth = 'December';
+
     return (
-      <div className="budget-category-row">
-        <Card
-          noHovering
-          title={
-            <span>
-              <span
-                className={`category-card-header category-card-header-${budgetCategory.name
-                  .toLowerCase()
-                  .replace('/', '-')}`}
-              />
-              {budgetCategory.name}
-            </span>
-          }
-          extra={
-            <button
-              style={{
-                border: 'none',
-                background: 'none',
-                color: '#108ee9',
-                cursor: 'pointer',
-                outline: 'none',
-              }}
-              onClick={this.clickImport}
-              title="Import items from previous budget"
-            >
-              <Icon icon="import" />
-            </button>
-          }
+      <Pane marginRight="1.5rem" marginLeft="1.5rem">
+        <Pane
+          display="flex"
+          padding={8}
+          border="muted"
+          marginBottom={8}
+          borderRadius={3}
+          alignItems="center"
         >
-          <div className="body-row">
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
+          <Pane flex={1} alignItems="center" display="flex">
+            <span
+              className={`category-card-header category-card-header-${budgetCategory.name
+                .toLowerCase()
+                .replace('/', '-')}`}
+            />
+            <Heading marginLeft={8} size={600}>
+              {budgetCategory.name}
+            </Heading>
+          </Pane>
+          <Pane>
+            <Button iconBefore="import" onClick={this.clickImport}>
+              Copy {previousMonth} Items
+            </Button>
+          </Pane>
+        </Pane>
+
+        <Pane border="muted" padding={16}>
+          <Pane>
+            <Pane marginBottom={16} display="flex" flexDirection="column">
+              <Pane
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
               >
                 <h3>Spent: {currencyf(spent)}</h3>
                 <h3>Remaining: {currencyf(remaining)}</h3>
-              </div>
+              </Pane>
               <Progress
                 strokeWidth={20}
                 status={status}
                 percent={percentSpent}
               />
-            </div>
-            <br />
-            <ul className="main-budget-categories">
-              <li>{!this.props.loading && <BudgetItemList />}</li>
-            </ul>
-          </div>
-        </Card>
-      </div>
+            </Pane>
+            <BudgetItemList />
+          </Pane>
+        </Pane>
+      </Pane>
     );
   }
 }
