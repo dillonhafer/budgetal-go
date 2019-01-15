@@ -19,7 +19,7 @@ func PastExpenses(c buffalo.Context, currentUser *models.User) error {
   `
 	c.Logger().Debug(query)
 
-	var names []string
+	names := make([]string, 0)
 	models.DB.RawQuery(query, currentUser.ID, name).All(&names)
 	var response = struct {
 		Names []string `json:"names"`

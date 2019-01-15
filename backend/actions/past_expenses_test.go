@@ -49,6 +49,25 @@ func (as *ActionSuite) Test_PastExpenses_Works() {
 	as.Equal(2, len(rb.Names))
 }
 
+func (as *ActionSuite) Test_PastExpenses_ReturnsEmptyArray() {
+	user := SignedInUser(as)
+	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
+	b.FindOrCreate()
+	category := &models.BudgetCategory{}
+	as.DB.BelongsTo(b).First(category)
+
+	i := &models.BudgetItem{
+		BudgetCategoryId: category.ID,
+		Amount:           json.Number("10.00"),
+		Name:             "Savings",
+	}
+	as.DB.Create(i)
+
+	r := as.JSON("/past-expenses/tes").Get()
+	as.Equal(200, r.Code)
+	as.Equal("{\"names\":[]}\n", r.Body.String())
+}
+
 func (as *ActionSuite) Test_PastExpenses_RequiresUser() {
 	r := as.JSON("/past-expenses/tes").Get()
 	as.Equal(401, r.Code)
