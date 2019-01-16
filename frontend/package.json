@@ -21,7 +21,6 @@
     "mdi-react": "^2.1.19",
     "papaparse": "^4.3.6",
     "react": "16.6.0",
-    "react-datepicker": "^1.8.0",
     "react-dom": "16.6.0",
     "react-highcharts": "^16.0.2",
     "react-redux": "^5.0.6",
