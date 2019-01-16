@@ -4,7 +4,7 @@ import { title, scrollTop, error } from 'window';
 import { availableYears, currencyf, monthName } from '@shared/helpers';
 import { Heading, Select, Pane } from 'evergreen-ui';
 import times from 'lodash/times';
-import 'css/statistics.css';
+import './statistics.css';
 import StatisticsChart from './StatisticsChart';
 import Spinner from 'components/Spinner';
 
