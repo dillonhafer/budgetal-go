@@ -80,6 +80,8 @@ const Circle = ({ percent, text = '', size = 'med', color = '#2db7f5' }) => {
           className="ProgressCircle_text"
           style={{
             color,
+            fontFamily:
+              '"SF UI Text", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
             fontSize: '1em',
             verticalAlign: 'middle',
             position: 'absolute',
