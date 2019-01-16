@@ -73,7 +73,13 @@ class Maintenance extends Component {
     return (
       <div className="error-page">
         <h1>We are performing scheduled maintenance right now.</h1>
-        <hr />
+        <hr
+          style={{
+            border: 'none',
+            borderBottom: '1px solid #e9e9e9',
+            marginBottom: '15px',
+          }}
+        />
         <p style={{ marginBottom: '15px' }}>Refreshing automatically in</p>
         <ProgressCircle size="lg" percent={(timer / 15) * 100} text={timer} />
         <p style={{ marginBottom: '30px' }}>We should be done shortly.</p>
