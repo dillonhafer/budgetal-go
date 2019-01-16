@@ -10,7 +10,7 @@ import BudgetItem from './BudgetItem';
 // Helpers
 import { map, find } from 'lodash';
 import { Tabs } from 'antd';
-import { Button, Pane } from 'evergreen-ui';
+import { Button, Paragraph, Pane } from 'evergreen-ui';
 const TabPane = Tabs.TabPane;
 
 class BudgetItemList extends Component {
@@ -59,7 +59,9 @@ class BudgetItemList extends Component {
           <Tabs tabPosition="left">{map(budgetItems, this.newBudgetItem)}</Tabs>
         )}
         {!showItemList && (
-          <p className="emptyList">You haven't added any budget items yet.</p>
+          <Paragraph padding="2rem" fontSize="1rem" textAlign="center">
+            You haven't added any budget items yet.
+          </Paragraph>
         )}
         <Button
           height={40}
