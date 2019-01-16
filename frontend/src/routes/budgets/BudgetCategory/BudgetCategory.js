@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 
-// Redux
-import { connect } from 'react-redux';
-import { importedBudgetItems, updateBudgetCategory } from 'actions/budgets';
-
 // Components
-import BudgetItemList from './BudgetItemList';
+import BudgetItemList from '../BudgetItemList';
 import Progress from 'components/Progress';
 import { Dialog, Alert, Text, Heading, Pane, Button } from 'evergreen-ui';
 
@@ -13,6 +9,7 @@ import { Dialog, Alert, Text, Heading, Pane, Button } from 'evergreen-ui';
 import { ImportCategoryRequest } from '@shared/api/budgets';
 import { notice, error } from 'window';
 import { monthName, currencyf, reduceSum } from '@shared/helpers';
+import './budget-category.css';
 
 class BudgetCategory extends Component {
   state = {
@@ -167,16 +164,4 @@ class BudgetCategory extends Component {
   }
 }
 
-export default connect(
-  state => ({
-    ...state.budget,
-  }),
-  dispatch => ({
-    importedBudgetItems: budgetItems => {
-      dispatch(importedBudgetItems(budgetItems));
-    },
-    changeCategory: budgetCategory => {
-      dispatch(updateBudgetCategory({ budgetCategory }));
-    },
-  }),
-)(BudgetCategory);
+export default BudgetCategory;
