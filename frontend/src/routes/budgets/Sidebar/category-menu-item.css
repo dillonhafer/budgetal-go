@@ -1,0 +1,57 @@
+.menu-item[data-isselectable='true']:hover {
+  background-color: rgba(67, 90, 111, 0.04);
+}
+
+.menu-item[data-isselectable='true'] div:first-child {
+  background-image: url(../../../images/categories.png);
+  background-repeat: no-repeat;
+  background-size: 16px;
+}
+
+.menu-item[data-isselectable='true'] div.charity {
+  background-position: 0px 0px;
+}
+
+.menu-item[data-isselectable='true'] div.saving {
+  background-position: 0px -16px;
+}
+
+.menu-item[data-isselectable='true'] div.housing {
+  background-position: 0px -32px;
+}
+
+.menu-item[data-isselectable='true'] div.utilities {
+  background-position: 0px -48px;
+}
+
+.menu-item[data-isselectable='true'] div.food {
+  background-position: 0px -64px;
+}
+
+.menu-item[data-isselectable='true'] div.clothing {
+  background-position: 0px -80px;
+}
+
+.menu-item[data-isselectable='true'] div.transportation {
+  background-position: 0px -96px;
+}
+
+.menu-item[data-isselectable='true'] div.medical-health {
+  background-position: 0px -112px;
+}
+
+.menu-item[data-isselectable='true'] div.insurance {
+  background-position: 0px -128px;
+}
+
+.menu-item[data-isselectable='true'] div.personal {
+  background-position: 0px -144px;
+}
+
+.menu-item[data-isselectable='true'] div.recreation {
+  background-position: 0px -160px;
+}
+
+.menu-item[data-isselectable='true'] div.debts {
+  background-position: 0px -176px;
+}

@@ -97,7 +97,7 @@ class Budget extends Component {
           <MonthlyOverview />
         </Pane>
         <Pane display="flex" flexDirection="row" opacity={loading ? 0.5 : 1}>
-          <Pane width={200}>
+          <Pane width={232}>
             <Sidebar
               history={this.props.history}
               month={budget.month}

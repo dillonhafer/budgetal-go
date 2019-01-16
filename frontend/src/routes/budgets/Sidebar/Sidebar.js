@@ -2,40 +2,22 @@ import React, { Component } from 'react';
 
 // Components
 import ImportExpenseModal from '../ImportExpenseModal';
-import { Pane, Select, Button } from 'evergreen-ui';
-import { Menu } from 'antd';
+import { Pane, Select, Menu } from 'evergreen-ui';
 
 // Helpers
 import times from 'lodash/times';
 import { availableYears, monthName } from '@shared/helpers';
+import CategoryMenuItem from './CategoryMenuItem';
 
 class Sidebar extends Component {
   state = {
     showImportExpenseModal: false,
   };
 
-  handleOnClick = (item, key, keyPath) => {
-    if (item.key === 'import-csv') {
-      this.setState({ showImportExpenseModal: true });
-    } else {
-      const cat = this.props.budgetCategories.find(cat => {
-        return cat.name === item.key;
-      });
-      if (cat !== undefined) {
-        const lowerName = cat.name.toLowerCase().replace('/', '-');
-        window.location.hash = `#${lowerName}`;
-        this.props.changeCategory(cat);
-      }
-    }
-  };
-
-  findDisabledDate(date) {
-    const year = date.year();
-    return year < 2015 || year > new Date().getFullYear() + 3;
-  }
-
-  hideImportExpenseModal = () => {
-    this.setState({ showImportExpenseModal: false });
+  handleOnSelect = category => {
+    const lowerName = category.name.toLowerCase().replace('/', '-');
+    window.location.hash = `#${lowerName}`;
+    this.props.changeCategory(category);
   };
 
   handleOnDateChange = e => {
@@ -50,19 +32,13 @@ class Sidebar extends Component {
 
   render() {
     const { showImportExpenseModal } = this.state;
-    const { month, year } = this.props;
+    const { month, year, budgetCategories, currentBudgetCategory } = this.props;
 
     return (
-      <div className="icon-bar">
-        <Menu
-          theme="light"
-          style={{ width: '100%' }}
-          onClick={this.handleOnClick}
-          selectedKeys={[this.props.currentBudgetCategory.name]}
-          mode="inline"
-        >
-          <Menu.Item disabled={true} key="date">
-            <Pane>
+      <Pane borderRight="1px solid #E4E7EB">
+        <Menu>
+          <Menu.Group title="Budget">
+            <Pane role="menuitem" textAlign="center">
               <Select
                 value={month}
                 name="month"
@@ -93,27 +69,49 @@ class Sidebar extends Component {
                 })}
               </Select>
             </Pane>
-          </Menu.Item>
-          {this.props.budgetCategories.map(category => {
-            const itemClass = category.name.toLowerCase().replace('/', '-');
-            return (
-              <Menu.Item id={category.id} key={category.name}>
-                <span className={itemClass}>{category.name}</span>
-              </Menu.Item>
-            );
-          })}
-          <Menu.Item id={'import-csv'} key={'import-csv'}>
-            <Button iconBefore="import">Import Expenses</Button>
-          </Menu.Item>
+          </Menu.Group>
+        </Menu>
+        <Menu>
+          <Menu.Divider />
+          <Menu.Group
+            title="Budget Categories"
+            selected={currentBudgetCategory.name}
+          >
+            {budgetCategories.map(category => {
+              const isSelected = currentBudgetCategory.name === category.name;
+              return (
+                <CategoryMenuItem
+                  key={category.name}
+                  category={category}
+                  onSelect={this.handleOnSelect}
+                  isSelected={isSelected}
+                />
+              );
+            })}
+          </Menu.Group>
+          <Menu.Divider />
+          <Menu.Group title="Import">
+            <Menu.Item
+              onSelect={() => {
+                this.setState({ showImportExpenseModal: true });
+              }}
+              icon="import"
+              intent="none"
+            >
+              Import Expenses
+            </Menu.Item>
+          </Menu.Group>
         </Menu>
         <ImportExpenseModal
           budgetItems={this.props.budgetItems}
           budgetCategories={this.props.budgetCategories}
           budgetItemExpenses={this.props.budgetItemExpenses}
           hidden={showImportExpenseModal}
-          cancel={this.hideImportExpenseModal}
+          cancel={() => {
+            this.setState({ showImportExpenseModal: false });
+          }}
         />
-      </div>
+      </Pane>
     );
   }
 }
