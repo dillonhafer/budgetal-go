@@ -19,31 +19,6 @@ body {
   color: #f50;
 }
 
-h1 {
-  font-size: 28px;
-  font-weight: 500;
-  line-height: 40px;
-  margin-bottom: 24px;
-  margin-top: 8px;
-  display: block;
-  font-family: AvenirNext-Regular, Helvetica Neue, lucida grande,
-    PingFangHK-Light, STHeiti, Heiti SC, Hiragino Sans GB, Microsoft JhengHei,
-    Microsoft Yahei, SimHei, WenQuanYi Micro Hei, Droid Sans, Roboto, Helvetica,
-    Tahoma, Arial, 'sans-serif';
-  text-transform: uppercase;
-  color: rgb(85, 85, 85);
-}
-
-.text-right {
-  text-align: right;
-}
-.text-center {
-  text-align: center;
-}
-.text-left {
-  text-align: left;
-}
-
 .logo {
   width: 50px;
   height: 50px;
