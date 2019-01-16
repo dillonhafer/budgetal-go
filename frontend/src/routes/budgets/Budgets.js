@@ -13,7 +13,6 @@ import { Pane, Heading } from 'evergreen-ui';
 // Helpers
 import { title } from 'window';
 import { monthName } from '@shared/helpers';
-import 'css/budgets.css';
 
 class Budget extends Component {
   state = {
