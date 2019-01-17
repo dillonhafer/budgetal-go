@@ -174,7 +174,9 @@ class AssetLiabilityTable extends Component {
         <AssetLiabilityForm
           item={this.state.item}
           visible={this.state.assetLiabilityFormVisible}
-          onCancel={() => this.setState({ item: null })}
+          onCancel={() =>
+            this.setState({ assetLiabilityFormVisible: false, item: null })
+          }
           close={() => this.setState({ assetLiabilityFormVisible: false })}
         />
       </Pane>

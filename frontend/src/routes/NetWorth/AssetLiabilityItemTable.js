@@ -208,7 +208,11 @@ class AssetLiabilityItemTable extends Component {
 }
 
 export default connect(
-  state => state.netWorth,
+  state => ({
+    assets: state.netWorth.assets,
+    liabilities: state.netWorth.liabilities,
+    months: state.netWorth.months,
+  }),
   dispatch => ({
     deleteNetWorthItem: item => dispatch(deleteNetWorthItem({ item })),
   }),

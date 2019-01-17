@@ -128,7 +128,10 @@ class AssetLiabilityForm extends Component {
 }
 
 export default connect(
-  state => state.netWorth,
+  state => ({
+    assets: state.netWorth.assets,
+    liabilities: state.netWorth.liabilities,
+  }),
   dispatch => ({
     createAssetLiability: item => dispatch(createAssetLiability(item)),
     updateAssetLiability: item => dispatch(updateAssetLiability(item)),
