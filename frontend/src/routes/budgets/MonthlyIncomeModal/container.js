@@ -4,7 +4,7 @@ import MonthlyIncomeModal from './MonthlyIncomeModal';
 
 export default connect(
   state => ({
-    ...state.budget,
+    budget: state.budget.budget,
   }),
   dispatch => ({
     updateIncome: income => {

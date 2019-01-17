@@ -9,6 +9,7 @@ import {
   BUDGET_ITEM_UPDATED,
   BUDGET_ITEM_SAVED,
   BUDGET_ITEM_DELETED,
+  SELECTED_BUDGET_ITEM_UPDATED,
   BUDGET_ITEM_EXPENSE_NEW,
   BUDGET_ITEM_EXPENSE_CREATED,
   BUDGET_ITEM_EXPENSE_UPDATED,
@@ -54,6 +55,7 @@ const initialBudgetState = {
   budgetItemExpenses: [],
   currentBudgetCategory: initialBudgetCategory(),
   selectedExpense: null,
+  selectedBudgetItemID: 0,
 };
 
 export default function budgetState(state = initialBudgetState, action) {
@@ -73,6 +75,11 @@ export default function budgetState(state = initialBudgetState, action) {
       return {
         ...state,
         currentBudgetCategory: action.budgetCategory,
+        selectedBudgetItemID: (
+          state.budgetItems.find(
+            i => i.budgetCategoryId === action.budgetCategory.id,
+          ) || { id: null }
+        ).id,
       };
     case BUDGET_INCOME_UPDATED:
       return {
@@ -119,6 +126,7 @@ export default function budgetState(state = initialBudgetState, action) {
     case BUDGET_ITEM_SAVED:
       return {
         ...state,
+        selectedBudgetItemID: action.budgetItem.id,
         budgetItems: state.budgetItems.map(item => {
           if (
             item.budgetCategoryId === action.budgetItem.budgetCategoryId &&
@@ -133,9 +141,15 @@ export default function budgetState(state = initialBudgetState, action) {
           return item;
         }),
       };
+    case SELECTED_BUDGET_ITEM_UPDATED:
+      return {
+        ...state,
+        selectedBudgetItemID: action.budgetItemID,
+      };
     case BUDGET_ITEM_NEW:
       return {
         ...state,
+        selectedBudgetItemID: null,
         budgetItems: [
           ...state.budgetItems,
           {
@@ -159,6 +173,13 @@ export default function budgetState(state = initialBudgetState, action) {
           ...state.budgetItems.slice(0, item_deleted_idx),
           ...state.budgetItems.slice(item_deleted_idx + 1),
         ],
+        selectedBudgetItemID: (
+          state.budgetItems.find(
+            i =>
+              i.id !== action.budgetItem.id &&
+              i.budgetCategoryId === action.budgetItem.budgetCategoryId,
+          ) || { id: null }
+        ).id,
         budgetItemExpenses: state.budgetItemExpenses.filter(e => {
           return e.budgetItemId !== action.budgetItem.id;
         }),

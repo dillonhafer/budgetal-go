@@ -7,6 +7,7 @@ import {
   BUDGET_ITEM_SAVED,
   BUDGET_ITEM_DELETED,
   BUDGET_CATEGORY_IMPORTED,
+  SELECTED_BUDGET_ITEM_UPDATED,
 } from 'action-types';
 
 export const budgetLoaded = ({
@@ -42,6 +43,13 @@ export const updateBudgetItem = budgetItem => {
   return {
     type: BUDGET_ITEM_UPDATED,
     budgetItem,
+  };
+};
+
+export const updateSelectedBudgetItemID = budgetItemID => {
+  return {
+    type: SELECTED_BUDGET_ITEM_UPDATED,
+    budgetItemID,
   };
 };
 

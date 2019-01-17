@@ -4,7 +4,10 @@ import Sidebar from './Sidebar';
 
 export default connect(
   state => ({
-    ...state.budget,
+    currentBudgetCategory: state.budget.currentBudgetCategory,
+    budgetItems: state.budget.budgetItems,
+    budgetCategories: state.budget.budgetCategories,
+    budgetItemExpenses: state.budget.budgetItemExpenses,
   }),
   dispatch => ({
     changeCategory: budgetCategory => {

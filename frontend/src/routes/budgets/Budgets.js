@@ -104,7 +104,7 @@ class Budget extends Component {
             />
           </Pane>
           <Pane width="100%">
-            <BudgetCategory loading={loading} />
+            <BudgetCategory />
           </Pane>
         </Pane>
         <ExpenseFormModal />

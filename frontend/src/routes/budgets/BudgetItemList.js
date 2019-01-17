@@ -1,62 +1,71 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 // Redux
 import { connect } from 'react-redux';
-import { newBudgetItem } from 'actions/budgets';
+import { newBudgetItem, updateSelectedBudgetItemID } from 'actions/budgets';
 
 // Components
 import BudgetItem from './BudgetItem';
 
 // Helpers
-import { map, find } from 'lodash';
-import { Tabs } from 'antd';
-import { Button, Paragraph, Pane } from 'evergreen-ui';
-const TabPane = Tabs.TabPane;
+import { Button, Paragraph, Pane, Tablist, Tab } from 'evergreen-ui';
 
-class BudgetItemList extends Component {
-  newBudgetItem = budgetItem => {
-    const tab = budgetItem.name ? budgetItem.name : '???';
-    return (
-      <TabPane
-        tab={tab}
-        key={`tab-${budgetItem.budgetCategoryId}-${budgetItem.id}`}
-      >
-        <BudgetItem budgetItem={budgetItem} />
-      </TabPane>
-    );
-  };
-
+class BudgetItemList extends PureComponent {
   addBudgetItem = e => {
     e.preventDefault();
     this.props.newBudgetItem(this.props.currentBudgetCategory.id);
-    let interval = null;
-    interval = setInterval(() => {
-      const newLink = document.querySelector(
-        '.ant-tabs-tab .anticon.anticon-question',
-      );
-      if (newLink) {
-        newLink.click();
-        window.clearInterval(interval);
-        document.querySelector('.ant-card-head-title').scrollIntoView();
-      }
-    }, 100);
+    document.querySelector('.category-card-header').scrollIntoView();
   };
 
-  currentItems = item => {
-    return item.budgetCategoryId === this.props.currentBudgetCategory.id;
+  currentBudgetItems = () => {
+    return this.props.budgetItems.filter(
+      item => item.budgetCategoryId === this.props.currentBudgetCategory.id,
+    );
   };
 
   render() {
-    const budgetItems = this.props.budgetItems.filter(this.currentItems);
+    const budgetItems = this.currentBudgetItems();
     const noNewItems =
-      find(budgetItems, i => {
+      budgetItems.find(i => {
         return i.id === null;
       }) === undefined;
     const showItemList = budgetItems.length > 0;
+    const item = budgetItems.find(
+      i => i.id === this.props.selectedBudgetItemID,
+    );
+
     return (
       <Pane className="row new-budget-item">
         {showItemList && (
-          <Tabs tabPosition="left">{map(budgetItems, this.newBudgetItem)}</Tabs>
+          <Pane>
+            <Tablist marginBottom={16} marginRight={16}>
+              {budgetItems.map((item, index) => (
+                <Tab
+                  key={item.id}
+                  id={item.id}
+                  onSelect={() =>
+                    this.props.updateSelectedBudgetItemID(item.id)
+                  }
+                  isSelected={item.id === this.props.selectedBudgetItemID}
+                  aria-controls={`panel-${item.name}`}
+                >
+                  {item.id === null ? '???' : item.name}
+                </Tab>
+              ))}
+            </Tablist>
+            {item && (
+              <Pane padding={16} borderTop="muted" flex="1">
+                <Pane
+                  key={item.id}
+                  id={`panel-${item.id}`}
+                  role="tabpanel"
+                  aria-labelledby={item.name}
+                >
+                  <BudgetItem budgetItem={item} />
+                </Pane>
+              </Pane>
+            )}
+          </Pane>
         )}
         {!showItemList && (
           <Paragraph padding="2rem" fontSize="1rem" textAlign="center">
@@ -80,11 +89,14 @@ class BudgetItemList extends Component {
 
 export default connect(
   state => ({
-    ...state.budget,
+    budgetItems: state.budget.budgetItems,
+    currentBudgetCategory: state.budget.currentBudgetCategory,
+    selectedBudgetItemID: state.budget.selectedBudgetItemID,
   }),
   dispatch => ({
-    newBudgetItem: budgetCategoryId => {
-      dispatch(newBudgetItem(budgetCategoryId));
-    },
+    newBudgetItem: budgetCategoryId =>
+      dispatch(newBudgetItem(budgetCategoryId)),
+    updateSelectedBudgetItemID: budgetItemID =>
+      dispatch(updateSelectedBudgetItemID(budgetItemID)),
   }),
 )(BudgetItemList);

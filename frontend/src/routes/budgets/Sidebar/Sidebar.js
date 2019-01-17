@@ -14,6 +14,19 @@ class Sidebar extends Component {
     showImportExpenseModal: false,
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      this.state.showImportExpenseModal !== nextState.showImportExpenseModal
+    ) {
+      return true;
+    }
+    if (this.props.currentBudgetCategory !== nextProps.currentBudgetCategory) {
+      return true;
+    }
+
+    return false;
+  }
+
   handleOnSelect = category => {
     const lowerName = category.name.toLowerCase().replace('/', '-');
     window.location.hash = `#${lowerName}`;

@@ -4,7 +4,7 @@ import Budget from './Budgets';
 
 export default connect(
   state => ({
-    ...state.budget,
+    budget: state.budget.budget,
   }),
   dispatch => ({
     budgetLoaded: ({

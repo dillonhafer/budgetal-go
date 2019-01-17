@@ -8,7 +8,7 @@ import BudgetItem from './BudgetItem';
 
 export default connect(
   state => ({
-    ...state.budget,
+    budgetItemExpenses: state.budget.budgetItemExpenses,
   }),
   dispatch => ({
     updateBudgetItem: income => {

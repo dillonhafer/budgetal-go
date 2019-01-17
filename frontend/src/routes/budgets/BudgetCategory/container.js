@@ -4,7 +4,10 @@ import BudgetCategory from './BudgetCategory';
 
 export default connect(
   state => ({
-    ...state.budget,
+    budget: state.budget.budget,
+    currentBudgetCategory: state.budget.currentBudgetCategory,
+    budgetItems: state.budget.budgetItems,
+    budgetItemExpenses: state.budget.budgetItemExpenses,
   }),
   dispatch => ({
     importedBudgetItems: budgetItems => {

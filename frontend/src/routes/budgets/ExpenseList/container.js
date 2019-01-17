@@ -5,7 +5,8 @@ import ExpenseList from './ExpenseList';
 
 export default connect(
   state => ({
-    ...state.budget,
+    budget: state.budget.budget,
+    budgetItemExpenses: state.budget.budgetItemExpenses,
   }),
   dispatch => ({
     selectExpense: expense => dispatch(selectExpense(expense)),

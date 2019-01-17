@@ -95,5 +95,7 @@ class MonthlyOverview extends Component {
 }
 
 export default connect(state => ({
-  ...state.budget,
+  budget: state.budget.budget,
+  budgetItems: state.budget.budgetItems,
+  budgetItemExpenses: state.budget.budgetItemExpenses,
 }))(MonthlyOverview);
