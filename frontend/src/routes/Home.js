@@ -23,15 +23,14 @@ class Home extends Component {
             minWidth={380}
             display="flex"
             flexDirection="column"
+            alignItems="flex-end"
             flex="1 0 40%"
           >
-            <div className="text-right">
-              <img
-                src={require('images/app-logo.png')}
-                className="app-logo-image"
-                alt="budgetal"
-              />
-            </div>
+            <img
+              src={require('images/app-logo.png')}
+              className="app-logo-image"
+              alt="budgetal"
+            />
           </Pane>
           <Pane
             minWidth={380}

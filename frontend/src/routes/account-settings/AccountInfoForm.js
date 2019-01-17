@@ -3,8 +3,9 @@ import { notice, error } from 'window';
 import { UpdateAccountInfoRequest } from '@shared/api/users';
 import { GetCurrentUser } from 'authentication';
 import { get, round, assign } from 'lodash';
-import { Button, Col, Form, Icon, Input, Modal, Row, Upload } from 'antd';
+import { Col, Form, Icon, Input, Modal, Row, Upload } from 'antd';
 import { SetCurrentUser } from 'authentication';
+import { Pane, Button } from 'evergreen-ui';
 
 class AccountInfoForm extends React.Component {
   constructor(props) {
@@ -237,11 +238,15 @@ class AccountInfoForm extends React.Component {
                 )}
               </Form.Item>
               <Form.Item>
-                <div className="text-right">
-                  <Button type="primary" htmlType="submit" size="large">
+                <Pane
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="flex-end"
+                >
+                  <Button height={40} appearance="primary">
                     Update Account Info
                   </Button>
-                </div>
+                </Pane>
               </Form.Item>
             </Col>
           </Form>

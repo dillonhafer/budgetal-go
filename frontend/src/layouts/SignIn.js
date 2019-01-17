@@ -6,6 +6,7 @@ import RegisterForm from './RegisterForm';
 import PasswordResetForm from './PasswordResetForm';
 import SignInForm from './SignInForm';
 import { colors } from '@shared/theme';
+import { Pane } from 'evergreen-ui';
 
 const TabPane = Tabs.TabPane;
 
@@ -61,14 +62,20 @@ class SignIn extends Component {
             <TabPane tab="Tab 1" key="1">
               <PasswordResetForm />
               <Row>
-                <Col span={24} className="text-right">
-                  <button
-                    onClick={this.signIn}
-                    style={styles.anchor}
-                    className="sign-in-form-sign-up"
+                <Col span={24}>
+                  <Pane
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="flex-end"
                   >
-                    Sign In <Icon type="right" />
-                  </button>
+                    <button
+                      onClick={this.signIn}
+                      style={styles.anchor}
+                      className="sign-in-form-sign-up"
+                    >
+                      Sign In <Icon type="right" />
+                    </button>
+                  </Pane>
                 </Col>
               </Row>
             </TabPane>
@@ -85,14 +92,20 @@ class SignIn extends Component {
                     <Icon type="left" /> Forgot password
                   </button>
                 </Col>
-                <Col span={12} className="text-right">
-                  <button
-                    onClick={this.register}
-                    style={styles.anchor}
-                    className="sign-in-form-sign-up"
+                <Col span={12}>
+                  <Pane
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="flex-end"
                   >
-                    Register <Icon type="right" />
-                  </button>
+                    <button
+                      onClick={this.register}
+                      style={styles.anchor}
+                      className="sign-in-form-sign-up"
+                    >
+                      Register <Icon type="right" />
+                    </button>
+                  </Pane>
                 </Col>
               </Row>
             </TabPane>

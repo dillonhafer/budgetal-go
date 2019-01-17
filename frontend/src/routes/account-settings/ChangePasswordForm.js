@@ -1,7 +1,14 @@
 import React from 'react';
+
+// Components
+import { Col, Form, Input } from 'antd';
+import { Icon, Pane, Button, Spinner } from 'evergreen-ui';
+
+// API
 import { ChangePasswordRequest } from '@shared/api/users';
+
+// Helpers
 import { error, notice } from 'window';
-import { Button, Col, Form, Icon, Input } from 'antd';
 import { GetCurrentUser } from 'authentication';
 
 const formItemLayout = {
@@ -55,10 +62,18 @@ class ChangePasswordForm extends React.Component {
     const { loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     const user = GetCurrentUser();
+
     return (
       <Form layout="horizontal" onSubmit={this.handleSubmit}>
         <Col span={24}>
-          <Input type="hidden" autoComplete="username" value={user.email} />
+          <Pane display="none">
+            <Input
+              type="email"
+              name="email"
+              autoComplete="username"
+              defaultValue={user.email}
+            />
+          </Pane>
           <Form.Item {...formItemLayout} label="New Password" hasFeedback>
             {getFieldDecorator('password', {
               rules: [
@@ -69,7 +84,7 @@ class ChangePasswordForm extends React.Component {
               ],
             })(
               <Input
-                addonBefore={<Icon type="lock" />}
+                addonBefore={<Icon icon="lock" />}
                 autoComplete="new-password"
                 type="password"
               />,
@@ -92,7 +107,7 @@ class ChangePasswordForm extends React.Component {
               ],
             })(
               <Input
-                addonBefore={<Icon type="lock" />}
+                addonBefore={<Icon icon="lock" />}
                 autoComplete="new-password"
                 type="password"
               />,
@@ -108,23 +123,18 @@ class ChangePasswordForm extends React.Component {
               ],
             })(
               <Input
-                addonBefore={<Icon type="lock" />}
+                addonBefore={<Icon icon="lock" />}
                 autoComplete="current-password"
                 type="password"
               />,
             )}
           </Form.Item>
-          <Col span={12} offset={12}>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="right"
-              size="large"
-              loading={loading}
-            >
+          <Pane display="flex" flexDirection="column" alignItems="flex-end">
+            <Button height={40} appearance="primary" disabled={loading}>
+              {loading && <Spinner size={16} marginRight={8} />}
               Change Password
             </Button>
-          </Col>
+          </Pane>
         </Col>
       </Form>
     );
