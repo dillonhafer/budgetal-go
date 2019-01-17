@@ -5,8 +5,7 @@ import { IsAuthenticated } from 'authentication';
 import 'css/App.css';
 
 // Locale
-import { Layout, LocaleProvider } from 'antd';
-import enUS from 'antd/lib/locale-provider/en_US';
+import { Layout } from 'antd';
 
 // Layout
 import Header from 'layouts/Header';
@@ -47,17 +46,15 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <LocaleProvider locale={enUS}>
-          <Router>
-            <div className="App">
-              <Layout>
-                <Header resetSignIn={this.resetSignIn} />
-                <ApplicationLayout />
-                <Footer />
-              </Layout>
-            </div>
-          </Router>
-        </LocaleProvider>
+        <Router>
+          <div className="App">
+            <Layout>
+              <Header resetSignIn={this.resetSignIn} />
+              <ApplicationLayout />
+              <Footer />
+            </Layout>
+          </div>
+        </Router>
       </Provider>
     );
   }

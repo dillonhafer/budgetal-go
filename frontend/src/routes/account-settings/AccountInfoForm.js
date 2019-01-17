@@ -257,6 +257,7 @@ class AccountInfoForm extends React.Component {
             visible={this.state.confirmPasswordVisible}
             onOk={this.handleOnOk}
             okText="Confirm Password"
+            cancelText="Cancel"
             onCancel={this.handleCancel}
           >
             <Form onSubmit={this.handleOnOk}>

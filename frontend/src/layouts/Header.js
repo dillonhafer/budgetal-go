@@ -6,16 +6,13 @@ import {
   GetCurrentUser,
 } from 'authentication';
 import { message, Layout, Row, Col, Menu, Icon, BackTop } from 'antd';
+import { Pane, Avatar, Text } from 'evergreen-ui';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
 import { notice } from 'window';
 
 const ProfileImage = ({ user }) => {
   let src = '/missing-profile.png';
-  const onError = e => {
-    e.target.src = '/missing-profile.png';
-  };
-
   if (user.avatarUrl) {
     src = user.avatarUrl;
   }
@@ -25,11 +22,11 @@ const ProfileImage = ({ user }) => {
   }
 
   return (
-    <img
-      alt={user.firstName}
-      className="nav-user-logo"
-      src={src}
-      onError={onError}
+    <Avatar
+      {...(/.*missing-profile.*/.test(src) ? {} : { src })}
+      name={`${user.firstName || '?'} ${user.lastName || '?'}`}
+      size={42}
+      marginRight={10}
     />
   );
 };
@@ -96,11 +93,18 @@ export default class Header extends Component {
         <Menu.SubMenu
           key="submenu"
           title={
-            <span>
+            <Pane
+              paddingY={11}
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+            >
               <ProfileImage user={user} />
-              Hello
-              {user.firstName ? `, ${user.firstName}` : ''}!
-            </span>
+              <Text color="hsla(0,0%,100%,.67)">
+                Hello
+                {user.firstName ? `, ${user.firstName}` : ''}!
+              </Text>
+            </Pane>
           }
         >
           <Menu.Item key="stats">
