@@ -65,6 +65,7 @@ class RegisterForm extends Component {
               autoCorrect="off"
               autoCapitalize="off"
               spellCheck="false"
+              autoComplete="username"
               placeholder="E-mail Address"
             />,
           )}
@@ -76,6 +77,7 @@ class RegisterForm extends Component {
             <Input
               prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
+              autoComplete="new-password"
               placeholder="Password"
             />,
           )}
@@ -96,6 +98,7 @@ class RegisterForm extends Component {
             <Input
               prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
+              autoComplete="new-password"
               placeholder="Password Confirmation"
             />,
           )}

@@ -56,6 +56,7 @@ class SignInForm extends Component {
               type="email"
               autoCorrect="off"
               autoCapitalize="off"
+              autoComplete="username"
               spellCheck="false"
               placeholder="E-mail Address"
             />,
@@ -68,6 +69,7 @@ class SignInForm extends Component {
             <Input
               prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
+              autoComplete="current-password"
               placeholder="Password"
             />,
           )}
