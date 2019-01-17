@@ -8,7 +8,6 @@ import BudgetItemForm from './BudgetItemForm';
 import { DeleteItemRequest } from '@shared/api/budget-items';
 
 // Helpers
-import classNames from 'classnames';
 import { currencyf, reduceSum } from '@shared/helpers';
 import { notice, error } from 'window';
 
@@ -49,14 +48,6 @@ class BudgetItem extends Component {
       this.setState({ isDeleting: false, showDeleteConfirmation: false });
     }
   };
-
-  remainingClass(amountRemaining) {
-    return classNames({
-      'success-color': amountRemaining > 0,
-      'alert-color': amountRemaining < 0,
-      blue: Math.abs(currencyf(amountRemaining, '')) === 0,
-    });
-  }
 
   onDeleteClick = e => {
     e.preventDefault();
