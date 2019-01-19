@@ -124,6 +124,8 @@ class AnnualBudgetItemForm extends Component {
           />
           <TextInputField
             type="number"
+            step="any"
+            min="0.01"
             name="amount"
             label="Amount"
             value={values.amount}

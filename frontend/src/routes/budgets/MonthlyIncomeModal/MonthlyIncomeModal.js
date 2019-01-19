@@ -87,6 +87,8 @@ class MonthlyIncomeModal extends Component {
         <Form onSubmit={handleSubmit}>
           <TextInputField
             type="number"
+            step="any"
+            min="0.01"
             name="income"
             label="Monthly Income"
             value={values.income}
