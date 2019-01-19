@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 const budgetItemValidations = Yup.object().shape({
   name: Yup.string().required('Name is required'),
   amount: Yup.number()
-    .min(0.01, 'Amount must be at least $0.01')
+    .min(0.0, 'Amount must be at least $0.00')
     .required('Amount is required'),
 });
 
@@ -107,7 +107,7 @@ class BudgetItemForm extends Component {
         <TextInputField
           type="number"
           step="any"
-          min="0.01"
+          min="0.00"
           name="amount"
           label="Amount"
           value={values.amount}
