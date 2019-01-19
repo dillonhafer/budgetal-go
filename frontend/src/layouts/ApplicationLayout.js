@@ -19,6 +19,37 @@ import NetWorth from 'routes/NetWorth';
 import NoMatch from 'routes/NoMatch';
 import Maintenance from 'routes/Maintenance';
 
+class Wrapper extends Component {
+  shouldComponentUpdate(next) {
+    const { pathname } = this.props.location;
+
+    if (pathname === next.location.pathname) {
+      if (next.location.hash === '') {
+        return true;
+      }
+
+      return false;
+    }
+
+    return true;
+  }
+
+  render() {
+    return (
+      <div
+        style={{
+          borderRadius: '24px',
+          paddingBottom: '24px',
+          paddingTop: '24px',
+          background: 'white',
+        }}
+      >
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
 class ApplicationLayout extends Component {
   render() {
     return (
@@ -26,14 +57,7 @@ class ApplicationLayout extends Component {
         <Layout.Content style={{ background: 'unset' }}>
           <Route
             render={({ location }) => (
-              <div
-                style={{
-                  borderRadius: '24px',
-                  paddingBottom: '24px',
-                  paddingTop: '24px',
-                  background: 'white',
-                }}
-              >
+              <Wrapper location={location}>
                 <Switch key={location.key} location={location}>
                   <Route exact path="/" component={Home} />
                   <Route path="/privacy" component={Privacy} />
@@ -64,7 +88,7 @@ class ApplicationLayout extends Component {
                   <Route path="/maintenance" component={Maintenance} />
                   <Route component={NoMatch} />
                 </Switch>
-              </div>
+              </Wrapper>
             )}
           />
         </Layout.Content>

@@ -8,6 +8,7 @@ import { Pane, Select, Menu } from 'evergreen-ui';
 import times from 'lodash/times';
 import { availableYears, monthName } from '@shared/helpers';
 import CategoryMenuItem from './CategoryMenuItem';
+import { withRouter } from 'react-router';
 
 class Sidebar extends Component {
   state = {
@@ -29,7 +30,7 @@ class Sidebar extends Component {
 
   handleOnSelect = category => {
     const lowerName = category.name.toLowerCase().replace('/', '-');
-    window.location.hash = `#${lowerName}`;
+    this.props.history.push(`#${lowerName}`);
     this.props.changeCategory(category);
   };
 
@@ -129,4 +130,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default withRouter(Sidebar);

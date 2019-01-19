@@ -30,7 +30,7 @@ class Budget extends Component {
 
   findCurrentCategory(resp) {
     if (window.location.hash) {
-      const hashCategory = window.location.hash.replace('#', '');
+      const hashCategory = `${this.props.location.hash}`.replace('#', '');
       return resp.budgetCategories.find(c => {
         return c.name.toLowerCase().replace('/', '-') === hashCategory;
       });
