@@ -5,7 +5,7 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { message, Layout, Row, Col, Menu, Icon, BackTop } from 'antd';
+import { message, Layout, Row, Col, Menu, Icon } from 'antd';
 import { Pane, Avatar, Text } from 'evergreen-ui';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
@@ -74,7 +74,7 @@ export default class Header extends Component {
       const user = GetCurrentUser();
       return [
         <Menu.Item key="budgets">
-          <Link to={`/budgets/${year}/${month}#`}> Budgets</Link>
+          <Link to={`/budgets/${year}/${month}`}> Budgets</Link>
         </Menu.Item>,
         <Menu.Item key="annual-budgets">
           <NavLink to={`/annual-budgets/${year}`}>Annual Budgets</NavLink>
@@ -189,10 +189,6 @@ export default class Header extends Component {
         style={{ position: 'fixed', width: '100%' }}
         onClick={this.scrollTop}
       >
-        <BackTop visibilityHeight={40}>
-          <div id="headerTop" />
-        </BackTop>
-
         <Link to="/" aria-label="Home">
           <div className="logo" />
         </Link>

@@ -482,12 +482,12 @@ exports[`Mortgage renders 1`] = `
         >
           Completed 
           <b>
-            30
+            31
           </b>
            out of
            
           <b>
-            71
+            72
           </b>
            
           monthly payments
@@ -503,6 +503,14 @@ exports[`Mortgage renders 1`] = `
   <MonthChart
     months={
       Array [
+        Object {
+          "balance": 80000,
+          "early": false,
+          "extra": 1000,
+          "interest": 0,
+          "pastMonth": true,
+          "principal": 0,
+        },
         Object {
           "balance": 80000,
           "early": false,
@@ -1934,14 +1942,6 @@ exports[`Mortgage renders 1`] = `
           "interest": -757.61,
           "pastMonth": false,
           "principal": 2829.93,
-        },
-        Object {
-          "balance": 0,
-          "early": true,
-          "extra": 1000,
-          "interest": -765.87,
-          "pastMonth": false,
-          "principal": 2838.19,
         },
       ]
     }
