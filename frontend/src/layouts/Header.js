@@ -74,7 +74,7 @@ export default class Header extends Component {
       const user = GetCurrentUser();
       return [
         <Menu.Item key="budgets">
-          <Link to={`/budgets/${year}/${month}`}> Budgets</Link>
+          <Link to={`/budgets/${year}/${month}#`}> Budgets</Link>
         </Menu.Item>,
         <Menu.Item key="annual-budgets">
           <NavLink to={`/annual-budgets/${year}`}>Annual Budgets</NavLink>
