@@ -68,6 +68,7 @@ class AnnualBudgetItemForm extends Component {
   handleSubmit = (values, { setSubmitting }) => {
     const item = {
       ...values,
+      interval: parseInt(values.interval, 10),
       id: this.props.budgetItem.id,
       annualBudgetId: this.props.budgetItem.annualBudgetId,
     };
