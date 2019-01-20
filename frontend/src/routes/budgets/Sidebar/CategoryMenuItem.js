@@ -24,9 +24,7 @@ class CategoryMenuItem extends Component {
         alignItems="center"
         backgroundColor={backgroundColor}
         borderRight={borderRight}
-        onClick={() => {
-          onSelect(category);
-        }}
+        onClick={() => Promise.resolve().then(() => onSelect(category))}
       >
         <Pane
           height={16}

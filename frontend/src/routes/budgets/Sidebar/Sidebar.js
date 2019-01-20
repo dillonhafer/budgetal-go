@@ -34,14 +34,21 @@ class Sidebar extends Component {
     this.props.changeCategory(category);
   };
 
-  handleOnDateChange = e => {
-    const date = {
-      year: this.props.year,
-      month: this.props.month,
-      [e.target.name]: e.target.value,
-    };
+  changeDate = async ({ name, value }) => {
+    return Promise.resolve().then(() => {
+      const date = {
+        year: this.props.year,
+        month: this.props.month,
+        [name]: value,
+      };
 
-    this.props.history.push(`/budgets/${date.year}/${date.month}`);
+      this.props.history.push(`/budgets/${date.year}/${date.month}`);
+    });
+  };
+
+  handleOnDateChange = async e => {
+    this.props.startLoading();
+    return this.changeDate(e.target);
   };
 
   render() {

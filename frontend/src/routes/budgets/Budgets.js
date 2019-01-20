@@ -98,6 +98,9 @@ class Budget extends Component {
         <Pane display="flex" flexDirection="row" opacity={loading ? 0.5 : 1}>
           <Pane width={232}>
             <Sidebar
+              startLoading={() => {
+                this.setState({ loading: true });
+              }}
               history={this.props.history}
               month={budget.month}
               year={budget.year}
