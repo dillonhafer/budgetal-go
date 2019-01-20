@@ -13,6 +13,7 @@ import { IconButton, Pane, Select, Tooltip } from 'evergreen-ui';
 
 // Helpers
 import { notice, error } from 'window';
+import { cleanCurrencyString } from '@shared/helpers';
 
 class ImportExpenseForm extends PureComponent {
   state = {
@@ -37,7 +38,7 @@ class ImportExpenseForm extends PureComponent {
           budgetItemId: this.state.itemId,
           date: expense.date,
           name: expense.name,
-          amount: expense.amount.replace(/[^\d|.]/g, ''),
+          amount: cleanCurrencyString(expense.amount),
         });
         if (!!resp.errors) {
           error('Something went wrong');

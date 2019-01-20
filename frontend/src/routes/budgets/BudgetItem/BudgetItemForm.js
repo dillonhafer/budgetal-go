@@ -6,6 +6,7 @@ import { Pane, Button, Spinner, TextInputField } from 'evergreen-ui';
 
 // Helpers
 import { notice, error } from 'window';
+import { cleanCurrencyString } from '@shared/helpers';
 
 // Form
 import { CreateItemRequest, UpdateItemRequest } from '@shared/api/budget-items';
@@ -105,15 +106,19 @@ class BudgetItemForm extends Component {
           {...validationMessages(errors.name, touched.name)}
         />
         <TextInputField
-          type="number"
-          step="any"
-          min="0.00"
           name="amount"
           label="Amount"
           value={values.amount}
+          inputMode="decimal"
           onChange={e => {
-            this.update(e);
-            handleChange(e);
+            const event = {
+              target: {
+                name: e.target.name,
+                value: cleanCurrencyString(e.target.value),
+              },
+            };
+            this.update(event);
+            handleChange(event);
           }}
           onBlur={handleBlur}
           placeholder="(10.00)"
