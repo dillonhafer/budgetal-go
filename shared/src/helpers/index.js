@@ -16,6 +16,10 @@ export const currencyf = (number, dollarSign = "$", fixed = 2) => {
   return fixed > 0 ? str : str.slice(0, -3);
 };
 
+export const cleanCurrencyString = string => {
+  return string.replace(/[^\d|.]/g, "");
+};
+
 export const availableYears = () => {
   return range(2015, new Date().getFullYear() + 3);
 };
