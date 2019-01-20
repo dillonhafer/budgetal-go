@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { itemAdded, itemUpdated } from 'actions/annual-budget-items';
 
-import Form, { validationMessages } from 'components/Form';
+import Form, { AmountInputField, validationMessages } from 'components/Form';
 import {
   TextInputField,
   Pane,
@@ -122,17 +122,12 @@ class AnnualBudgetItemForm extends Component {
             placeholder="Life Insurance"
             {...validationMessages(errors.name, touched.name)}
           />
-          <TextInputField
-            type="number"
-            step="any"
-            min="0.01"
-            name="amount"
-            label="Amount"
-            value={values.amount}
+          <AmountInputField
+            values={values}
+            errors={errors}
+            touched={touched}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="(10.00)"
-            {...validationMessages(errors.amount, touched.amount)}
           />
           <DateSelect
             label="Due Date"

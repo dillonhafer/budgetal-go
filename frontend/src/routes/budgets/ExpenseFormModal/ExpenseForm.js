@@ -9,7 +9,7 @@ import {
 } from '@shared/api/budget-item-expenses';
 
 // Components
-import Form, { validationMessages } from 'components/Form';
+import Form, { AmountInputField, validationMessages } from 'components/Form';
 import DateSelect from 'components/DateSelect';
 import { Autocomplete, Dialog, TextInputField } from 'evergreen-ui';
 
@@ -169,18 +169,12 @@ class ExpenseForm extends Component {
               );
             }}
           </Autocomplete>
-          <TextInputField
-            type="number"
-            step="any"
-            min="0.01"
-            name="amount"
-            label="Amount"
-            required
-            value={values.amount}
+          <AmountInputField
+            values={values}
+            errors={errors}
+            touched={touched}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="(10.00)"
-            {...validationMessages(errors.amount, touched.amount)}
           />
           <DateSelect
             label="Date"

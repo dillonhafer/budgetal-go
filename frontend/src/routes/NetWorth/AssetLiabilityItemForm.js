@@ -7,8 +7,8 @@ import {
   updateNetWorthItem,
 } from 'actions/net-worth-items';
 
-import Form, { validationMessages } from 'components/Form';
-import { SelectField, TextInputField, Dialog } from 'evergreen-ui';
+import Form, { AmountInputField, validationMessages } from 'components/Form';
+import { SelectField, Dialog } from 'evergreen-ui';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { notice, error } from 'window';
@@ -102,17 +102,12 @@ class AssetLiabilityItemForm extends Component {
               ))}
             </SelectField>
           )}
-          <TextInputField
-            type="number"
-            step="any"
-            min="0.01"
-            name="amount"
-            label="Amount"
-            value={values.amount}
+          <AmountInputField
+            values={values}
+            errors={errors}
+            touched={touched}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="(1,000.00)"
-            {...validationMessages(errors.amount, touched.amount)}
           />
         </Form>
       </Dialog>

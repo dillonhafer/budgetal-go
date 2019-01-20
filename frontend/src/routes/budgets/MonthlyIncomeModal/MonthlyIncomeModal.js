@@ -9,8 +9,8 @@ import { currencyf } from '@shared/helpers';
 import { error, notice } from 'window';
 
 // Components
-import { Pane, Button, Dialog, TextInputField } from 'evergreen-ui';
-import Form, { validationMessages } from 'components/Form';
+import { Pane, Button, Dialog } from 'evergreen-ui';
+import Form, { AmountInputField } from 'components/Form';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -85,17 +85,15 @@ class MonthlyIncomeModal extends Component {
         confirmLabel="Update Income"
       >
         <Form onSubmit={handleSubmit}>
-          <TextInputField
-            type="number"
-            step="any"
-            min="0.01"
-            name="income"
-            label="Monthly Income"
-            value={values.income}
+          <AmountInputField
+            values={values}
+            errors={errors}
+            touched={touched}
             onChange={handleChange}
             onBlur={handleBlur}
+            name="income"
+            label="Monthly Income"
             placeholder="(3,500.00)"
-            {...validationMessages(errors.income, touched.income)}
           />
         </Form>
       </Dialog>

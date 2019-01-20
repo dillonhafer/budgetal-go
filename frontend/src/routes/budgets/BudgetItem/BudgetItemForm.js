@@ -6,11 +6,10 @@ import { Pane, Button, Spinner, TextInputField } from 'evergreen-ui';
 
 // Helpers
 import { notice, error } from 'window';
-import { cleanCurrencyString } from '@shared/helpers';
 
 // Form
 import { CreateItemRequest, UpdateItemRequest } from '@shared/api/budget-items';
-import Form, { validationMessages } from 'components/Form';
+import Form, { validationMessages, AmountInputField } from 'components/Form';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
@@ -105,24 +104,15 @@ class BudgetItemForm extends Component {
           placeholder="Life Insurance"
           {...validationMessages(errors.name, touched.name)}
         />
-        <TextInputField
-          name="amount"
-          label="Amount"
-          value={values.amount}
-          inputMode="decimal"
-          onChange={e => {
-            const event = {
-              target: {
-                name: e.target.name,
-                value: cleanCurrencyString(e.target.value),
-              },
-            };
-            this.update(event);
-            handleChange(event);
-          }}
+        <AmountInputField
+          values={values}
+          errors={errors}
+          touched={touched}
           onBlur={handleBlur}
-          placeholder="(10.00)"
-          {...validationMessages(errors.amount, touched.amount)}
+          onChange={e => {
+            this.update(e);
+            handleChange(e);
+          }}
         />
         <Pane marginBottom={16} textAlign="right">
           <Button appearance="primary" height={36} disabled={isSubmitting}>
