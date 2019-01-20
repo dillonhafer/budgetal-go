@@ -48,9 +48,11 @@ class ImportExpenseModal extends PureComponent {
     return this._options;
   };
 
-  close = () => {
-    this.setState(initialState);
-    this.props.cancel();
+  close = async () => {
+    return Promise.resolve().then(() => {
+      this.setState(initialState);
+      this.props.cancel();
+    });
   };
 
   errors = () => {
