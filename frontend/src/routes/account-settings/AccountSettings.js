@@ -23,11 +23,11 @@ class AccountSettings extends PureComponent {
           <Pane
             display="flex"
             flex="1"
-            height={300}
+            minHeight={300}
             flexDirection="column"
             marginRight={16}
           >
-            <Card height={300} background="tint2" padding={16}>
+            <Card minHeight={300} background="tint2" padding={16}>
               <Heading size={600} marginBottom={16}>
                 Account Info
               </Heading>
@@ -36,7 +36,7 @@ class AccountSettings extends PureComponent {
           </Pane>
 
           <Pane display="flex" flex="1" flexDirection="column" marginLeft={16}>
-            <Card height={300} background="tint2" padding={16}>
+            <Card minHeight={300} background="tint2" padding={16}>
               <Heading size={600} marginBottom={16}>
                 Change Password
               </Heading>

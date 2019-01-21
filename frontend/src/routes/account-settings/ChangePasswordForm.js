@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 // Components
-import { Col, Form, Input } from 'antd';
-import { Icon, Pane, Button, Spinner } from 'evergreen-ui';
+import { TextInputField, Pane, Button, Spinner } from 'evergreen-ui';
+import Form, { validationMessages } from 'components/Form';
 
 // API
 import { ChangePasswordRequest } from '@shared/api/users';
@@ -11,43 +11,37 @@ import { ChangePasswordRequest } from '@shared/api/users';
 import { error, notice } from 'window';
 import { GetCurrentUser } from 'authentication';
 
-const formItemLayout = {
-  labelCol: { span: 12 },
-  wrapperCol: { span: 12 },
-};
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
-class ChangePasswordForm extends React.Component {
-  state = {
-    loading: false,
-  };
+const changePasswordValidations = Yup.object().shape({
+  password: Yup.string()
+    .min(8, 'Password must be at least 8 characters')
+    .required('Password is required'),
+  passwordConfirmation: Yup.string()
+    .oneOf([Yup.ref('password')], "Password doesn't match confirmation")
+    .required('Password Confirmation is required'),
+  currentPassword: Yup.string().required('Your Current Password is required'),
+});
 
-  savePassword = async ({ password, currentPassword }) => {
+class ChangePasswordForm extends Component {
+  savePassword = async ({ password, currentPassword }, setSubmitting) => {
+    setSubmitting(true);
+
     try {
-      this.setState({ loading: true });
       const resp = await ChangePasswordRequest({ password, currentPassword });
       if (resp && resp.ok) {
         notice(resp.message);
       }
     } catch (err) {
-      console.log(err);
+      error('Something went wrong');
     } finally {
-      this.setState({ loading: false });
+      setSubmitting(false);
     }
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.savePassword({
-          password: values.password,
-          currentPassword: values.currentPassword,
-        });
-        this.props.form.resetFields();
-      } else {
-        error('Please check form for errors');
-      }
-    });
+  handleSubmit = (values, { setSubmitting, resetForm }) => {
+    return this.savePassword(values, setSubmitting).then(resetForm);
   };
 
   checkPasswordConfirmation = (rule, value, callback) => {
@@ -58,87 +52,89 @@ class ChangePasswordForm extends React.Component {
     callback();
   };
 
-  render() {
-    const { loading } = this.state;
-    const { getFieldDecorator } = this.props.form;
+  renderForm = ({
+    values,
+    touched,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  }) => {
     const user = GetCurrentUser();
 
     return (
-      <Form layout="horizontal" onSubmit={this.handleSubmit}>
-        <Col span={24}>
-          <Pane display="none">
-            <Input
-              type="email"
-              name="email"
-              autoComplete="username"
-              defaultValue={user.email}
-            />
-          </Pane>
-          <Form.Item {...formItemLayout} label="New Password" hasFeedback>
-            {getFieldDecorator('password', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Password is required',
-                },
-              ],
-            })(
-              <Input
-                addonBefore={<Icon icon="lock" />}
-                autoComplete="new-password"
-                type="password"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item
-            {...formItemLayout}
-            label="Password Confirmation"
-            hasFeedback
-          >
-            {getFieldDecorator('password_confirmation', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Password Confirmation is required',
-                },
-                {
-                  validator: this.checkPasswordConfirmation,
-                },
-              ],
-            })(
-              <Input
-                addonBefore={<Icon icon="lock" />}
-                autoComplete="new-password"
-                type="password"
-              />,
-            )}
-          </Form.Item>
-          <Form.Item {...formItemLayout} label="Current Password" hasFeedback>
-            {getFieldDecorator('currentPassword', {
-              rules: [
-                {
-                  required: true,
-                  message: 'Current Password is required',
-                },
-              ],
-            })(
-              <Input
-                addonBefore={<Icon icon="lock" />}
-                autoComplete="current-password"
-                type="password"
-              />,
-            )}
-          </Form.Item>
-          <Pane display="flex" flexDirection="column" alignItems="flex-end">
-            <Button height={40} appearance="primary" disabled={loading}>
-              {loading && <Spinner size={16} marginRight={8} />}
-              Change Password
-            </Button>
-          </Pane>
-        </Col>
+      <Form onSubmit={handleSubmit}>
+        <Pane display="none">
+          <input
+            type="email"
+            name="email"
+            autoComplete="username"
+            defaultValue={user.email}
+          />
+        </Pane>
+        <TextInputField
+          label="New Password"
+          name="password"
+          autoComplete="new-password"
+          type="password"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.password}
+          {...validationMessages(errors.password, touched.password)}
+        />
+        <TextInputField
+          label="Password Confirmation"
+          name="passwordConfirmation"
+          autoComplete="new-password"
+          type="password"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.passwordConfirmation}
+          {...validationMessages(
+            errors.passwordConfirmation,
+            touched.passwordConfirmation,
+          )}
+        />
+        <TextInputField
+          label="Current Password"
+          name="currentPassword"
+          autoComplete="current-password"
+          type="password"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.currentPassword}
+          {...validationMessages(
+            errors.currentPassword,
+            touched.currentPassword,
+          )}
+        />
+        <Pane display="flex" flexDirection="column" alignItems="flex-end">
+          <Button height={40} appearance="primary" disabled={isSubmitting}>
+            {isSubmitting && <Spinner size={16} marginRight={8} />}
+            Change Password
+          </Button>
+        </Pane>
       </Form>
+    );
+  };
+
+  render() {
+    return (
+      <Pane width={350}>
+        <Formik
+          initialValues={{
+            password: '',
+            passwordConfirmation: '',
+            currentPassword: '',
+          }}
+          onSubmit={this.handleSubmit}
+          validationSchema={changePasswordValidations}
+          render={this.renderForm}
+        />
+      </Pane>
     );
   }
 }
 
-export default Form.create()(ChangePasswordForm);
+export default ChangePasswordForm;
