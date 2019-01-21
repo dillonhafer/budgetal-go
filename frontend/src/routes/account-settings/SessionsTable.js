@@ -1,11 +1,20 @@
-import React, { Component } from 'react';
-import { humanUA } from '@shared/helpers';
-import { notice } from 'window';
-import { Table, Button, Modal } from 'antd';
-import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
-import moment from 'moment';
-import { orderBy } from 'lodash';
+import React, { PureComponent } from 'react';
 
+// Components
+import { Table, Heading, Pane, Button, Text } from 'evergreen-ui';
+import DeleteConfirmation from 'components/DeleteConfirmation';
+import Spinner from 'components/Spinner';
+
+// API
+import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
+
+// Helpers
+import { humanUA } from '@shared/helpers';
+import { notice, error } from 'window';
+import moment from 'moment';
+import sortBy from 'lodash/sortBy';
+
+// Icons
 import GoogleChromeIcon from 'mdi-react/GoogleChromeIcon';
 import InternetExplorerIcon from 'mdi-react/InternetExplorerIcon';
 import AppleSafariIcon from 'mdi-react/AppleSafariIcon';
@@ -28,50 +37,11 @@ const uaIcons = {
   opera: <OperaIcon className="opera-icon" />,
 };
 
-const activeHeaders = [
-  {
-    title: 'Browser',
-    dataIndex: 'browser',
-    key: 'browser',
-  },
-  {
-    title: 'Signed In',
-    dataIndex: 'sign_in',
-    key: 'sign_in',
-  },
-  {
-    title: '',
-    dataIndex: 'sign_out',
-    key: 'sign_out',
-  },
-];
-
-const expiredHeaders = [
-  {
-    title: 'Browser',
-    dataIndex: 'browser',
-    key: 'browser',
-  },
-  {
-    title: 'IP Address',
-    dataIndex: 'ip',
-    key: 'ip',
-  },
-  {
-    title: 'Signed In',
-    dataIndex: 'sign_in',
-    key: 'sign_in',
-  },
-  {
-    title: 'Signed Out',
-    dataIndex: 'sign_out',
-    key: 'sign_out',
-  },
-];
-
-class SessionsTable extends Component {
+class SessionsTable extends PureComponent {
   state = {
-    loading: false,
+    loading: true,
+    showDeleteConfirmation: false,
+    isDeleting: false,
     sessions: {
       active: [],
       expired: [],
@@ -80,40 +50,34 @@ class SessionsTable extends Component {
 
   componentDidMount = () => {
     this.fetchSessions();
-    const intervalId = setInterval(this.fetchSessions, 60000);
-    this.setState({ intervalId });
   };
 
   fetchSessions = async () => {
-    try {
-      this.setState({ loading: true });
-      const resp = await AllSessionsRequest();
-      if (resp && resp.ok) {
-        this.setState({ sessions: resp.sessions });
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      this.setState({ loading: false });
-    }
+    return AllSessionsRequest()
+      .then(resp => {
+        if (resp.ok) {
+          const sessions = {
+            ...resp.sessions,
+            active: sortBy(
+              resp.sessions.active,
+              session => moment(session.createdAt).unix(),
+              ['desc'],
+            ).reverse(),
+          };
+          this.setState({ loading: false, sessions });
+        } else {
+          this.setState({ loading: false });
+        }
+      })
+      .catch(() => {
+        error('Something went wrong');
+        this.setState({ loading: false });
+      });
   };
 
-  componentWillUnmount() {
-    window.clearInterval(this.state.intervalId);
-  }
-
   handleOnClick = session => {
-    Modal.confirm({
-      title: 'End Session',
-      content: `Are you sure you want to end this session?\n\n This will sign out the device using it. And you will need to sign in again on that device.`,
-      okText: 'End Session',
-      okType: 'danger',
-      cancelText: 'Cancel',
-      onOk: () => {
-        this.endSession(session);
-      },
-      onCancel() {},
-    });
+    this.sessionToEnd = session;
+    this.setState({ showDeleteConfirmation: true });
   };
 
   browser(session) {
@@ -176,101 +140,155 @@ class SessionsTable extends Component {
     }
   };
 
-  endSession = async session => {
-    const resp = await EndSessionRequest(session.authenticationKey);
-    if (resp && resp.ok) {
-      notice('Session Signed Out');
-      const { active, expired } = this.state.sessions;
-      const activeIndex = active.findIndex(
-        s => s.authenticationKey === session.authenticationKey,
-      );
+  endSession = async () => {
+    const session = this.sessionToEnd;
+    this.setState({ isDeleting: true });
 
-      this.setState({
-        sessions: {
-          active: [
-            ...active.slice(0, activeIndex),
-            ...active.slice(activeIndex + 1),
-          ],
-          expired: [...expired, { ...session, expiredAt: moment() }],
-        },
+    return EndSessionRequest(session.authenticationKey)
+      .then(resp => {
+        if (resp.ok) {
+          notice('Session Signed Out');
+          const { active, expired } = this.state.sessions;
+          const activeIndex = active.findIndex(
+            s => s.authenticationKey === session.authenticationKey,
+          );
+
+          this.setState({
+            isDeleting: false,
+            showDeleteConfirmation: false,
+            sessions: {
+              active: [
+                ...active.slice(0, activeIndex),
+                ...active.slice(activeIndex + 1),
+              ],
+              expired: [...expired, { ...session, expiredAt: moment() }],
+            },
+          });
+        }
+      })
+      .catch(() => {
+        this.setState({
+          isDeleting: false,
+          showDeleteConfirmation: false,
+        });
+        error('Something went wrong');
       });
-    }
-  };
-
-  expiredDataSource = (sessions, currentTime) => {
-    return sessions.map((session, key) => {
-      return {
-        key,
-        browser: this.browser(session),
-        sign_in: this.sessionDate(session.createdAt),
-        sign_out: this.sessionDate(session.expiredAt),
-        ip: session.ipAddress,
-      };
-    });
-  };
-
-  activeDataSource = (sessions, currentTime) => {
-    return orderBy(
-      sessions.map((session, key) => {
-        const isCurrent =
-          session.authenticationToken ===
-          localStorage.getItem('_budgetal_session');
-
-        const signOut = isCurrent ? (
-          '(Current Session)'
-        ) : (
-          <Button
-            className="delete-btn"
-            onClick={() => this.handleOnClick(session)}
-          >
-            End Session
-          </Button>
-        );
-        return {
-          key,
-          browser: this.browser(session),
-          sign_in: this.sessionDate(session.createdAt),
-          sign_out: signOut,
-          orderKey: moment(session.createdAt).unix(),
-        };
-      }),
-      ['orderKey'],
-      ['desc'],
-    );
   };
 
   render() {
-    const { loading } = this.state;
+    const { loading, sessions } = this.state;
+    const currentToken = localStorage.getItem('_budgetal_session');
+
     return (
-      <div>
-        <Table
-          dataSource={this.activeDataSource(
-            this.state.sessions.active,
-            this.state.currentTime,
+      <Pane marginTop={16}>
+        <Pane
+          background="white"
+          border="muted"
+          borderRadius={16}
+          marginBottom={32}
+        >
+          <Heading size={600} padding={16}>
+            Active Sessions
+          </Heading>
+          <Spinner visible={loading} />
+          {!loading && (
+            <Table>
+              <Table.Head accountForScrollbar>
+                <Table.TextHeaderCell>Device</Table.TextHeaderCell>
+                <Table.TextHeaderCell>IP Address</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Signed In</Table.TextHeaderCell>
+                <Table.TextHeaderCell />
+              </Table.Head>
+              <Table.Body>
+                {sessions.active.map(session => (
+                  <Table.Row key={`${session.authenticationKey}`}>
+                    <Table.TextCell>{this.browser(session)}</Table.TextCell>
+                    <Table.TextCell isNumber>
+                      {session.ipAddress}
+                    </Table.TextCell>
+                    <Table.TextCell>
+                      {this.sessionDate(session.createdAt)}
+                    </Table.TextCell>
+                    <Table.TextCell align="right" marginRight={16}>
+                      {session.authenticationToken === currentToken ? (
+                        '(Current Session)'
+                      ) : (
+                        <Button
+                          height={32}
+                          iconBefore="log-out"
+                          intent="danger"
+                          onClick={() => this.handleOnClick(session)}
+                        >
+                          End Session
+                        </Button>
+                      )}
+                    </Table.TextCell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
           )}
-          loading={loading}
-          title={() => {
-            return <b>Active Sessions</b>;
-          }}
-          pagination={false}
-          locale={{ emptyText: "You don't have any active sessions." }}
-          columns={activeHeaders}
-        />
-        <br />
-        <Table
-          dataSource={this.expiredDataSource(
-            this.state.sessions.expired,
-            this.state.currentTime,
+        </Pane>
+
+        <Pane background="white" border="muted" borderRadius={16}>
+          <Heading size={600} padding={16}>
+            Expired Sessions (last 10)
+          </Heading>
+          <Spinner visible={loading} />
+          {!loading && (
+            <Table>
+              <Table.Head accountForScrollbar>
+                <Table.TextHeaderCell>Device</Table.TextHeaderCell>
+                <Table.TextHeaderCell>IP Address</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Signed In</Table.TextHeaderCell>
+                <Table.TextHeaderCell>Signed Out</Table.TextHeaderCell>
+              </Table.Head>
+              <Table.Body>
+                {sessions.expired.map(session => (
+                  <Table.Row key={`${session.authenticationKey}`}>
+                    <Table.TextCell>{this.browser(session)}</Table.TextCell>
+                    <Table.TextCell isNumber>
+                      {session.ipAddress}
+                    </Table.TextCell>
+                    <Table.TextCell>
+                      {this.sessionDate(session.createdAt)}
+                    </Table.TextCell>
+                    <Table.TextCell>
+                      {this.sessionDate(session.expiredAt)}
+                    </Table.TextCell>
+                  </Table.Row>
+                ))}
+                {sessions.expired.length === 0 && (
+                  <Table.Row>
+                    <Table.TextCell>
+                      You don't have any expired sessions yet.
+                    </Table.TextCell>
+                  </Table.Row>
+                )}
+              </Table.Body>
+            </Table>
           )}
-          loading={loading}
-          title={() => {
-            return <b>Expired Sessions (last 10)</b>;
+        </Pane>
+
+        <DeleteConfirmation
+          title="End Session?"
+          message={
+            <Text display="block">
+              <Text>Are you sure you want to end this session?</Text>
+              <Text display="block" marginTop={8}>
+                This will sign out the device using it. And you will need to
+                sign in again on that device.
+              </Text>
+            </Text>
+          }
+          isShown={this.state.showDeleteConfirmation}
+          isConfirmLoading={this.state.isDeleting}
+          onConfirm={this.endSession}
+          onCloseComplete={() => {
+            this.setState({ showDeleteConfirmation: false });
           }}
-          pagination={false}
-          locale={{ emptyText: "You don't have any expired sessions yet." }}
-          columns={expiredHeaders}
         />
-      </div>
+      </Pane>
     );
   }
 }
