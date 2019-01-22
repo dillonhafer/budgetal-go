@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Paragraph, Pane, Text, Dialog } from 'evergreen-ui';
 import { Link } from 'react-router-dom';
-import { colors } from '@shared/theme';
 const HELP_FRAME = process.env.REACT_APP_HELP_FRAME || '';
 
 export default class Footer extends Component {
@@ -60,18 +59,16 @@ export default class Footer extends Component {
           hasFooter={false}
           onOk={this.handleHelpClose}
           onCancel={this.handleHelpClose}
-          padding={0}
+          sideOffset={'0px'}
         >
           <iframe
             style={{
-              background: colors.primary,
               width: '100%',
               border: 'none',
-              minHeight: '975px',
+              minHeight: '810px',
             }}
             title="help"
             src={HELP_FRAME}
-            className="help-frame"
           />
         </Dialog>
         <Paragraph>Version 2.1.0 (47)</Paragraph>
