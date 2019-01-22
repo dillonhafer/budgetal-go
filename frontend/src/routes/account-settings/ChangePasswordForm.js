@@ -24,6 +24,12 @@ const changePasswordValidations = Yup.object().shape({
   currentPassword: Yup.string().required('Your Current Password is required'),
 });
 
+const initialValues = {
+  password: '',
+  passwordConfirmation: '',
+  currentPassword: '',
+};
+
 class ChangePasswordForm extends Component {
   savePassword = async ({ password, currentPassword }, setSubmitting) => {
     setSubmitting(true);
@@ -42,14 +48,6 @@ class ChangePasswordForm extends Component {
 
   handleSubmit = (values, { setSubmitting, resetForm }) => {
     return this.savePassword(values, setSubmitting).then(resetForm);
-  };
-
-  checkPasswordConfirmation = (rule, value, callback) => {
-    const { getFieldValue } = this.props.form;
-    if (value && value !== getFieldValue('password')) {
-      callback("Passwords don't match");
-    }
-    callback();
   };
 
   renderForm = ({
@@ -123,11 +121,7 @@ class ChangePasswordForm extends Component {
     return (
       <Pane width={350}>
         <Formik
-          initialValues={{
-            password: '',
-            passwordConfirmation: '',
-            currentPassword: '',
-          }}
+          initialValues={initialValues}
           onSubmit={this.handleSubmit}
           validationSchema={changePasswordValidations}
           render={this.renderForm}
