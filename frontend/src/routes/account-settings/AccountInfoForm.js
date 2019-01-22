@@ -248,6 +248,7 @@ class AccountInfoForm extends PureComponent {
             flexDirection="column"
             width={200}
             alignItems="center"
+            data-image-container="true"
           >
             <Pane display="none">
               <input
