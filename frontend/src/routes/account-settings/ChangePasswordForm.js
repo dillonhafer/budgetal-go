@@ -74,6 +74,7 @@ class ChangePasswordForm extends Component {
         <TextInputField
           label="New Password"
           name="password"
+          required
           autoComplete="new-password"
           type="password"
           onChange={handleChange}
@@ -82,6 +83,7 @@ class ChangePasswordForm extends Component {
           {...validationMessages(errors.password, touched.password)}
         />
         <TextInputField
+          required
           label="Password Confirmation"
           name="passwordConfirmation"
           autoComplete="new-password"
@@ -99,6 +101,7 @@ class ChangePasswordForm extends Component {
           name="currentPassword"
           autoComplete="current-password"
           type="password"
+          required
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.currentPassword}

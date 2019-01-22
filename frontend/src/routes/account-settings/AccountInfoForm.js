@@ -1,71 +1,74 @@
-import React from 'react';
-import { notice, error } from 'window';
-import { UpdateAccountInfoRequest } from '@shared/api/users';
-import { GetCurrentUser } from 'authentication';
-import { get, round, assign } from 'lodash';
-import { Col, Form, Icon, Input, Modal, Row, Upload } from 'antd';
-import { SetCurrentUser } from 'authentication';
-import { Pane, Button } from 'evergreen-ui';
+import React, { PureComponent } from 'react';
 
-class AccountInfoForm extends React.Component {
-  constructor(props) {
-    super(props);
-    const user = GetCurrentUser();
-    this.state = {
-      user,
-      loading: false,
-      previewVisible: false,
-      previewImage: '',
-      fileList: [
-        {
-          uid: -1,
-          name: '',
-          status: 'done',
-          url: user.avatarUrl,
-        },
-      ],
-    };
+// API
+import { UpdateAccountInfoRequest } from '@shared/api/users';
+
+// Components
+import { Avatar, Button, Dialog, Pane, TextInputField } from 'evergreen-ui';
+import Form, { validationMessages } from 'components/Form';
+
+// Helpers
+import { notice, error } from 'window';
+import { GetCurrentUser } from 'authentication';
+import { round, assign } from 'lodash';
+import { SetCurrentUser } from 'authentication';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import './image.css';
+
+const accountInfoValidations = Yup.object().shape({
+  firstName: Yup.string(),
+  lastName: Yup.string(),
+  email: Yup.string().email(),
+  currentPassword: Yup.string().required('Your Current Password is required'),
+});
+
+const ProfileImage = ({ user, onClick }) => {
+  let src = { src: '/missing-profile.png' };
+
+  if (user.avatarUrl) {
+    src.src = user.avatarUrl;
   }
 
+  if (user.avatarUrl.slice(0, 4) !== 'data') {
+    if (process.env.NODE_ENV === 'development' && user.avatarUrl) {
+      src.src = new URL(user.avatarUrl).pathname;
+    }
+
+    if (/.*missing-profile.*/.test(src)) {
+      src = {};
+    }
+  }
+
+  return (
+    <Avatar
+      cursor="pointer"
+      onClick={onClick}
+      {...src}
+      name={`${user.firstName || '?'} ${user.lastName || '?'}`}
+      size={160}
+    />
+  );
+};
+
+class AccountInfoForm extends PureComponent {
+  state = {
+    user: { ...GetCurrentUser(), currentPassword: '' },
+    loading: false,
+    confirmPasswordVisible: false,
+  };
+
   handleCancel = () => {
-    this.props.form.resetFields();
-    this.setState({ previewVisible: false, confirmPasswordVisible: false });
-  };
-
-  handlePreview = file => {
     this.setState({
-      previewImage: file.url || file.thumbUrl,
-      previewVisible: true,
+      confirmPasswordVisible: false,
     });
   };
 
-  handleChange = p => {
-    this.setState({ fileList: p.fileList });
-  };
-
-  update = e => {
-    const user = Object.assign({}, this.state.user, {
-      [e.target.id]: e.target.value,
-    });
-    this.setState({ user });
-  };
-
-  save = async values => {
-    let data = new FormData();
-    data.append('firstName', values.firstName);
-    data.append('lastName', values.lastName);
-    data.append('email', values.email);
-    data.append('password', values.current_password);
-    if (this.state.file) {
-      data.append('avatar', this.state.file);
+  handleChange = e => {
+    if (e.target.files.length > 0) {
+      this.handleFile(e.target.files[0]);
     }
-
-    const resp = await UpdateAccountInfoRequest(data);
-    if (resp && resp.ok) {
-      notice('Account Updated');
-      SetCurrentUser(resp.user);
-    }
-    return resp;
   };
 
   handleFile = file => {
@@ -78,212 +81,200 @@ class AccountInfoForm extends React.Component {
     } else {
       reader.onload = upload => {
         const user = assign({}, this.state.user, {
-          avatar: upload.target.result,
+          avatarUrl: upload.target.result,
         });
-        const fileList = [
-          {
-            uid: -1,
-            name: file.name,
-            status: 'done',
-            url: user.avatar,
-          },
-        ];
-        this.setState({ user, fileList });
+        this.setState({ user });
       };
 
       reader.readAsDataURL(file);
     }
   };
 
-  handleOnOk = e => {
-    if (e) e.preventDefault();
-
-    this.props.form.validateFields(async (err, values) => {
-      try {
-        this.setState({ loading: true });
-        if (!err) {
-          const r = await this.save(values);
-          if (r.ok) {
-            this.handleCancel();
-          }
-        } else {
-          error('Please check form for errors');
-        }
-      } catch (err) {
-        console.log(err);
-      } finally {
-        this.setState({ loading: false });
-      }
-    });
+  handleSubmit = (
+    values,
+    { setSubmitting, resetForm, setTouched, setValues },
+  ) => {
+    setSubmitting(true);
+    return this.save(values, setSubmitting)
+      .then(this.handleCancel)
+      .then(() => {
+        setTouched({ currentPassword: false });
+        setValues({ ...this.state.user, currentPassword: '' });
+      });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  save = async (values, setSubmitting) => {
+    let data = new FormData();
+    data.append('firstName', values.firstName);
+    data.append('lastName', values.lastName);
+    data.append('email', values.email);
+    data.append('password', values.currentPassword);
+
+    if (this.state.file) {
+      data.append('avatar', this.state.file);
+    }
+
+    return UpdateAccountInfoRequest(data)
+      .then(resp => {
+        if (resp.ok) {
+          notice('Account Updated');
+          this.setState({ user: { ...this.state.user, ...resp.user } });
+          SetCurrentUser(resp.user);
+        } else {
+          error(resp.error);
+        }
+        setSubmitting(false);
+      })
+      .catch(() => {
+        error('Something went wrong');
+        setSubmitting(false);
+      });
+  };
+
+  confirmPassword = () => {
     this.setState({ confirmPasswordVisible: true });
   };
 
-  uploadButton = (
-    <div>
-      <Icon type="plus" />
-      <div className="ant-upload-text">Upload</div>
-    </div>
-  );
+  renderForm = ({
+    values,
+    touched,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    setSubmitting,
+    handleSubmit,
+    setValues,
+  }) => {
+    const user = GetCurrentUser();
 
-  formItemLayout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
+    return (
+      <Form onSubmit={handleSubmit}>
+        <Pane display="none">
+          <input
+            type="email"
+            name="email"
+            autoComplete="username"
+            defaultValue={user.email}
+          />
+        </Pane>
+        <TextInputField
+          label="First Name"
+          name="firstName"
+          autoComplete="given-name"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.firstName}
+          {...validationMessages(errors.firstName, touched.firstName)}
+        />
+        <TextInputField
+          label="Last Name"
+          name="lastName"
+          autoComplete="family-name"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.lastName}
+          {...validationMessages(errors.lastName, touched.lastName)}
+        />
+        <TextInputField
+          label="Email"
+          name="email"
+          autoComplete="username"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.email}
+          required
+          {...validationMessages(errors.email, touched.email)}
+        />
+        <Dialog
+          preventBodyScrolling
+          isShown={this.state.confirmPasswordVisible}
+          title="Confirm Password"
+          width={300}
+          isConfirmLoading={isSubmitting}
+          cancelText="Close"
+          onConfirm={handleSubmit}
+          onCloseComplete={this.handleCancel}
+          confirmLabel={isSubmitting ? 'Loading...' : 'Confirm Password'}
+        >
+          <Form onSubmit={handleSubmit}>
+            <Pane display="none">
+              <input
+                type="email"
+                autoComplete="username"
+                defaultValue={values.email}
+              />
+            </Pane>
+            <TextInputField
+              autoFocus
+              label="Current Password"
+              id="currentPassword"
+              name="currentPassword"
+              autoComplete="current-password"
+              type="password"
+              required
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.currentPassword}
+              {...validationMessages(
+                errors.currentPassword,
+                touched.currentPassword,
+              )}
+            />
+          </Form>
+        </Dialog>
+
+        <Pane display="flex" flexDirection="column" alignItems="flex-end">
+          <Button
+            height={40}
+            type="button"
+            onClick={this.confirmPassword}
+            appearance="primary"
+          >
+            Update Account Info
+          </Button>
+        </Pane>
+      </Form>
+    );
   };
 
   render() {
-    const { previewVisible, previewImage, fileList } = this.state;
-    const uploadButton = get({ 0: this.uploadButton }, fileList.length, null);
-    const user = this.state.user;
-    const { getFieldDecorator } = this.props.form;
-
     return (
-      <Row>
-        <div className="body-row account-settings clearfix">
-          <Form layout="horizontal" onSubmit={this.handleSubmit}>
-            <Col md={8} xs={24} sm={24} className="text-center">
-              <div style={{ textAlign: 'center' }}>
-                <Upload
-                  action="/"
-                  accept="image/*"
-                  beforeUpload={file => {
-                    this.handleFile(file);
-                    return false;
-                  }}
-                  listType="picture-card"
-                  fileList={fileList}
-                  onPreview={this.handlePreview}
-                  onChange={this.handleChange}
-                >
-                  {uploadButton}
-                </Upload>
-              </div>
-              <Modal
-                visible={previewVisible}
-                footer={null}
-                onCancel={this.handleCancel}
-              >
-                <img
-                  alt="avatar"
-                  style={{ width: '100%' }}
-                  onError={e => {
-                    e.target.src = '/missing-profile.png';
-                  }}
-                  src={previewImage}
-                />
-              </Modal>
-            </Col>
-            <Col md={16}>
-              <Form.Item
-                {...this.formItemLayout}
-                label="First Name"
-                hasFeedback
-              >
-                {getFieldDecorator('firstName', {
-                  initialValue: user.firstName,
-                  onChange: this.update,
-                  rules: [
-                    {
-                      required: true,
-                      message: 'First Name is required',
-                    },
-                  ],
-                })(
-                  <Input
-                    autoComplete="given-name"
-                    addonBefore={<Icon type="user" />}
-                  />,
-                )}
-              </Form.Item>
-              <Form.Item {...this.formItemLayout} label="Last Name" hasFeedback>
-                {getFieldDecorator('lastName', {
-                  initialValue: user.lastName,
-                  onChange: this.update,
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Last Name is required',
-                    },
-                  ],
-                })(
-                  <Input
-                    autoComplete="family-name"
-                    addonBefore={<Icon type="user" />}
-                  />,
-                )}
-              </Form.Item>
-              <Form.Item {...this.formItemLayout} label="Email" hasFeedback>
-                {getFieldDecorator('email', {
-                  initialValue: user.email,
-                  onChange: this.update,
-                  rules: [
-                    {
-                      type: 'email',
-                      message: 'That does not look like a valid E-mail!',
-                    },
-                    {
-                      required: true,
-                      message: 'E-mail is required',
-                    },
-                  ],
-                })(
-                  <Input
-                    autoComplete="username"
-                    addonBefore={<Icon type="mail" />}
-                    type="email"
-                  />,
-                )}
-              </Form.Item>
-              <Form.Item>
-                <Pane
-                  display="flex"
-                  flexDirection="column"
-                  alignItems="flex-end"
-                >
-                  <Button height={40} appearance="primary">
-                    Update Account Info
-                  </Button>
-                </Pane>
-              </Form.Item>
-            </Col>
-          </Form>
-          <Modal
-            width="300px"
-            title="Confirm Password To Continue"
-            confirmLoading={this.state.loading}
-            visible={this.state.confirmPasswordVisible}
-            onOk={this.handleOnOk}
-            okText="Confirm Password"
-            cancelText="Cancel"
-            onCancel={this.handleCancel}
+      <Pane>
+        <Pane display="flex" flexDirection="row">
+          <Pane
+            marginRight={32}
+            display="flex"
+            flexDirection="column"
+            width={200}
+            alignItems="center"
           >
-            <Form onSubmit={this.handleOnOk}>
-              <Form.Item label="Password" hasFeedback>
-                {this.props.form.getFieldDecorator('current_password', {
-                  onChange: this.update,
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Current Password is required',
-                    },
-                  ],
-                })(
-                  <Input
-                    autoComplete="current-password"
-                    addonBefore={<Icon type="lock" />}
-                    type="password"
-                  />,
-                )}
-              </Form.Item>
-            </Form>
-          </Modal>
-        </div>
-      </Row>
+            <Pane display="none">
+              <input
+                ref={f => (this.fileField = f)}
+                type="file"
+                onChange={this.handleChange}
+              />
+            </Pane>
+            <ProfileImage
+              onClick={() => {
+                this.fileField.click();
+              }}
+              user={this.state.user}
+            />
+          </Pane>
+          <Pane flex="1" flexDirection="column">
+            <Formik
+              initialValues={this.state.user}
+              onSubmit={this.handleSubmit}
+              validationSchema={accountInfoValidations}
+              render={this.renderForm}
+            />
+          </Pane>
+        </Pane>
+      </Pane>
     );
   }
 }
 
-export default Form.create()(AccountInfoForm);
+export default AccountInfoForm;
