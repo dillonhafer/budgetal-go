@@ -5,7 +5,6 @@ import { Alert, Icon, Pane, Paragraph, Strong, Text } from 'evergreen-ui';
 
 class ImportField extends PureComponent {
   static propTypes = {
-    display: PropTypes.oneOf(['none', 'block']).isRequired,
     parseCSV: PropTypes.func.isRequired,
     error: PropTypes.string.isRequired,
   };
@@ -17,10 +16,10 @@ class ImportField extends PureComponent {
   };
 
   render() {
-    const { display, parseCSV } = this.props;
+    const { parseCSV } = this.props;
 
     return (
-      <Pane display={display}>
+      <Pane>
         {this.errors()}
         <Pane
           cursor="pointer"

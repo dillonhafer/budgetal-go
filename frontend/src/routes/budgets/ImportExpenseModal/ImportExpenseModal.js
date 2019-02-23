@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import Papa from 'papaparse';
-import { currencyf } from '@shared/helpers';
+import { currencyf, pluralize } from '@shared/helpers';
 import moment from 'moment';
 import { groupBy } from 'lodash';
 
@@ -164,13 +164,16 @@ class ImportExpenseModal extends PureComponent {
 
     const width = rows.length > 0 ? 900 : 400;
     const showTable = parsingComplete && rows.length > 0;
-    const display =
-      parsing || (parsingComplete && showTable) ? 'none' : 'block';
+    const displayFilePicker =
+      parsing || (parsingComplete && showTable) ? false : true;
 
+    const title = rows.length
+      ? `Import Expenses - ${pluralize(rows.length, 'Expense', 'Expenses')}`
+      : 'Import Expenses';
     return (
       <Dialog
         preventBodyScrolling
-        title="Import Expenses"
+        title={title}
         isShown={this.props.hidden}
         width={width}
         hasFooter={false}
@@ -221,12 +224,12 @@ class ImportExpenseModal extends PureComponent {
               </Table.Body>
             </Table>
           )}
-
-          <ImportField
-            display={display}
-            error={this.state.csvError}
-            parseCSV={this.parseFile}
-          />
+          {displayFilePicker && (
+            <ImportField
+              error={this.state.csvError}
+              parseCSV={this.parseFile}
+            />
+          )}
         </Pane>
       </Dialog>
     );
