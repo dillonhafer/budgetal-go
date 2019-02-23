@@ -9,7 +9,15 @@ import { importedExpense } from 'actions/budget-item-expenses';
 import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
 
 // Components
-import { IconButton, Pane, Select, Tooltip } from 'evergreen-ui';
+import {
+  Button,
+  Icon,
+  IconButton,
+  Pane,
+  Select,
+  Spinner,
+  Tooltip,
+} from 'evergreen-ui';
 
 // Helpers
 import { notice, error } from 'window';
@@ -29,29 +37,30 @@ class ImportExpenseForm extends PureComponent {
     return this.state.itemId === 0;
   };
 
-  save = async () => {
+  save = () => {
     this.setState({ loading: true });
     const expense = this.props.expense;
     if (!this.disabled()) {
-      try {
-        const resp = await CreateExpenseRequest({
-          budgetItemId: this.state.itemId,
-          date: expense.date,
-          name: expense.name,
-          amount: cleanCurrencyString(expense.amount),
-        });
-        if (!!resp.errors) {
-          error('Something went wrong');
+      CreateExpenseRequest({
+        budgetItemId: this.state.itemId,
+        date: expense.date,
+        name: expense.name,
+        amount: cleanCurrencyString(expense.amount),
+      })
+        .then(resp => {
+          if (!!resp.errors) {
+            error('Something went wrong');
+            this.setState({ loading: false });
+          } else {
+            notice(`Saved Expense`);
+            this.props.removeExpense(expense);
+            this.props.importedExpense(resp.budgetItemExpense);
+          }
+        })
+        .catch(err => {
+          error(err.message);
           this.setState({ loading: false });
-        } else {
-          notice(`Saved Expense`);
-          this.props.removeExpense(expense);
-          this.props.importedExpense(resp.budgetItemExpense);
-        }
-      } catch (err) {
-        error(err.message);
-        this.setState({ loading: false });
-      }
+        });
     }
   };
 
@@ -94,13 +103,16 @@ class ImportExpenseForm extends PureComponent {
           </Pane>
         </Pane>
         <Pane marginX={8}>
-          <IconButton
-            icon="plus"
+          <Button
             intent="success"
             appearance="primary"
             onClick={this.save}
             disabled={disabled}
-          />
+            paddingLeft={8}
+            paddingRight={8}
+          >
+            {this.state.loading ? <Spinner size={16} /> : <Icon icon="plus" />}
+          </Button>
         </Pane>
         <Pane>
           <Tooltip content="Skip Importing">
