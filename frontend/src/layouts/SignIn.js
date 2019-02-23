@@ -1,130 +1,112 @@
 import React, { Component } from 'react';
 
-import { Modal, Icon, Tabs, Row, Col } from 'antd';
-
 import RegisterForm from './RegisterForm';
 import PasswordResetForm from './PasswordResetForm';
 import SignInForm from './SignInForm';
-import { colors } from '@shared/theme';
-import { Pane } from 'evergreen-ui';
-
-const TabPane = Tabs.TabPane;
-
-const styles = {
-  anchor: {
-    border: 'none',
-    background: 'none',
-    outline: 'none',
-    color: colors.primary,
-    cursor: 'pointer',
-  },
-};
+import { Button, Pane, Dialog } from 'evergreen-ui';
 
 class SignIn extends Component {
   state = {
     visible: false,
-    activeKey: '2',
+    activeTab: '2',
     title: 'Sign In',
   };
 
   openModal = () => {
-    this.setState({ activeKey: '2', title: 'Sign In', visible: true });
+    this.setState({ activeTab: '2', title: 'Sign In', visible: true });
   };
 
   closeModal = () => {
     this.setState({ visible: false });
   };
 
-  forgotPassword = () => {
-    this.setState({ activeKey: '1', title: 'Forgot Password' });
+  forgotPassword = e => {
+    e.target.blur();
+    this.setState({ activeTab: '1', title: 'Forgot Password' });
   };
-  signIn = () => {
-    this.setState({ activeKey: '2', title: 'Sign In' });
+  signIn = e => {
+    e.target.blur();
+    this.setState({ activeTab: '2', title: 'Sign In' });
   };
-  register = () => {
-    this.setState({ activeKey: '3', title: 'Register' });
+  register = e => {
+    e.target.blur();
+    this.setState({ activeTab: '3', title: 'Register' });
   };
 
   render() {
-    const { activeKey, title } = this.state;
+    const { activeTab, title } = this.state;
+    console.log(this.state);
     return (
-      <div onClick={this.openModal}>
-        Sign In
-        <Modal
-          title={title}
-          wrapClassName="vertical-center-modal sign-in-modal"
-          footer={null}
+      <div>
+        <div onClick={this.openModal}>Sign In</div>
+        <Dialog
           width={350}
-          visible={this.state.visible}
+          isShown={this.state.visible}
+          title={title}
+          onCloseComplete={this.closeModal}
+          preventBodyScrolling
           onCancel={this.closeModal}
+          hasFooter={false}
         >
-          <Tabs activeKey={activeKey} defaultActiveKey="2" size="small">
-            <TabPane tab="Tab 1" key="1">
-              <PasswordResetForm />
-              <Row>
-                <Col span={24}>
-                  <Pane
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="flex-end"
-                  >
-                    <button
-                      onClick={this.signIn}
-                      style={styles.anchor}
-                      className="sign-in-form-sign-up"
-                    >
-                      Sign In <Icon type="right" />
-                    </button>
-                  </Pane>
-                </Col>
-              </Row>
-            </TabPane>
-
-            <TabPane tab="Tab 2" key="2">
-              <SignInForm resetSignIn={this.props.resetSignIn} />
-              <Row>
-                <Col span={12}>
-                  <button
-                    style={styles.anchor}
-                    onClick={this.forgotPassword}
-                    className="sign-sin-form-forgot"
-                  >
-                    <Icon type="left" /> Forgot password
-                  </button>
-                </Col>
-                <Col span={12}>
-                  <Pane
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="flex-end"
-                  >
-                    <button
-                      onClick={this.register}
-                      style={styles.anchor}
-                      className="sign-in-form-sign-up"
-                    >
-                      Register <Icon type="right" />
-                    </button>
-                  </Pane>
-                </Col>
-              </Row>
-            </TabPane>
-            <TabPane tab="Tab 3" key="3">
-              <RegisterForm resetSignIn={this.props.resetSignIn} />
-              <Row>
-                <Col span={24}>
-                  <button
-                    style={styles.anchor}
+          <Pane>
+            {activeTab === '1' && (
+              <Pane>
+                <PasswordResetForm closeModal={this.closeModal} />
+                <Pane
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="flex-end"
+                >
+                  <Button
                     onClick={this.signIn}
-                    className="sign-sin-form-forgot"
+                    iconAfter="chevron-right"
+                    height={24}
                   >
-                    <Icon type="left" /> Sign In
-                  </button>
-                </Col>
-              </Row>
-            </TabPane>
-          </Tabs>
-        </Modal>
+                    Sign In
+                  </Button>
+                </Pane>
+              </Pane>
+            )}
+            {activeTab === '2' && (
+              <Pane>
+                <SignInForm resetSignIn={this.props.resetSignIn} />
+                <Pane
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  flexDirection="row"
+                >
+                  <Button
+                    onClick={this.forgotPassword}
+                    iconBefore="chevron-left"
+                    height={24}
+                  >
+                    Forgot password
+                  </Button>
+                  <Button
+                    onClick={this.register}
+                    iconAfter="chevron-right"
+                    height={24}
+                  >
+                    Register
+                  </Button>
+                </Pane>
+              </Pane>
+            )}
+            {activeTab === '3' && (
+              <Pane>
+                <RegisterForm resetSignIn={this.props.resetSignIn} />
+                <Button
+                  onClick={this.signIn}
+                  iconBefore="chevron-left"
+                  height={24}
+                >
+                  Sign In
+                </Button>
+              </Pane>
+            )}
+          </Pane>
+        </Dialog>
       </div>
     );
   }

@@ -1,64 +1,99 @@
 import React, { Component } from 'react';
 
+// API
 import { PasswordResetRequest } from '@shared/api/users';
 
-// Antd
-import { Form, Input, Button, Icon } from 'antd';
+// Helpers
 import { notice } from 'window';
 
-const FormItem = Form.Item;
+// Components
+import { Pane, Button, Spinner, TextInputField } from 'evergreen-ui';
+import Form, { validationMessages } from 'components/Form';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+
+const defaultValues = {
+  email: '',
+};
+const passwordResetValidation = Yup.object().shape({
+  email: Yup.string()
+    .email('E-mail Address is invalid')
+    .required('E-mail Address is required'),
+});
 
 class PasswordResetForm extends Component {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        PasswordResetRequest(values);
-        this.props.form.resetFields();
+  handleSubmit = (values, { setSubmitting, resetForm }) => {
+    PasswordResetRequest(values)
+      .then(() => {
+        console.log('doneererew');
+        setSubmitting(false);
+        resetForm();
         notice(
           'We sent you an email with instructions on resetting your password',
         );
-        document.querySelector('.ant-modal-close-x').click();
-      }
-    });
+        this.props.closeModal();
+      })
+      .catch(() => {
+        setSubmitting(false);
+      });
+  };
+
+  renderForm = ({
+    values,
+    touched,
+    errors,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  }) => {
+    return (
+      <Form onSubmit={handleSubmit}>
+        <TextInputField
+          label="E-mail Address"
+          name="email"
+          required
+          autoComplete="username"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.email}
+          {...validationMessages(errors.email, touched.email)}
+        />
+
+        <Button
+          disabled={isSubmitting}
+          height={40}
+          type="submit"
+          appearance="primary"
+          width="100%"
+          display="inline-block"
+          textAlign="center"
+          marginBottom={32}
+        >
+          <Pane
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            {isSubmitting && <Spinner size={16} marginRight={8} />}
+            {isSubmitting ? 'Loading...' : 'Request Password Reset'}
+          </Pane>
+        </Button>
+      </Form>
+    );
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
     return (
-      <Form
+      <Formik
+        initialValues={defaultValues}
         onSubmit={this.handleSubmit}
-        name="resetPassword"
-        className="reset-password"
-      >
-        <FormItem hasFeedback={true}>
-          {getFieldDecorator('email', {
-            rules: [
-              { required: true, message: 'E-mail Address is required' },
-              { pattern: /.+@.+/, message: 'E-mail Address is invalid' },
-            ],
-          })(
-            <Input
-              prefix={<Icon type="mail" style={{ fontSize: 13 }} />}
-              type="email"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
-              placeholder="E-mail Address"
-            />,
-          )}
-        </FormItem>
-        <FormItem>
-          <Button
-            type="primary"
-            htmlType="submit"
-            className="sign-in-form-button"
-          >
-            Request Password Reset
-          </Button>
-        </FormItem>
-      </Form>
+        validationSchema={passwordResetValidation}
+        render={this.renderForm}
+      />
     );
   }
 }
-export default Form.create()(PasswordResetForm);
+
+export default PasswordResetForm;
