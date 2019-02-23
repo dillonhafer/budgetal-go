@@ -119,9 +119,13 @@ class SessionsTable extends PureComponent {
     return (
       <div
         className="ua-icons"
-        style={{ display: 'flex', alignItems: 'center' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
       >
-        {uaIcons[icon]}
+        <Pane>{uaIcons[icon]}</Pane>
         {hua}
         {session.deviceName ? ` - ${session.deviceName}` : ''}
       </div>

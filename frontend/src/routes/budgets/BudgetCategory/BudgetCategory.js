@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 // Components
 import BudgetItemList from '../BudgetItemList';
-import Progress from 'components/Progress';
+import SpentProgress from 'components/Progress/SpentProgress';
 import { Dialog, Alert, Text, Heading, Pane, Button } from 'evergreen-ui';
 
 // Helpers
 import { ImportCategoryRequest } from '@shared/api/budgets';
 import { notice, error } from 'window';
-import { monthName, currencyf, reduceSum } from '@shared/helpers';
+import { monthName, reduceSum } from '@shared/helpers';
 import './budget-category.css';
 
 class BudgetCategory extends Component {
@@ -140,20 +140,12 @@ class BudgetCategory extends Component {
 
         <Pane border="muted" padding={16}>
           <Pane>
-            <Pane marginBottom={16} display="flex" flexDirection="column">
-              <Pane
-                display="flex"
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <h3>Spent: {currencyf(spent)}</h3>
-                <h3>Remaining: {currencyf(remaining)}</h3>
-              </Pane>
-              <Progress
-                strokeWidth={20}
+            <Pane marginBottom={16}>
+              <SpentProgress
                 status={status}
                 percent={percentSpent}
+                spent={spent}
+                remaining={remaining}
               />
             </Pane>
             <BudgetItemList />

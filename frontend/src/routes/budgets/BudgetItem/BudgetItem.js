@@ -14,7 +14,7 @@ import { notice, error } from 'window';
 import ProgressCircle from 'components/Progress/Circle';
 import DeleteConfirmation from 'components/DeleteConfirmation';
 import { colors } from '@shared/theme';
-import { Pane, Button, Icon } from 'evergreen-ui';
+import { Strong, Paragraph, Pane, Button, Icon } from 'evergreen-ui';
 
 class BudgetItem extends Component {
   state = {
@@ -115,21 +115,22 @@ class BudgetItem extends Component {
               justifyContent="center"
             >
               <Pane>
-                <div className="text-center">
+                <Pane textAlign="center">
                   <ProgressCircle
                     size="lg"
                     color={color}
                     percent={percent}
                     text={text}
                   />
-                </div>
+                </Pane>
               </Pane>
               <Pane>
-                <p className="text-center">
-                  You have spent <b>{currencyf(this.amountSpent())}</b> of{' '}
-                  <b>{currencyf(item.amount)}</b>.
-                </p>
-                <p className="text-center">{msg}</p>
+                <Paragraph textAlign="center">
+                  You have spent{' '}
+                  <Strong>{currencyf(this.amountSpent())}</Strong> of{' '}
+                  <Strong>{currencyf(item.amount)}</Strong>.
+                </Paragraph>
+                <Paragraph textAlign="center">{msg}</Paragraph>
               </Pane>
             </Pane>
           </Pane>

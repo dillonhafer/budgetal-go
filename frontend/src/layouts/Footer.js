@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { Paragraph, Pane, Text, Dialog } from 'evergreen-ui';
-import { Link } from 'react-router-dom';
+import { Link, Paragraph, Pane, Text, Dialog } from 'evergreen-ui';
+import { withRouter } from 'react-router';
 const HELP_FRAME = process.env.REACT_APP_HELP_FRAME || '';
 
-export default class Footer extends Component {
+class Footer extends Component {
   state = {
     showHelpModal: false,
+  };
+
+  handlePrivacyClick = () => {
+    this.props.history.push('/privacy');
   };
 
   handleHelpClick = () => {
@@ -24,33 +28,17 @@ export default class Footer extends Component {
           {new Date().getFullYear()} All rights reserved
         </Text>
         <Paragraph>
-          <Link
-            style={{
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              color: '#444',
-            }}
-            to="/privacy"
-          >
-            Privacy
-          </Link>{' '}
+          <Text onClick={this.handlePrivacyClick}>
+            <Link cursor="pointer" color="neutral">
+              Privacy
+            </Link>{' '}
+          </Text>
           |{' '}
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              outline: 'none',
-              cursor: 'pointer',
-              textDecoration: 'underline',
-              color: '#444',
-            }}
-            onClick={this.handleHelpClick}
-          >
-            Help
-          </button>
+          <Text onClick={this.handleHelpClick}>
+            <Link cursor="pointer" color="neutral">
+              Help
+            </Link>
+          </Text>
         </Paragraph>
         <Dialog
           title="Budgetal Help"
@@ -76,3 +64,5 @@ export default class Footer extends Component {
     );
   }
 }
+
+export default withRouter(Footer);

@@ -301,17 +301,19 @@ class MortgageCalculator extends Component {
                 /month
               </Heading>
               <Pane textAlign="center" padding={24}>
-                Completed <b>{completedMonths}</b> out of{' '}
-                <b>
-                  {totalMonths -
-                    completedMonths -
-                    earlyMonths +
-                    completedMonths}
-                </b>{' '}
-                monthly payments
-                <br />
-                <b>{totalMonths - completedMonths - earlyMonths}</b> monthly
-                payments remain.
+                <Text>
+                  Completed <b>{completedMonths}</b> out of{' '}
+                  <b>
+                    {totalMonths -
+                      completedMonths -
+                      earlyMonths +
+                      completedMonths}
+                  </b>{' '}
+                  monthly payments
+                  <br />
+                  <b>{totalMonths - completedMonths - earlyMonths}</b> monthly
+                  payments remain.
+                </Text>
               </Pane>
             </Card>
           </Pane>

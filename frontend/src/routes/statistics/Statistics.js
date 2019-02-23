@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FindStatisticRequest } from '@shared/api/statistics';
 import { title, scrollTop, error } from 'window';
 import { availableYears, currencyf, monthName } from '@shared/helpers';
-import { Heading, Select, Pane } from 'evergreen-ui';
+import { Text, Heading, Select, Pane } from 'evergreen-ui';
 import times from 'lodash/times';
 import './statistics.css';
 import StatisticsChart from './StatisticsChart';
@@ -139,13 +139,15 @@ class Statistics extends Component {
                 return (
                   <li key={key}>
                     <div className="stat-list-item">
-                      <div className={statIconClass} />
-                      <b>{category.name}</b>
-                      <br />
-                      <span className="percentSpent">
-                        {currencyf(category.amountSpent)} -{' '}
-                        {category.percentSpent}%
-                      </span>
+                      <Text>
+                        <div className={statIconClass} />
+                        <b>{category.name}</b>
+                        <br />
+                        <span className="percentSpent">
+                          {currencyf(category.amountSpent)} -{' '}
+                          {category.percentSpent}%
+                        </span>
+                      </Text>
                     </div>
                   </li>
                 );

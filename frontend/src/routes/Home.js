@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
-import { Pane } from 'evergreen-ui';
+import { Pane, Paragraph, Text } from 'evergreen-ui';
 
 class Home extends Component {
   componentDidMount() {
@@ -47,15 +47,20 @@ class Home extends Component {
                 />
               </Pane>
               <Pane>
-                <span className="app-title">Budgetal</span>
+                <Text fontSize={36}>Budgetal</Text>
               </Pane>
             </Pane>
             <Pane display="flex" flexDirection="row" alignItems="center">
               <Pane>
-                <p className="app-subtitle">
+                <Paragraph
+                  paddingLeft={14}
+                  fontSize={22}
+                  paddingTop={10}
+                  paddingBottom={10}
+                >
                   Because personal finances
                   <br /> are personal.
-                </p>
+                </Paragraph>
               </Pane>
             </Pane>
             <Pane display="flex" flexDirection="row" alignItems="center">

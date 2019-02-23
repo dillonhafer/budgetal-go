@@ -8,7 +8,7 @@ import { currencyf, reduceSum } from '@shared/helpers';
 
 // Components
 import { Alert } from 'evergreen-ui';
-import Progress from 'components/Progress';
+import SpentProgress from 'components/Progress/SpentProgress';
 
 class MonthlyOverview extends Component {
   state = {
@@ -70,24 +70,19 @@ class MonthlyOverview extends Component {
   };
 
   render() {
-    const spent = this.percentSpent();
     const status = this.status();
+    const percent = this.percentSpent();
+    const spent = this.amountSpent();
+    const remaining = this.amountRemaining();
+
     return (
       <div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <h3>Spent: {currencyf(this.amountSpent())}</h3>
-            <h3>Remaining: {currencyf(this.amountRemaining())}</h3>
-          </div>
-          <Progress status={status} percent={spent} />
-        </div>
+        <SpentProgress
+          status={status}
+          percent={percent}
+          spent={spent}
+          remaining={remaining}
+        />
         {this.warnings()}
       </div>
     );
