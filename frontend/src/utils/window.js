@@ -1,8 +1,9 @@
 import { toaster } from 'evergreen-ui';
 
-const openNotificationWithIcon = (type, description, heading) => {
+const openNotificationWithIcon = (type, description, heading, options = {}) => {
   setTimeout(_ => {
     toaster[type](heading, {
+      ...options,
       description,
       width: '200px',
       right: '20px',
@@ -10,11 +11,11 @@ const openNotificationWithIcon = (type, description, heading) => {
   }, 0);
 };
 
-export const notice = description => {
-  openNotificationWithIcon('success', description, 'Success');
+export const notice = (description, options = {}) => {
+  openNotificationWithIcon('success', description, 'Success', options);
 };
-export const error = description => {
-  openNotificationWithIcon('danger', description, 'Error');
+export const error = (description, options = {}) => {
+  openNotificationWithIcon('danger', description, 'Error', options);
 };
 
 export const title = string => {

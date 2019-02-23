@@ -25,7 +25,6 @@ class PasswordResetForm extends Component {
   handleSubmit = (values, { setSubmitting, resetForm }) => {
     PasswordResetRequest(values)
       .then(() => {
-        console.log('doneererew');
         setSubmitting(false);
         resetForm();
         notice(

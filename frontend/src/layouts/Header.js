@@ -5,8 +5,8 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { message, Layout, Row, Col, Menu, Icon } from 'antd';
-import { Pane, Avatar, Text } from 'evergreen-ui';
+import { Layout, Row, Col, Menu, Icon } from 'antd';
+import { Pane, Avatar, Spinner, toaster, Text } from 'evergreen-ui';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
 import { notice } from 'window';
@@ -33,21 +33,29 @@ const ProfileImage = ({ user }) => {
 
 export default class Header extends Component {
   signOut = async e => {
-    const hide = message.loading('Sign out in progress...', 0);
-    try {
-      e.preventDefault();
-      const r = await SignOutRequest();
-      if (r && r.ok) {
+    e.preventDefault();
+
+    toaster.notify(
+      <Pane
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Spinner size={16} />
+        <Text marginLeft={8}>Sign out in progress...</Text>
+      </Pane>,
+      { id: 'logout' },
+    );
+
+    SignOutRequest().then(r => {
+      if (r.ok) {
         RemoveAuthentication();
         this.props.resetSignIn();
-        notice('You have been signed out');
+        notice('You have been signed out', { id: 'logout' });
         document.querySelector('.logo').click();
       }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      hide();
-    }
+    });
   };
 
   adminLink(admin) {

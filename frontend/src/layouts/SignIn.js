@@ -35,7 +35,6 @@ class SignIn extends Component {
 
   render() {
     const { activeTab, title } = this.state;
-    console.log(this.state);
     return (
       <div>
         <div onClick={this.openModal}>Sign In</div>
