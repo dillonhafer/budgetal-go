@@ -36,52 +36,46 @@ class BudgetItemList extends PureComponent {
 
     return (
       <Pane className="row new-budget-item">
-        {showItemList && (
-          <Pane>
-            <Tablist marginBottom={16} marginRight={16}>
-              {budgetItems.map((item, index) => (
-                <Tab
-                  key={item.id}
-                  id={item.id}
-                  onSelect={() =>
-                    this.props.updateSelectedBudgetItemID(item.id)
-                  }
-                  isSelected={item.id === this.props.selectedBudgetItemID}
-                  aria-controls={`panel-${item.name}`}
-                >
-                  {item.id === null ? '???' : item.name}
-                </Tab>
-              ))}
-            </Tablist>
-            {item && (
-              <Pane padding={16} borderTop="muted" flex="1">
-                <Pane
-                  key={item.id}
-                  id={`panel-${item.id}`}
-                  role="tabpanel"
-                  aria-labelledby={item.name}
-                >
-                  <BudgetItem budgetItem={item} />
-                </Pane>
+        <Pane>
+          <Tablist marginBottom={16} marginRight={16}>
+            {budgetItems.map((item, index) => (
+              <Tab
+                key={item.id}
+                id={item.id}
+                onSelect={() => this.props.updateSelectedBudgetItemID(item.id)}
+                isSelected={item.id === this.props.selectedBudgetItemID}
+                aria-controls={`panel-${item.name}`}
+              >
+                {item.id === null ? '???' : item.name}
+              </Tab>
+            ))}
+            <Button
+              height={28}
+              onClick={this.addBudgetItem}
+              iconBefore="plus"
+              disabled={!noNewItems}
+            >
+              New
+            </Button>
+          </Tablist>
+          {item && (
+            <Pane padding={16} borderTop="muted" flex="1">
+              <Pane
+                key={item.id}
+                id={`panel-${item.id}`}
+                role="tabpanel"
+                aria-labelledby={item.name}
+              >
+                <BudgetItem budgetItem={item} />
               </Pane>
-            )}
-          </Pane>
-        )}
+            </Pane>
+          )}
+        </Pane>
         {!showItemList && (
           <Paragraph padding="2rem" fontSize="1rem" textAlign="center">
             You haven't added any budget items yet.
           </Paragraph>
         )}
-        <Button
-          height={40}
-          marginTop={16}
-          appearance="primary"
-          onClick={this.addBudgetItem}
-          iconBefore="add"
-          disabled={!noNewItems}
-        >
-          Add a Budget Item
-        </Button>
       </Pane>
     );
   }
