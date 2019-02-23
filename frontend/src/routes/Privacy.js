@@ -10,7 +10,7 @@ export default class Privacy extends Component {
 
   render() {
     return (
-      <Pane>
+      <Pane paddingLeft={24} paddingRight={24}>
         <Text>
           <h1>Privacy Policy</h1>
           <span id="logo" />
