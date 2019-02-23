@@ -5,11 +5,15 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { Layout, Row, Col, Menu, Icon } from 'antd';
-import { Pane, Avatar, Spinner, toaster, Text } from 'evergreen-ui';
+import { Menu } from 'antd';
+import { Icon, Pane, Avatar, Spinner, toaster, Text } from 'evergreen-ui';
 import SignIn from './SignIn';
 import { Link, NavLink } from 'react-router-dom';
-import { notice } from 'window';
+import { scrollTop, notice } from 'window';
+
+const ItemIcon = React.memo(({ icon }) => (
+  <Icon icon={icon} size={14} marginRight={8} marginBottom={-2} />
+));
 
 const ProfileImage = ({ user }) => {
   let src = '/missing-profile.png';
@@ -64,7 +68,7 @@ export default class Header extends Component {
       items.push(
         <Menu.Item key="admin-link">
           <Link to="/admin">
-            <Icon type="lock" />
+            <ItemIcon icon="lock" />
             Admin Panel
           </Link>
         </Menu.Item>,
@@ -93,7 +97,7 @@ export default class Header extends Component {
         <Menu.SubMenu key="submenu-calc" title="Calculators">
           <Menu.Item key="mortgage-calculator">
             <Link to={`/calculators/mortgage`}>
-              <Icon type="home" />
+              <ItemIcon icon="home" />
               Mortgage
             </Link>
           </Menu.Item>
@@ -117,14 +121,14 @@ export default class Header extends Component {
         >
           <Menu.Item key="stats">
             <Link to={`/monthly-statistics/${year}/${month}`}>
-              <Icon type="pie-chart" />
+              <ItemIcon icon="pie-chart" />
               Statistics (for geeks)
             </Link>
           </Menu.Item>
           <Menu.Divider key="divider1" />
           <Menu.Item key="account-settings">
             <Link to="/account-settings">
-              <Icon type="setting" />
+              <ItemIcon icon="cog" />
               Account Settings
             </Link>
           </Menu.Item>
@@ -144,7 +148,7 @@ export default class Header extends Component {
               title="Sign out"
               rel="nofollow"
             >
-              <Icon type="logout" />
+              <ItemIcon icon="log-out" />
               Sign out
             </button>
           </Menu.Item>
@@ -155,7 +159,7 @@ export default class Header extends Component {
         <Menu.SubMenu key="submenu-calc" title="Calculators">
           <Menu.Item key="mortgage-calculator">
             <Link to="/calculators/mortgage">
-              <Icon type="home" />
+              <ItemIcon icon="home" />
               Mortgage
             </Link>
           </Menu.Item>
@@ -184,37 +188,38 @@ export default class Header extends Component {
     }
   }
 
-  scrollTop() {
-    document.querySelector('#headerTop') &&
-      document.querySelector('#headerTop').click();
-  }
-
   render() {
     const selectedKeys = this.selectedKeys(window.location);
 
     return (
-      <Layout.Header
-        style={{ position: 'fixed', width: '100%' }}
-        onClick={this.scrollTop}
+      <Pane
+        position="fixed"
+        width="100%"
+        background="rgba(64, 64, 64, 0.96)"
+        zIndex={9999}
+        paddingX={50}
+        paddingY={0}
+        height="64px"
+        lineHeight="64px"
+        flex="0 0 auto"
+        onClick={scrollTop}
       >
-        <Link to="/" aria-label="Home">
-          <div className="logo" />
-        </Link>
+        <Pane display="flex" flexDirection="row" justifyContent="space-between">
+          <Link to="/" aria-label="Home">
+            <div className="logo" />
+          </Link>
 
-        <Row type="flex" justify="end">
-          <Col>
-            <Menu
-              onSelect={this.handleMenuSelect}
-              theme="dark"
-              selectedKeys={selectedKeys}
-              mode="horizontal"
-              style={{ lineHeight: '64px' }}
-            >
-              {this.renderMenuItems()}
-            </Menu>
-          </Col>
-        </Row>
-      </Layout.Header>
+          <Menu
+            onSelect={this.handleMenuSelect}
+            theme="dark"
+            selectedKeys={selectedKeys}
+            mode="horizontal"
+            style={{ lineHeight: '64px' }}
+          >
+            {this.renderMenuItems()}
+          </Menu>
+        </Pane>
+      </Pane>
     );
   }
 }
