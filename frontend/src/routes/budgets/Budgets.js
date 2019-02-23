@@ -63,7 +63,7 @@ class Budget extends Component {
     const { loading } = this.state;
     const { budget } = this.props;
     return (
-      <Pane className="no-padding">
+      <Pane>
         {loading && (
           <Pane
             position="fixed"

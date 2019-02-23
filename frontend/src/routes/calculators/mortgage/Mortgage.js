@@ -146,7 +146,7 @@ class MortgageCalculator extends Component {
     const currentYear = new Date().getFullYear();
 
     return (
-      <Pane>
+      <Pane paddingLeft={24} paddingRight={24}>
         <Heading size={800}>Mortgage Calculator</Heading>
         <Pane
           display="flex"

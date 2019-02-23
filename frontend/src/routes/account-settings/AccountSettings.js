@@ -14,7 +14,7 @@ class AccountSettings extends PureComponent {
 
   render() {
     return (
-      <Pane>
+      <Pane paddingLeft={24} paddingRight={24}>
         <Heading marginBottom={16} size={800}>
           ACCOUNT SETTINGS
         </Heading>

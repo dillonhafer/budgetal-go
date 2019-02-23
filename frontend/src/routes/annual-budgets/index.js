@@ -135,7 +135,7 @@ class AnnualBudget extends Component {
     const { year } = this.props.match.params;
 
     return (
-      <div>
+      <Pane paddingLeft={24} paddingRight={24}>
         <Pane
           display="flex"
           flexDirection="row"
@@ -174,7 +174,7 @@ class AnnualBudget extends Component {
           visible={visible}
           onCancel={this.props.hideForm}
         />
-      </div>
+      </Pane>
     );
   }
 }

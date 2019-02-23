@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Pane } from 'evergreen-ui';
 
 // Route Components
 import PrivateRoute from 'routes/PrivateRoute';
@@ -54,7 +54,14 @@ class ApplicationLayout extends Component {
   render() {
     return (
       <main>
-        <Layout.Content style={{ background: 'unset' }}>
+        <Pane
+          marginTop={114}
+          marginLeft={50}
+          marginRight={50}
+          marginBottom={50}
+          borderRadius={24}
+          background="white"
+        >
           <Route
             render={({ location }) => (
               <Wrapper location={location}>
@@ -91,7 +98,7 @@ class ApplicationLayout extends Component {
               </Wrapper>
             )}
           />
-        </Layout.Content>
+        </Pane>
       </main>
     );
   }

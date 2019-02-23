@@ -5,7 +5,7 @@ import { IsAuthenticated } from 'authentication';
 import 'css/App.css';
 
 // Locale
-import { Layout } from 'antd';
+import { Pane } from 'evergreen-ui';
 
 // Layout
 import Header from 'layouts/Header';
@@ -48,11 +48,16 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-            <Layout>
+            <Pane
+              display={'flex'}
+              flexDirection={'column'}
+              flex={'auto'}
+              background={'#ececec'}
+            >
               <Header resetSignIn={this.resetSignIn} />
               <ApplicationLayout />
               <Footer />
-            </Layout>
+            </Pane>
           </div>
         </Router>
       </Provider>

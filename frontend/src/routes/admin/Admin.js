@@ -113,7 +113,7 @@ export default class Admin extends Component {
     }
 
     return (
-      <Pane>
+      <Pane paddingLeft={24} paddingRight={24}>
         <Pane
           display="flex"
           flexDirection="row"
