@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { currencyf } from '@shared/helpers';
-import { Heading, Badge, Strong, Text, Pane, Popover } from 'evergreen-ui';
+import { Badge, Strong, Text, Pane, Popover } from 'evergreen-ui';
 
 class Month extends Component {
   state = {
