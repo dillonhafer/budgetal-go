@@ -14,9 +14,9 @@ import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
 import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
-import { Button, Pane, Heading, Select } from 'evergreen-ui';
+import { Button, Pane, Select } from 'evergreen-ui';
 import Spinner from 'components/Spinner';
-import { colors } from '@shared/theme';
+import Header from 'components/Header';
 
 const padding = (group, length) => {
   return length <= 3 ? 3 % length : length % 3 === 0 ? 0 : 3 - (length % 3);
@@ -137,20 +137,10 @@ class AnnualBudget extends Component {
 
     return (
       <Pane>
-        <Pane
-          paddingX={24}
-          display="flex"
-          background={colors.primary}
-          flexDirection="row"
-          alignItems="center"
-          paddingTop={48}
-          paddingBottom={72}
-          marginBottom={-48}
-          justifyContent="space-between"
+        <Header
+          subtext="For things that happen a few times a year"
+          heading={`Annual Budgets for ${year}`}
         >
-          <Heading color="white" size={800}>
-            Annual Budgets for {year}
-          </Heading>
           <Select
             value={year}
             onChange={this.changeYear}
@@ -165,7 +155,7 @@ class AnnualBudget extends Component {
               );
             })}
           </Select>
-        </Pane>
+        </Header>
 
         <Pane paddingX={24}>
           {(loading && <Spinner visible={loading} />) || (

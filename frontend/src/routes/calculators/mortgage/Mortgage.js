@@ -142,7 +142,10 @@ class MortgageCalculator extends Component {
 
     return (
       <Pane>
-        <Header heading="Mortgage Calculator" />
+        <Header
+          subtext="See how extra payments can help"
+          heading="Mortgage Calculator"
+        />
         <Pane
           paddingX={24}
           display="flex"

@@ -79,7 +79,10 @@ class Budget extends Component {
           </Pane>
         )}
         <Pane opacity={loading ? 0.5 : 1}>
-          <Header heading={`${monthName(budget.month)} ${budget.year}`}>
+          <Header
+            subtext="Your Monthly Budget"
+            heading={`${monthName(budget.month)} ${budget.year}`}
+          >
             <MonthlyIncomeModal />
           </Header>
           <Pane paddingX={24} marginTop={16} display="flex" flexDirection="row">

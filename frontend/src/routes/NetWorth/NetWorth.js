@@ -8,7 +8,7 @@ import MonthModal from './MonthModal';
 import { Heading, Pane, Select } from 'evergreen-ui';
 import AssetLiabilityTable from './AssetLiabilityTable';
 import Spinner from 'components/Spinner';
-import { colors } from '@shared/theme';
+import Header from 'components/Header';
 
 class NetWorth extends Component {
   componentDidMount() {
@@ -113,20 +113,10 @@ class NetWorth extends Component {
 
     return (
       <Pane>
-        <Pane
-          paddingX={24}
-          display="flex"
-          background={colors.primary}
-          flexDirection="row"
-          alignItems="center"
-          paddingTop={48}
-          paddingBottom={72}
-          marginBottom={-48}
-          justifyContent="space-between"
+        <Header
+          subtext="Keep track of how far you've come"
+          heading={`Net Worth for ${year}`}
         >
-          <Heading color="white" size={800}>
-            Net Worth for {year}
-          </Heading>
           <Select
             value={year}
             onChange={this.changeYear}
@@ -141,7 +131,7 @@ class NetWorth extends Component {
               );
             })}
           </Select>
-        </Pane>
+        </Header>
         <Spinner visible={loading || refreshing} />
         <Pane paddingX={24} marginTop={16}>
           <Pane
