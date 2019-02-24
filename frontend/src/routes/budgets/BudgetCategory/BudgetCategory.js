@@ -10,6 +10,7 @@ import { ImportCategoryRequest } from '@shared/api/budgets';
 import { notice, error } from 'window';
 import { monthName, reduceSum } from '@shared/helpers';
 import './budget-category.css';
+import Card from 'components/Card';
 
 class BudgetCategory extends Component {
   state = {
@@ -89,56 +90,56 @@ class BudgetCategory extends Component {
     const previousMonth = this.lastMonth();
 
     return (
-      <Pane marginRight="1.5rem" marginLeft="1.5rem">
-        <Pane
-          display="flex"
-          padding={8}
-          border="muted"
-          marginBottom={8}
-          borderRadius={3}
-          alignItems="center"
+      <Pane marginRight={24} marginLeft="1.5rem">
+        <Card
+          title={
+            <Pane
+              flex={1}
+              alignItems="center"
+              justifyContent="space-between"
+              display="flex"
+            >
+              <Pane display="flex" flexDirection="row" alignItems="center">
+                <span
+                  className={`category-card-header category-card-header-${budgetCategory.name
+                    .toLowerCase()
+                    .replace('/', '-')}`}
+                />
+                <Heading marginLeft={8} size={400}>
+                  {budgetCategory.name}
+                </Heading>
+              </Pane>
+              <Pane>
+                <Button
+                  iconBefore="import"
+                  onClick={() => {
+                    this.setState({ importConfirmationVisible: true });
+                  }}
+                >
+                  Copy {previousMonth} Items
+                </Button>
+                <Dialog
+                  preventBodyScrolling
+                  width={350}
+                  hasHeader={false}
+                  isConfirmLoading={importing}
+                  confirmLabel={`Copy ${previousMonth} Items`}
+                  onConfirm={this.importPreviousItems}
+                  onCloseComplete={() => {
+                    this.setState({ importConfirmationVisible: false });
+                  }}
+                  isShown={importConfirmationVisible}
+                >
+                  <Alert intent="none" title="Copy Budget Items">
+                    <Text>
+                      Do you want to copy budget items from {previousMonth}?
+                    </Text>
+                  </Alert>
+                </Dialog>
+              </Pane>
+            </Pane>
+          }
         >
-          <Pane flex={1} alignItems="center" display="flex">
-            <span
-              className={`category-card-header category-card-header-${budgetCategory.name
-                .toLowerCase()
-                .replace('/', '-')}`}
-            />
-            <Heading marginLeft={8} size={600}>
-              {budgetCategory.name}
-            </Heading>
-          </Pane>
-          <Pane>
-            <Button
-              iconBefore="import"
-              onClick={() => {
-                this.setState({ importConfirmationVisible: true });
-              }}
-            >
-              Copy {previousMonth} Items
-            </Button>
-            <Dialog
-              preventBodyScrolling
-              width={350}
-              hasHeader={false}
-              isConfirmLoading={importing}
-              confirmLabel={`Copy ${previousMonth} Items`}
-              onConfirm={this.importPreviousItems}
-              onCloseComplete={() => {
-                this.setState({ importConfirmationVisible: false });
-              }}
-              isShown={importConfirmationVisible}
-            >
-              <Alert intent="none" title="Copy Budget Items">
-                <Text>
-                  Do you want to copy budget items from {previousMonth}?
-                </Text>
-              </Alert>
-            </Dialog>
-          </Pane>
-        </Pane>
-
-        <Pane border="muted" padding={16}>
           <Pane>
             <Pane marginBottom={16}>
               <SpentProgress
@@ -150,7 +151,7 @@ class BudgetCategory extends Component {
             </Pane>
             <BudgetItemList />
           </Pane>
-        </Pane>
+        </Card>
       </Pane>
     );
   }

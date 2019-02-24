@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { UpdateIncomeRequest } from '@shared/api/budgets';
 
 // Helpers
-import { currencyf } from '@shared/helpers';
 import { error, notice } from 'window';
 
 // Components
@@ -112,7 +111,7 @@ class MonthlyIncomeModal extends Component {
           }}
           iconBefore="edit"
         >
-          {currencyf(budget.income)}
+          Edit Monthly Income
         </Button>
 
         {budget.income > 0 && (

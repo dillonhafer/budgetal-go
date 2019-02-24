@@ -8,11 +8,14 @@ import BudgetCategory from './BudgetCategory';
 import MonthlyOverview from './MonthlyOverview';
 import MonthlyIncomeModal from './MonthlyIncomeModal';
 import Spinner from 'components/Spinner';
-import { Pane, Heading } from 'evergreen-ui';
+import { Pane } from 'evergreen-ui';
 
 // Helpers
 import { title } from 'window';
-import { monthName } from '@shared/helpers';
+import { monthName, currencyf } from '@shared/helpers';
+
+import Card from 'components/Card';
+import Header from 'components/Header';
 
 class Budget extends Component {
   state = {
@@ -75,27 +78,23 @@ class Budget extends Component {
             <Spinner visible={true} />
           </Pane>
         )}
-        <Pane
-          opacity={loading ? 0.5 : 1}
-          paddingLeft={24}
-          paddingRight={24}
-          paddingBottom={16}
-        >
-          <Pane
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-            paddingBottom={16}
-          >
-            <Heading size={800}>
-              {monthName(budget.month)} {budget.year}
-            </Heading>
+        <Pane opacity={loading ? 0.5 : 1}>
+          <Header heading={`${monthName(budget.month)} ${budget.year}`}>
             <MonthlyIncomeModal />
+          </Header>
+          <Pane paddingX={24}>
+            <Card title={`Budget Overview - ${currencyf(budget.income)}`}>
+              <MonthlyOverview />
+            </Card>
           </Pane>
-          <MonthlyOverview />
         </Pane>
-        <Pane display="flex" flexDirection="row" opacity={loading ? 0.5 : 1}>
+
+        <Pane
+          display="flex"
+          marginTop={32}
+          flexDirection="row"
+          opacity={loading ? 0.5 : 1}
+        >
           <Pane width={232}>
             <Sidebar
               startLoading={() => {
