@@ -5,15 +5,19 @@ import {
   IsAuthenticated,
   GetCurrentUser,
 } from 'authentication';
-import { Menu } from 'antd';
-import { Icon, Pane, Avatar, Spinner, toaster, Text } from 'evergreen-ui';
+import {
+  Pane,
+  Avatar,
+  Spinner,
+  toaster,
+  Text,
+  Position,
+  Popover,
+  Menu,
+} from 'evergreen-ui';
 import SignIn from './SignIn';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import { scrollTop, notice } from 'window';
-
-const ItemIcon = React.memo(({ icon }) => (
-  <Icon icon={icon} size={14} marginRight={8} marginBottom={-2} />
-));
 
 const ProfileImage = ({ user }) => {
   let src = '/missing-profile.png';
@@ -35,10 +39,8 @@ const ProfileImage = ({ user }) => {
   );
 };
 
-export default class Header extends Component {
-  signOut = async e => {
-    e.preventDefault();
-
+class Header extends Component {
+  signOut = () => {
     toaster.notify(
       <Pane
         display="flex"
@@ -57,26 +59,33 @@ export default class Header extends Component {
         RemoveAuthentication();
         this.props.resetSignIn();
         notice('You have been signed out', { id: 'logout' });
-        document.querySelector('.logo').click();
+        this.props.history.push('/');
       }
     });
   };
 
-  adminLink(admin) {
-    let items = [];
-    if (admin) {
-      items.push(
-        <Menu.Item key="admin-link">
-          <Link to="/admin">
-            <ItemIcon icon="lock" />
-            Admin Panel
-          </Link>
-        </Menu.Item>,
-      );
-      items.push(<Menu.Divider key="divider3" />);
+  onSelect = ({ target: { innerText } }) => {
+    document.querySelector('#root').click();
+
+    if (innerText === 'Sign out') {
+      return this.signOut();
     }
-    return items;
-  }
+
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
+
+    const link = {
+      'Account Settings': '/account-settings',
+      'Statistics (for geeks)': `/monthly-statistics/${year}/${month}`,
+      'Admin Panel': '/admin',
+      Mortgage: '/calculators/mortgage',
+    }[innerText];
+    if (link) this.props.history.push(link);
+  };
+
+  reRender = () => {
+    this.setState({});
+  };
 
   renderMenuItems = () => {
     const signedIn = IsAuthenticated();
@@ -85,112 +94,190 @@ export default class Header extends Component {
       const month = new Date().getMonth() + 1;
       const user = GetCurrentUser();
       return [
-        <Menu.Item key="budgets">
-          <Link to={`/budgets/${year}/${month}`}> Budgets</Link>
-        </Menu.Item>,
-        <Menu.Item key="annual-budgets">
-          <NavLink to={`/annual-budgets/${year}`}>Annual Budgets</NavLink>
-        </Menu.Item>,
-        <Menu.Item key="net-worth">
-          <NavLink to={`/net-worth/${year}`}>Net Worth</NavLink>
-        </Menu.Item>,
-        <Menu.SubMenu key="submenu-calc" title="Calculators">
-          <Menu.Item key="mortgage-calculator">
-            <Link to={`/calculators/mortgage`}>
-              <ItemIcon icon="home" />
-              Mortgage
-            </Link>
-          </Menu.Item>
-        </Menu.SubMenu>,
-        <Menu.SubMenu
-          key="submenu"
-          title={
-            <Pane
-              paddingY={11}
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-            >
-              <ProfileImage user={user} />
-              <Text color="hsla(0,0%,100%,.67)">
-                Hello
-                {user.firstName ? `, ${user.firstName}` : ''}!
-              </Text>
-            </Pane>
+        <NavLink
+          key="budgets"
+          to={`/budgets/${year}/${month}`}
+          isActive={this.selectedKeys}
+          onClick={this.reRender}
+        >
+          <Pane
+            paddingX={20}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            height={64}
+          >
+            <Text color="unset">Budgets</Text>
+          </Pane>
+        </NavLink>,
+        <NavLink
+          key="annual"
+          to={`/annual-budgets/${year}`}
+          isActive={this.selectedKeys}
+          onClick={this.reRender}
+        >
+          <Pane
+            paddingX={20}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            height={64}
+          >
+            <Text color="unset">Annual Budgets</Text>
+          </Pane>
+        </NavLink>,
+        <NavLink
+          key="networth"
+          to={`/net-worth/${year}`}
+          isActive={this.selectedKeys}
+          onClick={this.reRender}
+        >
+          <Pane
+            paddingX={20}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            height={64}
+          >
+            <Text color="unset">Net Worth</Text>
+          </Pane>
+        </NavLink>,
+        <Popover
+          key="calc"
+          position={Position.TOP_LEFT}
+          content={
+            <Menu>
+              <Menu.Group>
+                <Menu.Item onSelect={this.onSelect} icon="home">
+                  Mortgage
+                </Menu.Item>
+              </Menu.Group>
+            </Menu>
           }
         >
-          <Menu.Item key="stats">
-            <Link to={`/monthly-statistics/${year}/${month}`}>
-              <ItemIcon icon="pie-chart" />
-              Statistics (for geeks)
-            </Link>
-          </Menu.Item>
-          <Menu.Divider key="divider1" />
-          <Menu.Item key="account-settings">
-            <Link to="/account-settings">
-              <ItemIcon icon="cog" />
-              Account Settings
-            </Link>
-          </Menu.Item>
-          <Menu.Divider key="divider2" />
-          {this.adminLink(user.admin)}
-          <Menu.Item key="sign-out">
-            <button
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                textAlign: 'left',
-                outline: 'none',
-                width: '100%',
-              }}
-              onClick={this.signOut}
-              title="Sign out"
-              rel="nofollow"
-            >
-              <ItemIcon icon="log-out" />
-              Sign out
-            </button>
-          </Menu.Item>
-        </Menu.SubMenu>,
+          <Pane
+            paddingX={20}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            height={64}
+            className="anchor"
+          >
+            <Text color="unset">Calculators</Text>
+          </Pane>
+        </Popover>,
+        <Popover
+          key="user-menu"
+          position={Position.TOP_RIGHT}
+          content={
+            <Menu>
+              <Menu.Group>
+                <Menu.Item onSelect={this.onSelect} icon="pie-chart">
+                  Statistics (for geeks)
+                </Menu.Item>
+                <Menu.Divider />
+                <Menu.Item onSelect={this.onSelect} icon="cog">
+                  Account Settings
+                </Menu.Item>
+                <Menu.Divider />
+                {user.admin && (
+                  <Menu.Item onSelect={this.onSelect} icon="lock">
+                    Admin Panel
+                  </Menu.Item>
+                )}
+                {user.admin && <Menu.Divider />}
+                <Menu.Item onSelect={this.onSelect} icon="log-out">
+                  Sign out
+                </Menu.Item>
+              </Menu.Group>
+            </Menu>
+          }
+        >
+          <Pane
+            paddingX={20}
+            cursor="pointer"
+            height={64}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            className="anchor"
+          >
+            <ProfileImage user={user} />
+            <Text color="unset">
+              Hello
+              {user.firstName ? `, ${user.firstName}` : ''}!
+            </Text>
+          </Pane>
+        </Popover>,
       ];
     } else {
       return [
-        <Menu.SubMenu key="submenu-calc" title="Calculators">
-          <Menu.Item key="mortgage-calculator">
-            <Link to="/calculators/mortgage">
-              <ItemIcon icon="home" />
-              Mortgage
-            </Link>
-          </Menu.Item>
-        </Menu.SubMenu>,
-        <Menu.Item key="sign-in">
+        <Popover
+          key="calc"
+          position={Position.TOP_LEFT}
+          content={
+            <Menu>
+              <Menu.Group>
+                <Menu.Item onSelect={this.onSelect} icon="home">
+                  Mortgage
+                </Menu.Item>
+              </Menu.Group>
+            </Menu>
+          }
+        >
+          <Pane
+            paddingX={20}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="center"
+            height={64}
+            className="anchor"
+          >
+            <Text color="unset">Calculators</Text>
+          </Pane>
+        </Popover>,
+        <Pane
+          key="signin"
+          paddingX={20}
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="center"
+          height={64}
+        >
           <SignIn resetSignIn={this.props.resetSignIn} />
-        </Menu.Item>,
+        </Pane>,
       ];
     }
   };
 
-  selectedKeys(location) {
+  selectedKeys(match, loc) {
+    if (!match) {
+      return false;
+    }
+    const location = match.path;
     switch (true) {
       case /\/budgets/.test(location):
-        return ['budgets'];
+        return true;
       case /\/detailed-budgets/.test(location):
-        return ['detailed-budgets'];
+        return true;
       case /\/annual-budgets/.test(location):
-        return ['annual-budgets'];
+        return true;
       case /\/net-worth/.test(location):
-        return ['net-worth'];
+        return true;
       case /\/calculators\/mortgage/.test(location):
-        return ['mortgage-calculator'];
+        return true;
       default:
-        return [];
+        return false;
     }
   }
 
   render() {
-    const selectedKeys = this.selectedKeys(window.location);
-
     return (
       <Pane
         position="fixed"
@@ -204,22 +291,28 @@ export default class Header extends Component {
         flex="0 0 auto"
         onClick={scrollTop}
       >
-        <Pane display="flex" flexDirection="row" justifyContent="space-between">
-          <Link to="/" aria-label="Home">
+        <Pane
+          className="header"
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+        >
+          <Link to="/" onClick={this.reRender}>
             <div className="logo" />
           </Link>
 
-          <Menu
-            onSelect={this.handleMenuSelect}
-            theme="dark"
-            selectedKeys={selectedKeys}
-            mode="horizontal"
-            style={{ lineHeight: '64px' }}
+          <Pane
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
           >
             {this.renderMenuItems()}
-          </Menu>
+          </Pane>
         </Pane>
       </Pane>
     );
   }
 }
+
+export default withRouter(Header);

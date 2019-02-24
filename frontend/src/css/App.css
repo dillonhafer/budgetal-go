@@ -1,6 +1,3 @@
-@import './Antd.css';
-@import './Antd-Override.css';
-
 div[data-evergreen-toaster-container] > span {
   z-index: 10000;
 }
@@ -28,6 +25,25 @@ body {
   width: 42px;
   height: 42px;
   border-radius: 25px;
+}
+
+.header a,
+.header .anchor {
+  background: transparent;
+  border: none;
+  color: hsla(0, 0%, 100%, 0.67);
+  text-decoration: none;
+  cursor: pointer;
+}
+.header .anchor:hover,
+.header .anchor:active,
+.header a:hover,
+.header a.active {
+  color: white;
+}
+
+.header a.active {
+  background: #0195ff;
 }
 
 .fade-enter {

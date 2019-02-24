@@ -9,6 +9,7 @@ class Footer extends Component {
   };
 
   handlePrivacyClick = () => {
+    this.setState({});
     this.props.history.push('/privacy');
   };
 

@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@shared": "file:../shared",
-    "antd": "^2.13.10",
     "evergreen-ui": "^4.9.0",
     "formik": "^1.4.2",
     "mdi-react": "^2.1.19",

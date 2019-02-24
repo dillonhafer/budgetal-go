@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-import {Route, withRouter} from 'react-router-dom';
-import {error} from 'window';
-import {IsAuthenticated} from 'authentication';
+import React, { Component } from 'react';
+import { Route } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import { error } from 'window';
+import { IsAuthenticated } from 'authentication';
 
 class PrivateRoute extends Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ class PrivateRoute extends Component {
       return null;
     }
 
-    const {component: Component, ...rest} = this.props;
+    const { component: Component, ...rest } = this.props;
     return (
       <Route
         {...rest}

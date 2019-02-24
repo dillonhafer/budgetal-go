@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import RegisterForm from './RegisterForm';
 import PasswordResetForm from './PasswordResetForm';
 import SignInForm from './SignInForm';
-import { Button, Pane, Dialog } from 'evergreen-ui';
+import { Text, Button, Pane, Dialog } from 'evergreen-ui';
 
 class SignIn extends Component {
   state = {
@@ -37,7 +37,9 @@ class SignIn extends Component {
     const { activeTab, title } = this.state;
     return (
       <div>
-        <div onClick={this.openModal}>Sign In</div>
+        <Pane className="anchor" onClick={this.openModal}>
+          <Text color="unset">Sign In</Text>
+        </Pane>
         <Dialog
           width={350}
           isShown={this.state.visible}
