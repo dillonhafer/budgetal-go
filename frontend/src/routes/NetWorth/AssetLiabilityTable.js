@@ -89,8 +89,28 @@ class AssetLiabilityTable extends Component {
     const { title, items, emptyText, buttonTitle } = this.props;
 
     return (
-      <Pane minWidth={252} display="flex" flexDirection="column" flex="1 0 45%">
-        <TableHeader title={title} />
+      <Pane
+        elevation={2}
+        overflow="hidden"
+        borderRadius={8}
+        minWidth={252}
+        display="flex"
+        flexDirection="column"
+        flex="1 0 45%"
+      >
+        <Pane
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          width="100%"
+          height={64}
+          borderBottom={'0.5px solid rgba(67, 90, 111, 0.25)'}
+          padding={16}
+        >
+          <Pane flex={1} alignItems="center" display="flex">
+            <Heading size={400}>{title}</Heading>
+          </Pane>
+        </Pane>
         <Table flex="1">
           <Table.Head accountForScrollbar>
             <Table.TextHeaderCell>Name</Table.TextHeaderCell>

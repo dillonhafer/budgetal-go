@@ -8,6 +8,7 @@ import MonthModal from './MonthModal';
 import { Heading, Pane, Select } from 'evergreen-ui';
 import AssetLiabilityTable from './AssetLiabilityTable';
 import Spinner from 'components/Spinner';
+import { colors } from '@shared/theme';
 
 class NetWorth extends Component {
   componentDidMount() {
@@ -111,14 +112,21 @@ class NetWorth extends Component {
     });
 
     return (
-      <Pane paddingLeft={24} paddingRight={24}>
+      <Pane>
         <Pane
+          paddingX={24}
           display="flex"
+          background={colors.primary}
           flexDirection="row"
           alignItems="center"
+          paddingTop={48}
+          paddingBottom={72}
+          marginBottom={-48}
           justifyContent="space-between"
         >
-          <Heading size={800}>NET WORTH FOR {year}</Heading>
+          <Heading color="white" size={800}>
+            Net Worth for {year}
+          </Heading>
           <Select
             value={year}
             onChange={this.changeYear}
@@ -135,41 +143,68 @@ class NetWorth extends Component {
           </Select>
         </Pane>
         <Spinner visible={loading || refreshing} />
-        <Pane display={loading || refreshing ? 'none' : ''} paddingTop={32}>
-          <Graphchart
-            assets={assetData}
-            liabilities={liabilityData}
-            netWorth={netWorthData}
-            onMonthClick={this.handleMonthClick}
-          />
-          <MonthModal
-            ref={monthModal => (this.monthModal = monthModal)}
-            month={this.state.selectedMonth}
-            reload={this.reloadMonthModal}
-            importNetWorthItems={this.props.importNetWorthItems}
-          />
-        </Pane>
-        <Pane
-          display={loading || refreshing ? 'none' : 'flex'}
-          flexWrap="wrap"
-          flexDirection="row"
-          justifyContent="space-between"
-        >
-          <AssetLiabilityTable
-            title="Assets"
-            items={this.props.assets}
-            emptyText={'No Assets'}
-            buttonTitle="Add Asset"
-            deleteAssetLiability={this.props.deleteAssetLiability}
-          />
-          <Pane width={16} />
-          <AssetLiabilityTable
-            title="Liabilities"
-            items={this.props.liabilities}
-            emptyText={'No Liabilities'}
-            buttonTitle="Add Liability"
-            deleteAssetLiability={this.props.deleteAssetLiability}
-          />
+        <Pane paddingX={24} marginTop={16}>
+          <Pane
+            flexDirection="column"
+            flex="1"
+            elevation={2}
+            overflow="hidden"
+            borderRadius={8}
+            background="white"
+            display={loading || refreshing ? 'none' : 'flex'}
+          >
+            <Pane
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              width="100%"
+              height={64}
+              borderBottom={'0.5px solid rgba(67, 90, 111, 0.25)'}
+              padding={16}
+            >
+              <Pane flex={1} alignItems="center" display="flex">
+                <Heading size={400}>Yearly Net Worth Graph</Heading>
+              </Pane>
+            </Pane>
+            <Pane padding={24}>
+              <Graphchart
+                assets={assetData}
+                liabilities={liabilityData}
+                netWorth={netWorthData}
+                onMonthClick={this.handleMonthClick}
+              />
+            </Pane>
+            <MonthModal
+              ref={monthModal => (this.monthModal = monthModal)}
+              month={this.state.selectedMonth}
+              reload={this.reloadMonthModal}
+              importNetWorthItems={this.props.importNetWorthItems}
+            />
+          </Pane>
+          <Pane
+            display={loading || refreshing ? 'none' : 'flex'}
+            flexWrap="wrap"
+            flexDirection="row"
+            justifyContent="space-between"
+            background="white"
+            marginTop={32}
+          >
+            <AssetLiabilityTable
+              title="Assets"
+              items={this.props.assets}
+              emptyText={'No Assets'}
+              buttonTitle="Add Asset"
+              deleteAssetLiability={this.props.deleteAssetLiability}
+            />
+            <Pane width={16} />
+            <AssetLiabilityTable
+              title="Liabilities"
+              items={this.props.liabilities}
+              emptyText={'No Liabilities'}
+              buttonTitle="Add Liability"
+              deleteAssetLiability={this.props.deleteAssetLiability}
+            />
+          </Pane>
         </Pane>
       </Pane>
     );

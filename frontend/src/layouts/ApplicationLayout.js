@@ -38,6 +38,7 @@ class Wrapper extends Component {
     const { pathname = '' } = this.props.location;
     const paddingTop =
       pathname.startsWith('/annual-budgets') ||
+      pathname.startsWith('/net-worth') ||
       pathname.startsWith('/monthly-statistics')
         ? 0
         : 24;
