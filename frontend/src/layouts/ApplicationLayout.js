@@ -40,6 +40,7 @@ class Wrapper extends Component {
       pathname.startsWith('/annual-budgets') ||
       pathname.startsWith('/net-worth') ||
       pathname.startsWith('/calculators') ||
+      pathname.startsWith('/account-settings') ||
       pathname.startsWith('/monthly-statistics')
         ? 0
         : 24;
