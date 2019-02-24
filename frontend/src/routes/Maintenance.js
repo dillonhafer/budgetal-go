@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
 import { maintenanceCheck } from 'api';
-import { Spinner, Text, Pane, toaster } from 'evergreen-ui';
+import { Heading, Paragraph, Spinner, Text, Pane, toaster } from 'evergreen-ui';
 import ProgressCircle from 'components/Progress/Circle';
 
 class Maintenance extends Component {
@@ -72,7 +72,9 @@ class Maintenance extends Component {
     const { timer } = this.state;
     return (
       <div className="error-page">
-        <h1>We are performing scheduled maintenance right now.</h1>
+        <Heading size={800}>
+          We are performing scheduled maintenance right now.
+        </Heading>
         <hr
           style={{
             border: 'none',
@@ -80,9 +82,13 @@ class Maintenance extends Component {
             marginBottom: '15px',
           }}
         />
-        <p style={{ marginBottom: '15px' }}>Refreshing automatically in</p>
+        <Paragraph fontFamily="Montserrat" marginBottom={15}>
+          Refreshing automatically in
+        </Paragraph>
         <ProgressCircle size="lg" percent={(timer / 15) * 100} text={timer} />
-        <p style={{ marginBottom: '30px' }}>We should be done shortly.</p>
+        <Paragraph fontFamily="Montserrat" marginBottom={30}>
+          We should be done shortly.
+        </Paragraph>
         <img alt="503" src="/500.svg" />
       </div>
     );

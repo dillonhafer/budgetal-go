@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { currencyf } from '@shared/helpers';
-import { Badge, Strong, Text, Pane, Popover } from 'evergreen-ui';
+import { Heading, Badge, Strong, Text, Pane, Popover } from 'evergreen-ui';
 
 class Month extends Component {
   state = {
@@ -19,7 +19,9 @@ class Month extends Component {
         </Badge>
         <br />
         <Badge color="red">{currencyf(month.interest)}</Badge>
-        <h3>{currencyf(month.balance)}</h3>
+        <Pane>
+          <Text>{currencyf(month.balance)}</Text>
+        </Pane>
       </div>
     );
 
@@ -44,13 +46,21 @@ class Month extends Component {
         isSolid = true;
         color = 'green';
       }
-      div = <div>Paid Month</div>;
+      div = (
+        <div>
+          <Text>Paid Month</Text>
+        </div>
+      );
     }
 
     if (month.early) {
       color = 'blue';
       isSolid = true;
-      div = <div>Paid Early!</div>;
+      div = (
+        <div>
+          <Text>Paid Early!</Text>
+        </div>
+      );
     }
 
     return (
