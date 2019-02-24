@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, Paragraph, Pane, Text, Dialog } from 'evergreen-ui';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 const HELP_FRAME = process.env.REACT_APP_HELP_FRAME || '';
 
 class Footer extends Component {
@@ -9,7 +9,6 @@ class Footer extends Component {
   };
 
   handlePrivacyClick = () => {
-    this.setState({});
     this.props.history.push('/privacy');
   };
 

@@ -83,10 +83,6 @@ class Header extends Component {
     if (link) this.props.history.push(link);
   };
 
-  reRender = () => {
-    this.setState({});
-  };
-
   renderMenuItems = () => {
     const signedIn = IsAuthenticated();
     if (signedIn) {
@@ -98,7 +94,6 @@ class Header extends Component {
           key="budgets"
           to={`/budgets/${year}/${month}`}
           isActive={this.selectedKeys}
-          onClick={this.reRender}
         >
           <Pane
             paddingX={20}
@@ -115,7 +110,6 @@ class Header extends Component {
           key="annual"
           to={`/annual-budgets/${year}`}
           isActive={this.selectedKeys}
-          onClick={this.reRender}
         >
           <Pane
             paddingX={20}
@@ -132,7 +126,6 @@ class Header extends Component {
           key="networth"
           to={`/net-worth/${year}`}
           isActive={this.selectedKeys}
-          onClick={this.reRender}
         >
           <Pane
             paddingX={20}
@@ -297,7 +290,7 @@ class Header extends Component {
           flexDirection="row"
           justifyContent="space-between"
         >
-          <Link to="/" onClick={this.reRender}>
+          <Link to="/">
             <div className="logo" />
           </Link>
 

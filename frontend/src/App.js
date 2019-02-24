@@ -4,9 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { IsAuthenticated } from 'authentication';
 import 'css/App.css';
 
-// Locale
-import { Pane } from 'evergreen-ui';
-
 // Layout
 import Header from 'layouts/Header';
 import ApplicationLayout from 'layouts/ApplicationLayout';
@@ -47,17 +44,18 @@ class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <div className="App">
-            <Pane
-              display={'flex'}
-              flexDirection={'column'}
-              flex={'auto'}
-              background={'#ececec'}
-            >
-              <Header resetSignIn={this.resetSignIn} />
-              <ApplicationLayout />
-              <Footer />
-            </Pane>
+          <div
+            className="App"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              flex: 'auto',
+              background: '#ececec',
+            }}
+          >
+            <Header resetSignIn={this.resetSignIn} />
+            <ApplicationLayout />
+            <Footer />
           </div>
         </Router>
       </Provider>

@@ -35,12 +35,14 @@ class Wrapper extends Component {
   }
 
   render() {
+    const { pathname = '' } = this.props.location;
     return (
       <div
         style={{
           borderRadius: '24px',
           paddingBottom: '24px',
-          paddingTop: '24px',
+          overflow: 'hidden',
+          paddingTop: pathname.startsWith('/annual-budgets') ? 0 : 24,
           background: 'white',
         }}
       >

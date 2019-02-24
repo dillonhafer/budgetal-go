@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { currencyf } from '@shared/helpers';
 import moment from 'moment';
 import { round } from 'lodash';
-import { Badge, Pane, Text, Paragraph, Heading, Strong } from 'evergreen-ui';
+import { Badge, Heading, Pane, Paragraph, Strong, Text } from 'evergreen-ui';
 import EditMenu from './EditMenu';
 
 class AnnualBudgetItem extends Component {
@@ -15,7 +15,10 @@ class AnnualBudgetItem extends Component {
 
     return (
       <Pane
+        elevation={2}
+        borderRadius={8}
         margin={16}
+        background="white"
         marginLeft={0}
         marginBottom={0}
         minWidth={252}
@@ -30,8 +33,7 @@ class AnnualBudgetItem extends Component {
           alignItems="center"
           justifyContent="center"
           width="100%"
-          border="default"
-          borderBottomWidth={0}
+          borderBottom={'0.5px solid rgba(67, 90, 111, 0.25)'}
           padding={16}
         >
           <Pane flex={1} alignItems="center" display="flex">
@@ -43,7 +45,6 @@ class AnnualBudgetItem extends Component {
         </Pane>
         <Pane
           width="100%"
-          border="default"
           display="flex"
           padding={16}
           alignItems="center"

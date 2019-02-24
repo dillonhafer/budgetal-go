@@ -16,6 +16,7 @@ import AnnualBudgetItemForm from './Form';
 import AnnualBudgetItem from './AnnualBudgetItem';
 import { Button, Pane, Heading, Select } from 'evergreen-ui';
 import Spinner from 'components/Spinner';
+import { colors } from '@shared/theme';
 
 const padding = (group, length) => {
   return length <= 3 ? 3 % length : length % 3 === 0 ? 0 : 3 - (length % 3);
@@ -135,14 +136,21 @@ class AnnualBudget extends Component {
     const { year } = this.props.match.params;
 
     return (
-      <Pane paddingLeft={24} paddingRight={24}>
+      <Pane>
         <Pane
+          paddingX={24}
           display="flex"
+          background={colors.primary}
           flexDirection="row"
           alignItems="center"
+          paddingTop={48}
+          paddingBottom={72}
+          marginBottom={-48}
           justifyContent="space-between"
         >
-          <Heading size={800}>ANNUAL BUDGET FOR {year}</Heading>
+          <Heading color="white" size={800}>
+            Annual Budgets for {year}
+          </Heading>
           <Select
             value={year}
             onChange={this.changeYear}
@@ -159,7 +167,7 @@ class AnnualBudget extends Component {
           </Select>
         </Pane>
 
-        <Pane marginY={16}>
+        <Pane paddingX={24}>
           {(loading && <Spinner visible={loading} />) || (
             <AnnualBudgetItemList
               loading={loading}

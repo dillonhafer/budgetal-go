@@ -8,7 +8,6 @@ import { Pane, Select, Menu } from 'evergreen-ui';
 import times from 'lodash/times';
 import { availableYears, monthName } from '@shared/helpers';
 import CategoryMenuItem from './CategoryMenuItem';
-import { withRouter } from 'react-router';
 
 class Sidebar extends Component {
   state = {
@@ -137,4 +136,4 @@ class Sidebar extends Component {
   }
 }
 
-export default withRouter(Sidebar);
+export default Sidebar;
