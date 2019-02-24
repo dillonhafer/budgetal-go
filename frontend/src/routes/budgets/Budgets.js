@@ -82,31 +82,38 @@ class Budget extends Component {
           <Header heading={`${monthName(budget.month)} ${budget.year}`}>
             <MonthlyIncomeModal />
           </Header>
-          <Pane paddingX={24}>
-            <Card title={`Budget Overview - ${currencyf(budget.income)}`}>
-              <MonthlyOverview />
-            </Card>
-          </Pane>
-        </Pane>
+          <Pane paddingX={24} marginTop={16} display="flex" flexDirection="row">
+            <Pane
+              display="flex"
+              maxWidth={200}
+              flexDirection="column"
+              marginRight={16}
+            >
+              <Sidebar
+                startLoading={() => {
+                  this.setState({ loading: true });
+                }}
+                history={this.props.history}
+                month={budget.month}
+                year={budget.year}
+              />
+            </Pane>
+            <Pane
+              display="flex"
+              flex="1"
+              flexDirection="column"
+              marginLeft={16}
+            >
+              <Pane>
+                <Card title={`Budget Overview - ${currencyf(budget.income)}`}>
+                  <MonthlyOverview />
+                </Card>
+              </Pane>
 
-        <Pane
-          display="flex"
-          marginTop={32}
-          flexDirection="row"
-          opacity={loading ? 0.5 : 1}
-        >
-          <Pane width={232}>
-            <Sidebar
-              startLoading={() => {
-                this.setState({ loading: true });
-              }}
-              history={this.props.history}
-              month={budget.month}
-              year={budget.year}
-            />
-          </Pane>
-          <Pane width="100%">
-            <BudgetCategory />
+              <Pane flexGrow={1} marginTop={32}>
+                <BudgetCategory />
+              </Pane>
+            </Pane>
           </Pane>
         </Pane>
         <ExpenseFormModal />

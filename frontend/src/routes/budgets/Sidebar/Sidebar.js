@@ -9,6 +9,8 @@ import times from 'lodash/times';
 import { availableYears, monthName } from '@shared/helpers';
 import CategoryMenuItem from './CategoryMenuItem';
 
+import Card from 'components/Card';
+
 class Sidebar extends Component {
   state = {
     showImportExpenseModal: false,
@@ -55,73 +57,75 @@ class Sidebar extends Component {
     const { month, year, budgetCategories, currentBudgetCategory } = this.props;
 
     return (
-      <Pane borderRight="1px solid #E4E7EB">
-        <Menu>
-          <Menu.Group title="Budget">
-            <Pane role="menuitem" textAlign="center">
-              <Select
-                value={month}
-                name="month"
-                onChange={this.handleOnDateChange}
-                flex="unset"
-                width={90}
-                marginRight={4}
-              >
-                {times(12, i => (
-                  <option key={i} value={i + 1}>
-                    {monthName(i + 1)}
-                  </option>
-                ))}
-              </Select>
-              <Select
-                value={year}
-                name="year"
-                onChange={this.handleOnDateChange}
-                flex="unset"
-                width={70}
-              >
-                {availableYears().map(y => {
-                  return (
-                    <option key={y} value={y.toString()}>
-                      {y}
+      <Pane>
+        <Card title={`Budget`} width={200} bodyPadding={0}>
+          <Menu>
+            <Menu.Group>
+              <Pane role="menuitem" textAlign="center">
+                <Select
+                  value={month}
+                  name="month"
+                  onChange={this.handleOnDateChange}
+                  flex="unset"
+                  width={90}
+                  marginRight={4}
+                >
+                  {times(12, i => (
+                    <option key={i} value={i + 1}>
+                      {monthName(i + 1)}
                     </option>
-                  );
-                })}
-              </Select>
-            </Pane>
-          </Menu.Group>
-        </Menu>
-        <Menu>
-          <Menu.Divider />
-          <Menu.Group
-            title="Budget Categories"
-            selected={currentBudgetCategory.name}
-          >
-            {budgetCategories.map(category => {
-              const isSelected = currentBudgetCategory.name === category.name;
-              return (
-                <CategoryMenuItem
-                  key={category.name}
-                  category={category}
-                  onSelect={this.handleOnSelect}
-                  isSelected={isSelected}
-                />
-              );
-            })}
-          </Menu.Group>
-          <Menu.Divider />
-          <Menu.Group title="Import">
-            <Menu.Item
-              onSelect={() => {
-                this.setState({ showImportExpenseModal: true });
-              }}
-              icon="import"
-              intent="none"
+                  ))}
+                </Select>
+                <Select
+                  value={year}
+                  name="year"
+                  onChange={this.handleOnDateChange}
+                  flex="unset"
+                  width={70}
+                >
+                  {availableYears().map(y => {
+                    return (
+                      <option key={y} value={y.toString()}>
+                        {y}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </Pane>
+            </Menu.Group>
+          </Menu>
+          <Menu>
+            <Menu.Divider />
+            <Menu.Group
+              title="Budget Categories"
+              selected={currentBudgetCategory.name}
             >
-              Import Expenses
-            </Menu.Item>
-          </Menu.Group>
-        </Menu>
+              {budgetCategories.map(category => {
+                const isSelected = currentBudgetCategory.name === category.name;
+                return (
+                  <CategoryMenuItem
+                    key={category.name}
+                    category={category}
+                    onSelect={this.handleOnSelect}
+                    isSelected={isSelected}
+                  />
+                );
+              })}
+            </Menu.Group>
+            <Menu.Divider />
+            <Menu.Group title="Import">
+              <Menu.Item
+                onSelect={() => {
+                  this.setState({ showImportExpenseModal: true });
+                }}
+                icon="import"
+                intent="none"
+              >
+                Import Expenses
+              </Menu.Item>
+            </Menu.Group>
+          </Menu>
+        </Card>
         <ImportExpenseModal
           budgetItems={this.props.budgetItems}
           budgetCategories={this.props.budgetCategories}

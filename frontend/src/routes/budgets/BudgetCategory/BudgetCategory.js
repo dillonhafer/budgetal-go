@@ -90,7 +90,7 @@ class BudgetCategory extends Component {
     const previousMonth = this.lastMonth();
 
     return (
-      <Pane marginRight={24} marginLeft="1.5rem">
+      <Pane>
         <Card
           title={
             <Pane
