@@ -21,7 +21,7 @@ class NoMatch extends Component {
             marginBottom: '15px',
           }}
         />
-        <Paragraph fontFamily="Montserrat" marginBottom="30px">
+        <Paragraph fontFamily="Lato" marginBottom="30px">
           You may have mistyped the address or the page may have moved.
         </Paragraph>
         <img alt="404" src="/404.svg" />

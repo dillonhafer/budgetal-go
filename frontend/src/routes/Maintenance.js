@@ -82,11 +82,11 @@ class Maintenance extends Component {
             marginBottom: '15px',
           }}
         />
-        <Paragraph fontFamily="Montserrat" marginBottom={15}>
+        <Paragraph fontFamily="Lato" marginBottom={15}>
           Refreshing automatically in
         </Paragraph>
         <ProgressCircle size="lg" percent={(timer / 15) * 100} text={timer} />
-        <Paragraph fontFamily="Montserrat" marginBottom={30}>
+        <Paragraph fontFamily="Lato" marginBottom={30}>
           We should be done shortly.
         </Paragraph>
         <img alt="503" src="/500.svg" />
