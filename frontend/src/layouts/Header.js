@@ -275,7 +275,7 @@ class Header extends Component {
       <Pane
         position="fixed"
         width="100%"
-        background="rgba(64, 64, 64, 0.96)"
+        background="rgba(16, 142, 233, 0.96)"
         zIndex={9999}
         paddingX={50}
         paddingY={0}

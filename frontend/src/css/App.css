@@ -14,6 +14,8 @@ body {
   margin: 6px;
   background-image: url(/app_logo.png);
   background-size: 50px 50px;
+  border: 1px solid white;
+  border-radius: 8px;
   background-repeat: no-repeat;
   float: left;
 }
@@ -31,7 +33,7 @@ body {
 .header .anchor {
   background: transparent;
   border: none;
-  color: hsla(0, 0%, 100%, 0.67);
+  color: white;
   text-decoration: none;
   cursor: pointer;
 }
@@ -39,11 +41,12 @@ body {
 .header .anchor:active,
 .header a:hover,
 .header a.active {
-  color: white;
+  color: hsla(0, 0%, 100%, 0.67);
 }
 
 .header a.active {
-  background: #0195ff;
+  background: rgba(255, 255, 255, 0.96);
+  color: rgba(16, 142, 233, 0.6);
 }
 
 .fade-enter {
