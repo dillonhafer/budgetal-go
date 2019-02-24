@@ -10,7 +10,7 @@ class Home extends Component {
 
   render() {
     return (
-      <Pane className="home-screen">
+      <Pane className="home-screen" marginTop={24}>
         <Pane
           display="flex"
           flexDirection="row"

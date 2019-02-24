@@ -36,17 +36,7 @@ class Wrapper extends Component {
 
   render() {
     const { pathname = '' } = this.props.location;
-    const paddingTop =
-      pathname.startsWith('/annual-budgets') ||
-      pathname.startsWith('/net-worth') ||
-      pathname.startsWith('/calculators') ||
-      pathname.startsWith('/account-settings') ||
-      pathname.startsWith('/privacy') ||
-      pathname.startsWith('/admin') ||
-      pathname.startsWith('/reset-password') ||
-      pathname.startsWith('/monthly-statistics')
-        ? 0
-        : 24;
+    const paddingTop = pathname.startsWith('/budgets/') ? 24 : 0;
     return (
       <div
         style={{
