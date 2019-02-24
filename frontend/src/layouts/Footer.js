@@ -22,7 +22,7 @@ class Footer extends Component {
 
   render() {
     return (
-      <Pane textAlign="center" paddingBottom={32}>
+      <Pane className="footer" textAlign="center" paddingBottom={32}>
         <Text>
           Budgetal © 2013-
           {new Date().getFullYear()} All rights reserved

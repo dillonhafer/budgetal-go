@@ -29,6 +29,13 @@ body {
   border-radius: 25px;
 }
 
+.footer *,
+.header *,
+.home-screen *,
+h2,
+h4 {
+  font-family: 'Montserrat', sans-serif !important;
+}
 .headermenu {
   text-decoration: none;
   outline: none;
