@@ -304,11 +304,11 @@ class Header extends Component {
   }
 
   render() {
-    console.log('loading header');
     return (
       <Pane
         position="fixed"
         width="100%"
+        elevation={2}
         background="rgba(16, 142, 233, 0.96)"
         zIndex={9999}
         paddingX={50}

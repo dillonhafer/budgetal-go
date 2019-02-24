@@ -38,10 +38,12 @@ class Wrapper extends Component {
     return (
       <div
         style={{
-          borderRadius: '24px',
-          paddingBottom: '24px',
+          borderRadius: '20px',
+          paddingBottom: '20px',
           overflow: 'hidden',
           background: 'white',
+          boxShadow:
+            '0 0 1px rgba(67, 90, 111, 0.3), 0 5px 8px -4px rgba(67, 90, 111, 0.47)',
         }}
       >
         {this.props.children}
