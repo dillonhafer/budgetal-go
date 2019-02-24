@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { notice, error } from 'window';
 import { ResetPasswordRequest } from '@shared/api/users';
-import { TextInputField, Pane, Heading, Button } from 'evergreen-ui';
+import { TextInputField, Pane, Button } from 'evergreen-ui';
+import Card from 'components/Card';
+import Header from 'components/Header';
 
 class ResetPassword extends Component {
   state = {
@@ -57,31 +59,35 @@ class ResetPassword extends Component {
   render() {
     return (
       <Pane>
-        <Heading size={800}>CHANGE YOUR PASSWORD</Heading>
-        <Pane marginTop={16} width={300}>
-          <form onSubmit={this.handleSubmit}>
-            <TextInputField
-              label="Password"
-              placeholder="Password"
-              type="password"
-              onChange={({ target: { value: password } }) => {
-                this.setState({ password });
-              }}
-              value={this.state.password}
-            />
-            <TextInputField
-              label="Password Confirmation"
-              placeholder="Password Confirmation"
-              type="password"
-              value={this.state.passwordConfirmation}
-              onChange={({ target: { value: passwordConfirmation } }) => {
-                this.setState({ passwordConfirmation });
-              }}
-            />
-            <Button appearance="primary" height={40}>
-              Change Password
-            </Button>
-          </form>
+        <Header heading={'Change your password'} />
+        <Pane marginTop={16} paddingX={24}>
+          <Card title="Password Reset Form">
+            <Pane width={300}>
+              <form onSubmit={this.handleSubmit}>
+                <TextInputField
+                  label="Password"
+                  placeholder="Password"
+                  type="password"
+                  onChange={({ target: { value: password } }) => {
+                    this.setState({ password });
+                  }}
+                  value={this.state.password}
+                />
+                <TextInputField
+                  label="Password Confirmation"
+                  placeholder="Password Confirmation"
+                  type="password"
+                  value={this.state.passwordConfirmation}
+                  onChange={({ target: { value: passwordConfirmation } }) => {
+                    this.setState({ passwordConfirmation });
+                  }}
+                />
+                <Button appearance="primary" height={40}>
+                  Change Password
+                </Button>
+              </form>
+            </Pane>
+          </Card>
         </Pane>
       </Pane>
     );
