@@ -13,13 +13,15 @@ import {
   Text,
   Position,
   Popover,
+  Icon,
   Menu,
 } from 'evergreen-ui';
 import SignIn from './SignIn';
-import { Link, NavLink, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { scrollTop, notice } from 'window';
+import { colors } from '@shared/theme';
 
-const ProfileImage = ({ user }) => {
+const ProfileImage = React.memo(({ user }) => {
   let src = '/missing-profile.png';
   if (user.avatarUrl) {
     src = user.avatarUrl;
@@ -37,7 +39,26 @@ const ProfileImage = ({ user }) => {
       marginRight={10}
     />
   );
-};
+});
+
+const NavMenuItem = React.memo(({ icon, active, to, title, ...rest }) => (
+  <Menu.Item
+    {...rest}
+    className={active ? 'headermenu active' : 'headermenu'}
+    is={to ? Link : Pane}
+    icon={
+      <Icon
+        icon={icon}
+        marginLeft={16}
+        marginRight={-4}
+        color={active ? 'white' : colors.primary}
+      />
+    }
+    to={to}
+  >
+    <Text color={colors.primary}>{title}</Text>
+  </Menu.Item>
+));
 
 class Header extends Component {
   signOut = () => {
@@ -59,28 +80,11 @@ class Header extends Component {
         RemoveAuthentication();
         this.props.resetSignIn();
         notice('You have been signed out', { id: 'logout' });
-        this.props.history.push('/');
+        setTimeout(() => {
+          window.location = '/';
+        }, 1000);
       }
     });
-  };
-
-  onSelect = ({ target: { innerText } }) => {
-    document.querySelector('#root').click();
-
-    if (innerText === 'Sign out') {
-      return this.signOut();
-    }
-
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth() + 1;
-
-    const link = {
-      'Account Settings': '/account-settings',
-      'Statistics (for geeks)': `/monthly-statistics/${year}/${month}`,
-      'Admin Panel': '/admin',
-      Mortgage: '/calculators/mortgage',
-    }[innerText];
-    if (link) this.props.history.push(link);
   };
 
   renderMenuItems = () => {
@@ -90,10 +94,10 @@ class Header extends Component {
       const month = new Date().getMonth() + 1;
       const user = GetCurrentUser();
       return [
-        <NavLink
+        <Link
           key="budgets"
           to={`/budgets/${year}/${month}`}
-          isActive={this.selectedKeys}
+          className={this.activeRoute() === 'budgets' ? 'active' : ''}
         >
           <Pane
             paddingX={20}
@@ -105,11 +109,11 @@ class Header extends Component {
           >
             <Text color="unset">Budgets</Text>
           </Pane>
-        </NavLink>,
-        <NavLink
+        </Link>,
+        <Link
           key="annual"
           to={`/annual-budgets/${year}`}
-          isActive={this.selectedKeys}
+          className={this.activeRoute() === 'annual-budgets' ? 'active' : ''}
         >
           <Pane
             paddingX={20}
@@ -121,11 +125,11 @@ class Header extends Component {
           >
             <Text color="unset">Annual Budgets</Text>
           </Pane>
-        </NavLink>,
-        <NavLink
+        </Link>,
+        <Link
           key="networth"
           to={`/net-worth/${year}`}
-          isActive={this.selectedKeys}
+          className={this.activeRoute() === 'net-worth' ? 'active' : ''}
         >
           <Pane
             paddingX={20}
@@ -137,16 +141,19 @@ class Header extends Component {
           >
             <Text color="unset">Net Worth</Text>
           </Pane>
-        </NavLink>,
+        </Link>,
         <Popover
           key="calc"
           position={Position.TOP_LEFT}
           content={
             <Menu>
               <Menu.Group>
-                <Menu.Item onSelect={this.onSelect} icon="home">
-                  Mortgage
-                </Menu.Item>
+                <NavMenuItem
+                  active={this.activeRoute() === 'calculators'}
+                  to="/calculators/mortgage"
+                  title="Mortgage"
+                  icon="home"
+                />
               </Menu.Group>
             </Menu>
           }
@@ -158,7 +165,9 @@ class Header extends Component {
             alignItems="center"
             justifyContent="center"
             height={64}
-            className="anchor"
+            className={
+              this.activeRoute() === 'calculators' ? 'anchor active' : 'anchor'
+            }
           >
             <Text color="unset">Calculators</Text>
           </Pane>
@@ -169,23 +178,34 @@ class Header extends Component {
           content={
             <Menu>
               <Menu.Group>
-                <Menu.Item onSelect={this.onSelect} icon="pie-chart">
-                  Statistics (for geeks)
-                </Menu.Item>
+                <NavMenuItem
+                  active={this.activeRoute() === 'statistics'}
+                  to={`/monthly-statistics/${year}/${month}`}
+                  title="Statistics (for geeks)"
+                  icon="pie-chart"
+                />
                 <Menu.Divider />
-                <Menu.Item onSelect={this.onSelect} icon="cog">
-                  Account Settings
-                </Menu.Item>
+                <NavMenuItem
+                  active={this.activeRoute() === 'account-settings'}
+                  to="/account-settings"
+                  title="Account Settings"
+                  icon="cog"
+                />
                 <Menu.Divider />
                 {user.admin && (
-                  <Menu.Item onSelect={this.onSelect} icon="lock">
-                    Admin Panel
-                  </Menu.Item>
+                  <NavMenuItem
+                    active={this.activeRoute() === 'admin'}
+                    to="/admin"
+                    title="Admin Panel"
+                    icon="lock"
+                  />
                 )}
                 {user.admin && <Menu.Divider />}
-                <Menu.Item onSelect={this.onSelect} icon="log-out">
-                  Sign out
-                </Menu.Item>
+                <NavMenuItem
+                  onSelect={this.signOut}
+                  title="Sign Out"
+                  icon="log-out"
+                />
               </Menu.Group>
             </Menu>
           }
@@ -197,7 +217,13 @@ class Header extends Component {
             display="flex"
             flexDirection="row"
             alignItems="center"
-            className="anchor"
+            className={
+              ['statistics', 'account-settings', 'admin'].includes(
+                this.activeRoute(),
+              )
+                ? 'anchor active'
+                : 'anchor'
+            }
           >
             <ProfileImage user={user} />
             <Text color="unset">
@@ -215,9 +241,12 @@ class Header extends Component {
           content={
             <Menu>
               <Menu.Group>
-                <Menu.Item onSelect={this.onSelect} icon="home">
-                  Mortgage
-                </Menu.Item>
+                <NavMenuItem
+                  active={this.activeRoute() === 'calculators'}
+                  to="/calculators/mortgage"
+                  title="Mortgage"
+                  icon="home"
+                />
               </Menu.Group>
             </Menu>
           }
@@ -229,7 +258,9 @@ class Header extends Component {
             alignItems="center"
             justifyContent="center"
             height={64}
-            className="anchor"
+            className={
+              this.activeRoute() === 'calculators' ? 'anchor active' : 'anchor'
+            }
           >
             <Text color="unset">Calculators</Text>
           </Pane>
@@ -249,28 +280,31 @@ class Header extends Component {
     }
   };
 
-  selectedKeys(match, loc) {
-    if (!match) {
-      return false;
-    }
-    const location = match.path;
+  activeRoute() {
     switch (true) {
-      case /\/budgets/.test(location):
-        return true;
-      case /\/detailed-budgets/.test(location):
-        return true;
-      case /\/annual-budgets/.test(location):
-        return true;
-      case /\/net-worth/.test(location):
-        return true;
-      case /\/calculators\/mortgage/.test(location):
-        return true;
+      case /\/budgets/.test(window.location.pathname):
+        return 'budgets';
+      case /\/detailed-budgets/.test(window.location.pathname):
+        return 'detailed-budgets';
+      case /\/annual-budgets/.test(window.location.pathname):
+        return 'annual-budgets';
+      case /\/net-worth/.test(window.location.pathname):
+        return 'net-worth';
+      case /\/calculators\/mortgage/.test(window.location.pathname):
+        return 'calculators';
+      case /\/account-settings/.test(window.location.pathname):
+        return 'account-settings';
+      case /\/monthly-statistics/.test(window.location.pathname):
+        return 'statistics';
+      case /\/admin/.test(window.location.pathname):
+        return 'admin';
       default:
-        return false;
+        return '';
     }
   }
 
   render() {
+    console.log('loading header');
     return (
       <Pane
         position="fixed"
@@ -308,4 +342,4 @@ class Header extends Component {
   }
 }
 
-export default withRouter(Header);
+export default Header;

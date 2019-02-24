@@ -7,7 +7,7 @@ import { IsAuthenticated } from 'authentication';
 class PrivateRoute extends Component {
   componentDidMount() {
     if (!IsAuthenticated()) {
-      error('You must log in');
+      error('You must sign in');
       this.props.history.replace('/');
     }
   }

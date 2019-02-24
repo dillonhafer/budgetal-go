@@ -29,6 +29,14 @@ body {
   border-radius: 25px;
 }
 
+.headermenu {
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+}
+.headermenu:hover {
+  background: rgba(67, 90, 111, 0.04);
+}
 .header a,
 .header .anchor {
   background: transparent;
@@ -37,6 +45,7 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+
 .header .anchor:hover,
 .header .anchor:active,
 .header a:hover,
@@ -44,9 +53,18 @@ body {
   color: hsla(0, 0%, 100%, 0.67);
 }
 
-.header a.active {
+.header a.active,
+.header .anchor.active {
   background: rgba(255, 255, 255, 0.96);
   color: rgba(16, 142, 233, 0.6);
+}
+
+.headermenu.active span {
+  color: rgba(255, 255, 255, 0.96);
+}
+.headermenu.active {
+  color: rgba(255, 255, 255, 0.96);
+  background: rgba(16, 142, 233, 1);
 }
 
 .fade-enter {
