@@ -15,20 +15,6 @@ import orderBy from 'lodash/orderBy';
 import AssetLiabilityForm from './AssetLiabilityForm';
 import DeleteConfirmation from './DeleteConfirmation';
 
-const TableHeader = ({ title }) => (
-  <Pane
-    display="flex"
-    padding={16}
-    marginBottom={8}
-    background="tint2"
-    borderRadius={3}
-  >
-    <Pane flex={1} alignItems="center" display="flex">
-      <Heading size={600}>{title}</Heading>
-    </Pane>
-  </Pane>
-);
-
 class AssetLiabilityTable extends Component {
   static propTypes = {
     items: PropTypes.arrayOf(

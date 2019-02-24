@@ -3,19 +3,14 @@ import PropTypes from 'prop-types';
 
 // Components
 import MonthChart from './MonthChart';
-import {
-  TextInputField,
-  Text,
-  Heading,
-  Pane,
-  Card,
-  SelectField,
-} from 'evergreen-ui';
+import { TextInputField, Text, Pane, SelectField } from 'evergreen-ui';
 
 // Helpers
 import moment from 'moment';
 import { title, scrollTop } from 'window';
 import { currencyf } from '@shared/helpers';
+import Card from 'components/Card';
+import Header from 'components/Header';
 
 class MortgageCalculator extends Component {
   static propTypes = {
@@ -146,9 +141,10 @@ class MortgageCalculator extends Component {
     const currentYear = new Date().getFullYear();
 
     return (
-      <Pane paddingLeft={24} paddingRight={24}>
-        <Heading size={800}>Mortgage Calculator</Heading>
+      <Pane>
+        <Header heading="Mortgage Calculator" />
         <Pane
+          paddingX={24}
           display="flex"
           flex="1"
           flexDirection="row"
@@ -162,8 +158,7 @@ class MortgageCalculator extends Component {
             justifyContent="space-between"
             marginRight={32}
           >
-            <Card background="tint2" padding={16}>
-              <Heading size={600}>Loan Details</Heading>
+            <Card title={'Loan Details'}>
               <Pane display="flex" flexDirection="row">
                 <Pane marginRight={32}>
                   <TextInputField
@@ -285,8 +280,7 @@ class MortgageCalculator extends Component {
             flexDirection="column"
             justifyContent="space-between"
           >
-            <Card background="tint2" padding={16}>
-              <Heading size={600}>Extra Payments</Heading>
+            <Card title={'Extra Payments'}>
               <TextInputField
                 label="Monthly"
                 type="number"
@@ -295,11 +289,12 @@ class MortgageCalculator extends Component {
               />
             </Card>
 
-            <Card background="tint2">
-              <Heading size={600} padding={16}>
-                {totalMonths} Month Mortgage - {currencyf(monthlyPayment)}
-                /month
-              </Heading>
+            <Card
+              marginTop={16}
+              title={`${totalMonths} Month Mortgage - ${currencyf(
+                monthlyPayment,
+              )}/month`}
+            >
               <Pane textAlign="center" padding={24}>
                 <Text>
                   Completed <b>{completedMonths}</b> out of{' '}
@@ -319,11 +314,13 @@ class MortgageCalculator extends Component {
           </Pane>
         </Pane>
 
-        <MonthChart
-          months={_months}
-          startYear={startYear}
-          startMonth={startMonth}
-        />
+        <Pane paddingX={24} marginTop={32}>
+          <MonthChart
+            months={_months}
+            startYear={startYear}
+            startMonth={startMonth}
+          />
+        </Pane>
       </Pane>
     );
   }
