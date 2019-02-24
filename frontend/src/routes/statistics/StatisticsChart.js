@@ -6,7 +6,7 @@ class StatisticsChart extends Component {
   static propTypes = {
     budgetCategories: PropTypes.arrayOf(
       PropTypes.shape({
-        percentSpent: PropTypes.string,
+        percentSpent: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         name: PropTypes.string,
       }),
     ),

@@ -7,6 +7,7 @@ import times from 'lodash/times';
 import './statistics.css';
 import StatisticsChart from './StatisticsChart';
 import Spinner from 'components/Spinner';
+import { colors } from '@shared/theme';
 
 class Statistics extends Component {
   state = {
@@ -78,16 +79,20 @@ class Statistics extends Component {
     const { loading } = this.state;
     const { month, year } = this.props.match.params;
     return (
-      <Pane paddingLeft={24} paddingRight={24}>
+      <Pane>
         <Pane
+          paddingX={24}
           display="flex"
+          background={colors.primary}
           flexDirection="row"
           alignItems="center"
+          paddingTop={48}
+          paddingBottom={72}
+          marginBottom={-48}
           justifyContent="space-between"
-          marginBottom={16}
         >
-          <Heading size={800}>
-            STATISTICS FOR {monthName(month).toUpperCase()} {year}
+          <Heading color="white" size={800}>
+            Statistics for {monthName(month)} {year}
           </Heading>
           <Pane>
             <Select
@@ -123,36 +128,83 @@ class Statistics extends Component {
         </Pane>
 
         <Spinner visible={loading} />
-        <Pane display={'flex'} flexDirection="row">
+        <Pane display={'flex'} paddingX={24} marginTop={16} flexDirection="row">
           {loading || this.state.budgetCategories.length > 0
             ? null
             : this.missing()}
-          <Pane display="flex" flex="1">
+          <Pane
+            display="flex"
+            flexDirection="column"
+            flex="1"
+            elevation={2}
+            borderRadius={8}
+            background="white"
+            marginRight={32}
+          >
+            <Pane
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              width="100%"
+              height={64}
+              borderBottom={'0.5px solid rgba(67, 90, 111, 0.25)'}
+              padding={16}
+            >
+              <Pane flex={1} alignItems="center" display="flex">
+                <Heading size={400}>Pie Chart Graph</Heading>
+              </Pane>
+            </Pane>
             <StatisticsChart budgetCategories={this.state.budgetCategories} />
           </Pane>
-          <Pane display="flex" flex="1">
-            <ul className="stat-list" style={{ width: '100%' }}>
-              {this.state.budgetCategories.map((category, key) => {
-                const statIconClass =
-                  'stat-icon stat-icon-' +
-                  category.name.toLowerCase().replace('/', '-');
-                return (
-                  <li key={key}>
-                    <div className="stat-list-item">
-                      <Text>
-                        <div className={statIconClass} />
-                        <b>{category.name}</b>
-                        <br />
-                        <span className="percentSpent">
-                          {currencyf(category.amountSpent)} -{' '}
-                          {category.percentSpent}%
-                        </span>
-                      </Text>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+          <Pane
+            display="flex"
+            flexDirection="column"
+            flex="1"
+            elevation={2}
+            borderRadius={8}
+            background="white"
+          >
+            <Pane
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              width="100%"
+              borderBottom={'0.5px solid rgba(67, 90, 111, 0.25)'}
+              height={64}
+              padding={16}
+            >
+              <Pane flex={1} alignItems="center" display="flex">
+                <Heading size={400}>Percent Spent By Category</Heading>
+              </Pane>
+            </Pane>
+
+            <Pane paddingX={32}>
+              <ul
+                style={{ marginLeft: 0, paddingLeft: 0, width: '100%' }}
+                className="stat-list"
+              >
+                {this.state.budgetCategories.map((category, key) => {
+                  const statIconClass =
+                    'stat-icon stat-icon-' +
+                    category.name.toLowerCase().replace('/', '-');
+                  return (
+                    <li key={key}>
+                      <div className="stat-list-item">
+                        <Text>
+                          <div className={statIconClass} />
+                          <b>{category.name}</b>
+                          <br />
+                          <span className="percentSpent">
+                            {currencyf(category.amountSpent)} -{' '}
+                            {category.percentSpent}%
+                          </span>
+                        </Text>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </Pane>
           </Pane>
         </Pane>
       </Pane>
