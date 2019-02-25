@@ -48,8 +48,8 @@ const blurMenu = () => {
 
 const NavMenuItem = React.memo(({ icon, active, to, title, ...rest }) => (
   <Menu.Item
-    {...rest}
     onSelect={blurMenu}
+    {...rest}
     className={active ? 'headermenu active' : 'headermenu'}
     is={to ? Link : Pane}
     icon={
@@ -268,7 +268,7 @@ class Header extends Component {
               this.activeRoute() === 'calculators' ? 'anchor active' : 'anchor'
             }
           >
-            <Text color="unset">Calculators</Text>
+            <Text>Calculators</Text>
           </Pane>
         </Popover>,
         <Pane

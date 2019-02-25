@@ -7,6 +7,7 @@
   background: rgba(67, 90, 111, 0.04);
 }
 .header a,
+.anchor span,
 .header .anchor {
   background: transparent;
   border: none;
@@ -17,12 +18,15 @@
 
 .header .anchor:hover,
 .header .anchor:active,
+.anchor span:hover,
+.anchor span:active,
 .header a:hover,
 .header a.active {
   color: hsla(0, 0%, 100%, 0.67);
 }
 
 .header a.active,
+.anchor.active span,
 .header .anchor.active {
   background: rgba(255, 255, 255, 0.96);
   color: rgba(16, 142, 233, 0.6);

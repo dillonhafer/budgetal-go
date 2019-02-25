@@ -38,7 +38,7 @@ class SignIn extends Component {
     return (
       <div>
         <Pane className="anchor" onClick={this.openModal}>
-          <Text color="unset">Sign In</Text>
+          <Text>Sign In</Text>
         </Pane>
         <Dialog
           width={350}
