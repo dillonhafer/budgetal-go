@@ -18,8 +18,9 @@ import {
 } from 'evergreen-ui';
 import SignIn from './SignIn';
 import { Link } from 'react-router-dom';
-import { scrollTop, notice } from 'window';
+import { notice } from 'window';
 import { colors } from '@shared/theme';
+import './header.css';
 
 const ProfileImage = React.memo(({ user }) => {
   let src = '/missing-profile.png';
@@ -41,9 +42,14 @@ const ProfileImage = React.memo(({ user }) => {
   );
 });
 
+const blurMenu = () => {
+  document.getElementById('root').click();
+};
+
 const NavMenuItem = React.memo(({ icon, active, to, title, ...rest }) => (
   <Menu.Item
     {...rest}
+    onSelect={blurMenu}
     className={active ? 'headermenu active' : 'headermenu'}
     is={to ? Link : Pane}
     icon={
@@ -310,13 +316,12 @@ class Header extends Component {
         width="100%"
         elevation={2}
         background="rgba(16, 142, 233, 0.96)"
-        zIndex={9999}
+        zIndex={20}
         paddingX={50}
         paddingY={0}
         height="64px"
         lineHeight="64px"
         flex="0 0 auto"
-        onClick={scrollTop}
       >
         <Pane
           className="header"
@@ -325,7 +330,18 @@ class Header extends Component {
           justifyContent="space-between"
         >
           <Link to="/">
-            <div className="logo" />
+            <Pane
+              width={52}
+              height={52}
+              margin={6}
+              marginLeft={0}
+              borderWidth={1}
+              borderColor="white"
+              borderStyle="solid"
+              borderRadius={8}
+            >
+              <img alt="Budgetal" width="100%" src="/app_logo.png" />
+            </Pane>
           </Link>
 
           <Pane

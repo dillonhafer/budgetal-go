@@ -10,7 +10,7 @@ class Home extends Component {
 
   render() {
     return (
-      <Pane className="home-screen" marginTop={24}>
+      <Pane className="home-screen" paddingY={40} marginTop={24}>
         <Pane
           display="flex"
           flexDirection="row"
@@ -28,7 +28,7 @@ class Home extends Component {
           >
             <img
               src={require('images/app-logo.png')}
-              className="app-logo-image"
+              style={styles.image}
               alt="budgetal"
             />
           </Pane>
@@ -96,5 +96,16 @@ class Home extends Component {
     );
   }
 }
+
+const styles = {
+  image: {
+    border: '5px solid #ececec',
+    width: '300px',
+    borderRadius: '50%',
+    boxShadow: '0px 0px 6px #bbb',
+    marginRight: 30,
+    maxWidth: '100%',
+  },
+};
 
 export default Home;

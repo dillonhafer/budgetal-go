@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { orderBy } from 'lodash';
-import { title } from 'window';
+import { title, scrollTop } from 'window';
 import { availableYears, monthName } from '@shared/helpers';
 import Graphchart from 'graphchart';
 import moment from 'moment';
@@ -15,6 +15,7 @@ class NetWorth extends Component {
     const year = this.props.match.params.year;
     title(`${year} | Net Worth`);
     this.loadNetWorthItems({ year });
+    scrollTop();
   }
 
   state = {

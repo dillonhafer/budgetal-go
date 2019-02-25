@@ -11,7 +11,7 @@ import Spinner from 'components/Spinner';
 import { Pane } from 'evergreen-ui';
 
 // Helpers
-import { title } from 'window';
+import { scrollTop, title } from 'window';
 import { monthName, currencyf } from '@shared/helpers';
 
 import Card from 'components/Card';
@@ -25,6 +25,7 @@ class Budget extends Component {
   componentDidMount() {
     this.loadBudget();
     this.updateTitle(this.props.match.params);
+    scrollTop();
   }
 
   updateTitle({ month, year }) {

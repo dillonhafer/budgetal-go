@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { title, scrollTop } from 'window';
-import { Paragraph, Heading } from 'evergreen-ui';
+import { Pane, Paragraph, Heading } from 'evergreen-ui';
+import { colors } from '@shared/theme';
 
 class NoMatch extends Component {
   componentDidMount() {
@@ -10,8 +11,8 @@ class NoMatch extends Component {
 
   render() {
     return (
-      <div className="error-page">
-        <Heading size={800}>
+      <Pane width={700} textAlign="center" marginY={84} marginX="auto">
+        <Heading size={800} color={colors.primary}>
           The page you were looking for doesn't exist.
         </Heading>
         <hr
@@ -21,11 +22,16 @@ class NoMatch extends Component {
             marginBottom: '15px',
           }}
         />
-        <Paragraph fontFamily="Lato" marginBottom="30px">
+        <Paragraph
+          fontSize="1rem"
+          lineHeight="1.6rem"
+          fontFamily="Lato"
+          marginBottom="30px"
+        >
           You may have mistyped the address or the page may have moved.
         </Paragraph>
         <img alt="404" src="/404.svg" />
-      </div>
+      </Pane>
     );
   }
 }

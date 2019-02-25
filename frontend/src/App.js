@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { IsAuthenticated } from 'authentication';
-import 'css/App.css';
 
 // Layout
 import Header from 'layouts/Header';
