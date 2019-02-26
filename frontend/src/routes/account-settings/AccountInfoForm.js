@@ -24,7 +24,7 @@ const accountInfoValidations = Yup.object().shape({
   currentPassword: Yup.string().required('Your Current Password is required'),
 });
 
-const ProfileImage = ({ user, onClick }) => {
+const ProfileImage = React.memo(({ user, onClick }) => {
   let src = { src: '/missing-profile.png' };
 
   if (user.avatarUrl) {
@@ -50,7 +50,7 @@ const ProfileImage = ({ user, onClick }) => {
       size={160}
     />
   );
-};
+});
 
 class AccountInfoForm extends PureComponent {
   state = {
