@@ -1,11 +1,23 @@
 package actions
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/dillonhafer/budgetal-go/backend/mailers"
 	"github.com/dillonhafer/budgetal-go/backend/models"
+	humanize "github.com/dustin/go-humanize"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/pop/nulls"
 )
+
+func fmtDuration(d time.Duration) string {
+	d = d.Round(time.Minute)
+	h := d / time.Hour
+	d -= h * time.Hour
+	m := d / time.Minute
+	return fmt.Sprintf("%02d:%02d", h, m)
+}
 
 type User struct {
 	ID             int          `json:"-" db:"id"`
@@ -31,13 +43,22 @@ func AdminUsers(c buffalo.Context, currentUser *models.User) error {
 	if allErr != nil {
 		return c.Render(422, r.JSON(allErr))
 	}
-	for i, _ := range users {
+	for i := range users {
 		user := &users[i]
 		url := &models.User{ID: user.ID, AvatarFileName: user.AvatarFileName}
 		user.AvatarUrl = url.AvatarUrl()
 	}
 
 	return c.Render(200, r.JSON(map[string]*[]User{"users": &users}))
+}
+
+func AdminServerInfo(c buffalo.Context, currentUser *models.User) error {
+	if currentUser.Admin != true {
+		return c.Render(401, r.JSON(""))
+	}
+
+	uptime := humanize.Time(StartTime)
+	return c.Render(200, r.JSON(map[string]string{"uptime": uptime}))
 }
 
 func AdminTestEmail(c buffalo.Context, currentUser *models.User) error {

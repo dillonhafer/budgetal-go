@@ -6,6 +6,7 @@ import {
   AdminTestEmailRequest,
   AdminErrorRequest,
   AdminTestPushNotificationRequest,
+  AdminServerInfoRequest,
 } from '@shared/api/admin';
 import moment from 'moment';
 
@@ -29,6 +30,7 @@ export default class Admin extends Component {
     pushNotificationLoading: false,
     pushNotificationVisible: false,
     users: [],
+    uptime: '',
   };
 
   componentDidMount() {
@@ -91,12 +93,14 @@ export default class Admin extends Component {
 
   checkForAdmin = async () => {
     const resp = await AdminUsersRequest();
-    const isAdmin = resp && resp.ok && resp.users.length;
+    const serverInfo = await AdminServerInfoRequest();
+    const isAdmin = resp && resp.ok && resp.users.length && serverInfo.ok;
     if (isAdmin) {
       title(`Admin`);
       this.setState({
         isAdmin,
         users: resp.users,
+        uptime: serverInfo.uptime,
       });
     } else {
       this.props.history.replace('404');
@@ -109,6 +113,7 @@ export default class Admin extends Component {
       testEmailLoading,
       errorLoading,
       pushNotificationLoading,
+      uptime,
     } = this.state;
     if (!isAdmin) {
       return null;
@@ -116,9 +121,9 @@ export default class Admin extends Component {
 
     return (
       <Pane>
-        <Header heading="Admin Panel" />
+        <Header heading="Admin Panel" subtext={`Server Started: ${uptime}`} />
         <Pane marginTop={16} paddingX={24}>
-          <Card title="Test Config">
+          <Card title={`Test Config`}>
             <Pane>
               <Button
                 height={40}

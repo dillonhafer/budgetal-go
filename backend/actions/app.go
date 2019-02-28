@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"time"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
@@ -15,6 +17,7 @@ var COOKIE_DOMAIN = envy.Get("COOKIE_DOMAIN", "api.budgetal.com")
 
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+var StartTime = time.Now()
 
 func WithCurrentUser(next func(buffalo.Context, *models.User) error) func(buffalo.Context) error {
 	return func(c buffalo.Context) error {
@@ -108,6 +111,7 @@ func App() *buffalo.App {
 
 		// Admin
 		app.GET("/admin/users", WithCurrentUser(AdminUsers))
+		app.GET("/admin/server-info", WithCurrentUser(AdminServerInfo))
 		app.GET("/admin/test-email", WithCurrentUser(AdminTestEmail))
 		app.GET("/admin/error", WithCurrentUser(AdminErrorPage))
 		app.POST("/admin/test-push-notification", WithCurrentUser(AdminTestPushNotification))
