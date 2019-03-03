@@ -90,6 +90,7 @@ export default class Highchart extends Component {
         ],
       },
       yAxis: {
+        min: 0,
         title: {
           text: '',
         },
