@@ -1,10 +1,4 @@
 @media only screen and (min-width: 320px) and (max-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
-  [aria-expanded='false'] svg[data-icon='menu'] {
-    fill: rgb(16, 142, 233) !important;
-  }
-  [aria-expanded='true'] svg[data-icon='menu'] {
-    fill: rgb(255, 255, 255) !important;
-  }
   .App > div {
     padding-left: 24px !important;
     padding-right: 24px !important;

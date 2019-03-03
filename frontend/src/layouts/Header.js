@@ -188,8 +188,8 @@ class Header extends Component {
                 <NavMenuItem
                   active={this.activeRoute() === 'statistics'}
                   to={`/monthly-statistics/${year}/${month}`}
-                  title="Statistics (for geeks)"
-                  icon="pie-chart"
+                  title="Statistics"
+                  icon="doughnut-chart"
                 />
                 <Menu.Divider />
                 <NavMenuItem
@@ -298,21 +298,21 @@ class Header extends Component {
           active={this.activeRoute() === 'budgets'}
           to={`/budgets/${year}/${month}`}
           title="Budgets"
-          icon="dollar"
+          icon="bank-account"
         />,
         <Menu.Divider />,
         <NavMenuItem
           active={this.activeRoute() === 'annual-budgets'}
           to={`/annual-budgets/${year}`}
           title="Annual Budgets"
-          icon="dollar"
+          icon="calendar"
         />,
         <Menu.Divider />,
         <NavMenuItem
           active={this.activeRoute() === 'net-worth'}
           to={`/net-worth/${year}`}
           title="Net Worth"
-          icon="pie-chart"
+          icon="series-add"
         />,
         <Menu.Divider />,
         <NavMenuItem
@@ -325,8 +325,8 @@ class Header extends Component {
         <NavMenuItem
           active={this.activeRoute() === 'statistics'}
           to={`/monthly-statistics/${year}/${month}`}
-          title="Statistics (for geeks)"
-          icon="pie-chart"
+          title="Statistics"
+          icon="doughnut-chart"
         />,
         <Menu.Divider />,
         <NavMenuItem
@@ -455,7 +455,15 @@ class Header extends Component {
                 </Menu>
               }
             >
-              <IconButton icon="menu" />
+              <Pane
+                height={64}
+                display="flex"
+                flexDirection="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <IconButton icon="menu" />
+              </Pane>
             </Popover>
           </Pane>
         </Pane>
