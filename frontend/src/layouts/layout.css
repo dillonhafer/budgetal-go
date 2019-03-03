@@ -1,0 +1,42 @@
+@media only screen and (min-width: 320px) and (max-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+  [aria-expanded='false'] svg[data-icon='menu'] {
+    fill: rgb(16, 142, 233) !important;
+  }
+  [aria-expanded='true'] svg[data-icon='menu'] {
+    fill: rgb(255, 255, 255) !important;
+  }
+  .App > div {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+  .App .nav-menu {
+    display: none !important;
+  }
+  .App .small-nav-menu {
+    display: flex !important;
+  }
+  nav .anchor span {
+    color: rgb(16, 142, 233) !important;
+  }
+  .main-layout {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+  .main-wrapper {
+    border-radius: 0px !important;
+  }
+  .home-screen {
+    text-align: center !important;
+  }
+  .home-screen div {
+    width: 100% !important;
+  }
+  .home-screen img[alt='Budgetal'] {
+    margin: 0 !important;
+  }
+  .home-screen img[alt='budgetal'] {
+    margin: 0 auto !important;
+    width: 70% !important;
+    margin-bottom: 30px !important;
+  }
+}

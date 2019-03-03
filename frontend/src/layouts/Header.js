@@ -7,6 +7,7 @@ import {
 } from 'authentication';
 import {
   Pane,
+  IconButton,
   Avatar,
   Spinner,
   toaster,
@@ -286,6 +287,91 @@ class Header extends Component {
     }
   };
 
+  renderMobileMenuItems = () => {
+    const signedIn = IsAuthenticated();
+    if (signedIn) {
+      const year = new Date().getFullYear();
+      const month = new Date().getMonth() + 1;
+      const user = GetCurrentUser();
+      return [
+        <NavMenuItem
+          active={this.activeRoute() === 'budgets'}
+          to={`/budgets/${year}/${month}`}
+          title="Budgets"
+          icon="dollar"
+        />,
+        <Menu.Divider />,
+        <NavMenuItem
+          active={this.activeRoute() === 'annual-budgets'}
+          to={`/annual-budgets/${year}`}
+          title="Annual Budgets"
+          icon="dollar"
+        />,
+        <Menu.Divider />,
+        <NavMenuItem
+          active={this.activeRoute() === 'net-worth'}
+          to={`/net-worth/${year}`}
+          title="Net Worth"
+          icon="pie-chart"
+        />,
+        <Menu.Divider />,
+        <NavMenuItem
+          active={this.activeRoute() === 'calculators'}
+          to="/calculators/mortgage"
+          title="Mortgage"
+          icon="home"
+        />,
+        <Menu.Divider />,
+        <NavMenuItem
+          active={this.activeRoute() === 'statistics'}
+          to={`/monthly-statistics/${year}/${month}`}
+          title="Statistics (for geeks)"
+          icon="pie-chart"
+        />,
+        <Menu.Divider />,
+        <NavMenuItem
+          active={this.activeRoute() === 'account-settings'}
+          to="/account-settings"
+          title="Account Settings"
+          icon="cog"
+        />,
+        <Menu.Divider />,
+        user.admin ? (
+          <NavMenuItem
+            active={this.activeRoute() === 'admin'}
+            to="/admin"
+            title="Admin Panel"
+            icon="lock"
+          />
+        ) : null,
+        user.admin ? <Menu.Divider /> : null,
+        <NavMenuItem onSelect={this.signOut} title="Sign Out" icon="log-out" />,
+      ];
+    } else {
+      return [
+        <NavMenuItem
+          active={this.activeRoute() === 'calculators'}
+          to="/calculators/mortgage"
+          title="Mortgage"
+          icon="home"
+        />,
+        <Menu.Divider />,
+        <Menu.Item
+          icon={
+            <Icon
+              icon={'log-in'}
+              marginLeft={16}
+              marginRight={-4}
+              color={colors.primary}
+            />
+          }
+        >
+          <SignIn resetSignIn={this.props.resetSignIn} />
+        </Menu.Item>,
+      ];
+    }
+  };
+
   activeRoute() {
     switch (true) {
       case /\/budgets/.test(window.location.pathname):
@@ -345,12 +431,32 @@ class Header extends Component {
           </Link>
 
           <Pane
+            className="nav-menu"
             display="flex"
             flexDirection="row"
             justifyContent="center"
             alignItems="center"
           >
             {this.renderMenuItems()}
+          </Pane>
+          <Pane
+            className="small-nav-menu"
+            display="none"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Popover
+              position={Position.TOP_LEFT}
+              top={64}
+              content={
+                <Menu>
+                  <Menu.Group>{this.renderMobileMenuItems()}</Menu.Group>
+                </Menu>
+              }
+            >
+              <IconButton icon="menu" />
+            </Popover>
           </Pane>
         </Pane>
       </Pane>

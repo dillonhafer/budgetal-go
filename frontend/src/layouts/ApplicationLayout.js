@@ -18,6 +18,7 @@ import NetWorth from 'routes/NetWorth';
 // Error Routes
 import NoMatch from 'routes/NoMatch';
 import Maintenance from 'routes/Maintenance';
+import './layout.css';
 
 class Wrapper extends Component {
   shouldComponentUpdate(next) {
@@ -37,6 +38,7 @@ class Wrapper extends Component {
   render() {
     return (
       <div
+        className="main-wrapper"
         style={{
           borderRadius: '20px',
           paddingBottom: '20px',
@@ -57,6 +59,7 @@ class ApplicationLayout extends Component {
     return (
       <main>
         <Pane
+          className="main-layout"
           marginTop={114}
           marginLeft={50}
           marginRight={50}

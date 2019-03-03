@@ -16,11 +16,11 @@ class Home extends Component {
           flexDirection="row"
           alignItems="center"
           justifyContent="center"
-          minWidth={380}
+          minWidth={320}
           flexWrap={'wrap'}
         >
           <Pane
-            minWidth={380}
+            minWidth={320}
             display="flex"
             flexDirection="column"
             alignItems="flex-end"
@@ -33,7 +33,7 @@ class Home extends Component {
             />
           </Pane>
           <Pane
-            minWidth={380}
+            minWidth={320}
             display="flex"
             flexDirection="column"
             flex="1 0 40%"
