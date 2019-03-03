@@ -1,8 +1,12 @@
 package actions
 
 import (
+	"log"
+	"os"
+	"strconv"
 	"time"
 
+	"github.com/airbrake/gobrake"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
@@ -60,6 +64,7 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 }
 
 func App() *buffalo.App {
+
 	if app == nil {
 		app = buffalo.New(buffalo.Options{
 			Env:          ENV,
@@ -67,7 +72,26 @@ func App() *buffalo.App {
 			PreWares:     []buffalo.PreWare{CorsPreware().Handler},
 		})
 
+		airbrakeProjectID, useAirbrake := os.LookupEnv("AIRBRAKE_PROJECT_ID")
+
+		var airbrake *gobrake.Notifier
+		if useAirbrake {
+			projectID, err := strconv.ParseInt(airbrakeProjectID, 0, 64)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			airbrake = gobrake.NewNotifierWithOptions(&gobrake.NotifierOptions{
+				ProjectId:   projectID,
+				ProjectKey:  os.Getenv("AIRBRAKE_API_KEY"),
+				Environment: os.Getenv("GO_ENV"),
+			})
+		}
+
 		app.ErrorHandlers[500] = func(status int, err error, c buffalo.Context) error {
+			if airbrake != nil {
+				airbrake.Notify(err, nil)
+			}
 			c.Logger().Errorf("\n[500] ERROR:\n%v\n\n", err)
 			ErrorNotification(err, c)
 
