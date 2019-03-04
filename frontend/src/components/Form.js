@@ -39,6 +39,8 @@ export const AmountInputField = ({
   name = 'amount',
   values,
   errors,
+  step = 1.0,
+  shiftStep = 10.0,
   touched,
   onChange,
   ...rest
@@ -47,6 +49,32 @@ export const AmountInputField = ({
     required
     name={name}
     label="Amount"
+    onKeyDown={e => {
+      const UP = 38;
+      const DOWN = 40;
+      let value = parseFloat(e.target.value);
+      switch (e.keyCode) {
+        case UP:
+          const adden = e.shiftKey ? shiftStep : step;
+          value = (value + adden).toFixed(2);
+          break;
+        case DOWN:
+          const subtrahend = e.shiftKey ? shiftStep : step;
+          value = (value - subtrahend).toFixed(2);
+          break;
+        default:
+          return;
+      }
+
+      onChange(
+        currencyEvent({
+          target: {
+            name,
+            value,
+          },
+        }),
+      );
+    }}
     value={values[name]}
     onChange={e => onChange(currencyEvent(e))}
     placeholder="(10.00)"

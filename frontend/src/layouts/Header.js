@@ -447,6 +447,7 @@ class Header extends Component {
             alignItems="center"
           >
             <Popover
+              bringFocusInside
               position={Position.TOP_LEFT}
               top={64}
               content={

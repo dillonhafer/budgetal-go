@@ -54,6 +54,7 @@ class SignInForm extends Component {
           label="E-mail Address"
           name="email"
           required
+          autoFocus
           autoComplete="username"
           onChange={handleChange}
           onBlur={handleBlur}

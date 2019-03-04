@@ -91,6 +91,8 @@ class MonthlyIncomeModal extends Component {
             onChange={handleChange}
             onBlur={handleBlur}
             name="income"
+            step={100}
+            shiftStep={1000}
             label="Monthly Income"
             placeholder="(3,500.00)"
           />
