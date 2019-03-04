@@ -72,7 +72,6 @@ class AssetLiabilityItemForm extends Component {
 
     return (
       <Dialog
-        preventBodyScrolling
         isShown={visible}
         title={itemType}
         width={350}

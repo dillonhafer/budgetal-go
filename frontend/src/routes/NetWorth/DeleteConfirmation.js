@@ -9,9 +9,10 @@ const DeleteConfirmation = ({
   isConfirmLoading,
   onConfirm,
   onCloseComplete,
+  preventBodyScrolling = true,
 }) => (
   <Dialog
-    preventBodyScrolling
+    preventBodyScrolling={preventBodyScrolling}
     width={450}
     intent="danger"
     hasHeader={false}

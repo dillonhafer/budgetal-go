@@ -176,6 +176,7 @@ class AssetLiabilityItemTable extends Component {
         </Table>
         <DeleteConfirmation
           title={`Are you sure?`}
+          preventBodyScrolling={false}
           message={`Do you want to delete ${this.state.item &&
             this.state.item.name}`}
           isShown={this.state.showDeleteConfirmation}

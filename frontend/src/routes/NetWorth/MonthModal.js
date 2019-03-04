@@ -83,7 +83,6 @@ class MonthModal extends Component {
           reload={this.props.reload}
         />
         <Dialog
-          preventBodyScrolling
           width={350}
           hasHeader={false}
           confirmLabel={`Copy ${this.lastMonth()} Items`}
