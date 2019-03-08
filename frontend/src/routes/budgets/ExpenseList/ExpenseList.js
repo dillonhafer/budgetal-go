@@ -25,10 +25,11 @@ class ExpenseList extends Component {
 
   newExpenseHandler = e => {
     e.preventDefault();
+    const today = new Date().getDate();
     const date = [
       this.props.budget.year,
       `0${this.props.budget.month}`.slice(-2),
-      '01',
+      today,
     ].join('-');
 
     this.props.selectExpense({
