@@ -8,8 +8,8 @@ import (
 
 	"github.com/airbrake/gobrake"
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/buffalo/middleware"
 	"github.com/gobuffalo/envy"
+	paramlogger "github.com/gobuffalo/mw-paramlogger"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/x/sessions"
@@ -100,7 +100,7 @@ func App() *buffalo.App {
 		}
 
 		if ENV == "development" {
-			app.Use(middleware.ParameterLogger)
+			app.Use(paramlogger.ParameterLogger)
 		}
 
 		// Authorization

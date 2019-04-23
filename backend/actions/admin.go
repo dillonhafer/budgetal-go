@@ -8,7 +8,7 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	humanize "github.com/dustin/go-humanize"
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 )
 
 func fmtDuration(d time.Duration) string {
@@ -22,8 +22,8 @@ func fmtDuration(d time.Duration) string {
 type User struct {
 	ID             int          `json:"-" db:"id"`
 	Email          string       `json:"email" db:"email"`
-	FirstName      string       `json:"firstName" db:"first_name"`
-	LastName       string       `json:"lastName" db:"last_name"`
+	FirstName      nulls.String `json:"firstName" db:"first_name"`
+	LastName       nulls.String `json:"lastName" db:"last_name"`
 	LastSignIn     string       `json:"lastSignIn" db:"last_sign_in"`
 	IP             string       `json:"ip" db:"last_ip"`
 	Total          int          `json:"signInCount" db:"sign_in_count"`

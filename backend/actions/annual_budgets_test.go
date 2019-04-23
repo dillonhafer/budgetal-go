@@ -9,14 +9,14 @@ import (
 )
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
 	annualBudgets := &models.AnnualBudgets{}
 	count, _ := as.DB.Count(annualBudgets)
 
 	as.Equal(count, 0)
 
-	r := as.JSON("/annual-budgets/2017").Get()
+	r := as.AuthenticJSON(user, "/annual-budgets/2017").Get()
 	as.Equal(200, r.Code)
 	var rb struct {
 		AnnualBudgetID    int                      `json:"annualBudgetId"`
@@ -31,13 +31,13 @@ func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {
 	as.Equal(count, 1)
 
 	// Idempotent
-	as.JSON("/annual-budgets/2017").Get()
+	as.AuthenticJSON(user, "/annual-budgets/2017").Get()
 	count, _ = as.DB.Count(annualBudgets)
 	as.Equal(count, 1)
 }
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_ReturnsBudgetItems() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
 	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
@@ -50,7 +50,7 @@ func (as *ActionSuite) Test_AnnualBudgets_Index_ReturnsBudgetItems() {
 	}
 	as.DB.Create(&i)
 
-	r := as.JSON("/annual-budgets/2017").Get()
+	r := as.AuthenticJSON(user, "/annual-budgets/2017").Get()
 	as.Equal(200, r.Code)
 	var rb struct {
 		AnnualBudgetID    int                      `json:"annualBudgetId"`
@@ -62,22 +62,22 @@ func (as *ActionSuite) Test_AnnualBudgets_Index_ReturnsBudgetItems() {
 }
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_BadYear() {
-	SignedInUser(as)
-	response := as.JSON("/annual-budgets/abcd").Get()
+	user := as.CreateUser()
+	response := as.AuthenticJSON(user, "/annual-budgets/abcd").Get()
 	as.Equal(404, response.Code)
 }
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_LowYear() {
-	SignedInUser(as)
-	response := as.JSON("/annual-budgets/2014").Get()
+	user := as.CreateUser()
+	response := as.AuthenticJSON(user, "/annual-budgets/2014").Get()
 	as.Equal(404, response.Code)
 }
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_HighYear() {
-	SignedInUser(as)
+	user := as.CreateUser()
 	url := fmt.Sprintf("/annual-budgets/%d", time.Now().Local().Year()+4)
 
-	response := as.JSON(url).Get()
+	response := as.AuthenticJSON(user, url).Get()
 	as.Equal(404, response.Code)
 }
 

@@ -3,7 +3,6 @@ package models
 import (
 	"bytes"
 	"crypto/md5"
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -23,27 +22,27 @@ import (
 	"github.com/disintegration/imaging"
 	"github.com/gobuffalo/envy"
 	"github.com/gobuffalo/pop"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/validate"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	ID                  int            `json:"-" db:"id"`
-	Email               string         `json:"email" db:"email"`
-	FirstName           string         `json:"firstName" db:"first_name"`
-	LastName            string         `json:"lastName" db:"last_name"`
-	Admin               bool           `json:"admin" db:"admin"`
-	PasswordResetToken  nulls.String   `json:"-" db:"password_reset_token"`
-	PasswordResetSentAt nulls.Time     `json:"-" db:"password_reset_sent_at"`
-	AvatarFileName      nulls.String   `json:"-" db:"avatar_file_name"`
-	AvatarContentType   sql.NullString `json:"-" db:"avatar_content_type"`
-	AvatarFileSize      sql.NullInt64  `json:"-" db:"avatar_file_size"`
-	AvatarUpdatedAt     time.Time      `json:"-" db:"avatar_updated_at"`
-	EncryptedPassword   string         `json:"-" db:"encrypted_password"`
-	CreatedAt           time.Time      `json:"-" db:"created_at"`
-	UpdatedAt           time.Time      `json:"-" db:"updated_at"`
-	CurrentSession      *Session       `json:"-" db:"-"`
+	ID                  int          `json:"-" db:"id"`
+	Email               string       `json:"email" db:"email"`
+	FirstName           nulls.String `json:"firstName" db:"first_name"`
+	LastName            nulls.String `json:"lastName" db:"last_name"`
+	Admin               bool         `json:"admin" db:"admin"`
+	PasswordResetToken  nulls.String `json:"-" db:"password_reset_token"`
+	PasswordResetSentAt nulls.Time   `json:"-" db:"password_reset_sent_at"`
+	AvatarFileName      nulls.String `json:"-" db:"avatar_file_name"`
+	AvatarContentType   nulls.String `json:"-" db:"avatar_content_type"`
+	AvatarFileSize      nulls.Int64  `json:"-" db:"avatar_file_size"`
+	AvatarUpdatedAt     nulls.Time   `json:"-" db:"avatar_updated_at"`
+	EncryptedPassword   string       `json:"-" db:"encrypted_password"`
+	CreatedAt           time.Time    `json:"-" db:"created_at"`
+	UpdatedAt           time.Time    `json:"-" db:"updated_at"`
+	CurrentSession      *Session     `json:"-" db:"-"`
 }
 
 // String is not required by pop and may be deleted
@@ -214,7 +213,7 @@ func (u *User) SaveAvatar(file multipart.File) error {
 	}
 
 	u.AvatarFileName = nulls.String{String: filename, Valid: true}
-	u.AvatarContentType = sql.NullString{String: extension, Valid: true}
+	u.AvatarContentType = nulls.String{String: extension, Valid: true}
 	return nil
 }
 

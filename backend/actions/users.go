@@ -4,7 +4,7 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 )
 
 func UsersUpdatePushNotificationToken(c buffalo.Context, currentUser *models.User) error {
@@ -45,15 +45,20 @@ func UsersChangePassword(c buffalo.Context, currentUser *models.User) error {
 func UsersUpdate(c buffalo.Context, currentUser *models.User) error {
 	// Verify Password
 	// or error
+	c.Request().ParseMultipartForm(0)
 	currentPassword := c.Request().FormValue("password")
 	if !currentUser.VerifyPassword(currentPassword) {
 		return c.Render(422, r.JSON(map[string]string{"error": "Incorrect Password"}))
 	}
 
 	// Update Attributes
-	currentUser.FirstName = c.Request().FormValue("firstName")
-	currentUser.LastName = c.Request().FormValue("lastName")
-	currentUser.Email = c.Request().FormValue("email")
+	first := c.Request().FormValue("firstName")
+	last := c.Request().FormValue("lastName")
+	email := c.Request().FormValue("email")
+
+	currentUser.FirstName = nulls.String{String: first, Valid: len(first) > 0}
+	currentUser.LastName = nulls.String{String: last, Valid: len(last) > 0}
+	currentUser.Email = email
 
 	// Update Avatar
 	file, _, err := c.Request().FormFile("avatar")

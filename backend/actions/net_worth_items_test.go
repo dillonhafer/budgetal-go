@@ -13,12 +13,12 @@ func (as *ActionSuite) Test_NetWorthsItems_Create_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_NetWorthItems_Create_Works() {
-	_, _, bobAsset, _, _, _ := setup(as)
+	bob, _, bobAsset, _, _, _ := setup(as)
 
 	var resp struct {
 		Item models.NetWorthItem `json:"item"`
 	}
-	r := as.JSON("/net-worths/2018/08/net-worth-items").Post(
+	r := as.AuthenticJSON(bob, "/net-worths/2018/08/net-worth-items").Post(
 		map[string]interface{}{
 			"assetId": bobAsset.ID,
 			"amount":  json.Number("200.00"),
@@ -30,9 +30,9 @@ func (as *ActionSuite) Test_NetWorthItems_Create_Works() {
 }
 
 func (as *ActionSuite) Test_NetWorthItems_Create_VerifiesAssetID() {
-	_, _, _, aliceAsset, _, _ := setup(as)
+	bob, _, _, aliceAsset, _, _ := setup(as)
 
-	r := as.JSON("/net-worths/2018/08/net-worth-items").Post(
+	r := as.AuthenticJSON(bob, "/net-worths/2018/08/net-worth-items").Post(
 		map[string]interface{}{
 			"assetId": aliceAsset.ID,
 			"amount":  json.Number("200.00"),
@@ -42,7 +42,7 @@ func (as *ActionSuite) Test_NetWorthItems_Create_VerifiesAssetID() {
 }
 
 func (as *ActionSuite) Test_NetWorthItems_Update_Works() {
-	_, _, bobAsset, _, bobNetWorth, _ := setup(as)
+	bob, _, bobAsset, _, bobNetWorth, _ := setup(as)
 	bobItem := models.NetWorthItem{
 		NetWorthID:       bobNetWorth.ID,
 		AssetLiabilityID: bobAsset.ID,
@@ -53,7 +53,7 @@ func (as *ActionSuite) Test_NetWorthItems_Update_Works() {
 	var resp struct {
 		Item models.NetWorthItem `json:"item"`
 	}
-	r := as.JSON(fmt.Sprintf("/net-worth-items/%d", bobItem.ID)).Patch(
+	r := as.AuthenticJSON(bob, fmt.Sprintf("/net-worth-items/%d", bobItem.ID)).Patch(
 		map[string]interface{}{
 			"amount": json.Number("300.00"),
 		})
@@ -64,7 +64,7 @@ func (as *ActionSuite) Test_NetWorthItems_Update_Works() {
 }
 
 func (as *ActionSuite) Test_NetWorthItems_Update_VerifiesAssetID() {
-	_, _, _, aliceAsset, _, aliceNetWorth := setup(as)
+	bob, _, _, aliceAsset, _, aliceNetWorth := setup(as)
 	aliceItem := models.NetWorthItem{
 		NetWorthID:       aliceNetWorth.ID,
 		AssetLiabilityID: aliceAsset.ID,
@@ -72,7 +72,7 @@ func (as *ActionSuite) Test_NetWorthItems_Update_VerifiesAssetID() {
 	}
 	models.DB.Create(&aliceItem)
 
-	r := as.JSON(fmt.Sprintf("/net-worth-items/%d", aliceItem.ID)).Patch(
+	r := as.AuthenticJSON(bob, fmt.Sprintf("/net-worth-items/%d", aliceItem.ID)).Patch(
 		map[string]interface{}{
 			"amount": json.Number("300.00"),
 		})
@@ -81,7 +81,7 @@ func (as *ActionSuite) Test_NetWorthItems_Update_VerifiesAssetID() {
 }
 
 func (as *ActionSuite) Test_NetWorthItems_Delete_Works() {
-	_, _, bobAsset, _, bobNetWorth, _ := setup(as)
+	bob, _, bobAsset, _, bobNetWorth, _ := setup(as)
 	bobItem := models.NetWorthItem{
 		NetWorthID:       bobNetWorth.ID,
 		AssetLiabilityID: bobAsset.ID,
@@ -92,14 +92,14 @@ func (as *ActionSuite) Test_NetWorthItems_Delete_Works() {
 	var resp struct {
 		Ok bool `json:"ok"`
 	}
-	r := as.JSON(fmt.Sprintf("/net-worth-items/%d", bobItem.ID)).Delete()
+	r := as.AuthenticJSON(bob, fmt.Sprintf("/net-worth-items/%d", bobItem.ID)).Delete()
 	json.NewDecoder(r.Body).Decode(&resp)
 	as.Equal(200, r.Code)
 	as.Equal(true, resp.Ok)
 }
 
 func (as *ActionSuite) Test_NetWorthItems_Delete_VerifiesAssetID() {
-	_, _, _, aliceAsset, _, aliceNetWorth := setup(as)
+	bob, _, _, aliceAsset, _, aliceNetWorth := setup(as)
 	aliceItem := models.NetWorthItem{
 		NetWorthID:       aliceNetWorth.ID,
 		AssetLiabilityID: aliceAsset.ID,
@@ -110,17 +110,17 @@ func (as *ActionSuite) Test_NetWorthItems_Delete_VerifiesAssetID() {
 	var resp struct {
 		Ok bool `json:"ok"`
 	}
-	r := as.JSON(fmt.Sprintf("/net-worth-items/%d", aliceItem.ID)).Delete()
+	r := as.AuthenticJSON(bob, fmt.Sprintf("/net-worth-items/%d", aliceItem.ID)).Delete()
 	json.NewDecoder(r.Body).Decode(&resp)
 	as.Equal(403, r.Code)
 	as.Equal(false, resp.Ok)
 }
 
-func setup(as *ActionSuite) (bob, alice *models.User, bobAsset, aliceAsset *models.AssetLiability, bobNetWorth, aliceNetWorth *models.NetWorth) {
-	b := as.SignedInUser()
-	a := as.CreateUser(false)
-	bob = &b
-	alice = &a
+func setup(as *ActionSuite) (bob, alice models.User, bobAsset, aliceAsset *models.AssetLiability, bobNetWorth, aliceNetWorth *models.NetWorth) {
+	b := as.CreateUser()
+	a := as.CreateUser()
+	bob = b
+	alice = a
 
 	// Bob's items
 	bobNetWorth = &models.NetWorth{

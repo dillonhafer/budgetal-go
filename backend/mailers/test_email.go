@@ -10,8 +10,8 @@ import (
 
 func BuildTestEmail(user *models.User) (mail.Message, error) {
 	to := user.Email
-	if user.FirstName != "" {
-		to = user.FirstName + " <" + user.Email + ">"
+	if user.FirstName.Valid {
+		to = user.FirstName.String + " <" + user.Email + ">"
 	}
 	m := mail.NewMessage()
 	m.Subject = "Test Email"

@@ -29,12 +29,12 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Create_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_AnnualBudgetItems_Create_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
 	b.FindOrCreate()
 
 	// Create Annual Budget
-	r := as.JSON("/annual-budget-items").Post(AnnualBudgetItemParams{
+	r := as.AuthenticJSON(user, "/annual-budget-items").Post(AnnualBudgetItemParams{
 		AnnualBudgetID: b.ID,
 		Amount:         json.Number("0.00"),
 		Name:           "Insurance",
@@ -60,7 +60,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Create_Works() {
 }
 
 func (as *ActionSuite) Test_AnnualBudgetItems_Update_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
 	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
@@ -74,7 +74,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Update_Works() {
 	as.DB.Create(&i)
 
 	// Update Annual Budget
-	r := as.JSON(fmt.Sprintf("/annual-budget-items/%d", i.ID)).Put(AnnualBudgetItemParams{
+	r := as.AuthenticJSON(user, fmt.Sprintf("/annual-budget-items/%d", i.ID)).Put(AnnualBudgetItemParams{
 		Amount:   json.Number("10.00"),
 		Name:     "Life Insurance",
 		DueDate:  "2017-12-24",
@@ -101,7 +101,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Update_Works() {
 }
 
 func (as *ActionSuite) Test_AnnualBudgetItems_Update_RequiresUser() {
-	user := as.CreateUser(false)
+	user := as.CreateUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
 	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
@@ -129,7 +129,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Update_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_AnnualBudgetItems_Delete_Works() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
 	b.FindOrCreate()
 	i := models.AnnualBudgetItem{
@@ -146,7 +146,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Delete_Works() {
 	as.Equal(1, beforeTotal)
 
 	// Delete Annual Budget
-	r := as.JSON(fmt.Sprintf("/annual-budget-items/%d", i.ID)).Delete()
+	r := as.AuthenticJSON(user, fmt.Sprintf("/annual-budget-items/%d", i.ID)).Delete()
 	as.Equal(200, r.Code)
 
 	afterTotal, _ := as.DB.Count(&models.AnnualBudgetItems{})
@@ -154,7 +154,7 @@ func (as *ActionSuite) Test_AnnualBudgetItems_Delete_Works() {
 }
 
 func (as *ActionSuite) Test_AnnualBudgetItems_Delete_RequiresUser() {
-	user := as.CreateUser(false)
+	user := as.CreateUser()
 	b := models.AnnualBudget{Year: 2017, UserID: user.ID}
 	b.FindOrCreate()
 	i := models.AnnualBudgetItem{

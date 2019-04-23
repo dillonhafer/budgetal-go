@@ -36,7 +36,7 @@ func RegisterUser(c buffalo.Context) error {
 		UserID:              user.ID,
 		IpAddress:           c.Request().RemoteAddr,
 	}
-	query := session.Create()
+	query, _ := session.Create()
 	c.Logger().Debug(query)
 
 	// 4. set cookie

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/gobuffalo/httptest"
 	"github.com/gobuffalo/suite"
 )
 
@@ -19,51 +20,50 @@ func Test_ActionSuite(t *testing.T) {
 	suite.Run(t, as)
 }
 
-func SignedInUser(as *ActionSuite) models.User {
-	return signInUser(false, as)
+func (as *ActionSuite) CreateUser() models.User {
+	return as.createUser(false)
+}
+func (as *ActionSuite) CreateAdminUser() models.User {
+	return as.createUser(true)
 }
 
-func (as *ActionSuite) SignedInUser() models.User {
-	return signInUser(false, as)
-}
-
-func SignedInAdminUser(as *ActionSuite) models.User {
-	return signInUser(true, as)
-}
-
-func (as *ActionSuite) CreateUser(admin bool) models.User {
+func (as *ActionSuite) createUser(admin bool) models.User {
 	user := models.User{Email: "user@example.com", Admin: admin}
 	user.EncryptPassword([]byte("password"))
-	as.DB.Create(&user)
+	models.DB.Create(&user)
+
 	return user
 }
 
-func (as *ActionSuite) CreateSession(userId int) models.Session {
+func (as *ActionSuite) CreateSession(userID int) models.Session {
 	session := models.Session{
 		UserAgent:           "TEST",
 		AuthenticationToken: RandomHex(16),
-		UserID:              userId,
+		UserID:              userID,
 		IpAddress:           "127.0.0.1",
 	}
 	session.Create()
+
 	return session
 }
 
-func signInUser(admin bool, as *ActionSuite) models.User {
-	user := as.CreateUser(admin)
-	as.SignInUser(user)
+func (as *ActionSuite) Authenticate(user models.User) *httptest.Handler {
+	session := as.CreateSession(user.ID)
+	handler := httptest.New(as.App)
 
-	return user
+	// Set Auth Headers
+	cookie := fmt.Sprintf("%s=%s; Expires=Tue, 09 Nov 2027 00:17:27 GMT; HttpOnly", AUTH_COOKIE_KEY, session.AuthenticationKey)
+	handler.Cookies = cookie
+	handler.Headers[AUTH_HEADER_KEY] = session.AuthenticationToken
+	return handler
 }
 
-func (as *ActionSuite) SignInUser(user models.User) {
-	// Create Session
-	session := as.CreateSession(user.ID)
+func (as *ActionSuite) AuthenticJSON(user models.User, url string) *httptest.JSON {
+	return as.Authenticate(user).JSON(url)
+}
 
-	// Sign In User
-	cookie := fmt.Sprintf("%s=%s; Expires=Tue, 09 Nov 2027 00:17:27 GMT; HttpOnly", AUTH_COOKIE_KEY, session.AuthenticationKey)
-	as.Willie.Headers[AUTH_HEADER_KEY] = session.AuthenticationToken
-	as.Willie.Cookies = cookie
+func (as *ActionSuite) AuthenticHTML(user models.User, url string) *httptest.Request {
+	return as.Authenticate(user).HTML(url)
 }
 
 func (as *ActionSuite) CreateBudget(userId, year, month int, income string) (models.Budget, models.BudgetCategories) {

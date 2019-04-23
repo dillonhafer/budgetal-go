@@ -16,9 +16,9 @@ func (as *ActionSuite) Test_AssetsLiabilities_Create_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_AssetsLiabilities_Create_Works() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
-	r := as.JSON("/assets-liabilities").Post(models.AssetLiability{
+	r := as.AuthenticJSON(user, "/assets-liabilities").Post(models.AssetLiability{
 		Name:    "Home",
 		IsAsset: true,
 	})
@@ -42,7 +42,7 @@ func (as *ActionSuite) Test_AssetsLiabilities_Update_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_AssetsLiabilities_Update_Works() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 	al := &models.AssetLiability{
 		UserID:  user.ID,
 		Name:    "Home",
@@ -55,7 +55,7 @@ func (as *ActionSuite) Test_AssetsLiabilities_Update_Works() {
 	as.Equal(1, count)
 
 	// Update Asset
-	r := as.JSON(fmt.Sprintf("/assets-liabilities/%d", al.ID)).Patch(models.AssetLiability{
+	r := as.AuthenticJSON(user, fmt.Sprintf("/assets-liabilities/%d", al.ID)).Patch(models.AssetLiability{
 		Name: "Our Home",
 	})
 	var rb struct {
@@ -68,7 +68,7 @@ func (as *ActionSuite) Test_AssetsLiabilities_Update_Works() {
 }
 
 func (as *ActionSuite) Test_AssetsLiabilities_Delete_Works() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 	al := &models.AssetLiability{
 		UserID:  user.ID,
 		Name:    "Home",
@@ -95,7 +95,7 @@ func (as *ActionSuite) Test_AssetsLiabilities_Delete_Works() {
 	as.Equal(1, count)
 
 	// Update Asset
-	r := as.JSON(fmt.Sprintf("/assets-liabilities/%d", al.ID)).Delete()
+	r := as.AuthenticJSON(user, fmt.Sprintf("/assets-liabilities/%d", al.ID)).Delete()
 	var rb struct {
 		Ok bool `json:"ok"`
 	}

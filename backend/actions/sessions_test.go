@@ -8,13 +8,13 @@ import (
 )
 
 func (as *ActionSuite) Test_Sessions_Index() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
 	var expectedResponse struct {
 		Sessions map[string][]models.Session
 	}
 
-	r := as.JSON("/sessions").Get()
+	r := as.AuthenticJSON(user, "/sessions").Get()
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 	as.Equal(1, len(expectedResponse.Sessions["active"]))
 }
@@ -25,10 +25,10 @@ func (as *ActionSuite) Test_Sessions_Index_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_Sessions_Delete() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 	session := as.CreateSession(user.ID)
 
-	r := as.JSON(fmt.Sprintf("/sessions/%s", session.AuthenticationKey)).Delete()
+	r := as.AuthenticJSON(user, fmt.Sprintf("/sessions/%s", session.AuthenticationKey)).Delete()
 	as.Equal(200, r.Code)
 }
 

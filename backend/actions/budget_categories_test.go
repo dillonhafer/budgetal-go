@@ -8,7 +8,7 @@ import (
 )
 
 func (as *ActionSuite) Test_BudgetCategory_Import_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	// Setup previous budget
 	oldBudget := models.Budget{Year: 2017, Month: 12, UserID: user.ID}
 	oldBudget.FindOrCreate()
@@ -35,7 +35,7 @@ func (as *ActionSuite) Test_BudgetCategory_Import_Works() {
 	as.Equal(3, preTotal)
 
 	// Perform request
-	r := as.JSON(fmt.Sprintf("/budget-categories/%d/import", category.ID)).Post(map[string]string{})
+	r := as.AuthenticJSON(user, fmt.Sprintf("/budget-categories/%d/import", category.ID)).Post(map[string]string{})
 	var rb struct {
 		Message string `json:"message"`
 	}

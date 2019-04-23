@@ -9,7 +9,7 @@ import (
 )
 
 func (as *ActionSuite) Test_BudgetItemExpenses_Create_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := &models.BudgetCategory{}
@@ -22,7 +22,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Create_Works() {
 	}
 	as.DB.Create(i)
 
-	r := as.JSON("/budget-item-expenses").Post(map[string]interface{}{
+	r := as.AuthenticJSON(user, "/budget-item-expenses").Post(map[string]interface{}{
 		"budgetItemId": i.ID,
 		"name":         "Account Transfer",
 		"amount":       json.Number("200.00"),
@@ -40,7 +40,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Create_Works() {
 }
 
 func (as *ActionSuite) Test_BudgetItemExpenses_Update_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := &models.BudgetCategory{}
@@ -60,7 +60,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Update_Works() {
 	}
 	as.DB.Create(e)
 
-	r := as.JSON(fmt.Sprintf("/budget-item-expenses/%d", e.ID)).Put(map[string]interface{}{
+	r := as.AuthenticJSON(user, fmt.Sprintf("/budget-item-expenses/%d", e.ID)).Put(map[string]interface{}{
 		"budgetItemId": i.ID,
 		"name":         "Account Withdraw",
 		"amount":       json.Number("200.00"),
@@ -82,7 +82,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Update_Works() {
 }
 
 func (as *ActionSuite) Test_BudgetItemExpenses_Delete_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := models.BudgetCategory{}
@@ -105,7 +105,7 @@ func (as *ActionSuite) Test_BudgetItemExpenses_Delete_Works() {
 	beforeTotal, _ := as.DB.Count(&models.BudgetItemExpense{})
 	as.Equal(1, beforeTotal)
 
-	r := as.JSON(fmt.Sprintf("/budget-item-expenses/%d", e.ID)).Delete()
+	r := as.AuthenticJSON(user, fmt.Sprintf("/budget-item-expenses/%d", e.ID)).Delete()
 	as.Equal(200, r.Code)
 
 	afterTotal, _ := as.DB.Count(&models.BudgetItemExpense{})

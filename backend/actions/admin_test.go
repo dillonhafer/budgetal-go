@@ -7,22 +7,20 @@ import (
 )
 
 func (as *ActionSuite) Test_Admin_UsersNotAuthenticated() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
 	var expectedResponse struct {
 		Users []models.User
 	}
 
-	r := as.JSON("/admin/users").Get()
+	r := as.AuthenticJSON(user, "/admin/users").Get()
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 	as.Equal(401, r.Code)
-
 }
 
 func (as *ActionSuite) Test_Admin_TestPushNotification_NotAdmin() {
-	SignedInUser(as)
-
-	r := as.JSON("/admin/test-push-notification").Post(map[string]string{"title": "Title", "body": "Body"})
+	user := as.CreateUser()
+	r := as.AuthenticJSON(user, "/admin/test-push-notification").Post(map[string]string{"title": "Title", "body": "Body"})
 	as.Equal(401, r.Code)
 }
 
@@ -32,13 +30,13 @@ func (as *ActionSuite) Test_Admin_TestPushNotification_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_Admin_UsersSeesUsers() {
-	SignedInAdminUser(as)
+	user := as.CreateAdminUser()
 
 	var expectedResponse struct {
 		Users []models.User
 	}
 
-	r := as.JSON("/admin/users").Get()
+	r := as.AuthenticJSON(user, "/admin/users").Get()
 	json.NewDecoder(r.Body).Decode(&expectedResponse)
 	as.Equal(200, r.Code)
 	as.Equal(1, len(expectedResponse.Users))

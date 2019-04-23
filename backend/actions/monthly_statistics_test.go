@@ -3,7 +3,7 @@ package actions
 import "encoding/json"
 
 func (as *ActionSuite) Test_MonthlyStatistics_Show() {
-	as.SignedInUser()
+	user := as.CreateUser()
 
 	type Category struct {
 		Name        string `json:"name"`
@@ -13,7 +13,7 @@ func (as *ActionSuite) Test_MonthlyStatistics_Show() {
 		Categories []Category `json:"budgetCategories"`
 	}
 
-	r := as.JSON("/monthly-statistics/2017/11").Get()
+	r := as.AuthenticJSON(user, "/monthly-statistics/2017/11").Get()
 	json.NewDecoder(r.Body).Decode(&resp)
 	as.Equal(200, r.Code)
 	as.Equal(0, len(resp.Categories))
@@ -25,15 +25,15 @@ func (as *ActionSuite) Test_MonthlyStatistics_Show_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_MonthlyStatistics_Show_BadMonth() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
-	response := as.JSON("/monthly-statistics/2017/13").Get()
+	response := as.AuthenticJSON(user, "/monthly-statistics/2017/13").Get()
 	as.Equal(404, response.Code)
 }
 
 func (as *ActionSuite) Test_MonthlyStatistics_Show_BadYear() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
-	response := as.JSON("/monthly-statistics/2014/12").Get()
+	response := as.AuthenticJSON(user, "/monthly-statistics/2014/12").Get()
 	as.Equal(404, response.Code)
 }

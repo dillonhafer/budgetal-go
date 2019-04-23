@@ -6,10 +6,11 @@ import (
 	"testing"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/gobuffalo/nulls"
 )
 
 func Test_TestEmailRender(t *testing.T) {
-	firstName := "Kevin"
+	firstName := nulls.String{String: "Kevin", Valid: true}
 	user := models.User{FirstName: firstName}
 	email, err := BuildTestEmail(&user)
 
@@ -23,19 +24,19 @@ func Test_TestEmailRender(t *testing.T) {
 
 	// HTML assertions
 	htmlEmail := email.Bodies[0].Content
-	htmlName := fmt.Sprintf("<p>Hello %s!</p>", firstName)
+	htmlName := fmt.Sprintf("<p>Hello %s!</p>", firstName.String)
 	if !strings.Contains(htmlEmail, htmlName) {
 		t.Errorf("Could not find first name '%s' in html email: %v", htmlName, htmlEmail)
 	}
 }
 
 func Test_TestEmailRendersTextEmail(t *testing.T) {
-	firstName := "Kevin"
+	firstName := nulls.String{String: "Kevin", Valid: true}
 	user := models.User{FirstName: firstName}
 	email, _ := BuildTestEmail(&user)
 
 	textEmail := email.Bodies[1].Content
-	textName := fmt.Sprintf("Hello %s!", firstName)
+	textName := fmt.Sprintf("Hello %s!", firstName.String)
 	if !strings.Contains(textEmail, textName) {
 		t.Errorf("Could not find first name '%s' in text email: %v", textName, textEmail)
 	}

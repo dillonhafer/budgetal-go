@@ -2,14 +2,14 @@ package models_test
 
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 )
 
 func (as *ModelSuite) Test_User_Json() {
 	u := &models.User{
 		ID:             1,
-		FirstName:      "Liz",
-		LastName:       "Lemon",
+		FirstName:      nulls.String{"Liz", true},
+		LastName:       nulls.String{"Lemon", true},
 		Email:          "email@example.com",
 		AvatarFileName: nulls.String{"abc.jpg", true},
 		Admin:          false,

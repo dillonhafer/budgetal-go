@@ -6,7 +6,7 @@ import (
 	"github.com/dillonhafer/budgetal-go/backend/mailers"
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 )
 
 func PasswordResetRequest(c buffalo.Context) error {

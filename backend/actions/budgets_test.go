@@ -8,7 +8,7 @@ import (
 )
 
 func (as *ActionSuite) Test_Budgets_Index() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 	var resp struct {
 		Budget             models.Budget
 		BudgetCategories   models.BudgetCategories
@@ -17,6 +17,8 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	}
 
 	b, c := as.CreateBudget(user.ID, 2017, 12, "3500.00")
+	count, _ := as.DB.Count(&models.BudgetCategories{})
+	as.Equal(12, count)
 
 	// Existing Item
 	item := models.BudgetItem{
@@ -36,7 +38,7 @@ func (as *ActionSuite) Test_Budgets_Index() {
 	as.DB.Create(&e)
 
 	// Make request
-	r := as.JSON("/budgets/2017/12").Get()
+	r := as.AuthenticJSON(user, "/budgets/2017/12").Get()
 	as.Equal(200, r.Code)
 	json.NewDecoder(r.Body).Decode(&resp)
 
@@ -75,7 +77,7 @@ func (as *ActionSuite) Test_Budgets_Index() {
 }
 
 func (as *ActionSuite) Test_Budgets_Index_CreatesDefaultCategories() {
-	as.SignedInUser()
+	user := as.CreateUser()
 
 	count, _ := as.DB.Count(&models.Budgets{})
 	as.Equal(0, count)
@@ -83,7 +85,7 @@ func (as *ActionSuite) Test_Budgets_Index_CreatesDefaultCategories() {
 	count, _ = as.DB.Count(&models.BudgetCategories{})
 	as.Equal(0, count)
 
-	r := as.JSON("/budgets/2017/12").Get()
+	r := as.AuthenticJSON(user, "/budgets/2017/12").Get()
 	as.Equal(200, r.Code, r.Body.String())
 
 	count, _ = as.DB.Count(&models.Budgets{})
@@ -94,37 +96,35 @@ func (as *ActionSuite) Test_Budgets_Index_CreatesDefaultCategories() {
 }
 
 func (as *ActionSuite) Test_Budgets_Index_CreatesMissingBudget() {
-	as.SignedInUser()
-	cookies := as.Willie.Cookies
+	user := as.CreateUser()
 
 	count, _ := as.DB.Count(&models.Budgets{})
 	as.Equal(0, count)
 
-	r := as.JSON("/budgets/2017/12").Get()
+	r := as.AuthenticJSON(user, "/budgets/2017/12").Get()
 	as.Equal(200, r.Code, r.Body.String())
-	as.Willie.Cookies = cookies
 
 	count, _ = as.DB.Count(&models.Budgets{})
 	as.Equal(1, count)
 
 	// Idempotent
-	rr := as.JSON("/budgets/2017/12").Get()
+	rr := as.AuthenticJSON(user, "/budgets/2017/12").Get()
 	as.Equal(200, rr.Code, rr.Body.String())
 	count, _ = as.DB.Count(&models.Budgets{})
 	as.Equal(1, count)
 }
 
 func (as *ActionSuite) Test_Budgets_Index_BadMonth() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
-	response := as.JSON("/budgets/2017/13").Get()
+	response := as.AuthenticJSON(user, "/budgets/2017/13").Get()
 	as.Equal(404, response.Code)
 }
 
 func (as *ActionSuite) Test_Budgets_Index_BadYear() {
-	SignedInUser(as)
+	user := as.CreateUser()
 
-	response := as.JSON("/budgets/1987/12").Get()
+	response := as.AuthenticJSON(user, "/budgets/1987/12").Get()
 	as.Equal(404, response.Code)
 }
 
@@ -134,7 +134,7 @@ func (as *ActionSuite) Test_Budgets_Index_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_Budgets_Update_ChangesIncome() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 	budget := models.Budget{
 		UserID: user.ID,
 		Year:   2017,
@@ -145,7 +145,7 @@ func (as *ActionSuite) Test_Budgets_Update_ChangesIncome() {
 	count, _ := as.DB.Count(&models.Budgets{})
 	as.Equal(1, count)
 
-	r := as.JSON("/budgets/2017/12").Put(map[string]interface{}{
+	r := as.AuthenticJSON(user, "/budgets/2017/12").Put(map[string]interface{}{
 		"income": 123.45,
 	})
 	responseBudget := models.Budget{}

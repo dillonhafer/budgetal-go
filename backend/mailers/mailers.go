@@ -6,7 +6,7 @@ import (
 	"github.com/gobuffalo/buffalo/mail"
 	"github.com/gobuffalo/buffalo/render"
 	"github.com/gobuffalo/envy"
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
 	"github.com/gobuffalo/plush"
 )
 
@@ -29,7 +29,7 @@ func init() {
 
 	r = render.New(render.Options{
 		HTMLLayout:      "layout.html",
-		TemplatesBox:    packr.NewBox("../templates/mail"),
+		TemplatesBox:    packr.New("../templates/mail", "../templates/mail"),
 		Helpers:         render.Helpers{},
 		TemplateEngines: map[string]render.TemplateEngine{"txt": plush.BuffaloRenderer},
 	})

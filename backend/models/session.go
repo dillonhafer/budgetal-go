@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/fatih/color"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/uuid"
 )
 
@@ -22,7 +22,7 @@ type Session struct {
 	UpdatedAt             time.Time    `json:"updatedAt" db:"updated_at"`
 }
 
-func (s *Session) Create() string {
+func (s *Session) Create() (string, error) {
 	query := `
 		insert into sessions (
 			authentication_token,
@@ -38,9 +38,9 @@ func (s *Session) Create() string {
 			:device_name
 		)
 	`
-	DB.Store.NamedExec(query, s)
+	_, err := DB.Store.NamedExec(query, s)
 	DB.Where("authentication_token = ? and user_id = ?", s.AuthenticationToken, s.UserID).First(s)
-	return color.YellowString(query)
+	return color.YellowString(query), err
 }
 
 func (s *Session) Delete() string {

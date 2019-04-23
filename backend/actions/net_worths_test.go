@@ -12,7 +12,7 @@ func (as *ActionSuite) Test_NetWorths_Index_RequiresUser() {
 }
 
 func (as *ActionSuite) Test_NetWorths_Index_Works() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 
 	asset := models.AssetLiability{UserID: user.ID, Name: "Kevin", IsAsset: true}
 	models.DB.Create(&asset)
@@ -23,7 +23,7 @@ func (as *ActionSuite) Test_NetWorths_Index_Works() {
 		Months      models.NetWorths         `json:"months"`
 	}
 
-	r := as.JSON("/net-worths/2018").Get()
+	r := as.AuthenticJSON(user, "/net-worths/2018").Get()
 	json.NewDecoder(r.Body).Decode(&resp)
 	as.Equal(200, r.Code)
 	as.Equal(1, len(resp.Assets))
@@ -32,7 +32,7 @@ func (as *ActionSuite) Test_NetWorths_Index_Works() {
 }
 
 func (as *ActionSuite) Test_NetWorth_Import_Works() {
-	user := as.SignedInUser()
+	user := as.CreateUser()
 
 	// Assets and Liabilities
 	asset := models.AssetLiability{
@@ -71,7 +71,7 @@ func (as *ActionSuite) Test_NetWorth_Import_Works() {
 	as.Equal(nil, err)
 
 	// Setup current net worth
-	rg := as.JSON("/net-worths/2018").Get()
+	rg := as.AuthenticJSON(user, "/net-worths/2018").Get()
 	as.Equal(200, rg.Code)
 
 	// Pre-Assertions
@@ -85,8 +85,7 @@ func (as *ActionSuite) Test_NetWorth_Import_Works() {
 	as.Equal(2, preTotal)
 
 	// Perform request
-	as.SignInUser(user)
-	resp := as.JSON("/net-worths/2018/1/import").Post(map[string]string{})
+	resp := as.AuthenticJSON(user, "/net-worths/2018/1/import").Post(map[string]string{})
 	as.Equal(200, resp.Code)
 
 	var rb struct {

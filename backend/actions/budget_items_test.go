@@ -9,13 +9,13 @@ import (
 )
 
 func (as *ActionSuite) Test_BudgetItems_Create_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := models.BudgetCategory{}
 	as.DB.BelongsTo(&b).First(&category)
 
-	r := as.JSON("/budget-items").Post(map[string]interface{}{
+	r := as.AuthenticJSON(user, "/budget-items").Post(map[string]interface{}{
 		"budgetCategoryId": category.ID,
 		"name":             "Life Insurance",
 		"amount":           json.Number("200.00"),
@@ -35,7 +35,7 @@ func (as *ActionSuite) Test_BudgetItems_Create_Works() {
 }
 
 func (as *ActionSuite) Test_BudgetItems_Update_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := models.BudgetCategory{}
@@ -48,7 +48,7 @@ func (as *ActionSuite) Test_BudgetItems_Update_Works() {
 	}
 	as.DB.Create(&i)
 
-	r := as.JSON(fmt.Sprintf("/budget-items/%d", i.ID)).Put(map[string]interface{}{
+	r := as.AuthenticJSON(user, fmt.Sprintf("/budget-items/%d", i.ID)).Put(map[string]interface{}{
 		"budgetCategoryId": category.ID,
 		"name":             "Life Insurance",
 		"amount":           json.Number("200.00"),
@@ -68,7 +68,7 @@ func (as *ActionSuite) Test_BudgetItems_Update_Works() {
 }
 
 func (as *ActionSuite) Test_BudgetItems_Delete_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := models.BudgetCategory{}
@@ -84,7 +84,7 @@ func (as *ActionSuite) Test_BudgetItems_Delete_Works() {
 	beforeTotal, _ := as.DB.Count(&models.BudgetItems{})
 	as.Equal(1, beforeTotal)
 
-	r := as.JSON(fmt.Sprintf("/budget-items/%d", i.ID)).Delete()
+	r := as.AuthenticJSON(user, fmt.Sprintf("/budget-items/%d", i.ID)).Delete()
 	as.Equal(200, r.Code)
 
 	afterTotal, _ := as.DB.Count(&models.BudgetItems{})
@@ -92,7 +92,7 @@ func (as *ActionSuite) Test_BudgetItems_Delete_Works() {
 }
 
 func (as *ActionSuite) Test_BudgetItems_Delete_Cascades() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := models.BudgetCategory{}
@@ -119,7 +119,7 @@ func (as *ActionSuite) Test_BudgetItems_Delete_Cascades() {
 	beforeExpenseTotal, _ := as.DB.Count(&models.BudgetItemExpenses{})
 	as.Equal(1, beforeExpenseTotal)
 
-	r := as.JSON(fmt.Sprintf("/budget-items/%d", i.ID)).Delete()
+	r := as.AuthenticJSON(user, fmt.Sprintf("/budget-items/%d", i.ID)).Delete()
 	as.Equal(200, r.Code)
 
 	afterItemTotal, _ := as.DB.Count(&models.BudgetItems{})

@@ -3,7 +3,7 @@ package actions
 import (
 	"github.com/dillonhafer/budgetal-go/backend/models"
 	"github.com/gobuffalo/buffalo"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 )
 
 // SignIn default implementation.
@@ -28,6 +28,7 @@ func SignIn(c buffalo.Context) error {
 	user := &models.User{}
 	dbErr := models.DB.Where("email = ?", params.Email).First(user)
 	if dbErr != nil {
+		println(dbErr.Error())
 		return c.Render(422, r.JSON(err))
 	}
 
@@ -54,7 +55,7 @@ func SignIn(c buffalo.Context) error {
 		IpAddress:           ipAddress,
 		DeviceName:          deviceName,
 	}
-	query := session.Create()
+	query, _ := session.Create()
 	c.Logger().Debug(query)
 
 	// 4. set cookie

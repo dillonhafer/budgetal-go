@@ -8,7 +8,7 @@ import (
 )
 
 func (as *ActionSuite) Test_PastExpenses_Works() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := &models.BudgetCategory{}
@@ -39,7 +39,7 @@ func (as *ActionSuite) Test_PastExpenses_Works() {
 		Amount:       json.Number("8.00"),
 	})
 
-	r := as.JSON("/past-expenses/tes").Get()
+	r := as.AuthenticJSON(user, "/past-expenses/tes").Get()
 	var rb struct {
 		Names []string `json:"names"`
 	}
@@ -50,7 +50,7 @@ func (as *ActionSuite) Test_PastExpenses_Works() {
 }
 
 func (as *ActionSuite) Test_PastExpenses_ReturnsEmptyArray() {
-	user := SignedInUser(as)
+	user := as.CreateUser()
 	b := &models.Budget{Year: 2017, Month: 11, UserID: user.ID}
 	b.FindOrCreate()
 	category := &models.BudgetCategory{}
@@ -63,7 +63,7 @@ func (as *ActionSuite) Test_PastExpenses_ReturnsEmptyArray() {
 	}
 	as.DB.Create(i)
 
-	r := as.JSON("/past-expenses/tes").Get()
+	r := as.AuthenticJSON(user, "/past-expenses/tes").Get()
 	as.Equal(200, r.Code)
 	as.Equal("{\"names\":[]}\n", r.Body.String())
 }

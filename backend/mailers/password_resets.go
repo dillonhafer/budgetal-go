@@ -11,16 +11,17 @@ import (
 
 func BuildPasswordResetEmail(user *models.User, host string) (mail.Message, error) {
 	to := user.Email
-	if user.FirstName != "" {
-		to = user.FirstName + " <" + user.Email + ">"
+	if user.FirstName.Valid {
+		to = user.FirstName.String + " <" + user.Email + ">"
 	}
+
 	m := mail.NewMessage()
 	m.Subject = "Password Reset Instructions"
 	m.From = "Budgetal <no-reply@budgetal.com>"
 	m.To = []string{to}
 
 	data := map[string]interface{}{
-		"name":  user.FirstName,
+		"name":  user.FirstName.String,
 		"token": user.PasswordResetToken.String,
 		"host":  host,
 	}

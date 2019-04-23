@@ -4,11 +4,11 @@ import (
 	"time"
 
 	"github.com/dillonhafer/budgetal-go/backend/models"
-	"github.com/gobuffalo/pop/nulls"
+	"github.com/gobuffalo/nulls"
 )
 
 func (as *ActionSuite) Test_Users_UpdatePassword() {
-	user := as.CreateUser(false)
+	user := as.CreateUser()
 	user.PasswordResetToken = nulls.String{String: "token", Valid: true}
 	user.PasswordResetSentAt = nulls.Time{Time: time.Now().Local().Add((-119 * time.Minute)), Valid: true}
 	as.DB.Update(&user)
@@ -31,7 +31,7 @@ func (as *ActionSuite) Test_Users_UpdatePassword() {
 }
 
 func (as *ActionSuite) Test_Users_UpdatePassword_TokenExpired() {
-	user := as.CreateUser(false)
+	user := as.CreateUser()
 	user.PasswordResetToken = nulls.String{String: "token", Valid: true}
 	twoHoursAgo := time.Now().Local().Add((-120 * time.Minute))
 	user.PasswordResetSentAt = nulls.Time{Time: twoHoursAgo, Valid: true}
@@ -56,7 +56,7 @@ func (as *ActionSuite) Test_Users_UpdatePassword_TokenExpired() {
 }
 
 func (as *ActionSuite) Test_Users_PasswordResetRequest() {
-	user := as.CreateUser(false)
+	user := as.CreateUser()
 	as.False(user.PasswordResetToken.Valid)
 	as.False(user.PasswordResetSentAt.Valid)
 

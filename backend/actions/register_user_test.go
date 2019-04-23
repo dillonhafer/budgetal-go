@@ -24,7 +24,7 @@ func (as *ActionSuite) Test_Users_Create() {
 }
 
 func (as *ActionSuite) Test_Users_Create_PreventsDuplicates() {
-	as.CreateUser(false)
+	as.CreateUser()
 	count, _ := as.DB.Count(&models.Users{})
 	as.Equal(1, count)
 
