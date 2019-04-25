@@ -182,7 +182,7 @@ class MortgageCalculator extends Component {
                     max={loanBalance}
                     min={1000}
                     step={1000}
-                    label="Original Balance"
+                    label="Current Balance"
                     value={currentBalance}
                     onChange={this.handleCurrentBalanceChange}
                   />
