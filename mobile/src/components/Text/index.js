@@ -74,34 +74,36 @@ export const LightText = props => {
 
 const styles = StyleSheet.create({
   light: {
-    fontFamily: 'Montserrat-Light',
+    fontWeight: '100',
+    fontFamily: 'System',
   },
   label: {
     fontSize: 12,
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'System',
   },
   small: {
     fontSize: 12,
-    fontFamily: 'Montserrat-Regular',
+    fontFamily: 'System',
   },
   regular: {
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'System',
   },
   bold: {
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'System',
+    fontWeight: '700',
   },
   header: {
     fontSize: 16,
     color: 'rgba(0,0,0,0.9)',
     textAlign: 'center',
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'Lato-Medium',
   },
   backStyle: {
-    fontFamily: 'Montserrat-Medium',
+    fontFamily: 'System',
     fontSize: 16,
   },
   button: {
-    fontFamily: 'Montserrat-Bold',
+    fontFamily: 'System',
     textAlign: 'center',
     fontSize: 13,
     fontWeight: '900',

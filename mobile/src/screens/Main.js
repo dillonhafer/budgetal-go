@@ -54,7 +54,7 @@ const LogoSeparator = ({ keyboardVisible }) => {
       textAlign: 'center',
       color: '#fff',
       backgroundColor: 'transparent',
-      fontFamily: 'Montserrat-Light',
+      fontFamily: 'Lato-Light',
     },
   });
   return (

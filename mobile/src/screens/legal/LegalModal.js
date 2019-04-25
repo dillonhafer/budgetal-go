@@ -185,20 +185,6 @@ class LegalModal extends PureComponent {
                 </Text>
               </View>
 
-              <Text style={styles.licenseTitle}>
-                SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
-              </Text>
-              <Text style={styles.subText}>
-                This Font Software is licensed under the SIL Open Font License,
-                Version 1.1. This license is copied below, and is also available
-                with a FAQ at: http://scripts.sil.org/OFL
-              </Text>
-
-              <Project>
-                Copyright 2011 The Montserrat Project Authors
-                (https://github.com/JulietaUla/Montserrat)
-              </Project>
-
               <View style={styles.licenseContainer}>
                 <Text style={[styles.license, styles.number]}>
                   PREAMBLE The goals of the Open Font License (OFL) are to

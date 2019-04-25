@@ -69,7 +69,7 @@ class DatePicker extends Component {
           <View style={styles.picker}>
             <Picker
               style={{ width: monthWidth }}
-              itemStyle={{ fontFamily: 'Montserrat-Medium' }}
+              itemStyle={{ fontFamily: 'System' }}
               selectedValue={selectedMonth}
               onValueChange={itemValue =>
                 this.onValueChange({ month: itemValue, year })
@@ -80,7 +80,7 @@ class DatePicker extends Component {
             <Picker
               style={{ width: yearWidth }}
               selectedValue={`${this.state.year || year}`}
-              itemStyle={{ fontFamily: 'Montserrat-Medium' }}
+              itemStyle={{ fontFamily: 'System' }}
               onValueChange={itemValue =>
                 this.onValueChange({ year: itemValue, month })
               }
