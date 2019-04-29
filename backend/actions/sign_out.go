@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/buffalo"
 )
 

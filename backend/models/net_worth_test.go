@@ -3,7 +3,7 @@ package models_test
 import (
 	"encoding/json"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 )
 
 func (as *ModelSuite) Test_NetWorth_Json() {

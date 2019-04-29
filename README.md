@@ -10,7 +10,7 @@ web frontend and a fully-functional iOS and Android app written with Create Reac
 [Install buffalo](https://gobuffalo.io/docs/installation#basic-installation) then install Budgetal
 
 ```sh
-$ git clone https://github.com/dillonhafer/budgetal-go.git
+$ git clone https://github.com/dillonhafer/budgetal.git
 $ cd backend
 $ buffalo db create
 $ buffalo db migrate

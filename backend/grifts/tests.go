@@ -95,7 +95,7 @@ var _ = grift.Add("t", func(c *grift.Context) error {
 
 	os.Setenv("GO_ENV", "test")
 	notice("Running tests")
-	com := exec.Command("go", "test", "-v", "-p", "1", "github.com/dillonhafer/budgetal-go/backend/actions", "github.com/dillonhafer/budgetal-go/backend/models")
+	com := exec.Command("go", "test", "-v", "-p", "1", "github.com/dillonhafer/budgetal/backend/actions", "github.com/dillonhafer/budgetal/backend/models")
 	com.Stdin = os.Stdin
 	com.Stdout = NewLogWriter(log.New(os.Stdout, "", 0))
 	// com.Stderr = os.Stderr

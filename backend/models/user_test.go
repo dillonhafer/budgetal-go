@@ -1,7 +1,7 @@
 package models_test
 
 import (
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/nulls"
 )
 

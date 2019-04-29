@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dillonhafer/budgetal-go/backend/mailers"
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/mailers"
+	"github.com/dillonhafer/budgetal/backend/models"
 	humanize "github.com/dustin/go-humanize"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/nulls"

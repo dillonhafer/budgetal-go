@@ -3,7 +3,7 @@ package mailers
 import (
 	"fmt"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/buffalo/mail"
 	"github.com/gobuffalo/envy"
 	"github.com/pkg/errors"

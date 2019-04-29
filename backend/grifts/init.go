@@ -5,7 +5,7 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/dillonhafer/budgetal-go/backend/actions"
+	"github.com/dillonhafer/budgetal/backend/actions"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
 )

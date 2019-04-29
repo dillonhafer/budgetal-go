@@ -3,7 +3,7 @@ package actions
 import (
 	"encoding/json"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 )
 
 func createUser(as *ActionSuite, email, password string) *models.User {

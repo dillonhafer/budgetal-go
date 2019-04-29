@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 )
 
 func (as *ActionSuite) Test_AnnualBudgets_Index_CreatesMissingBudget() {

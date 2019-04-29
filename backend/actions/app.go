@@ -11,7 +11,7 @@ import (
 	"github.com/gobuffalo/envy"
 	paramlogger "github.com/gobuffalo/mw-paramlogger"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/x/sessions"
 )
 

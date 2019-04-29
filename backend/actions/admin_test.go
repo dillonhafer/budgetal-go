@@ -3,7 +3,7 @@ package actions
 import (
 	"encoding/json"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 )
 
 func (as *ActionSuite) Test_Admin_UsersNotAuthenticated() {

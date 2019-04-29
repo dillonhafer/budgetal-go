@@ -3,7 +3,7 @@ package models_test
 import (
 	"sort"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 )
 
 func (as *ModelSuite) Test_BudgetCategories_Sort() {

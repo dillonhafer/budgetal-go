@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"github.com/dillonhafer/budgetal-go/backend/mailers"
+	"github.com/dillonhafer/budgetal/backend/mailers"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
 )

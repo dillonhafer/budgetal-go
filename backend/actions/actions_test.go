@@ -6,7 +6,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/httptest"
 	"github.com/gobuffalo/suite"
 )

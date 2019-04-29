@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/airbrake/gobrake"
-	"github.com/dillonhafer/budgetal-go/backend/actions"
+	"github.com/dillonhafer/budgetal/backend/actions"
 )
 
 var StartTime = time.Now()

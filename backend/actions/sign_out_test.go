@@ -1,6 +1,6 @@
 package actions
 
-import "github.com/dillonhafer/budgetal-go/backend/models"
+import "github.com/dillonhafer/budgetal/backend/models"
 
 func (as *ActionSuite) Test_SignOut() {
 	user := as.CreateUser()

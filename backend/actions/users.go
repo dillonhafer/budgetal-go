@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/fatih/color"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/nulls"

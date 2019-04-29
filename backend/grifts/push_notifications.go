@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/envy"
 	. "github.com/markbates/grift/grift"
 )

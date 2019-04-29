@@ -1,7 +1,7 @@
 package actions
 
 import (
-	"github.com/dillonhafer/budgetal-go/backend/models"
+	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/buffalo"
 	uuid "github.com/gobuffalo/uuid"
 )
