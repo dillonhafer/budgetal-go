@@ -21,16 +21,18 @@ var COOKIE_DOMAIN = envy.Get("COOKIE_DOMAIN", "api.budgetal.com")
 
 var ENV = envy.Get("GO_ENV", "development")
 var app *buffalo.App
+
+// StartTime is the time the app booted
 var StartTime = time.Now()
 
-func WithCurrentUser(next func(buffalo.Context, *models.User) error) func(buffalo.Context) error {
+func withCurrentUser(next func(buffalo.Context, *models.User) error) func(buffalo.Context) error {
 	return func(c buffalo.Context) error {
 		currentUser := c.Value("currentUser").(*models.User)
 		return next(c, currentUser)
 	}
 }
 
-func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
+func authorizeUser(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
 		errResp := map[string]string{"error": "You are not signed in"}
 		// 1. Rebuild keys
@@ -63,6 +65,7 @@ func AuthorizeUser(next buffalo.Handler) buffalo.Handler {
 	}
 }
 
+// App is the "App"
 func App() *buffalo.App {
 
 	if app == nil {
@@ -99,15 +102,21 @@ func App() *buffalo.App {
 			return c.Render(500, r.JSON(errResp))
 		}
 
+		app.ErrorHandlers[404] = func(status int, err error, c buffalo.Context) error {
+			c.Logger().Errorf("\n[404] Page not found:\n%v\n\n", err)
+			errResp := map[string]string{"error": "Page not found"}
+			return c.Render(404, r.JSON(errResp))
+		}
+
 		if ENV == "development" {
 			app.Use(paramlogger.ParameterLogger)
 		}
 
 		// Authorization
-		app.Use(AuthorizeUser)
+		app.Use(authorizeUser)
 
 		// Non-authorized routes
-		app.Middleware.Skip(AuthorizeUser, SignIn, RegisterUser, PasswordResetRequest, ResetPassword)
+		app.Middleware.Skip(authorizeUser, SignIn, RegisterUser, PasswordResetRequest, ResetPassword)
 		app.POST("/sign-in", SignIn)
 		app.POST("/register", RegisterUser)
 		app.POST("/reset-password", PasswordResetRequest)
@@ -119,64 +128,64 @@ func App() *buffalo.App {
 		////////////////////
 
 		// Monthly Statistics
-		app.GET("/monthly-statistics/{year}/{month}", WithCurrentUser(MonthlyStatisticsShow))
+		app.GET("/monthly-statistics/{year}/{month}", withCurrentUser(MonthlyStatisticsShow))
 
 		// Annual Budgets
-		app.GET("/annual-budgets/{year}", WithCurrentUser(AnnualBudgetsIndex))
-		app.POST("/annual-budget-items", WithCurrentUser(AnnualBudgetItemsCreate))
-		app.PUT("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsUpdate))
-		app.DELETE("/annual-budget-items/{id}", WithCurrentUser(AnnualBudgetItemsDelete))
+		app.GET("/annual-budgets/{year}", withCurrentUser(AnnualBudgetsIndex))
+		app.POST("/annual-budget-items", withCurrentUser(AnnualBudgetItemsCreate))
+		app.PUT("/annual-budget-items/{id}", withCurrentUser(AnnualBudgetItemsUpdate))
+		app.DELETE("/annual-budget-items/{id}", withCurrentUser(AnnualBudgetItemsDelete))
 
 		// Users
-		app.PATCH("/update-user", WithCurrentUser(UsersUpdate))
-		app.PUT("/update-user", WithCurrentUser(UsersUpdate))
-		app.PATCH("/update-password", WithCurrentUser(UsersChangePassword))
-		app.PUT("/update-push-notification-token", WithCurrentUser(UsersUpdatePushNotificationToken))
+		app.PATCH("/update-user", withCurrentUser(UsersUpdate))
+		app.PUT("/update-user", withCurrentUser(UsersUpdate))
+		app.PATCH("/update-password", withCurrentUser(UsersChangePassword))
+		app.PUT("/update-push-notification-token", withCurrentUser(UsersUpdatePushNotificationToken))
 
 		// Admin
-		app.GET("/admin/users", WithCurrentUser(AdminUsers))
-		app.GET("/admin/server-info", WithCurrentUser(AdminServerInfo))
-		app.GET("/admin/test-email", WithCurrentUser(AdminTestEmail))
-		app.GET("/admin/error", WithCurrentUser(AdminErrorPage))
-		app.POST("/admin/test-push-notification", WithCurrentUser(AdminTestPushNotification))
+		app.GET("/admin/users", withCurrentUser(AdminUsers))
+		app.GET("/admin/server-info", withCurrentUser(AdminServerInfo))
+		app.GET("/admin/test-email", withCurrentUser(AdminTestEmail))
+		app.GET("/admin/error", withCurrentUser(AdminErrorPage))
+		app.POST("/admin/test-push-notification", withCurrentUser(AdminTestPushNotification))
 
 		// Sessions
-		app.GET("/sessions", WithCurrentUser(SessionsIndex))
-		app.DELETE("/sign-out", WithCurrentUser(SignOut))
-		app.DELETE("/sessions/{authenticationKey}", WithCurrentUser(SessionsDelete))
+		app.GET("/sessions", withCurrentUser(SessionsIndex))
+		app.DELETE("/sign-out", withCurrentUser(SignOut))
+		app.DELETE("/sessions/{authenticationKey}", withCurrentUser(SessionsDelete))
 
 		// Budgets
-		app.GET("/budgets/{year}/{month}", WithCurrentUser(BudgetsIndex))
-		app.PUT("/budgets/{year}/{month}", WithCurrentUser(BudgetsUpdate))
+		app.GET("/budgets/{year}/{month}", withCurrentUser(BudgetsIndex))
+		app.PUT("/budgets/{year}/{month}", withCurrentUser(BudgetsUpdate))
 
 		// Budget Categories
-		app.POST("/budget-categories/{id}/import", WithCurrentUser(BudgetCategoryImport))
+		app.POST("/budget-categories/{id}/import", withCurrentUser(BudgetCategoryImport))
 
 		// Budget Items
-		app.POST("/budget-items", WithCurrentUser(BudgetItemsCreate))
-		app.PUT("/budget-items/{id}", WithCurrentUser(BudgetItemsUpdate))
-		app.DELETE("/budget-items/{id}", WithCurrentUser(BudgetItemsDelete))
+		app.POST("/budget-items", withCurrentUser(BudgetItemsCreate))
+		app.PUT("/budget-items/{id}", withCurrentUser(BudgetItemsUpdate))
+		app.DELETE("/budget-items/{id}", withCurrentUser(BudgetItemsDelete))
 
 		// Budget Item Expenses
-		app.POST("/budget-item-expenses", WithCurrentUser(BudgetItemExpensesCreate))
-		app.PUT("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesUpdate))
-		app.DELETE("/budget-item-expenses/{id}", WithCurrentUser(BudgetItemExpensesDelete))
+		app.POST("/budget-item-expenses", withCurrentUser(BudgetItemExpensesCreate))
+		app.PUT("/budget-item-expenses/{id}", withCurrentUser(BudgetItemExpensesUpdate))
+		app.DELETE("/budget-item-expenses/{id}", withCurrentUser(BudgetItemExpensesDelete))
 		// Autocomplete
-		app.GET("/past-expenses/{name}", WithCurrentUser(PastExpenses))
+		app.GET("/past-expenses/{name}", withCurrentUser(PastExpenses))
 
 		// Net Worth
-		app.GET("/net-worths/{year}", WithCurrentUser(NetWorthsIndex))
-		app.POST("/net-worths/{year}/{month}/import", WithCurrentUser(NetWorthsImport))
+		app.GET("/net-worths/{year}", withCurrentUser(NetWorthsIndex))
+		app.POST("/net-worths/{year}/{month}/import", withCurrentUser(NetWorthsImport))
 
 		// Net Worth Items
-		app.POST("/net-worths/{year}/{month}/net-worth-items", WithCurrentUser(NetWorthItemsCreate))
-		app.PATCH("/net-worth-items/{id}", WithCurrentUser(NetWorthItemsUpdate))
-		app.DELETE("/net-worth-items/{id}", WithCurrentUser(NetWorthItemsDelete))
+		app.POST("/net-worths/{year}/{month}/net-worth-items", withCurrentUser(NetWorthItemsCreate))
+		app.PATCH("/net-worth-items/{id}", withCurrentUser(NetWorthItemsUpdate))
+		app.DELETE("/net-worth-items/{id}", withCurrentUser(NetWorthItemsDelete))
 
 		// Assets and Liabilities
-		app.POST("/assets-liabilities", WithCurrentUser(AssetsLiabilitiesCreate))
-		app.PATCH("/assets-liabilities/{id}", WithCurrentUser(AssetsLiabilitiesUpdate))
-		app.DELETE("/assets-liabilities/{id}", WithCurrentUser(AssetsLiabilitiesDelete))
+		app.POST("/assets-liabilities", withCurrentUser(AssetsLiabilitiesCreate))
+		app.PATCH("/assets-liabilities/{id}", withCurrentUser(AssetsLiabilitiesUpdate))
+		app.DELETE("/assets-liabilities/{id}", withCurrentUser(AssetsLiabilitiesDelete))
 	}
 
 	return app
