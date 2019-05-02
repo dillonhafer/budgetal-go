@@ -1,23 +1,12 @@
 package actions
 
 import (
-	"fmt"
-	"time"
-
 	"github.com/dillonhafer/budgetal/backend/mailers"
 	"github.com/dillonhafer/budgetal/backend/models"
 	humanize "github.com/dustin/go-humanize"
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/nulls"
 )
-
-func fmtDuration(d time.Duration) string {
-	d = d.Round(time.Minute)
-	h := d / time.Hour
-	d -= h * time.Hour
-	m := d / time.Minute
-	return fmt.Sprintf("%02d:%02d", h, m)
-}
 
 type User struct {
 	ID             int          `json:"-" db:"id"`
