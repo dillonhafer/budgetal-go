@@ -86,12 +86,10 @@ Providing S3 credentials will auto-matically use S3 to store avatars:
 How to run the backend tests:
 
 ```
-$ buffalo test
+$ make test
 ```
 
 ## Deploying
 
-See [`grifts/deploy.go`](backend/grifts/deploy.go) for configuration details.
-
-1. Backend deploy (heroku): `cd backend && buffalo task release`
+1. Backend deploy (heroku): `cd backend && make release`
 2. Frontend deploy (firebase): `cd frontend && yarn release`
