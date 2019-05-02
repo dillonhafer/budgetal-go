@@ -37,3 +37,6 @@ release:
 
 test:
 	GO111MODULE=on buffalo test
+
+testc:
+	GO111MODULE=on buffalo test -coverprofile=c.out ./... && go tool cover -html=c.out
