@@ -30,7 +30,7 @@ var _ = grift.Set("release", func(c *grift.Context) error {
 	fmt.Println("Starting full deploy as", server)
 
 	Comment("Compiling new binary")
-	QuietCommand("buffalo", "bill", "--ldflags=-s -w", "-o", "bin/budgetal")
+	QuietCommand("buffalo", "bill", "--ldflags=-s -w")
 	FormatLog("Built bin/budgetal")
 
 	Comment("Clean heroku dir")
