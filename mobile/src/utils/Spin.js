@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { LayoutAnimation, StyleSheet, ActivityIndicator } from 'react-native';
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 import { colors } from '@shared/theme';
 
 class Spin extends Component {

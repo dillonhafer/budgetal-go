@@ -20,6 +20,7 @@ class TabletNavigator extends PureComponent {
             ref={sidebar => {
               this.sidebar = sidebar;
             }}
+            {...this.props}
             screenProps={{
               isTablet,
               activeSidebarScreen: this.state.activeSidebarScreen,
@@ -76,6 +77,7 @@ class TabletNavigator extends PureComponent {
             ref={main => {
               this.main = main;
             }}
+            {...this.props}
             screenProps={{
               isTablet,
               activeSidebarScreen: this.state.activeSidebarScreen,

@@ -1,21 +1,9 @@
 {
-  "name": "shared",
-  "version": "0.0.3",
-  "private": true,
-  "description": "Shared Budgetal modules",
-  "scripts": {
-    "build": "babel src --presets babel-preset-env --out-dir .",
-    "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "moment": "^2.19.3"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-preset-env": "^1.5.1",
-    "babel-register": "^6.24.1"
-  },
-  "author": "Dillon Hafer",
-  "license": "MIT"
+	"name": "shared",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"moment": "^2.24.0",
+		"ua-parser-js": "^0.7.20"
+	}
 }

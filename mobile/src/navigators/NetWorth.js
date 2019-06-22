@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { HeaderText, BudgetalText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
@@ -91,7 +91,7 @@ const screens = {
   },
 };
 
-const NetWorthNavigatorStack = StackNavigator(
+const NetWorthNavigatorStack = createStackNavigator(
   { ...screens },
   {
     cardStyle: {
@@ -101,7 +101,7 @@ const NetWorthNavigatorStack = StackNavigator(
   },
 );
 
-const NetWorthSidebarNavigatorStack = StackNavigator(
+const NetWorthSidebarNavigatorStack = createStackNavigator(
   {
     Main: {
       screen: View,

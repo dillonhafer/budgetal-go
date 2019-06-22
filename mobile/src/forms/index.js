@@ -8,6 +8,7 @@ export {
 
 export { default as MoneyInput } from './MoneyInput';
 export { default as OptionInput } from './OptionInput';
+export { default as FieldContainer } from './FieldContainer';
 
 export const PrimarySquareButton = ({ title, onPress, loading }) => {
   return (
@@ -108,28 +109,6 @@ export const Button = ({
           </ButtonText>
         </View>
       </TouchableOpacity>
-    </View>
-  );
-};
-
-export const FieldContainer = props => {
-  return (
-    <View
-      style={{
-        height: 50,
-        backgroundColor: '#fff',
-        borderBottomColor: '#aaa',
-        borderWidth: 0.5,
-        paddingLeft: 20,
-        borderTopColor: props.position === 'first' ? '#aaa' : '#fff',
-        borderRightColor: '#fff',
-        borderLeftColor: '#fff',
-        alignSelf: 'stretch',
-        flexDirection: props.children.length > 1 ? 'row' : 'column',
-        alignItems: props.children.length > 1 ? 'center' : null,
-      }}
-    >
-      {props.children}
     </View>
   );
 };

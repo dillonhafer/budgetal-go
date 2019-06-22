@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Platform, View } from 'react-native';
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 
 import { Ionicons } from '@expo/vector-icons';
 import { withNavigation } from 'react-navigation';

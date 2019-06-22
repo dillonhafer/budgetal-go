@@ -54,7 +54,7 @@ class EditIncomeModal extends Component {
       <View>
         <TouchableOpacity onPress={this.showModal}>
           <Ionicons
-            name="ios-cash-outline"
+            name="ios-cash"
             size={30}
             color={'#037aff'}
             style={{

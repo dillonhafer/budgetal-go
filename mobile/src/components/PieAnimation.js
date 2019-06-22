@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { DangerZone } from 'expo';
-const { Lottie } = DangerZone;
+import Lottie from 'lottie-react-native';
 import { pieChartJson } from 'assets/pie-chart';
 
 class PieAnimation extends PureComponent {

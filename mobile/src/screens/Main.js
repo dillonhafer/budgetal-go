@@ -119,7 +119,8 @@ class MainScreen extends Component {
       if (foundUser) {
         const user = await GetCurrentUser();
         this.props.updateCurrentUser(user);
-        navigateHome(this.props.navigation.dispatch);
+        this.props.navigation.navigate('App');
+        // navigateHome(this.props.navigation.dispatch);
       }
     } finally {
       if (!foundUser) {

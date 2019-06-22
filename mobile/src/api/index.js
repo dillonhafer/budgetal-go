@@ -4,7 +4,8 @@ import {
   RemoveAuthentication,
 } from 'utils/authentication';
 import { error } from 'notify';
-import { Constants, Util } from 'expo';
+import { Util } from 'expo';
+import Constants from 'expo-constants';
 
 const FETCH_TIMEOUT_MESSAGE = 'Request timed out';
 

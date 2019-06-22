@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { BudgetalText, HeaderText } from 'components/Text';
 
 import TabletNavigator from './TabletNavigator';
@@ -22,7 +22,7 @@ const sidebarHeaderStyle = {
   height: SidebarNavigationHeight,
 };
 
-const AccountNavigatorStack = StackNavigator(
+const AccountNavigatorStack = createStackNavigator(
   {
     Statistics: {
       screen: StatisticsScreen,
@@ -44,7 +44,7 @@ const AccountNavigatorStack = StackNavigator(
   },
 );
 
-const StatisticsSidebarNavigatorStack = StackNavigator(
+const StatisticsSidebarNavigatorStack = createStackNavigator(
   {
     MonthlyChart: {
       screen: MonthlyChartScreen,

@@ -1,4 +1,5 @@
-import { SecureStore, StoreReview } from 'expo';
+import { StoreReview } from 'expo';
+import * as SecureStore from 'expo-secure-store';
 import moment from 'moment';
 
 const LAST_CHECK_DATE = 'storeReviewLastCheckDate';

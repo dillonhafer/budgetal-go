@@ -1,6 +1,10 @@
 import React from 'react';
 // Naviagators
-import { StackNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createAppContainer,
+  createSwitchNavigator,
+} from 'react-navigation';
 import AppDrawerNavigator from 'navigators/AppDrawer';
 
 // Screens
@@ -16,7 +20,7 @@ const headerStyle = {
   height: NavigationHeight,
 };
 
-const RootNavigator = StackNavigator(
+const RootNavigator = createStackNavigator(
   {
     Main: { screen: MainScreen },
     SignIn: {
@@ -63,4 +67,6 @@ const RootNavigator = StackNavigator(
   },
 );
 
-export default RootNavigator;
+export default createAppContainer(
+  createSwitchNavigator({ Root: RootNavigator }),
+);

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 // Components
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
 import MoneyKeyboard from 'utils/MoneyKeyboard';
@@ -71,11 +71,7 @@ class MoneyInputModal extends PureComponent {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.pasteButton} onPress={this.onPaste}>
-              <Ionicons
-                name="ios-clipboard-outline"
-                size={34}
-                color={colors.primary}
-              />
+              <Ionicons name="ios-clipboard" size={34} color={colors.primary} />
             </TouchableOpacity>
           </SafeAreaView>
 

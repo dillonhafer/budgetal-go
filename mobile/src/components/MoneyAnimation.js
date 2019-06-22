@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { DangerZone } from 'expo';
-const { Lottie } = DangerZone;
+import Lottie from 'lottie-react-native';
 import { moneyJson } from 'assets/money';
 
 class MoneyAnimation extends Component {

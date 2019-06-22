@@ -1,4 +1,4 @@
-import { DrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation';
 import { StatusBar } from 'react-native';
 
 // Navigators
@@ -11,7 +11,7 @@ import NetWorthNavigator from 'navigators/NetWorth';
 
 import { colors } from '@shared/theme';
 
-const AppDrawerNavigator = DrawerNavigator(
+const AppDrawerNavigator = createDrawerNavigator(
   {
     Budgets: {
       screen: BudgetNavigator,

@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import LegalModal from 'screens/legal/LegalModal';
-import { WebBrowser, Constants } from 'expo';
+import { WebBrowser } from 'expo';
+import Constants from 'expo-constants';
 import { connect } from 'react-redux';
 import DrawerItem from './DrawerItem';
 
@@ -22,11 +23,6 @@ import { notice, error } from 'notify';
 import { RemoveAuthentication } from 'utils/authentication';
 
 import { Small, Bold, Medium } from 'components/Text';
-
-const buildNumber = Platform.select({
-  ios: Constants.manifest.ios.buildNumber,
-  android: Constants.manifest.android.versionCode,
-});
 
 class LHC extends PureComponent {
   render() {
@@ -143,7 +139,9 @@ class DrawerContent extends PureComponent {
           <View style={styles.footer}>
             <View>
               <Bold style={styles.versionText}>
-                {`VERSION\n${Constants.manifest.version} (${buildNumber})`}
+                {`VERSION\n${Constants.nativeAppVersion} (${
+                  Constants.nativeBuildVersion
+                })`}
               </Bold>
 
               <TouchableOpacity

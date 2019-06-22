@@ -1,6 +1,6 @@
 import React from 'react';
 import { View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import {
   BudgetalText,
   HeaderText,
@@ -26,7 +26,7 @@ const headerStyle = {
   height: NavigationHeight,
 };
 
-const AnnualBudgetNavigatorStack = StackNavigator(
+const AnnualBudgetNavigatorStack = createStackNavigator(
   {
     AnnualBudget: {
       screen: AnnualBudgetsScreen,
@@ -84,7 +84,7 @@ const AnnualBudgetNavigatorStack = StackNavigator(
   },
 );
 
-const AnnualBudgetSidebarNavigatorStack = StackNavigator(
+const AnnualBudgetSidebarNavigatorStack = createStackNavigator(
   {
     Main: {
       screen: View,

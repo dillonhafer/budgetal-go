@@ -1,5 +1,5 @@
 import { Platform } from 'react-native';
-import { TabNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation';
 
 // Navigators
 import AccountNavigator from 'navigators/Account';
@@ -10,7 +10,7 @@ import StatisticsNavigator from 'navigators/Statistics';
 import { colors } from '@shared/theme';
 import Device from 'utils/Device';
 
-const AppTabNavigator = TabNavigator(
+const AppTabNavigator = createBottomTabNavigator(
   {
     Budgets: {
       screen: BudgetNavigator,

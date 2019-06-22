@@ -1,4 +1,5 @@
-import { Permissions, Notifications } from 'expo';
+import { Notifications } from 'expo';
+import * as Permissions from 'expo-permissions';
 import { UpdatePushNotificationTokenRequest } from '@shared/api/users';
 import { IsAuthenticated } from 'utils/authentication';
 

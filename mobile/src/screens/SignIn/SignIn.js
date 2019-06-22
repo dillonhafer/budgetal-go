@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native';
 
 // API
-import { Constants } from 'expo';
+import Constants from 'expo-constants';
 import { SignInRequest } from '@shared/api/sessions';
 import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
 
@@ -39,7 +39,8 @@ class SignInScreen extends Component {
       SetAuthenticationToken(resp.token);
       this.props.updateCurrentUser(resp.user);
       SetCurrentUser(resp.user);
-      navigateHome(this.props.navigation.dispatch);
+      this.props.navigation.navigate('App');
+      // navigateHome(this.props.navigation.dispatch);
       notice('You are now signed in!');
     } else {
       this.setState({ loading: false });

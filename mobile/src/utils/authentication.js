@@ -1,7 +1,7 @@
 const SESSION_KEY = '_budgetal_session';
 const USER_KEY = '_budgetal_user';
 
-import { SecureStore } from 'expo';
+import * as SecureStore from 'expo-secure-store';
 
 export function SetAuthenticationToken(token) {
   try {

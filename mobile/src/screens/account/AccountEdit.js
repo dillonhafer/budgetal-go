@@ -23,7 +23,9 @@ import { BlurViewInsetProps } from 'utils/navigation-helpers';
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
 import { SetCurrentUser } from 'utils/authentication';
-import { ImagePicker, BlurView, Permissions } from 'expo';
+import { ImagePicker } from 'expo';
+import * as Permissions from 'expo-permissions';
+import { BlurView } from 'expo-blur';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Modal from 'react-native-modalbox';

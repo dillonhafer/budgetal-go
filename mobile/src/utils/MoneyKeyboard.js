@@ -126,7 +126,7 @@ class MoneyKeyboard extends Component {
             <KeyboardNumber onPress={this.handleOnPress} number={'0'} />
             <KeyboardNumber
               onPress={this.handleOnPress}
-              number={<Ionicons name="ios-backspace-outline" size={28} />}
+              number={<Ionicons name="ios-backspace" size={28} />}
             />
           </View>
         </View>

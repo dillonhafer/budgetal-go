@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import TabletNavigator from './TabletNavigator';
 import { colors } from '@shared/theme';
@@ -28,7 +28,7 @@ const sidebarHeaderStyle = {
   height: SidebarNavigationHeight,
 };
 
-const AccountNavigatorStack = StackNavigator(
+const AccountNavigatorStack = createStackNavigator(
   {
     AccountScreen: {
       screen: AccountScreen,
@@ -72,7 +72,7 @@ const AccountNavigatorStack = StackNavigator(
   },
 );
 
-const AccountSidebarNavigatorStack = StackNavigator(
+const AccountSidebarNavigatorStack = createStackNavigator(
   {
     Main: {
       screen: View,

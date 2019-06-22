@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { View, StatusBar, Dimensions, Platform, Linking } from 'react-native';
-import { Constants, ScreenOrientation, AppLoading, Asset, Font } from 'expo';
+import { ScreenOrientation, AppLoading } from 'expo';
+import { Asset } from 'expo-asset';
+import Constants from 'expo-constants';
+import * as Font from 'expo-font';
+
 import Device from 'utils/Device';
 import queryString from 'utils/queryString';
 
@@ -27,9 +31,9 @@ const prefix =
 
 // Allow iPads to use landscape
 if (Platform.OS === 'ios' && Device.isTablet()) {
-  ScreenOrientation.allow(ScreenOrientation.Orientation.ALL);
+  ScreenOrientation.lockAsync(ScreenOrientation.Orientation.ALL);
 } else {
-  ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT_UP);
+  ScreenOrientation.lockAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
 }
 
 // Preload font icons

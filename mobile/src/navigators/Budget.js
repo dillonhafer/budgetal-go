@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import TabletNavigator from 'navigators/TabletNavigator';
 
@@ -52,7 +52,7 @@ const CategoryTitle = ({ name }) => {
   );
 };
 
-const BudgetNavigatorStack = StackNavigator(
+const BudgetNavigatorStack = createStackNavigator(
   {
     Budget: {
       screen: BudgetsScreen,
@@ -149,7 +149,7 @@ const BudgetNavigatorStack = StackNavigator(
   },
 );
 
-const BudgetSidebarNavigatorStack = StackNavigator(
+const BudgetSidebarNavigatorStack = createStackNavigator(
   {
     Main: {
       screen: View,
@@ -248,6 +248,7 @@ const BudgetSidebarNavigatorStack = StackNavigator(
 class BudgetNavigator extends TabletNavigator {
   MainNavigator = BudgetNavigatorStack;
   SideNavigator = BudgetSidebarNavigatorStack;
+  static router = BudgetNavigatorStack.router;
 
   static navigationOptions = {
     // eslint-disable-next-line react/display-name
