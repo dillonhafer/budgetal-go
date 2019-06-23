@@ -5,7 +5,7 @@
     "slug": "budgetal",
     "privacy": "unlisted",
     "sdkVersion": "33.0.0",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "updates": {
       "enabled": false,
@@ -13,7 +13,7 @@
       "fallbackToCacheTimeout": 0
     },
     "ios": {
-      "buildNumber": "47",
+      "buildNumber": "48",
       "supportsTablet": true,
       "associatedDomains": ["applinks:www.budgetal.com"],
       "usesIcloudStorage": true,
@@ -34,7 +34,7 @@
         "foregroundImage": "./app-store-assets/android-app-foreground.png"
       },
       "package": "com.budgetal.app",
-      "versionCode": 47,
+      "versionCode": 48,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app",
       "permissions": []
     },
