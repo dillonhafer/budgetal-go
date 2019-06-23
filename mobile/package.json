@@ -13,6 +13,10 @@
     "test:watch": "node node_modules/jest/bin/jest.js --watch",
     "release": "node tasks/release.js",
     "upload": "node tasks/upload.js",
+    "launch": "xcrun simctl launch booted 'host.exp.Exponent'",
+    "terminate": "xcrun simctl terminate booted 'host.exp.Exponent'",
+    "restart": "yarn terminate && yarn launch",
+    "reset-password": "xcrun simctl openurl booted exp://127.0.0.1:19000/--/reset-password?passwordResetToken=testtoken",
     "ver": "node tasks/version.js"
   },
   "jest": {
