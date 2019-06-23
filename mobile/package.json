@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@shared": "file:../shared",
+    "@types/styled-components": "^4.1.16",
     "expo": "^33.0.0",
     "expo-asset": "^5.0.1",
     "expo-blur": "~5.0.1",
@@ -39,7 +40,8 @@
     "react-navigation": "^3.11.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^4.3.2"
   },
   "devDependencies": {
     "@types/react": "^16.8.19",
