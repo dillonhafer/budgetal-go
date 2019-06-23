@@ -16,7 +16,7 @@
     "launch": "xcrun simctl launch booted 'host.exp.Exponent'",
     "terminate": "xcrun simctl terminate booted 'host.exp.Exponent'",
     "restart": "yarn terminate && yarn launch",
-    "reset-password": "xcrun simctl openurl booted exp://127.0.0.1:19000/--/reset-password?resetPasswordToken=testtoken",
+    "reset-password": "xcrun simctl openurl booted exp://127.0.0.1:19000/--/reset-password?reset_password_token=testtoken",
     "ver": "node tasks/version.js"
   },
   "jest": {
