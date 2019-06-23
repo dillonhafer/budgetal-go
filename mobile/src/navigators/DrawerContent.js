@@ -18,7 +18,7 @@ import DrawerItem from './DrawerItem';
 
 // Sign out helpers
 import { SignOutRequest } from '@shared/api/sessions';
-import { navigateRoot } from 'navigators';
+// import { navigateRoot } from 'navigators';
 import { notice, error } from 'notify';
 import { RemoveAuthentication } from 'utils/authentication';
 
@@ -76,7 +76,7 @@ class DrawerContent extends PureComponent {
     try {
       await SignOutRequest();
       await RemoveAuthentication();
-      navigateRoot(this.props.navigation.dispatch);
+      // navigateRoot(this.props.navigation.dispatch);
       notice('You are now signed out');
       StatusBar.setBarStyle('default', true);
     } catch (err) {
