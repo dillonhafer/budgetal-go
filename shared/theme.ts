@@ -7,5 +7,6 @@ export const colors = {
   background: "#e9e9ef",
   lines: "#ced0ce",
   yellow: "#ffd478",
-  iosBlue: "#037aff"
+  iosBlue: "#037aff",
+  screenBackground: "#ececec"
 };

@@ -12,20 +12,16 @@ import { PrimaryButton, FieldContainer } from "@src/forms";
 import { validEmail } from "@shared/helpers";
 import styled from "styled-components/native";
 import { NavigationScreenConfigProps } from "react-navigation";
+import { FormTitle } from "@src/typography";
+import { colors } from "@shared/theme";
 
 const Container = styled(KeyboardAvoidingView).attrs({
   behvaior: "padding",
   keyboardVerticalOffset: 60,
 })({
   flex: 1,
-  backgroundColor: "#ececec",
+  backgroundColor: colors.screenBackground,
   alignItems: "center",
-});
-
-const FormTitle = styled.Text({
-  fontSize: 16,
-  margin: 10,
-  color: "#999",
 });
 
 interface Props extends NavigationScreenConfigProps {}

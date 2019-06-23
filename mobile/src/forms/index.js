@@ -10,6 +10,12 @@ export { default as MoneyInput } from "./MoneyInput";
 export { default as OptionInput } from "./OptionInput";
 export { default as FieldContainer } from "./FieldContainer";
 
+export const focus = inputRef => {
+  if (inputRef && inputRef.current) {
+    inputRef.current.focus();
+  }
+};
+
 export const PrimarySquareButton = ({ title, onPress, loading }) => {
   return (
     <Button

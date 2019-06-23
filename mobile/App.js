@@ -153,7 +153,7 @@ export default class App extends Component {
 
   renderAlertImage = () => {
     const isError = this.dropdown.state.type === 'error';
-    const name = isError ? 'ios-alert-outline' : 'ios-checkmark-circle-outline';
+    const name = isError ? 'ios-alert' : 'ios-checkmark-circle-outline';
     const style = {
       alignItems: 'center',
       justifyContent: 'center',

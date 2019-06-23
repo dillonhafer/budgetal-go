@@ -13,7 +13,6 @@ import { ResetPasswordRequest } from '@shared/api/users';
 
 // Helpers
 import { error, notice } from 'notify';
-import { navigateRoot } from 'navigators';
 
 // Components
 import { PrimaryButton, FieldContainer } from 'forms';
@@ -22,7 +21,7 @@ import { colors } from '@shared/theme';
 class ResetPasswordScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const onPress = () => {
-      navigateRoot(navigation.dispatch);
+      // navigateRoot(navigation.dispatch);
     };
     return {
       headerLeft: (
