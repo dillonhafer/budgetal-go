@@ -119,4 +119,4 @@ class AccountNavigator extends TabletNavigator {
   };
 }
 
-export default AccountNavigator;
+export default AccountNavigatorStack;

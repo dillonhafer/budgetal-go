@@ -1,21 +1,27 @@
-import React, { PureComponent } from 'react';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { BudgetalText } from '@src/components/Text';
+import React, { PureComponent } from "react";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { BudgetalText } from "@src/components/Text";
+import { colors } from "@shared/theme";
 
 class DrawerItem extends PureComponent {
   render() {
-    const { iconName, label, onPress } = this.props;
+    const { iconName, label, onPress, active = false } = this.props;
     return (
       <TouchableOpacity onPress={onPress}>
-        <View style={styles.container}>
+        <View
+          style={[
+            styles.container,
+            active ? { backgroundColor: colors.drawerActive } : {},
+          ]}
+        >
           <View style={styles.iconContainer}>
             <Ionicons
               name={iconName}
               size={22}
-              color={'#fff'}
+              color={"#fff"}
               style={{
-                alignItems: 'center',
+                alignItems: "center",
                 width: 22,
                 margin: 10,
                 marginLeft: 20,
@@ -33,17 +39,17 @@ class DrawerItem extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   iconContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     opacity: 0.62,
     width: 24,
     marginHorizontal: 16,
   },
   labelText: {
-    color: '#fff',
+    color: "#fff",
   },
 });
 

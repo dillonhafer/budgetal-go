@@ -42,6 +42,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
           headerBackTitle: `${year}`,
           headerStyle,
           headerBackTitleStyle,
+          ...BlurViewNavigationOptions,
           ...BurgerNavigationOptions,
         };
       },
@@ -50,6 +51,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       screen: AnnualBudgetItemProgressScreen,
       path: "annual-budgets/:budgetItem",
       navigationOptions: () => ({
+        ...BlurViewNavigationOptions,
         headerTitle: <HeaderText>PROGRESS</HeaderText>,
         headerStyle,
       }),
@@ -58,6 +60,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       screen: NewAnnualBudgetItemScreen,
       path: "newAnnualBudgetItem",
       navigationOptions: () => ({
+        ...BlurViewNavigationOptions,
         headerTitle: <HeaderText>NEW ANNUAL ITEM</HeaderText>,
         headerStyle,
       }),
@@ -66,6 +69,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       screen: EditAnnualBudgetItemScreen,
       path: "editAnnualBudgetItem",
       navigationOptions: ({ navigation }) => ({
+        ...BlurViewNavigationOptions,
         headerTitle: (
           <HeaderText>
             EDIT {navigation.state.params.annualBudgetItem.name.toUpperCase()}
@@ -122,19 +126,19 @@ const AnnualBudgetSidebarNavigatorStack = createStackNavigator(
   { navigationOptions: BlurViewNavigationOptions }
 );
 
-class AnnualBudgetNavigator extends TabletNavigator {
-  MainNavigator = AnnualBudgetNavigatorStack;
-  SideNavigator = AnnualBudgetSidebarNavigatorStack;
+// class AnnualBudgetNavigator extends TabletNavigator {
+//   MainNavigator = AnnualBudgetNavigatorStack;
+//   SideNavigator = AnnualBudgetSidebarNavigatorStack;
 
-  static navigationOptions = {
-    // eslint-disable-next-line react/display-name
-    drawerLabel: ({ tintColor }) => (
-      <BudgetalText style={{ color: tintColor }}>ANNUAL BUDGETS</BudgetalText>
-    ),
-    // Width 32 Fix for react-navigation bugs
-    // eslint-disable-next-line react/display-name
-    drawerIcon: drawerIcon("md-calendar"),
-  };
-}
+//   static navigationOptions = {
+//     // eslint-disable-next-line react/display-name
+//     drawerLabel: ({ tintColor }) => (
+//       <BudgetalText style={{ color: tintColor }}>ANNUAL BUDGETS</BudgetalText>
+//     ),
+//     // Width 32 Fix for react-navigation bugs
+//     // eslint-disable-next-line react/display-name
+//     drawerIcon: drawerIcon("md-calendar"),
+//   };
+// }
 
-export default AnnualBudgetNavigator;
+export default AnnualBudgetNavigatorStack;

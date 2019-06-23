@@ -5,7 +5,9 @@ import { ActivityIndicator, StatusBar } from "react-native";
 import { NavigationScreenConfigProps } from "react-navigation";
 import styled from "styled-components/native";
 
-interface Props extends NavigationScreenConfigProps {}
+interface Props extends NavigationScreenConfigProps {
+  updateCurrentUser(user: object): void;
+}
 
 const LoadingContainer = styled.View({
   flex: 1,
@@ -14,12 +16,12 @@ const LoadingContainer = styled.View({
   backgroundColor: colors.primary,
 });
 
-const AuthLoadingScreen = ({ navigation }: Props) => {
+const AuthLoadingScreen = ({ navigation, updateCurrentUser }: Props) => {
   useEffect(() => {
     IsAuthenticated().then(foundUser => {
       if (foundUser) {
         GetCurrentUser().then(user => {
-          // this.props.updateCurrentUser(user);
+          updateCurrentUser(user);
           navigation.navigate("App");
         });
         return;
@@ -37,4 +39,13 @@ const AuthLoadingScreen = ({ navigation }: Props) => {
   );
 };
 
-export default AuthLoadingScreen;
+import { connect } from "react-redux";
+import { updateCurrentUser } from "@src/actions/users";
+export default connect(
+  null,
+  dispatch => ({
+    updateCurrentUser: user => {
+      dispatch(updateCurrentUser(user));
+    },
+  })
+)(AuthLoadingScreen);

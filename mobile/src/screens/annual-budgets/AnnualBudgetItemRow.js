@@ -1,28 +1,28 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
+import React, { PureComponent } from "react";
+import { StyleSheet, View, TouchableHighlight } from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { removeItem } from '@src/actions/annual-budget-items';
+import { connect } from "react-redux";
+import { removeItem } from "@src/actions/annual-budget-items";
 
 // API
-import { DeleteAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
+import { DeleteAnnualBudgetItemRequest } from "@shared/api/annual-budget-items";
 
 // Helpers
-import { currencyf } from '@shared/helpers';
-import { round } from 'lodash';
-import { notice, confirm } from '@src/notify';
-import moment from 'moment';
-import { colors } from '@shared/theme';
+import { currencyf } from "@shared/helpers";
+import { round } from "lodash";
+import { notice, confirm } from "@src/notify";
+import moment from "moment";
+import { colors } from "@shared/theme";
 
 // Components
-import { Bold, Medium, LightText } from '@src/components/Text';
-import Swipeout from 'react-native-swipeout';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Bold, Medium, LightText } from "@src/components/Text";
+import Swipeout from "react-native-swipeout";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 class AnnualBudgetItemRow extends PureComponent {
   edit = () => {
-    this.props.screenProps.layoutNavigate('EditAnnualBudgetItem', {
+    this.props.screenProps.layoutNavigate("EditAnnualBudgetItem", {
       annualBudgetItem: this.props.budgetItem,
     });
   };
@@ -30,7 +30,7 @@ class AnnualBudgetItemRow extends PureComponent {
   confirmDelete = () => {
     confirm({
       title: `Delete ${this.props.budgetItem.name}?`,
-      okText: 'Delete',
+      okText: "Delete",
       onOk: this.deleteItem,
     });
   };
@@ -49,25 +49,25 @@ class AnnualBudgetItemRow extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
+            <MaterialCommunityIcons name="pencil" color={"#fff"} size={20} />
           </View>
         ),
         backgroundColor: colors.primary,
-        underlayColor: colors.primary + '70',
+        underlayColor: colors.primary + "70",
         onPress: this.edit,
       },
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+            <MaterialCommunityIcons name="delete" color={"#fff"} size={20} />
           </View>
         ),
         backgroundColor: colors.error,
-        underlayColor: colors.error + '70',
+        underlayColor: colors.error + "70",
         onPress: this.confirmDelete,
       },
     ];
@@ -75,19 +75,18 @@ class AnnualBudgetItemRow extends PureComponent {
 
   month = () => {
     return currencyf(
-      round(this.props.budgetItem.amount / this.props.budgetItem.interval),
+      round(this.props.budgetItem.amount / this.props.budgetItem.interval)
     );
   };
 
   progress = () => {
-    this.props.screenProps.layoutNavigate('AnnualBudgetProgress', {
+    this.props.screenProps.layoutNavigate("AnnualBudgetProgress", {
       budgetItem: this.props.budgetItem,
     });
   };
 
   render() {
-    const isTablet = this.props.screenProps.isTablet;
-    const buttons = this.buttons().slice(isTablet ? 1 : 0);
+    const buttons = this.buttons();
     const { budgetItem } = this.props;
     const color = budgetItem.paid ? colors.success : colors.disabled;
 
@@ -97,23 +96,23 @@ class AnnualBudgetItemRow extends PureComponent {
         backgroundColor={buttons[0].backgroundColor}
         right={buttons}
       >
-        <TouchableHighlight underlayColor={'#CCC'} onPress={this.progress}>
+        <TouchableHighlight underlayColor={"#CCC"} onPress={this.progress}>
           <View style={styles.itemRow} key={budgetItem.id}>
             <View>
               <Bold style={styles.itemName}>{budgetItem.name}</Bold>
-              <Medium style={{ textAlign: 'center' }}>
-                In order to reach{' '}
+              <Medium style={{ textAlign: "center" }}>
+                In order to reach{" "}
                 <Bold style={styles.boldText}>
                   {currencyf(budgetItem.amount)}
                 </Bold>
               </Medium>
-              <Medium style={{ textAlign: 'center' }}>
-                by{' '}
+              <Medium style={{ textAlign: "center" }}>
+                by{" "}
                 <Bold style={styles.boldText}>
-                  {moment(budgetItem.dueDate).format('LL')}
+                  {moment(budgetItem.dueDate).format("LL")}
                 </Bold>
               </Medium>
-              <Medium style={{ textAlign: 'center' }}>you need to save</Medium>
+              <Medium style={{ textAlign: "center" }}>you need to save</Medium>
               <Bold style={styles.boldText}>
                 {this.month()}
                 /month
@@ -131,29 +130,29 @@ class AnnualBudgetItemRow extends PureComponent {
 
 const styles = StyleSheet.create({
   itemRow: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 15,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   itemName: {
-    textAlign: 'center',
-    fontWeight: '700',
+    textAlign: "center",
+    fontWeight: "700",
     fontSize: 20,
     marginBottom: 10,
   },
   tag: {
-    alignSelf: 'center',
+    alignSelf: "center",
     padding: 5,
     borderRadius: 5,
     width: 50,
   },
   tagText: {
-    textAlign: 'center',
-    color: '#fff',
+    textAlign: "center",
+    color: "#fff",
   },
   boldText: {
-    fontWeight: '800',
-    textAlign: 'center',
+    fontWeight: "800",
+    textAlign: "center",
   },
 });
 
@@ -163,5 +162,5 @@ export default connect(
     removeItem: item => {
       dispatch(removeItem(item));
     },
-  }),
+  })
 )(AnnualBudgetItemRow);

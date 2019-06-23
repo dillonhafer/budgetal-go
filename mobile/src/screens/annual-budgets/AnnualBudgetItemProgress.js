@@ -1,16 +1,15 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { PureComponent } from "react";
+import { View, StyleSheet, FlatList } from "react-native";
 
 // Components
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
-import moment from 'moment';
-import { colors } from '@shared/theme';
-import { currencyf } from '@shared/helpers';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { round, times } from 'lodash';
-import { Bold, Medium } from '@src/components/Text';
-import Device from '@src/utils/Device';
-const isTablet = Device.isTablet();
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import moment from "moment";
+import { colors } from "@shared/theme";
+import { currencyf } from "@shared/helpers";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { round, times } from "lodash";
+import { Bold, Medium } from "@src/components/Text";
+import Device from "@src/utils/Device";
 
 class AnnualBudgetItemProgress extends PureComponent {
   renderItem = ({ item }) => {
@@ -41,7 +40,7 @@ class AnnualBudgetItemProgress extends PureComponent {
   renderHeader = () => {
     const item = this.props.navigation.state.params.budgetItem;
     return (
-      <View style={{ padding: 10, alignItems: 'center' }}>
+      <View style={{ padding: 10, alignItems: "center" }}>
         <Bold style={styles.headerText}>Accumulation Progress for</Bold>
         <Bold style={styles.headerText}>{item.name}</Bold>
       </View>
@@ -52,13 +51,13 @@ class AnnualBudgetItemProgress extends PureComponent {
     const item = this.props.navigation.state.params.budgetItem;
     const startDate = moment(item.dueDate).subtract(
       item.interval + 1,
-      'months',
+      "months"
     );
     const monthlyAmount = round(item.amount / item.interval);
     const data = times(item.interval, key => {
-      const date = startDate.add(1, 'months').format('LL');
+      const date = startDate.add(1, "months").format("LL");
       const success = moment().diff(startDate) > 0;
-      const icon = success ? 'check-circle' : 'close-circle';
+      const icon = success ? "check-circle" : "close-circle";
       const color = success ? colors.success : colors.error;
       const amount = monthlyAmount * (key + 1);
 
@@ -90,22 +89,22 @@ class AnnualBudgetItemProgress extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
-    backgroundColor: isTablet ? 'transparent' : '#fff',
+    alignItems: "center",
+    flexDirection: "column",
+    backgroundColor: "#fff",
   },
   list: {
-    width: '100%',
+    width: "100%",
   },
   listContainer: {
-    backgroundColor: '#fff',
-    borderColor: '#fff',
+    backgroundColor: "#fff",
+    borderColor: "#fff",
     borderWidth: 1,
     borderRadius: 5,
-    margin: isTablet ? 20 : 0,
+    margin: 0,
   },
   listSeparatorContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   listSeparator: {
     height: 1,
@@ -114,30 +113,30 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lines,
   },
   dateRow: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
   date: {
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   amount: {
     fontSize: 16,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   row: {
     marginHorizontal: 15,
     paddingVertical: 15,
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignSelf: "stretch",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   headerText: {
-    color: '#444',
+    color: "#444",
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
   },
 });
 

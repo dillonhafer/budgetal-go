@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -29,8 +29,9 @@ import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 import Card, { FormCard, SplitBackground } from "@src/components/Card";
 import ListBackgroundFill from "@src/components/ListBackgroundFill";
 import AskForReview from "@src/utils/StoreReview";
+import { NavigationEvents } from "react-navigation";
 
-class BudgetsScreen extends PureComponent {
+class BudgetsScreen extends Component {
   componentDidMount() {
     this.loadBudget({
       month: new Date().getMonth() + 1,
@@ -76,7 +77,6 @@ class BudgetsScreen extends PureComponent {
     }
 
     const isCurrent =
-      this.props.screenProps.isTablet &&
       this.props.currentBudgetCategory.id > 0 &&
       this.props.currentBudgetCategory.id === budgetCategory.id;
 
@@ -121,9 +121,7 @@ class BudgetsScreen extends PureComponent {
   };
 
   renderFooter = () => {
-    const isCurrent =
-      this.props.screenProps.isTablet &&
-      this.props.currentBudgetCategory.name === "import";
+    const isCurrent = this.props.currentBudgetCategory.name === "import";
 
     let activeRowStyles = {};
     if (isCurrent) {
@@ -201,30 +199,31 @@ class BudgetsScreen extends PureComponent {
 
   render() {
     const { budgetLoading: loading, budgetRefreshing: refreshing } = this.props;
-
     return (
-      <View style={styles.container}>
+      <>
         <StatusBar barStyle="dark-content" animated={true} />
-        <ListBackgroundFill />
-        <FlatList
-          {...BlurViewInsetProps}
-          refreshControl={
-            <RefreshControl
-              tintColor={"lightskyblue"}
-              refreshing={refreshing}
-              onRefresh={this.refresh}
-            />
-          }
-          style={styles.list}
-          contentContainerStyle={styles.contentStyles}
-          keyExtractor={i => String(i.id)}
-          data={this.props.budgetCategories}
-          renderItem={this.renderCategory}
-          ListFooterComponent={this.renderFooter}
-          ListHeaderComponent={this.renderHeader}
-        />
-        <Spin spinning={loading && !refreshing} />
-      </View>
+        <View style={styles.container}>
+          <ListBackgroundFill />
+          <FlatList
+            {...BlurViewInsetProps}
+            refreshControl={
+              <RefreshControl
+                tintColor={"lightskyblue"}
+                refreshing={refreshing}
+                onRefresh={this.refresh}
+              />
+            }
+            style={styles.list}
+            contentContainerStyle={styles.contentStyles}
+            keyExtractor={i => String(i.id)}
+            data={this.props.budgetCategories}
+            renderItem={this.renderCategory}
+            ListFooterComponent={this.renderFooter}
+            ListHeaderComponent={this.renderHeader}
+          />
+          <Spin spinning={loading && !refreshing} />
+        </View>
+      </>
     );
   }
 }

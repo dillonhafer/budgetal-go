@@ -22,7 +22,7 @@ const sidebarHeaderStyle = {
   height: SidebarNavigationHeight,
 };
 
-const AccountNavigatorStack = createStackNavigator(
+const StatisticsNavigatorStack = createStackNavigator(
   {
     Statistics: {
       screen: StatisticsScreen,
@@ -37,7 +37,7 @@ const AccountNavigatorStack = createStackNavigator(
       backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
-    navigationOptions: {
+    defaultNavigationOptions: {
       ...BlurViewNavigationOptions,
       ...BurgerNavigationOptions,
     },
@@ -59,17 +59,17 @@ const StatisticsSidebarNavigatorStack = createStackNavigator(
   {}
 );
 
-class StatisticsNavigator extends TabletNavigator {
-  MainNavigator = AccountNavigatorStack;
-  SideNavigator = StatisticsSidebarNavigatorStack;
+// class StatisticsNavigator extends TabletNavigator {
+//   MainNavigator = AccountNavigatorStack;
+//   SideNavigator = StatisticsSidebarNavigatorStack;
 
-  static navigationOptions = {
-    // eslint-disable-next-line react/display-name
-    drawerLabel: ({ tintColor }) => (
-      <BudgetalText style={{ color: tintColor }}>STATISTICS</BudgetalText>
-    ),
-    drawerIcon: drawerIcon("md-stats"),
-  };
-}
+//   static navigationOptions = {
+//     // eslint-disable-next-line react/display-name
+//     drawerLabel: ({ tintColor }) => (
+//       <BudgetalText style={{ color: tintColor }}>STATISTICS</BudgetalText>
+//     ),
+//     drawerIcon: drawerIcon("md-stats"),
+//   };
+// }
 
-export default StatisticsNavigator;
+export default StatisticsNavigatorStack;

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,21 +7,21 @@ import {
   TouchableOpacity,
   View,
   SectionList,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
 // Navigation
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { notice, error } from '@src/notify';
-import { colors } from '@shared/theme';
-import { Updates } from 'expo';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { notice, error } from "@src/notify";
+import { colors } from "@shared/theme";
+import { Updates } from "expo";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
-import Device from '@src/utils/Device';
+import Device from "@src/utils/Device";
 const isTablet = Device.isTablet();
 
 class AccountScreen extends PureComponent {
@@ -32,21 +32,21 @@ class AccountScreen extends PureComponent {
   };
 
   editAccount = () => {
-    this.props.screenProps.layoutNavigate('AccountEdit', {
+    this.props.screenProps.layoutNavigate("AccountEdit", {
       user: this.props.user,
     });
   };
 
   navChangePassword = () => {
-    this.props.screenProps.layoutNavigate('ChangePassword');
+    this.props.screenProps.layoutNavigate("ChangePassword");
   };
 
   navSessions = () => {
-    this.props.screenProps.layoutNavigate('Sessions');
+    this.props.screenProps.layoutNavigate("Sessions");
   };
 
   navLegal = () => {
-    this.props.screenProps.layoutNavigate('Legal');
+    this.props.screenProps.layoutNavigate("Legal");
   };
 
   componentDidMount() {
@@ -66,7 +66,7 @@ class AccountScreen extends PureComponent {
         await Updates.fetchUpdateAsync();
         Updates.reload();
       } catch (e) {
-        error('Could not download update');
+        error("Could not download update");
       } finally {
         this.setState({ updateDownloading: false });
       }
@@ -77,12 +77,12 @@ class AccountScreen extends PureComponent {
       const { isAvailable } = await Updates.checkForUpdateAsync();
       this.setState({ isAvailable });
       if (isAvailable) {
-        notice('New Update');
+        notice("New Update");
       } else {
         notice("You're up to date!");
       }
     } catch (e) {
-      error('Could not check for updates');
+      error("Could not check for updates");
     }
   };
 
@@ -108,45 +108,33 @@ class AccountScreen extends PureComponent {
         name="ios-arrow-forward"
         size={22}
         style={{ paddingRight: 15 }}
-        color={'#ced0ce'}
+        color={"#ced0ce"}
       />
     );
 
-    const { activeSidebarScreen } = this.props.screenProps;
-    let activeRowStyles = {};
-    let activeTextStyles = {};
-    const activeSidebar = activeSidebarScreen === item.label.replace(' ', '');
-    if (activeSidebar) {
-      activeRowStyles = {
-        backgroundColor: colors.primary,
-        borderColor: colors.primary,
-      };
-      activeTextStyles = { color: '#fff' };
-    }
-
-    const onPress = activeSidebar ? () => {} : item.onPress;
+    const onPress = item.onPress;
     const iconStyles = item.icon.backgroundColor
       ? [styles.listItemIcon, { backgroundColor: item.icon.backgroundColor }]
       : styles.listItemIcon;
 
     return (
       <TouchableOpacity
-        style={[styles.listItem, item.style, activeRowStyles]}
+        style={[styles.listItem, item.style]}
         onPress={onPress}
-        disabled={activeSidebar || !item.onPress}
+        disabled={!item.onPress}
       >
         <View
           style={{
-            flexDirection: 'row',
-            width: '65%',
-            alignItems: 'center',
+            flexDirection: "row",
+            width: "65%",
+            alignItems: "center",
           }}
         >
           <View
             style={{
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: '22%',
+              alignItems: "center",
+              justifyContent: "center",
+              width: "22%",
               paddingTop: 8,
               paddingBottom: 8,
             }}
@@ -155,13 +143,11 @@ class AccountScreen extends PureComponent {
               <MaterialCommunityIcons
                 name={item.icon.name}
                 size={22}
-                color={'#fff'}
+                color={"#fff"}
               />
             </View>
           </View>
-          <Text style={[styles.listItemText, activeTextStyles]}>
-            {item.label}
-          </Text>
+          <Text style={styles.listItemText}>{item.label}</Text>
         </View>
         {item.right || defaultRight}
       </TouchableOpacity>
@@ -172,41 +158,41 @@ class AccountScreen extends PureComponent {
     const { user } = this.props;
     const buttons = [
       {
-        title: 'ACCOUNT',
+        title: "ACCOUNT",
         data: [
           {
-            key: 'sessions',
-            label: 'Sessions',
-            icon: { name: 'folder-lock-open' },
+            key: "sessions",
+            label: "Sessions",
+            icon: { name: "folder-lock-open" },
             onPress: this.navSessions,
             style: styles.first,
           },
           {
-            key: 'password',
-            label: 'Change Password',
-            icon: { name: 'account-key' },
+            key: "password",
+            label: "Change Password",
+            icon: { name: "account-key" },
             onPress: this.navChangePassword,
             style: styles.last,
           },
         ],
       },
       {
-        title: 'UPDATES',
+        title: "UPDATES",
         data: [
           {
-            key: 'update',
+            key: "update",
             label: this.state.updateDownloading
-              ? 'Downloading Update...'
+              ? "Downloading Update..."
               : this.state.isAvailable
-                ? 'Download Update'
-                : 'Check for updates',
+              ? "Download Update"
+              : "Check for updates",
             icon: {
-              name: 'update',
+              name: "update",
               backgroundColor: this.state.updateDownloading
                 ? colors.yellow
                 : this.state.isAvailable
-                  ? colors.success
-                  : colors.primary,
+                ? colors.success
+                : colors.primary,
             },
             onPress: this.state.updateDownloading ? null : this.checkForUpdate,
             style: [styles.first, styles.last],
@@ -237,7 +223,7 @@ class AccountScreen extends PureComponent {
                   </View>
                   <View style={styles.nameContainer}>
                     <Text style={styles.nameText}>
-                      {[user.firstName, user.lastName].join(' ')}
+                      {[user.firstName, user.lastName].join(" ")}
                     </Text>
                     <Text style={styles.emailText}>{user.email}</Text>
                   </View>
@@ -245,7 +231,7 @@ class AccountScreen extends PureComponent {
                     <Ionicons
                       name="ios-arrow-forward"
                       size={26}
-                      color={'#ced0ce'}
+                      color={"#ced0ce"}
                     />
                   </View>
                 </TouchableOpacity>
@@ -270,17 +256,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: 'white',
-    alignSelf: 'stretch',
+    backgroundColor: "white",
+    alignSelf: "stretch",
     borderWidth: 0.5,
-    borderColor: '#aaa',
-    borderLeftColor: '#fff',
-    borderRightColor: '#fff',
+    borderColor: "#aaa",
+    borderLeftColor: "#fff",
+    borderRightColor: "#fff",
   },
   imageContainer: {
     marginLeft: 25,
@@ -288,9 +274,9 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderWidth: 2,
-    borderColor: '#aaa',
-    backgroundColor: '#aaa',
-    overflow: 'hidden',
+    borderColor: "#aaa",
+    backgroundColor: "#aaa",
+    overflow: "hidden",
   },
   image: {
     width: 70,
@@ -298,53 +284,53 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 18,
-    fontWeight: '700',
-    color: '#444',
+    fontWeight: "700",
+    color: "#444",
   },
   emailText: {
-    color: '#888',
+    color: "#888",
   },
   list: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
   },
   listSeparatorContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   listSeparator: {
     height: 1,
-    width: '86%',
-    backgroundColor: '#CED0CE',
-    marginLeft: '14%',
+    width: "86%",
+    backgroundColor: "#CED0CE",
+    marginLeft: "14%",
   },
   listItem: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   listItemText: {
     fontSize: 17,
-    textAlign: 'left',
-    color: '#444',
+    textAlign: "left",
+    color: "#444",
   },
   listItemIcon: {
     width: 30,
     height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: colors.primary,
-    borderColor: 'transparent',
+    borderColor: "transparent",
     borderWidth: 1,
     borderRadius: 6,
   },
   first: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderTopColor: colors.lines,
   },
   last: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderBottomColor: colors.lines,
   },
   headerText: {
@@ -352,8 +338,8 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingLeft: 15,
     fontSize: 14,
-    color: '#aaa',
-    fontWeight: '600',
+    color: "#aaa",
+    fontWeight: "600",
   },
 });
 

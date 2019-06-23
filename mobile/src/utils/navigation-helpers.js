@@ -23,7 +23,23 @@ export const BlurViewInsetProps = {
 export const BlurViewNavigationOptions = {
   headerTransparent: true,
   headerBackground: Platform.select({
-    ios: <BlurView style={{ flex: 1 }} intensity={100} tint="light" />,
+    ios: (
+      <View
+        style={{
+          flex: 1,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderBottomColor: "#d6d7da",
+        }}
+      >
+        <BlurView
+          style={{
+            flex: 1,
+          }}
+          intensity={100}
+          tint="light"
+        />
+      </View>
+    ),
     android: (
       <View style={{ flex: 1, backgroundColor: "rgba(255,255,255,0.9)" }} />
     ),

@@ -1,11 +1,10 @@
-import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, StatusBar } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React, { PureComponent } from "react";
+import { View, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 class DrawerBurger extends PureComponent {
   openDrawer = () => {
-    StatusBar.setBarStyle('light-content', true);
-    this.props.navigation.navigate('DrawerOpen');
+    this.props.navigation.openDrawer();
   };
 
   render() {
@@ -15,7 +14,7 @@ class DrawerBurger extends PureComponent {
           <Ionicons
             name="ios-menu"
             size={30}
-            color={'#037aff'}
+            color={"#037aff"}
             style={{
               paddingHorizontal: 15,
             }}
