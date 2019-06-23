@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateNetWorthItem } from 'actions/net-worth-items';
+import { updateNetWorthItem } from '@src/actions/net-worth-items';
 import EditMonthItemScreen from './EditMonthItem';
 
 export default connect(

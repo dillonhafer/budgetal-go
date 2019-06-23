@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createNetWorthItem } from 'actions/net-worth-items';
+import { createNetWorthItem } from '@src/actions/net-worth-items';
 import NewMonthItemScreen from './NewMonthItem';
 
 export default connect(

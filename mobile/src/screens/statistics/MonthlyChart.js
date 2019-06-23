@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { View, Text } from 'react-native';
 
-import PieAnimation from 'components/PieAnimation';
+import PieAnimation from '@src/components/PieAnimation';
 import { colors } from '@shared/theme';
 
 class MonthlyChart extends PureComponent {

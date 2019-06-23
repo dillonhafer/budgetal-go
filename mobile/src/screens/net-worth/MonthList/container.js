@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { deleteNetWorthItem } from 'actions/net-worth-items';
-import { importNetWorthItems } from 'actions/net-worth';
+import { deleteNetWorthItem } from '@src/actions/net-worth-items';
+import { importNetWorthItems } from '@src/actions/net-worth';
 import MonthList from './MonthList';
 
 const mapStateToProps = state => {

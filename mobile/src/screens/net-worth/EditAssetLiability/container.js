@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateAssetLiability } from 'actions/net-worth-assets';
+import { updateAssetLiability } from '@src/actions/net-worth-assets';
 import EditAssetLiability from './EditAssetLiability';
 
 export default connect(

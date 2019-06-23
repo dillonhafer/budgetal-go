@@ -1,12 +1,12 @@
-import React from 'react';
-import { createStackNavigator } from 'react-navigation';
-import { BudgetalText, HeaderText } from 'components/Text';
+import React from "react";
+import { createStackNavigator } from "react-navigation";
+import { BudgetalText, HeaderText } from "@src/components/Text";
 
-import TabletNavigator from './TabletNavigator';
+import TabletNavigator from "./TabletNavigator";
 
 // Screens
-import StatisticsScreen from 'screens/statistics/Statistics';
-import MonthlyChartScreen from 'screens/statistics/MonthlyChart';
+import StatisticsScreen from "@src/screens/statistics/Statistics";
+import MonthlyChartScreen from "@src/screens/statistics/MonthlyChart";
 
 import {
   NavigationHeight,
@@ -14,7 +14,7 @@ import {
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
   drawerIcon,
-} from 'utils/navigation-helpers';
+} from "@src/utils/navigation-helpers";
 const headerStyle = {
   height: NavigationHeight,
 };
@@ -34,14 +34,14 @@ const AccountNavigatorStack = createStackNavigator(
   },
   {
     cardStyle: {
-      backgroundColor: '#ececec',
+      backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
     navigationOptions: {
       ...BlurViewNavigationOptions,
       ...BurgerNavigationOptions,
     },
-  },
+  }
 );
 
 const StatisticsSidebarNavigatorStack = createStackNavigator(
@@ -56,7 +56,7 @@ const StatisticsSidebarNavigatorStack = createStackNavigator(
       },
     },
   },
-  {},
+  {}
 );
 
 class StatisticsNavigator extends TabletNavigator {
@@ -68,7 +68,7 @@ class StatisticsNavigator extends TabletNavigator {
     drawerLabel: ({ tintColor }) => (
       <BudgetalText style={{ color: tintColor }}>STATISTICS</BudgetalText>
     ),
-    drawerIcon: drawerIcon('md-stats'),
+    drawerIcon: drawerIcon("md-stats"),
   };
 }
 

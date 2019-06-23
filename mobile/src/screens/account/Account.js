@@ -13,15 +13,15 @@ import {
 import { connect } from 'react-redux';
 
 // Navigation
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
 
 // Components
-import { notice, error } from 'notify';
+import { notice, error } from '@src/notify';
 import { colors } from '@shared/theme';
 import { Updates } from 'expo';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import Device from 'utils/Device';
+import Device from '@src/utils/Device';
 const isTablet = Device.isTablet();
 
 class AccountScreen extends PureComponent {

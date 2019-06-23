@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, StatusBar, SectionList, StyleSheet } from 'react-native';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import ListBackgroundFill from 'components/ListBackgroundFill';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
+import ListBackgroundFill from '@src/components/ListBackgroundFill';
 import { currencyf } from '@shared/helpers';
 import ListItem, { positions } from './ListItem';
-import { Bold } from 'components/Text';
+import { Bold } from '@src/components/Text';
 
 class GroupList extends Component {
   static propTypes = {

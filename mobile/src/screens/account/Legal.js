@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { ScrollView, StyleSheet, Text, StatusBar, View } from 'react-native';
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
 
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Device from 'utils/Device';
+import Device from '@src/utils/Device';
 const isTablet = Device.isTablet();
 
 const Project = ({ children }) => {

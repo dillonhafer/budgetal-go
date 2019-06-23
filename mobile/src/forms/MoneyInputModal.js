@@ -11,10 +11,10 @@ import {
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
-import MoneyKeyboard from 'utils/MoneyKeyboard';
+import MoneyKeyboard from '@src/utils/MoneyKeyboard';
 import Modal from 'react-native-modalbox';
-import MoneyAnimation from 'components/MoneyAnimation';
-import { Medium } from 'components/Text';
+import MoneyAnimation from '@src/components/MoneyAnimation';
+import { Medium } from '@src/components/Text';
 
 class MoneyInputModal extends PureComponent {
   state = {

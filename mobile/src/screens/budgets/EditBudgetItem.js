@@ -1,26 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   TextInput,
   StatusBar,
   View,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { updateBudgetItem } from 'actions/budgets';
+import { connect } from "react-redux";
+import { updateBudgetItem } from "@src/actions/budgets";
 
 // API
-import { UpdateItemRequest } from '@shared/api/budget-items';
+import { UpdateItemRequest } from "@shared/api/budget-items";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error, notice } from 'notify';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { error, notice } from "@src/notify";
 
 // Components
-import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
-import MoneyInput from 'forms/MoneyInput';
+import { PrimaryButton, DangerButton, FieldContainer } from "@src/forms";
+import MoneyInput from "@src/forms/MoneyInput";
 
 class EditBudgetItemScreen extends Component {
   goBack = () => {
@@ -32,7 +32,7 @@ class EditBudgetItemScreen extends Component {
   state = {
     loading: false,
     showMoneyKeyboard: false,
-    name: '',
+    name: "",
     amount: 0.0,
   };
 
@@ -51,12 +51,12 @@ class EditBudgetItemScreen extends Component {
   };
 
   showMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBarStyle("light-content", true);
     this.setState({ showMoneyKeyboard: true });
   };
 
   hideMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-dark', true);
+    StatusBar.setBarStyle("light-dark", true);
     this.setState({ showMoneyKeyboard: false });
   };
 
@@ -73,10 +73,10 @@ class EditBudgetItemScreen extends Component {
       if (resp && resp.ok) {
         this.props.updateBudgetItem(resp.budgetItem);
         this.goBack();
-        notice('Item saved');
+        notice("Item saved");
       }
     } catch (err) {
-      error('Could not update item');
+      error("Could not update item");
     }
   };
 
@@ -86,7 +86,7 @@ class EditBudgetItemScreen extends Component {
       if (this.validateFields()) {
         await this.updateItem();
       } else {
-        error('Form is not valid');
+        error("Form is not valid");
       }
     } catch (err) {
       // console.log(err)
@@ -110,7 +110,7 @@ class EditBudgetItemScreen extends Component {
             style={{ height: 50 }}
             placeholder="Name"
             defaultValue={name}
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             returnKeyType="next"
             onChangeText={name => this.setState({ name })}
           />
@@ -141,16 +141,19 @@ class EditBudgetItemScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },
 });
 
-export default connect(null, dispatch => ({
-  updateBudgetItem: item => {
-    dispatch(updateBudgetItem(item));
-  },
-}))(EditBudgetItemScreen);
+export default connect(
+  null,
+  dispatch => ({
+    updateBudgetItem: item => {
+      dispatch(updateBudgetItem(item));
+    },
+  })
+)(EditBudgetItemScreen);

@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 // Utils
-import Device from 'utils/Device';
+import Device from '@src/utils/Device';
 const isTablet = Device.isTablet();
 import { colors } from '@shared/theme';
 

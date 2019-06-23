@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { loadYear, refreshYear } from 'actions/net-worth';
-import { deleteAssetLiability } from 'actions/net-worth-assets';
+import { loadYear, refreshYear } from '@src/actions/net-worth';
+import { deleteAssetLiability } from '@src/actions/net-worth-assets';
 import NetWorthScreen from './NetWorth';
 
 export default connect(

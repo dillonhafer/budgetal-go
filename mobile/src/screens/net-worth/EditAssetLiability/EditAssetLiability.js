@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   TextInput,
   StyleSheet,
   StatusBar,
   View,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error, notice } from 'notify';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { error, notice } from "@src/notify";
 
 // Components
-import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
-import Device from 'utils/Device';
+import { PrimaryButton, DangerButton, FieldContainer } from "@src/forms";
+import Device from "@src/utils/Device";
 const isTablet = Device.isTablet();
 
 class EditAssetLiabilityScreen extends Component {
@@ -37,12 +37,12 @@ class EditAssetLiabilityScreen extends Component {
   handleOnPress = () => {
     this.setState({ loading: true });
     if (!this.validateFields()) {
-      return error('Form is not valid');
+      return error("Form is not valid");
     }
 
     const { name } = this.state;
-    const asset = this.props.navigation.getParam('item');
-    const title = asset.isAsset ? 'ASSET' : 'LIABILITY';
+    const asset = this.props.navigation.getParam("item");
+    const title = asset.isAsset ? "ASSET" : "LIABILITY";
 
     this.props
       .updateAssetLiability({ ...asset, name })
@@ -59,7 +59,7 @@ class EditAssetLiabilityScreen extends Component {
   };
 
   render() {
-    const item = this.props.navigation.getParam('item');
+    const item = this.props.navigation.getParam("item");
     const { name = item.name, loading } = this.state;
     const valid = this.validateFields();
 
@@ -76,7 +76,7 @@ class EditAssetLiabilityScreen extends Component {
             defaultValue={name}
             returnKeyType="done"
             onSubmitEditing={this.handleOnPress}
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             onChangeText={name => this.setState({ name })}
           />
         </FieldContainer>
@@ -98,9 +98,9 @@ class EditAssetLiabilityScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },

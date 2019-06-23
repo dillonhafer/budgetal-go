@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { createAssetLiability } from 'actions/net-worth-assets';
+import { createAssetLiability } from '@src/actions/net-worth-assets';
 import NewAssetLiabilityScreen from './NewAssetLiability';
 
 export default connect(

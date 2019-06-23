@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
@@ -8,27 +8,27 @@ import {
   StatusBar,
   View,
   RefreshControl,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import {
   loadBudget,
   refreshBudget,
   updateBudgetCategory,
-} from 'actions/budgets';
+} from "@src/actions/budgets";
 
 // Components
-import { categoryImage } from 'images';
-import { reduceSum, percentSpent } from '@shared/helpers';
-import Progress from 'utils/Progress';
-import DatePicker from 'utils/DatePicker';
-import Spin from 'utils/Spin';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { categoryImage } from "@src/assets/images";
+import { reduceSum, percentSpent } from "@shared/helpers";
+import Progress from "@src/utils/Progress";
+import DatePicker from "@src/utils/DatePicker";
+import Spin from "@src/utils/Spin";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
-import Card, { FormCard, SplitBackground } from 'components/Card';
-import ListBackgroundFill from 'components/ListBackgroundFill';
-import AskForReview from 'utils/StoreReview';
+import Card, { FormCard, SplitBackground } from "@src/components/Card";
+import ListBackgroundFill from "@src/components/ListBackgroundFill";
+import AskForReview from "@src/utils/StoreReview";
 
 class BudgetsScreen extends PureComponent {
   componentDidMount() {
@@ -55,7 +55,7 @@ class BudgetsScreen extends PureComponent {
 
   renderCategory = ({ item: budgetCategory }) => {
     const items = this.props.budgetItems.filter(
-      i => i.budgetCategoryId === budgetCategory.id,
+      i => i.budgetCategoryId === budgetCategory.id
     );
     const itemIds = items.map(i => {
       return i.id;
@@ -68,11 +68,11 @@ class BudgetsScreen extends PureComponent {
     const amountBudgeted = reduceSum(items);
     const remaining = amountBudgeted - amountSpent;
     const percent = percentSpent(amountBudgeted, amountSpent);
-    let status = 'normal';
+    let status = "normal";
     if (remaining < 0) {
-      status = 'exception';
+      status = "exception";
     } else if (remaining === 0.0) {
-      status = 'success';
+      status = "success";
     }
 
     const isCurrent =
@@ -88,7 +88,7 @@ class BudgetsScreen extends PureComponent {
           activeOpacity={0.6}
           onPress={() => {
             this.props.changeCategory(budgetCategory);
-            this.props.screenProps.layoutNavigate('BudgetCategory', {
+            this.props.screenProps.layoutNavigate("BudgetCategory", {
               budgetCategory,
             });
           }}
@@ -96,7 +96,7 @@ class BudgetsScreen extends PureComponent {
           <Card
             image={categoryImage(budgetCategory.name)}
             label={budgetCategory.name}
-            color={'#fff'}
+            color={"#fff"}
             light={true}
             budgeted={amountBudgeted}
             spent={amountSpent}
@@ -123,11 +123,11 @@ class BudgetsScreen extends PureComponent {
   renderFooter = () => {
     const isCurrent =
       this.props.screenProps.isTablet &&
-      this.props.currentBudgetCategory.name === 'import';
+      this.props.currentBudgetCategory.name === "import";
 
     let activeRowStyles = {};
     if (isCurrent) {
-      activeRowStyles.backgroundColor = '#ddd';
+      activeRowStyles.backgroundColor = "#ddd";
     }
 
     return (
@@ -141,18 +141,18 @@ class BudgetsScreen extends PureComponent {
           <FormCard>
             <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <Image
                 style={styles.categoryImage}
-                source={require('images/csv.png')}
+                source={require("@src/assets/images/csv.png")}
               />
               <View
                 style={{
-                  flexDirection: 'column',
+                  flexDirection: "column",
                   flex: 1,
                 }}
               >
@@ -169,8 +169,8 @@ class BudgetsScreen extends PureComponent {
   };
 
   onImportPress = () => {
-    this.props.changeCategory({ id: -1, name: 'import' });
-    this.props.screenProps.layoutNavigate('ImportExpenses');
+    this.props.changeCategory({ id: -1, name: "import" });
+    this.props.screenProps.layoutNavigate("ImportExpenses");
   };
 
   renderHeader = () => {
@@ -210,7 +210,7 @@ class BudgetsScreen extends PureComponent {
           {...BlurViewInsetProps}
           refreshControl={
             <RefreshControl
-              tintColor={'lightskyblue'}
+              tintColor={"lightskyblue"}
               refreshing={refreshing}
               onRefresh={this.refresh}
             />
@@ -232,19 +232,19 @@ class BudgetsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "column",
   },
   list: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   contentStyles: {
-    backgroundColor: '#d8dce0',
-    minHeight: '100%',
+    backgroundColor: "#d8dce0",
+    minHeight: "100%",
   },
   categoryRow: {
-    backgroundColor: '#d8dce0',
+    backgroundColor: "#d8dce0",
   },
   categoryImage: {
     width: 64,
@@ -252,9 +252,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   importText: {
-    textAlign: 'center',
-    fontWeight: '700',
-    color: '#444',
+    textAlign: "center",
+    fontWeight: "700",
+    color: "#444",
   },
 });
 
@@ -272,5 +272,5 @@ export default connect(
     changeCategory: budgetCategory => {
       dispatch(updateBudgetCategory({ budgetCategory }));
     },
-  }),
+  })
 )(BudgetsScreen);

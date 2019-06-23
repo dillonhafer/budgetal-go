@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 
 // Components
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
 import moment from 'moment';
 import { colors } from '@shared/theme';
 import { currencyf } from '@shared/helpers';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { round, times } from 'lodash';
-import { Bold, Medium } from 'components/Text';
-import Device from 'utils/Device';
+import { Bold, Medium } from '@src/components/Text';
+import Device from '@src/utils/Device';
 const isTablet = Device.isTablet();
 
 class AnnualBudgetItemProgress extends PureComponent {

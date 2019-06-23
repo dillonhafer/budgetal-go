@@ -17,7 +17,7 @@ import {
   BUDGET_ITEM_EXPENSE_UPDATED,
   BUDGET_ITEM_EXPENSE_REMOVED,
   BUDGET_ITEM_EXPENSE_IMPORTED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 const initialBudgetCategories = [
   { id: -1, name: 'Charity' },

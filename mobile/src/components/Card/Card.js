@@ -3,7 +3,7 @@ import { colors } from '@shared/theme';
 import { Image, View, StyleSheet } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { currencyf } from '@shared/helpers';
-import { Medium } from 'components/Text';
+import { Medium } from '@src/components/Text';
 
 class Card extends PureComponent {
   render() {

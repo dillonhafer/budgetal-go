@@ -10,7 +10,7 @@ import {
   NET_WORTH_ITEM_UPDATED,
   NET_WORTH_ITEM_DELETED,
   NET_WORTH_ITEMS_IMPORTED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 const initialState = {
   year: new Date().getFullYear(),

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,38 +7,38 @@ import {
   View,
   Image,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { updateCurrentUser } from 'actions/users';
+import { connect } from "react-redux";
+import { updateCurrentUser } from "@src/actions/users";
 
 // API
-import { UpdateAccountInfoRequest } from '@shared/api/users';
+import { UpdateAccountInfoRequest } from "@shared/api/users";
 
 // Helpers
-import { error, notice } from 'notify';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { error, notice } from "@src/notify";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { PrimaryButton, FieldContainer } from 'forms';
-import { SetCurrentUser } from 'utils/authentication';
-import { ImagePicker } from 'expo';
-import * as Permissions from 'expo-permissions';
-import { BlurView } from 'expo-blur';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Modal from 'react-native-modalbox';
+import { PrimaryButton, FieldContainer } from "@src/forms";
+import { SetCurrentUser } from "@src/utils/authentication";
+import { ImagePicker } from "expo";
+import * as Permissions from "expo-permissions";
+import { BlurView } from "expo-blur";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import Modal from "react-native-modalbox";
 
 class AccountEditScreen extends Component {
   inputs = [];
 
   state = {
-    email: '',
-    firstName: '',
-    lastName: '',
-    currentPassword: '',
-    avatarUrl: '',
+    email: "",
+    firstName: "",
+    lastName: "",
+    currentPassword: "",
+    avatarUrl: "",
     image: null,
     loading: false,
     showImagePicker: false,
@@ -84,12 +84,12 @@ class AccountEditScreen extends Component {
   };
 
   showImagePicker = () => {
-    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBarStyle("light-content", true);
     this.setState({ showImagePicker: true });
   };
 
   hideImagePicker = () => {
-    StatusBar.setBarStyle('light-dark', true);
+    StatusBar.setBarStyle("light-dark", true);
     this.setState({ showImagePicker: false });
   };
 
@@ -97,19 +97,19 @@ class AccountEditScreen extends Component {
     const { email, firstName, lastName, currentPassword } = this.state;
 
     let data = new FormData();
-    data.append('firstName', firstName);
-    data.append('lastName', lastName);
-    data.append('email', email);
-    data.append('password', currentPassword);
+    data.append("firstName", firstName);
+    data.append("lastName", lastName);
+    data.append("email", email);
+    data.append("password", currentPassword);
     if (this.state.image) {
-      data.append('avatar', { uri: this.state.image, name: 'avatar' });
+      data.append("avatar", { uri: this.state.image, name: "avatar" });
     }
 
     try {
       const resp = await UpdateAccountInfoRequest(data);
       if (resp && resp.ok) {
         this.clearInputs();
-        notice('Account Updated');
+        notice("Account Updated");
         this.props.updateCurrentUser(resp.user);
         SetCurrentUser(resp.user);
         this.props.navigation.goBack();
@@ -120,7 +120,7 @@ class AccountEditScreen extends Component {
   };
 
   clearInputs = () => {
-    this.inputs['currentPassword'].clear();
+    this.inputs["currentPassword"].clear();
   };
 
   handleOnPress = () => {
@@ -129,7 +129,7 @@ class AccountEditScreen extends Component {
       if (this.validateFields()) {
         this.updateAccountInfo();
       } else {
-        error('Form is not valid');
+        error("Form is not valid");
       }
     } catch (err) {
       // console.log(err)
@@ -157,7 +157,7 @@ class AccountEditScreen extends Component {
       >
         <Modal
           style={{
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
           }}
           coverScreen={true}
           isOpen={showImagePicker}
@@ -171,28 +171,28 @@ class AccountEditScreen extends Component {
               style={styles.modalButton}
               onPress={async () => {
                 const { status: cam } = await Permissions.askAsync(
-                  Permissions.CAMERA,
+                  Permissions.CAMERA
                 );
                 const { status: roll } = await Permissions.askAsync(
-                  Permissions.CAMERA_ROLL,
+                  Permissions.CAMERA_ROLL
                 );
-                if (cam === 'granted' && roll === 'granted') {
+                if (cam === "granted" && roll === "granted") {
                   this.handleImage(ImagePicker.launchCameraAsync);
                 }
               }}
             >
-              <MaterialCommunityIcons name="camera" size={80} color={'#fff'} />
-              <Text style={{ color: '#fff', fontSize: 20 }}>Camera</Text>
+              <MaterialCommunityIcons name="camera" size={80} color={"#fff"} />
+              <Text style={{ color: "#fff", fontSize: 20 }}>Camera</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.modalButton}
               onPress={async () => {
                 const { status } = await Permissions.askAsync(
-                  Permissions.CAMERA_ROLL,
+                  Permissions.CAMERA_ROLL
                 );
-                if (status === 'granted') {
-                  StatusBar.setBarStyle('dark-content', true);
+                if (status === "granted") {
+                  StatusBar.setBarStyle("dark-content", true);
                   this.handleImage(ImagePicker.launchImageLibraryAsync);
                 }
               }}
@@ -200,15 +200,15 @@ class AccountEditScreen extends Component {
               <MaterialCommunityIcons
                 name="folder-multiple-image"
                 size={80}
-                color={'#fff'}
+                color={"#fff"}
               />
-              <Text style={{ color: '#fff', fontSize: 20 }}>Photos</Text>
+              <Text style={{ color: "#fff", fontSize: 20 }}>Photos</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{ padding: 10, width: '100%' }}
+              style={{ padding: 10, width: "100%" }}
               onPress={this.hideImagePicker}
             >
-              <Text style={{ textAlign: 'center', color: '#fff' }}>Cancel</Text>
+              <Text style={{ textAlign: "center", color: "#fff" }}>Cancel</Text>
             </TouchableOpacity>
           </BlurView>
         </Modal>
@@ -223,15 +223,15 @@ class AccountEditScreen extends Component {
             keyboardType="email-address"
             style={{ height: 50 }}
             placeholder="Email"
-            autoCapitalize={'none'}
+            autoCapitalize={"none"}
             defaultValue={email}
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             autoCorrect={false}
             ref={input => {
-              this.inputs['email'] = input;
+              this.inputs["email"] = input;
             }}
             onSubmitEditing={() => {
-              this.focusNextField('firstName');
+              this.focusNextField("firstName");
             }}
             returnKeyType="next"
             enablesReturnKeyAutomatically={true}
@@ -243,14 +243,14 @@ class AccountEditScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             ref={input => {
-              this.inputs['firstName'] = input;
+              this.inputs["firstName"] = input;
             }}
             placeholder="First Name"
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             defaultValue={firstName}
             returnKeyType="next"
             onSubmitEditing={() => {
-              this.focusNextField('lastName');
+              this.focusNextField("lastName");
             }}
             onChangeText={firstName => this.setState({ firstName })}
           />
@@ -260,14 +260,14 @@ class AccountEditScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             ref={input => {
-              this.inputs['lastName'] = input;
+              this.inputs["lastName"] = input;
             }}
             placeholder="Last Name"
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             defaultValue={lastName}
             returnKeyType="next"
             onSubmitEditing={() => {
-              this.focusNextField('currentPassword');
+              this.focusNextField("currentPassword");
             }}
             onChangeText={lastName => this.setState({ lastName })}
           />
@@ -280,10 +280,10 @@ class AccountEditScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
-            autoCapitalize={'none'}
-            underlineColorAndroid={'transparent'}
+            autoCapitalize={"none"}
+            underlineColorAndroid={"transparent"}
             ref={input => {
-              this.inputs['currentPassword'] = input;
+              this.inputs["currentPassword"] = input;
             }}
             placeholder="Current Password"
             returnKeyType="done"
@@ -305,20 +305,20 @@ class AccountEditScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
   },
   imageContainer: {
     margin: 20,
     borderWidth: 3,
-    borderColor: '#aaa',
-    backgroundColor: '#aaa',
+    borderColor: "#aaa",
+    backgroundColor: "#aaa",
     borderRadius: 75,
     width: 150,
     height: 150,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   image: {
     width: 150,
@@ -326,19 +326,19 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalButton: {
     borderWidth: 4,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderRadius: 10,
     padding: 30,
     margin: 30,
     width: 200,
     height: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
@@ -350,5 +350,5 @@ export default connect(
     updateCurrentUser: user => {
       dispatch(updateCurrentUser(user));
     },
-  }),
+  })
 )(AccountEditScreen);

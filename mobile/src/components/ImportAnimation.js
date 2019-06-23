@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import Lottie from 'lottie-react-native';
-import { importJson } from 'assets/import';
+import React, { Component } from "react";
+import { View, StyleSheet } from "react-native";
+import Lottie from "lottie-react-native";
+import { importJson } from "@src/assets/import";
 
 class MoneyAnimation extends Component {
   componentDidMount() {
@@ -25,7 +25,7 @@ class MoneyAnimation extends Component {
           style={{
             width: 200,
             height: 200,
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
           }}
           source={importJson}
         />
@@ -36,9 +36,9 @@ class MoneyAnimation extends Component {
 
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

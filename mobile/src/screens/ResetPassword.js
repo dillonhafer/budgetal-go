@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   TouchableOpacity,
   TextInput,
@@ -6,37 +6,24 @@ import {
   Text,
   StatusBar,
   KeyboardAvoidingView,
-} from 'react-native';
+} from "react-native";
 
 // API
-import { ResetPasswordRequest } from '@shared/api/users';
+import { ResetPasswordRequest } from "@shared/api/users";
 
 // Helpers
-import { error, notice } from 'notify';
+import { error, notice } from "@src/notify";
 
 // Components
-import { PrimaryButton, FieldContainer } from 'forms';
-import { colors } from '@shared/theme';
+import { PrimaryButton, FieldContainer } from "@src/forms";
+import { colors } from "@shared/theme";
 
 class ResetPasswordScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const onPress = () => {
-      // navigateRoot(navigation.dispatch);
-    };
-    return {
-      headerLeft: (
-        <TouchableOpacity onPress={onPress}>
-          <Text style={{ padding: 10, color: colors.error }}>Cancel</Text>
-        </TouchableOpacity>
-      ),
-    };
-  };
-
   inputs = [];
 
   state = {
-    password: '',
-    passwordConfirmation: '',
+    password: "",
+    passwordConfirmation: "",
     loading: false,
   };
 
@@ -64,10 +51,10 @@ class ResetPasswordScreen extends Component {
       });
       if (resp && resp.ok) {
         this.goHome();
-        notice('Your password has been reset!');
+        notice("Your password has been reset!");
       }
     } catch (err) {
-      error('You password reset token may have expired');
+      error("You password reset token may have expired");
     }
   };
 
@@ -77,10 +64,10 @@ class ResetPasswordScreen extends Component {
       if (this.validateFields()) {
         await this.resetPassword();
       } else {
-        error('Password does not match confirmation');
+        error("Password does not match confirmation");
       }
     } catch (err) {
-      error('You password reset token may have expired');
+      error("You password reset token may have expired");
     } finally {
       this.setState({ loading: false });
     }
@@ -101,7 +88,7 @@ class ResetPasswordScreen extends Component {
         style={styles.container}
       >
         <StatusBar barStyle="dark-content" />
-        <Text style={{ fontSize: 16, margin: 10, color: '#999' }}>
+        <Text style={{ fontSize: 16, margin: 10, color: "#999" }}>
           Create a new password
         </Text>
         <FieldContainer>
@@ -109,15 +96,15 @@ class ResetPasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
-            autoCapitalize={'none'}
-            underlineColorAndroid={'transparent'}
+            autoCapitalize={"none"}
+            underlineColorAndroid={"transparent"}
             ref={input => {
-              this.inputs['password'] = input;
+              this.inputs["password"] = input;
             }}
             placeholder="Password"
             returnKeyType="next"
             onSubmitEditing={() => {
-              this.focusNextField('passwordConfirmation');
+              this.focusNextField("passwordConfirmation");
             }}
             onChangeText={password => this.setState({ password })}
           />
@@ -127,10 +114,10 @@ class ResetPasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
-            autoCapitalize={'none'}
-            underlineColorAndroid={'transparent'}
+            autoCapitalize={"none"}
+            underlineColorAndroid={"transparent"}
             ref={input => {
-              this.inputs['passwordConfirmation'] = input;
+              this.inputs["passwordConfirmation"] = input;
             }}
             placeholder="Password Confirmation"
             returnKeyType="done"
@@ -153,9 +140,9 @@ class ResetPasswordScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ececec',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#ececec",
+    alignItems: "center",
+    flexDirection: "column",
   },
 });
 

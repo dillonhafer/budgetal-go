@@ -1,26 +1,26 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   RefreshControl,
   TouchableOpacity,
   StatusBar,
   View,
   Dimensions,
-} from 'react-native';
+} from "react-native";
 
 // Components
-import DatePicker from 'utils/DatePicker';
-import Spin from 'utils/Spin';
-import moment from 'moment';
-import GroupList from 'components/GroupList';
-import { PrimaryButton } from 'forms';
+import DatePicker from "@src/utils/DatePicker";
+import Spin from "@src/utils/Spin";
+import moment from "moment";
+import GroupList from "@src/components/GroupList";
+import { PrimaryButton } from "@src/forms";
 
-import Carousel from 'react-native-snap-carousel';
-import Card, { SplitBackground } from 'components/Card';
-import { reduceSum } from '@shared/helpers';
-import { groupBy } from 'lodash';
-import { notice, error } from 'notify';
+import Carousel from "react-native-snap-carousel";
+import Card, { SplitBackground } from "@src/components/Card";
+import { reduceSum } from "@shared/helpers";
+import { groupBy } from "lodash";
+import { notice, error } from "@src/notify";
 
-const { width: ScreenWidth } = Dimensions.get('window');
+const { width: ScreenWidth } = Dimensions.get("window");
 
 class NetWorthScreen extends PureComponent {
   state = {
@@ -42,7 +42,7 @@ class NetWorthScreen extends PureComponent {
   items = month => {
     const { true: assets = [], false: liabilities = [] } = groupBy(
       month.items,
-      'isAsset',
+      "isAsset"
     );
 
     return { assets, liabilities };
@@ -62,7 +62,7 @@ class NetWorthScreen extends PureComponent {
           key={month.month}
           activeOpacity={0.9}
           onPress={() =>
-            this.props.screenProps.layoutNavigate('MonthListScreen', {
+            this.props.screenProps.layoutNavigate("MonthListScreen", {
               month: {
                 ...month,
                 label,
@@ -75,9 +75,9 @@ class NetWorthScreen extends PureComponent {
             marginHorizontal={0}
             label={`${label} ${month.year}`}
             budgeted={totalAssets - totalLiabilities}
-            spentLabel={'Liabilities'}
+            spentLabel={"Liabilities"}
             spent={totalLiabilities}
-            remainingLabel={'Assets'}
+            remainingLabel={"Assets"}
             remaining={totalAssets}
             decimal={0}
           />
@@ -102,7 +102,7 @@ class NetWorthScreen extends PureComponent {
         }}
       >
         <StatusBar barStyle="dark-content" animated={true} />
-        <View style={{ backgroundColor: '#fff', paddingHorizontal: 5 }}>
+        <View style={{ backgroundColor: "#fff", paddingHorizontal: 5 }}>
           <DatePicker year={year} onChange={this.onDateChange} />
         </View>
         <SplitBackground>
@@ -124,12 +124,12 @@ class NetWorthScreen extends PureComponent {
   };
 
   renderSectionFooter = ({ section }) => {
-    const title = section.title === 'ASSETS' ? 'ASSET' : 'LIABILITY';
+    const title = section.title === "ASSETS" ? "ASSET" : "LIABILITY";
     return (
       <PrimaryButton
         title={`ADD ${title}`}
         onPress={() => {
-          this.props.screenProps.layoutNavigate('NewAssetLiabilityScreen', {
+          this.props.screenProps.layoutNavigate("NewAssetLiabilityScreen", {
             section,
             title,
           });
@@ -159,13 +159,13 @@ class NetWorthScreen extends PureComponent {
     const { refreshing, loading } = this.props;
     const sectionData = [
       {
-        title: 'ASSETS',
-        color: 'transparent',
+        title: "ASSETS",
+        color: "transparent",
         data: this.props.assets,
       },
       {
-        title: 'LIABILITIES',
-        color: 'transparent',
+        title: "LIABILITIES",
+        color: "transparent",
         data: this.props.liabilities,
       },
     ];
@@ -175,7 +175,7 @@ class NetWorthScreen extends PureComponent {
         <GroupList
           refreshControl={
             <RefreshControl
-              tintColor={'lightskyblue'}
+              tintColor={"lightskyblue"}
               refreshing={refreshing}
               onRefresh={this.refresh}
             />
@@ -185,7 +185,7 @@ class NetWorthScreen extends PureComponent {
           renderHeader={this.renderCarousel}
           renderSectionFooter={this.renderSectionFooter}
           onEdit={item => {
-            this.props.screenProps.layoutNavigate('EditAssetLiabilityScreen', {
+            this.props.screenProps.layoutNavigate("EditAssetLiabilityScreen", {
               item,
             });
           }}

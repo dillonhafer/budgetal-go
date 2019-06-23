@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
-import annualBudgetItems from 'reducers/AnnualBudgetItems';
-import budget from 'reducers/Budget';
-import users from 'reducers/Users';
-import netWorth from 'reducers/NetWorth';
+import annualBudgetItems from "@src/reducers/AnnualBudgetItems";
+import budget from "@src/reducers/Budget";
+import users from "@src/reducers/Users";
+import netWorth from "@src/reducers/NetWorth";
 
 const appReducers = combineReducers({
   annualBudgetItems,

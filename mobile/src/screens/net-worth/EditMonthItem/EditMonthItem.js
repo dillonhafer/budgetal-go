@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
-import { StyleSheet, StatusBar, View, ScrollView } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, StatusBar, View, ScrollView } from "react-native";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error, notice } from 'notify';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { error, notice } from "@src/notify";
 
 // Components
-import { PrimaryButton, DangerButton, FieldContainer, MoneyInput } from 'forms';
+import {
+  PrimaryButton,
+  DangerButton,
+  FieldContainer,
+  MoneyInput,
+} from "@src/forms";
 
 class EditMonthItemScreen extends Component {
   goBack = () => {
@@ -25,10 +30,10 @@ class EditMonthItemScreen extends Component {
   handleOnPress = () => {
     this.setState({ loading: true });
     if (!this.validateFields()) {
-      return error('Form is not valid');
+      return error("Form is not valid");
     }
 
-    const item = this.props.navigation.getParam('item');
+    const item = this.props.navigation.getParam("item");
     const name = item.name.toUpperCase();
     const { amount } = this.state;
 
@@ -52,7 +57,7 @@ class EditMonthItemScreen extends Component {
   };
 
   render() {
-    const item = this.props.navigation.getParam('item');
+    const item = this.props.navigation.getParam("item");
     const { amount = item.amount, loading } = this.state;
     const valid = this.validateFields();
 
@@ -88,9 +93,9 @@ class EditMonthItemScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },

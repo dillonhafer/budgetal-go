@@ -13,7 +13,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
 import FieldContainer from './FieldContainer';
-import { Medium } from 'components/Text';
+import { Medium } from '@src/components/Text';
 
 class OptionInput extends PureComponent {
   state = {

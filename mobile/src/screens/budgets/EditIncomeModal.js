@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import React, { Component } from "react";
+import { TouchableOpacity, View, Text } from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { updateIncome } from 'actions/budgets';
+import { connect } from "react-redux";
+import { updateIncome } from "@src/actions/budgets";
 
 // API
-import { UpdateIncomeRequest } from '@shared/api/budgets';
+import { UpdateIncomeRequest } from "@shared/api/budgets";
 
 // Components
-import { Ionicons } from '@expo/vector-icons';
-import { currencyf } from '@shared/helpers';
-import { notice, error } from 'notify';
-import MoneyInputModal from 'forms/MoneyInputModal';
+import { Ionicons } from "@expo/vector-icons";
+import { currencyf } from "@shared/helpers";
+import { notice, error } from "@src/notify";
+import MoneyInputModal from "@src/forms/MoneyInputModal";
 
 class EditIncomeModal extends Component {
   state = {
     loading: false,
     visible: false,
-    income: '0',
+    income: "0",
   };
 
   showModal = () => {
@@ -26,7 +26,7 @@ class EditIncomeModal extends Component {
   };
 
   hideModal = () => {
-    this.setState({ visible: false, income: '0' });
+    this.setState({ visible: false, income: "0" });
   };
 
   handleSubmit = async income => {
@@ -37,10 +37,10 @@ class EditIncomeModal extends Component {
       if (resp && resp.ok) {
         this.props.updateIncome(income);
         this.hideModal();
-        notice('Saved Monthly Income');
+        notice("Saved Monthly Income");
       }
     } catch (err) {
-      error('Could not update monthly income');
+      error("Could not update monthly income");
     } finally {
       this.setState({ loading: false });
     }
@@ -56,7 +56,7 @@ class EditIncomeModal extends Component {
           <Ionicons
             name="ios-cash"
             size={30}
-            color={'#037aff'}
+            color={"#037aff"}
             style={{
               paddingRight: 15,
             }}
@@ -67,12 +67,12 @@ class EditIncomeModal extends Component {
           title={
             <Text>
               <Text
-                style={{ textAlign: 'center', fontSize: 18, fontWeight: '700' }}
+                style={{ textAlign: "center", fontSize: 18, fontWeight: "700" }}
               >
                 Current Income
-                {'\n'}
+                {"\n"}
               </Text>
-              <Text style={{ textAlign: 'center', fontSize: 18 }}>
+              <Text style={{ textAlign: "center", fontSize: 18 }}>
                 {currencyf(budget.income)}
               </Text>
             </Text>
@@ -94,5 +94,5 @@ export default connect(
     updateIncome: income => {
       dispatch(updateIncome(income));
     },
-  }),
+  })
 )(EditIncomeModal);

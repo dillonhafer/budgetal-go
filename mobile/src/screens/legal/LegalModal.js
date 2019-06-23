@@ -11,7 +11,7 @@ import {
 
 // Components
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { HeaderText, Bold } from 'components/Text';
+import { HeaderText, Bold } from '@src/components/Text';
 
 const Project = ({ children }) => {
   return (

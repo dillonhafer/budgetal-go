@@ -1,24 +1,24 @@
-import React from 'react';
-import { View } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
-import { HeaderText, BudgetalText } from 'components/Text';
+import React from "react";
+import { View } from "react-native";
+import { createStackNavigator } from "react-navigation";
+import { HeaderText, BudgetalText } from "@src/components/Text";
 
-import TabletNavigator from './TabletNavigator';
+import TabletNavigator from "./TabletNavigator";
 
 // Screens
-import NetWorthScreen from 'screens/net-worth';
-import MonthListScreen from 'screens/net-worth/MonthList';
-import NewMonthItemScreen from 'screens/net-worth/NewMonthItem';
-import EditMonthItemScreen from 'screens/net-worth/EditMonthItem';
-import NewAssetLiabilityScreen from 'screens/net-worth/NewAssetLiability';
-import EditAssetLiabilityScreen from 'screens/net-worth/EditAssetLiability';
+import NetWorthScreen from "@src/screens/net-worth";
+import MonthListScreen from "@src/screens/net-worth/MonthList";
+import NewMonthItemScreen from "@src/screens/net-worth/NewMonthItem";
+import EditMonthItemScreen from "@src/screens/net-worth/EditMonthItem";
+import NewAssetLiabilityScreen from "@src/screens/net-worth/NewAssetLiability";
+import EditAssetLiabilityScreen from "@src/screens/net-worth/EditAssetLiability";
 
 import {
   NavigationHeight,
   drawerIcon,
   BurgerNavigationOptions,
   BlurViewNavigationOptions,
-} from 'utils/navigation-helpers';
+} from "@src/utils/navigation-helpers";
 const headerStyle = {
   height: NavigationHeight,
 };
@@ -37,8 +37,8 @@ const screens = {
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
         <HeaderText>
-          {navigation.getParam('month').label.toUpperCase()}{' '}
-          {navigation.getParam('year')}
+          {navigation.getParam("month").label.toUpperCase()}{" "}
+          {navigation.getParam("year")}
         </HeaderText>
       ),
       headerStyle,
@@ -50,7 +50,7 @@ const screens = {
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
         <HeaderText>
-          EDIT {navigation.getParam('item').name.toUpperCase()}
+          EDIT {navigation.getParam("item").name.toUpperCase()}
         </HeaderText>
       ),
       headerStyle,
@@ -62,7 +62,7 @@ const screens = {
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
         <HeaderText>
-          NEW {navigation.getParam('title').toUpperCase()}
+          NEW {navigation.getParam("title").toUpperCase()}
         </HeaderText>
       ),
       headerStyle,
@@ -72,7 +72,7 @@ const screens = {
   NewAssetLiabilityScreen: {
     screen: NewAssetLiabilityScreen,
     navigationOptions: ({ navigation }) => ({
-      headerTitle: <HeaderText>NEW {navigation.getParam('title')}</HeaderText>,
+      headerTitle: <HeaderText>NEW {navigation.getParam("title")}</HeaderText>,
       headerStyle,
       ...BlurViewNavigationOptions,
     }),
@@ -82,7 +82,7 @@ const screens = {
     navigationOptions: ({ navigation }) => ({
       headerTitle: (
         <HeaderText>
-          EDIT {navigation.getParam('item').name.toUpperCase()}
+          EDIT {navigation.getParam("item").name.toUpperCase()}
         </HeaderText>
       ),
       headerStyle,
@@ -95,10 +95,10 @@ const NetWorthNavigatorStack = createStackNavigator(
   { ...screens },
   {
     cardStyle: {
-      backgroundColor: '#ececec',
+      backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
-  },
+  }
 );
 
 const NetWorthSidebarNavigatorStack = createStackNavigator(
@@ -114,7 +114,7 @@ const NetWorthSidebarNavigatorStack = createStackNavigator(
       shadowOpacity: 0,
     },
     navigationOptions: BlurViewNavigationOptions,
-  },
+  }
 );
 
 class NetWorthNavigator extends TabletNavigator {
@@ -126,7 +126,7 @@ class NetWorthNavigator extends TabletNavigator {
     drawerLabel: ({ tintColor }) => (
       <BudgetalText style={{ color: tintColor }}>NET WORTH</BudgetalText>
     ),
-    drawerIcon: drawerIcon('md-trending-up'),
+    drawerIcon: drawerIcon("md-trending-up"),
   };
 }
 

@@ -5,8 +5,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 // Helpers
 import { currencyf } from '@shared/helpers';
 import { colors } from '@shared/theme';
-import { notice, confirm } from 'notify';
-import { Medium } from 'components/Text';
+import { notice, confirm } from '@src/notify';
+import { Medium } from '@src/components/Text';
 
 // API
 import { DeleteExpenseRequest } from '@shared/api/budget-item-expenses';

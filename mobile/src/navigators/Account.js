@@ -1,17 +1,17 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import React from "react";
+import { View, Text } from "react-native";
+import { createStackNavigator } from "react-navigation";
 
-import TabletNavigator from './TabletNavigator';
-import { colors } from '@shared/theme';
-import { HeaderText } from 'components/Text';
+import TabletNavigator from "./TabletNavigator";
+import { colors } from "@shared/theme";
+import { HeaderText } from "@src/components/Text";
 
 // Screens
-import AccountScreen from 'screens/account/Account';
-import AccountEditScreen from 'screens/account/AccountEdit';
-import LegalScreen from 'screens/account/Legal';
-import ChangePasswordScreen from 'screens/account/ChangePassword';
-import SessionsScreen from 'screens/account/Sessions';
+import AccountScreen from "@src/screens/account/Account";
+import AccountEditScreen from "@src/screens/account/AccountEdit";
+import LegalScreen from "@src/screens/account/Legal";
+import ChangePasswordScreen from "@src/screens/account/ChangePassword";
+import SessionsScreen from "@src/screens/account/Sessions";
 
 import {
   NavigationHeight,
@@ -19,7 +19,7 @@ import {
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
   drawerIcon,
-} from 'utils/navigation-helpers';
+} from "@src/utils/navigation-helpers";
 
 const headerStyle = {
   height: NavigationHeight,
@@ -35,14 +35,14 @@ const AccountNavigatorStack = createStackNavigator(
       navigationOptions: {
         headerStyle,
         headerTitle: <HeaderText>ACCOUNT SETTINGS</HeaderText>,
-        headerBackTitle: '',
+        headerBackTitle: "",
         gesturesEnabled: false,
         ...BurgerNavigationOptions,
       },
     },
     AccountEdit: {
       screen: AccountEditScreen,
-      path: 'edit-account/:user',
+      path: "edit-account/:user",
       navigationOptions: {
         headerStyle,
         headerTitle: <HeaderText>ACCOUNT EDIT</HeaderText>,
@@ -65,11 +65,11 @@ const AccountNavigatorStack = createStackNavigator(
   },
   {
     cardStyle: {
-      backgroundColor: '#ececec',
+      backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
     navigationOptions: BlurViewNavigationOptions,
-  },
+  }
 );
 
 const AccountSidebarNavigatorStack = createStackNavigator(
@@ -87,7 +87,7 @@ const AccountSidebarNavigatorStack = createStackNavigator(
     },
     AccountEdit: {
       screen: AccountEditScreen,
-      path: 'edit-account/:user',
+      path: "edit-account/:user",
       navigationOptions: { headerStyle: sidebarHeaderStyle },
     },
     ChangePassword: {
@@ -100,7 +100,7 @@ const AccountSidebarNavigatorStack = createStackNavigator(
       backgroundColor: colors.background,
     },
     navigationOptions: BlurViewNavigationOptions,
-  },
+  }
 );
 
 class AccountNavigator extends TabletNavigator {
@@ -113,9 +113,9 @@ class AccountNavigator extends TabletNavigator {
     },
     // eslint-disable-next-line react/display-name
     drawerLabel: ({ tintColor }) => (
-      <Text style={{ color: tintColor, fontWeight: 'bold' }}>ACCOUNT</Text>
+      <Text style={{ color: tintColor, fontWeight: "bold" }}>ACCOUNT</Text>
     ),
-    drawerIcon: drawerIcon('md-person'),
+    drawerIcon: drawerIcon("md-person"),
   };
 }
 

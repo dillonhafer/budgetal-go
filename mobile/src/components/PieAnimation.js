@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
-import Lottie from 'lottie-react-native';
-import { pieChartJson } from 'assets/pie-chart';
+import React, { PureComponent } from "react";
+import { View, StyleSheet } from "react-native";
+import Lottie from "lottie-react-native";
+import { pieChartJson } from "@src/assets/pie-chart";
 
 class PieAnimation extends PureComponent {
   componentDidMount() {
@@ -25,7 +25,7 @@ class PieAnimation extends PureComponent {
           style={{
             width: 200,
             height: 200,
-            backgroundColor: 'transparent',
+            backgroundColor: "transparent",
           }}
           source={pieChartJson}
         />
@@ -36,9 +36,9 @@ class PieAnimation extends PureComponent {
 
 const styles = StyleSheet.create({
   animationContainer: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

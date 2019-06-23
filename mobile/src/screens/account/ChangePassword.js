@@ -1,34 +1,34 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   TextInput,
   StatusBar,
   ScrollView,
   View,
-} from 'react-native';
+} from "react-native";
 
 // API
-import { ChangePasswordRequest } from '@shared/api/users';
+import { ChangePasswordRequest } from "@shared/api/users";
 
 // Helpers
-import { error, notice } from 'notify';
-import { colors } from '@shared/theme';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { error, notice } from "@src/notify";
+import { colors } from "@shared/theme";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { PrimaryButton, FieldContainer } from 'forms';
+import { PrimaryButton, FieldContainer } from "@src/forms";
 
 class ChangePasswordScreen extends Component {
   static navigationOptions = {
-    title: 'Change Password',
+    title: "Change Password",
   };
 
   inputs = [];
 
   state = {
-    password: '',
-    passwordConfirmation: '',
-    currentPassword: '',
+    password: "",
+    passwordConfirmation: "",
+    currentPassword: "",
     loading: false,
   };
 
@@ -57,9 +57,9 @@ class ChangePasswordScreen extends Component {
   };
 
   clearInputs = () => {
-    this.inputs['password'].clear();
-    this.inputs['passwordConfirmation'].clear();
-    this.inputs['currentPassword'].clear();
+    this.inputs["password"].clear();
+    this.inputs["passwordConfirmation"].clear();
+    this.inputs["currentPassword"].clear();
   };
 
   handleOnPress = () => {
@@ -68,7 +68,7 @@ class ChangePasswordScreen extends Component {
       if (this.validateFields()) {
         this.changePassword();
       } else {
-        error('Form is not valid');
+        error("Form is not valid");
       }
     } catch (err) {
       // console.log(err)
@@ -91,15 +91,15 @@ class ChangePasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
-            underlineColorAndroid={'transparent'}
-            autoCapitalize={'none'}
+            underlineColorAndroid={"transparent"}
+            autoCapitalize={"none"}
             ref={input => {
-              this.inputs['password'] = input;
+              this.inputs["password"] = input;
             }}
             placeholder="Password"
             returnKeyType="next"
             onSubmitEditing={() => {
-              this.focusNextField('passwordConfirmation');
+              this.focusNextField("passwordConfirmation");
             }}
             onChangeText={password => this.setState({ password })}
           />
@@ -109,15 +109,15 @@ class ChangePasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
-            underlineColorAndroid={'transparent'}
-            autoCapitalize={'none'}
+            underlineColorAndroid={"transparent"}
+            autoCapitalize={"none"}
             ref={input => {
-              this.inputs['passwordConfirmation'] = input;
+              this.inputs["passwordConfirmation"] = input;
             }}
             placeholder="Password Confirmation"
             returnKeyType="next"
             onSubmitEditing={() => {
-              this.focusNextField('currentPassword');
+              this.focusNextField("currentPassword");
             }}
             onChangeText={passwordConfirmation =>
               this.setState({ passwordConfirmation })
@@ -131,10 +131,10 @@ class ChangePasswordScreen extends Component {
             style={{ height: 50 }}
             enablesReturnKeyAutomatically={true}
             secureTextEntry={true}
-            underlineColorAndroid={'transparent'}
-            autoCapitalize={'none'}
+            underlineColorAndroid={"transparent"}
+            autoCapitalize={"none"}
             ref={input => {
-              this.inputs['currentPassword'] = input;
+              this.inputs["currentPassword"] = input;
             }}
             placeholder="Current Password"
             returnKeyType="done"
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    alignItems: 'center',
-    flexDirection: 'column',
+    alignItems: "center",
+    flexDirection: "column",
   },
 });
 

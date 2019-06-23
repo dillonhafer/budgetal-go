@@ -10,7 +10,7 @@ import moment from 'moment';
 import { range } from 'lodash';
 import { colors } from '@shared/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { Bold } from 'components/Text';
+import { Bold } from '@src/components/Text';
 
 class DatePicker extends Component {
   state = {

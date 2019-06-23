@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   TextInput,
   StatusBar,
   View,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { createdExpense } from 'actions/budget-item-expenses';
+import { connect } from "react-redux";
+import { createdExpense } from "@src/actions/budget-item-expenses";
 
 // API
-import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
+import { CreateExpenseRequest } from "@shared/api/budget-item-expenses";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error, notice } from 'notify';
-import moment from 'moment';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { error, notice } from "@src/notify";
+import moment from "moment";
 
 // Components
 import {
@@ -25,9 +25,9 @@ import {
   DangerButton,
   FieldContainer,
   CustomFieldContainer,
-} from 'forms';
-import MoneyInput from 'forms/MoneyInput';
-import DateInput from 'forms/DateInput';
+} from "@src/forms";
+import MoneyInput from "@src/forms/MoneyInput";
+import DateInput from "@src/forms/DateInput";
 
 class NewBudgetItemExpenseScreen extends Component {
   goBack = () => {
@@ -39,7 +39,7 @@ class NewBudgetItemExpenseScreen extends Component {
   state = {
     loading: false,
     showMoneyKeyboard: false,
-    name: '',
+    name: "",
     amount: 0.0,
     date: moment(),
   };
@@ -55,12 +55,12 @@ class NewBudgetItemExpenseScreen extends Component {
   };
 
   showMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBarStyle("light-content", true);
     this.setState({ showMoneyKeyboard: true });
   };
 
   hideMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-dark', true);
+    StatusBar.setBarStyle("light-dark", true);
     this.setState({ showMoneyKeyboard: false });
   };
 
@@ -71,17 +71,17 @@ class NewBudgetItemExpenseScreen extends Component {
       const resp = await CreateExpenseRequest({
         name,
         amount,
-        date: date.format('YYYY-MM-DD'),
+        date: date.format("YYYY-MM-DD"),
         budgetItemId: budgetItem.id,
       });
 
       if (resp && resp.ok) {
         this.props.createdExpense(resp.budgetItemExpense);
         this.goBack();
-        notice('Expense saved');
+        notice("Expense saved");
       }
     } catch (err) {
-      error('Could not create expense');
+      error("Could not create expense");
     }
   };
 
@@ -91,7 +91,7 @@ class NewBudgetItemExpenseScreen extends Component {
       if (this.validateFields()) {
         await this.createExpense();
       } else {
-        error('Form is not valid');
+        error("Form is not valid");
       }
     } catch (err) {
       // console.log(err)
@@ -116,7 +116,7 @@ class NewBudgetItemExpenseScreen extends Component {
             placeholder="Name"
             defaultValue={name}
             returnKeyType="next"
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             onChangeText={name => this.setState({ name })}
           />
         </FieldContainer>
@@ -149,16 +149,19 @@ class NewBudgetItemExpenseScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },
 });
 
-export default connect(null, dispatch => ({
-  createdExpense: expense => {
-    dispatch(createdExpense(expense));
-  },
-}))(NewBudgetItemExpenseScreen);
+export default connect(
+  null,
+  dispatch => ({
+    createdExpense: expense => {
+      dispatch(createdExpense(expense));
+    },
+  })
+)(NewBudgetItemExpenseScreen);

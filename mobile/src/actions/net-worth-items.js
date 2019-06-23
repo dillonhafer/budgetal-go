@@ -2,7 +2,7 @@ import {
   NET_WORTH_ITEM_ADDED,
   NET_WORTH_ITEM_UPDATED,
   NET_WORTH_ITEM_DELETED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 import {
   CreateItemRequest,

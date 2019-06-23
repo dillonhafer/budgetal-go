@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import GroupList from 'components/GroupList';
+import GroupList from '@src/components/GroupList';
 
 class AssetManagementScreen extends Component {
   render() {

@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableHighlight } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
-import { removeItem } from 'actions/annual-budget-items';
+import { removeItem } from '@src/actions/annual-budget-items';
 
 // API
 import { DeleteAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
@@ -11,12 +11,12 @@ import { DeleteAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
 // Helpers
 import { currencyf } from '@shared/helpers';
 import { round } from 'lodash';
-import { notice, confirm } from 'notify';
+import { notice, confirm } from '@src/notify';
 import moment from 'moment';
 import { colors } from '@shared/theme';
 
 // Components
-import { Bold, Medium, LightText } from 'components/Text';
+import { Bold, Medium, LightText } from '@src/components/Text';
 import Swipeout from 'react-native-swipeout';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 

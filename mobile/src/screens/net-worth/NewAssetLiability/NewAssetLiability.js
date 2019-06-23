@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   TextInput,
   StatusBar,
   View,
   ScrollView,
-} from 'react-native';
-import PropTypes from 'prop-types';
+} from "react-native";
+import PropTypes from "prop-types";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error, notice } from 'notify';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { error, notice } from "@src/notify";
 
 // Components
-import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
-import Device from 'utils/Device';
+import { PrimaryButton, DangerButton, FieldContainer } from "@src/forms";
+import Device from "@src/utils/Device";
 const isTablet = Device.isTablet();
 
 class NewAssetLiabilityScreen extends Component {
@@ -39,7 +39,7 @@ class NewAssetLiabilityScreen extends Component {
     showMoneyKeyboard: false,
     name: null,
     asset: {
-      name: '',
+      name: "",
       isAsset: true,
     },
   };
@@ -54,12 +54,12 @@ class NewAssetLiabilityScreen extends Component {
   handleOnPress = () => {
     this.setState({ loading: true });
     if (!this.validateFields()) {
-      return error('Form is not valid');
+      return error("Form is not valid");
     }
 
     const { asset } = this.state;
-    const title = this.props.navigation.getParam('title');
-    const isAsset = title === 'ASSET';
+    const title = this.props.navigation.getParam("title");
+    const isAsset = title === "ASSET";
 
     this.props
       .createAssetLiability({
@@ -95,7 +95,7 @@ class NewAssetLiabilityScreen extends Component {
             defaultValue={asset.name}
             returnKeyType="done"
             onSubmitEditing={this.handleOnPress}
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             onChangeText={name =>
               this.setState({ asset: { ...this.state.asset, name } })
             }
@@ -119,9 +119,9 @@ class NewAssetLiabilityScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { BudgetalText } from 'components/Text';
+import { BudgetalText } from '@src/components/Text';
 
 class DrawerItem extends PureComponent {
   render() {

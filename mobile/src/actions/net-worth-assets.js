@@ -2,7 +2,7 @@ import {
   NET_WORTH_ASSET_ADDED,
   NET_WORTH_ASSET_UPDATED,
   NET_WORTH_ASSET_DELETED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 import {
   CreateAssetRequest,

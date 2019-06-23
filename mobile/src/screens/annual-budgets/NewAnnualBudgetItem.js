@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   TextInput,
   StatusBar,
   View,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { itemAdded } from 'actions/annual-budget-items';
+import { connect } from "react-redux";
+import { itemAdded } from "@src/actions/annual-budget-items";
 
 // API
-import { CreateAnnualBudgetItemRequest } from '@shared/api/annual-budget-items';
+import { CreateAnnualBudgetItemRequest } from "@shared/api/annual-budget-items";
 
 // Helpers
-import { error, notice } from 'notify';
-import { range } from 'lodash';
-import { colors } from '@shared/theme';
+import { error, notice } from "@src/notify";
+import { range } from "lodash";
+import { colors } from "@shared/theme";
 
 // Components
 import {
@@ -25,13 +25,13 @@ import {
   DangerButton,
   FieldContainer,
   CustomFieldContainer,
-} from 'forms';
-import MoneyInput from 'forms/MoneyInput';
-import DateInput from 'forms/DateInput';
-import SelectInput from 'forms/SelectInput';
-import SwitchInput from 'forms/SwitchInput';
-import moment from 'moment';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+} from "@src/forms";
+import MoneyInput from "@src/forms/MoneyInput";
+import DateInput from "@src/forms/DateInput";
+import SelectInput from "@src/forms/SelectInput";
+import SwitchInput from "@src/forms/SwitchInput";
+import moment from "moment";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 class NewAnnualBudgetItemScreen extends Component {
   goBack = () => {
@@ -43,7 +43,7 @@ class NewAnnualBudgetItemScreen extends Component {
   state = {
     loading: false,
     showMoneyKeyboard: false,
-    name: '',
+    name: "",
     amount: 0.0,
     date: moment(),
     interval: 12,
@@ -61,12 +61,12 @@ class NewAnnualBudgetItemScreen extends Component {
   };
 
   showMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBarStyle("light-content", true);
     this.setState({ showMoneyKeyboard: true });
   };
 
   hideMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-dark', true);
+    StatusBar.setBarStyle("light-dark", true);
     this.setState({ showMoneyKeyboard: false });
   };
 
@@ -78,7 +78,7 @@ class NewAnnualBudgetItemScreen extends Component {
         annualBudgetId,
         name,
         amount,
-        dueDate: date.format('YYYY-MM-DD'),
+        dueDate: date.format("YYYY-MM-DD"),
         interval,
         paid,
       });
@@ -86,13 +86,13 @@ class NewAnnualBudgetItemScreen extends Component {
       let goBack = false;
       if (resp && resp.ok) {
         this.props.itemAdded(resp.annualBudgetItem);
-        notice('Item saved');
+        notice("Item saved");
         goBack = true;
       }
 
       return goBack;
     } catch (err) {
-      error('Could not create item');
+      error("Could not create item");
     }
   };
 
@@ -103,7 +103,7 @@ class NewAnnualBudgetItemScreen extends Component {
       if (this.validateFields()) {
         goBack = await this.createItem();
       } else {
-        error('Form is not valid');
+        error("Form is not valid");
       }
     } catch (err) {
       // console.log(err)
@@ -130,7 +130,7 @@ class NewAnnualBudgetItemScreen extends Component {
           <TextInput
             style={{ height: 50 }}
             placeholder="Name"
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             defaultValue={name}
             returnKeyType="next"
             onChangeText={name => this.setState({ name })}
@@ -185,15 +185,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-    alignItems: 'center',
-    flexDirection: 'column',
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },
 });
 
-export default connect(null, dispatch => ({
-  itemAdded: item => {
-    dispatch(itemAdded(item));
-  },
-}))(NewAnnualBudgetItemScreen);
+export default connect(
+  null,
+  dispatch => ({
+    itemAdded: item => {
+      dispatch(itemAdded(item));
+    },
+  })
+)(NewAnnualBudgetItemScreen);

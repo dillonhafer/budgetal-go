@@ -10,7 +10,7 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import { createdExpense } from 'actions/budget-item-expenses';
+import { createdExpense } from '@src/actions/budget-item-expenses';
 
 // API
 import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
@@ -18,7 +18,7 @@ import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
 // Helpers
 import { colors } from '@shared/theme';
 import { Ionicons } from '@expo/vector-icons';
-import { notice } from 'notify';
+import { notice } from '@src/notify';
 import { currencyf } from '@shared/helpers';
 
 const findFirstItemId = (categoryId, items) => {

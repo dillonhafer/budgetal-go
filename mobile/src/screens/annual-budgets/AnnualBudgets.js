@@ -9,22 +9,22 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import { itemsFetched } from 'actions/annual-budget-items';
+import { itemsFetched } from '@src/actions/annual-budget-items';
 
 // API
 import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
 
 // Components
-import { Bold } from 'components/Text';
-import { error } from 'notify';
+import { Bold } from '@src/components/Text';
+import { error } from '@src/notify';
 import { FontAwesome } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
-import DatePicker from 'utils/DatePicker';
-import PlusButton from 'utils/PlusButton';
-import Spin from 'utils/Spin';
+import DatePicker from '@src/utils/DatePicker';
+import PlusButton from '@src/utils/PlusButton';
+import Spin from '@src/utils/Spin';
 import AnnualBudgetItemRow from './AnnualBudgetItemRow';
 
 class AnnualBudgetsScreen extends PureComponent {

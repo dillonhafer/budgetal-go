@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StatusBar,
   TextInput,
@@ -9,25 +9,28 @@ import {
   LayoutAnimation,
   Image,
   Text,
-} from 'react-native';
+} from "react-native";
 
 // API
-import Constants from 'expo-constants';
-import { SignInRequest } from '@shared/api/sessions';
-import { SetAuthenticationToken, SetCurrentUser } from 'utils/authentication';
+import Constants from "expo-constants";
+import { SignInRequest } from "@shared/api/sessions";
+import {
+  SetAuthenticationToken,
+  SetCurrentUser,
+} from "@src/utils/authentication";
 
 // Helpers
-import { error, notice } from 'notify';
+import { error, notice } from "@src/notify";
 // import { navigateHome } from 'navigators';
 
 // Components
-import { Bold } from '@src/components/Text';
-import { PrimarySquareButton } from '@src/forms';
-import { colors } from '@shared/theme';
-import { validEmail } from '@shared/helpers';
-import { FormCard, SplitBackground } from '@src/components/Card';
-import { Label } from '@src/components/Text';
-import Device from '@src/utils/Device';
+import { Bold } from "@src/components/Text";
+import { PrimarySquareButton } from "@src/forms";
+import { colors } from "@shared/theme";
+import { validEmail } from "@shared/helpers";
+import { FormCard, SplitBackground } from "@src/components/Card";
+import { Label } from "@src/components/Text";
+import Device from "@src/utils/Device";
 const deviceName = Constants.deviceName;
 const isTablet = Device.isTablet();
 
@@ -36,40 +39,43 @@ const LogoSeparator = ({ keyboardVisible }) => {
     container: {
       height: keyboardVisible ? 0 : null,
       marginTop: keyboardVisible ? 40 : 70,
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+      flexDirection: "row",
+      justifyContent: "center",
+      alignItems: "center",
     },
     logo: {
-      alignSelf: 'center',
+      alignSelf: "center",
       height: keyboardVisible ? 0 : 60,
       width: keyboardVisible ? 0 : 60,
       borderWidth: 2,
-      borderColor: '#fff',
+      borderColor: "#fff",
       borderRadius: 13,
       marginBottom: 5,
     },
     line: {
       flex: 1,
-      backgroundColor: '#fff',
+      backgroundColor: "#fff",
       height: 1,
     },
     logoContainer: {
       margin: 15,
-      flexDirection: 'column',
+      flexDirection: "column",
     },
     logoText: {
-      textAlign: 'center',
-      color: '#fff',
-      backgroundColor: 'transparent',
-      fontFamily: 'Lato-Light',
+      textAlign: "center",
+      color: "#fff",
+      backgroundColor: "transparent",
+      fontFamily: "Lato-Light",
     },
   });
   return (
     <View style={styles.container}>
       <View style={styles.line} />
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require('images/app_logo.png')} />
+        <Image
+          style={styles.logo}
+          source={require("@src/assets/images/app_logo.png")}
+        />
         <Text style={styles.logoText}>Budgetal</Text>
       </View>
       <View style={styles.line} />
@@ -85,20 +91,20 @@ class SignInScreen extends Component {
   inputs = [];
 
   state = {
-    email: '',
-    password: '',
+    email: "",
+    password: "",
     loading: false,
     keyboardVisible: false,
   };
 
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this._keyboardDidShow,
+      "keyboardDidShow",
+      this._keyboardDidShow
     );
     this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide,
+      "keyboardDidHide",
+      this._keyboardDidHide
     );
   }
 
@@ -130,9 +136,9 @@ class SignInScreen extends Component {
       SetAuthenticationToken(resp.token);
       this.props.updateCurrentUser(resp.user);
       SetCurrentUser(resp.user);
-      this.props.navigation.navigate('App');
+      this.props.navigation.navigate("App");
       // navigateHome(this.props.navigation.dispatch);
-      notice('You are now signed in!');
+      notice("You are now signed in!");
     } else {
       this.setState({ loading: false });
     }
@@ -147,7 +153,7 @@ class SignInScreen extends Component {
       if (valid) {
         await this.signIn();
       } else {
-        error('Email/Password are invalid');
+        error("Email/Password are invalid");
       }
     } catch (err) {
       this.setState({ loading: false });
@@ -155,15 +161,15 @@ class SignInScreen extends Component {
   };
 
   focusEmail = () => {
-    this.inputs['email'].focus();
+    this.inputs["email"].focus();
   };
 
   focusPassword = () => {
-    this.inputs['password'].focus();
+    this.inputs["password"].focus();
   };
 
   navForgotPassword = () => {
-    this.props.navigation.navigate('ForgotPassword');
+    this.props.navigation.navigate("ForgotPassword");
   };
 
   render() {
@@ -176,28 +182,28 @@ class SignInScreen extends Component {
         <View style={[styles.container, { opacity: checking ? 0 : 1 }]}>
           <StatusBar barStyle="light-content" />
           <LogoSeparator keyboardVisible={keyboardVisible} />
-          <SplitBackground top={colors.primary} bottom={'#fff'}>
-            <View style={{ alignItems: 'center' }}>
-              <View style={{ width: '100%', maxWidth: 350 }}>
+          <SplitBackground top={colors.primary} bottom={"#fff"}>
+            <View style={{ alignItems: "center" }}>
+              <View style={{ width: "100%", maxWidth: 350 }}>
                 <FormCard>
                   <View style={{ marginTop: 10 }}>
                     <Label style={styles.label}>EMAIL</Label>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       <TextInput
                         keyboardType="email-address"
                         style={styles.input}
-                        autoCapitalize={'none'}
-                        inputAccessoryViewID={'email'}
-                        underlineColorAndroid={'transparent'}
+                        autoCapitalize={"none"}
+                        inputAccessoryViewID={"email"}
+                        underlineColorAndroid={"transparent"}
                         autoCorrect={false}
                         ref={input => {
-                          this.inputs['email'] = input;
+                          this.inputs["email"] = input;
                         }}
                         onSubmitEditing={this.focusPassword}
                         returnKeyType="next"
@@ -208,20 +214,20 @@ class SignInScreen extends Component {
                     <Label style={styles.label}>PASSWORD</Label>
                     <View
                       style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
                       <TextInput
                         style={styles.input}
                         enablesReturnKeyAutomatically={true}
                         secureTextEntry={true}
-                        autoCapitalize={'none'}
-                        inputAccessoryViewID={'password'}
-                        underlineColorAndroid={'transparent'}
+                        autoCapitalize={"none"}
+                        inputAccessoryViewID={"password"}
+                        underlineColorAndroid={"transparent"}
                         ref={input => {
-                          this.inputs['password'] = input;
+                          this.inputs["password"] = input;
                         }}
                         returnKeyType="done"
                         onSubmitEditing={this.handleOnPress}
@@ -249,7 +255,7 @@ class SignInScreen extends Component {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigate('Register')}
+              onPress={() => navigate("Register")}
             >
               <Bold style={styles.registerButtonText}>
                 I DON'T HAVE AN ACCOUNT
@@ -269,32 +275,32 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     fontSize: 10,
     color: colors.primary,
-    fontWeight: '700',
-    textAlign: 'right',
+    fontWeight: "700",
+    textAlign: "right",
   },
   input: {
     flex: 1,
     marginBottom: 10,
     borderRadius: 3,
     height: 40,
-    backgroundColor: '#eee',
+    backgroundColor: "#eee",
     paddingLeft: 10,
   },
   label: {
-    color: '#aaa',
-    fontWeight: 'bold',
+    color: "#aaa",
+    fontWeight: "bold",
     fontSize: 11,
     padding: 5,
   },
   container: {
     backgroundColor: colors.primary,
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   buttonContainer: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   button: {
     padding: 18,
@@ -302,7 +308,7 @@ const styles = StyleSheet.create({
   registerButtonText: {
     fontSize: 11,
     color: colors.primary,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 

@@ -6,7 +6,7 @@ import {
   ANNUAL_ITEMS_ADDED,
   ANNUAL_ITEMS_TOGGLE_YEAR_FORM,
   ANNUAL_ITEMS_REMOVED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 export const itemUpdated = item => {
   return {

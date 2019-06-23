@@ -2,8 +2,8 @@ import { StatusBar, Platform } from 'react-native';
 import {
   GetAuthenticationToken,
   RemoveAuthentication,
-} from 'utils/authentication';
-import { error } from 'notify';
+} from '@src/utils/authentication';
+import { error } from '@src/notify';
 import { Util } from 'expo';
 import Constants from 'expo-constants';
 

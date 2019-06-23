@@ -3,21 +3,21 @@ import { StyleSheet, StatusBar, View, SectionList } from 'react-native';
 
 // Redux
 import { connect } from 'react-redux';
-import { removeExpense } from 'actions/budget-item-expenses';
+import { removeExpense } from '@src/actions/budget-item-expenses';
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
 
 // Components
 import { groupBy, orderBy, transform } from 'lodash';
 import { reduceSum } from '@shared/helpers';
 import moment from 'moment';
-import PlusButton from 'utils/PlusButton';
-import Card, { SplitBackground } from 'components/Card';
-import EmptyList from 'components/EmptyList';
-import ListBackgroundFill from 'components/ListBackgroundFill';
-import Expense from 'components/Expense';
-import { Bold } from 'components/Text';
+import PlusButton from '@src/utils/PlusButton';
+import Card, { SplitBackground } from '@src/components/Card';
+import EmptyList from '@src/components/EmptyList';
+import ListBackgroundFill from '@src/components/ListBackgroundFill';
+import Expense from '@src/components/Expense';
+import { Bold } from '@src/components/Text';
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {

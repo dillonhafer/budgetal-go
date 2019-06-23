@@ -44,26 +44,26 @@ const SignInStack = createStackNavigator({
       headerStyle,
     }),
   },
+  ResetPassword: {
+    screen: ResetPasswordScreen,
+    path: "reset-password",
+    navigationOptions: () => ({
+      headerTitle: <HeaderText>RESET PASSWORD</HeaderText>,
+      headerStyle,
+    }),
+  },
 });
 
 export default createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
-      SignIn: SignInStack,
+      Auth: { screen: SignInStack, path: "" },
       App: {
         screen: AppDrawerNavigator,
         navigationOptions: {
           header: null,
         },
-      },
-      ResetPassword: {
-        screen: ResetPasswordScreen,
-        path: "reset-password/:resetPasswordToken",
-        navigationOptions: () => ({
-          headerTitle: <HeaderText>RESET PASSWORD</HeaderText>,
-          headerStyle,
-        }),
       },
     },
     {

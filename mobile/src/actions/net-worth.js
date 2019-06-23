@@ -4,8 +4,8 @@ import {
   NET_WORTH_YEAR_LOADED,
   NET_WORTH_REQUEST_FINISHED,
   NET_WORTH_ITEMS_IMPORTED,
-} from 'redux-constants/action-types';
-import { notice } from 'notify';
+} from '@src/redux-constants/action-types';
+import { notice } from '@src/notify';
 
 import { ImportNetWorthRequest } from '@shared/api/net-worth';
 

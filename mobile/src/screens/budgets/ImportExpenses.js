@@ -11,12 +11,12 @@ import {
 
 // Redux
 import { connect } from 'react-redux';
-import { updateBudgetCategory } from 'actions/budgets';
+import { updateBudgetCategory } from '@src/actions/budgets';
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error } from 'notify';
-import Device from 'utils/Device';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
+import { error } from '@src/notify';
+import Device from '@src/utils/Device';
 const isTablet = Device.isTablet();
 import { DocumentPicker } from 'expo';
 
@@ -25,7 +25,7 @@ import moment from 'moment';
 import { colors } from '@shared/theme';
 
 import WebViewHack from './WebViewHack';
-import CsvUploadButton from 'components/CsvUploadButton';
+import CsvUploadButton from '@src/components/CsvUploadButton';
 import ImportExpenseRow from './ImportExpenseRow';
 
 const tabletMargin = 20;

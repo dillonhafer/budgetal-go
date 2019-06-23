@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { StyleSheet, StatusBar, View, ScrollView } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, StatusBar, View, ScrollView } from "react-native";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { error, notice } from 'notify';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { error, notice } from "@src/notify";
 
 // Components
 import {
@@ -12,7 +12,7 @@ import {
   FieldContainer,
   MoneyInput,
   OptionInput,
-} from 'forms';
+} from "@src/forms";
 
 class NewMonthItemScreen extends Component {
   goBack = () => {
@@ -32,15 +32,15 @@ class NewMonthItemScreen extends Component {
   handleOnPress = () => {
     this.setState({ loading: true });
     if (!this.validateFields()) {
-      return error('Form is not valid');
+      return error("Form is not valid");
     }
 
-    const year = this.props.navigation.getParam('year');
-    const month = this.props.navigation.getParam('month');
-    const title = this.props.navigation.getParam('title').toUpperCase();
+    const year = this.props.navigation.getParam("year");
+    const month = this.props.navigation.getParam("month");
+    const title = this.props.navigation.getParam("title").toUpperCase();
 
     const { assetId, amount } = this.state;
-    const isAsset = title === 'ASSET';
+    const isAsset = title === "ASSET";
 
     this.props
       .createNetWorthItem({
@@ -110,9 +110,9 @@ class NewMonthItemScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },

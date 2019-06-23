@@ -1,31 +1,31 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
-import Card, { SplitBackground } from 'components/Card';
-import { colors } from '@shared/theme';
-import GroupList from 'components/GroupList';
-import { SecondaryButton, PrimaryButton } from 'forms';
-import { Bold } from 'components/Text';
-import { groupBy } from 'lodash';
-import { reduceSum, monthName } from '@shared/helpers';
-import { notice, confirm, error } from 'notify';
+import React, { Component } from "react";
+import { View, StyleSheet } from "react-native";
+import Card, { SplitBackground } from "@src/components/Card";
+import { colors } from "@shared/theme";
+import GroupList from "@src/components/GroupList";
+import { SecondaryButton, PrimaryButton } from "@src/forms";
+import { Bold } from "@src/components/Text";
+import { groupBy } from "lodash";
+import { reduceSum, monthName } from "@shared/helpers";
+import { notice, confirm, error } from "@src/notify";
 
 class MonthList extends Component {
   items = () => {
-    const pm = this.props.navigation.getParam('month');
+    const pm = this.props.navigation.getParam("month");
     const month = this.props.months.find(
-      m => m.year === pm.year && m.month === pm.month,
+      m => m.year === pm.year && m.month === pm.month
     );
 
     const { true: assets = [], false: liabilities = [] } = groupBy(
       month.items,
-      'isAsset',
+      "isAsset"
     );
 
     return { assets, liabilities };
   };
 
   importPreviousItems = async () => {
-    const nw = this.props.navigation.getParam('month');
+    const nw = this.props.navigation.getParam("month");
     this.props.importNetWorthItems(nw).catch(() => {
       error(`COULD NOT IMPORT`);
     });
@@ -34,8 +34,8 @@ class MonthList extends Component {
   onImportPress = () => {
     confirm({
       okText: `Copy`,
-      cancelText: 'Cancel',
-      title: 'Copy Net Worth Items',
+      cancelText: "Cancel",
+      title: "Copy Net Worth Items",
       content: `Do you want to copy net worth items from ${this.prevMonth()}?`,
       onOk: this.importPreviousItems,
       onCancel() {},
@@ -60,8 +60,8 @@ class MonthList extends Component {
   };
 
   renderHeader = () => {
-    const month = this.props.navigation.getParam('month');
-    const year = this.props.navigation.getParam('year');
+    const month = this.props.navigation.getParam("month");
+    const year = this.props.navigation.getParam("year");
 
     const { assets, liabilities } = this.items();
     const totalAssets = reduceSum(assets);
@@ -74,8 +74,8 @@ class MonthList extends Component {
           label={`${month.label} ${year}`}
           budgeted={netWorth}
           spent={totalLiabilities}
-          spentLabel={'Liabilities'}
-          remainingLabel={'Assets'}
+          spentLabel={"Liabilities"}
+          remainingLabel={"Assets"}
           remaining={totalAssets}
           decimal={0}
         />
@@ -92,7 +92,7 @@ class MonthList extends Component {
   };
 
   prevMonth = () => {
-    const nw = this.props.navigation.getParam('month');
+    const nw = this.props.navigation.getParam("month");
     return monthName(nw.month === 1 ? 12 : nw.month - 1);
   };
 
@@ -113,14 +113,14 @@ class MonthList extends Component {
       .filter(o => !section.data.map(o => o.assetId).includes(o.id))
       .map(o => ({ label: o.name, value: o.id }));
 
-    const { year, month } = this.props.navigation.getParam('month');
-    const title = section.title === 'Assets' ? 'Asset' : 'Liability';
+    const { year, month } = this.props.navigation.getParam("month");
+    const title = section.title === "Assets" ? "Asset" : "Liability";
     return (
       <PrimaryButton
         disabled={options.length === 0}
         title={`Add ${title}`}
         onPress={() => {
-          this.props.navigation.navigate('NewMonthItemScreen', {
+          this.props.navigation.navigate("NewMonthItemScreen", {
             section,
             title,
             options,
@@ -136,7 +136,7 @@ class MonthList extends Component {
     const { assets, liabilities } = this.items();
     const sectionData = [
       {
-        title: 'Assets',
+        title: "Assets",
         color: colors.success,
         data: assets.map(a => {
           const name = this.props.assets.find(as => as.id === a.assetId).name;
@@ -144,7 +144,7 @@ class MonthList extends Component {
         }),
       },
       {
-        title: 'Liabilities',
+        title: "Liabilities",
         color: colors.error,
         data: liabilities.map(l => {
           const name = this.props.liabilities.find(as => as.id === l.assetId)
@@ -163,7 +163,7 @@ class MonthList extends Component {
         renderSectionHeader={this.renderSectionHeader}
         renderSectionFooter={this.renderSectionFooter}
         onEdit={item => {
-          this.props.navigation.navigate('EditMonthItemScreen', {
+          this.props.navigation.navigate("EditMonthItemScreen", {
             item,
           });
         }}
@@ -177,12 +177,12 @@ const styles = StyleSheet.create({
   header: {
     marginHorizontal: 20,
     marginVertical: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingVertical: 5,
   },
   headerText: {
-    color: '#555',
-    fontWeight: 'bold',
+    color: "#555",
+    fontWeight: "bold",
   },
 });
 

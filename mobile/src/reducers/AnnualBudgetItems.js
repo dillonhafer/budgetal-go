@@ -6,7 +6,7 @@ import {
   ANNUAL_ITEMS_ADDED,
   ANNUAL_ITEMS_UPDATED,
   ANNUAL_ITEMS_REMOVED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 const initialState = {
   annualBudgetId: null,

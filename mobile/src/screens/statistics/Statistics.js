@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   Image,
@@ -6,21 +6,21 @@ import {
   FlatList,
   View,
   RefreshControl,
-} from 'react-native';
+} from "react-native";
 
 // Components
-import { error } from 'notify';
-import { FindStatisticRequest } from '@shared/api/statistics';
-import { categoryImage } from 'images';
-import { currencyf } from '@shared/helpers';
-import DatePicker from 'utils/DatePicker';
-import Spin from 'utils/Spin';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
-import { Bold } from 'components/Text';
+import { error } from "@src/notify";
+import { FindStatisticRequest } from "@shared/api/statistics";
+import { categoryImage } from "@src/assets/images";
+import { currencyf } from "@shared/helpers";
+import DatePicker from "@src/utils/DatePicker";
+import Spin from "@src/utils/Spin";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { Bold } from "@src/components/Text";
 
 class StatisticsScreen extends PureComponent {
   static navigationOptions = {
-    title: 'Statistics',
+    title: "Statistics",
   };
 
   state = {
@@ -43,21 +43,21 @@ class StatisticsScreen extends PureComponent {
   renderCategory = ({ item: budgetCategory }) => {
     return (
       <View style={styles.categoryRow}>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: "row" }}>
           <Image
             style={styles.categoryImage}
             source={categoryImage(budgetCategory.name)}
           />
           <View
             style={{
-              flexDirection: 'column',
+              flexDirection: "column",
               flex: 1,
-              justifyContent: 'center',
+              justifyContent: "center",
             }}
           >
             <Bold style={styles.categoryName}>{budgetCategory.name}</Bold>
             <Bold style={styles.categoryName}>
-              {currencyf(budgetCategory.amountSpent)} -{' '}
+              {currencyf(budgetCategory.amountSpent)} -{" "}
               {budgetCategory.percentSpent}%
             </Bold>
           </View>
@@ -73,7 +73,7 @@ class StatisticsScreen extends PureComponent {
       if (resp && resp.ok) {
         const totalSpent = resp.budgetCategories.reduce(
           (acc, cat) => acc + parseFloat(cat.amountSpent),
-          0.0,
+          0.0
         );
         const budgetCategories = resp.budgetCategories.map(cat => {
           const name = cat.name;
@@ -82,7 +82,7 @@ class StatisticsScreen extends PureComponent {
           let percentSpent = 0;
           if (parseFloat(cat.amountSpent) > 0) {
             percentSpent = Math.round(
-              (parseFloat(cat.amountSpent) / totalSpent) * 100,
+              (parseFloat(cat.amountSpent) / totalSpent) * 100
             );
           }
           return {
@@ -95,7 +95,7 @@ class StatisticsScreen extends PureComponent {
         this.setState({ budgetCategories });
       }
     } catch (err) {
-      error('There was a problem downloading statistics');
+      error("There was a problem downloading statistics");
     } finally {
       this.setState({ loading: false });
     }
@@ -106,8 +106,8 @@ class StatisticsScreen extends PureComponent {
       <View
         style={{
           height: 1,
-          width: '100%',
-          backgroundColor: '#CED0CE',
+          width: "100%",
+          backgroundColor: "#CED0CE",
         }}
       />
     );
@@ -129,7 +129,7 @@ class StatisticsScreen extends PureComponent {
       const { year, month } = this.state.budget;
       await this.loadStatistics({ year, month });
     } catch (err) {
-      error('There was a problem refreshing statistics');
+      error("There was a problem refreshing statistics");
     } finally {
       this.setState({ refreshing: false });
     }
@@ -156,7 +156,7 @@ class StatisticsScreen extends PureComponent {
           style={styles.list}
           refreshControl={
             <RefreshControl
-              tintColor={'lightskyblue'}
+              tintColor={"lightskyblue"}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
             />
@@ -175,21 +175,21 @@ class StatisticsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "column",
   },
   list: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   categoryRow: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 15,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   categoryName: {
-    fontWeight: '700',
-    color: '#444',
+    fontWeight: "700",
+    color: "#444",
     fontSize: 18,
     marginBottom: 5,
   },

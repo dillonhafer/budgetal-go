@@ -1,37 +1,37 @@
-import React from 'react';
-import { View, Image } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import React from "react";
+import { View, Image } from "react-native";
+import { createStackNavigator } from "react-navigation";
 
-import TabletNavigator from 'navigators/TabletNavigator';
+import TabletNavigator from "@src/navigators/TabletNavigator";
 
 // Screens
-import BudgetsScreen from 'screens/budgets/Budgets';
-import BudgetCategoryScreen from 'screens/budgets/BudgetCategory';
+import BudgetsScreen from "@src/screens/budgets/Budgets";
+import BudgetCategoryScreen from "@src/screens/budgets/BudgetCategory";
 
 // Items
-import BudgetItemScreen from 'screens/budgets/BudgetItem';
-import NewBudgetItemScreen from 'screens/budgets/NewBudgetItem';
-import EditBudgetItemScreen from 'screens/budgets/EditBudgetItem';
+import BudgetItemScreen from "@src/screens/budgets/BudgetItem";
+import NewBudgetItemScreen from "@src/screens/budgets/NewBudgetItem";
+import EditBudgetItemScreen from "@src/screens/budgets/EditBudgetItem";
 
 // Expenses
-import NewBudgetItemExpenseScreen from 'screens/budgets/NewBudgetItemExpense';
-import EditBudgetItemExpenseScreen from 'screens/budgets/EditBudgetItemExpense';
-import ImportExpensesScreen from 'screens/budgets/ImportExpenses';
+import NewBudgetItemExpenseScreen from "@src/screens/budgets/NewBudgetItemExpense";
+import EditBudgetItemExpenseScreen from "@src/screens/budgets/EditBudgetItemExpense";
+import ImportExpensesScreen from "@src/screens/budgets/ImportExpenses";
 
-import moment from 'moment';
-import { categoryImage } from 'images';
+import moment from "moment";
+import { categoryImage } from "@src/assets/images";
 import {
   NavigationHeight,
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
   drawerIcon,
-} from 'utils/navigation-helpers';
-import EditIncomeModal from 'screens/budgets/EditIncomeModal';
+} from "@src/utils/navigation-helpers";
+import EditIncomeModal from "@src/screens/budgets/EditIncomeModal";
 import {
   BudgetalText,
   HeaderText,
   headerBackTitleStyle,
-} from 'components/Text';
+} from "@src/components/Text";
 
 const headerStyle = {
   height: NavigationHeight,
@@ -41,9 +41,9 @@ const CategoryTitle = ({ name }) => {
   return (
     <View
       style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Image style={{ width: 20, height: 20 }} source={categoryImage(name)} />
@@ -56,15 +56,15 @@ const BudgetNavigatorStack = createStackNavigator(
   {
     Budget: {
       screen: BudgetsScreen,
-      path: 'budgets/:year/:month',
+      path: "budgets/:year/:month",
       navigationOptions: ({ navigation }) => {
         const today = new Date();
 
-        const year = navigation.getParam('year', today.getFullYear());
-        const month = navigation.getParam('month', today.getMonth() + 1);
-        const budgetDate = moment(`${year}-${month}-01`, 'YYYY-MM-DD');
+        const year = navigation.getParam("year", today.getFullYear());
+        const month = navigation.getParam("month", today.getMonth() + 1);
+        const budgetDate = moment(`${year}-${month}-01`, "YYYY-MM-DD");
 
-        const headerBackTitle = budgetDate.format('MMM').toUpperCase();
+        const headerBackTitle = budgetDate.format("MMM").toUpperCase();
         return {
           headerRight: <EditIncomeModal />,
           gesturesEnabled: false,
@@ -78,7 +78,7 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     BudgetCategory: {
       screen: BudgetCategoryScreen,
-      path: 'budgetCategories/:budgetCategory',
+      path: "budgetCategories/:budgetCategory",
       navigationOptions: () => ({
         headerTitle: <HeaderText>BUDGET ITEMS</HeaderText>,
         headerStyle,
@@ -86,7 +86,7 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     BudgetItem: {
       screen: BudgetItemScreen,
-      path: 'budgetItems/:budgetItem',
+      path: "budgetItems/:budgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>EXPENSES</HeaderText>,
         headerStyle,
@@ -94,7 +94,7 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     NewBudgetItem: {
       screen: NewBudgetItemScreen,
-      path: 'newBudgetItem',
+      path: "newBudgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW ITEM</HeaderText>,
         headerStyle,
@@ -102,11 +102,11 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     EditBudgetItem: {
       screen: EditBudgetItemScreen,
-      path: 'editBudgetItem',
+      path: "editBudgetItem",
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT {navigation.getParam('budgetItem').name.toUpperCase()}
+            EDIT {navigation.getParam("budgetItem").name.toUpperCase()}
           </HeaderText>
         ),
         headerStyle,
@@ -114,7 +114,7 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     NewBudgetItemExpense: {
       screen: NewBudgetItemExpenseScreen,
-      path: 'newBudgetItemExpense',
+      path: "newBudgetItemExpense",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW EXPENSE</HeaderText>,
         headerStyle,
@@ -122,11 +122,11 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     EditBudgetItemExpense: {
       screen: EditBudgetItemExpenseScreen,
-      path: 'editBudgetItemExpense',
+      path: "editBudgetItemExpense",
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT {navigation.getParam('budgetItemExpense').name.toUpperCase()}
+            EDIT {navigation.getParam("budgetItemExpense").name.toUpperCase()}
           </HeaderText>
         ),
         headerStyle,
@@ -142,11 +142,11 @@ const BudgetNavigatorStack = createStackNavigator(
   },
   {
     cardStyle: {
-      backgroundColor: '#ececec',
+      backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
     navigationOptions: { ...BlurViewNavigationOptions },
-  },
+  }
 );
 
 const BudgetSidebarNavigatorStack = createStackNavigator(
@@ -157,12 +157,12 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     BudgetCategory: {
       screen: BudgetCategoryScreen,
-      path: 'budgetCategories/:budgetCategory',
+      path: "budgetCategories/:budgetCategory",
       navigationOptions: ({ navigation }) => ({
-        title: navigation.getParam('budgetCategory').name,
+        title: navigation.getParam("budgetCategory").name,
         headerTitle: (
           <CategoryTitle
-            name={navigation.getParam('budgetCategory').name.toUpperCase()}
+            name={navigation.getParam("budgetCategory").name.toUpperCase()}
           />
         ),
         headerStyle,
@@ -170,12 +170,12 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     BudgetItem: {
       screen: BudgetItemScreen,
-      path: 'budgetItems/:budgetItem',
+      path: "budgetItems/:budgetItem",
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
             {navigation
-              .getParam('budgetItem', { name: 'ITEM' })
+              .getParam("budgetItem", { name: "ITEM" })
               .name.toUpperCase()}
           </HeaderText>
         ),
@@ -184,7 +184,7 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     NewBudgetItem: {
       screen: NewBudgetItemScreen,
-      path: 'newBudgetItem',
+      path: "newBudgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW BUDGET ITEM</HeaderText>,
         headerStyle,
@@ -192,13 +192,13 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     EditBudgetItem: {
       screen: EditBudgetItemScreen,
-      path: 'editBudgetItem',
+      path: "editBudgetItem",
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT{' '}
+            EDIT{" "}
             {navigation
-              .getParam('budgetItem', { name: 'ITEM' })
+              .getParam("budgetItem", { name: "ITEM" })
               .name.toUpperCase()}
           </HeaderText>
         ),
@@ -207,7 +207,7 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     NewBudgetItemExpense: {
       screen: NewBudgetItemExpenseScreen,
-      path: 'newBudgetItemExpense',
+      path: "newBudgetItemExpense",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW EXPENSE</HeaderText>,
         headerStyle,
@@ -215,13 +215,13 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     EditBudgetItemExpense: {
       screen: EditBudgetItemExpenseScreen,
-      path: 'editBudgetItemExpense',
+      path: "editBudgetItemExpense",
       navigationOptions: ({ navigation }) => ({
         headerTitle: (
           <HeaderText>
-            EDIT{' '}
+            EDIT{" "}
             {navigation
-              .getParam('budgetItemExpense', { name: 'EXPENSE' })
+              .getParam("budgetItemExpense", { name: "EXPENSE" })
               .name.toUpperCase()}
           </HeaderText>
         ),
@@ -230,7 +230,7 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
     },
     ImportExpenses: {
       screen: ImportExpensesScreen,
-      path: 'importExpenses',
+      path: "importExpenses",
       navigationOptions: () => ({
         headerStyle,
         headerTitle: <HeaderText>IMPORT EXPENSES</HeaderText>,
@@ -242,7 +242,7 @@ const BudgetSidebarNavigatorStack = createStackNavigator(
       shadowOpacity: 0,
     },
     navigationOptions: BlurViewNavigationOptions,
-  },
+  }
 );
 
 class BudgetNavigator extends TabletNavigator {
@@ -257,7 +257,7 @@ class BudgetNavigator extends TabletNavigator {
     ),
     // Width 32 Fix for react-navigation bugs
     // eslint-disable-next-line react/display-name
-    drawerIcon: drawerIcon('md-calculator'),
+    drawerIcon: drawerIcon("md-calculator"),
   };
 }
 

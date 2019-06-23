@@ -10,7 +10,7 @@ import {
   BUDGET_ITEM_SAVED,
   BUDGET_ITEM_DELETED,
   BUDGET_CATEGORY_IMPORTED,
-} from 'redux-constants/action-types';
+} from '@src/redux-constants/action-types';
 
 export const budgetLoaded = ({
   budget,

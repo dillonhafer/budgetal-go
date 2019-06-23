@@ -17,17 +17,17 @@ import { connect } from 'react-redux';
 import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
 
 // Components
-import { GetAuthenticationToken } from 'utils/authentication';
+import { GetAuthenticationToken } from '@src/utils/authentication';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
 import moment from 'moment';
 import { orderBy } from 'lodash';
 import { humanUA } from '@shared/helpers';
-import { notice, error } from 'notify';
-import Spin from 'utils/Spin';
+import { notice, error } from '@src/notify';
+import Spin from '@src/utils/Spin';
 import Swipeout from 'react-native-swipeout';
 
 class SessionsScreen extends PureComponent {

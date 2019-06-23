@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   Image,
   Alert,
@@ -8,34 +8,34 @@ import {
   Platform,
   StyleSheet,
   ScrollView,
-} from 'react-native';
-import { DrawerItems, SafeAreaView } from 'react-navigation';
-import LegalModal from 'screens/legal/LegalModal';
-import { WebBrowser } from 'expo';
-import Constants from 'expo-constants';
-import { connect } from 'react-redux';
-import DrawerItem from './DrawerItem';
+} from "react-native";
+import { DrawerItems, SafeAreaView } from "react-navigation";
+import LegalModal from "@src/screens/legal/LegalModal";
+import { WebBrowser } from "expo";
+import Constants from "expo-constants";
+import { connect } from "react-redux";
+import DrawerItem from "./DrawerItem";
 
 // Sign out helpers
-import { SignOutRequest } from '@shared/api/sessions';
+import { SignOutRequest } from "@shared/api/sessions";
 // import { navigateRoot } from 'navigators';
-import { notice, error } from 'notify';
-import { RemoveAuthentication } from 'utils/authentication';
+import { notice, error } from "@src/notify";
+import { RemoveAuthentication } from "@src/utils/authentication";
 
-import { Small, Bold, Medium } from 'components/Text';
+import { Small, Bold, Medium } from "@src/components/Text";
 
 class LHC extends PureComponent {
   render() {
     const accountIsActive = this.props.navigation.state.index === 3;
-    const backgroundColor = accountIsActive ? '#2eb1fc' : null;
+    const backgroundColor = accountIsActive ? "#2eb1fc" : null;
     const { user } = this.props;
     return (
       <View style={{ backgroundColor }}>
         <TouchableOpacity
           style={styles.profileContainer}
           onPress={() => {
-            StatusBar.setBarStyle('default', true);
-            this.props.navigation.navigate('Account');
+            StatusBar.setBarStyle("default", true);
+            this.props.navigation.navigate("Account");
           }}
         >
           <View style={styles.imageContainer}>
@@ -43,7 +43,7 @@ class LHC extends PureComponent {
           </View>
           <View style={styles.nameContainer}>
             <Bold style={styles.nameText}>
-              {[user.firstName, user.lastName].join(' ')}
+              {[user.firstName, user.lastName].join(" ")}
             </Bold>
             <Medium style={styles.emailText}>{user.email}</Medium>
           </View>
@@ -63,12 +63,12 @@ class DrawerContent extends PureComponent {
   };
 
   onPressPrivacy = async () => {
-    await WebBrowser.openBrowserAsync('https://www.budgetal.com/privacy');
+    await WebBrowser.openBrowserAsync("https://www.budgetal.com/privacy");
   };
 
   onPressHelp = async () => {
     await WebBrowser.openBrowserAsync(
-      'https://docs.google.com/forms/d/e/1FAIpQLSd-r56BTzaLCSeEUIhNeA_cGaGB7yssQByQnBIScFKuMxwhNA/viewform',
+      "https://docs.google.com/forms/d/e/1FAIpQLSd-r56BTzaLCSeEUIhNeA_cGaGB7yssQByQnBIScFKuMxwhNA/viewform"
     );
   };
 
@@ -77,43 +77,43 @@ class DrawerContent extends PureComponent {
       await SignOutRequest();
       await RemoveAuthentication();
       // navigateRoot(this.props.navigation.dispatch);
-      notice('You are now signed out');
-      StatusBar.setBarStyle('default', true);
+      notice("You are now signed out");
+      StatusBar.setBarStyle("default", true);
     } catch (err) {
-      error('Something went wrong. Try closing the app.');
+      error("Something went wrong. Try closing the app.");
     }
   };
 
   confirmSignOut = () => {
     Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out?',
+      "Sign Out",
+      "Are you sure you want to sign out?",
       [
         {
-          text: 'Cancel',
-          style: 'cancel',
+          text: "Cancel",
+          style: "cancel",
         },
         {
-          text: 'Sign Out',
-          style: 'destructive',
+          text: "Sign Out",
+          style: "destructive",
           onPress: this.signOut,
         },
       ],
-      { cancelable: true },
+      { cancelable: true }
     );
   };
 
   render() {
-    const excludedItems = ['Account'];
+    const excludedItems = ["Account"];
     const drawerItems = this.props.items.filter(
-      i => !excludedItems.includes(i.key),
+      i => !excludedItems.includes(i.key)
     );
 
     return (
       <ScrollView>
         <SafeAreaView
           style={styles.container}
-          forceInset={{ top: 'always', horizontal: 'never' }}
+          forceInset={{ top: "always", horizontal: "never" }}
         >
           <View>
             <ListHeaderComponent navigation={this.props.navigation} />
@@ -146,7 +146,7 @@ class DrawerContent extends PureComponent {
 
               <TouchableOpacity
                 onPress={() => {
-                  StatusBar.setBarStyle('dark-content', true);
+                  StatusBar.setBarStyle("dark-content", true);
                   this.setState({ legalModalVisible: true });
                 }}
               >
@@ -155,7 +155,7 @@ class DrawerContent extends PureComponent {
               <LegalModal
                 visible={this.state.legalModalVisible}
                 onClose={() => {
-                  StatusBar.setBarStyle('light-content', true);
+                  StatusBar.setBarStyle("light-content", true);
                   this.setState({ legalModalVisible: false });
                 }}
               />
@@ -170,28 +170,28 @@ class DrawerContent extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    minHeight: '100%',
+    minHeight: "100%",
   },
   versionText: {
     flex: 1,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     fontSize: 12,
   },
   legal: {
     flex: 1,
-    color: '#fff',
-    textAlign: 'center',
-    textDecorationLine: 'underline',
+    color: "#fff",
+    textAlign: "center",
+    textDecorationLine: "underline",
   },
   footer: {
     flex: 1,
     paddingVertical: 20,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   profileContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 20,
   },
   imageContainer: {
@@ -199,10 +199,10 @@ const styles = StyleSheet.create({
     borderRadius: 35,
     width: 50,
     height: 50,
-    backgroundColor: '#aaa',
-    overflow: 'hidden',
+    backgroundColor: "#aaa",
+    overflow: "hidden",
     borderWidth: 2,
-    borderColor: '#fff',
+    borderColor: "#fff",
   },
   nameContainer: {
     paddingHorizontal: 10,
@@ -213,10 +213,10 @@ const styles = StyleSheet.create({
   },
   nameText: {
     fontSize: 18,
-    color: '#fff',
+    color: "#fff",
   },
   emailText: {
-    color: '#fff',
+    color: "#fff",
   },
 });
 

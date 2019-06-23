@@ -1,45 +1,45 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
   View,
   FlatList,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { importedBudgetItems, removeBudgetItem } from 'actions/budgets';
+import { connect } from "react-redux";
+import { importedBudgetItems, removeBudgetItem } from "@src/actions/budgets";
 
 // API
-import { ImportCategoryRequest } from '@shared/api/budgets';
-import { DeleteItemRequest } from '@shared/api/budget-items';
+import { ImportCategoryRequest } from "@shared/api/budgets";
+import { DeleteItemRequest } from "@shared/api/budget-items";
 
 // Helpers
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import moment from 'moment';
-import { colors } from '@shared/theme';
-import { notice, confirm } from 'notify';
-import Progress from 'utils/Progress';
-import { categoryImage } from 'images';
-import { reduceSum, percentSpent } from '@shared/helpers';
-import { SecondaryButton } from 'forms';
-import PlusButton from 'utils/PlusButton';
-import Swipeout from 'react-native-swipeout';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import moment from "moment";
+import { colors } from "@shared/theme";
+import { notice, confirm } from "@src/notify";
+import Progress from "@src/utils/Progress";
+import { categoryImage } from "@src/assets/images";
+import { reduceSum, percentSpent } from "@shared/helpers";
+import { SecondaryButton } from "@src/forms";
+import PlusButton from "@src/utils/PlusButton";
+import Swipeout from "react-native-swipeout";
 
-import Card, { SplitBackground } from 'components/Card';
-import EmptyList from 'components/EmptyList';
-import ListBackgroundFill from 'components/ListBackgroundFill';
+import Card, { SplitBackground } from "@src/components/Card";
+import EmptyList from "@src/components/EmptyList";
+import ListBackgroundFill from "@src/components/ListBackgroundFill";
 
 class BudgetCategoryScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     const budgetCategory = params.budgetCategory;
     const onPress = () => {
-      navigation.navigate('NewBudgetItem', {
+      navigation.navigate("NewBudgetItem", {
         budgetCategory,
       });
     };
@@ -65,8 +65,8 @@ class BudgetCategoryScreen extends PureComponent {
     const budgetCategory = this.props.navigation.state.params.budgetCategory;
     confirm({
       okText: `Copy ${budgetCategory.name}`,
-      cancelText: 'Cancel',
-      title: 'Copy Budget Items',
+      cancelText: "Cancel",
+      title: "Copy Budget Items",
       content: `Do you want to copy budget items from your previous month's ${
         budgetCategory.name
       } category?`,
@@ -80,28 +80,28 @@ class BudgetCategoryScreen extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <MaterialCommunityIcons name="pencil" color={'#fff'} size={20} />
+            <MaterialCommunityIcons name="pencil" color={"#fff"} size={20} />
           </View>
         ),
         backgroundColor: colors.primary,
-        underlayColor: colors.primary + '70',
+        underlayColor: colors.primary + "70",
         onPress: () =>
-          this.props.navigation.navigate('EditBudgetItem', {
+          this.props.navigation.navigate("EditBudgetItem", {
             budgetItem,
           }),
       },
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+            <MaterialCommunityIcons name="delete" color={"#fff"} size={20} />
           </View>
         ),
         backgroundColor: colors.error,
-        underlayColor: colors.error + '70',
+        underlayColor: colors.error + "70",
         onPress: () => this.confirmDelete(budgetItem),
       },
     ];
@@ -116,11 +116,11 @@ class BudgetCategoryScreen extends PureComponent {
     const amountBudgeted = budgetItem.amount;
     const remaining = amountBudgeted - amountSpent;
     const percentage = percentSpent(amountBudgeted, amountSpent);
-    let status = 'normal';
+    let status = "normal";
     if (remaining < 0) {
-      status = 'exception';
+      status = "exception";
     } else if (remaining === 0.0) {
-      status = 'success';
+      status = "success";
     }
     const buttons = this.itemButtons(budgetItem);
 
@@ -137,7 +137,7 @@ class BudgetCategoryScreen extends PureComponent {
           style={styles.itemRow}
           key={budgetItem.id}
           onPress={() => {
-            this.props.navigation.navigate('BudgetItem', {
+            this.props.navigation.navigate("BudgetItem", {
               budgetItem,
               amountSpent,
               amountBudgeted,
@@ -147,7 +147,7 @@ class BudgetCategoryScreen extends PureComponent {
         >
           <Card
             label={budgetItem.name}
-            color={'#fff'}
+            color={"#fff"}
             light={true}
             budgeted={amountBudgeted}
             spent={amountSpent}
@@ -165,8 +165,8 @@ class BudgetCategoryScreen extends PureComponent {
       <View
         style={{
           height: 1,
-          width: '100%',
-          backgroundColor: '#CED0CE',
+          width: "100%",
+          backgroundColor: "#CED0CE",
         }}
       />
     );
@@ -175,7 +175,7 @@ class BudgetCategoryScreen extends PureComponent {
   renderHeader = () => {
     const { budgetCategory } = this.props.navigation.state.params;
     const items = this.props.budgetItems.filter(
-      i => i.budgetCategoryId === budgetCategory.id,
+      i => i.budgetCategoryId === budgetCategory.id
     );
     const itemIds = items.map(i => {
       return i.id;
@@ -216,7 +216,7 @@ class BudgetCategoryScreen extends PureComponent {
   confirmDelete = item => {
     confirm({
       title: `Delete ${item.name}?`,
-      okText: 'Delete',
+      okText: "Delete",
       onOk: () => {
         this.deleteItem(item);
       },
@@ -230,7 +230,7 @@ class BudgetCategoryScreen extends PureComponent {
 
     const category = this.props.navigation.state.params.budgetCategory;
     const items = this.props.budgetItems.filter(
-      i => i.budgetCategoryId === category.id,
+      i => i.budgetCategoryId === category.id
     );
     return (
       <View style={styles.container}>
@@ -263,20 +263,20 @@ class BudgetCategoryScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "column",
   },
   list: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   contentStyles: {
-    backgroundColor: '#d8dce0',
-    minHeight: '100%',
+    backgroundColor: "#d8dce0",
+    minHeight: "100%",
   },
   itemRow: {
-    backgroundColor: '#d8dce0',
-    justifyContent: 'center',
+    backgroundColor: "#d8dce0",
+    justifyContent: "center",
   },
 });
 
@@ -291,5 +291,5 @@ export default connect(
     removeBudgetItem: budgetItem => {
       dispatch(removeBudgetItem(budgetItem));
     },
-  }),
+  })
 )(BudgetCategoryScreen);

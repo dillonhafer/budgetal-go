@@ -1,26 +1,26 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   TextInput,
   StatusBar,
   View,
   ScrollView,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { createdBudgetItem } from 'actions/budgets';
+import { connect } from "react-redux";
+import { createdBudgetItem } from "@src/actions/budgets";
 
 // API
-import { CreateItemRequest } from '@shared/api/budget-items';
+import { CreateItemRequest } from "@shared/api/budget-items";
 
 // Helpers
-import { error, notice } from 'notify';
-import { BlurViewInsetProps } from 'utils/navigation-helpers';
+import { error, notice } from "@src/notify";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { PrimaryButton, DangerButton, FieldContainer } from 'forms';
-import MoneyInput from 'forms/MoneyInput';
+import { PrimaryButton, DangerButton, FieldContainer } from "@src/forms";
+import MoneyInput from "@src/forms/MoneyInput";
 
 class NewBudgetItemScreen extends PureComponent {
   goBack = () => {
@@ -32,7 +32,7 @@ class NewBudgetItemScreen extends PureComponent {
   state = {
     loading: false,
     showMoneyKeyboard: false,
-    name: '',
+    name: "",
     amount: 0.0,
   };
 
@@ -47,12 +47,12 @@ class NewBudgetItemScreen extends PureComponent {
   };
 
   showMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBarStyle("light-content", true);
     this.setState({ showMoneyKeyboard: true });
   };
 
   hideMoneyKeyboard = () => {
-    StatusBar.setBarStyle('light-dark', true);
+    StatusBar.setBarStyle("light-dark", true);
     this.setState({ showMoneyKeyboard: false });
   };
 
@@ -69,10 +69,10 @@ class NewBudgetItemScreen extends PureComponent {
       if (resp && resp.ok) {
         this.props.createdBudgetItem(resp.budgetItem);
         this.goBack();
-        notice('Item saved');
+        notice("Item saved");
       }
     } catch (err) {
-      error('Could not create item');
+      error("Could not create item");
     }
   };
 
@@ -82,7 +82,7 @@ class NewBudgetItemScreen extends PureComponent {
       if (this.validateFields()) {
         await this.createItem();
       } else {
-        error('Form is not valid');
+        error("Form is not valid");
       }
     } catch (err) {
       // console.log(err)
@@ -106,7 +106,7 @@ class NewBudgetItemScreen extends PureComponent {
             style={{ height: 50 }}
             placeholder="Name"
             defaultValue={name}
-            underlineColorAndroid={'transparent'}
+            underlineColorAndroid={"transparent"}
             returnKeyType="next"
             onChangeText={name => this.setState({ name })}
           />
@@ -137,16 +137,19 @@ class NewBudgetItemScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "transparent",
+    alignItems: "center",
+    flexDirection: "column",
     paddingBottom: 40,
     paddingTop: 15,
   },
 });
 
-export default connect(null, dispatch => ({
-  createdBudgetItem: item => {
-    dispatch(createdBudgetItem(item));
-  },
-}))(NewBudgetItemScreen);
+export default connect(
+  null,
+  dispatch => ({
+    createdBudgetItem: item => {
+      dispatch(createdBudgetItem(item));
+    },
+  })
+)(NewBudgetItemScreen);
