@@ -1,14 +1,14 @@
-import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { ButtonText } from 'components/Text';
-import { colors } from '@shared/theme';
+import React from "react";
+import { TouchableOpacity, View } from "react-native";
+import { ButtonText } from "components/Text";
+import { colors } from "@shared/theme";
 export {
   default as NavigationInputAccessoryView,
-} from './NavigationInputAccessoryView';
+} from "./NavigationInputAccessoryView";
 
-export { default as MoneyInput } from './MoneyInput';
-export { default as OptionInput } from './OptionInput';
-export { default as FieldContainer } from './FieldContainer';
+export { default as MoneyInput } from "./MoneyInput";
+export { default as OptionInput } from "./OptionInput";
+export { default as FieldContainer } from "./FieldContainer";
 
 export const PrimarySquareButton = ({ title, onPress, loading }) => {
   return (
@@ -23,7 +23,12 @@ export const PrimarySquareButton = ({ title, onPress, loading }) => {
   );
 };
 
-export const PrimaryButton = ({ disabled, title, onPress, loading }) => {
+export const PrimaryButton = ({
+  disabled = false,
+  title,
+  onPress,
+  loading = false,
+}) => {
   return (
     <Button
       color={colors.primary}
@@ -39,7 +44,7 @@ export const SecondaryButton = ({ disabled, title, onPress, loading }) => {
   return (
     <Button
       color={colors.primary}
-      backgroundColor={'#fff'}
+      backgroundColor={"#fff"}
       title={title}
       titleColor={colors.primary}
       onPress={onPress}
@@ -52,7 +57,7 @@ export const DangerButton = ({ title, onPress, loading }) => {
   return (
     <Button
       color={colors.error}
-      backgroundColor={'#fff'}
+      backgroundColor={"#fff"}
       titleColor={colors.error}
       title={title}
       onPress={onPress}
@@ -66,7 +71,7 @@ export const Button = ({
   title,
   color,
   backgroundColor,
-  titleColor = '#fff',
+  titleColor = "#fff",
   onPress,
   loading,
   borderRadius,
@@ -79,14 +84,14 @@ export const Button = ({
     borderWidth: 2,
     borderRadius: borderRadius || buttonHeight / 4,
     borderColor: color,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     shadowOffset: { width: 0, height: 3 },
     shadowColor: backgroundColor,
     shadowOpacity: 0.2,
   };
   return (
-    <View style={{ alignSelf: 'stretch', opacity: loading ? 0.4 : 1 }}>
+    <View style={{ alignSelf: "stretch", opacity: loading ? 0.4 : 1 }}>
       <TouchableOpacity
         disabled={loading}
         style={styles}
@@ -95,9 +100,9 @@ export const Button = ({
       >
         <View
           style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <ButtonText
@@ -117,13 +122,13 @@ export const CustomFieldContainer = props => {
   return (
     <View
       style={{
-        backgroundColor: '#fff',
-        borderBottomColor: '#aaa',
+        backgroundColor: "#fff",
+        borderBottomColor: "#aaa",
         borderWidth: 0.5,
-        borderTopColor: '#fff',
-        borderRightColor: '#fff',
-        borderLeftColor: '#fff',
-        alignSelf: 'stretch',
+        borderTopColor: "#fff",
+        borderRightColor: "#fff",
+        borderLeftColor: "#fff",
+        alignSelf: "stretch",
       }}
     >
       {props.children}
