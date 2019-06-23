@@ -1,22 +1,22 @@
-import React from 'react';
+import React from "react";
 // Naviagators
 import {
   createStackNavigator,
   createAppContainer,
   createSwitchNavigator,
-} from 'react-navigation';
+} from "react-navigation";
 
-import AppDrawerNavigator from '@src/navigators/AppDrawer';
+import AppDrawerNavigator from "@src/navigators/AppDrawer";
 
 // Screens
-import SignInScreen from '@src/screens/SignIn';
-import ForgotPasswordScreen from '@src/screens/ForgotPassword';
-import ResetPasswordScreen from '@src/screens/ResetPassword';
-import RegisterScreen from '@src/screens/Register';
+import SignInScreen from "@src/screens/SignIn";
+import ForgotPasswordScreen from "@src/screens/ForgotPassword";
+import ResetPasswordScreen from "@src/screens/ResetPassword";
+import RegisterScreen from "@src/screens/Register";
 
-import { HeaderText } from '@src/components/Text';
-import { NavigationHeight } from '@src/utils/navigation-helpers';
-import AuthLoadingScreen from '@src/screens/AuthLoading';
+import { HeaderText } from "@src/components/Text";
+import { NavigationHeight } from "@src/utils/navigation-helpers";
+import AuthLoadingScreen from "@src/screens/AuthLoading";
 const headerStyle = {
   height: NavigationHeight,
 };
@@ -59,7 +59,7 @@ export default createAppContainer(
       },
       ResetPassword: {
         screen: ResetPasswordScreen,
-        path: 'reset-password/:resetPasswordToken',
+        path: "reset-password/:resetPasswordToken",
         navigationOptions: () => ({
           headerTitle: <HeaderText>RESET PASSWORD</HeaderText>,
           headerStyle,
@@ -67,7 +67,7 @@ export default createAppContainer(
       },
     },
     {
-      initialRouteName: 'AuthLoading',
-    },
-  ),
+      initialRouteName: "AuthLoading",
+    }
+  )
 );
