@@ -1,46 +1,43 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   StatusBar,
   FlatList,
   View,
   RefreshControl,
-} from 'react-native';
+} from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { itemsFetched } from '@src/actions/annual-budget-items';
+import { connect } from "react-redux";
+import { itemsFetched } from "@src/actions/annual-budget-items";
 
 // API
-import { AllAnnualBudgetItemsRequest } from '@shared/api/annual-budget-items';
+import { AllAnnualBudgetItemsRequest } from "@shared/api/annual-budget-items";
 
 // Helpers
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { Bold } from '@src/components/Text';
-import { error } from '@src/notify';
-import { FontAwesome } from '@expo/vector-icons';
-import { colors } from '@shared/theme';
-import DatePicker from '@src/utils/DatePicker';
-import PlusButton from '@src/utils/PlusButton';
-import Spin from '@src/utils/Spin';
-import AnnualBudgetItemRow from './AnnualBudgetItemRow';
+import { Bold } from "@src/components/Text";
+import { error } from "@src/notify";
+import { FontAwesome } from "@expo/vector-icons";
+import { colors } from "@shared/theme";
+import DatePicker from "@src/utils/DatePicker";
+import PlusButton from "@src/utils/PlusButton";
+import Spin from "@src/utils/Spin";
+import AnnualBudgetItemRow from "./AnnualBudgetItemRow";
 
 class AnnualBudgetsScreen extends PureComponent {
-  static navigationOptions = ({ navigation, screenProps }) => {
-    const showNewButton =
-      screenProps.activeSidebarScreen !== 'NewAnnualBudgetItem';
-    const { params = {} } = navigation.state;
-    const annualBudgetId = params.annualBudgetId;
+  static navigationOptions = ({ navigation }) => {
+    const annualBudgetId = navigation.getParam("annualBudgetId");
     const onPress = () => {
-      screenProps.layoutNavigate('NewAnnualBudgetItem', {
+      navigation.navigate("NewAnnualBudgetItem", {
         annualBudgetId,
       });
     };
 
     return {
-      headerRight: <PlusButton disabled={!showNewButton} onPress={onPress} />,
+      headerRight: <PlusButton onPress={onPress} />,
     };
   };
 
@@ -68,7 +65,7 @@ class AnnualBudgetsScreen extends PureComponent {
         this.props.itemsFetched(resp.annualBudgetId, resp.annualBudgetItems);
       }
     } catch (err) {
-      error('Problem downloading Annual budget data');
+      error("Problem downloading Annual budget data");
     } finally {
       this.setState({ loading: false });
     }
@@ -78,7 +75,7 @@ class AnnualBudgetsScreen extends PureComponent {
     return (
       <AnnualBudgetItemRow
         budgetItem={item}
-        screenProps={this.props.screenProps}
+        navigate={this.props.navigation.navigate}
       />
     );
   };
@@ -88,10 +85,10 @@ class AnnualBudgetsScreen extends PureComponent {
       <React.Fragment>
         <DatePicker year={this.state.year} onChange={this.onDateChange} />
         {this.props.annualBudgetItems.length === 0 && (
-          <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
+          <View style={{ padding: 20, paddingTop: 40, alignItems: "center" }}>
             <FontAwesome name="money" size={32} color={colors.success} />
             <Bold
-              style={{ margin: 5, textAlign: 'center', fontWeight: 'bold' }}
+              style={{ margin: 5, textAlign: "center", fontWeight: "bold" }}
             >
               There aren't any items yet
             </Bold>
@@ -106,8 +103,8 @@ class AnnualBudgetsScreen extends PureComponent {
       <View
         style={{
           height: 1,
-          width: '100%',
-          backgroundColor: '#CED0CE',
+          width: "100%",
+          backgroundColor: "#CED0CE",
         }}
       />
     );
@@ -118,7 +115,7 @@ class AnnualBudgetsScreen extends PureComponent {
     try {
       await this.loadBudgetItems({ year: this.state.year });
     } catch (err) {
-      error('There was a problem refreshing the list');
+      error("There was a problem refreshing the list");
     } finally {
       this.setState({ refreshing: false });
     }
@@ -140,7 +137,7 @@ class AnnualBudgetsScreen extends PureComponent {
           ListHeaderComponent={this.renderHeader}
           refreshControl={
             <RefreshControl
-              tintColor={'lightskyblue'}
+              tintColor={"lightskyblue"}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
             />
@@ -161,12 +158,12 @@ class AnnualBudgetsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "column",
   },
   list: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
 });
 
@@ -179,5 +176,5 @@ export default connect(
     itemsFetched: (annualBudgetId, annualBudgetItems) => {
       dispatch(itemsFetched(annualBudgetId, annualBudgetItems));
     },
-  }),
+  })
 )(AnnualBudgetsScreen);

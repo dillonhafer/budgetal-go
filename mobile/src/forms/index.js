@@ -1,7 +1,8 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { ButtonText } from "@src/components/Text";
 import { colors } from "@shared/theme";
+import styled from "styled-components/native";
 export {
   default as NavigationInputAccessoryView,
 } from "./NavigationInputAccessoryView";
@@ -90,6 +91,7 @@ export const Button = ({
     borderWidth: 2,
     borderRadius: borderRadius || buttonHeight / 4,
     borderColor: color,
+
     justifyContent: "center",
     alignItems: "center",
     shadowOffset: { width: 0, height: 3 },
@@ -124,20 +126,10 @@ export const Button = ({
   );
 };
 
-export const CustomFieldContainer = props => {
-  return (
-    <View
-      style={{
-        backgroundColor: "#fff",
-        borderBottomColor: "#aaa",
-        borderWidth: 0.5,
-        borderTopColor: "#fff",
-        borderRightColor: "#fff",
-        borderLeftColor: "#fff",
-        alignSelf: "stretch",
-      }}
-    >
-      {props.children}
-    </View>
-  );
-};
+export const CustomFieldContainer = styled.View({
+  backgroundColor: "#fff",
+  borderColor: "#fff",
+  borderBottomColor: colors.borderColor,
+  borderWidth: StyleSheet.hairlineWidth,
+  alignSelf: "stretch",
+});

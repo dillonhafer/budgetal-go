@@ -10,5 +10,6 @@ export const colors = {
   lines: "#ced0ce",
   yellow: "#ffd478",
   iosBlue: "#037aff",
-  screenBackground: "#ececec"
+  screenBackground: "#ececec",
+  clear: "transparent",
 };

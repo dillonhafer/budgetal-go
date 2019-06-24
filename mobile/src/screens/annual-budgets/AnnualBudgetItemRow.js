@@ -22,7 +22,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 class AnnualBudgetItemRow extends PureComponent {
   edit = () => {
-    this.props.screenProps.layoutNavigate("EditAnnualBudgetItem", {
+    this.props.navigate("EditAnnualBudgetItem", {
       annualBudgetItem: this.props.budgetItem,
     });
   };
@@ -61,7 +61,11 @@ class AnnualBudgetItemRow extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
             <MaterialCommunityIcons name="delete" color={"#fff"} size={20} />
           </View>
@@ -80,7 +84,7 @@ class AnnualBudgetItemRow extends PureComponent {
   };
 
   progress = () => {
-    this.props.screenProps.layoutNavigate("AnnualBudgetProgress", {
+    this.props.navigate("AnnualBudgetProgress", {
       budgetItem: this.props.budgetItem,
     });
   };

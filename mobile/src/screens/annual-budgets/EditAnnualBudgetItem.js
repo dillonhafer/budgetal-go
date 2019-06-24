@@ -41,7 +41,6 @@ class EditAnnualBudgetItemScreen extends Component {
 
   state = {
     loading: false,
-    showMoneyKeyboard: false,
     name: "",
     amount: 0.0,
     date: moment(),
@@ -64,16 +63,6 @@ class EditAnnualBudgetItemScreen extends Component {
   validateFields = () => {
     const { name, amount, date } = this.state;
     return name.length > 0 && amount > 0 && date.isValid();
-  };
-
-  showMoneyKeyboard = () => {
-    StatusBar.setBarStyle("light-content", true);
-    this.setState({ showMoneyKeyboard: true });
-  };
-
-  hideMoneyKeyboard = () => {
-    StatusBar.setBarStyle("light-dark", true);
-    this.setState({ showMoneyKeyboard: false });
   };
 
   updateItem = async () => {

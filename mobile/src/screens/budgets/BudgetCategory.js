@@ -80,12 +80,20 @@ class BudgetCategoryScreen extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{
+              flex: 1,
+              borderTopLeftRadius: 12,
+              borderBottomLeftRadius: 12,
+              overflow: "hidden",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: colors.primary,
+            }}
           >
             <MaterialCommunityIcons name="pencil" color={"#fff"} size={20} />
           </View>
         ),
-        backgroundColor: colors.primary,
+        backgroundColor: colors.clear,
         underlayColor: colors.primary + "70",
         onPress: () =>
           this.props.navigation.navigate("EditBudgetItem", {
@@ -95,7 +103,13 @@ class BudgetCategoryScreen extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              borderRadius: 12,
+              overflow: "hidden",
+              alignItems: "center",
+            }}
           >
             <MaterialCommunityIcons name="delete" color={"#fff"} size={20} />
           </View>

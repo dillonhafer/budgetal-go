@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Switch } from 'react-native';
-import { colors } from '@shared/theme';
+import React, { PureComponent } from "react";
+import { View, Text, StyleSheet, Switch } from "react-native";
+import { colors } from "@shared/theme";
 
 class SwitchInput extends PureComponent {
   state = {
@@ -18,7 +18,7 @@ class SwitchInput extends PureComponent {
     const selectedValue = internalValue || defaultValue || false;
 
     return (
-      <View style={{ width: '100%', flexDirection: 'column' }}>
+      <View style={{ width: "100%", flexDirection: "column" }}>
         <View style={styles.row}>
           <View>
             <Text style={styles.displayLabel}>{label}</Text>
@@ -26,7 +26,7 @@ class SwitchInput extends PureComponent {
           <Switch
             style={styles.switch}
             value={selectedValue}
-            onTintColor={onTintColor || colors.primary}
+            trackColor={{ true: onTintColor || colors.primary }}
             onValueChange={internalValue =>
               this.onValueChange({ internalValue })
             }
@@ -40,9 +40,9 @@ class SwitchInput extends PureComponent {
 const styles = StyleSheet.create({
   row: {
     height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   displayLabel: {
     marginLeft: 20,

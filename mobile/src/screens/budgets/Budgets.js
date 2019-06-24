@@ -76,19 +76,14 @@ class BudgetsScreen extends Component {
       status = "success";
     }
 
-    const isCurrent =
-      this.props.currentBudgetCategory.id > 0 &&
-      this.props.currentBudgetCategory.id === budgetCategory.id;
-
     return (
       <View style={styles.categoryRow}>
         <TouchableOpacity
           key={budgetCategory.id}
-          disabled={isCurrent}
           activeOpacity={0.6}
           onPress={() => {
             this.props.changeCategory(budgetCategory);
-            this.props.screenProps.layoutNavigate("BudgetCategory", {
+            this.props.navigation.navigate("BudgetCategory", {
               budgetCategory,
             });
           }}
@@ -121,21 +116,9 @@ class BudgetsScreen extends Component {
   };
 
   renderFooter = () => {
-    const isCurrent = this.props.currentBudgetCategory.name === "import";
-
-    let activeRowStyles = {};
-    if (isCurrent) {
-      activeRowStyles.backgroundColor = "#ddd";
-    }
-
     return (
       <View style={[styles.categoryRow, { marginBottom: 15 }]}>
-        <TouchableOpacity
-          activeOpacity={0.6}
-          disabled={isCurrent}
-          style={activeRowStyles}
-          onPress={this.onImportPress}
-        >
+        <TouchableOpacity activeOpacity={0.6} onPress={this.onImportPress}>
           <FormCard>
             <View
               style={{
@@ -168,7 +151,7 @@ class BudgetsScreen extends Component {
 
   onImportPress = () => {
     this.props.changeCategory({ id: -1, name: "import" });
-    this.props.screenProps.layoutNavigate("ImportExpenses");
+    this.props.navigation.navigate("ImportExpenses");
   };
 
   renderHeader = () => {
