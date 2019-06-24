@@ -127,6 +127,9 @@ func App() *buffalo.App {
 		//
 		////////////////////
 
+		// GraphQL
+		app.POST("/graphql", withCurrentUser(Graphql))
+
 		// Monthly Statistics
 		app.GET("/monthly-statistics/{year}/{month}", withCurrentUser(MonthlyStatisticsShow))
 
