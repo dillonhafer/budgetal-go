@@ -23,10 +23,7 @@ func Graphql(c buffalo.Context, currentUser *models.User) error {
 		return err
 	}
 
-	// Build Schema
-	rootQuery := schema.RootQuery
-	schemaConfig := graphql.SchemaConfig{Query: graphql.NewObject(rootQuery)}
-	schema, err := graphql.NewSchema(schemaConfig)
+	schema, err := graphql.NewSchema(schema.BudgetalSchemaConfig)
 	if err != nil {
 		log.Fatalf("failed to create new schema, error: %v", err)
 	}
