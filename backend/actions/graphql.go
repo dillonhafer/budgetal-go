@@ -12,7 +12,9 @@ import (
 )
 
 type graphqlParams struct {
-	Query string `form:"query"`
+	Query     string                 `form:"query"`
+	Operation string                 `json:"operation"`
+	Variables map[string]interface{} `json:"variables"`
 }
 
 // Graphql is The Graphql Endpoint
@@ -29,9 +31,10 @@ func Graphql(c buffalo.Context, currentUser *models.User) error {
 	}
 
 	params := graphql.Params{
-		Schema:        schema,
-		RequestString: gp.Query,
-		Context:       context.WithValue(context.Background(), "currentUser", currentUser),
+		Schema:         schema,
+		RequestString:  gp.Query,
+		VariableValues: gp.Variables,
+		Context:        context.WithValue(context.Background(), "currentUser", currentUser),
 	}
 
 	response := graphql.Do(params)
