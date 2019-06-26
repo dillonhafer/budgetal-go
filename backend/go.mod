@@ -32,14 +32,14 @@ require (
 	github.com/leesper/go_rng v0.0.0-20171009123644-5344a9259b21 // indirect
 	github.com/lib/pq v1.1.0 // indirect
 	github.com/markbates/grift v1.0.5
+	github.com/mitchellh/mapstructure v1.1.2
 	github.com/pkg/errors v0.8.1
 	github.com/rs/cors v1.6.0
 	golang.org/x/crypto v0.0.0-20190422183909-d864b10871cd
 	golang.org/x/image v0.0.0-20190417020941-4e30a6eb7d9a // indirect
 	golang.org/x/net v0.0.0-20190420063019-afa5a82059c6 // indirect
-	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	golang.org/x/sys v0.0.0-20190422165155-953cdadca894 // indirect
-	golang.org/x/tools v0.0.0-20190422233926-fe54fb35175b // indirect
+	golang.org/x/tools v0.0.0-20190625160430-252024b82959 // indirect
 	gonum.org/v1/gonum v0.0.0-20190430210020-9827ae2933ff // indirect
 	google.golang.org/appengine v1.5.0 // indirect
 )
