@@ -1,3 +1,6 @@
+import normalize from "./normalize";
+export { default as normalize } from "./normalize";
+
 export const colors = {
   primary: "#108ee9",
   drawerActive: "#2eb1fc",
@@ -11,5 +14,12 @@ export const colors = {
   yellow: "#ffd478",
   iosBlue: "#037aff",
   screenBackground: "#ececec",
-  clear: "transparent",
+  clear: "transparent"
+};
+
+export const dimensions = {
+  paddingHorizontal: normalize(20),
+  drawerIconSize: normalize(19.2),
+  navHeaderHeight: 44,
+  modalWidth: 315
 };
