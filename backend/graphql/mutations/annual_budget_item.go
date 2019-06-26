@@ -12,19 +12,24 @@ import (
 // AnnualBudgetItemDelete will delete an annaul budget item
 func AnnualBudgetItemDelete(params graphql.ResolveParams) (interface{}, error) {
 	currentUser := params.Context.Value("currentUser").(*models.User)
-	id, isOK := params.Args["id"].(int)
+	idString, isOK := params.Args["id"].(string)
 	if !isOK {
 		return nil, nil
 	}
 
-	item := &models.AnnualBudgetItem{ID: id}
-	findErr := findAnnualBudgetItem(item, currentUser.ID)
-	if findErr != nil {
+	id, err := strconv.Atoi(idString)
+	if err != nil {
 		return nil, nil
 	}
 
-	deleteErr := models.DB.Destroy(item)
-	if deleteErr != nil {
+	item := &models.AnnualBudgetItem{ID: id}
+	err = findAnnualBudgetItem(item, currentUser.ID)
+	if err != nil {
+		return nil, nil
+	}
+
+	err = models.DB.Destroy(item)
+	if err != nil {
 		return nil, nil
 	}
 
@@ -32,6 +37,13 @@ func AnnualBudgetItemDelete(params graphql.ResolveParams) (interface{}, error) {
 	if findErr != nil {
 		return nil, nil
 	}
+
+	annualBudgetItems := models.AnnualBudgetItems{}
+	err = models.DB.BelongsTo(annualBudget).Order(`lower(name)`).All(&annualBudgetItems)
+	if err != nil {
+		return nil, nil
+	}
+	annualBudget.AnnualBudgetItems = annualBudgetItems
 
 	return annualBudget, nil
 }
