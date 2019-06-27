@@ -17,6 +17,9 @@ import { colors } from "@shared/theme";
 import DropdownAlert from "react-native-dropdownalert";
 import RootNavigator from "@src/navigators/root";
 import registerForPushNotifications from "@src/utils/registerForPushNotifications";
+import { ApolloProvider } from "@apollo/react-hooks";
+import { createApolloClient } from "@src/utils/apollo";
+const client = createApolloClient();
 
 StatusBar.setBarStyle("light-content", true);
 const store = createStore(reducers, applyMiddleware(thunk, apiMiddleware));
@@ -159,18 +162,20 @@ export default class App extends Component {
     }
 
     return (
-      <Provider store={store}>
-        <React.Fragment>
-          <RootNavigator uriPrefix={prefix} />
-          <DropdownAlert
-            closeInterval={this.state.delay}
-            renderImage={this.renderAlertImage}
-            successColor={colors.success + "f9"}
-            errorColor={colors.error + "f9"}
-            ref={ref => (this.dropdown = ref)}
-          />
-        </React.Fragment>
-      </Provider>
+      <ApolloProvider client={client}>
+        <Provider store={store}>
+          <React.Fragment>
+            <RootNavigator uriPrefix={prefix} />
+            <DropdownAlert
+              closeInterval={this.state.delay}
+              renderImage={this.renderAlertImage}
+              successColor={colors.success + "f9"}
+              errorColor={colors.error + "f9"}
+              ref={ref => (this.dropdown = ref)}
+            />
+          </React.Fragment>
+        </Provider>
+      </ApolloProvider>
     );
   }
 }

@@ -1,23 +1,13 @@
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform } from "react-native";
 import {
   GetAuthenticationToken,
   RemoveAuthentication,
-} from '@src/utils/authentication';
-import { error } from '@src/notify';
-import { Util } from 'expo';
-import Constants from 'expo-constants';
+} from "@src/utils/authentication";
+import { error } from "@src/notify";
+import { Util } from "expo";
+import { baseURL } from "@src/utils/apollo";
 
-const FETCH_TIMEOUT_MESSAGE = 'Request timed out';
-
-// Default URL to production
-let baseURL = 'https://api.budgetal.com';
-
-// eslint-disable-next-line no-undef
-if (__DEV__) {
-  const expoHost = Constants.manifest.debuggerHost || '';
-  const port = '3000';
-  baseURL = 'http://' + expoHost.replace(/:\d+/, `:${port}`);
-}
+const FETCH_TIMEOUT_MESSAGE = "Request timed out";
 
 let didTimeOut = false;
 const fetchWithTimeout = (url, req, FETCH_TIMEOUT = 5000) => {
@@ -49,26 +39,26 @@ const fetchWithTimeout = (url, req, FETCH_TIMEOUT = 5000) => {
 const base = async (path, method, headers = {}, body = {}) => {
   try {
     let sessionToken = await GetAuthenticationToken();
-    sessionToken = sessionToken || '';
+    sessionToken = sessionToken || "";
 
     let req = {
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'X-Budgetal-Session': sessionToken,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-Budgetal-Session": sessionToken,
         ...headers,
       },
-      credentials: 'include',
+      credentials: "include",
       method,
     };
 
-    if (method !== 'GET') {
-      switch (req.headers['Content-Type']) {
-        case 'application/json':
+    if (method !== "GET") {
+      switch (req.headers["Content-Type"]) {
+        case "application/json":
           req.body = JSON.stringify(body);
           break;
-        case 'multipart/form-data':
-          delete req.headers['Content-Type'];
+        case "multipart/form-data":
+          delete req.headers["Content-Type"];
           req.body = body;
           break;
         default:
@@ -76,24 +66,24 @@ const base = async (path, method, headers = {}, body = {}) => {
       }
     }
 
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       StatusBar.setNetworkActivityIndicatorVisible(true);
     }
     const resp = await fetchWithTimeout(baseURL + path, req);
 
     switch (resp.status) {
       case 503:
-        error('We are performing maintenance. We should be done shortly.');
+        error("We are performing maintenance. We should be done shortly.");
         return;
       case 500:
       case 404:
-        error('Something went wrong');
+        error("Something went wrong");
         return;
       case 403:
-        error('Permission Denied. This incident will be reported');
+        error("Permission Denied. This incident will be reported");
         return;
       case 401:
-        error('You are not logged in. Your session may have expired.');
+        error("You are not logged in. Your session may have expired.");
         await RemoveAuthentication();
         Util.reload();
         return;
@@ -113,27 +103,27 @@ const base = async (path, method, headers = {}, body = {}) => {
     const json = (await resp.json()) || {};
     return { ...json, ok: true };
   } catch (err) {
-    const errorMessage = err.error || 'Something went wrong';
+    const errorMessage = err.error || "Something went wrong";
     error(errorMessage, 2000);
   } finally {
-    if (Platform.OS === 'ios') {
+    if (Platform.OS === "ios") {
       StatusBar.setNetworkActivityIndicatorVisible(false);
     }
   }
 };
 
 export const _get = (path, headers = {}) => {
-  return base(path, 'GET', headers);
+  return base(path, "GET", headers);
 };
 export const _post = (path, body = {}, headers = {}) => {
-  return base(path, 'POST', headers, body);
+  return base(path, "POST", headers, body);
 };
 export const _put = (path, body = {}, headers = {}) => {
-  return base(path, 'PUT', headers, body);
+  return base(path, "PUT", headers, body);
 };
 export const _patch = (path, body = {}, headers = {}) => {
-  return base(path, 'PATCH', headers, body);
+  return base(path, "PATCH", headers, body);
 };
 export const _delete = (path, body = {}, headers = {}) => {
-  return base(path, 'DELETE', headers, body);
+  return base(path, "DELETE", headers, body);
 };

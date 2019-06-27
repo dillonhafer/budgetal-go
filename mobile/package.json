@@ -17,7 +17,9 @@
     "terminate": "xcrun simctl terminate booted 'host.exp.Exponent'",
     "restart": "yarn terminate && yarn launch",
     "reset-password": "xcrun simctl openurl booted exp://127.0.0.1:19000/--/reset-password?reset_password_token=testtoken",
-    "ver": "node tasks/version.js"
+    "ver": "node tasks/version.js",
+    "codegen:clean": "find . -type d -name '__generated__' | xargs rm -rf",
+    "codegen": "yarn codegen:clean && apollo client:codegen --endpoint 'http://localhost:3000/graphql' --target typescript"
   },
   "jest": {
     "preset": "jest-expo"
@@ -25,6 +27,8 @@
   "dependencies": {
     "@shared": "file:../shared",
     "@types/styled-components": "^4.1.16",
+    "apollo-client-preset": "^1.0.8",
+    "apollo-link-context": "^1.0.18",
     "expo": "^33.0.0",
     "expo-asset": "^5.0.1",
     "expo-blur": "~5.0.1",
@@ -32,9 +36,12 @@
     "expo-font": "~5.0.1",
     "expo-permissions": "~5.0.1",
     "expo-secure-store": "~5.0.1",
+    "graphql": "^14.3.1",
+    "graphql-tag": "^2.10.1",
     "lottie-react-native": "~2.6.1",
     "papaparse": "^4.3.6",
     "react": "16.8.3",
+    "react-apollo": "3.0.0-beta.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-dropdownalert": "^3.3.0",
     "react-native-keyboard-aware-scroll-view": "^0.4.1",
