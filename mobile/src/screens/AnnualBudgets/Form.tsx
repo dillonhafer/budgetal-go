@@ -75,6 +75,7 @@ const Form = ({ item, afterSubmit }: Props) => {
           style={{ height: 50 }}
           placeholder="Name"
           defaultValue={name}
+          autoFocus
           underlineColorAndroid={"transparent"}
           returnKeyType="next"
           onChangeText={setName}
