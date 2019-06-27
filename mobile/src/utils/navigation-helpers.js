@@ -10,14 +10,10 @@ export const NavigationHeight = 44;
 export const SidebarNavigationHeight = 43.5;
 
 export const BlurViewInsetProps = {
-  contentInset: { top: NavigationHeight },
-  contentOffset: { y: -NavigationHeight },
+  contentInset: { top: NavigationHeight, bottom: 0, left: 0, right: 0 },
+  contentOffset: { y: -NavigationHeight, x: 0 },
   contentInsetAdjustmentBehavior: "automatic",
-  ...Platform.select({
-    android: {
-      paddingTop: NavigationHeight + 22,
-    },
-  }),
+  automaticallyAdjustContentInsets: true,
 };
 
 export const BlurViewNavigationOptions = {
