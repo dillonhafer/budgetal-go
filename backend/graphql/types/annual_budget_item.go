@@ -9,25 +9,25 @@ var AnnualBudgetItem = graphql.NewObject(graphql.ObjectConfig{
 	Name: "AnnualBudgetItem",
 	Fields: graphql.Fields{
 		"id": &graphql.Field{
-			Type: graphql.ID,
+			Type: graphql.NewNonNull(graphql.ID),
 		},
 		"annualBudgetId": &graphql.Field{
-			Type: graphql.String,
+			Type: graphql.NewNonNull(graphql.String),
 		},
 		"paid": &graphql.Field{
-			Type: graphql.Boolean,
+			Type: graphql.NewNonNull(graphql.Boolean),
 		},
 		"interval": &graphql.Field{
-			Type: graphql.Int,
+			Type: graphql.NewNonNull(graphql.Int),
 		},
 		"amount": &graphql.Field{
-			Type: graphql.String,
+			Type: graphql.NewNonNull(graphql.String),
 		},
 		"dueDate": &graphql.Field{
-			Type: graphql.String,
+			Type: graphql.NewNonNull(graphql.String),
 		},
 		"name": &graphql.Field{
-			Type: graphql.String,
+			Type: graphql.NewNonNull(graphql.String),
 		},
 	},
 })
