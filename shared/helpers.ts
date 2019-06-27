@@ -6,13 +6,17 @@ export const monthName = (month: number) => {
   return moment.months()[month - 1];
 };
 
-export const currencyf = (number: string, dollarSign = "$", fixed = 2) => {
-  if (isNaN(parseFloat(number))) {
+export const currencyf = (
+  number: string | number,
+  dollarSign = "$",
+  fixed = 2
+) => {
+  if (isNaN(parseFloat(String(number)))) {
     number = "0";
   }
 
   const group3Regex = /(\d)(?=(\d{3})+\.)/g;
-  const newNumber = parseFloat(number).toFixed(2);
+  const newNumber = parseFloat(String(number)).toFixed(2);
   const str = dollarSign + newNumber.replace(group3Regex, "$1,");
   return fixed > 0 ? str : str.slice(0, -3);
 };

@@ -36,6 +36,7 @@
     "expo-font": "~5.0.1",
     "expo-permissions": "~5.0.1",
     "expo-secure-store": "~5.0.1",
+    "fast-deep-equal": "^2.0.1",
     "graphql": "^14.3.1",
     "graphql-tag": "^2.10.1",
     "lottie-react-native": "~2.6.1",

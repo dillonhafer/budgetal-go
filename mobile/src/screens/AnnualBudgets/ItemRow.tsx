@@ -13,6 +13,7 @@ import styled from "styled-components/native";
 import { GetAnnualBudget_annualBudget_annualBudgetItems } from "./__generated__/GetAnnualBudget";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import isEqual from "fast-deep-equal";
 
 const ANNUAL_BUDGET_ITEM_DELETE = gql`
   mutation AnnualBudgetItemDelete($id: ID!) {
@@ -174,4 +175,8 @@ const ItemRow = ({ budgetItem, navigate }: Props) => {
   );
 };
 
-export default ItemRow;
+const shouldSkipUpdate = (prev: Props, next: Props) => {
+  return isEqual(prev.budgetItem, next.budgetItem);
+};
+
+export default React.memo(ItemRow, shouldSkipUpdate);
