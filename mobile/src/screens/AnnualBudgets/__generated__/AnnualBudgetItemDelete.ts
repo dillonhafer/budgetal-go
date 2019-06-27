@@ -6,15 +6,9 @@
 // GraphQL mutation operation: AnnualBudgetItemDelete
 // ====================================================
 
-export interface AnnualBudgetItemDelete_annualBudgetItemDelete_annualBudgetItems {
-  __typename: "AnnualBudgetItem";
-  id: string;
-}
-
 export interface AnnualBudgetItemDelete_annualBudgetItemDelete {
   __typename: "AnnualBudget";
   id: string;
-  annualBudgetItems: (AnnualBudgetItemDelete_annualBudgetItemDelete_annualBudgetItems | null)[] | null;
 }
 
 export interface AnnualBudgetItemDelete {

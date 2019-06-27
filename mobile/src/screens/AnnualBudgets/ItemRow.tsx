@@ -18,9 +18,6 @@ const ANNUAL_BUDGET_ITEM_DELETE = gql`
   mutation AnnualBudgetItemDelete($id: ID!) {
     annualBudgetItemDelete(id: $id) {
       id
-      annualBudgetItems {
-        id
-      }
     }
   }
 `;
@@ -136,6 +133,7 @@ interface Props {
 const ItemRow = ({ budgetItem, navigate }: Props) => {
   const [deleteItem] = useMutation(ANNUAL_BUDGET_ITEM_DELETE, {
     variables: { id: budgetItem.id },
+    refetchQueries: ["GetAnnualBudget"],
   });
 
   const showProgress = () =>
