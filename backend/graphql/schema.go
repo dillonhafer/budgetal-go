@@ -33,6 +33,19 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: resolvers.Budget,
 		},
+		"monthlyStatistic": &graphql.Field{
+			Type:        graphql.NewList(types.MonthlyStatistic),
+			Description: "Get the statistics of a budget for a given month",
+			Args: graphql.FieldConfigArgument{
+				"year": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+				"month": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+			},
+			Resolve: resolvers.MonthlyStatistic,
+		},
 	},
 })
 
