@@ -12,10 +12,7 @@ var AnnualBudget = graphql.NewObject(graphql.ObjectConfig{
 			Type: graphql.NewNonNull(graphql.ID),
 		},
 		"year": &graphql.Field{
-			Type: graphql.NewNonNull(graphql.String),
-		},
-		"name": &graphql.Field{
-			Type: graphql.NewNonNull(graphql.Boolean),
+			Type: graphql.NewNonNull(graphql.Int),
 		},
 		"annualBudgetItems": &graphql.Field{
 			Type: graphql.NewList(AnnualBudgetItem),
