@@ -46,6 +46,16 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: resolvers.MonthlyStatistic,
 		},
+		"netWorth": &graphql.Field{
+			Type:        graphql.NewList(types.NetWorth),
+			Description: "Get the networth for a given year",
+			Args: graphql.FieldConfigArgument{
+				"year": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+			},
+			Resolve: resolvers.NetWorth,
+		},
 	},
 })
 

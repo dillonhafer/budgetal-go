@@ -7,13 +7,14 @@ import (
 
 // NetWorth db model
 type NetWorth struct {
-	ID        int           `json:"id" db:"id"`
-	UserID    int           `json:"userId" db:"user_id"`
-	Year      int           `json:"year" db:"year"`
-	Month     int           `json:"month" db:"month"`
-	Items     NetWorthItems `json:"items" fk_id:"net_worth_id" has_many:"net_worth_items"`
-	CreatedAt time.Time     `json:"-" db:"created_at"`
-	UpdatedAt time.Time     `json:"-" db:"updated_at"`
+	ID            int           `json:"id" db:"id"`
+	UserID        int           `json:"userId" db:"user_id"`
+	Year          int           `json:"year" db:"year"`
+	Month         int           `json:"month" db:"month"`
+	Items         NetWorthItems `json:"items" fk_id:"net_worth_id" has_many:"net_worth_items"`
+	NetWorthItems NetWorthItems `json:"-" db:"-"`
+	CreatedAt     time.Time     `json:"-" db:"created_at"`
+	UpdatedAt     time.Time     `json:"-" db:"updated_at"`
 }
 
 // NetWorths db model
@@ -46,6 +47,7 @@ func (nw *NetWorths) LoadItems() {
 			if netWorth.ID == item.NetWorthID {
 				(*nw)[i].Items = append(netWorth.Items, item)
 			}
+			(*nw)[i].NetWorthItems = (*nw)[i].Items
 		}
 	}
 }
