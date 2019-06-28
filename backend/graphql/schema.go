@@ -56,6 +56,11 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: resolvers.NetWorth,
 		},
+		"assets": &graphql.Field{
+			Type:        graphql.NewList(types.AssetLiability),
+			Description: "Get the assets and liabilities for a user",
+			Resolve:     resolvers.AssetsLiabilities,
+		},
 	},
 })
 

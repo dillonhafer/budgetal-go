@@ -5,7 +5,7 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-// NetWorth resolve annual budgets
+// NetWorth resolve net worth items
 func NetWorth(params graphql.ResolveParams) (interface{}, error) {
 	currentUser := params.Context.Value("currentUser").(*models.User)
 
@@ -17,9 +17,8 @@ func NetWorth(params graphql.ResolveParams) (interface{}, error) {
 	// Assets/Liabilities
 	assets := models.AssetsLiabilities{}
 	models.DB.Where("user_id = ?", currentUser.ID).All(&assets)
-	// assets, liabilities := al.Partition()
 
-	// // Net Worth Items
+	// Net Worth Items
 	months := models.NetWorths{}
 	months.FindOrCreateYearTemplates(currentUser.ID, year)
 	months.LoadItems()
