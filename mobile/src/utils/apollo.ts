@@ -1,12 +1,9 @@
-import Constants from "expo-constants";
 import { GetAuthenticationToken } from "@src/utils/authentication";
-
-import { ApolloClient } from "apollo-client";
-import { ApolloProvider } from "@apollo/react-hooks";
-import { ApolloLink } from "apollo-link";
-import { HttpLink, createHttpLink } from "apollo-link-http";
-import { setContext } from "apollo-link-context";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient } from "apollo-client";
+import { setContext } from "apollo-link-context";
+import { HttpLink } from "apollo-link-http";
+import Constants from "expo-constants";
 
 let __baseURL = "https://api.budgetal.com";
 if (__DEV__) {
@@ -16,7 +13,7 @@ if (__DEV__) {
 }
 export const baseURL = __baseURL;
 
-const setAuthorizationLink = setContext(async (request, previousContext) => {
+const setAuthorizationLink = setContext(async () => {
   const token = await GetAuthenticationToken();
   return {
     headers: { "X-Budgetal-Session": token },
