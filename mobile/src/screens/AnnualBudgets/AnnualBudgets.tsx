@@ -21,7 +21,7 @@ import { GetAnnualBudget_annualBudget_annualBudgetItems } from "./__generated__/
 interface Item extends GetAnnualBudget_annualBudget_annualBudgetItems {}
 
 const GET_ANNUAL_BUDGET = gql`
-  query GetAnnualBudget($year: String!) {
+  query GetAnnualBudget($year: Int!) {
     annualBudget(year: $year) {
       annualBudgetItems {
         id
@@ -49,11 +49,11 @@ const MissingText = styled(Bold)({
   textAlign: "center",
 });
 
-const defaultYear = `${new Date().getFullYear()}`;
+const defaultYear = parseInt(`${new Date().getFullYear()}`);
 
 interface HeaderProps {
-  year: string;
-  setYear(year: string): void;
+  year: number;
+  setYear(year: number): void;
 }
 
 const Container = styled.View({
@@ -65,7 +65,7 @@ const Header = ({ year, setYear }: HeaderProps) => {
   return (
     <DatePicker
       year={year}
-      onChange={({ year }: { year: string }) => {
+      onChange={({ year }: { year: number }) => {
         setYear(year);
       }}
     />

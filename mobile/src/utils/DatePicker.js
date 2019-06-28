@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   LayoutAnimation,
   Picker,
   View,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
-import moment from 'moment';
-import { range } from 'lodash';
-import { colors } from '@shared/theme';
-import { Ionicons } from '@expo/vector-icons';
-import { Bold } from '@src/components/Text';
+} from "react-native";
+import moment from "moment";
+import { range } from "lodash";
+import { colors } from "@shared/theme";
+import { Ionicons } from "@expo/vector-icons";
+import { Bold } from "@src/components/Text";
 
 class DatePicker extends Component {
   state = {
@@ -25,7 +25,11 @@ class DatePicker extends Component {
 
   onValueChange = ({ month, year }) => {
     LayoutAnimation.easeInEaseOut();
-    this.setState({ month: month, year: year, showPicker: false });
+    this.setState({
+      month: parseInt(month),
+      year: parseInt(year),
+      showPicker: false,
+    });
     this.props.onChange({ month, year });
   };
 
@@ -37,16 +41,16 @@ class DatePicker extends Component {
   render() {
     const { month, year } = this.props;
 
-    let date = moment(`${year}-${month}`, 'YYYY-MM');
-    let yearWidth = '40%';
-    let monthWidth = '60%';
-    let format = 'MMMM YYYY';
+    let date = moment(`${year}-${month}`, "YYYY-MM");
+    let yearWidth = "40%";
+    let monthWidth = "60%";
+    let format = "MMMM YYYY";
 
     if (month === undefined) {
-      date = moment(`${year}-1`, 'YYYY-MM');
-      yearWidth = '100%';
-      monthWidth = '0%';
-      format = 'YYYY';
+      date = moment(`${year}-1`, "YYYY-MM");
+      yearWidth = "100%";
+      monthWidth = "0%";
+      format = "YYYY";
     }
 
     const selectedMonth = parseInt(this.state.month || month, 10);
@@ -69,7 +73,7 @@ class DatePicker extends Component {
           <View style={styles.picker}>
             <Picker
               style={{ width: monthWidth }}
-              itemStyle={{ fontFamily: 'System' }}
+              itemStyle={{ fontFamily: "System" }}
               selectedValue={selectedMonth}
               onValueChange={itemValue =>
                 this.onValueChange({ month: itemValue, year })
@@ -80,7 +84,7 @@ class DatePicker extends Component {
             <Picker
               style={{ width: yearWidth }}
               selectedValue={`${this.state.year || year}`}
-              itemStyle={{ fontFamily: 'System' }}
+              itemStyle={{ fontFamily: "System" }}
               onValueChange={itemValue =>
                 this.onValueChange({ year: itemValue, month })
               }
@@ -101,12 +105,12 @@ class DatePicker extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    flexDirection: "column",
     paddingTop: 10,
   },
   picker: {
-    flexDirection: 'row',
+    flexDirection: "row",
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.primary,
     borderLeftWidth: 0,
@@ -116,20 +120,20 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   currentDate: {
-    textAlign: 'left',
-    fontWeight: '800',
+    textAlign: "left",
+    fontWeight: "800",
     fontSize: 18,
-    color: '#444',
+    color: "#444",
   },
   dateTextContainer: {
     borderWidth: 0,
-    borderColor: '#fff',
+    borderColor: "#fff",
     marginHorizontal: 10,
     borderBottomColor: colors.primary,
     borderBottomWidth: 2,
     paddingBottom: 4,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
 });
 export default DatePicker;

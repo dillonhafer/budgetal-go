@@ -15,7 +15,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Get the annual budget for a given year",
 			Args: graphql.FieldConfigArgument{
 				"year": &graphql.ArgumentConfig{
-					Type: graphql.String,
+					Type: graphql.Int,
 				},
 			},
 			Resolve: resolvers.AnnualBudget,
