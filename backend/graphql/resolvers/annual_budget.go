@@ -1,23 +1,16 @@
 package resolvers
 
 import (
-	"time"
-
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 )
-
-func allowedYear(year int) bool {
-	currentYear := time.Now().Local().Year()
-	return year > 2014 && year < currentYear+4
-}
 
 // AnnualBudget resolve annual budgets
 func AnnualBudget(params graphql.ResolveParams) (interface{}, error) {
 	currentUser := params.Context.Value("currentUser").(*models.User)
 
 	year, isOK := params.Args["year"].(int)
-	if !isOK || !allowedYear(year) {
+	if !isOK || !AllowedYear(year) {
 		return nil, nil
 	}
 

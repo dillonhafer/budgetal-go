@@ -15,10 +15,23 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Get the annual budget for a given year",
 			Args: graphql.FieldConfigArgument{
 				"year": &graphql.ArgumentConfig{
-					Type: graphql.Int,
+					Type: graphql.NewNonNull(graphql.Int),
 				},
 			},
 			Resolve: resolvers.AnnualBudget,
+		},
+		"budget": &graphql.Field{
+			Type:        types.Budget,
+			Description: "Get the budget for a given month",
+			Args: graphql.FieldConfigArgument{
+				"year": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+				"month": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+			},
+			Resolve: resolvers.Budget,
 		},
 	},
 })

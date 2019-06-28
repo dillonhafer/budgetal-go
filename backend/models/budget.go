@@ -9,13 +9,14 @@ import (
 )
 
 type Budget struct {
-	ID        int         `json:"id" db:"id"`
-	UserID    int         `json:"-" db:"user_id"`
-	Month     int         `json:"month" db:"month"`
-	Year      int         `json:"year" db:"year"`
-	Income    json.Number `json:"income" db:"monthly_income"`
-	CreatedAt time.Time   `json:"-" db:"created_at"`
-	UpdatedAt time.Time   `json:"-" db:"updated_at"`
+	ID               int              `json:"id" db:"id"`
+	UserID           int              `json:"-" db:"user_id"`
+	Month            int              `json:"month" db:"month"`
+	Year             int              `json:"year" db:"year"`
+	Income           json.Number      `json:"income" db:"monthly_income"`
+	CreatedAt        time.Time        `json:"-" db:"created_at"`
+	UpdatedAt        time.Time        `json:"-" db:"updated_at"`
+	BudgetCategories []BudgetCategory `json:"" db:"-"`
 }
 
 type Budgets []Budget
