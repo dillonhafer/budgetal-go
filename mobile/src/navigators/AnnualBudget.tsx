@@ -24,17 +24,12 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       screen: AnnualBudgetsScreen,
       path: "annual-budgets/:year",
       navigationOptions: ({ navigation }: NavigationScreenConfigProps) => {
-        const year =
-          (navigation.state.params && navigation.state.params.year) ||
-          new Date().getFullYear();
+        const year = navigation.getParam("year", new Date().getFullYear());
 
         return {
-          gesturesEnabled: false,
           headerTitle: <HeaderText>ANNUAL BUDGETS</HeaderText>,
           headerBackTitle: `${year}`,
-          headerStyle,
           headerBackTitleStyle,
-          ...BlurViewNavigationOptions,
           ...BurgerNavigationOptions,
         };
       },
@@ -43,25 +38,20 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       screen: ProgressScreen,
       path: "annual-budgets/:budgetItem",
       navigationOptions: () => ({
-        ...BlurViewNavigationOptions,
         headerTitle: <HeaderText>PROGRESS</HeaderText>,
-        headerStyle,
       }),
     },
     NewAnnualBudgetItem: {
       screen: NewAnnualBudgetItemScreen,
       path: "newAnnualBudgetItem",
       navigationOptions: () => ({
-        ...BlurViewNavigationOptions,
         headerTitle: <HeaderText>NEW ANNUAL ITEM</HeaderText>,
-        headerStyle,
       }),
     },
     EditAnnualBudgetItem: {
       screen: EditAnnualBudgetItemScreen,
       path: "editAnnualBudgetItem",
       navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
-        ...BlurViewNavigationOptions,
         headerTitle: (
           <HeaderText>
             EDIT{" "}
@@ -70,7 +60,6 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
               .name.toUpperCase()}
           </HeaderText>
         ),
-        headerStyle,
       }),
     },
   },
@@ -79,7 +68,10 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
-    defaultNavigationOptions: BlurViewNavigationOptions,
+    defaultNavigationOptions: {
+      ...BlurViewNavigationOptions,
+      headerStyle,
+    },
   }
 );
 

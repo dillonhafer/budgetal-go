@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/react-hooks";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "@shared/theme";
+import { ListSeparator } from "@src/components/ListRow";
 import { Bold } from "@src/components/Text";
 import DatePicker from "@src/utils/DatePicker";
 import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
@@ -15,7 +16,6 @@ import {
 } from "react-navigation";
 import styled from "styled-components/native";
 import ItemRow from "./ItemRow";
-import { ListSeparator } from "@src/components/ListRow";
 import { GetAnnualBudget_annualBudget_annualBudgetItems } from "./__generated__/GetAnnualBudget";
 
 interface Item extends GetAnnualBudget_annualBudget_annualBudgetItems {}
@@ -51,26 +51,10 @@ const MissingText = styled(Bold)({
 
 const defaultYear = parseInt(`${new Date().getFullYear()}`);
 
-interface HeaderProps {
-  year: number;
-  setYear(year: number): void;
-}
-
 const Container = styled.View({
   flex: 1,
   backgroundColor: "#fff",
 });
-
-const Header = ({ year, setYear }: HeaderProps) => {
-  return (
-    <DatePicker
-      year={year}
-      onChange={({ year }) => {
-        setYear(year);
-      }}
-    />
-  );
-};
 
 const Empty = () => (
   <MissingContainer>
@@ -115,7 +99,15 @@ const AnnualBudgetScreen = ({ navigation }: Props) => {
         <FlatList
           {...BlurViewInsetProps}
           contentInsetAdjustmentBehavior="automatic"
-          ListHeaderComponent={<Header year={year} setYear={setYear} />}
+          ListHeaderComponent={
+            <DatePicker
+              year={year}
+              onChange={({ year }) => {
+                navigation.setParams({ year });
+                setYear(year);
+              }}
+            />
+          }
           ListEmptyComponent={<Empty />}
           refreshControl={
             <RefreshControl
