@@ -65,7 +65,7 @@ const Header = ({ year, setYear }: HeaderProps) => {
   return (
     <DatePicker
       year={year}
-      onChange={({ year }: { year: number }) => {
+      onChange={({ year }) => {
         setYear(year);
       }}
     />
