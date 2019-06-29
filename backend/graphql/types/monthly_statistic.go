@@ -28,5 +28,13 @@ var MonthlyStatistic = graphql.NewObject(graphql.ObjectConfig{
 			Type:        graphql.NewNonNull(graphql.String),
 			Description: "Amount spent in that category",
 		},
+		"totalSpent": &graphql.Field{
+			Type:        graphql.NewNonNull(graphql.String),
+			Description: "Total spent in the month",
+		},
+		"percentSpent": &graphql.Field{
+			Type:        graphql.NewNonNull(graphql.String),
+			Description: "Percent spent in that category",
+		},
 	},
 })
