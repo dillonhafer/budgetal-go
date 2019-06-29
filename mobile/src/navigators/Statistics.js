@@ -1,25 +1,15 @@
-import React from "react";
-import { createStackNavigator } from "react-navigation";
-import { BudgetalText, HeaderText } from "@src/components/Text";
-
-import TabletNavigator from "./TabletNavigator";
-
-// Screens
-import StatisticsScreen from "@src/screens/statistics/Statistics";
-import MonthlyChartScreen from "@src/screens/statistics/MonthlyChart";
-
+import { HeaderText } from "@src/components/Text";
+import StatisticsScreen from "@src/screens/Statistics/Statistics";
 import {
-  NavigationHeight,
-  SidebarNavigationHeight,
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
-  drawerIcon,
+  NavigationHeight,
 } from "@src/utils/navigation-helpers";
+import React from "react";
+import { createStackNavigator } from "react-navigation";
+
 const headerStyle = {
   height: NavigationHeight,
-};
-const sidebarHeaderStyle = {
-  height: SidebarNavigationHeight,
 };
 
 const StatisticsNavigatorStack = createStackNavigator(
@@ -43,33 +33,5 @@ const StatisticsNavigatorStack = createStackNavigator(
     },
   }
 );
-
-const StatisticsSidebarNavigatorStack = createStackNavigator(
-  {
-    MonthlyChart: {
-      screen: MonthlyChartScreen,
-      navigationOptions: () => {
-        return {
-          headerStyle: sidebarHeaderStyle,
-          headerTitle: <HeaderText>CHART VIEW</HeaderText>,
-        };
-      },
-    },
-  },
-  {}
-);
-
-// class StatisticsNavigator extends TabletNavigator {
-//   MainNavigator = AccountNavigatorStack;
-//   SideNavigator = StatisticsSidebarNavigatorStack;
-
-//   static navigationOptions = {
-//     // eslint-disable-next-line react/display-name
-//     drawerLabel: ({ tintColor }) => (
-//       <BudgetalText style={{ color: tintColor }}>STATISTICS</BudgetalText>
-//     ),
-//     drawerIcon: drawerIcon("md-stats"),
-//   };
-// }
 
 export default StatisticsNavigatorStack;
