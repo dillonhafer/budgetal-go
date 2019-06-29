@@ -9,7 +9,10 @@ import {
   NavigationHeight,
 } from "@src/utils/navigation-helpers";
 import React from "react";
-import { createStackNavigator } from "react-navigation";
+import {
+  createStackNavigator,
+  NavigationScreenConfigProps,
+} from "react-navigation";
 
 const headerStyle = {
   height: NavigationHeight,
@@ -20,7 +23,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
     AnnualBudget: {
       screen: AnnualBudgetsScreen,
       path: "annual-budgets/:year",
-      navigationOptions: ({ navigation }) => {
+      navigationOptions: ({ navigation }: NavigationScreenConfigProps) => {
         const year =
           (navigation.state.params && navigation.state.params.year) ||
           new Date().getFullYear();
@@ -57,7 +60,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
     EditAnnualBudgetItem: {
       screen: EditAnnualBudgetItemScreen,
       path: "editAnnualBudgetItem",
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
         ...BlurViewNavigationOptions,
         headerTitle: (
           <HeaderText>
@@ -76,7 +79,7 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
       backgroundColor: "#ececec",
       shadowOpacity: 0,
     },
-    navigationOptions: BlurViewNavigationOptions,
+    defaultNavigationOptions: BlurViewNavigationOptions,
   }
 );
 

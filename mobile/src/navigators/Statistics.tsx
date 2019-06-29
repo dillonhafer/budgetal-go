@@ -29,7 +29,7 @@ const StatisticsNavigatorStack = createStackNavigator(
     },
     defaultNavigationOptions: {
       ...BlurViewNavigationOptions,
-      ...BurgerNavigationOptions,
+      headerLeft: BurgerNavigationOptions.headerLeft,
     },
   }
 );
