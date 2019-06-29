@@ -54,8 +54,8 @@ func FindMonthlyStatistics(month, year, userID int) ([]MonthlyStatistic, error) 
 		return []MonthlyStatistic{}, nil
 	}
 
-	sort.Slice(monthlyStatistics, func(i, j int) bool {
-		return CategorySortOrder[monthlyStatistics[i].Name] < CategorySortOrder[monthlyStatistics[i].Name]
+	sort.SliceStable(monthlyStatistics, func(i, j int) bool {
+		return CategorySortOrder[monthlyStatistics[i].Name] < CategorySortOrder[monthlyStatistics[j].Name]
 	})
 
 	return monthlyStatistics, nil
