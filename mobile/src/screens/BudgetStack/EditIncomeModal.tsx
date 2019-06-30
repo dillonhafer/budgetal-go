@@ -74,8 +74,7 @@ class EditIncomeModal extends Component<Props> {
               <Text
                 style={{ textAlign: "center", fontSize: 18, fontWeight: "700" }}
               >
-                Current Income
-                {"\n"}
+                {"Current Income\n"}
               </Text>
               <Text style={{ textAlign: "center", fontSize: 18 }}>
                 {currencyf(budget.income)}
