@@ -1,20 +1,25 @@
-import React, { Component } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
-
-// Redux
-import { connect } from "react-redux";
-import { updateIncome } from "@src/actions/budgets";
-
-// API
-import { UpdateIncomeRequest } from "@shared/api/budgets";
-
-// Components
 import { Ionicons } from "@expo/vector-icons";
+import { UpdateIncomeRequest } from "@shared/api/budgets";
 import { currencyf } from "@shared/helpers";
-import { notice, error } from "@src/notify";
+import { updateIncome } from "@src/actions/budgets";
 import MoneyInputModal from "@src/forms/MoneyInputModal";
+import { error, notice } from "@src/notify";
+import React, { Component } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { connect } from "react-redux";
 
-class EditIncomeModal extends Component {
+type Budget = {
+  year: number;
+  month: number;
+  income: number;
+};
+
+interface Props {
+  budget: Budget;
+  updateIncome(income: number): void;
+}
+
+class EditIncomeModal extends Component<Props> {
   state = {
     loading: false,
     visible: false,
@@ -29,7 +34,7 @@ class EditIncomeModal extends Component {
     this.setState({ visible: false, income: "0" });
   };
 
-  handleSubmit = async income => {
+  handleSubmit = async (income: number) => {
     this.setState({ loading: true });
     try {
       const { year, month } = this.props.budget;
@@ -87,11 +92,11 @@ class EditIncomeModal extends Component {
 }
 
 export default connect(
-  state => ({
+  (state: any) => ({
     budget: state.budget.budget,
   }),
-  dispatch => ({
-    updateIncome: income => {
+  (dispatch: any) => ({
+    updateIncome: (income: string) => {
       dispatch(updateIncome(income));
     },
   })
