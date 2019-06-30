@@ -25,7 +25,7 @@ var BudgetCategory = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Recommended percentage that should be allocated in the budget",
 		},
 		"budgetItems": &graphql.Field{
-			Type: graphql.NewList(BudgetItem),
+			Type: graphql.NewNonNull(graphql.NewList(BudgetItem)),
 		},
 	},
 })

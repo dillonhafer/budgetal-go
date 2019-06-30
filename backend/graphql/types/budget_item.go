@@ -25,7 +25,7 @@ var BudgetItem = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Amount budgeted for this item",
 		},
 		"budgetItemExpenses": &graphql.Field{
-			Type: graphql.NewList(BudgetItemExpense),
+			Type: graphql.NewNonNull(graphql.NewList(BudgetItemExpense)),
 		},
 	},
 })

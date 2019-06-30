@@ -46,11 +46,11 @@ func Budget(params graphql.ResolveParams) (interface{}, error) {
 
 	categories, items, expenses := budget.MonthlyView()
 	for i, category := range categories {
-		for j, item := range items {
+		for _, item := range items {
 			if item.BudgetCategoryId == category.ID {
 				for _, expense := range expenses {
 					if expense.BudgetItemId == item.ID {
-						items[j].BudgetItemExpenses = append(items[j].BudgetItemExpenses, expense)
+						item.BudgetItemExpenses = append(item.BudgetItemExpenses, expense)
 					}
 				}
 				categories[i].BudgetItems = append(categories[i].BudgetItems, item)

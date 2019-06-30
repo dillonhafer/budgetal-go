@@ -25,7 +25,7 @@ var Budget = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Expected Income for the month",
 		},
 		"budgetCategories": &graphql.Field{
-			Type: graphql.NewList(BudgetCategory),
+			Type: graphql.NewNonNull(graphql.NewList(BudgetCategory)),
 		},
 	},
 })
