@@ -33,6 +33,7 @@
     "expo-asset": "^5.0.1",
     "expo-blur": "~5.0.1",
     "expo-constants": "~5.0.1",
+    "expo-document-picker": "~5.0.2",
     "expo-font": "~5.0.1",
     "expo-permissions": "~5.0.1",
     "expo-secure-store": "~5.0.1",

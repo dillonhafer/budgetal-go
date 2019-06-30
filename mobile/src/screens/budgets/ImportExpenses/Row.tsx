@@ -1,25 +1,19 @@
-import React, { PureComponent } from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { CreateExpenseRequest } from "@shared/api/budget-item-expenses";
+import { currencyf } from "@shared/helpers";
+import { colors } from "@shared/theme";
+import { createdExpense } from "@src/actions/budget-item-expenses";
+import { notice } from "@src/notify";
+import React, { PureComponent } from "react";
 import {
   ActivityIndicator,
-  View,
+  Picker,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  StyleSheet,
-  Picker,
-} from 'react-native';
-
-// Redux
-import { connect } from 'react-redux';
-import { createdExpense } from '@src/actions/budget-item-expenses';
-
-// API
-import { CreateExpenseRequest } from '@shared/api/budget-item-expenses';
-
-// Helpers
-import { colors } from '@shared/theme';
-import { Ionicons } from '@expo/vector-icons';
-import { notice } from '@src/notify';
-import { currencyf } from '@shared/helpers';
+  View,
+} from "react-native";
+import { connect } from "react-redux";
 
 const findFirstItemId = (categoryId, items) => {
   return (items.find(i => i.budgetCategoryId === categoryId) || { id: 0 }).id;
@@ -45,7 +39,7 @@ class ImportExpenseRow extends PureComponent {
     const lastExpense = index + 1 === total;
     if (lastExpense) {
       this.props.onDone();
-      notice('Import Finished');
+      notice("Import Finished");
     } else {
       this.saveExpense();
     }
@@ -57,7 +51,7 @@ class ImportExpenseRow extends PureComponent {
       const resp = await CreateExpenseRequest({
         name: this.props.item.description,
         amount: this.props.item.amount,
-        date: this.props.item.date.format('YYYY-MM-DD'),
+        date: this.props.item.date.format("YYYY-MM-DD"),
         budgetItemId: this.state.budgetItemId,
       });
       if (resp && resp.ok) {
@@ -83,7 +77,7 @@ class ImportExpenseRow extends PureComponent {
       return (
         e.name === item.description &&
         e.amount === item.amount &&
-        e.date === item.date.format('YYYY-MM-DD')
+        e.date === item.date.format("YYYY-MM-DD")
       );
     });
   };
@@ -99,7 +93,7 @@ class ImportExpenseRow extends PureComponent {
       <View
         style={{
           width,
-          alignItems: 'center',
+          alignItems: "center",
         }}
       >
         <Text style={styles.breadcrumb}>
@@ -107,21 +101,21 @@ class ImportExpenseRow extends PureComponent {
         </Text>
         <View
           style={{
-            flexDirection: 'row',
-            width: '100%',
-            alignItems: 'center',
+            flexDirection: "row",
+            width: "100%",
+            alignItems: "center",
             flex: 1,
           }}
         >
           <View style={styles.picker}>
             <Picker
-              style={{ width: '50%' }}
+              style={{ width: "50%" }}
               selectedValue={String(this.state.budgetCategoryId)}
               onValueChange={itemValue => {
                 const budgetCategoryId = parseInt(itemValue, 10);
                 const budgetItemId = findFirstItemId(
                   budgetCategoryId,
-                  this.props.budgetItems,
+                  this.props.budgetItems
                 );
 
                 this.setState({
@@ -141,7 +135,7 @@ class ImportExpenseRow extends PureComponent {
               })}
             </Picker>
             <Picker
-              style={{ width: '50%' }}
+              style={{ width: "50%" }}
               selectedValue={String(this.state.budgetItemId)}
               onValueChange={itemValue =>
                 this.setState({ budgetItemId: parseInt(itemValue, 10) || 0 })
@@ -165,7 +159,7 @@ class ImportExpenseRow extends PureComponent {
         </View>
         <View style={{ flex: 1, padding: 10 }}>
           <Text style={styles.date}>
-            {item.date.format('dddd, MMM Do YYYY')}
+            {item.date.format("dddd, MMM Do YYYY")}
           </Text>
           <Text
             numberOfLines={2}
@@ -178,11 +172,11 @@ class ImportExpenseRow extends PureComponent {
         </View>
         <View
           style={{
-            width: '100%',
+            width: "100%",
             marginTop: 20,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <TouchableOpacity onPress={this.onSkip} disabled={lastExpense}>
@@ -191,7 +185,7 @@ class ImportExpenseRow extends PureComponent {
               size={48}
               color={colors.error}
               style={{
-                fontWeight: '300',
+                fontWeight: "300",
                 paddingRight: 20,
                 paddingLeft: 20,
                 opacity: lastExpense ? 0.4 : 1,
@@ -215,7 +209,7 @@ class ImportExpenseRow extends PureComponent {
                 size={48}
                 color={colors.primary}
                 style={{
-                  fontWeight: '300',
+                  fontWeight: "300",
                   paddingRight: 20,
                   paddingLeft: 20,
                   opacity: saveDisabled ? 0.4 : 1,
@@ -238,48 +232,48 @@ class ImportExpenseRow extends PureComponent {
 const styles = StyleSheet.create({
   breadcrumb: {
     fontSize: 22,
-    fontWeight: '700',
+    fontWeight: "700",
     marginBottom: 10,
   },
   picker: {
-    width: '100%',
+    width: "100%",
     borderColor: colors.lines,
-    borderRightColor: 'transparent',
-    borderLeftColor: 'transparent',
+    borderRightColor: "transparent",
+    borderLeftColor: "transparent",
     borderWidth: 0.5,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
+    flexDirection: "row",
+    backgroundColor: "transparent",
   },
   description: {
-    textAlign: 'center',
-    color: '#AAA',
+    textAlign: "center",
+    color: "#AAA",
     fontSize: 16,
   },
   amount: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 18,
-    fontWeight: '700',
+    fontWeight: "700",
   },
   date: {
-    textAlign: 'center',
+    textAlign: "center",
     fontSize: 18,
   },
   tag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     padding: 5,
     borderRadius: 5,
     backgroundColor: colors.yellow,
   },
   tagText: {
-    textAlign: 'center',
-    color: '#fff',
+    textAlign: "center",
+    color: "#fff",
     paddingRight: 5,
   },
   tagIcon: {
     marginHorizontal: 5,
-    color: '#fff',
+    color: "#fff",
     fontSize: 22,
   },
 });
@@ -292,5 +286,5 @@ export default connect(
     createdExpense: expense => {
       dispatch(createdExpense(expense));
     },
-  }),
+  })
 )(ImportExpenseRow);

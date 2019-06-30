@@ -1,7 +1,7 @@
 import { headerBackTitleStyle, HeaderText } from "@src/components/Text";
 import BudgetCategoryScreen from "@src/screens/budgets/BudgetCategory";
 import BudgetItemScreen from "@src/screens/budgets/BudgetItem";
-import BudgetsScreen from "@src/screens/budgets/Budgets";
+import BudgetsScreen from "@src/screens/budgets";
 import EditBudgetItemScreen from "@src/screens/budgets/EditBudgetItem";
 import EditBudgetItemExpenseScreen from "@src/screens/budgets/EditBudgetItemExpense";
 import EditIncomeModal from "@src/screens/budgets/EditIncomeModal";

@@ -1,71 +1,25 @@
-import React, { PureComponent } from 'react';
+import CsvUploadButton from "@src/components/CsvUploadButton";
+import { error } from "@src/notify";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import * as DocumentPicker from "expo-document-picker";
+import moment from "moment";
+import Papa from "papaparse";
+import React, { PureComponent } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   FlatList,
-  StatusBar,
   ScrollView,
-} from 'react-native';
+  StatusBar,
+  StyleSheet,
+  View,
+  WebView,
+} from "react-native";
+import { NavigationScreenConfigProps } from "react-navigation";
+import { connect } from "react-redux";
+import ImportExpenseRow from "./Row";
+import WebViewHack, { SELECT_FILE } from "./WebViewHack";
 
-// Redux
-import { connect } from 'react-redux';
-import { updateBudgetCategory } from '@src/actions/budgets';
-
-// Helpers
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
-import { error } from '@src/notify';
-import Device from '@src/utils/Device';
-const isTablet = Device.isTablet();
-import { DocumentPicker } from 'expo';
-
-import Papa from 'papaparse';
-import moment from 'moment';
-import { colors } from '@shared/theme';
-
-import WebViewHack from './WebViewHack';
-import CsvUploadButton from '@src/components/CsvUploadButton';
-import ImportExpenseRow from './ImportExpenseRow';
-
-const tabletMargin = 20;
-const tabletWidthSubtrahend = isTablet ? tabletMargin * 2 : 0;
-
-const DoneButton = connect(null, dispatch => ({
-  changeCategory: c => {
-    dispatch(updateBudgetCategory({ budgetCategory: c }));
-  },
-}))(
-  class DoneButton extends PureComponent {
-    render() {
-      return (
-        <TouchableOpacity
-          onPress={() => {
-            this.props.changeCategory({ id: -1, name: '' });
-            this.props.screenProps.layoutNavigate('Main');
-          }}
-        >
-          <Text
-            style={{ color: colors.iosBlue, padding: 20, fontWeight: '700' }}
-          >
-            Done
-          </Text>
-        </TouchableOpacity>
-      );
-    }
-  },
-);
-
-class ImportExpenseScreen extends PureComponent {
-  static navigationOptions = ({ screenProps }) => {
-    if (!screenProps.isTablet) {
-      return {};
-    }
-
-    return {
-      headerLeft: <DoneButton screenProps={screenProps} />,
-    };
-  };
+class ImportExpenseScreen extends PureComponent<NavigationScreenConfigProps> {
+  private webview = React.createRef<WebView>();
 
   componentDidMount() {
     this.copyOfProps();
@@ -74,7 +28,7 @@ class ImportExpenseScreen extends PureComponent {
   copyOfProps = () => {
     const budgetCategoryId = this.props.budgetCategories[0].id;
     this.defaultBudgetItem = this.props.budgetItems.find(
-      i => i.budgetCategoryId === budgetCategoryId,
+      i => i.budgetCategoryId === budgetCategoryId
     ) || { id: 0, budgetCategoryId: 0 };
   };
 
@@ -84,58 +38,63 @@ class ImportExpenseScreen extends PureComponent {
   };
 
   goBack = () => {
-    this.props.screenProps.goBack();
+    this.props.navigation.goBack();
   };
 
   selectFile = async () => {
     try {
-      const file = await DocumentPicker.getDocumentAsync({ type: 'text/csv' });
-      if (file.type === 'success') {
+      const file = await DocumentPicker.getDocumentAsync({ type: "text/csv" });
+      if (file.type === "success") {
         this.parseFile(file.uri);
       }
     } catch (err) {
       // Expo didn't build with iCloud, expo turtle fallback
-      this.webview.injectJavaScript('selectFile()');
+      console.warn("Selecte from failure");
+      if (this.webview.current) {
+        this.webview.current.injectJavaScript(SELECT_FILE);
+      }
     }
   };
 
   parseHeaders = row => {
     let headers = { date: -1, amount: -1, description: -1 };
-    headers.date = row.findIndex(col => {
+    headers.date = row.findIndex((col: string) => {
       return col
         .toLowerCase()
         .trim()
-        .includes('date');
+        .includes("date");
     });
-    headers.description = row.findIndex(col => {
+    headers.description = row.findIndex((col: string) => {
       return col
         .toLowerCase()
         .trim()
-        .includes('description');
+        .includes("description");
     });
-    headers.amount = row.findIndex(col => {
+    headers.amount = row.findIndex((col: string) => {
       return col
         .toLowerCase()
         .trim()
-        .includes('amount');
+        .includes("amount");
     });
 
     return headers;
   };
 
   parseExpenses = ({ headers, expenses }) => {
-    return expenses.filter(e => e.length >= 3).map((e, key) => {
-      const date = moment(e[headers.date], 'MM-DD-YYYY');
-      const amount = Math.abs(parseFloat(e[headers.amount]));
-      const description = e[headers.description].replace(/\s+/g, ' ').trim();
+    return expenses
+      .filter(e => e.length >= 3)
+      .map((e, key) => {
+        const date = moment(e[headers.date], "MM-DD-YYYY");
+        const amount = Math.abs(parseFloat(e[headers.amount]));
+        const description = e[headers.description].replace(/\s+/g, " ").trim();
 
-      return {
-        key,
-        date,
-        amount,
-        description,
-      };
-    });
+        return {
+          key,
+          date,
+          amount,
+          description,
+        };
+      });
   };
 
   onSelectFile = event => {
@@ -154,7 +113,7 @@ class ImportExpenseScreen extends PureComponent {
             headers.name === -1 ||
             headers.amount === -1
           ) {
-            return error('Unable to parse CSV headers');
+            return error("Unable to parse CSV headers");
           }
 
           const expenses = this.parseExpenses({
@@ -193,11 +152,11 @@ class ImportExpenseScreen extends PureComponent {
         style={styles.container}
         onLayout={event => {
           const { width } = event.nativeEvent.layout;
-          this.setState({ width: width - tabletWidthSubtrahend });
+          this.setState({ width });
         }}
       >
         <StatusBar barStyle="dark-content" />
-        <ScrollView style={{ width: '100%' }} {...BlurViewInsetProps}>
+        <ScrollView style={{ width: "100%" }} {...BlurViewInsetProps}>
           <View style={styles.listContainer}>
             <View style={styles.headerContainer}>
               {expenses.length === 0 && (
@@ -221,11 +180,7 @@ class ImportExpenseScreen extends PureComponent {
             </View>
             <View style={styles.footerContainer}>
               <WebViewHack
-                ref={webview => {
-                  if (webview && webview.webview) {
-                    this.webview = webview.webview;
-                  }
-                }}
+                ref={this.webview}
                 onSelectFile={this.onSelectFile}
               />
             </View>
@@ -239,14 +194,14 @@ class ImportExpenseScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
-    width: '100%',
-    backgroundColor: isTablet ? 'transparent' : '#fff',
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    backgroundColor: "#fff",
   },
   listContainer: {
-    margin: isTablet ? tabletMargin : 0,
-    backgroundColor: '#fff',
+    margin: 0,
+    backgroundColor: "#fff",
     borderRadius: 5,
   },
   headerContainer: {
@@ -254,8 +209,8 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
