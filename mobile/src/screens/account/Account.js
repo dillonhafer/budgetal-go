@@ -32,21 +32,21 @@ class AccountScreen extends PureComponent {
   };
 
   editAccount = () => {
-    this.props.screenProps.layoutNavigate("AccountEdit", {
+    this.props.navigation.navigate("AccountEdit", {
       user: this.props.user,
     });
   };
 
   navChangePassword = () => {
-    this.props.screenProps.layoutNavigate("ChangePassword");
+    this.props.navigation.navigate("ChangePassword");
   };
 
   navSessions = () => {
-    this.props.screenProps.layoutNavigate("Sessions");
+    this.props.navigation.navigate("Sessions");
   };
 
   navLegal = () => {
-    this.props.screenProps.layoutNavigate("Legal");
+    this.props.navigation.navigate("Legal");
   };
 
   componentDidMount() {

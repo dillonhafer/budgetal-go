@@ -18,11 +18,7 @@ const isTablet = Device.isTablet();
 
 class EditAssetLiabilityScreen extends Component {
   goBack = () => {
-    if (isTablet) {
-      this.props.screenProps.goBack();
-    } else {
-      this.props.navigation.goBack();
-    }
+    this.props.navigation.goBack();
   };
 
   state = {

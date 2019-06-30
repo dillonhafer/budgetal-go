@@ -19,17 +19,12 @@ const isTablet = Device.isTablet();
 
 class NewAssetLiabilityScreen extends Component {
   static propTypes = {
-    screenProps: PropTypes.object,
     navigation: PropTypes.object,
     createAssetLiability: PropTypes.func,
   };
 
   goBack = () => {
-    if (isTablet) {
-      this.props.screenProps.goBack();
-    } else {
-      this.props.navigation.goBack();
-    }
+    this.props.navigation.goBack();
   };
 
   inputs = [];

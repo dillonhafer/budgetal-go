@@ -62,7 +62,7 @@ class NetWorthScreen extends PureComponent {
           key={month.month}
           activeOpacity={0.9}
           onPress={() =>
-            this.props.screenProps.layoutNavigate("MonthListScreen", {
+            this.props.navigation.navigate("MonthListScreen", {
               month: {
                 ...month,
                 label,
@@ -129,7 +129,7 @@ class NetWorthScreen extends PureComponent {
       <PrimaryButton
         title={`ADD ${title}`}
         onPress={() => {
-          this.props.screenProps.layoutNavigate("NewAssetLiabilityScreen", {
+          this.props.navigation.navigate("NewAssetLiabilityScreen", {
             section,
             title,
           });
@@ -185,7 +185,7 @@ class NetWorthScreen extends PureComponent {
           renderHeader={this.renderCarousel}
           renderSectionFooter={this.renderSectionFooter}
           onEdit={item => {
-            this.props.screenProps.layoutNavigate("EditAssetLiabilityScreen", {
+            this.props.navigation.navigate("EditAssetLiabilityScreen", {
               item,
             });
           }}
