@@ -4,7 +4,7 @@ import { BlurView } from "expo-blur";
 
 import { Ionicons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
-import DrawerBurger from "@src/navigators/DrawerBurger";
+import { DrawerBurger } from "@src/screens/Drawer";
 
 export const NavigationHeight = 44;
 export const SidebarNavigationHeight = 43.5;

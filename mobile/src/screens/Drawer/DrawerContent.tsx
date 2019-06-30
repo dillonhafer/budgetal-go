@@ -1,4 +1,3 @@
-// Sign out helpers
 import { SignOutRequest } from "@shared/api/sessions";
 import { colors } from "@shared/theme";
 import Monogram, { User } from "@src/components/Monogram";
@@ -12,16 +11,12 @@ import React, { useState } from "react";
 import {
   Alert,
   ScrollView,
+  StatusBar,
   StyleSheet,
   TouchableOpacity,
   View,
-  StatusBar,
 } from "react-native";
-import {
-  NavigationScreenConfigProps,
-  SafeAreaView,
-  NavigationEvents,
-} from "react-navigation";
+import { DrawerItemsProps, SafeAreaView } from "react-navigation";
 import { connect } from "react-redux";
 import DrawerItem from "./DrawerItem";
 
@@ -55,7 +50,7 @@ const ListHeaderComponent = connect(state => ({
   user: state.users,
 }))(LHC);
 
-interface Props extends NavigationScreenConfigProps {}
+interface Props extends DrawerItemsProps {}
 
 const DrawerContent = ({ navigation }: Props) => {
   const [visible, setVisible] = useState(false);

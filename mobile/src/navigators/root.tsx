@@ -1,7 +1,5 @@
 import AppDrawerNavigator from "@src/navigators/AppDrawer";
 import AuthLoadingScreen from "@src/screens/AuthLoading";
-
-// Naviagators
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import AuthStack from "./AuthStack";
 

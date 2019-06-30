@@ -4,9 +4,8 @@ import AnnualBudgetNavigator from "@src/navigators/AnnualBudget";
 import BudgetNavigator from "@src/navigators/Budget";
 import NetWorthNavigator from "@src/navigators/NetWorth";
 import StatisticsNavigator from "@src/navigators/Statistics";
+import { DrawerContent, toggleStatusBarStyle } from "@src/screens/Drawer";
 import { createDrawerNavigator } from "react-navigation";
-import DrawerContent from "./DrawerContent";
-import { StatusBar } from "react-native";
 
 const AppDrawerNavigator = createDrawerNavigator(
   {
@@ -21,19 +20,6 @@ const AppDrawerNavigator = createDrawerNavigator(
     contentComponent: DrawerContent,
   }
 );
-
-const defaultGetStateForAction = AppDrawerNavigator.router.getStateForAction;
-AppDrawerNavigator.router.getStateForAction = (action, state) => {
-  const marked = action && action.type === "Navigation/MARK_DRAWER_SETTLING";
-  if (marked && !action.willShow) {
-    StatusBar.setBarStyle("default", true);
-  }
-
-  if (marked && action.willShow) {
-    StatusBar.setBarStyle("light-content", true);
-  }
-
-  return defaultGetStateForAction(action, state);
-};
+toggleStatusBarStyle(AppDrawerNavigator);
 
 export default AppDrawerNavigator;

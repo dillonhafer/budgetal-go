@@ -17,7 +17,6 @@ const StatisticsNavigatorStack = createStackNavigator(
     Statistics: {
       screen: StatisticsScreen,
       navigationOptions: {
-        headerStyle,
         headerTitle: <HeaderText>STATISTICS</HeaderText>,
       },
     },
@@ -28,6 +27,7 @@ const StatisticsNavigatorStack = createStackNavigator(
       shadowOpacity: 0,
     },
     defaultNavigationOptions: {
+      headerStyle,
       ...BlurViewNavigationOptions,
       headerLeft: BurgerNavigationOptions.headerLeft,
     },

@@ -1,62 +1,34 @@
-import React from "react";
-import { View, Image } from "react-native";
-import { createStackNavigator } from "react-navigation";
-
-import TabletNavigator from "@src/navigators/TabletNavigator";
-
-// Screens
-import BudgetsScreen from "@src/screens/budgets/Budgets";
+import { headerBackTitleStyle, HeaderText } from "@src/components/Text";
 import BudgetCategoryScreen from "@src/screens/budgets/BudgetCategory";
-
-// Items
 import BudgetItemScreen from "@src/screens/budgets/BudgetItem";
-import NewBudgetItemScreen from "@src/screens/budgets/NewBudgetItem";
+import BudgetsScreen from "@src/screens/budgets/Budgets";
 import EditBudgetItemScreen from "@src/screens/budgets/EditBudgetItem";
-
-// Expenses
-import NewBudgetItemExpenseScreen from "@src/screens/budgets/NewBudgetItemExpense";
 import EditBudgetItemExpenseScreen from "@src/screens/budgets/EditBudgetItemExpense";
+import EditIncomeModal from "@src/screens/budgets/EditIncomeModal";
 import ImportExpensesScreen from "@src/screens/budgets/ImportExpenses";
-
-import moment from "moment";
-import { categoryImage } from "@src/assets/images";
+import NewBudgetItemScreen from "@src/screens/budgets/NewBudgetItem";
+import NewBudgetItemExpenseScreen from "@src/screens/budgets/NewBudgetItemExpense";
 import {
-  NavigationHeight,
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
-  drawerIcon,
+  NavigationHeight,
 } from "@src/utils/navigation-helpers";
-import EditIncomeModal from "@src/screens/budgets/EditIncomeModal";
+import moment from "moment";
+import React from "react";
 import {
-  BudgetalText,
-  HeaderText,
-  headerBackTitleStyle,
-} from "@src/components/Text";
+  createStackNavigator,
+  NavigationScreenConfigProps,
+} from "react-navigation";
 
 const headerStyle = {
   height: NavigationHeight,
-};
-
-const CategoryTitle = ({ name }) => {
-  return (
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Image style={{ width: 20, height: 20 }} source={categoryImage(name)} />
-      <HeaderText style={{ marginLeft: 5 }}>{name}</HeaderText>
-    </View>
-  );
 };
 
 const BudgetNavigatorStack = createStackNavigator(
   {
     Budget: {
       screen: BudgetsScreen,
-      navigationOptions: ({ navigation }) => {
+      navigationOptions: ({ navigation }: NavigationScreenConfigProps) => {
         const today = new Date();
 
         const year = navigation.getParam("year", today.getFullYear());
@@ -66,7 +38,6 @@ const BudgetNavigatorStack = createStackNavigator(
         const headerBackTitle = budgetDate.format("MMM").toUpperCase();
         return {
           headerRight: <EditIncomeModal />,
-          gesturesEnabled: false,
           headerTitle: <HeaderText>BUDGETS</HeaderText>,
           headerBackTitle,
           headerBackTitleStyle,
@@ -76,29 +47,25 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     BudgetCategory: {
       screen: BudgetCategoryScreen,
-      path: "budgetCategories/:budgetCategory",
       navigationOptions: () => ({
         headerTitle: <HeaderText>BUDGET ITEMS</HeaderText>,
       }),
     },
     BudgetItem: {
       screen: BudgetItemScreen,
-      path: "budgetItems/:budgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>EXPENSES</HeaderText>,
       }),
     },
     NewBudgetItem: {
       screen: NewBudgetItemScreen,
-      path: "newBudgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW ITEM</HeaderText>,
       }),
     },
     EditBudgetItem: {
       screen: EditBudgetItemScreen,
-      path: "editBudgetItem",
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
         headerTitle: (
           <HeaderText>
             EDIT {navigation.getParam("budgetItem").name.toUpperCase()}
@@ -108,15 +75,13 @@ const BudgetNavigatorStack = createStackNavigator(
     },
     NewBudgetItemExpense: {
       screen: NewBudgetItemExpenseScreen,
-      path: "newBudgetItemExpense",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW EXPENSE</HeaderText>,
       }),
     },
     EditBudgetItemExpense: {
       screen: EditBudgetItemExpenseScreen,
-      path: "editBudgetItemExpense",
-      navigationOptions: ({ navigation }) => ({
+      navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
         headerTitle: (
           <HeaderText>
             EDIT {navigation.getParam("budgetItemExpense").name.toUpperCase()}

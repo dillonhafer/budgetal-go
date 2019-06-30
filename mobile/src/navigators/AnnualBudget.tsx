@@ -36,21 +36,18 @@ const AnnualBudgetNavigatorStack = createStackNavigator(
     },
     AnnualBudgetProgress: {
       screen: ProgressScreen,
-      path: "annual-budgets/:budgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>PROGRESS</HeaderText>,
       }),
     },
     NewAnnualBudgetItem: {
       screen: NewAnnualBudgetItemScreen,
-      path: "newAnnualBudgetItem",
       navigationOptions: () => ({
         headerTitle: <HeaderText>NEW ANNUAL ITEM</HeaderText>,
       }),
     },
     EditAnnualBudgetItem: {
       screen: EditAnnualBudgetItemScreen,
-      path: "editAnnualBudgetItem",
       navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
         headerTitle: (
           <HeaderText>

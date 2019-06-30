@@ -11,7 +11,10 @@ import {
   NavigationHeight,
 } from "@src/utils/navigation-helpers";
 import React from "react";
-import { createStackNavigator } from "react-navigation";
+import {
+  createStackNavigator,
+  NavigationScreenConfigProps,
+} from "react-navigation";
 
 const headerStyle = {
   height: NavigationHeight,
@@ -27,7 +30,7 @@ const screens = {
   },
   MonthListScreen: {
     screen: MonthListScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       headerTitle: (
         <HeaderText>
           {navigation.getParam("month").label.toUpperCase()}{" "}
@@ -38,7 +41,7 @@ const screens = {
   },
   EditMonthItemScreen: {
     screen: EditMonthItemScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       headerTitle: (
         <HeaderText>
           EDIT {navigation.getParam("item").name.toUpperCase()}
@@ -48,7 +51,7 @@ const screens = {
   },
   NewMonthItemScreen: {
     screen: NewMonthItemScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       headerTitle: (
         <HeaderText>
           NEW {navigation.getParam("title").toUpperCase()}
@@ -58,13 +61,13 @@ const screens = {
   },
   NewAssetLiabilityScreen: {
     screen: NewAssetLiabilityScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       headerTitle: <HeaderText>NEW {navigation.getParam("title")}</HeaderText>,
     }),
   },
   EditAssetLiabilityScreen: {
     screen: EditAssetLiabilityScreen,
-    navigationOptions: ({ navigation }) => ({
+    navigationOptions: ({ navigation }: NavigationScreenConfigProps) => ({
       headerTitle: (
         <HeaderText>
           EDIT {navigation.getParam("item").name.toUpperCase()}
