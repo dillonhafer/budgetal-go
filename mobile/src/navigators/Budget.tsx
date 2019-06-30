@@ -1,13 +1,13 @@
 import { headerBackTitleStyle, HeaderText } from "@src/components/Text";
-import BudgetCategoryScreen from "@src/screens/budgets/BudgetCategory";
-import BudgetItemScreen from "@src/screens/budgets/BudgetItem";
-import BudgetsScreen from "@src/screens/budgets";
-import EditBudgetItemScreen from "@src/screens/budgets/EditBudgetItem";
-import EditBudgetItemExpenseScreen from "@src/screens/budgets/EditBudgetItemExpense";
-import EditIncomeModal from "@src/screens/budgets/EditIncomeModal";
-import ImportExpensesScreen from "@src/screens/budgets/ImportExpenses";
-import NewBudgetItemScreen from "@src/screens/budgets/NewBudgetItem";
-import NewBudgetItemExpenseScreen from "@src/screens/budgets/NewBudgetItemExpense";
+import BudgetCategoryScreen from "@src/screens/BudgetStack/BudgetItems/BudgetItems";
+import BudgetItemScreen from "@src/screens/BudgetStack/BudgetItemExpenses/BudgetItemExpenses";
+import BudgetsScreen from "@src/screens/BudgetStack/Budgets";
+import EditBudgetItemScreen from "@src/screens/BudgetStack/BudgetItems/Edit";
+import EditBudgetItemExpenseScreen from "@src/screens/BudgetStack/BudgetItemExpenses/Edit";
+import EditIncomeModal from "@src/screens/BudgetStack/EditIncomeModal";
+import ImportExpensesScreen from "@src/screens/BudgetStack/ImportExpenses";
+import NewBudgetItemScreen from "@src/screens/BudgetStack/BudgetItems/New";
+import NewBudgetItemExpenseScreen from "@src/screens/BudgetStack/BudgetItemExpenses/New";
 import {
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
