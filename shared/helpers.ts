@@ -2,6 +2,15 @@ import * as lodash from "lodash";
 import * as parser from "ua-parser-js";
 import * as moment from "moment";
 
+const date = new Date();
+const defaultMonth = date.getMonth() + 1;
+const defaultYear = date.getFullYear();
+
+export const defaultDate = {
+  month: defaultMonth,
+  year: defaultYear
+};
+
 export const monthName = (month: number) => {
   return moment.months()[month - 1];
 };
