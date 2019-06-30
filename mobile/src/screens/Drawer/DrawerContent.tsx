@@ -3,7 +3,7 @@ import { colors } from "@shared/theme";
 import Monogram, { User } from "@src/components/Monogram";
 import { Bold, Medium, Small } from "@src/components/Text";
 import { error, notice } from "@src/notify";
-import LegalModal from "@src/screens/legal/LegalModal";
+import LegalModal from "@src/screens/Legal";
 import { RemoveAuthentication } from "@src/utils/authentication";
 import { WebBrowser } from "expo";
 import Constants from "expo-constants";
