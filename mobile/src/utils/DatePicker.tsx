@@ -68,13 +68,13 @@ const DatePicker = ({
     setShowPicker(!showPicker);
   };
 
-  let date = moment(`${year}-${month}`, "YYYY-MM");
+  let date = moment(`${year}-${month}`, "YYYY-M");
   let yearWidth = "40%";
   let monthWidth = "60%";
   let format = "MMMM YYYY";
 
   if (!initialMonth) {
-    date = moment(`${year}-1`, "YYYY-MM");
+    date = moment(`${year}-1`, "YYYY-M");
     yearWidth = "100%";
     monthWidth = "0%";
     format = "YYYY";
@@ -136,4 +136,4 @@ const DatePicker = ({
   );
 };
 
-export default React.memo(DatePicker);
+export default DatePicker;

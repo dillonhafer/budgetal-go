@@ -37,7 +37,7 @@ const BudgetNavigatorStack = createStackNavigator(
 
         const headerBackTitle = budgetDate.format("MMM").toUpperCase();
         return {
-          headerRight: <EditIncomeModal />,
+          headerRight: <EditIncomeModal year={year} month={month} />,
           headerTitle: <HeaderText>BUDGETS</HeaderText>,
           headerBackTitle,
           headerBackTitleStyle,

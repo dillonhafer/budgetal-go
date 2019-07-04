@@ -242,10 +242,7 @@ class BudgetCategoryScreen extends PureComponent {
     const previousMonthDigit = currentMonth === 1 ? 12 : currentMonth - 1;
     const previousMonth = moment.months()[previousMonthDigit - 1];
 
-    const category = this.props.navigation.state.params.budgetCategory;
-    const items = this.props.budgetItems.filter(
-      i => i.budgetCategoryId === category.id
-    );
+    const category = this.props.navigation.getParam("budgetCategory");
     return (
       <View style={styles.container}>
         <StatusBar barStyle="dark-content" />
@@ -257,7 +254,7 @@ class BudgetCategoryScreen extends PureComponent {
           style={styles.list}
           contentContainerStyle={styles.contentStyles}
           keyExtractor={i => String(i.id)}
-          data={items}
+          data={category.budgetItems}
           renderItem={this.renderItem}
           ListEmptyComponent={this.empty}
           ListFooterComponent={

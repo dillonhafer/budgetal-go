@@ -1,66 +1,99 @@
-import { reduceSum } from "@shared/helpers";
-import { loadBudget, refreshBudget } from "@src/actions/budgets";
+import { reduceSum, defaultDate } from "@shared/helpers";
 import ListBackgroundFill from "@src/components/ListBackgroundFill";
 import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 import Spin from "@src/utils/Spin";
 import AskForReview from "@src/utils/StoreReview";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, RefreshControl, StatusBar } from "react-native";
-import { connect } from "react-redux";
 import styled from "styled-components/native";
 import CategoryRow from "./CategoryRow";
 import Footer from "./Footer";
 import Header from "./Header";
 import { NavigationScreenConfigProps } from "react-navigation";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
+import {
+  GetBudgets_budget_budgetCategories,
+  GetBudgets_budget_budgetCategories_budgetItems,
+  GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses,
+} from "./__generated__/GetBudgets";
+
+interface BudgetCategory extends GetBudgets_budget_budgetCategories {}
+interface BudgetItem extends GetBudgets_budget_budgetCategories_budgetItems {}
+interface BudgetItemExpense
+  extends GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses {}
+
+const GET_BUDGET = gql`
+  query GetBudgets($year: Int!, $month: Int!) {
+    budget(year: $year, month: $month) {
+      budgetCategories {
+        id
+        name
+        budgetItems {
+          id
+          name
+          amount
+          budgetItemExpenses {
+            id
+            name
+            date
+            amount
+            budgetItemId
+          }
+        }
+      }
+      id
+      income
+      month
+      year
+    }
+  }
+`;
 
 const Container = styled.View({
   flex: 1,
   backgroundColor: "#fff",
 });
 
-interface LoadProps extends Pick<NavigationScreenConfigProps, "navigation"> {
-  month: number;
-  year: number;
-}
+interface Props extends NavigationScreenConfigProps {}
 
-interface Props extends NavigationScreenConfigProps {
-  budget: any;
-  budgetLoading: boolean;
-  budgetRefreshing: boolean;
-  loadBudget(props: LoadProps): void;
-  refreshBudget(props: LoadProps): void;
-  budgetItems: any[];
-  budgetItemExpenses: any[];
-  budgetCategories: any[];
-}
+const BudgetsScreen = ({ navigation }: Props) => {
+  const [year, setYear] = useState(defaultDate.year);
+  const [month, setMonth] = useState(defaultDate.month);
+  const [refreshing, setRefreshing] = useState(false);
+  const { loading, data, refetch } = useQuery(GET_BUDGET, {
+    variables: { year, month },
+  });
 
-const BudgetsScreen = ({
-  budget,
-  navigation,
-  budgetLoading: loading,
-  budgetRefreshing: refreshing,
-  loadBudget,
-  budgetItems,
-  budgetItemExpenses,
-  budgetCategories,
-  refreshBudget,
-}: Props) => {
-  const load = ({ month, year }: { month: number; year: number }) => {
-    loadBudget({ month, year, navigation });
-    if (budgetItemExpenses.length > 0) {
-      AskForReview();
-    }
+  const { budget = { year, month } } = data;
+  const budgetCategories: BudgetCategory[] =
+    budget && budget.budgetCategories ? budget.budgetCategories : [];
+
+  let items = budgetCategories.flatMap<BudgetItem>(c => c.budgetItems);
+  let expenses = items.flatMap<BudgetItemExpense>(i => i.budgetItemExpenses);
+
+  const onDateChange = ({ month, year }: { month: number; year: number }) => {
+    navigation.setParams({ year, month });
+    setYear(year);
+    setMonth(month);
   };
 
   useEffect(() => {
-    load({
-      month: new Date().getMonth() + 1,
-      year: new Date().getFullYear(),
-    });
-  }, []);
+    refetch({ month, year });
+    if (expenses.length > 0) {
+      AskForReview();
+    }
+  }, [month, year]);
 
-  const amountBudgeted = reduceSum(budgetItems);
-  const amountSpent = reduceSum(budgetItemExpenses);
+  useEffect(() => {
+    if (refreshing) {
+      refetch({ year, month });
+      setRefreshing(false);
+    }
+  }, [year, month, refreshing]);
+
+  const amountBudgeted = reduceSum(items);
+  const amountSpent = reduceSum(expenses);
   const remaining = amountBudgeted - amountSpent;
 
   return (
@@ -75,27 +108,21 @@ const BudgetsScreen = ({
             <RefreshControl
               tintColor={"lightskyblue"}
               refreshing={refreshing}
-              onRefresh={() =>
-                refreshBudget({
-                  month: budget.month,
-                  year: budget.year,
-                  navigation,
-                })
-              }
+              onRefresh={() => {
+                setRefreshing(true);
+              }}
             />
           }
-          keyExtractor={i => String(i.id)}
+          keyExtractor={(i: BudgetCategory) => String(i.id)}
           data={budgetCategories}
-          renderItem={({ item }) => (
+          renderItem={({ item }: { item: BudgetCategory }) => (
             <CategoryRow
-              onPress={budgetCategory => {
+              onPress={() => {
                 navigation.navigate("BudgetCategory", {
-                  budgetCategory,
+                  budgetCategory: item,
                 });
               }}
               budgetCategory={item}
-              budgetItems={budgetItems}
-              budgetItemExpenses={budgetItemExpenses}
             />
           )}
           ListFooterComponent={() => (
@@ -111,26 +138,14 @@ const BudgetsScreen = ({
               amountBudgeted={amountBudgeted}
               amountSpent={amountSpent}
               remaining={remaining}
-              onChange={load}
+              onChange={onDateChange}
             />
           )}
         />
-        <Spin spinning={loading && !refreshing} />
+        <Spin spinning={loading} />
       </Container>
     </>
   );
 };
 
-export default connect(
-  (state: any) => ({
-    ...state.budget,
-  }),
-  (dispatch: (a: any) => void) => ({
-    loadBudget: ({ month, year, navigation }: any) => {
-      dispatch(loadBudget({ month, year, navigation }));
-    },
-    refreshBudget: ({ month, year, navigation }: any) => {
-      dispatch(refreshBudget({ month, year, navigation }));
-    },
-  })
-)(BudgetsScreen);
+export default BudgetsScreen;
