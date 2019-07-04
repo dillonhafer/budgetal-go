@@ -67,6 +67,22 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 	Name: "Mutation",
 	Fields: graphql.Fields{
+		"budgetIncomeUpdate": &graphql.Field{
+			Type:        graphql.NewNonNull(types.Budget),
+			Description: "Update the income for a budget",
+			Args: graphql.FieldConfigArgument{
+				"month": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+				"year": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+				"income": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Float),
+				},
+			},
+			Resolve: mutations.BudgetIncomeUpdate,
+		},
 		"annualBudgetItemDelete": &graphql.Field{
 			Type:        types.AnnualBudget,
 			Description: "Deletes an annual budget item",

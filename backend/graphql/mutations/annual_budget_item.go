@@ -84,7 +84,7 @@ func AnnualBudgetItemUpsert(params graphql.ResolveParams) (interface{}, error) {
 		item.Name = input.Name
 		item.Paid = input.Paid
 		item.Interval = input.Interval
-		item.Amount = json.Number(strconv.FormatFloat(input.Amount, 'e', -1, 64))
+		item.Amount = json.Number(strconv.FormatFloat(input.Amount, 'f', -1, 64))
 		item.DueDate = input.DueDate
 
 		err = models.DB.Update(item)
@@ -96,7 +96,7 @@ func AnnualBudgetItemUpsert(params graphql.ResolveParams) (interface{}, error) {
 		item.Name = input.Name
 		item.Paid = input.Paid
 		item.Interval = input.Interval
-		item.Amount = json.Number(strconv.FormatFloat(input.Amount, 'e', -1, 64))
+		item.Amount = json.Number(strconv.FormatFloat(input.Amount, 'f', -1, 64))
 		item.DueDate = input.DueDate
 		err := models.DB.Create(item)
 		if err != nil {
