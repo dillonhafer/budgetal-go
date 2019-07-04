@@ -8,7 +8,8 @@ export const colors = {
   disabled: "#cacaca",
   success: "#87d068",
   error: "#ff5500",
-  background: "#e9e9ef",
+  background: "#e9e9ef", // deprecated?
+  backgroundColor: "#d8dce0",
   borderColor: "#d6d7da",
   lines: "#ced0ce",
   yellow: "#ffd478",

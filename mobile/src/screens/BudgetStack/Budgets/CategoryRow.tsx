@@ -5,15 +5,16 @@ import { reduceSum, percentSpent } from "@shared/helpers";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Card from "@src/components/Card";
 import Progress from "@src/utils/Progress";
-import { GetBudgets_budget_budgetCategories } from "./__generated__/GetBudgets";
 import isEqual from "fast-deep-equal";
+import { BudgetCategory } from "./types";
+import { colors } from "@shared/theme";
 
 const Container = styled.View({
-  backgroundColor: "#d8dce0",
+  backgroundColor: colors.backgroundColor,
 });
 
 interface Props {
-  budgetCategory: GetBudgets_budget_budgetCategories;
+  budgetCategory: BudgetCategory;
   onPress(category: object): void;
 }
 

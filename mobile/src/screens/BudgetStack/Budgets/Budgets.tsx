@@ -12,16 +12,7 @@ import Header from "./Header";
 import { NavigationScreenConfigProps } from "react-navigation";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import {
-  GetBudgets_budget_budgetCategories,
-  GetBudgets_budget_budgetCategories_budgetItems,
-  GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses,
-} from "./__generated__/GetBudgets";
-
-interface BudgetCategory extends GetBudgets_budget_budgetCategories {}
-interface BudgetItem extends GetBudgets_budget_budgetCategories_budgetItems {}
-interface BudgetItemExpense
-  extends GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses {}
+import { BudgetCategory, BudgetItem, BudgetItemExpense } from "./types";
 
 const GET_BUDGET = gql`
   query GetBudgets($year: Int!, $month: Int!) {
@@ -65,12 +56,10 @@ const BudgetsScreen = ({ navigation }: Props) => {
     variables: { year, month },
   });
 
-  const { budget = { year, month } } = data;
-  const budgetCategories: BudgetCategory[] =
-    budget && budget.budgetCategories ? budget.budgetCategories : [];
-
-  let items = budgetCategories.flatMap<BudgetItem>(c => c.budgetItems);
-  let expenses = items.flatMap<BudgetItemExpense>(i => i.budgetItemExpenses);
+  const { budget = { year, month, budgetCategories: [] } } = data;
+  const budgetCategories: BudgetCategory[] = budget.budgetCategories;
+  const items = budgetCategories.flatMap<BudgetItem>(c => c.budgetItems);
+  const expenses = items.flatMap<BudgetItemExpense>(i => i.budgetItemExpenses);
 
   const onDateChange = ({ month, year }: { month: number; year: number }) => {
     navigation.setParams({ year, month });

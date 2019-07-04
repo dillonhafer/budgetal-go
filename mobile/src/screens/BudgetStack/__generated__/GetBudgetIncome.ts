@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: GetBudgets
+// GraphQL query operation: GetBudgetIncome
 // ====================================================
 
-export interface GetBudgets_budget {
+export interface GetBudgetIncome_budget {
   __typename: "Budget";
   /**
    * ID of the budget
@@ -26,14 +26,14 @@ export interface GetBudgets_budget {
   year: number;
 }
 
-export interface GetBudgets {
+export interface GetBudgetIncome {
   /**
    * Get the budget for a given month
    */
-  budget: GetBudgets_budget | null;
+  budget: GetBudgetIncome_budget | null;
 }
 
-export interface GetBudgetsVariables {
+export interface GetBudgetIncomeVariables {
   year: number;
   month: number;
 }

@@ -6,12 +6,15 @@ import gql from "graphql-tag";
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useQuery, useMutation } from "react-apollo";
-import { GetBudgets, GetBudgetsVariables } from "./__generated__/GetBudgets";
 import {
   BudgetIncomeUpdate,
   BudgetIncomeUpdateVariables,
 } from "./__generated__/BudgetIncomeUpdate";
 import styled from "styled-components/native";
+import {
+  GetBudgetIncomeVariables,
+  GetBudgetIncome,
+} from "./__generated__/GetBudgetIncome";
 
 const CashIcon = styled(Ionicons).attrs({
   name: "ios-cash",
@@ -37,7 +40,7 @@ const UPDATE_INCOME = gql`
 `;
 
 const GET_INCOME = gql`
-  query GetBudgets($year: Int!, $month: Int!) {
+  query GetBudgetIncome($year: Int!, $month: Int!) {
     budget(year: $year, month: $month) {
       id
       income
@@ -55,9 +58,12 @@ interface Props {
 const EditIncomeModal = ({ year, month }: Props) => {
   const [visible, setVisible] = useState(false);
 
-  const { data } = useQuery<GetBudgets, GetBudgetsVariables>(GET_INCOME, {
-    variables: { year, month },
-  });
+  const { data } = useQuery<GetBudgetIncome, GetBudgetIncomeVariables>(
+    GET_INCOME,
+    {
+      variables: { year, month },
+    }
+  );
 
   const [updateIncome] = useMutation<
     BudgetIncomeUpdate,
