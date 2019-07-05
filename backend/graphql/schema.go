@@ -103,6 +103,16 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.AnnualBudgetItemUpsert,
 		},
+		"budgetCategoryImport": &graphql.Field{
+			Type:        graphql.NewNonNull(types.BudgetCategoryImport),
+			Description: "Imports budget categories from a previous budget",
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.ID),
+				},
+			},
+			Resolve: mutations.BudgetCategoryImport,
+		},
 	},
 })
 

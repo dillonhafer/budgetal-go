@@ -4,14 +4,22 @@ import { SecondaryButton } from "@src/forms";
 import { BudgetCategory } from "../types";
 import { confirm, notice } from "@src/notify";
 import { monthName } from "@shared/helpers";
+import { useMutation } from "react-apollo";
+import gql from "graphql-tag";
+import {
+  BudgetCategoryImport,
+  BudgetCategoryImportVariables,
+} from "./__generated__/BudgetCategoryImport";
 
-const importPreviousItems = (id: string) => {
-  // importMutation({id}).then(() => {
-  //   notice(resp.message);
-  // })
-};
+const IMPORT_CATEGORIES = gql`
+  mutation BudgetCategoryImport($id: ID!) {
+    budgetCategoryImport(id: $id) {
+      message
+    }
+  }
+`;
 
-const onImportPress = (budgetCategory: BudgetCategory) => {
+const onImportPress = (budgetCategory: BudgetCategory, onOk: () => void) => {
   confirm({
     okText: `Copy ${budgetCategory.name}`,
     cancelText: "Cancel",
@@ -19,7 +27,7 @@ const onImportPress = (budgetCategory: BudgetCategory) => {
     content: `Do you want to copy budget items from your previous month's ${
       budgetCategory.name
     } category?`,
-    onOk: () => importPreviousItems(budgetCategory.id),
+    onOk,
   });
 };
 
@@ -35,7 +43,20 @@ const Footer = ({ budgetCategory, month }: Props) => {
   const previousMonthDigit = month === 1 ? 12 : month - 1;
   const previousMonth = monthName(previousMonthDigit - 1);
 
-  const onPress = () => onImportPress(budgetCategory);
+  const [budgetCategoryImport] = useMutation<
+    BudgetCategoryImport,
+    BudgetCategoryImportVariables
+  >(IMPORT_CATEGORIES, {
+    variables: { id: budgetCategory.id },
+    refetchQueries: ["GetBudgets"],
+    onCompleted: data => {
+      if (data) {
+        notice(data.budgetCategoryImport.message);
+      }
+    },
+  });
+
+  const onPress = () => onImportPress(budgetCategory, budgetCategoryImport);
 
   return (
     <FooterContainer>

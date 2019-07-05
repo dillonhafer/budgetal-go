@@ -3,7 +3,7 @@ import ListBackgroundFill from "@src/components/ListBackgroundFill";
 import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 import PlusButton from "@src/utils/PlusButton";
 import React from "react";
-import { useApolloClient } from "react-apollo";
+import { useQuery } from "react-apollo";
 import { FlatList, StatusBar } from "react-native";
 import {
   NavigationScreenConfigProps,
@@ -33,9 +33,8 @@ const BudgetItemsScreen = ({ navigation }: Props) => {
   const budgetCategory = navigation.getParam("budgetCategory");
   const budgetCategoryId = budgetCategory.id;
 
-  const client = useApolloClient();
-  const data = client.readQuery<GetBudgets, GetBudgetsVariables>({
-    query: GET_BUDGET,
+  const { data } = useQuery<GetBudgets, GetBudgetsVariables>(GET_BUDGET, {
+    fetchPolicy: "cache-first",
     variables: {
       year,
       month,

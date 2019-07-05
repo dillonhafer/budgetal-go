@@ -29,3 +29,14 @@ var BudgetCategory = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
+
+// BudgetCategoryImport returns a message indicating what was imported
+var BudgetCategoryImport = graphql.NewObject(graphql.ObjectConfig{
+	Name: "BudgetCategoryImport",
+	Fields: graphql.Fields{
+		"message": &graphql.Field{
+			Type:        graphql.NewNonNull(graphql.String),
+			Description: "Import message",
+		},
+	},
+})
