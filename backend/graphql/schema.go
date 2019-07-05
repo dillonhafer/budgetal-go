@@ -11,7 +11,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 	Name: "Query",
 	Fields: graphql.Fields{
 		"annualBudget": &graphql.Field{
-			Type:        types.AnnualBudget,
+			Type:        graphql.NewNonNull(types.AnnualBudget),
 			Description: "Get the annual budget for a given year",
 			Args: graphql.FieldConfigArgument{
 				"year": &graphql.ArgumentConfig{
@@ -21,7 +21,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Resolve: resolvers.AnnualBudget,
 		},
 		"budget": &graphql.Field{
-			Type:        types.Budget,
+			Type:        graphql.NewNonNull(types.Budget),
 			Description: "Get the budget for a given month",
 			Args: graphql.FieldConfigArgument{
 				"year": &graphql.ArgumentConfig{
@@ -34,7 +34,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Resolve: resolvers.Budget,
 		},
 		"monthlyStatistic": &graphql.Field{
-			Type:        graphql.NewList(types.MonthlyStatistic),
+			Type:        graphql.NewNonNull(graphql.NewList(graphql.NewNonNull(types.MonthlyStatistic))),
 			Description: "Get the statistics of a budget for a given month",
 			Args: graphql.FieldConfigArgument{
 				"year": &graphql.ArgumentConfig{
@@ -47,7 +47,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Resolve: resolvers.MonthlyStatistic,
 		},
 		"netWorth": &graphql.Field{
-			Type:        graphql.NewList(types.NetWorth),
+			Type:        graphql.NewNonNull(graphql.NewList(graphql.NewNonNull(types.NetWorth))),
 			Description: "Get the networth for a given year",
 			Args: graphql.FieldConfigArgument{
 				"year": &graphql.ArgumentConfig{
@@ -57,7 +57,7 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Resolve: resolvers.NetWorth,
 		},
 		"assets": &graphql.Field{
-			Type:        graphql.NewList(types.AssetLiability),
+			Type:        graphql.NewNonNull(graphql.NewList(graphql.NewNonNull(types.AssetLiability))),
 			Description: "Get the assets and liabilities for a user",
 			Resolve:     resolvers.AssetsLiabilities,
 		},

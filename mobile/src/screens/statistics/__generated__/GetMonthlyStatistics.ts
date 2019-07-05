@@ -42,7 +42,7 @@ export interface GetMonthlyStatistics {
   /**
    * Get the statistics of a budget for a given month
    */
-  monthlyStatistic: (GetMonthlyStatistics_monthlyStatistic | null)[] | null;
+  monthlyStatistic: GetMonthlyStatistics_monthlyStatistic[];
 }
 
 export interface GetMonthlyStatisticsVariables {

@@ -11,7 +11,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import { NavigationScreenConfigProps } from "react-navigation";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "react-apollo";
 import { BudgetCategory, BudgetItem, BudgetItemExpense } from "../types";
 
 export const GET_BUDGET = gql`

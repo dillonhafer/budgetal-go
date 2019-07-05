@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "react-apollo";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "@shared/theme";
 import { ListSeparator } from "@src/components/ListRow";

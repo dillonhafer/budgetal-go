@@ -19,7 +19,7 @@ export interface GetAnnualBudget_annualBudget_annualBudgetItems {
 
 export interface GetAnnualBudget_annualBudget {
   __typename: "AnnualBudget";
-  annualBudgetItems: (GetAnnualBudget_annualBudget_annualBudgetItems | null)[] | null;
+  annualBudgetItems: GetAnnualBudget_annualBudget_annualBudgetItems[];
   id: string;
   year: number;
 }
@@ -28,7 +28,7 @@ export interface GetAnnualBudget {
   /**
    * Get the annual budget for a given year
    */
-  annualBudget: GetAnnualBudget_annualBudget | null;
+  annualBudget: GetAnnualBudget_annualBudget;
 }
 
 export interface GetAnnualBudgetVariables {

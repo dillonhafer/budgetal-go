@@ -15,7 +15,7 @@ var AnnualBudget = graphql.NewObject(graphql.ObjectConfig{
 			Type: graphql.NewNonNull(graphql.Int),
 		},
 		"annualBudgetItems": &graphql.Field{
-			Type: graphql.NewList(AnnualBudgetItem),
+			Type: graphql.NewNonNull(graphql.NewList(graphql.NewNonNull(AnnualBudgetItem))),
 		},
 	},
 })

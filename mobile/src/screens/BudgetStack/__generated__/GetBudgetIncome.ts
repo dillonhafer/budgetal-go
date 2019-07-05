@@ -30,7 +30,7 @@ export interface GetBudgetIncome {
   /**
    * Get the budget for a given month
    */
-  budget: GetBudgetIncome_budget | null;
+  budget: GetBudgetIncome_budget;
 }
 
 export interface GetBudgetIncomeVariables {

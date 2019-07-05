@@ -12,7 +12,7 @@ import Swipeout from "react-native-swipeout";
 import styled from "styled-components/native";
 import { GetAnnualBudget_annualBudget_annualBudgetItems } from "./__generated__/GetAnnualBudget";
 import gql from "graphql-tag";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "react-apollo";
 import isEqual from "fast-deep-equal";
 
 const ANNUAL_BUDGET_ITEM_DELETE = gql`

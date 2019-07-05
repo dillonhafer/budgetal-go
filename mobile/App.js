@@ -17,7 +17,7 @@ import { colors } from "@shared/theme";
 import DropdownAlert from "react-native-dropdownalert";
 import RootNavigator from "@src/navigators/root";
 import registerForPushNotifications from "@src/utils/registerForPushNotifications";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloProvider } from "react-apollo";
 import { createApolloClient } from "@src/utils/apollo";
 const client = createApolloClient();
 

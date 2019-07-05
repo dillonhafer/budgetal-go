@@ -10,7 +10,7 @@ import SwitchInput from "@src/forms/SwitchInput";
 import { range } from "lodash";
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation } from "react-apollo";
 import gql from "graphql-tag";
 import moment from "moment";
 import {

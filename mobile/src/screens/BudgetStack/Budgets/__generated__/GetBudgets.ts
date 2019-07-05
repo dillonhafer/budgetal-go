@@ -44,7 +44,7 @@ export interface GetBudgets_budget_budgetCategories_budgetItems {
    * Amount budgeted for this item
    */
   amount: string;
-  budgetItemExpenses: (GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses)[];
+  budgetItemExpenses: GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses[];
 }
 
 export interface GetBudgets_budget_budgetCategories {
@@ -57,12 +57,12 @@ export interface GetBudgets_budget_budgetCategories {
    * Name of the category
    */
   name: string;
-  budgetItems: (GetBudgets_budget_budgetCategories_budgetItems)[];
+  budgetItems: GetBudgets_budget_budgetCategories_budgetItems[];
 }
 
 export interface GetBudgets_budget {
   __typename: "Budget";
-  budgetCategories: (GetBudgets_budget_budgetCategories)[];
+  budgetCategories: GetBudgets_budget_budgetCategories[];
   /**
    * ID of the budget
    */

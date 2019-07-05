@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "react-apollo";
 import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "@shared/theme";
 import { ListSeparator } from "@src/components/ListRow";
@@ -16,7 +16,11 @@ import {
 } from "react-navigation";
 import styled from "styled-components/native";
 import ItemRow from "./ItemRow";
-import { GetAnnualBudget_annualBudget_annualBudgetItems } from "./__generated__/GetAnnualBudget";
+import {
+  GetAnnualBudget_annualBudget_annualBudgetItems,
+  GetAnnualBudgetVariables,
+  GetAnnualBudget,
+} from "./__generated__/GetAnnualBudget";
 
 interface Item extends GetAnnualBudget_annualBudget_annualBudgetItems {}
 
@@ -68,16 +72,18 @@ interface Props extends NavigationScreenConfigProps {}
 const AnnualBudgetScreen = ({ navigation }: Props) => {
   const [year, setYear] = useState(defaultYear);
   const [refreshing, setRefreshing] = useState(false);
-  const { loading, data, refetch } = useQuery(GET_ANNUAL_BUDGET, {
+  const { loading, data, refetch } = useQuery<
+    GetAnnualBudget,
+    GetAnnualBudgetVariables
+  >(GET_ANNUAL_BUDGET, {
     variables: { year },
   });
 
-  const { annualBudget } = data;
-
-  const items =
-    annualBudget && annualBudget.annualBudgetItems
-      ? annualBudget.annualBudgetItems
-      : [];
+  let items: Item[] = [];
+  const annualBudget = data && data.annualBudget;
+  if (annualBudget) {
+    items = annualBudget.annualBudgetItems;
+  }
 
   useEffect(() => {
     if (annualBudget) {
