@@ -7,7 +7,21 @@ import { reduceSum, percentSpent } from "@shared/helpers";
 import styled from "styled-components/native";
 import { colors } from "@shared/theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { confirm } from "@src/notify";
+import { confirm, notice } from "@src/notify";
+import { useMutation } from "react-apollo";
+import gql from "graphql-tag";
+import {
+  BudgetItemDelete,
+  BudgetItemDeleteVariables,
+} from "./__generated__/BudgetItemDelete";
+
+const BUDGET_ITEM_DELETE = gql`
+  mutation BudgetItemDelete($id: ID!) {
+    budgetItemDelete(id: $id) {
+      id
+    }
+  }
+`;
 
 const SwipeButton = styled.View<{ color: string; borderRadius: number }>(
   props => ({
@@ -22,19 +36,26 @@ const SwipeButton = styled.View<{ color: string; borderRadius: number }>(
   })
 );
 
-const confirmDelete = (budgetItem: BudgetItem) => {
+const confirmDelete = (
+  budgetItem: BudgetItem,
+  deleteItem: () => Promise<void>
+) => {
   confirm({
     title: `Delete ${budgetItem.name}?`,
     okText: "Delete",
     onOk: () => {
-      // deleteItemMutation(budgetItem).then(() => {
-      //   notice(`${budgetItem.name} Deleted`);
-      // })
+      deleteItem().then(() => {
+        notice(`${budgetItem.name} Deleted`);
+      });
     },
   });
 };
 
-const itemButtons = (budgetItem: BudgetItem, onEdit: () => void) => {
+const itemButtons = (
+  budgetItem: BudgetItem,
+  onEdit: () => void,
+  onDelete: () => any
+) => {
   return [
     {
       component: (
@@ -54,7 +75,7 @@ const itemButtons = (budgetItem: BudgetItem, onEdit: () => void) => {
       ),
       backgroundColor: colors.error,
       underlayColor: colors.error + "70",
-      onPress: () => confirmDelete(budgetItem),
+      onPress: () => confirmDelete(budgetItem, onDelete),
     },
   ];
 };
@@ -81,7 +102,18 @@ const Row = ({ budgetItem, onPress, onEdit }: Props) => {
   } else if (remaining === 0.0) {
     status = "success";
   }
-  const buttons = itemButtons(budgetItem, onEdit);
+
+  const [budgetItemDelete] = useMutation<
+    BudgetItemDelete,
+    BudgetItemDeleteVariables
+  >(BUDGET_ITEM_DELETE, {
+    variables: {
+      id: budgetItem.id,
+    },
+    refetchQueries: ["GetBudgets"],
+  });
+
+  const buttons = itemButtons(budgetItem, onEdit, budgetItemDelete);
 
   return (
     <Swipeout buttonWidth={84} autoClose={true} right={buttons}>

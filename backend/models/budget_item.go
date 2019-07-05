@@ -21,6 +21,16 @@ type BudgetItem struct {
 
 type BudgetItems []BudgetItem
 
+func (budgetItem *BudgetItem) DestroyAllExpensesSilently(tx *pop.Connection) error {
+	query := `
+    delete from budget_item_expenses
+    where budget_item_id = :id
+  `
+
+	_, err := tx.Store.NamedExec(query, budgetItem)
+	return err
+}
+
 func (budgetItem *BudgetItem) DestroyAllExpenses(tx *pop.Connection, logger buffalo.Logger) error {
 	query := `
     delete from budget_item_expenses

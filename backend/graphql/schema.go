@@ -113,6 +113,16 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.BudgetCategoryImport,
 		},
+		"budgetItemDelete": &graphql.Field{
+			Type:        graphql.NewNonNull(types.BudgetItem),
+			Description: "Deletes a budget item",
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.ID),
+				},
+			},
+			Resolve: mutations.BudgetItemDelete,
+		},
 	},
 })
 

@@ -49,10 +49,8 @@ const Form = ({ item, afterSubmit }: Props) => {
 
   const valid = name.length > 0 && parseFloat(amount) > 0 && dueDate.isValid();
   const [annualBudgetItemUpsert, { loading }] = useMutation<
-    {
-      annualBudgetItemUpsert: AnnualBudgetItemUpsert;
-    },
-    { annualBudgetItemInput: AnnualBudgetItemUpsertVariables }
+    AnnualBudgetItemUpsert,
+    AnnualBudgetItemUpsertVariables
   >(ANNUAL_BUGET_ITEM_UPSERT, {
     variables: {
       annualBudgetItemInput: {
