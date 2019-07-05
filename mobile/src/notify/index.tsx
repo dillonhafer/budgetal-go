@@ -1,10 +1,10 @@
 import { Alert } from "react-native";
 
-export const error = (msg, delay) => {
+export const error = (msg: string, delay?: number) => {
   global.alertWithType("error", "Error", msg, { delay });
 };
 
-export const notice = (msg, delay) => {
+export const notice = (msg: string, delay?: number) => {
   global.alertWithType("success", "Success", msg, { delay });
 };
 
@@ -16,9 +16,12 @@ export const confirm = ({
   onOk,
   onCancel,
 }: {
-  okText: string,
-  title: string,
-  onOk(): void,
+  okText: string;
+  cancelText?: string;
+  content?: string;
+  title: string;
+  onOk(): void;
+  onCancel?(): void;
 }) => {
   Alert.alert(
     title || "Confirm",

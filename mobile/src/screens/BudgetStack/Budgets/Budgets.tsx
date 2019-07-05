@@ -12,9 +12,9 @@ import Header from "./Header";
 import { NavigationScreenConfigProps } from "react-navigation";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { BudgetCategory, BudgetItem, BudgetItemExpense } from "./types";
+import { BudgetCategory, BudgetItem, BudgetItemExpense } from "../types";
 
-const GET_BUDGET = gql`
+export const GET_BUDGET = gql`
   query GetBudgets($year: Int!, $month: Int!) {
     budget(year: $year, month: $month) {
       budgetCategories {
@@ -109,6 +109,8 @@ const BudgetsScreen = ({ navigation }: Props) => {
               onPress={() => {
                 navigation.navigate("BudgetCategory", {
                   budgetCategory: item,
+                  year,
+                  month,
                 });
               }}
               budgetCategory={item}

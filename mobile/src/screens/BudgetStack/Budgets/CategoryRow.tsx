@@ -6,7 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Card from "@src/components/Card";
 import Progress from "@src/utils/Progress";
 import isEqual from "fast-deep-equal";
-import { BudgetCategory } from "./types";
+import { BudgetCategory } from "../types";
 import { colors } from "@shared/theme";
 
 const Container = styled.View({

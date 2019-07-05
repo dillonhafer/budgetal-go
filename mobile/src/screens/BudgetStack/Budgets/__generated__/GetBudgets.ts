@@ -85,7 +85,7 @@ export interface GetBudgets {
   /**
    * Get the budget for a given month
    */
-  budget: GetBudgets_budget | null;
+  budget: GetBudgets_budget;
 }
 
 export interface GetBudgetsVariables {
