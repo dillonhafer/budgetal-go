@@ -136,7 +136,6 @@ class SignInScreen extends Component {
       SetAuthenticationToken(resp.token);
       SetCurrentUser(resp.user);
       this.props.navigation.navigate("AuthLoading");
-      // navigateHome(this.props.navigation.dispatch);
       notice("You are now signed in!");
     } else {
       this.setState({ loading: false });

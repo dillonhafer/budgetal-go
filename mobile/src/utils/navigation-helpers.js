@@ -5,6 +5,7 @@ import { BlurView } from "expo-blur";
 import { Ionicons } from "@expo/vector-icons";
 import { withNavigation } from "react-navigation";
 import { DrawerBurger } from "@src/screens/Drawer";
+import { colors } from "@shared/theme";
 
 export const NavigationHeight = 44;
 export const SidebarNavigationHeight = 43.5;
@@ -14,6 +15,10 @@ export const BlurViewInsetProps = {
   contentOffset: { y: -NavigationHeight, x: 0 },
   contentInsetAdjustmentBehavior: "automatic",
   automaticallyAdjustContentInsets: true,
+  contentContainerStyle: {
+    backgroundColor: colors.backgroundColor,
+    minHeight: "80%",
+  },
 };
 
 export const BlurViewNavigationOptions = {

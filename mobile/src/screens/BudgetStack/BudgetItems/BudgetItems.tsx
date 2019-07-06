@@ -71,7 +71,9 @@ const BudgetItemsScreen = ({ navigation }: Props) => {
               }}
               onPress={() => {
                 navigation.navigate("BudgetItem", {
-                  item,
+                  budgetItem: item,
+                  year,
+                  month,
                 });
               }}
             />
