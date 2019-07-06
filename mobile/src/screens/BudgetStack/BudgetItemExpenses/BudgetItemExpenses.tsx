@@ -1,7 +1,6 @@
 import { reduceSum } from "@shared/helpers";
 import Card, { SplitBackground } from "@src/components/Card";
 import EmptyList from "@src/components/EmptyList";
-import Expense from "@src/components/Expense";
 import ListBackgroundFill from "@src/components/ListBackgroundFill";
 import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 import PlusButton from "@src/utils/PlusButton";
@@ -21,6 +20,23 @@ import {
 } from "../Budgets/__generated__/GetBudgets";
 import { BudgetItem, BudgetItemExpense } from "../types";
 import SectionHeader from "./SectionHeader";
+import Row, { Expense, Position } from "./Row";
+
+const findPosition = (array: BudgetItemExpense[], index: number): Position => {
+  if (array.length === 1) {
+    return "only";
+  }
+
+  if (index === 0) {
+    return "first";
+  }
+
+  if (index === array.length - 1) {
+    return "last";
+  }
+
+  return "";
+};
 
 const Container = styled.View({
   flex: 1,
@@ -28,7 +44,7 @@ const Container = styled.View({
 });
 
 interface Section {
-  data: BudgetItemExpense[];
+  data: Expense[];
   title: string;
 }
 
@@ -71,34 +87,17 @@ const BudgetItemExpensesScreen = ({ navigation }: Props) => {
   const remaining = amountBudgeted - amountSpent;
   const sections = transform(
     groupBy(orderBy(expenses, ["date", "id"], ["desc", "desc"]), "date"),
-    (result: Section[], value, key) => {
-      result.push({ data: value, title: key });
+    (result: Section[], expenses, key) => {
+      result.push({
+        data: expenses.map<Expense>((expense, i) => {
+          const position = findPosition(expenses, i);
+          return { ...expense, position };
+        }),
+        title: key,
+      });
     },
     []
   );
-
-  const expenseSections = sections.map<Section>((sec: Section) => {
-    return {
-      ...sec,
-      data: sec.data.map((expense, i) => {
-        let position = "";
-
-        if (i === 0) {
-          position = "first";
-        }
-
-        if (i === sec.data.length - 1) {
-          position = "last";
-        }
-
-        if (sec.data.length === 1) {
-          position = "only";
-        }
-
-        return { ...expense, position };
-      }),
-    };
-  });
 
   return (
     <>
@@ -110,16 +109,19 @@ const BudgetItemExpensesScreen = ({ navigation }: Props) => {
           contentInsetAdjustmentBehavior="automatic"
           stickySectionHeadersEnabled={false}
           keyExtractor={i => i.id}
-          sections={expenseSections}
-          renderItem={({ item }: { item: BudgetItemExpense }) => {
+          sections={sections}
+          renderItem={({ item }: { item: Expense }) => {
             const active = selectedExpense === item.id;
             return (
-              <Expense
+              <Row
                 expense={item}
                 active={active}
-                navigation={navigation}
-                removeExpense={() => {}}
                 toggleVisibleExpense={toggleVisibleExpense}
+                onEdit={() => {
+                  navigation.navigate("EditBudgetItemExpense", {
+                    budgetItemExpense: item,
+                  });
+                }}
               />
             );
           }}
