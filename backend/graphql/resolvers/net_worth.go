@@ -1,13 +1,14 @@
 package resolvers
 
 import (
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 )
 
 // NetWorth resolve net worth items
 func NetWorth(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 
 	year, isOK := params.Args["year"].(int)
 	if !isOK || !AllowedNetWorthYear(year) {

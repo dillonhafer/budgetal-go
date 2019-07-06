@@ -1,13 +1,13 @@
 package resolvers
 
 import (
-	"github.com/dillonhafer/budgetal/backend/models"
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/graphql-go/graphql"
 )
 
 // CurrentUser resolve net worth items
 func CurrentUser(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 
 	u := &struct {
 		ID        int     `json:"id"`

@@ -3,6 +3,7 @@ package resolvers
 import (
 	"time"
 
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 )
@@ -25,7 +26,7 @@ func AllowedMonth(month int) bool {
 
 // Budget resolve annual budgets
 func Budget(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 
 	year, yearOK := params.Args["year"].(int)
 	month, monthOK := params.Args["month"].(int)

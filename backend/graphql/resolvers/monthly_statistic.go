@@ -1,13 +1,14 @@
 package resolvers
 
 import (
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 )
 
 // MonthlyStatistic resolve annual MonthlyStatistics
 func MonthlyStatistic(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 
 	year, yearOK := params.Args["year"].(int)
 	month, monthOK := params.Args["month"].(int)

@@ -3,13 +3,14 @@ package mutations
 import (
 	"strconv"
 
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 )
 
 // BudgetCategoryImport will delete an annaul budget item
 func BudgetCategoryImport(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 	idString, isOK := params.Args["id"].(string)
 	if !isOK {
 		return nil, nil

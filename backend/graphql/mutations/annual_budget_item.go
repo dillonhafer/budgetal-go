@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"strconv"
 
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 	"github.com/mitchellh/mapstructure"
@@ -11,7 +12,7 @@ import (
 
 // AnnualBudgetItemDelete will delete an annaul budget item
 func AnnualBudgetItemDelete(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 	idString, isOK := params.Args["id"].(string)
 	if !isOK {
 		return nil, nil
@@ -60,7 +61,7 @@ type annualBudgetItemInput struct {
 
 // AnnualBudgetItemUpsert will insert or update an annual budget item
 func AnnualBudgetItemUpsert(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 	input := annualBudgetItemInput{}
 	err := mapstructure.Decode(params.Args["annualBudgetItemInput"], &input)
 	if err != nil {

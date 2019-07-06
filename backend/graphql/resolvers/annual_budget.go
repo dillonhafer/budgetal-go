@@ -1,13 +1,14 @@
 package resolvers
 
 import (
+	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
 )
 
 // AnnualBudget resolve annual budgets
 func AnnualBudget(params graphql.ResolveParams) (interface{}, error) {
-	currentUser := params.Context.Value("currentUser").(*models.User)
+	currentUser := context.CurrentUser(params.Context)
 
 	year, isOK := params.Args["year"].(int)
 	if !isOK || !AllowedYear(year) {
