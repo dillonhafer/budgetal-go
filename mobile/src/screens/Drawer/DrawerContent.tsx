@@ -1,13 +1,14 @@
-import { SignOutRequest } from "@shared/api/sessions";
 import { colors } from "@shared/theme";
-import Monogram, { User } from "@src/components/Monogram";
+import Monogram from "@src/components/Monogram";
 import { Bold, Medium, Small } from "@src/components/Text";
-import { error, notice } from "@src/notify";
+import { notice } from "@src/notify";
 import LegalModal from "@src/screens/Legal";
 import { RemoveAuthentication } from "@src/utils/authentication";
 import { WebBrowser } from "expo";
 import Constants from "expo-constants";
+import gql from "graphql-tag";
 import React, { useState } from "react";
+import { useMutation, useQuery } from "react-apollo";
 import {
   Alert,
   ScrollView,
@@ -18,9 +19,16 @@ import {
 } from "react-native";
 import { DrawerItemsProps, SafeAreaView } from "react-navigation";
 import DrawerItem from "./DrawerItem";
-import gql from "graphql-tag";
-import { useQuery } from "react-apollo";
 import { GetCurrentUser } from "./__generated__/GetCurrentUser";
+import { SignOut } from "./__generated__/SignOut";
+
+const SIGN_OUT = gql`
+  mutation SignOut {
+    signOut {
+      id
+    }
+  }
+`;
 
 const CURRENT_USER = gql`
   query GetCurrentUser {
@@ -68,16 +76,15 @@ interface Props extends DrawerItemsProps {}
 
 const DrawerContent = ({ navigation }: Props) => {
   const [visible, setVisible] = useState(false);
+  const [signOut] = useMutation<SignOut>(SIGN_OUT);
 
-  const signOut = async () => {
-    try {
-      await SignOutRequest();
-      await RemoveAuthentication();
-      navigation.navigate("AuthLoading");
-      notice("You are now signed out");
-    } catch (err) {
-      error("Something went wrong. Try closing the app.");
-    }
+  const signOutUser = () => {
+    signOut()
+      .then(RemoveAuthentication)
+      .then(() => {
+        navigation.navigate("SignIn");
+        notice("You are now signed out");
+      });
   };
 
   const confirmSignOut = () => {
@@ -92,7 +99,7 @@ const DrawerContent = ({ navigation }: Props) => {
         {
           text: "Sign Out",
           style: "destructive",
-          onPress: signOut,
+          onPress: signOutUser,
         },
       ],
       { cancelable: true }

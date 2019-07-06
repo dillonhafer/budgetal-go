@@ -17,10 +17,10 @@ export interface AnnualBudgetItemInput {
 }
 
 export interface BudgetItemInput {
-  id?: string | null;
-  budgetCategoryId: number;
   amount: number;
   name: string;
+  id?: string | null;
+  budgetCategoryId: number;
 }
 
 //==============================================================

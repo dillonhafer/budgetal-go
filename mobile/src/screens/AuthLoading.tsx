@@ -1,6 +1,5 @@
 import { colors } from "@shared/theme";
-import { IsAuthenticated } from "@src/utils/authentication";
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { ActivityIndicator, StatusBar } from "react-native";
 import { NavigationScreenConfigProps } from "react-navigation";
 import styled from "styled-components/native";
@@ -34,19 +33,18 @@ const LoadingContainer = styled.View({
 
 const AuthLoadingScreen = ({ navigation }: Props) => {
   const { data, loading } = useQuery<GetCurrentUser>(CURRENT_USER);
-  const user = data && data.currentUser ? data.currentUser : null;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (loading) {
       return;
     }
 
-    if (user) {
+    if (data && data.currentUser) {
       navigation.navigate("App");
     } else {
       navigation.navigate("SignIn");
     }
-  }, [user, loading]);
+  }, [loading]);
 
   return (
     <LoadingContainer>

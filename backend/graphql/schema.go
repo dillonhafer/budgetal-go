@@ -138,6 +138,11 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.BudgetItemUpsert,
 		},
+		"signOut": &graphql.Field{
+			Type:        types.User,
+			Description: "Sign out the current user",
+			Resolve:     mutations.SignOut,
+		},
 	},
 })
 
