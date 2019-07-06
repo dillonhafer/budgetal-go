@@ -109,7 +109,10 @@ const Title = ({
           <CenterBold>{currencyf(budgetItem.amount)}</CenterBold>
         </Center>
         <Center>
-          by <CenterBold>{moment(budgetItem.dueDate).format("LL")}</CenterBold>
+          by{" "}
+          <CenterBold>
+            {moment(budgetItem.dueDate.slice(0, 10)).format("LL")}
+          </CenterBold>
         </Center>
         <Center>you need to save</Center>
         <CenterBold>
