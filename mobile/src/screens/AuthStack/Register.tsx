@@ -1,10 +1,6 @@
 import React, { useState, useRef } from "react";
 import { TextInput, StatusBar, KeyboardAvoidingView } from "react-native";
 
-// Redux
-import { connect } from "react-redux";
-import { updateCurrentUser } from "@src/actions/users";
-
 // API
 import { RegisterRequest } from "@shared/api/users";
 import {
@@ -32,9 +28,7 @@ const Container = styled(KeyboardAvoidingView).attrs({
   alignItems: "center",
 });
 
-interface Props extends NavigationScreenConfigProps {
-  updateCurrentUser(user: any): void;
-}
+interface Props extends NavigationScreenConfigProps {}
 
 const validateFields = (
   email: string,
@@ -50,7 +44,7 @@ const validateFields = (
   );
 };
 
-const RegisterScreen = ({ navigation, updateCurrentUser }: Props) => {
+const RegisterScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -68,7 +62,6 @@ const RegisterScreen = ({ navigation, updateCurrentUser }: Props) => {
           setLoading(false);
           if (resp.ok) {
             SetAuthenticationToken(resp.token);
-            updateCurrentUser(resp.user);
             SetCurrentUser(resp.user);
             navigation.replace("AuthLoading");
             notice("Welcome to Budgetal!", 4000);
@@ -136,11 +129,4 @@ const RegisterScreen = ({ navigation, updateCurrentUser }: Props) => {
   );
 };
 
-export default connect(
-  null,
-  dispatch => ({
-    updateCurrentUser: user => {
-      dispatch(updateCurrentUser(user));
-    },
-  })
-)(RegisterScreen);
+export default RegisterScreen;

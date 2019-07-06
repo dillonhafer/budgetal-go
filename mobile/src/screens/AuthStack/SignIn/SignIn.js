@@ -134,9 +134,8 @@ class SignInScreen extends Component {
     const resp = await SignInRequest({ email, password, deviceName });
     if (resp && resp.ok) {
       SetAuthenticationToken(resp.token);
-      this.props.updateCurrentUser(resp.user);
       SetCurrentUser(resp.user);
-      this.props.navigation.navigate("App");
+      this.props.navigation.navigate("AuthLoading");
       // navigateHome(this.props.navigation.dispatch);
       notice("You are now signed in!");
     } else {

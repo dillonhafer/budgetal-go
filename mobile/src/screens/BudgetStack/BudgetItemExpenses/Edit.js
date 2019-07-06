@@ -9,7 +9,6 @@ import {
 
 // Redux
 import { connect } from "react-redux";
-import { updateExpense } from "@src/actions/budget-item-expenses";
 
 // API
 import { UpdateExpenseRequest } from "@shared/api/budget-item-expenses";

@@ -1,30 +1,29 @@
-import React, { PureComponent } from 'react';
-import { StyleSheet, StatusBar, View, SectionList } from 'react-native';
+import React, { PureComponent } from "react";
+import { StyleSheet, StatusBar, View, SectionList } from "react-native";
 
 // Redux
-import { connect } from 'react-redux';
-import { removeExpense } from '@src/actions/budget-item-expenses';
+import { connect } from "react-redux";
 
 // Helpers
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
 // Components
-import { groupBy, orderBy, transform } from 'lodash';
-import { reduceSum } from '@shared/helpers';
-import moment from 'moment';
-import PlusButton from '@src/utils/PlusButton';
-import Card, { SplitBackground } from '@src/components/Card';
-import EmptyList from '@src/components/EmptyList';
-import ListBackgroundFill from '@src/components/ListBackgroundFill';
-import Expense from '@src/components/Expense';
-import { Bold } from '@src/components/Text';
+import { groupBy, orderBy, transform } from "lodash";
+import { reduceSum } from "@shared/helpers";
+import moment from "moment";
+import PlusButton from "@src/utils/PlusButton";
+import Card, { SplitBackground } from "@src/components/Card";
+import EmptyList from "@src/components/EmptyList";
+import ListBackgroundFill from "@src/components/ListBackgroundFill";
+import Expense from "@src/components/Expense";
+import { Bold } from "@src/components/Text";
 
 class BudgetItemScreen extends PureComponent {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     const budgetItem = params.budgetItem;
     const onPress = () => {
-      navigation.navigate('NewBudgetItemExpense', {
+      navigation.navigate("NewBudgetItemExpense", {
         budgetItem,
       });
     };
@@ -60,8 +59,8 @@ class BudgetItemScreen extends PureComponent {
     return (
       <View style={styles.header}>
         <Bold style={styles.headerText}>
-          {moment(section.title, 'YYYY-MM-DD')
-            .format('MMMM DD')
+          {moment(section.title, "YYYY-MM-DD")
+            .format("MMMM DD")
             .toUpperCase()}
         </Bold>
       </View>
@@ -98,30 +97,30 @@ class BudgetItemScreen extends PureComponent {
   render() {
     const item = this.props.navigation.state.params.budgetItem;
     const expenses = this.props.budgetItemExpenses.filter(
-      i => i.budgetItemId === item.id,
+      i => i.budgetItemId === item.id
     );
     const sections = transform(
-      groupBy(orderBy(expenses, ['date', 'id'], ['desc', 'desc']), 'date'),
+      groupBy(orderBy(expenses, ["date", "id"], ["desc", "desc"]), "date"),
       (result, value, key) => {
         result.push({ data: value, title: key });
       },
-      [],
+      []
     );
 
     const expenseSections = sections.map(sec => {
       return {
         ...sec,
         data: sec.data.map((ex, i) => {
-          let position = '';
+          let position = "";
           if (i === 0) {
-            position = 'first';
+            position = "first";
           }
           if (i === sec.data.length - 1) {
-            position = 'last';
+            position = "last";
           }
 
           if (sec.data.length === 1) {
-            position = 'only';
+            position = "only";
           }
 
           return { ...ex, position };
@@ -153,26 +152,26 @@ class BudgetItemScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "column",
   },
   list: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   contentStyles: {
-    backgroundColor: '#d8dce0',
-    minHeight: '100%',
+    backgroundColor: "#d8dce0",
+    minHeight: "100%",
   },
   header: {
     margin: 20,
     marginBottom: 5,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     padding: 5,
   },
   headerText: {
-    color: '#555',
-    fontWeight: 'bold',
+    color: "#555",
+    fontWeight: "bold",
   },
 });
 
@@ -184,5 +183,5 @@ export default connect(
     removeExpense: expense => {
       dispatch(removeExpense(expense));
     },
-  }),
+  })
 )(BudgetItemScreen);

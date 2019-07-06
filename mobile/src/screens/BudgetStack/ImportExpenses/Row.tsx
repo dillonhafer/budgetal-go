@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { CreateExpenseRequest } from "@shared/api/budget-item-expenses";
 import { currencyf } from "@shared/helpers";
 import { colors } from "@shared/theme";
-import { createdExpense } from "@src/actions/budget-item-expenses";
 import { notice } from "@src/notify";
 import React, { PureComponent } from "react";
 import {

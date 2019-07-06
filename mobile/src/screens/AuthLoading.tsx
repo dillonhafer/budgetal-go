@@ -1,9 +1,25 @@
 import { colors } from "@shared/theme";
-import { GetCurrentUser, IsAuthenticated } from "@src/utils/authentication";
+import { IsAuthenticated } from "@src/utils/authentication";
 import React, { useEffect } from "react";
 import { ActivityIndicator, StatusBar } from "react-native";
 import { NavigationScreenConfigProps } from "react-navigation";
 import styled from "styled-components/native";
+import gql from "graphql-tag";
+import { useQuery } from "react-apollo";
+import { GetCurrentUser } from "./Drawer/__generated__/GetCurrentUser";
+
+const CURRENT_USER = gql`
+  query GetCurrentUser {
+    currentUser {
+      admin
+      avatarUrl
+      email
+      firstName
+      id
+      lastName
+    }
+  }
+`;
 
 interface Props extends NavigationScreenConfigProps {
   updateCurrentUser(user: object): void;
@@ -16,20 +32,21 @@ const LoadingContainer = styled.View({
   backgroundColor: colors.primary,
 });
 
-const AuthLoadingScreen = ({ navigation, updateCurrentUser }: Props) => {
-  useEffect(() => {
-    IsAuthenticated().then(foundUser => {
-      if (foundUser) {
-        GetCurrentUser().then(user => {
-          updateCurrentUser(user);
-          navigation.navigate("App");
-        });
-        return;
-      }
+const AuthLoadingScreen = ({ navigation }: Props) => {
+  const { data, loading } = useQuery<GetCurrentUser>(CURRENT_USER);
+  const user = data && data.currentUser ? data.currentUser : null;
 
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    if (user) {
+      navigation.navigate("App");
+    } else {
       navigation.navigate("SignIn");
-    });
-  }, []);
+    }
+  }, [user, loading]);
 
   return (
     <LoadingContainer>
@@ -39,13 +56,4 @@ const AuthLoadingScreen = ({ navigation, updateCurrentUser }: Props) => {
   );
 };
 
-import { connect } from "react-redux";
-import { updateCurrentUser } from "@src/actions/users";
-export default connect(
-  null,
-  dispatch => ({
-    updateCurrentUser: user => {
-      dispatch(updateCurrentUser(user));
-    },
-  })
-)(AuthLoadingScreen);
+export default AuthLoadingScreen;
