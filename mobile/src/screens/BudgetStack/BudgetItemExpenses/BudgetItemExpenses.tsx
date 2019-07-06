@@ -21,12 +21,16 @@ import {
 } from "../Budgets/__generated__/GetBudgets";
 import { BudgetItem, BudgetItemExpense } from "../types";
 import SectionHeader from "./SectionHeader";
-import { colors } from "@shared/theme";
 
 const Container = styled.View({
   flex: 1,
   backgroundColor: "#fff",
 });
+
+interface Section {
+  data: BudgetItemExpense[];
+  title: string;
+}
 
 interface Props extends NavigationScreenConfigProps {}
 
@@ -67,16 +71,16 @@ const BudgetItemExpensesScreen = ({ navigation }: Props) => {
   const remaining = amountBudgeted - amountSpent;
   const sections = transform(
     groupBy(orderBy(expenses, ["date", "id"], ["desc", "desc"]), "date"),
-    (result, value, key) => {
+    (result: Section[], value, key) => {
       result.push({ data: value, title: key });
     },
     []
   );
 
-  const expenseSections = sections.map(sec => {
+  const expenseSections = sections.map<Section>((sec: Section) => {
     return {
       ...sec,
-      data: sec.data.map((ex, i) => {
+      data: sec.data.map((expense, i) => {
         let position = "";
 
         if (i === 0) {
@@ -91,7 +95,7 @@ const BudgetItemExpensesScreen = ({ navigation }: Props) => {
           position = "only";
         }
 
-        return { ...ex, position };
+        return { ...expense, position };
       }),
     };
   });

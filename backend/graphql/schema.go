@@ -138,6 +138,26 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.BudgetItemUpsert,
 		},
+		"budgetItemExpenseDelete": &graphql.Field{
+			Type:        graphql.NewNonNull(types.BudgetItemExpense),
+			Description: "Deletes a budget item expense",
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.ID),
+				},
+			},
+			Resolve: mutations.BudgetItemExpenseDelete,
+		},
+		"budgetItemExpenseUpsert": &graphql.Field{
+			Type:        graphql.NewNonNull(types.BudgetItemExpense),
+			Description: "Upserts a budget item expense",
+			Args: graphql.FieldConfigArgument{
+				"budgetItemExpenseInput": &graphql.ArgumentConfig{
+					Type: types.BudgetItemExpenseInput,
+				},
+			},
+			Resolve: mutations.BudgetItemExpenseUpsert,
+		},
 		"signOut": &graphql.Field{
 			Type:        types.User,
 			Description: "Sign out the current user",

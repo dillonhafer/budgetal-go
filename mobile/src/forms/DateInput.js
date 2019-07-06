@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
 import {
   View,
@@ -7,10 +7,10 @@ import {
   StyleSheet,
   LayoutAnimation,
   Picker,
-} from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import moment from 'moment';
-import { range } from 'lodash';
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import moment from "moment";
+import { range } from "lodash";
 
 class DateInput extends PureComponent {
   state = {
@@ -24,7 +24,7 @@ class DateInput extends PureComponent {
   };
 
   onValueChange = ({ year, month, day }) => {
-    const date = moment(`${year}-${month}-${day}`, 'YYYY-MMMM-DD');
+    const date = moment(`${year}-${month}-${day}`, "YYYY-MMMM-DD");
     this.setState({ internalDate: date });
     this.props.onChange(date);
   };
@@ -33,14 +33,14 @@ class DateInput extends PureComponent {
     const { defaultValue, format } = this.props;
     const { internalDate, showDatePicker } = this.state;
     const date = internalDate || defaultValue || moment();
-    const dateFormat = format || 'MMMM DD, YYYY';
+    const dateFormat = format || "MMMM DD, YYYY";
 
-    const year = date.format('YYYY');
-    const month = date.format('MMMM');
-    const day = date.format('DD');
+    const year = date.format("YYYY");
+    const month = date.format("MMMM");
+    const day = date.format("D");
 
     return (
-      <View style={{ width: '100%', flexDirection: 'column' }}>
+      <View style={{ width: "100%", flexDirection: "column" }}>
         <TouchableOpacity
           style={styles.rowButton}
           onPress={this.toggleDatePicker}
@@ -52,13 +52,13 @@ class DateInput extends PureComponent {
             name="chevron-right"
             size={22}
             style={{ paddingRight: 10 }}
-            color={'#ced0ce'}
+            color={"#ced0ce"}
           />
         </TouchableOpacity>
         {showDatePicker && (
           <View style={styles.picker}>
             <Picker
-              style={{ width: '50%' }}
+              style={{ width: "50%" }}
               selectedValue={month}
               onValueChange={itemValue =>
                 this.onValueChange({ month: itemValue, year, day })
@@ -69,7 +69,7 @@ class DateInput extends PureComponent {
               })}
             </Picker>
             <Picker
-              style={{ width: '20%' }}
+              style={{ width: "20%" }}
               selectedValue={day}
               onValueChange={itemValue =>
                 this.onValueChange({ day: itemValue, month, year })
@@ -82,7 +82,7 @@ class DateInput extends PureComponent {
               })}
             </Picker>
             <Picker
-              style={{ width: '30%' }}
+              style={{ width: "30%" }}
               selectedValue={year}
               onValueChange={itemValue =>
                 this.onValueChange({ year: itemValue, month, day })
@@ -104,19 +104,19 @@ class DateInput extends PureComponent {
 const styles = StyleSheet.create({
   rowButton: {
     height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   displayDate: {
     marginLeft: 20,
   },
   picker: {
-    width: '100%',
-    borderColor: 'transparent',
+    width: "100%",
+    borderColor: "transparent",
     borderWidth: 0.5,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    backgroundColor: "#fff",
   },
 });
 

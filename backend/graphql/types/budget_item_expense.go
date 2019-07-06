@@ -30,3 +30,26 @@ var BudgetItemExpense = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
+
+// BudgetItemExpenseInput is the params to upsert a budget item expense
+var BudgetItemExpenseInput = graphql.NewInputObject(graphql.InputObjectConfig{
+	Name: "BudgetItemExpenseInput",
+	Fields: graphql.InputObjectConfigFieldMap{
+		"id": &graphql.InputObjectFieldConfig{
+			Type: graphql.ID,
+		},
+		"budgetItemId": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.Int),
+		},
+		"amount": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.Float),
+		},
+		"name": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"date": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+	},
+},
+)

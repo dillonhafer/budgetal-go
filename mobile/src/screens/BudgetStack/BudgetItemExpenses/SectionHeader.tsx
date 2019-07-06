@@ -18,7 +18,7 @@ const SectionHeader = ({ title }: { title: string }) => {
   return (
     <SectionHeaderContainer>
       <SectionHeaderText>
-        {moment(title, "YYYY-MM-DD")
+        {moment(title.slice(0, 10), "YYYY-MM-DD")
           .format("MMMM DD")
           .toUpperCase()}
       </SectionHeaderText>
