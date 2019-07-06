@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { Image, Text } from "react-native";
 import styled from "styled-components/native";
 
-const MonogramText = styled.Text({
+const MonogramText = styled.Text<{ fontSize: number }>(props => ({
   color: "white",
-  fontSize: 25,
-});
+  fontSize: props.fontSize,
+}));
 
 export interface User {
   email: string;
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  avatarUrl?: string | undefined;
+  firstName?: string | undefined | null;
+  lastName?: string | undefined | null;
+  avatarUrl?: string | undefined | null;
 }
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
   size?: number;
 }
 
-const firstLetter = (word?: string | undefined) =>
+const firstLetter = (word?: string | undefined | null) =>
   (word || "").charAt(0).toUpperCase();
 
 const Monogram = ({ user, size = 50 }: Props) => {
@@ -40,7 +40,11 @@ const Monogram = ({ user, size = 50 }: Props) => {
     );
   }
 
-  return <MonogramText>{letters.length ? letters : "?"}</MonogramText>;
+  return (
+    <MonogramText fontSize={size / 2}>
+      {letters.length ? letters : "?"}
+    </MonogramText>
+  );
 };
 
 export default Monogram;

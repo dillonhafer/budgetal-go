@@ -9,9 +9,6 @@ import {
   SectionList,
 } from "react-native";
 
-// Redux
-import { connect } from "react-redux";
-
 // Navigation
 import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
 
@@ -24,6 +21,8 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import Device from "@src/utils/Device";
 const isTablet = Device.isTablet();
 
+import Header from "./Header";
+
 class AccountScreen extends PureComponent {
   state = {
     isAvailable: false,
@@ -32,9 +31,7 @@ class AccountScreen extends PureComponent {
   };
 
   editAccount = () => {
-    this.props.navigation.navigate("AccountEdit", {
-      user: this.props.user,
-    });
+    this.props.navigation.navigate("AccountEdit");
   };
 
   navChangePassword = () => {
@@ -155,7 +152,6 @@ class AccountScreen extends PureComponent {
   };
 
   render() {
-    const { user } = this.props;
     const buttons = [
       {
         title: "ACCOUNT",
@@ -208,35 +204,7 @@ class AccountScreen extends PureComponent {
         <SectionList
           {...BlurViewInsetProps}
           ListHeaderComponent={() => {
-            return (
-              <View>
-                <View style={{ height: 20 }} />
-                <TouchableOpacity
-                  style={styles.profileContainer}
-                  onPress={this.editAccount}
-                >
-                  <View style={styles.imageContainer}>
-                    <Image
-                      style={styles.image}
-                      source={{ uri: user.avatarUrl }}
-                    />
-                  </View>
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.nameText}>
-                      {[user.firstName, user.lastName].join(" ")}
-                    </Text>
-                    <Text style={styles.emailText}>{user.email}</Text>
-                  </View>
-                  <View style={{ paddingRight: 15 }}>
-                    <Ionicons
-                      name="ios-arrow-forward"
-                      size={26}
-                      color={"#ced0ce"}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
+            return <Header onPress={this.editAccount} />;
           }}
           style={styles.list}
           stickySectionHeadersEnabled={false}
@@ -343,6 +311,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(state => ({
-  user: state.users,
-}))(AccountScreen);
+export default AccountScreen;

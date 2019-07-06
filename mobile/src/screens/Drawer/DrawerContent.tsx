@@ -17,16 +17,35 @@ import {
   View,
 } from "react-native";
 import { DrawerItemsProps, SafeAreaView } from "react-navigation";
-import { connect } from "react-redux";
 import DrawerItem from "./DrawerItem";
+import gql from "graphql-tag";
+import { useQuery } from "react-apollo";
+import { GetCurrentUser } from "./__generated__/GetCurrentUser";
 
-interface LHCProps {
-  user: User;
+const CURRENT_USER = gql`
+  query GetCurrentUser {
+    currentUser {
+      admin
+      avatarUrl
+      email
+      firstName
+      id
+      lastName
+    }
+  }
+`;
+
+interface AccountProps {
   onPress(): void;
   active: boolean;
 }
 
-const LHC = ({ user, onPress, active }: LHCProps) => {
+const AccountRow = ({ onPress, active }: AccountProps) => {
+  const { data } = useQuery<GetCurrentUser>(CURRENT_USER);
+  if (!data || !data.currentUser) {
+    return null;
+  }
+  const user = data.currentUser;
   const backgroundColor = active ? colors.drawerActive : "transparent";
 
   return (
@@ -45,11 +64,6 @@ const LHC = ({ user, onPress, active }: LHCProps) => {
     </View>
   );
 };
-
-const ListHeaderComponent = connect(state => ({
-  user: state.users,
-}))(LHC);
-
 interface Props extends DrawerItemsProps {}
 
 const DrawerContent = ({ navigation }: Props) => {
@@ -101,7 +115,7 @@ const DrawerContent = ({ navigation }: Props) => {
           forceInset={{ top: "always", horizontal: "never" }}
         >
           <View>
-            <ListHeaderComponent
+            <AccountRow
               active={currentRoute === "account"}
               onPress={() => {
                 navigation.navigate("Account");

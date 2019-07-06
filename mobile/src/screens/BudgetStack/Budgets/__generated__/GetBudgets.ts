@@ -44,6 +44,10 @@ export interface GetBudgets_budget_budgetCategories_budgetItems {
    * Amount budgeted for this item
    */
   amount: string;
+  /**
+   * ID of the category
+   */
+  budgetCategoryId: string;
   budgetItemExpenses: GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpenses[];
 }
 

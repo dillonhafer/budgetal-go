@@ -9,10 +9,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-// Redux
-import { connect } from "react-redux";
-import { updateCurrentUser } from "@src/actions/users";
-
 // API
 import { UpdateAccountInfoRequest } from "@shared/api/users";
 
@@ -29,6 +25,53 @@ import { BlurView } from "expo-blur";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Modal from "react-native-modalbox";
+import Monogram from "@src/components/Monogram";
+import gql from "graphql-tag";
+import { useQuery } from "react-apollo";
+import styled from "styled-components/native";
+// import { GetCurrentUser } from "@src/screens/Drawer/__generated__/GetCurrentUser";
+
+const CURRENT_USER = gql`
+  query GetCurrentUser {
+    currentUser {
+      admin
+      avatarUrl
+      email
+      firstName
+      id
+      lastName
+    }
+  }
+`;
+
+const ImageContainer = styled.View({
+  margin: 20,
+  borderWidth: 3,
+  borderColor: "#aaa",
+  backgroundColor: "#aaa",
+  borderRadius: 75,
+  width: 150,
+  height: 150,
+  overflow: "hidden",
+  justifyContent: "center",
+  alignItems: "center",
+});
+
+const ProfileImage = ({ onPress }) => {
+  const { data } = useQuery(CURRENT_USER);
+  if (!data || !data.currentUser) {
+    return null;
+  }
+  const user = data.currentUser;
+
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <ImageContainer>
+        <Monogram user={user} size={150} />
+      </ImageContainer>
+    </TouchableOpacity>
+  );
+};
 
 class AccountEditScreen extends Component {
   inputs = [];
@@ -45,13 +88,13 @@ class AccountEditScreen extends Component {
   };
 
   componentDidMount() {
-    const {
-      email,
-      firstName,
-      lastName,
-      avatarUrl,
-    } = this.props.navigation.state.params.user;
-    this.setState({ email, firstName, lastName, avatarUrl });
+    // const {
+    //   email,
+    //   firstName,
+    //   lastName,
+    //   avatarUrl,
+    // } = this.props.navigation.state.params.user;
+    // this.setState({ email, firstName, lastName, avatarUrl });
   }
 
   validateFields = () => {
@@ -149,7 +192,13 @@ class AccountEditScreen extends Component {
       showImagePicker,
     } = this.state;
 
-    const uri = image || avatarUrl;
+    const user = {
+      email,
+      firstName,
+      lastName,
+      avatarUrl,
+    };
+
     return (
       <KeyboardAwareScrollView
         contentContainerStyle={styles.container}
@@ -213,11 +262,7 @@ class AccountEditScreen extends Component {
           </BlurView>
         </Modal>
         <StatusBar barStyle="dark-content" />
-        <TouchableOpacity onPress={this.showImagePicker}>
-          <View style={styles.imageContainer}>
-            {!!uri && <Image style={styles.image} source={{ uri }} />}
-          </View>
-        </TouchableOpacity>
+        <ProfileImage onPress={this.showImagePicker} />
         <FieldContainer position="first">
           <TextInput
             keyboardType="email-address"
@@ -319,6 +364,8 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
   },
   image: {
     width: 150,
@@ -342,13 +389,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({
-    user: state.users,
-  }),
-  dispatch => ({
-    updateCurrentUser: user => {
-      dispatch(updateCurrentUser(user));
-    },
-  })
-)(AccountEditScreen);
+export default AccountEditScreen;
