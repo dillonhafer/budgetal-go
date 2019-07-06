@@ -123,6 +123,16 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.BudgetItemDelete,
 		},
+		"budgetItemUpsert": &graphql.Field{
+			Type:        types.BudgetItem,
+			Description: "Upserts a budget item",
+			Args: graphql.FieldConfigArgument{
+				"budgetItemInput": &graphql.ArgumentConfig{
+					Type: types.BudgetItemInput,
+				},
+			},
+			Resolve: mutations.BudgetItemUpsert,
+		},
 	},
 })
 

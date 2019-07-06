@@ -16,6 +16,13 @@ export interface AnnualBudgetItemInput {
   dueDate: string;
 }
 
+export interface BudgetItemInput {
+  amount: number;
+  name: string;
+  id?: string | null;
+  budgetCategoryId: number;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

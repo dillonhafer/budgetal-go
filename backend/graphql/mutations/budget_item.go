@@ -1,11 +1,13 @@
 package mutations
 
 import (
+	"encoding/json"
 	"strconv"
 
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/gobuffalo/pop"
 	"github.com/graphql-go/graphql"
+	"github.com/mitchellh/mapstructure"
 )
 
 // BudgetItemDelete will delete a budget item
@@ -49,6 +51,60 @@ func BudgetItemDelete(params graphql.ResolveParams) (interface{}, error) {
 
 	var expenses []models.BudgetItemExpense
 	item.BudgetItemExpenses = expenses
+	return item, nil
+}
+
+type budgetItemInput struct {
+	ID               string  `mapstructure:"id"`
+	BudgetCategoryID int     `mapstructure:"budgetCategoryId"`
+	Name             string  `mapstructure:"name"`
+	Amount           float64 `mapstructure:"amount"`
+}
+
+// BudgetItemUpsert will insert or update a budget item
+func BudgetItemUpsert(params graphql.ResolveParams) (interface{}, error) {
+	currentUser := params.Context.Value("currentUser").(*models.User)
+	input := budgetItemInput{}
+	err := mapstructure.Decode(params.Args["budgetItemInput"], &input)
+	if err != nil {
+		return nil, nil
+	}
+
+	item := &models.BudgetItem{}
+	id, err := strconv.Atoi(input.ID)
+
+	if err == nil {
+		// Update
+		item.ID = id
+		err = findBudgetItem(item, currentUser.ID)
+		if err != nil {
+			return nil, nil
+		}
+
+		item.Name = input.Name
+		item.Amount = json.Number(strconv.FormatFloat(input.Amount, 'f', -1, 64))
+
+		err = models.DB.Update(item)
+		if err != nil {
+			return nil, nil
+		}
+	} else {
+		// Create
+		category, err := findBudgetCategory(input.BudgetCategoryID, currentUser.ID)
+		if err != nil {
+			return nil, nil
+		}
+
+		item.BudgetCategoryId = category.ID
+		item.Name = input.Name
+		item.Amount = json.Number(strconv.FormatFloat(input.Amount, 'f', -1, 64))
+
+		err = models.DB.Create(item)
+		if err != nil {
+			return nil, nil
+		}
+	}
+
 	return item, nil
 }
 

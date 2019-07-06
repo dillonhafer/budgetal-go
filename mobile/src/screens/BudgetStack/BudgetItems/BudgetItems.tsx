@@ -94,10 +94,10 @@ const BudgetItemsScreen = ({ navigation }: Props) => {
 BudgetItemsScreen.navigationOptions = ({
   navigation,
 }: NavigationScreenProps<any>) => {
-  const budgetCategory = navigation.getParam("budgetCategory");
+  const budgetCategoryId = navigation.getParam("budgetCategory").id;
   const onPress = () => {
     navigation.navigate("NewBudgetItem", {
-      budgetCategory,
+      budgetCategoryId,
     });
   };
   return {

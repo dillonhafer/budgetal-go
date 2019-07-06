@@ -24,6 +24,7 @@ export const GET_BUDGET = gql`
           id
           name
           amount
+          budgetCategoryId
           budgetItemExpenses {
             id
             name

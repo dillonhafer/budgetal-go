@@ -58,7 +58,7 @@ const Form = ({ item, afterSubmit }: Props) => {
         annualBudgetId: item.annualBudgetId,
         name,
         dueDate: dueDate.format(),
-        amount,
+        amount: parseFloat(amount),
         interval,
         paid,
       },
