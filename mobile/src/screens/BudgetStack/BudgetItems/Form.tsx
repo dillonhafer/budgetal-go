@@ -1,4 +1,4 @@
-import { FieldContainer, PrimaryButton } from "@src/forms";
+import { FieldContainer, PrimaryButton, DangerButton } from "@src/forms";
 import MoneyInput from "@src/forms/MoneyInput";
 import gql from "graphql-tag";
 import React, { useState } from "react";
@@ -9,6 +9,7 @@ import {
   BudgetItemUpsert,
   BudgetItemUpsertVariables,
 } from "./__generated__/BudgetItemUpsert";
+import InsetScrollView from "@src/components/InsetScrollView";
 
 const BUGET_ITEM_UPSERT = gql`
   mutation BudgetItemUpsert($budgetItemInput: BudgetItemInput!) {
@@ -24,9 +25,10 @@ const BUGET_ITEM_UPSERT = gql`
 interface Props {
   item: BudgetItemInput;
   afterSubmit(): void;
+  onCancel(): void;
 }
 
-const Form = ({ item, afterSubmit }: Props) => {
+const Form = ({ item, afterSubmit, onCancel }: Props) => {
   const [name, setName] = useState(item.name);
   const [amount, setAmount] = useState(String(item.amount));
 
@@ -47,39 +49,43 @@ const Form = ({ item, afterSubmit }: Props) => {
   });
 
   return (
-    <>
-      <FieldContainer position="first">
-        <TextInput
-          style={{ height: 50 }}
-          placeholder="Name"
-          defaultValue={name}
-          autoFocus
-          underlineColorAndroid={"transparent"}
-          returnKeyType="next"
-          onChangeText={setName}
-        />
-      </FieldContainer>
-      <FieldContainer>
-        <MoneyInput
-          title="Amount"
-          displayAmount={amount}
-          defaultValue={(parseFloat(amount) * 100).toFixed()}
-          onChange={setAmount}
-        />
-      </FieldContainer>
+    <InsetScrollView>
+      <>
+        <FieldContainer position="first">
+          <TextInput
+            style={{ height: 50 }}
+            placeholder="Name"
+            defaultValue={name}
+            autoFocus
+            underlineColorAndroid={"transparent"}
+            returnKeyType="next"
+            onChangeText={setName}
+          />
+        </FieldContainer>
+        <FieldContainer>
+          <MoneyInput
+            title="Amount"
+            displayAmount={amount}
+            defaultValue={(parseFloat(amount) * 100).toFixed()}
+            onChange={setAmount}
+          />
+        </FieldContainer>
 
-      <View style={{ height: 10 }} />
+        <View style={{ height: 10 }} />
 
-      <PrimaryButton
-        title="Save Item"
-        disabled={!valid}
-        onPress={() => {
-          budgetItemUpsert();
-          afterSubmit();
-        }}
-        loading={!valid || loading}
-      />
-    </>
+        <PrimaryButton
+          title="Save Item"
+          disabled={!valid}
+          onPress={() => {
+            budgetItemUpsert();
+            afterSubmit();
+          }}
+          loading={!valid || loading}
+        />
+
+        <DangerButton title="Cancel" onPress={onCancel} />
+      </>
+    </InsetScrollView>
   );
 };
 
