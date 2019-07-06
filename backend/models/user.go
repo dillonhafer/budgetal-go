@@ -21,8 +21,8 @@ import (
 
 	"github.com/disintegration/imaging"
 	"github.com/gobuffalo/envy"
-	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/nulls"
+	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/validate"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -49,6 +49,26 @@ type User struct {
 func (u User) String() string {
 	ju, _ := json.Marshal(u)
 	return string(ju)
+}
+
+// NullableFirstName returns JSON nulls if empty
+func (u *User) NullableFirstName() *string {
+	var firstName *string
+	if u.FirstName.Valid {
+		firstName = &u.FirstName.String
+	}
+
+	return firstName
+}
+
+// NullableLastName returns JSON nulls if empty
+func (u *User) NullableLastName() *string {
+	var lastName *string
+	if u.LastName.Valid {
+		lastName = &u.LastName.String
+	}
+
+	return lastName
 }
 
 func (u *User) MarshalJSON() ([]byte, error) {

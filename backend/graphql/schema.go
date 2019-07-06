@@ -10,6 +10,11 @@ import (
 var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 	Name: "Query",
 	Fields: graphql.Fields{
+		"currentUser": &graphql.Field{
+			Type:        graphql.NewNonNull(types.User),
+			Description: "Get the current logged in user",
+			Resolve:     resolvers.CurrentUser,
+		},
 		"annualBudget": &graphql.Field{
 			Type:        graphql.NewNonNull(types.AnnualBudget),
 			Description: "Get the annual budget for a given year",
