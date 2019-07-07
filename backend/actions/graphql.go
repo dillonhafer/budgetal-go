@@ -50,10 +50,11 @@ func Graphql(c buffalo.Context) error {
 	response := graphql.Do(params)
 
 	if response.HasErrors() {
+		if response.Errors[0].Message == "interface conversion: interface {} is nil, not *models.User" {
+			return c.Render(401, r.JSON("You are not logged in"))
+		}
+
 		if ENV != "production" {
-			if response.Errors[0].Message == "interface conversion: interface {} is nil, not *models.User" {
-				return c.Render(200, r.JSON("You are not logged in"))
-			}
 			err := fmt.Sprintf("Failed to execute graphql operation, errors: %+v", response.Errors)
 			return c.Render(200, r.JSON(err))
 		}
