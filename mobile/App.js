@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { View, StatusBar, Dimensions, Platform } from "react-native";
 import { ScreenOrientation, AppLoading, Linking } from "expo";
-import { Asset } from "expo-asset";
-import * as Font from "expo-font";
 import Device from "@src/utils/Device";
 
 // Redux
@@ -33,28 +31,8 @@ if (Platform.OS === "ios" && Device.isTablet()) {
   ScreenOrientation.lockAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
 }
 
-// Preload font icons
-import {
-  FontAwesome,
-  Ionicons,
-  MaterialCommunityIcons,
-  Feather,
-} from "@expo/vector-icons";
-
-// Cache functions
-function cacheImages(images) {
-  return images.map(image => {
-    if (typeof image === "string") {
-      return Image.prefetch(image);
-    } else {
-      return Asset.fromModule(image).downloadAsync();
-    }
-  });
-}
-
-function cacheFonts(fonts) {
-  return fonts.map(font => Font.loadAsync(font));
-}
+import { Ionicons } from "@expo/vector-icons";
+import { preloadAssetsAsync } from "@src/utils/preload-assets";
 
 export default class App extends Component {
   state = {
@@ -78,41 +56,6 @@ export default class App extends Component {
       orientation: Device.isPortrait() ? "portrait" : "landscape",
     });
   };
-
-  async loadAssetsAsync() {
-    let imageAssets = [];
-
-    // eslint-disable-next-line no-undef
-    if (__DEV__) {
-      imageAssets = cacheImages([
-        require("@src/assets/images/app_logo.png"),
-        require("@src/assets/images/csv.png"),
-        require("@src/assets/images/Charity.png"),
-        require("@src/assets/images/Saving.png"),
-        require("@src/assets/images/Housing.png"),
-        require("@src/assets/images/Utilities.png"),
-        require("@src/assets/images/Food.png"),
-        require("@src/assets/images/Clothing.png"),
-        require("@src/assets/images/Transportation.png"),
-        require("@src/assets/images/Health.png"),
-        require("@src/assets/images/Insurance.png"),
-        require("@src/assets/images/Personal.png"),
-        require("@src/assets/images/Recreation.png"),
-        require("@src/assets/images/Debts.png"),
-        require("@src/assets/images/onepassword.png"),
-      ]);
-    }
-
-    const fontAssets = cacheFonts([
-      FontAwesome.font,
-      Ionicons.font,
-      MaterialCommunityIcons.font,
-      Feather.font,
-      { "Lato-Light": require("@src/assets/fonts/Lato-Light.ttf") },
-      { "Lato-Medium": require("@src/assets/fonts/Lato-Medium.ttf") },
-    ]);
-    await Promise.all([...imageAssets, ...fontAssets]);
-  }
 
   onFinish = () => {
     this.setState({ preLoaded: true });
@@ -159,7 +102,7 @@ export default class App extends Component {
     if (!this.state.preLoaded) {
       return (
         <AppLoading
-          startAsync={this.loadAssetsAsync}
+          startAsync={preloadAssetsAsync}
           onFinish={this.onFinish}
           onError={console.warn} // eslint-disable-line no-console
         />
