@@ -1,27 +1,23 @@
-import React, { Component } from "react";
-import { View, StatusBar, Dimensions, Platform } from "react-native";
-import { ScreenOrientation, AppLoading, Linking } from "expo";
-import Device from "@src/utils/Device";
-
-// Redux
-import { createStore, applyMiddleware } from "redux";
-import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-import reducers from "@src/reducers";
 import apiMiddleware from "@src/api/middleware";
-
-// App
-import { colors } from "@shared/theme";
-import DropdownAlert from "react-native-dropdownalert";
+import DropdownAlert from "@src/components/DropDownAlert";
 import RootNavigator from "@src/navigators/root";
-import registerForPushNotifications from "@src/utils/registerForPushNotifications";
-import { ApolloProvider } from "react-apollo";
+import reducers from "@src/reducers";
 import { createApolloClient } from "@src/utils/apollo";
-const client = createApolloClient();
+import Device from "@src/utils/Device";
+import { preloadAssetsAsync } from "@src/utils/preload-assets";
+import registerForPushNotifications from "@src/utils/registerForPushNotifications";
+import { AppLoading, Linking, ScreenOrientation } from "expo";
+import React, { Component } from "react";
+import { ApolloProvider } from "react-apollo";
+import { Dimensions, Platform, StatusBar } from "react-native";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import thunk from "redux-thunk";
 
 StatusBar.setBarStyle("light-content", true);
+
+const client = createApolloClient();
 const store = createStore(reducers, applyMiddleware(thunk, apiMiddleware));
-// Linking
 const prefix = Linking.makeUrl("/");
 
 // Allow iPads to use landscape
@@ -31,12 +27,8 @@ if (Platform.OS === "ios" && Device.isTablet()) {
   ScreenOrientation.lockAsync(ScreenOrientation.Orientation.PORTRAIT_UP);
 }
 
-import { Ionicons } from "@expo/vector-icons";
-import { preloadAssetsAsync } from "@src/utils/preload-assets";
-
 export default class App extends Component {
   state = {
-    delay: 1000,
     preLoaded: false,
     orientation: Device.isPortrait() ? "portrait" : "landscape",
     devicetype: Device.isTablet() ? "tablet" : "phone",
@@ -59,43 +51,6 @@ export default class App extends Component {
 
   onFinish = () => {
     this.setState({ preLoaded: true });
-    global.alertWithType = this.alertWithType;
-  };
-
-  alertWithType = (type, title, message, options = {}) => {
-    const originalDelay = this.state.delay;
-    if (options.delay) {
-      this.setState({ delay: options.delay });
-    }
-
-    this.dropdown.alertWithType(type, title, message);
-
-    if (options.delay) {
-      setTimeout(() => {
-        this.setState({ delay: originalDelay });
-      }, options.delay);
-    }
-  };
-
-  renderAlertImage = () => {
-    const name = {
-      info: "ios-information-circle-outline",
-      error: "ios-alert",
-      success: "ios-checkmark-circle-outline",
-      custom: "ios-construct",
-    }[this.dropdown.state.type];
-
-    const style = {
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: Platform.OS === "ios" ? 0 : 20,
-    };
-
-    return (
-      <View style={style}>
-        <Ionicons name={name} size={32} color={"#fff"} />
-      </View>
-    );
   };
 
   render() {
@@ -104,7 +59,7 @@ export default class App extends Component {
         <AppLoading
           startAsync={preloadAssetsAsync}
           onFinish={this.onFinish}
-          onError={console.warn} // eslint-disable-line no-console
+          onError={console.warn}
         />
       );
     }
@@ -114,14 +69,7 @@ export default class App extends Component {
         <Provider store={store}>
           <React.Fragment>
             <RootNavigator uriPrefix={prefix} />
-            <DropdownAlert
-              closeInterval={this.state.delay}
-              renderImage={this.renderAlertImage}
-              successColor={colors.success + "f9"}
-              errorColor={colors.error + "f9"}
-              containerStyle={{ backgroundColor: "purple" }}
-              ref={ref => (this.dropdown = ref)}
-            />
+            <DropdownAlert />
           </React.Fragment>
         </Provider>
       </ApolloProvider>

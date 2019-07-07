@@ -27,8 +27,6 @@
   },
   "dependencies": {
     "@shared": "file:../shared",
-    "@types/react-native-modalbox": "^1.4.8",
-    "@types/styled-components": "^4.1.16",
     "apollo-boost": "^0.4.3",
     "apollo-link-context": "^1.0.18",
     "expo": "^33.0.0",
@@ -62,6 +60,8 @@
   "devDependencies": {
     "@types/react": "^16.8.19",
     "@types/react-native": "^0.57.60",
+    "@types/react-native-modalbox": "^1.4.8",
+    "@types/styled-components": "^4.1.16",
     "apollo": "^2.15.0",
     "babel-preset-expo": "^5.1.1",
     "jest-expo": "^33.0.0",
