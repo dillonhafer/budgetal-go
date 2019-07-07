@@ -1,7 +1,9 @@
-import { connect } from 'react-redux';
-import { deleteNetWorthItem } from '@src/actions/net-worth-items';
-import { importNetWorthItems } from '@src/actions/net-worth';
-import MonthList from './MonthList';
+import { connect } from "react-redux";
+import {
+  deleteNetWorthItem,
+  importNetWorthItems,
+} from "@src/reducers/NetWorth";
+import MonthList from "./MonthList";
 
 const mapStateToProps = state => {
   return {
@@ -19,5 +21,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(MonthList);

@@ -2,11 +2,9 @@ import { AllNetWorthsRequest } from "@shared/api/net-worth";
 import {
   netWorthLoaded,
   netWorthRequestFinished,
-} from "@src/actions/net-worth";
-import {
   LOAD_NET_WORTH_YEAR,
   REFRESH_NET_WORTH_YEAR,
-} from "@src/redux-constants/action-types";
+} from "@src/reducers/NetWorth";
 
 const apiMiddleware = () => next => action => {
   next(action);

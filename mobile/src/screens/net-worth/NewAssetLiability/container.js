@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { createAssetLiability } from '@src/actions/net-worth-assets';
-import NewAssetLiabilityScreen from './NewAssetLiability';
+import { connect } from "react-redux";
+import { createAssetLiability } from "@src/reducers/NetWorth";
+import NewAssetLiabilityScreen from "./NewAssetLiability";
 
 export default connect(
   state => ({
@@ -9,5 +9,5 @@ export default connect(
   }),
   dispatch => ({
     createAssetLiability: asset => dispatch(createAssetLiability(asset)),
-  }),
+  })
 )(NewAssetLiabilityScreen);
