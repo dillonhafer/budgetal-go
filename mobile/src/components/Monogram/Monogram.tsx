@@ -47,4 +47,9 @@ const Monogram = ({ user, size = 50 }: Props) => {
   );
 };
 
-export default Monogram;
+const shouldSkipUpdate = (prev: Props, next: Props) =>
+  prev.user.avatarUrl === next.user.avatarUrl &&
+  prev.user.firstName === next.user.firstName &&
+  prev.user.lastName === next.user.lastName;
+
+export default React.memo(Monogram, shouldSkipUpdate);
