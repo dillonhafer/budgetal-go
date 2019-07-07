@@ -8,6 +8,14 @@ export const notice = (msg: string, delay?: number) => {
   global.alertWithType("success", "Success", msg, { delay });
 };
 
+export const info = (msg: string, delay?: number) => {
+  global.alertWithType("info", "Information", msg, { delay });
+};
+
+export const maintenance = (msg: string, delay?: number) => {
+  global.alertWithType("custom", "Server Updates", msg, { delay });
+};
+
 export const confirm = ({
   okText,
   cancelText,

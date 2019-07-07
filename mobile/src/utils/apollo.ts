@@ -11,6 +11,7 @@ import Constants from "expo-constants";
 import { onError } from "apollo-link-error";
 import { Updates } from "expo";
 import { ServerError } from "apollo-link-http-common";
+import { error, maintenance } from "@src/notify";
 
 let __baseURL = "https://api.budgetal.com";
 if (__DEV__) {
@@ -54,6 +55,14 @@ const multiPartFetch = (uri: string, options: RequestInit) => {
 };
 
 const unauthorizedLink = onError(({ networkError }) => {
+  if (networkError && (networkError as ServerError).statusCode === 503) {
+    maintenance("We are performing scheduled maintenance right now.", 15000);
+  }
+
+  if (networkError && (networkError as ServerError).statusCode === 200) {
+    error("Something went wrong.", 5000);
+  }
+
   if (networkError && (networkError as ServerError).statusCode === 401) {
     IsAuthenticated().then(auth => {
       RemoveAuthentication();

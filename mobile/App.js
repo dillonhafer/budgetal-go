@@ -135,8 +135,13 @@ export default class App extends Component {
   };
 
   renderAlertImage = () => {
-    const isError = this.dropdown.state.type === "error";
-    const name = isError ? "ios-alert" : "ios-checkmark-circle-outline";
+    const name = {
+      info: "ios-information-circle-outline",
+      error: "ios-alert",
+      success: "ios-checkmark-circle-outline",
+      custom: "ios-construct",
+    }[this.dropdown.state.type];
+
     const style = {
       alignItems: "center",
       justifyContent: "center",
@@ -171,6 +176,7 @@ export default class App extends Component {
               renderImage={this.renderAlertImage}
               successColor={colors.success + "f9"}
               errorColor={colors.error + "f9"}
+              containerStyle={{ backgroundColor: "purple" }}
               ref={ref => (this.dropdown = ref)}
             />
           </React.Fragment>
