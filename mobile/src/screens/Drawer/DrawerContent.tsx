@@ -76,12 +76,13 @@ interface Props extends DrawerItemsProps {}
 
 const DrawerContent = ({ navigation }: Props) => {
   const [visible, setVisible] = useState(false);
-  const [signOut] = useMutation<SignOut>(SIGN_OUT);
+  const [signOut, { client }] = useMutation<SignOut>(SIGN_OUT);
 
   const signOutUser = () => {
     signOut()
       .then(RemoveAuthentication)
       .then(() => {
+        if (client) client.resetStore();
         navigation.navigate("SignIn");
         notice("You are now signed out");
       });
