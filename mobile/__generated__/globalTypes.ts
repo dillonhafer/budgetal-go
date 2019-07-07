@@ -31,6 +31,13 @@ export interface BudgetItemInput {
   budgetCategoryId: number;
 }
 
+export interface UserInput {
+  lastName?: string | null;
+  password: string;
+  email: string;
+  firstName?: string | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

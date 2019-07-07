@@ -33,3 +33,23 @@ var User = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
+
+// UserInput is the params to upsert an annual budget item
+var UserInput = graphql.NewInputObject(graphql.InputObjectConfig{
+	Name: "UserInput",
+	Fields: graphql.InputObjectConfigFieldMap{
+		"email": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+		"firstName": &graphql.InputObjectFieldConfig{
+			Type: graphql.String,
+		},
+		"lastName": &graphql.InputObjectFieldConfig{
+			Type: graphql.String,
+		},
+		"password": &graphql.InputObjectFieldConfig{
+			Type: graphql.NewNonNull(graphql.String),
+		},
+	},
+},
+)

@@ -10,6 +10,7 @@ import { HttpLink } from "apollo-link-http";
 import Constants from "expo-constants";
 import { onError } from "apollo-link-error";
 import { Updates } from "expo";
+import { ServerError } from "apollo-link-http-common";
 
 let __baseURL = "https://api.budgetal.com";
 if (__DEV__) {
@@ -19,15 +20,41 @@ if (__DEV__) {
 }
 export const baseURL = __baseURL;
 
-const setAuthorizationLink = setContext(async () => {
-  const token = await GetAuthenticationToken();
-  return {
+const setAuthorizationLink = setContext(() => {
+  return GetAuthenticationToken().then(token => ({
     headers: { "X-Budgetal-Session": token },
-  };
+  }));
 });
 
+interface IHeaders {
+  "content-type"?: string;
+}
+
+const multiPartFetch = (uri: string, options: RequestInit) => {
+  const body = JSON.parse(String(options.body));
+  const multipart =
+    Object.keys(body.variables).includes("file") && !!body.variables.file;
+
+  if (multipart) {
+    const formData = new FormData();
+    formData.append("file", body.variables.file);
+    delete body.variables.file;
+
+    if ((options.headers as IHeaders)["content-type"]) {
+      delete (options.headers as IHeaders)["content-type"];
+    }
+
+    formData.append("operationName", body.operationName);
+    formData.append("query", body.query);
+    formData.append("variables", JSON.stringify(body.variables));
+    options.body = formData;
+  }
+
+  return fetch(uri, options);
+};
+
 const unauthorizedLink = onError(({ networkError }) => {
-  if (networkError && networkError.statusCode === 401) {
+  if (networkError && (networkError as ServerError).statusCode === 401) {
     IsAuthenticated().then(auth => {
       RemoveAuthentication();
 
@@ -41,6 +68,7 @@ const unauthorizedLink = onError(({ networkError }) => {
 const link = new HttpLink({
   uri: `${baseURL}/graphql`,
   credentials: "include",
+  fetch: multiPartFetch,
 });
 
 export const createApolloClient = () =>

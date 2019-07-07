@@ -11,11 +11,7 @@ export function SetAuthenticationToken(token) {
   }
 }
 export function GetAuthenticationToken() {
-  try {
-    return SecureStore.getItemAsync(SESSION_KEY);
-  } catch (err) {
-    return null;
-  }
+  return SecureStore.getItemAsync(SESSION_KEY).catch(() => Promise.resolve());
 }
 
 export function SetCurrentUser(user) {

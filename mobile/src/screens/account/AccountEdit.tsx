@@ -31,7 +31,8 @@ import { useQuery, useMutation } from "react-apollo";
 import styled from "styled-components/native";
 import { colors } from "@shared/theme";
 import { validEmail } from "@shared/helpers";
-// import { GetCurrentUser } from "@src/screens/Drawer/__generated__/GetCurrentUser";
+import { GetCurrentUser } from "@src/screens/Drawer/__generated__/GetCurrentUser";
+import { UserUpdate, UserUpdateVariables } from "./__generated__/UserUpdate";
 
 const CURRENT_USER = gql`
   query GetCurrentUser {
@@ -90,7 +91,7 @@ const ProfileImage = ({ onPress, user }) => {
 };
 
 const Form = ({ onProfilePress, afterSubmit, image }) => {
-  const { data } = useQuery(CURRENT_USER);
+  const { data } = useQuery<GetCurrentUser>(CURRENT_USER);
   if (!data || !data.currentUser) {
     return null;
   }
@@ -104,17 +105,25 @@ const Form = ({ onProfilePress, afterSubmit, image }) => {
   const [lastName, setLastName] = useState(user.lastName || "");
   const [currentPassword, setCurrentPassword] = useState("");
 
-  const [submit, { loading }] = useMutation(USER_UPDATE, {
-    variables: {
-      userInput: {
-        email,
-        firstName,
-        lastName,
-        currentPassword,
+  let file = null;
+  if (image) {
+    file = { uri: image, name: "avatar" };
+  }
+
+  const [submit, { loading }] = useMutation<UserUpdate, UserUpdateVariables>(
+    USER_UPDATE,
+    {
+      variables: {
+        userInput: {
+          email,
+          firstName: firstName.length > 0 ? firstName : null,
+          lastName: lastName.length > 0 ? lastName : null,
+          password: currentPassword,
+        },
+        file,
       },
-      file: image ? { uri: image, name: "avatar" } : null,
-    },
-  });
+    }
+  );
 
   const firstNameField = useRef(null);
   const lastNameField = useRef(null);

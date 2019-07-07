@@ -163,6 +163,20 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Sign out the current user",
 			Resolve:     mutations.SignOut,
 		},
+		"userUpdate": &graphql.Field{
+			Type:        graphql.NewNonNull(types.User),
+			Description: "Update the current user",
+			Args: graphql.FieldConfigArgument{
+				"userInput": &graphql.ArgumentConfig{
+					Type: types.UserInput,
+				},
+				"file": &graphql.ArgumentConfig{
+					Description: "New avatar for the current user",
+					Type:        types.UploadType,
+				},
+			},
+			Resolve: mutations.UserUpdate,
+		},
 	},
 })
 

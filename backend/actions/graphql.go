@@ -2,6 +2,7 @@ package actions
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -21,45 +22,26 @@ type graphqlParams struct {
 
 // Graphql is The Graphql Endpoint
 func Graphql(c buffalo.Context) error {
-	// Read POST body
-	gp := &graphqlParams{}
-	if err := c.Bind(gp); err != nil {
-		return err
-	}
-
-	currentUser := getCurrentUserFromContext(c)
+	gp := bindGraphqlParams(c)
+	ctx := newGraphqlContext(c)
 	schema, err := graphql.NewSchema(schema.BudgetalSchemaConfig)
 	if err != nil {
 		log.Fatalf("failed to create new schema, error: %v", err)
 	}
 
-	ctx := context.WithValue(context.Background(), graphqlContext.CurrentUserKey, nil)
-	ctx = context.WithValue(ctx, graphqlContext.BuffaloContextKey, c)
-
-	if currentUser.ID != 0 {
-		ctx = context.WithValue(ctx, graphqlContext.CurrentUserKey, currentUser)
-	}
-
+	// Get params
 	params := graphql.Params{
 		Schema:         schema,
 		RequestString:  gp.Query,
 		VariableValues: gp.Variables,
+		OperationName:  gp.Operation,
 		Context:        ctx,
 	}
 
 	response := graphql.Do(params)
 
 	if response.HasErrors() {
-		if response.Errors[0].Message == "interface conversion: interface {} is nil, not *models.User" {
-			return c.Render(401, r.JSON("You are not logged in"))
-		}
-
-		if ENV != "production" {
-			err := fmt.Sprintf("Failed to execute graphql operation, errors: %+v", response.Errors)
-			return c.Render(200, r.JSON(err))
-		}
-
-		return c.Render(200, r.JSON(""))
+		return handleGraphqlErrors(c, response)
 	}
 
 	return c.Render(200, r.JSON(response))
@@ -78,4 +60,42 @@ func getCurrentUserFromContext(c buffalo.Context) *models.User {
 	AuthenticationKey, _ := c.Cookies().Get(mutations.AUTH_COOKIE_KEY)
 	AuthenticationToken := c.Request().Header.Get(mutations.AUTH_HEADER_KEY)
 	return getCurrentUser(AuthenticationKey, AuthenticationToken)
+}
+
+func bindGraphqlParams(c buffalo.Context) graphqlParams {
+	c.Request().ParseMultipartForm(0)
+	gp := graphqlParams{}
+	BindParams(c, &gp)
+	vars := c.Request().FormValue("variables")
+	json.Unmarshal([]byte(vars), &gp.Variables)
+	return gp
+}
+
+func newGraphqlContext(c buffalo.Context) context.Context {
+	currentUser := getCurrentUserFromContext(c)
+	ctx := context.WithValue(context.Background(), graphqlContext.BuffaloContextKey, c)
+	if currentUser.ID != 0 {
+		ctx = context.WithValue(ctx, graphqlContext.CurrentUserKey, currentUser)
+	}
+
+	file, _, fileErr := c.Request().FormFile("file")
+	if fileErr == nil {
+		ctx = context.WithValue(ctx, graphqlContext.FileUploadKey, file)
+	}
+
+	return ctx
+}
+
+func handleGraphqlErrors(c buffalo.Context, response *graphql.Result) error {
+	if response.Errors[0].Message == "interface conversion: interface {} is nil, not *models.User" {
+		return c.Render(401, r.JSON("You are not logged in"))
+	}
+
+	if ENV != "production" {
+		err := fmt.Sprintf("Failed to execute graphql operation, errors: %+v", response.Errors)
+		c.LogField("graphql errors", fmt.Sprintf("%#v", response.Errors))
+		return c.Render(200, r.JSON(err))
+	}
+
+	return c.Render(200, r.JSON(""))
 }
