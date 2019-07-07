@@ -95,7 +95,7 @@ const Header = ({ onPress }: Props) => {
           </NameContainer>
         </ProfileRow>
         <ArrowContainer>
-          <Ionicons name="ios-arrow-forward" size={26} color={colors.lines} />
+          <Ionicons name="ios-arrow-forward" size={26} color={colors.chevron} />
         </ArrowContainer>
       </Row>
     </Container>

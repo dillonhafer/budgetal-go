@@ -1,8 +1,8 @@
 import { HeaderText } from "@src/components/Text";
-import AccountScreen from "@src/screens/account/Account";
-import AccountEditScreen from "@src/screens/account/AccountEdit";
-import ChangePasswordScreen from "@src/screens/account/ChangePassword";
-import SessionsScreen from "@src/screens/account/Sessions";
+import AccountScreen from "@src/screens/Account/Account";
+import AccountEditScreen from "@src/screens/Account/AccountEdit";
+import ChangePasswordScreen from "@src/screens/Account/ChangePassword";
+import SessionsScreen from "@src/screens/Account/Sessions";
 import {
   BlurViewNavigationOptions,
   BurgerNavigationOptions,

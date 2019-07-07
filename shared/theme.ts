@@ -17,6 +17,7 @@ export const colors = {
   iosBlue: "#037aff",
   screenBackground: "#ececec",
   sectionHeader: "#8e8e8e",
+  chevron: "#ced0ce",
   clear: "transparent"
 };
 

@@ -19,17 +19,69 @@ const ProjectContainer = styled.View({
   alignItems: "center",
   paddingLeft: 10,
 });
+
 const ProjectText = styled.Text({
   padding: 8,
   fontSize: 14,
   color: "#555",
 });
 
-const Project = React.memo(({ children: text }: { children: string }) => {
+const SubText = styled.Text({
+  fontSize: 14,
+  color: "#555",
+});
+
+const ListContainer = styled.View({
+  padding: 10,
+  backgroundColor: "#fff",
+});
+
+const LicenseTitle = styled.Text({
+  fontSize: 20,
+  color: "#444",
+  fontWeight: 700,
+  marginBottom: 10,
+});
+
+const LicenseContainer = styled.View({
+  backgroundColor: "#ccc",
+  borderRadius: 5,
+  overflow: "hidden",
+  padding: 10,
+  marginBottom: 20,
+});
+
+const License = styled.Text({
+  fontFamily: "Menlo",
+  fontSize: 10,
+});
+
+const Number = styled.Text({
+  fontFamily: "Menlo",
+  fontSize: 10,
+  marginBottom: 10,
+  marginTop: 10,
+});
+
+const Container = styled(SafeAreaView)({
+  ...StyleSheet.absoluteFillObject,
+  backgroundColor: "#f9f9f9",
+});
+
+const HeaderContainer = styled.View({
+  flexDirection: "row",
+  borderColor: "#a7a7aa",
+  borderBottomWidth: StyleSheet.hairlineWidth,
+  justifyContent: "space-between",
+  alignItems: "center",
+  height: 44,
+});
+
+const Project = React.memo(({ children }: { children: string }) => {
   return (
     <ProjectContainer>
       <MaterialCommunityIcons name="circle" size={10} color="#aaa" />
-      <ProjectText>{text}</ProjectText>
+      <ProjectText>{children}</ProjectText>
     </ProjectContainer>
   );
 });
@@ -47,10 +99,8 @@ const LegalModal = ({ visible, onClose }: Props) => {
       visible={visible}
       onRequestClose={() => {}}
     >
-      <SafeAreaView
-        style={[StyleSheet.absoluteFill, { backgroundColor: "#f9f9f9" }]}
-      >
-        <View style={styles.header}>
+      <Container>
+        <HeaderContainer>
           <TouchableOpacity
             style={{ width: "20%", alignItems: "center" }}
             onPress={onClose}
@@ -73,19 +123,17 @@ const LegalModal = ({ visible, onClose }: Props) => {
             </HeaderText>
           </View>
           <View style={{ width: "20%" }} />
-        </View>
+        </HeaderContainer>
         <ScrollView style={{ backgroundColor: "#fff", width: "100%" }}>
-          <View style={styles.listContainer}>
-            <Text style={styles.subText}>
-              Budgetal uses third party open source software
-            </Text>
+          <ListContainer>
+            <SubText>Budgetal uses third party open source software</SubText>
 
-            <Text style={styles.licenseTitle}>The MIT License(MIT)</Text>
+            <LicenseTitle>The MIT License(MIT)</LicenseTitle>
 
-            <Text style={styles.subText}>
+            <SubText>
               The following open source libraries are subject to the terms and
               conditions of The MIT License (MIT), included below.
-            </Text>
+            </SubText>
 
             <Project>React, Copyright (c) 2013-present, Facebook, Inc.</Project>
             <Project>
@@ -111,8 +159,8 @@ const LegalModal = ({ visible, onClose }: Props) => {
 
             <Project>UA parser js, Copyright © 2012-2016 Faisal Salman</Project>
 
-            <View style={styles.licenseContainer}>
-              <Text style={styles.license}>
+            <LicenseContainer>
+              <License>
                 The MIT License (MIT) http://opensource.org/licenses/MIT/
                 Copyright (c) Permission is hereby granted, free of charge, to
                 any person obtaining a copy of this software and associated
@@ -131,14 +179,14 @@ const LegalModal = ({ visible, onClose }: Props) => {
                 OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
                 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
                 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-              </Text>
-            </View>
+              </License>
+            </LicenseContainer>
 
-            <Text style={styles.licenseTitle}>BSD 3-clause license</Text>
-            <Text style={styles.subText}>
+            <LicenseTitle>BSD 3-clause license</LicenseTitle>
+            <SubText>
               The following open source libraries are subject to the terms and
               conditions of The BSD 3-clause license, included below.
-            </Text>
+            </SubText>
 
             <Project>
               React Navigation, Copyright (c) 2016-present, React Navigation
@@ -149,31 +197,31 @@ const LegalModal = ({ visible, onClose }: Props) => {
               React Native Snap Carousel, Copyright (c) 2017, Archriss
             </Project>
 
-            <View style={styles.licenseContainer}>
-              <Text style={styles.license}>
+            <LicenseContainer>
+              <License>
                 Redistribution and use in source and binary forms, with or
                 without modification, are permitted provided that the following
                 conditions are met:
-              </Text>
+              </License>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 1. Redistributions of source code must retain the above
                 copyright notice, this list of conditions and the following
                 disclaimer.
-              </Text>
-              <Text style={[styles.license, styles.number]}>
+              </Number>
+              <Number>
                 2. Redistributions in binary form must reproduce the above
                 copyright notice, this list of conditions and the following
                 disclaimer in the documentation and/or other materials provided
                 with the distribution.
-              </Text>
-              <Text style={[styles.license, styles.number]}>
+              </Number>
+              <Number>
                 3. Neither the name of the copyright holder nor the names of its
                 contributors may be used to endorse or promote products derived
                 from this software without specific prior written permission.
-              </Text>
+              </Number>
 
-              <Text style={styles.license}>
+              <License>
                 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
                 CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,
                 INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
@@ -187,19 +235,19 @@ const LegalModal = ({ visible, onClose }: Props) => {
                 LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
                 IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
                 THE POSSIBILITY OF SUCH DAMAGE.
-              </Text>
-            </View>
+              </License>
+            </LicenseContainer>
 
-            <View style={styles.licenseContainer}>
-              <Text style={[styles.license, styles.number]}>
+            <LicenseContainer>
+              <Number>
                 PREAMBLE The goals of the Open Font License (OFL) are to
                 stimulate worldwide development of collaborative font projects,
                 to support the font creation efforts of academic and linguistic
                 communities, and to provide a free and open framework in which
                 fonts may be shared and improved in partnership with others.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 The OFL allows the licensed fonts to be used, studied, modified
                 and redistributed freely as long as they are not sold by
                 themselves. The fonts, including any derivative works, can be
@@ -209,51 +257,51 @@ const LegalModal = ({ visible, onClose }: Props) => {
                 under any other type of license. The requirement for fonts to
                 remain under this license does not apply to any document created
                 using the fonts or their derivatives.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 DEFINITIONS "Font Software" refers to the set of files released
                 by the Copyright Holder(s) under this license and clearly marked
                 as such. This may include source files, build scripts and
                 documentation.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 "Reserved Font Name" refers to any names specified as such after
                 the copyright statement(s).
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 "Original Version" refers to the collection of Font Software
                 components as distributed by the Copyright Holder(s).
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 "Modified Version" refers to any derivative made by adding to,
                 deleting, or substituting -- in part or in whole -- any of the
                 components of the Original Version, by changing formats or by
                 porting the Font Software to a new environment.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 "Author" refers to any designer, engineer, programmer, technical
                 writer or other person who contributed to the Font Software.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 PERMISSION & CONDITIONS Permission is hereby granted, free of
                 charge, to any person obtaining a copy of the Font Software, to
                 use, study, copy, merge, embed, modify, redistribute, and sell
                 modified and unmodified copies of the Font Software, subject to
                 the following conditions:
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 1) Neither the Font Software nor any of its individual
                 components, in Original or Modified Versions, may be sold by
                 itself.
-              </Text>
-              <Text style={[styles.license, styles.number]}>
+              </Number>
+              <Number>
                 2) Original or Modified Versions of the Font Software may be
                 bundled, redistributed and/or sold with any software, provided
                 that each copy contains the above copyright notice and this
@@ -261,36 +309,36 @@ const LegalModal = ({ visible, onClose }: Props) => {
                 human-readable headers or in the appropriate machine-readable
                 metadata fields within text or binary files as long as those
                 fields can be easily viewed by the user.
-              </Text>
-              <Text style={[styles.license, styles.number]}>
+              </Number>
+              <Number>
                 3) No Modified Version of the Font Software may use the Reserved
                 Font Name(s) unless explicit written permission is granted by
                 the corresponding Copyright Holder. This restriction only
                 applies to the primary font name as presented to the users.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 4) The name(s) of the Copyright Holder(s) or the Author(s) of
                 the Font Software shall not be used to promote, endorse or
                 advertise any Modified Version, except to acknowledge the
                 contribution(s) of the Copyright Holder(s) and the Author(s) or
                 with their explicit written permission.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 5) The Font Software, modified or unmodified, in part or in
                 whole, must be distributed entirely under this license, and must
                 not be distributed under any other license. The requirement for
                 fonts to remain under this license does not apply to any
                 document created using the Font Software.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 TERMINATION This license becomes null and void if any of the
                 above conditions are not met.
-              </Text>
+              </Number>
 
-              <Text style={[styles.license, styles.number]}>
+              <Number>
                 DISCLAIMER THE FONT SOFTWARE IS PROVIDED "AS IS", WITHOUT
                 WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
                 LIMITED TO ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
@@ -301,58 +349,16 @@ const LegalModal = ({ visible, onClose }: Props) => {
                 CONSEQUENTIAL DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR
                 OTHERWISE, ARISING FROM, OUT OF THE USE OR INABILITY TO USE THE
                 FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
-              </Text>
-            </View>
-          </View>
+              </Number>
+            </LicenseContainer>
+          </ListContainer>
         </ScrollView>
-      </SafeAreaView>
+      </Container>
     </Modal>
   );
 };
 
-const styles = StyleSheet.create({
-  header: {
-    flexDirection: "row",
-    borderColor: "#a7a7aa",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 44,
-  },
-  listContainer: {
-    padding: 10,
-    backgroundColor: "#fff",
-  },
-  licenseContainer: {
-    backgroundColor: "#ccc",
-    borderRadius: 5,
-    overflow: "hidden",
-    padding: 10,
-    marginBottom: 20,
-  },
-  license: {
-    fontFamily: "Menlo",
-    fontSize: 10,
-  },
-  number: {
-    marginBottom: 10,
-    marginTop: 10,
-  },
-  licenseTitle: {
-    fontSize: 20,
-    color: "#444",
-    fontWeight: "700",
-    marginBottom: 10,
-  },
-  subText: {
-    fontSize: 14,
-    color: "#555",
-  },
-  project: {
-    padding: 8,
-    fontSize: 14,
-    color: "#555",
-  },
-});
+const shouldSkipUpdate = (prev: Props, next: Props) =>
+  prev.visible === next.visible;
 
-export default LegalModal;
+export default React.memo(LegalModal, shouldSkipUpdate);

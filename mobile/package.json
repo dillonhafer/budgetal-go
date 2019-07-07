@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@shared": "file:../shared",
+    "@types/react-native-modalbox": "^1.4.8",
     "@types/styled-components": "^4.1.16",
     "apollo-boost": "^0.4.3",
     "apollo-link-context": "^1.0.18",
