@@ -1,6 +1,7 @@
 import normalize from "./normalize";
 export { default as normalize } from "./normalize";
 
+const iosBackground = "#efeff4";
 export const colors = {
   primary: "#108ee9",
   drawerActive: "#2eb1fc",
@@ -8,13 +9,14 @@ export const colors = {
   disabled: "#cacaca",
   success: "#87d068",
   error: "#ff5500",
-  background: "#e9e9ef", // deprecated?
-  backgroundColor: "#d8dce0",
+  background: iosBackground,
+  backgroundColor: iosBackground,
   borderColor: "#d6d7da",
-  lines: "#ced0ce",
+  lines: "#e3e3e5",
   yellow: "#ffd478",
   iosBlue: "#037aff",
   screenBackground: "#ececec",
+  sectionHeader: "#8e8e8e",
   clear: "transparent"
 };
 

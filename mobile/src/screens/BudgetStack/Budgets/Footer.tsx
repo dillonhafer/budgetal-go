@@ -2,9 +2,10 @@ import { DarkFormCard } from "@src/components/Card";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import { colors } from "@shared/theme";
 
 const FooterContainer = styled.View({
-  backgroundColor: "#d8dce0",
+  backgroundColor: colors.backgroundColor,
   marginBottom: 15,
 });
 

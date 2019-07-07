@@ -81,7 +81,7 @@ const itemButtons = (
 };
 
 const RowButton = styled.TouchableOpacity({
-  backgroundColor: colors.backgroundColor,
+  backgroundColor: colors.clear,
   justifyContent: "center",
 });
 
@@ -116,7 +116,12 @@ const Row = ({ budgetItem, onPress, onEdit }: Props) => {
   const buttons = itemButtons(budgetItem, onEdit, budgetItemDelete);
 
   return (
-    <Swipeout buttonWidth={84} autoClose={true} right={buttons}>
+    <Swipeout
+      backgroundColor={colors.clear}
+      buttonWidth={84}
+      autoClose={true}
+      right={buttons}
+    >
       <RowButton key={budgetItem.id} onPress={onPress}>
         <Card
           label={budgetItem.name}

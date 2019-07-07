@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { View, StatusBar, SectionList, StyleSheet } from 'react-native';
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
-import ListBackgroundFill from '@src/components/ListBackgroundFill';
-import { currencyf } from '@shared/helpers';
-import ListItem, { positions } from './ListItem';
-import { Bold } from '@src/components/Text';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { View, StatusBar, SectionList, StyleSheet } from "react-native";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import ListBackgroundFill from "@src/components/ListBackgroundFill";
+import { currencyf } from "@shared/helpers";
+import ListItem, { positions } from "./ListItem";
+import { Bold } from "@src/components/Text";
+import { colors } from "@shared/theme";
 
 class GroupList extends Component {
   static propTypes = {
@@ -56,7 +57,7 @@ class GroupList extends Component {
     return (
       <ListItem
         label={item.name}
-        amount={currencyf(item.amount, '$', 0)}
+        amount={currencyf(item.amount, "$", 0)}
         active={active}
         color={section.color}
         position={position}
@@ -109,27 +110,27 @@ class GroupList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'column',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    flexDirection: "column",
   },
   list: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
   },
   contentStyles: {
-    backgroundColor: '#d8dce0',
-    minHeight: '100%',
+    backgroundColor: colors.backgroundColor,
+    minHeight: "100%",
     paddingBottom: 10,
   },
   header: {
     marginHorizontal: 20,
     marginVertical: 10,
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     paddingVertical: 5,
   },
   headerText: {
-    color: '#555',
-    fontWeight: 'bold',
+    color: "#555",
+    fontWeight: "bold",
   },
 });
 

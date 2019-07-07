@@ -22,6 +22,12 @@ import Device from "@src/utils/Device";
 const isTablet = Device.isTablet();
 
 import Header from "./Header";
+import styled from "styled-components/native";
+
+const Container = styled.View({
+  flex: 1,
+  backgroundColor: colors.background,
+});
 
 class AccountScreen extends PureComponent {
   state = {
@@ -131,9 +137,8 @@ class AccountScreen extends PureComponent {
             style={{
               alignItems: "center",
               justifyContent: "center",
-              width: "22%",
-              paddingTop: 8,
-              paddingBottom: 8,
+              marginHorizontal: 15,
+              paddingVertical: 5,
             }}
           >
             <View style={iconStyles}>
@@ -199,21 +204,22 @@ class AccountScreen extends PureComponent {
     ];
 
     return (
-      <View style={styles.container}>
+      <>
         <StatusBar barStyle="dark-content" />
-        <SectionList
-          {...BlurViewInsetProps}
-          ListHeaderComponent={() => {
-            return <Header onPress={this.editAccount} />;
-          }}
-          style={styles.list}
-          stickySectionHeadersEnabled={false}
-          sections={buttons}
-          ItemSeparatorComponent={this.renderSeparator}
-          renderSectionHeader={this.renderHeader}
-          renderItem={this.renderButton}
-        />
-      </View>
+        <Container>
+          <SectionList
+            {...BlurViewInsetProps}
+            ListHeaderComponent={() => {
+              return <Header onPress={this.editAccount} />;
+            }}
+            stickySectionHeadersEnabled={false}
+            sections={buttons}
+            ItemSeparatorComponent={this.renderSeparator}
+            renderSectionHeader={this.renderHeader}
+            renderItem={this.renderButton}
+          />
+        </Container>
+      </>
     );
   }
 }
@@ -232,7 +238,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     alignSelf: "stretch",
     borderWidth: 0.5,
-    borderColor: "#aaa",
+    borderColor: colors.borderColor,
     borderLeftColor: "#fff",
     borderRightColor: "#fff",
   },
@@ -242,7 +248,7 @@ const styles = StyleSheet.create({
     width: 70,
     height: 70,
     borderWidth: 2,
-    borderColor: "#aaa",
+    borderColor: colors.lines,
     backgroundColor: "#aaa",
     overflow: "hidden",
   },
@@ -258,17 +264,14 @@ const styles = StyleSheet.create({
   emailText: {
     color: "#888",
   },
-  list: {
-    backgroundColor: "transparent",
-  },
   listSeparatorContainer: {
     backgroundColor: "#fff",
   },
   listSeparator: {
     height: 1,
-    width: "86%",
-    backgroundColor: "#CED0CE",
-    marginLeft: "14%",
+    marginLeft: 62,
+    width: "100%",
+    backgroundColor: colors.lines,
   },
   listItem: {
     backgroundColor: "#fff",
@@ -305,9 +308,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
     padding: 5,
     paddingLeft: 15,
-    fontSize: 14,
-    color: "#aaa",
-    fontWeight: "600",
+    fontSize: 12,
+    color: colors.sectionHeader,
+    fontWeight: "400",
   },
 });
 

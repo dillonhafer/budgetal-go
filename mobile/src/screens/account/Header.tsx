@@ -33,7 +33,7 @@ const Row = styled.TouchableOpacity({
   backgroundColor: "white",
   alignSelf: "stretch",
   borderWidth: 0.5,
-  borderColor: "#aaa",
+  borderColor: colors.lines,
   borderLeftColor: "#fff",
   borderRightColor: "#fff",
 });
@@ -52,7 +52,7 @@ const ImageContainer = styled.View({
   width: 70,
   height: 70,
   borderWidth: 2,
-  borderColor: "#aaa",
+  borderColor: colors.lines,
   backgroundColor: "#aaa",
   overflow: "hidden",
 });

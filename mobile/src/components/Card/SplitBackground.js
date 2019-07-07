@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet, Platform } from 'react-native';
+import React, { PureComponent } from "react";
+import { View, StyleSheet, Platform } from "react-native";
+import { colors } from "@shared/theme";
 
 class SplitBackground extends PureComponent {
   render() {
@@ -20,12 +21,12 @@ class SplitBackground extends PureComponent {
 const styles = StyleSheet.create({
   white: {
     height: 100,
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     zIndex: 0,
   },
   gray: {
     zIndex: 1,
-    backgroundColor: '#d8dce0',
+    backgroundColor: colors.backgroundColor,
     ...Platform.select({
       android: {
         marginTop: -90,

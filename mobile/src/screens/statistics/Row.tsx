@@ -22,6 +22,7 @@ const BoldText = styled(Bold)({
 });
 
 const Container = styled.View({
+  backgroundColor: "white",
   padding: rowPadding,
   justifyContent: "center",
   flexDirection: "row",
