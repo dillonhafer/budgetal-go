@@ -15,7 +15,7 @@ const cacheImages = (images: number[]) =>
 
 const cacheFonts = (fonts: any[]) => fonts.map(font => Font.loadAsync(font));
 
-export function preloadAssetsAsync() {
+export const preloadAssetsAsync = (): Promise<void> => {
   let imageAssets: Promise<void>[] = [];
 
   if (__DEV__) {
@@ -47,5 +47,7 @@ export function preloadAssetsAsync() {
     { "Lato-Medium": require("@src/assets/fonts/Lato-Medium.ttf") },
   ]);
 
-  return Promise.all([...imageAssets, ...fontAssets]);
-}
+  return new Promise(resolve =>
+    Promise.all([...imageAssets, ...fontAssets]).then(() => resolve())
+  );
+};
