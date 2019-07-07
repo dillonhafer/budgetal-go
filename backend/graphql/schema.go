@@ -177,6 +177,21 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.UserUpdate,
 		},
+		"userChangePassword": &graphql.Field{
+			Type:        graphql.NewNonNull(types.User),
+			Description: "Update the current user's password",
+			Args: graphql.FieldConfigArgument{
+				"password": &graphql.ArgumentConfig{
+					Description: "New password",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+				"currentPassword": &graphql.ArgumentConfig{
+					Description: "Current password",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: mutations.UserChangePassword,
+		},
 	},
 })
 

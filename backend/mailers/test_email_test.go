@@ -12,7 +12,7 @@ import (
 func Test_TestEmailRender(t *testing.T) {
 	firstName := nulls.String{String: "Kevin", Valid: true}
 	user := models.User{FirstName: firstName}
-	email, err := BuildTestEmail(&user)
+	email, err := buildTestEmail(&user)
 
 	if err != nil {
 		t.Errorf("Could not build email: %v", err)
@@ -33,7 +33,7 @@ func Test_TestEmailRender(t *testing.T) {
 func Test_TestEmailRendersTextEmail(t *testing.T) {
 	firstName := nulls.String{String: "Kevin", Valid: true}
 	user := models.User{FirstName: firstName}
-	email, _ := BuildTestEmail(&user)
+	email, _ := buildTestEmail(&user)
 
 	textEmail := email.Bodies[1].Content
 	textName := fmt.Sprintf("Hello %s!", firstName.String)

@@ -8,7 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func BuildTestEmail(user *models.User) (mail.Message, error) {
+func buildTestEmail(user *models.User) (mail.Message, error) {
 	to := user.Email
 	if user.FirstName.Valid {
 		to = user.FirstName.String + " <" + user.Email + ">"
@@ -30,8 +30,9 @@ func BuildTestEmail(user *models.User) (mail.Message, error) {
 	return m, err
 }
 
+// SendTestEmail sends an email
 func SendTestEmail(user *models.User) error {
-	m, err := BuildTestEmail(user)
+	m, err := buildTestEmail(user)
 	if err != nil {
 		return errors.WithStack(err)
 	}

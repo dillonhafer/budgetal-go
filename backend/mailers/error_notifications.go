@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func BuildErrorNotification(emails string, e error, c buffalo.Context) (mail.Message, error) {
+func buildErrorNotification(emails string, e error, c buffalo.Context) (mail.Message, error) {
 	m := mail.NewMessage()
 	m.Subject = "[500] Budgetal Error Notification"
 	m.From = "Budgetal <no-reply@budgetal.com>"
@@ -32,8 +32,9 @@ func BuildErrorNotification(emails string, e error, c buffalo.Context) (mail.Mes
 	return m, err
 }
 
+// SendErrorNotification sends an email
 func SendErrorNotification(emails string, err error, c buffalo.Context) error {
-	m, err := BuildErrorNotification(emails, err, c)
+	m, err := buildErrorNotification(emails, err, c)
 	if err != nil {
 		return errors.WithStack(err)
 	}
