@@ -34,7 +34,6 @@ func Graphql(c buffalo.Context) error {
 		Schema:         schema,
 		RequestString:  gp.Query,
 		VariableValues: gp.Variables,
-		OperationName:  gp.Operation,
 		Context:        ctx,
 	}
 
