@@ -42,7 +42,7 @@ interface Props {
 
 const Form = ({ item, afterSubmit }: Props) => {
   const [name, setName] = useState(item.name);
-  const [dueDate, setDueDate] = useState(moment(item.dueDate.slice(0, 10)));
+  const [dueDate, setDueDate] = useState(moment(item.dueDate));
   const [amount, setAmount] = useState(String(item.amount));
   const [interval, setInterval] = useState(item.interval);
   const [paid, setPaid] = useState(item.paid);

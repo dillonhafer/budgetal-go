@@ -41,7 +41,7 @@ interface Props {
 const Form = ({ expense, afterSubmit, onCancel }: Props) => {
   const [name, setName] = useState(expense.name);
   const [amount, setAmount] = useState(String(expense.amount));
-  const [date, setDate] = useState(moment(expense.date.slice(0, 10)));
+  const [date, setDate] = useState(moment(expense.date));
 
   const valid = name.length > 0 && parseFloat(amount) > 0 && date.isValid();
 
