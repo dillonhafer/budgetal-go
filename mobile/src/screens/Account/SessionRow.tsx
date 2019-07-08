@@ -15,10 +15,16 @@ import {
   GetSessions_sessions_expired,
   GetSessions_sessions_active,
 } from "./__generated__/GetSessions";
+import {
+  SessionDelete,
+  SessionDeleteVariables,
+} from "./__generated__/SessionDelete";
 
-const DELETE_SESSION = gql`
-  mutation DeleteSession($id: ID!) {
-    id
+const SESSION_DELETE = gql`
+  mutation SessionDelete($authenticationKey: ID!) {
+    sessionsDelete(authenticationKey: $authenticationKey) {
+      authenticationKey
+    }
   }
 `;
 
@@ -94,7 +100,7 @@ const deleteButton = (onPress: () => void) => {
   ];
 };
 
-const rightButton = (onConfirm: () => Promise<void>) => {
+const rightButton = (onConfirm: () => Promise<any>) => {
   const onPress = confirmEndSession(() => {
     onConfirm().then(() => notice("Session Signed Out"));
   });
@@ -103,11 +109,15 @@ const rightButton = (onConfirm: () => Promise<void>) => {
 };
 
 const SessionRow = ({ session, disabled }: Props) => {
-  const [deleteSession] = useMutation(DELETE_SESSION, {
-    variables: {
-      authenticationToken: session.authenticationToken,
-    },
-  });
+  const [deleteSession] = useMutation<SessionDelete, SessionDeleteVariables>(
+    SESSION_DELETE,
+    {
+      refetchQueries: ["GetSessions"],
+      variables: {
+        authenticationKey: session.authenticationKey,
+      },
+    }
+  );
 
   const right = rightButton(deleteSession);
   return (

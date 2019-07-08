@@ -11,7 +11,7 @@ export interface GetSessions_sessions_active {
   /**
    * ID of the session
    */
-  authenticationToken: string;
+  authenticationKey: string;
   /**
    * Time session started
    */
@@ -35,7 +35,7 @@ export interface GetSessions_sessions_expired {
   /**
    * ID of the session
    */
-  authenticationToken: string;
+  authenticationKey: string;
   /**
    * Time session started
    */

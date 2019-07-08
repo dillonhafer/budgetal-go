@@ -197,6 +197,16 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.UserChangePassword,
 		},
+		"sessionsDelete": &graphql.Field{
+			Type:        types.Session,
+			Description: "Deletes another session",
+			Args: graphql.FieldConfigArgument{
+				"authenticationKey": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.ID),
+				},
+			},
+			Resolve: mutations.SessionDelete,
+		},
 	},
 })
 

@@ -11,14 +11,14 @@ const GET_SESSIONS = gql`
   query GetSessions {
     sessions {
       active {
-        authenticationToken
+        authenticationKey
         createdAt
         ipAddress
         userAgent
         deviceName
       }
       expired {
-        authenticationToken
+        authenticationKey
         createdAt
         expiredAt
         ipAddress
@@ -94,7 +94,7 @@ const SessionsScreen = () => {
         <SectionList
           {...BlurViewInsetProps}
           contentInsetAdjustmentBehavior="automatic"
-          keyExtractor={s => s.authenticationToken}
+          keyExtractor={s => s.authenticationKey}
           sections={sections}
           refreshControl={
             <RefreshControl
@@ -109,7 +109,7 @@ const SessionsScreen = () => {
           )}
           renderItem={({ item }) => {
             const disabled =
-              !!item.expiredAt || item.authenticationToken === currentSession;
+              !!item.expiredAt || item.authenticationKey === currentSession;
             return <SessionRow session={item} disabled={disabled} />;
           }}
         />
