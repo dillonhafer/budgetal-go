@@ -12,6 +12,9 @@ export interface GetCurrentUser_currentUser {
    * Is user admin
    */
   admin: boolean;
+  /**
+   * User's avatar url
+   */
   avatarUrl: string | null;
   /**
    * Email of user
@@ -20,7 +23,7 @@ export interface GetCurrentUser_currentUser {
   /**
    * First name of user
    */
-  firstName: string | null;
+  firstName: any | null;
   /**
    * ID of the User
    */
@@ -28,7 +31,7 @@ export interface GetCurrentUser_currentUser {
   /**
    * Last name of user
    */
-  lastName: string | null;
+  lastName: any | null;
 }
 
 export interface GetCurrentUser {

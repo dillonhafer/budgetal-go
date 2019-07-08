@@ -14,6 +14,9 @@ export interface UserUpdate_userUpdate {
    * ID of the User
    */
   id: string;
+  /**
+   * User's avatar url
+   */
   avatarUrl: string | null;
   /**
    * Email of user
@@ -22,11 +25,11 @@ export interface UserUpdate_userUpdate {
   /**
    * First name of user
    */
-  firstName: string | null;
+  firstName: any | null;
   /**
    * Last name of user
    */
-  lastName: string | null;
+  lastName: any | null;
 }
 
 export interface UserUpdate {

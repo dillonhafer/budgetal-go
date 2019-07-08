@@ -1,4 +1,3 @@
-import { SignInRequest } from "@shared/api/sessions";
 import { validEmail } from "@shared/helpers";
 import { colors } from "@shared/theme";
 import { FormCard } from "@src/components/Card";
@@ -12,6 +11,25 @@ import {
 import Constants from "expo-constants";
 import React, { useRef, useState } from "react";
 import styled from "styled-components/native";
+import gql from "graphql-tag";
+import { useMutation } from "react-apollo";
+import { SignIn, SignInVariables } from "./__generated__/SignIn";
+
+const SIGN_IN = gql`
+  mutation SignIn($email: String!, $password: String!, $deviceName: String) {
+    signIn(email: $email, password: $password, deviceName: $deviceName) {
+      authenticationToken
+      error
+      user {
+        id
+        email
+        firstName
+        lastName
+        avatarUrl
+      }
+    }
+  }
+`;
 
 const deviceName = Constants.deviceName;
 
@@ -67,28 +85,35 @@ const Form = ({ forgotPassword, afterSignIn }: Props) => {
   const passwordField = useRef(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const valid = email.length > 0 && validEmail(email) && password.length > 0;
+  const [signIn, { loading }] = useMutation<SignIn, SignInVariables>(SIGN_IN, {
+    variables: {
+      email,
+      password,
+      deviceName,
+    },
+  });
 
   const submit = () => {
     if (valid) {
-      setLoading(true);
-      SignInRequest({ email, password, deviceName })
-        .then(resp => {
-          if (resp.ok) {
-            SetAuthenticationToken(resp.token);
-            SetCurrentUser(resp.user);
-            notice("You are now signed in!");
-            afterSignIn();
-          } else {
-            setLoading(false);
-            error("Email/Password are invalid");
+      signIn()
+        .then(r => {
+          if (r && r.data && r.data.signIn) {
+            const signIn = r.data.signIn;
+            if (signIn && signIn.authenticationToken && signIn.user) {
+              SetAuthenticationToken(signIn.authenticationToken);
+              SetCurrentUser(signIn.user);
+              notice("You are now signed in!");
+              afterSignIn();
+            }
+
+            if (signIn.error) {
+              error(signIn.error);
+            }
           }
         })
         .catch(() => {
           error("Email/Password are invalid");
-          setLoading(false);
         });
     }
   };
