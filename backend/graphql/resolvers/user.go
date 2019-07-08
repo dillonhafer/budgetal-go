@@ -4,14 +4,15 @@ import (
 	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
 	"github.com/graphql-go/graphql"
+	"github.com/gobuffalo/nulls"
 )
 
 // SerializedUser is the response for graphql
 type SerializedUser struct {
 	ID        int     `json:"id"`
 	Email     string  `json:"email"`
-	FirstName *string `json:"firstName"`
-	LastName  *string `json:"lastName"`
+	FirstName nulls.String `json:"firstName"`
+	LastName  nulls.String `json:"lastName"`
 	Admin     bool    `json:"admin"`
 	AvatarURL string  `json:"avatarUrl"`
 }
@@ -22,8 +23,8 @@ func SerializeUser(user *models.User) SerializedUser {
 		ID:        user.ID,
 		Email:     user.Email,
 		Admin:     user.Admin,
-		FirstName: user.NullableFirstName(),
-		LastName:  user.NullableLastName(),
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
 		AvatarURL: user.AvatarUrl(),
 	}
 }

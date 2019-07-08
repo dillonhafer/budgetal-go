@@ -49,3 +49,22 @@ var Session = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
+
+// SignIn is the sign in response type
+var SignIn = graphql.NewObject(graphql.ObjectConfig{
+	Name: "SignIn",
+	Fields: graphql.Fields{
+		"authenticationToken": &graphql.Field{
+			Type:        graphql.ID,
+			Description: "ID of the session",
+		},
+		"user": &graphql.Field{
+			Type:        User,
+			Description: "User that was just signed in",
+		},
+		"error": &graphql.Field{
+			Type:        graphql.String,
+			Description: "User error message when email or password is incorrect",
+		},
+	},
+})

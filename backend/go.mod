@@ -28,6 +28,7 @@ require (
 	github.com/gobuffalo/uuid v2.0.5+incompatible
 	github.com/gobuffalo/validate v2.0.3+incompatible
 	github.com/gobuffalo/x v0.0.0-20190224155809-6bb134105960
+	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/graphql-go/graphql v0.7.8
 	github.com/leesper/go_rng v0.0.0-20171009123644-5344a9259b21 // indirect
 	github.com/lib/pq v1.1.0 // indirect

@@ -17,11 +17,11 @@ var User = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Email of user",
 		},
 		"firstName": &graphql.Field{
-			Type:        graphql.String,
+			Type:        NullableString,
 			Description: "First name of user",
 		},
 		"lastName": &graphql.Field{
-			Type:        graphql.String,
+			Type:        NullableString,
 			Description: "Last name of user",
 		},
 		"admin": &graphql.Field{
@@ -29,7 +29,8 @@ var User = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Is user admin",
 		},
 		"avatarUrl": &graphql.Field{
-			Type: graphql.String,
+			Type:        graphql.String,
+			Description: "User's avatar url",
 		},
 	},
 })
