@@ -80,7 +80,11 @@ const Header = ({ onPress }: Props) => {
   if (!data || !data.currentUser) {
     return null;
   }
+
   const user = data.currentUser;
+
+  const fullName = [user.firstName, user.lastName].join(" ").trim();
+  const name = fullName.length > 0 ? fullName : "Hello!";
 
   return (
     <Container>
@@ -90,7 +94,7 @@ const Header = ({ onPress }: Props) => {
             <Monogram user={user} size={70} />
           </ImageContainer>
           <NameContainer>
-            <NameText>{[user.firstName, user.lastName].join(" ")}</NameText>
+            <NameText>{name}</NameText>
             <EmailText>{user.email}</EmailText>
           </NameContainer>
         </ProfileRow>

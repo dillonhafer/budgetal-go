@@ -55,6 +55,8 @@ const AccountRow = ({ onPress, active }: AccountProps) => {
   }
   const user = data.currentUser;
   const backgroundColor = active ? colors.drawerActive : "transparent";
+  const fullName = [user.firstName, user.lastName].join(" ").trim();
+  const name = fullName.length > 0 ? fullName : "Hello!";
 
   return (
     <View style={{ backgroundColor }}>
@@ -63,9 +65,7 @@ const AccountRow = ({ onPress, active }: AccountProps) => {
           <Monogram user={user} />
         </View>
         <View style={styles.nameContainer}>
-          <Bold style={styles.nameText}>
-            {[user.firstName, user.lastName].join(" ")}
-          </Bold>
+          <Bold style={styles.nameText}>{name}</Bold>
           <Medium style={styles.emailText}>{user.email}</Medium>
         </View>
       </TouchableOpacity>
