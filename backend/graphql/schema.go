@@ -15,6 +15,11 @@ var rootQuery = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Get the current logged in user",
 			Resolve:     resolvers.CurrentUser,
 		},
+		"sessions": &graphql.Field{
+			Type:        graphql.NewNonNull(types.Sessions),
+			Description: "Get sessiosn for the current user",
+			Resolve:     resolvers.Sessions,
+		},
 		"annualBudget": &graphql.Field{
 			Type:        graphql.NewNonNull(types.AnnualBudget),
 			Description: "Get the annual budget for a given year",

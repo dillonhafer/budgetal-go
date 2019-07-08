@@ -24,7 +24,7 @@ var AnnualBudgetItem = graphql.NewObject(graphql.ObjectConfig{
 			Type: graphql.NewNonNull(graphql.String),
 		},
 		"dueDate": &graphql.Field{
-			Type: graphql.NewNonNull(graphql.String),
+			Type: graphql.NewNonNull(Date),
 		},
 		"name": &graphql.Field{
 			Type: graphql.NewNonNull(graphql.String),
