@@ -23,7 +23,7 @@ var Sessions = graphql.NewObject(graphql.ObjectConfig{
 var Session = graphql.NewObject(graphql.ObjectConfig{
 	Name: "Session",
 	Fields: graphql.Fields{
-		"authenticationKey": &graphql.Field{
+		"authenticationToken": &graphql.Field{
 			Type:        graphql.NewNonNull(graphql.ID),
 			Description: "ID of the session",
 		},

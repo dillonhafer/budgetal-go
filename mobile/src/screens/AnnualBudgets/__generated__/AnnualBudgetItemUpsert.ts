@@ -12,7 +12,7 @@ export interface AnnualBudgetItemUpsert_annualBudgetItemUpsert {
   __typename: "AnnualBudgetItem";
   amount: string;
   annualBudgetId: string;
-  dueDate: string;
+  dueDate: any;
   id: string;
   interval: number;
   name: string;

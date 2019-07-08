@@ -19,7 +19,7 @@ export interface GetBudgets_budget_budgetCategories_budgetItems_budgetItemExpens
   /**
    * Date of the expense
    */
-  date: string;
+  date: any;
   /**
    * Amount spent for this expense
    */

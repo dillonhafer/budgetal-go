@@ -25,7 +25,7 @@ export interface BudgetItemExpenseUpsert_budgetItemExpenseUpsert {
   /**
    * Date of the expense
    */
-  date: string;
+  date: any;
   /**
    * Name of the expense
    */

@@ -11,7 +11,7 @@ export interface GetAnnualBudget_annualBudget_annualBudgetItems {
   id: string;
   annualBudgetId: string;
   name: string;
-  dueDate: string;
+  dueDate: any;
   amount: string;
   interval: number;
   paid: boolean;

@@ -7,13 +7,13 @@
 //==============================================================
 
 export interface AnnualBudgetItemInput {
-  paid: boolean;
   interval: number;
   amount: number;
   dueDate: string;
   name: string;
   id?: string | null;
   annualBudgetId: number;
+  paid: boolean;
 }
 
 export interface BudgetItemExpenseInput {
@@ -25,17 +25,17 @@ export interface BudgetItemExpenseInput {
 }
 
 export interface BudgetItemInput {
+  name: string;
   id?: string | null;
   budgetCategoryId: number;
   amount: number;
-  name: string;
 }
 
 export interface UserInput {
+  password: string;
   email: string;
   firstName?: string | null;
   lastName?: string | null;
-  password: string;
 }
 
 //==============================================================
