@@ -17,14 +17,19 @@ export const focus = inputRef => {
   }
 };
 
-export const PrimarySquareButton = ({ title, onPress, loading }) => {
+export const PrimarySquareButton = ({
+  disabled = false,
+  title,
+  onPress,
+  loading,
+}) => {
   return (
     <Button
       color={colors.primary}
       backgroundColor={colors.primary}
       title={title}
       onPress={onPress}
-      loading={loading}
+      loading={loading || disabled}
       borderRadius={3}
     />
   );
