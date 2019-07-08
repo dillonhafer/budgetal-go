@@ -14,7 +14,6 @@ import {
   WebView,
 } from "react-native";
 import { NavigationScreenConfigProps } from "react-navigation";
-import { connect } from "react-redux";
 import ImportExpenseRow from "./Row";
 import WebViewHack, { SELECT_FILE } from "./WebViewHack";
 
@@ -214,6 +213,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(state => ({
-  ...state.budget,
-}))(ImportExpenseScreen);
+export default ImportExpenseScreen;

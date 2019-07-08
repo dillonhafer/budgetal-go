@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   StyleSheet,
   Alert,
@@ -8,27 +8,18 @@ import {
   SectionList,
   TouchableOpacity,
   RefreshControl,
-} from 'react-native';
-
-// Redux
-import { connect } from 'react-redux';
-
-// API
-import { EndSessionRequest, AllSessionsRequest } from '@shared/api/sessions';
-
-// Helpers
-import { BlurViewInsetProps } from '@src/utils/navigation-helpers';
-
-// Components
-import { GetAuthenticationToken } from '@src/utils/authentication';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { colors } from '@shared/theme';
-import moment from 'moment';
-import { orderBy } from 'lodash';
-import { humanUA } from '@shared/helpers';
-import { notice, error } from '@src/notify';
-import Spin from '@src/utils/Spin';
-import Swipeout from 'react-native-swipeout';
+} from "react-native";
+import { EndSessionRequest, AllSessionsRequest } from "@shared/api/sessions";
+import { BlurViewInsetProps } from "@src/utils/navigation-helpers";
+import { GetAuthenticationToken } from "@src/utils/authentication";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { colors } from "@shared/theme";
+import moment from "moment";
+import { orderBy } from "lodash";
+import { humanUA } from "@shared/helpers";
+import { notice, error } from "@src/notify";
+import Spin from "@src/utils/Spin";
+import Swipeout from "react-native-swipeout";
 
 class SessionsScreen extends PureComponent {
   state = {
@@ -38,7 +29,7 @@ class SessionsScreen extends PureComponent {
       active: [],
       expired: [],
     },
-    currentSession: '',
+    currentSession: "",
     scrollEnabled: true,
   };
 
@@ -64,8 +55,8 @@ class SessionsScreen extends PureComponent {
               orderKey: moment(s.createdAt).unix(),
             };
           }),
-          ['orderKey'],
-          ['desc'],
+          ["orderKey"],
+          ["desc"]
         );
         const expired = orderBy(
           resp.sessions.expired.map(s => {
@@ -74,13 +65,13 @@ class SessionsScreen extends PureComponent {
               orderKey: moment(s.createdAt).unix(),
             };
           }),
-          ['orderKey'],
-          ['desc'],
+          ["orderKey"],
+          ["desc"]
         );
         this.setState({ sessions: { active, expired } });
       }
     } catch (err) {
-      error('Error downloading session information');
+      error("Error downloading session information");
     } finally {
       this.setState({ loading: false });
     }
@@ -88,32 +79,32 @@ class SessionsScreen extends PureComponent {
 
   confirmEndSession = session => {
     Alert.alert(
-      'End Session?',
+      "End Session?",
       `Are you sure you want to end this session?\n\n This will sign out the device using it. And you will need to sign in again on that device.`,
       [
         {
-          text: 'Cancel',
-          style: 'cancel',
+          text: "Cancel",
+          style: "cancel",
         },
         {
-          text: 'End Session',
-          style: 'destructive',
+          text: "End Session",
+          style: "destructive",
           onPress: () => {
             this.endSession(session);
           },
         },
       ],
-      { cancelable: true },
+      { cancelable: true }
     );
   };
 
   endSession = async session => {
     const resp = await EndSessionRequest(session.authenticationKey);
     if (resp && resp.ok) {
-      notice('Session Signed Out');
+      notice("Session Signed Out");
       const { active, expired } = this.state.sessions;
       const activeIndex = active.findIndex(
-        s => s.authenticationKey === session.authenticationKey,
+        s => s.authenticationKey === session.authenticationKey
       );
 
       this.setState({
@@ -149,13 +140,13 @@ class SessionsScreen extends PureComponent {
       {
         component: (
           <View
-            style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <MaterialCommunityIcons name="delete" color={'#fff'} size={20} />
+            <MaterialCommunityIcons name="delete" color={"#fff"} size={20} />
           </View>
         ),
         backgroundColor: colors.error,
-        underlayColor: colors.error + '70',
+        underlayColor: colors.error + "70",
         onPress: () => this.confirmEndSession(session),
       },
     ];
@@ -178,19 +169,19 @@ class SessionsScreen extends PureComponent {
           <View
             style={[
               {
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
               },
             ]}
           >
-            <View style={{ width: '14%', alignItems: 'center' }}>
+            <View style={{ width: "14%", alignItems: "center" }}>
               {this.browser(session.userAgent)}
             </View>
-            <View style={{ width: '86%' }}>
+            <View style={{ width: "86%" }}>
               <Text style={styles.listItemText}>
                 {humanUA(session.userAgent)}
-                {session.deviceName ? ` - ${session.deviceName}` : ''}{' '}
+                {session.deviceName ? ` - ${session.deviceName}` : ""}{" "}
               </Text>
               <Text>{moment(session.createdAt).fromNow()}</Text>
               {isCurrent && (
@@ -205,48 +196,48 @@ class SessionsScreen extends PureComponent {
 
   browser(ua) {
     const hua = humanUA(ua);
-    let icon = 'earth';
+    let icon = "earth";
     let color = colors.primary;
 
     if (/chrome/i.test(hua)) {
-      icon = 'google-chrome';
-      color = '#f4c20f';
+      icon = "google-chrome";
+      color = "#f4c20f";
     }
 
     if (/explorer/i.test(hua)) {
-      icon = 'internet-explorer';
+      icon = "internet-explorer";
     }
 
     if (/ie/i.test(hua)) {
-      icon = 'internet-explorer';
+      icon = "internet-explorer";
     }
 
     if (/edge/i.test(hua)) {
-      icon = 'edge';
+      icon = "edge";
     }
 
     if (/safari/i.test(hua)) {
-      icon = 'apple-safari';
+      icon = "apple-safari";
     }
 
     if (/firefox/i.test(hua)) {
-      icon = 'firefox';
-      color = '#E55B0A';
+      icon = "firefox";
+      color = "#E55B0A";
     }
 
     if (/on iOS/i.test(hua)) {
-      icon = 'apple';
-      color = '#333';
+      icon = "apple";
+      color = "#333";
     }
 
     if (/on Android/i.test(hua)) {
-      icon = 'android';
-      color = '#76c258';
+      icon = "android";
+      color = "#76c258";
     }
 
     if (/opera/i.test(hua)) {
-      icon = 'opera';
-      color = '#ff1b2e';
+      icon = "opera";
+      color = "#ff1b2e";
     }
 
     return <MaterialCommunityIcons name={icon} size={28} color={color} />;
@@ -256,16 +247,16 @@ class SessionsScreen extends PureComponent {
     const lastStyle = section.data.length === index + 1 ? styles.last : {};
     return (
       <View style={[styles.listItem, styles.expiredListItem, lastStyle]}>
-        <View style={{ width: '14%', alignItems: 'center' }}>
+        <View style={{ width: "14%", alignItems: "center" }}>
           {this.browser(session.userAgent)}
         </View>
         <View
-          style={{ flexDirection: 'row', width: '86%', alignItems: 'center' }}
+          style={{ flexDirection: "row", width: "86%", alignItems: "center" }}
         >
           <TouchableOpacity onPress={this.toggleDelete}>
             <Text style={styles.listItemText}>
               {humanUA(session.userAgent)}
-              {session.deviceName ? ` - ${session.deviceName}` : ''}
+              {session.deviceName ? ` - ${session.deviceName}` : ""}
             </Text>
             <Text>{moment(session.createdAt).fromNow()}</Text>
           </TouchableOpacity>
@@ -279,7 +270,7 @@ class SessionsScreen extends PureComponent {
     try {
       await this.fetchSessions();
     } catch (err) {
-      error('There was a problem refreshing the session data');
+      error("There was a problem refreshing the session data");
     } finally {
       this.setState({ refreshing: false });
     }
@@ -290,12 +281,12 @@ class SessionsScreen extends PureComponent {
     const { active, expired } = this.state.sessions;
     const sessions = [
       {
-        title: 'Active Sessions',
+        title: "Active Sessions",
         renderItem: this.renderItem,
         data: active,
       },
       {
-        title: 'Expired Sessions (last 10)',
+        title: "Expired Sessions (last 10)",
         renderItem: this.renderExpiredItem,
         data: expired,
       },
@@ -311,7 +302,7 @@ class SessionsScreen extends PureComponent {
           sections={sessions}
           refreshControl={
             <RefreshControl
-              tintColor={'lightskyblue'}
+              tintColor={"lightskyblue"}
               refreshing={refreshing}
               onRefresh={this.onRefresh}
             />
@@ -330,38 +321,38 @@ class SessionsScreen extends PureComponent {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
+    alignItems: "center",
+    flexDirection: "column",
   },
   header: {
     borderWidth: 0.5,
-    borderColor: '#AAA',
-    backgroundColor: '#f7f7f7',
-    borderLeftColor: '#f7f7f7',
-    borderRightColor: '#f7f7f7',
+    borderColor: "#AAA",
+    backgroundColor: "#f7f7f7",
+    borderLeftColor: "#f7f7f7",
+    borderRightColor: "#f7f7f7",
     padding: 5,
   },
   headerText: {
-    color: '#AAA',
+    color: "#AAA",
   },
   list: {
-    width: '100%',
-    backgroundColor: 'transparent',
+    width: "100%",
+    backgroundColor: "transparent",
   },
   listSeparatorContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   listSeparator: {
     height: 1,
-    width: '86%',
-    backgroundColor: '#CED0CE',
-    marginLeft: '14%',
+    width: "86%",
+    backgroundColor: "#CED0CE",
+    marginLeft: "14%",
   },
   listItem: {
-    backgroundColor: '#fff',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    backgroundColor: "#fff",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     height: 50,
   },
   expiredListItem: {
@@ -369,16 +360,14 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 14,
-    textAlign: 'left',
-    color: '#444',
+    textAlign: "left",
+    color: "#444",
   },
   last: {
     borderWidth: 1,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderBottomColor: colors.lines,
   },
 });
 
-export default connect(state => ({
-  ...state.sessions,
-}))(SessionsScreen);
+export default SessionsScreen;

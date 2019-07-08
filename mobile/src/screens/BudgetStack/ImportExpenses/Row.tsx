@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { connect } from "react-redux";
 
 const findFirstItemId = (categoryId, items) => {
   return (items.find(i => i.budgetCategoryId === categoryId) || { id: 0 }).id;
@@ -277,13 +276,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(
-  state => ({
-    ...state.budget,
-  }),
-  dispatch => ({
-    createdExpense: expense => {
-      dispatch(createdExpense(expense));
-    },
-  })
-)(ImportExpenseRow);
+export default ImportExpenseRow;

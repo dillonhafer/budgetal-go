@@ -1,21 +1,9 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src/",
+    "baseUrl": "./",
     "paths": {
-      "actions/*": ["actions/*"],
-      "api/*": ["api/*"],
-      "assets/*": ["assets/*"],
-      "components/*": ["components/*"],
-      "forms/*": ["forms/*"],
-      "images/*": ["images/*"],
-      "fonts/*": ["fonts/*"],
-      "navigators/*": ["navigators/*"],
-      "notify/*": ["notify/*"],
-      "reducers/*": ["reducers/*"],
-      "redux-constants/*": ["redux-constants/*"],
-      "screens/*": ["screens/*"],
-      "utils/*": ["utils/*"]
+      "@src/*": ["src/*"]
     }
   },
   "exclude": ["node_modules"]
