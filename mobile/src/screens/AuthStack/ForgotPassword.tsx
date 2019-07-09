@@ -46,9 +46,13 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
     if (valid) {
       requestPasswordReset().finally(() => {
         navigation.goBack();
-        notice(
-          "We sent you an email with instructions on resetting your password",
-          4000
+        setTimeout(
+          () =>
+            notice(
+              "We sent you an email with instructions on resetting your password",
+              4000
+            ),
+          1000
         );
       });
     }

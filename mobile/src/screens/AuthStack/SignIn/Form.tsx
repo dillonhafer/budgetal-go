@@ -103,8 +103,8 @@ const Form = ({ forgotPassword, afterSignIn }: Props) => {
             if (signIn && signIn.authenticationToken && signIn.user) {
               SetAuthenticationToken(signIn.authenticationToken);
               SetCurrentUser(signIn.user);
-              notice("You are now signed in!");
               afterSignIn();
+              setTimeout(() => notice("You are now signed in!"), 1000);
             }
 
             if (signIn.error) {

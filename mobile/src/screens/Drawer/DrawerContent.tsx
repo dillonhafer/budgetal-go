@@ -84,7 +84,7 @@ const DrawerContent = ({ navigation }: Props) => {
       .then(() => {
         if (client) client.resetStore();
         navigation.navigate("SignIn");
-        notice("You are now signed out");
+        setTimeout(() => notice("You are now signed out"), 1000);
       });
   };
 

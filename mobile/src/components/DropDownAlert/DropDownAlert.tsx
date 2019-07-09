@@ -1,7 +1,7 @@
 import RNDropdownAlert from "react-native-dropdownalert";
 import React, { useState, useRef } from "react";
 import { colors } from "@shared/theme";
-import { Platform } from "react-native";
+import { Platform, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -27,7 +27,10 @@ interface Options {
 }
 
 const DropdownAlert = () => {
+  const style =
+    StatusBar._currentValues && StatusBar._currentValues.barStyle.value;
   const [delay, setDelay] = useState(1000);
+  const [inactiveStyle, setInactiveStyle] = useState(style);
   const dropdown = useRef<RNDropdownAlert>(null);
 
   const renderImage = () => {
@@ -49,6 +52,9 @@ const DropdownAlert = () => {
     message: string,
     options: Options = {}
   ) => {
+    const style = StatusBar._currentValues.barStyle.value;
+    setInactiveStyle(style);
+
     const originalDelay = delay;
     if (options.delay) {
       setDelay(options.delay);
@@ -66,6 +72,7 @@ const DropdownAlert = () => {
   return (
     <RNDropdownAlert
       closeInterval={delay}
+      inactiveStatusBarStyle={inactiveStyle}
       renderImage={renderImage}
       successColor={successColor}
       errorColor={errorColor}
