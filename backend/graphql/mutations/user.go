@@ -82,3 +82,19 @@ func UserChangePassword(params graphql.ResolveParams) (interface{}, error) {
 	mailers.SendPasswordChangedNotice(currentUser)
 	return resolvers.SerializeUser(currentUser), nil
 }
+
+// RequestPasswordReset tries to send a password reset email
+func RequestPasswordReset(params graphql.ResolveParams) (interface{}, error) {
+	email, isOK := params.Args["email"].(string)
+	if !isOK {
+		return nil, errors.New("Email is missing")
+	}
+
+	user := &models.User{}
+	err := models.DB.Where("email = ?", email).First(user)
+	if err == nil {
+		mailers.SendPasswordResetInstructions(user)
+	}
+
+	return map[string]string{"message": "We sent you an email with instructions on resetting your password"}, nil
+}

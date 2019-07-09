@@ -2,9 +2,12 @@ package mailers
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/dillonhafer/budgetal/backend/models"
+	"github.com/dillonhafer/budgetal/backend/helpers"
 	"github.com/gobuffalo/buffalo/mail"
+	"github.com/gobuffalo/nulls"
 	"github.com/gobuffalo/envy"
 	"github.com/pkg/errors"
 )
@@ -44,4 +47,13 @@ func SendPasswordResets(user *models.User) error {
 
 	println(fmt.Sprintf("%#v", m))
 	return smtp.Send(m)
+}
+
+// SendPasswordResetInstructions sends emails
+func SendPasswordResetInstructions(u *models.User) {
+	token := helpers.RandomHex(32)
+	u.PasswordResetToken = nulls.String{String: token, Valid: true}
+	u.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: true}
+	models.DB.Update(u)
+	SendPasswordResets(u)
 }
