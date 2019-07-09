@@ -89,7 +89,7 @@ func (u *User) localAvatarUrl() string {
 	if ENV == "development" {
 		root = resolveHostIp()
 		if root != "" {
-			port := envy.Get("FRONTEND_PORT", "3001")
+			port := envy.Get("FRONTEND_PORT", "3000")
 			root = fmt.Sprintf("http://%s:%s", root, port)
 		}
 	}
@@ -104,9 +104,13 @@ func (u *User) localMissingUrl() string {
 	if ENV == "development" {
 		root = resolveHostIp()
 		if root != "" {
-			port := envy.Get("FRONTEND_PORT", "3001")
+			port := envy.Get("FRONTEND_PORT", "3000")
 			root = fmt.Sprintf("http://%s:%s", root, port)
 		}
+	}
+
+	if ENV == "development" {
+		return fmt.Sprintf("%s/users/avatars/missing-profile.png", root)
 	}
 
 	return fmt.Sprintf("%s/missing-profile.png", root)

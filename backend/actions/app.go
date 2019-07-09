@@ -2,6 +2,7 @@ package actions
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -90,6 +91,8 @@ func App() *buffalo.App {
 
 		if ENV == "development" {
 			app.Use(paramlogger.ParameterLogger)
+			directory := "../frontend/public/users/avatars"
+			app.ServeFiles("/users/avatars", http.Dir(directory))
 		}
 
 		// Authorization
