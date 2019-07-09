@@ -1,23 +1,37 @@
 import React, { useState, useRef } from "react";
 import { TextInput, StatusBar, KeyboardAvoidingView } from "react-native";
-
-// API
-import { RegisterRequest } from "@shared/api/users";
 import {
   SetAuthenticationToken,
   SetCurrentUser,
 } from "@src/utils/authentication";
-
-// Helpers
-import { notice } from "@src/notify";
+import { notice, error } from "@src/notify";
 import { FormTitle } from "@src/typography";
-
-// Components
 import { PrimaryButton, FieldContainer, focus } from "@src/forms";
 import { validEmail } from "@shared/helpers";
 import styled from "styled-components/native";
 import { NavigationScreenConfigProps } from "react-navigation";
 import { colors } from "@shared/theme";
+import gql from "graphql-tag";
+import Constants from "expo-constants";
+import { useMutation } from "react-apollo";
+import { Register, RegisterVariables } from "./__generated__/Register";
+const deviceName = Constants.deviceName;
+
+const REGISTER = gql`
+  mutation Register($email: String!, $password: String!, $deviceName: String) {
+    register(email: $email, password: $password, deviceName: $deviceName) {
+      authenticationToken
+      error
+      user {
+        id
+        email
+        firstName
+        lastName
+        avatarUrl
+      }
+    }
+  }
+`;
 
 const Container = styled(KeyboardAvoidingView).attrs({
   behvaior: "padding",
@@ -30,46 +44,49 @@ const Container = styled(KeyboardAvoidingView).attrs({
 
 interface Props extends NavigationScreenConfigProps {}
 
-const validateFields = (
-  email: string,
-  password: string,
-  passwordConfirmation: string
-): boolean => {
-  return (
-    email.length > 0 &&
-    validEmail(email) &&
-    password.length > 0 &&
-    passwordConfirmation.length > 0 &&
-    password === passwordConfirmation
-  );
-};
-
 const RegisterScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [loading, setLoading] = useState(false);
+
   const passwordField = useRef(null);
   const passwordConfirmationField = useRef(null);
 
-  const valid = validateFields(email, password, passwordConfirmation);
+  const [register, { loading }] = useMutation<Register, RegisterVariables>(
+    REGISTER,
+    {
+      variables: {
+        email,
+        password,
+        deviceName,
+      },
+    }
+  );
+
+  const valid =
+    email.length > 0 &&
+    validEmail(email) &&
+    password.length > 0 &&
+    passwordConfirmation.length > 0 &&
+    password === passwordConfirmation;
 
   const handleOnPress = () => {
     if (valid) {
-      setLoading(true);
-      RegisterRequest({ email, password })
-        .then(resp => {
-          setLoading(false);
-          if (resp.ok) {
-            SetAuthenticationToken(resp.token);
-            SetCurrentUser(resp.user);
-            navigation.replace("AuthLoading");
-            notice("Welcome to Budgetal!", 4000);
+      register().then(r => {
+        if (r && r.data && r.data.register) {
+          const register = r.data.register;
+          if (register && register.authenticationToken && register.user) {
+            SetAuthenticationToken(register.authenticationToken);
+            SetCurrentUser(register.user);
+            navigation.navigate("AuthLoading");
+            setTimeout(() => notice("Welcome to Budgetal!", 4000), 1000);
           }
-        })
-        .catch(() => {
-          setLoading(false);
-        });
+
+          if (register.error) {
+            error(register.error);
+          }
+        }
+      });
     }
   };
 

@@ -169,7 +169,7 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			Resolve:     mutations.SignOut,
 		},
 		"signIn": &graphql.Field{
-			Type:        types.SignIn,
+			Type:        types.NewSession,
 			Description: "Sign in",
 			Args: graphql.FieldConfigArgument{
 				"email": &graphql.ArgumentConfig{
@@ -186,6 +186,25 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 				},
 			},
 			Resolve: mutations.SignIn,
+		},
+		"register": &graphql.Field{
+			Type:        types.NewSession,
+			Description: "Register",
+			Args: graphql.FieldConfigArgument{
+				"email": &graphql.ArgumentConfig{
+					Description: "Email of user attempting to register",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+				"password": &graphql.ArgumentConfig{
+					Description: "Password of user attempting to register",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+				"deviceName": &graphql.ArgumentConfig{
+					Description: "Device name for display in session",
+					Type:        graphql.String,
+				},
+			},
+			Resolve: mutations.Register,
 		},
 		"userUpdate": &graphql.Field{
 			Type:        graphql.NewNonNull(types.User),

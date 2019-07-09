@@ -3,10 +3,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: SignIn
+// GraphQL mutation operation: Register
 // ====================================================
 
-export interface SignIn_signIn_user {
+export interface Register_register_user {
   __typename: "User";
   /**
    * ID of the User
@@ -30,7 +30,7 @@ export interface SignIn_signIn_user {
   avatarUrl: string | null;
 }
 
-export interface SignIn_signIn {
+export interface Register_register {
   __typename: "NewSession";
   /**
    * ID of the session
@@ -43,17 +43,17 @@ export interface SignIn_signIn {
   /**
    * User the new session
    */
-  user: SignIn_signIn_user | null;
+  user: Register_register_user | null;
 }
 
-export interface SignIn {
+export interface Register {
   /**
-   * Sign in
+   * Register
    */
-  signIn: SignIn_signIn | null;
+  register: Register_register | null;
 }
 
-export interface SignInVariables {
+export interface RegisterVariables {
   email: string;
   password: string;
   deviceName?: string | null;

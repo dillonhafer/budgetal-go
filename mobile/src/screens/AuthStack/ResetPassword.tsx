@@ -1,14 +1,13 @@
-import { ResetPasswordRequest } from "@shared/api/users";
 import { colors } from "@shared/theme";
 import { FieldContainer, focus, PrimaryButton } from "@src/forms";
 import { error, notice } from "@src/notify";
 import { FormTitle } from "@src/typography";
+import gql from "graphql-tag";
 import React, { useRef, useState } from "react";
+import { useMutation } from "react-apollo";
 import { KeyboardAvoidingView, StatusBar, TextInput } from "react-native";
 import { NavigationScreenConfigProps } from "react-navigation";
 import styled from "styled-components/native";
-import gql from "graphql-tag";
-import { useMutation } from "react-apollo";
 import {
   ResetPassword,
   ResetPasswordVariables,
@@ -52,10 +51,9 @@ const ResetPasswordScreen = ({ navigation }: Props) => {
   const handleOnPress = () => {
     if (valid) {
       resetPassword()
-        .then(({ data }) => {
-          const message = data.resetPassword.message || "";
-
-          if (message.includes("expired")) {
+        .then(r => {
+          const message = r && r.data && r.data.resetPassword.message;
+          if (message && message.includes("expired")) {
             error(message, 8000);
             return;
           }
