@@ -396,3 +396,18 @@ func (u *User) SendPushNotification(title, body string) error {
 
 	return err
 }
+
+func FindUserForPasswordReset(token string) (*User, error) {
+	user := &User{}
+	query := `
+    password_reset_token = ? and
+    password_reset_sent_at between
+    (now() - interval '2 hours') and now()
+  `
+	err := DB.Where(query, token).First(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}

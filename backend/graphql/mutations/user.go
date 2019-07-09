@@ -2,6 +2,7 @@ package mutations
 
 import (
 	"errors"
+	"time"
 
 	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/graphql/resolvers"
@@ -97,4 +98,29 @@ func RequestPasswordReset(params graphql.ResolveParams) (interface{}, error) {
 	}
 
 	return map[string]string{"message": "We sent you an email with instructions on resetting your password"}, nil
+}
+
+// ResetPassword resets a user's password
+func ResetPassword(params graphql.ResolveParams) (interface{}, error) {
+	password, isOK := params.Args["password"].(string)
+	if !isOK {
+		return nil, errors.New("Password is missing")
+	}
+	token, isOK := params.Args["token"].(string)
+	if !isOK {
+		return nil, errors.New("Token is missing")
+	}
+
+	user, err := models.FindUserForPasswordReset(token)
+	if err != nil {
+		return map[string]string{"message": "The link in your email may have expired."}, nil
+	}
+
+	user.EncryptPassword([]byte(password))
+	user.PasswordResetToken = nulls.String{String: "", Valid: false}
+	user.PasswordResetSentAt = nulls.Time{Time: time.Now(), Valid: false}
+	models.DB.Update(user)
+	mailers.SendPasswordChangedNotice(user)
+
+	return map[string]string{"message": ""}, nil
 }

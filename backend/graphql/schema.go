@@ -227,6 +227,21 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.RequestPasswordReset,
 		},
+		"resetPassword": &graphql.Field{
+			Type:        graphql.NewNonNull(types.Message),
+			Description: "Resset a password from an email",
+			Args: graphql.FieldConfigArgument{
+				"password": &graphql.ArgumentConfig{
+					Description: "New password",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+				"token": &graphql.ArgumentConfig{
+					Description: "Token from email",
+					Type:        graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: mutations.ResetPassword,
+		},
 		"sessionsDelete": &graphql.Field{
 			Type:        types.Session,
 			Description: "Deletes another session",

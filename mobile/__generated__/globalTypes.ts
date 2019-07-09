@@ -7,21 +7,21 @@
 //==============================================================
 
 export interface AnnualBudgetItemInput {
-  name: string;
-  id?: string | null;
   annualBudgetId: number;
   paid: boolean;
   interval: number;
   amount: number;
   dueDate: string;
+  name: string;
+  id?: string | null;
 }
 
 export interface BudgetItemExpenseInput {
+  id?: string | null;
   budgetItemId: number;
   amount: number;
   name: string;
   date: string;
-  id?: string | null;
 }
 
 export interface BudgetItemInput {
@@ -32,10 +32,10 @@ export interface BudgetItemInput {
 }
 
 export interface UserInput {
-  password: string;
-  email: string;
   firstName?: string | null;
   lastName?: string | null;
+  password: string;
+  email: string;
 }
 
 //==============================================================

@@ -1,15 +1,26 @@
-// API
 import { ResetPasswordRequest } from "@shared/api/users";
 import { colors } from "@shared/theme";
-// Components
 import { FieldContainer, focus, PrimaryButton } from "@src/forms";
-// Helpers
 import { error, notice } from "@src/notify";
 import { FormTitle } from "@src/typography";
 import React, { useRef, useState } from "react";
 import { KeyboardAvoidingView, StatusBar, TextInput } from "react-native";
 import { NavigationScreenConfigProps } from "react-navigation";
 import styled from "styled-components/native";
+import gql from "graphql-tag";
+import { useMutation } from "react-apollo";
+import {
+  ResetPassword,
+  ResetPasswordVariables,
+} from "./__generated__/ResetPassword";
+
+const RESET_PASSWORD = gql`
+  mutation ResetPassword($password: String!, $token: String!) {
+    resetPassword(password: $password, token: $token) {
+      message
+    }
+  }
+`;
 
 const Container = styled(KeyboardAvoidingView).attrs({
   behvaior: "padding",
@@ -23,9 +34,13 @@ const Container = styled(KeyboardAvoidingView).attrs({
 interface Props extends NavigationScreenConfigProps {}
 
 const ResetPasswordScreen = ({ navigation }: Props) => {
+  const token = navigation.getParam("reset_password_token");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [resetPassword, { loading }] = useMutation<
+    ResetPassword,
+    ResetPasswordVariables
+  >(RESET_PASSWORD, { variables: { password, token } });
 
   const passwordConfirmationField = useRef(null);
 
@@ -34,34 +49,23 @@ const ResetPasswordScreen = ({ navigation }: Props) => {
     passwordConfirmation.length > 0 &&
     password === passwordConfirmation;
 
-  const resetPassword = async () => {
-    try {
-      const reset_password_token = navigation.getParam("reset_password_token");
-      const resp = await ResetPasswordRequest({
-        password,
-        reset_password_token,
-      });
-      if (resp && resp.ok) {
-        navigation.navigate("SignIn");
-        notice("Your password has been reset!", 2000);
-      }
-    } catch (err) {
-      error("You password reset token may have expired");
-    }
-  };
+  const handleOnPress = () => {
+    if (valid) {
+      resetPassword()
+        .then(({ data }) => {
+          const message = data.resetPassword.message || "";
 
-  const handleOnPress = async () => {
-    try {
-      if (valid) {
-        setLoading(true);
-        await resetPassword();
-      } else {
-        error("Password does not match confirmation");
-      }
-    } catch (err) {
-      error("You password reset token may have expired");
-    } finally {
-      setLoading(false);
+          if (message.includes("expired")) {
+            error(message, 8000);
+            return;
+          }
+
+          notice("Your password has been reset!", 5000);
+          navigation.goBack();
+        })
+        .catch(() => {
+          error("You password reset token may have expired", 8000);
+        });
     }
   };
 
