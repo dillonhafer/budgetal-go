@@ -1426,6 +1426,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.10.tgz#51babf9c7deadd5343620055fc8aff7995c8b031"
   integrity sha512-LcsGbPomWsad6wmMNv7nBLw7YYYyfdYcz6xryKYQhx89c3XXan+8Q6AJ43G5XDIaklaVkK3mE4fCb0SBvMiPSQ==
 
+"@types/papaparse@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/papaparse/-/papaparse-5.0.0.tgz#fcac0a5008e04eaf66c64e77e6924e55df6ed7b4"
+  integrity sha512-JxYinxHA59+Vk3H61fjrPp1v0tjeT+WcyL/TGYDzmiig8125ndlbI5c6ZKVEaXQbsU8RF3TyCvH7tWsG2bI/Nw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/prop-types@*":
   version "15.7.1"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
