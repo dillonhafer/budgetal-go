@@ -1,279 +1,326 @@
 import { Ionicons } from "@expo/vector-icons";
-import { CreateExpenseRequest } from "@shared/api/budget-item-expenses";
 import { currencyf } from "@shared/helpers";
 import { colors } from "@shared/theme";
-import { notice } from "@src/notify";
-import React, { PureComponent } from "react";
+import gql from "graphql-tag";
+import React, { useState } from "react";
+import { useMutation } from "react-apollo";
 import {
   ActivityIndicator,
   Picker,
-  StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import styled from "styled-components/native";
+import {
+  BudgetItemExpenseUpsert,
+  BudgetItemExpenseUpsertVariables,
+} from "../BudgetItemExpenses/__generated__/BudgetItemExpenseUpsert";
+import { BudgetCategory, BudgetItem, BudgetItemExpense } from "../types";
 
-const findFirstItemId = (categoryId, items) => {
-  return (items.find(i => i.budgetCategoryId === categoryId) || { id: 0 }).id;
-};
+interface ImportExpense extends BudgetItemExpense {
+  description: string;
+}
 
-class ImportExpenseRow extends PureComponent {
-  constructor(props) {
-    super(props);
-    const { defaultBudgetItem } = this.props;
-    this.state = {
-      loading: false,
-      budgetCategoryId: defaultBudgetItem.budgetCategoryId,
-      budgetItemId: defaultBudgetItem.id,
-    };
+const BUGET_ITEM_EXPENSE_UPSERT = gql`
+  mutation BudgetItemExpenseUpsert(
+    $budgetItemExpenseInput: BudgetItemExpenseInput!
+  ) {
+    budgetItemExpenseUpsert(budgetItemExpenseInput: $budgetItemExpenseInput) {
+      id
+      budgetItemId
+      amount
+      date
+      name
+    }
   }
+`;
 
-  onSkip = () => {
-    this.props.onNext(this.props.index);
+interface ImportProps {
+  budgetItemId: number;
+  name: string;
+  amount: number;
+  date: string;
+  onSuccess(): void;
+}
+
+const ImportButton = ({
+  budgetItemId,
+  name,
+  amount,
+  date,
+  onSuccess,
+}: ImportProps) => {
+  const [budgetItemExpenseUpsert, { loading }] = useMutation<
+    BudgetItemExpenseUpsert,
+    BudgetItemExpenseUpsertVariables
+  >(BUGET_ITEM_EXPENSE_UPSERT, {
+    variables: {
+      budgetItemExpenseInput: {
+        budgetItemId,
+        name,
+        amount,
+        date,
+      },
+    },
+  });
+
+  const valid = budgetItemId > 0;
+  const onSave = () => {
+    budgetItemExpenseUpsert().then(() => onSuccess());
   };
 
-  onSave = () => {
-    const { index, total } = this.props;
-    const lastExpense = index + 1 === total;
-    if (lastExpense) {
-      this.props.onDone();
-      notice("Import Finished");
-    } else {
-      this.saveExpense();
-    }
-  };
-
-  saveExpense = async () => {
-    this.setState({ loading: true });
-    try {
-      const resp = await CreateExpenseRequest({
-        name: this.props.item.description,
-        amount: this.props.item.amount,
-        date: this.props.item.date.format("YYYY-MM-DD"),
-        budgetItemId: this.state.budgetItemId,
-      });
-      if (resp && resp.ok) {
-        this.props.createdExpense(resp.budgetItemExpense);
-        this.onSkip();
-      } else {
-        // show errors
-      }
-    } catch (err) {
-      // show errors
-    } finally {
-      this.setState({ loading: false });
-    }
-  };
-
-  valid = () => {
-    return this.state.budgetItemId > 0;
-  };
-
-  isPossible = () => {
-    const { item, budgetItemExpenses } = this.props;
-    return budgetItemExpenses.find(e => {
-      return (
-        e.name === item.description &&
-        e.amount === item.amount &&
-        e.date === item.date.format("YYYY-MM-DD")
-      );
-    });
-  };
-
-  render() {
-    const { item, index, width, total } = this.props;
-    const { loading } = this.state;
-    const saveDisabled = loading || !this.valid();
-    const lastExpense = loading || index + 1 === total;
-    const isPossible = this.isPossible();
-
-    return (
-      <View
-        style={{
-          width,
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.breadcrumb}>
-          {index + 1} of {total} Expenses
-        </Text>
+  return (
+    <TouchableOpacity onPress={onSave} disabled={!valid}>
+      {loading && (
         <View
           style={{
-            flexDirection: "row",
-            width: "100%",
-            alignItems: "center",
-            flex: 1,
+            paddingRight: 20,
+            paddingLeft: 20,
           }}
         >
-          <View style={styles.picker}>
-            <Picker
-              style={{ width: "50%" }}
-              selectedValue={String(this.state.budgetCategoryId)}
-              onValueChange={itemValue => {
-                const budgetCategoryId = parseInt(itemValue, 10);
-                const budgetItemId = findFirstItemId(
-                  budgetCategoryId,
-                  this.props.budgetItems
-                );
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      )}
+      {!loading && (
+        <Ionicons
+          name="ios-checkmark-circle-outline"
+          size={48}
+          color={colors.primary}
+          style={{
+            fontWeight: "300",
+            paddingRight: 20,
+            paddingLeft: 20,
+            opacity: !valid ? 0.4 : 1,
+          }}
+        />
+      )}
+    </TouchableOpacity>
+  );
+};
 
-                this.setState({
-                  budgetCategoryId,
-                  budgetItemId,
-                });
-              }}
-            >
-              {this.props.budgetCategories.map(c => {
+const findFirstItemId = (categoryId: number, items: BudgetItem[]) => {
+  return parseInt(
+    (
+      items.find(i => String(i.budgetCategoryId) === String(categoryId)) || {
+        id: "",
+      }
+    ).id
+  );
+};
+
+const DuplicateContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  padding: 5,
+  borderRadius: 5,
+  backgroundColor: colors.yellow,
+});
+
+const TagText = styled.Text({
+  textAlign: "center",
+  color: "#fff",
+  paddingRight: 5,
+});
+
+const AlertIcon = styled(Ionicons).attrs({ name: "ios-alert" })({
+  marginHorizontal: 5,
+  color: "#fff",
+  fontSize: 22,
+});
+
+const CloseIcon = styled(Ionicons).attrs({
+  name: "ios-close-circle-outline",
+  size: 48,
+  color: colors.error,
+})<{ lastExpense: boolean }>(({ lastExpense }) => ({
+  fontWeight: 300,
+  paddingRight: 20,
+  paddingLeft: 20,
+  opacity: lastExpense ? 0.4 : 1,
+}));
+
+const Container = styled.View<{ width: number }>(({ width }) => ({
+  width,
+  alignItems: "center",
+}));
+
+const Description = styled.Text.attrs({
+  adjustsFontSizeToFit: true,
+  numberOfLines: 2,
+})({
+  textAlign: "center",
+  color: "#AAA",
+  fontSize: 16,
+});
+
+const Date = styled.Text({
+  textAlign: "center",
+  fontSize: 18,
+});
+
+const Amount = styled.Text({
+  textAlign: "center",
+  fontSize: 18,
+  fontWeight: 700,
+});
+
+const InfoContainer = styled.View({
+  flex: 1,
+  padding: 10,
+});
+
+const ActionContainer = styled.View({
+  width: "100%",
+  marginTop: 20,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+});
+
+const Breadcrumb = styled.Text({
+  fontSize: 22,
+  fontWeight: 700,
+  marginBottom: 10,
+});
+
+const OuterPicker = styled.View({
+  flexDirection: "row",
+  width: "100%",
+  alignItems: "center",
+  flex: 1,
+});
+
+const InnerPicker = styled.View({
+  width: "100%",
+  borderColor: colors.lines,
+  borderRightColor: "transparent",
+  borderLeftColor: "transparent",
+  borderWidth: 0.5,
+  flexDirection: "row",
+  backgroundColor: "transparent",
+});
+
+interface Props {
+  onNext(index: number): void;
+  defaultBudgetItem: BudgetItem;
+  index: number;
+  item: ImportExpense;
+  budgetItems: BudgetItem[];
+  budgetItemExpenses: BudgetItemExpense[];
+  total: number;
+  width: number;
+  budgetCategories: BudgetCategory[];
+}
+
+const ImportExpenseRow = ({
+  budgetItemExpenses,
+  budgetItems,
+  item,
+  onNext,
+  index,
+  total,
+  width,
+  defaultBudgetItem,
+  budgetCategories,
+}: Props) => {
+  const [budgetCategoryId, setBudgetCategoryId] = useState(
+    parseInt(defaultBudgetItem.budgetCategoryId)
+  );
+  const [budgetItemId, setBudgetitemId] = useState(
+    parseInt(defaultBudgetItem.id)
+  );
+
+  const possibleDuplicate = budgetItemExpenses.find(e => {
+    return (
+      e.name === item.description &&
+      e.amount === item.amount &&
+      e.date === item.date.format("YYYY-MM-DD")
+    );
+  });
+
+  const lastExpense = index + 1 === total;
+
+  return (
+    <Container width={width}>
+      <Breadcrumb>
+        {index + 1} of {total} Expenses
+      </Breadcrumb>
+      <OuterPicker>
+        <InnerPicker>
+          <Picker
+            style={{ width: "50%" }}
+            selectedValue={String(budgetCategoryId)}
+            onValueChange={itemValue => {
+              const categoryId = parseInt(itemValue);
+              const itemId = findFirstItemId(budgetCategoryId, budgetItems);
+              setBudgetCategoryId(categoryId);
+              setBudgetitemId(itemId);
+            }}
+          >
+            {budgetCategories.map((c: BudgetCategory) => {
+              return (
+                <Picker.Item
+                  key={c.id}
+                  label={String(c.name)}
+                  value={String(c.id)}
+                />
+              );
+            })}
+          </Picker>
+          <Picker
+            style={{ width: "50%" }}
+            selectedValue={String(budgetItemId)}
+            onValueChange={itemValue => setBudgetitemId(parseInt(itemValue))}
+          >
+            {budgetItems
+              .filter(i => {
+                return i.budgetCategoryId === String(budgetCategoryId);
+              })
+              .map(i => {
                 return (
                   <Picker.Item
-                    key={c.id}
-                    label={String(c.name)}
-                    value={String(c.id)}
+                    key={i.id}
+                    label={String(i.name)}
+                    value={String(i.id)}
                   />
                 );
               })}
-            </Picker>
-            <Picker
-              style={{ width: "50%" }}
-              selectedValue={String(this.state.budgetItemId)}
-              onValueChange={itemValue =>
-                this.setState({ budgetItemId: parseInt(itemValue, 10) || 0 })
-              }
-            >
-              {this.props.budgetItems
-                .filter(i => {
-                  return i.budgetCategoryId === this.state.budgetCategoryId;
-                })
-                .map(i => {
-                  return (
-                    <Picker.Item
-                      key={i.id}
-                      label={String(i.name)}
-                      value={String(i.id)}
-                    />
-                  );
-                })}
-            </Picker>
-          </View>
-        </View>
-        <View style={{ flex: 1, padding: 10 }}>
-          <Text style={styles.date}>
-            {item.date.format("dddd, MMM Do YYYY")}
-          </Text>
-          <Text
-            numberOfLines={2}
-            adjustFontSizeToFit={true}
-            style={styles.description}
-          >
-            {item.description}
-          </Text>
-          <Text style={styles.amount}>{currencyf(item.amount)}</Text>
-        </View>
-        <View
-          style={{
-            width: "100%",
-            marginTop: 20,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
+          </Picker>
+        </InnerPicker>
+      </OuterPicker>
+      <InfoContainer>
+        <Date>{item.date.format("dddd, MMM Do YYYY")}</Date>
+        <Description>{item.description}</Description>
+        <Amount>{currencyf(item.amount)}</Amount>
+      </InfoContainer>
+      <ActionContainer>
+        <TouchableOpacity
+          onPress={() => {
+            onNext(index);
           }}
+          disabled={lastExpense}
         >
-          <TouchableOpacity onPress={this.onSkip} disabled={lastExpense}>
-            <Ionicons
-              name="ios-close-circle-outline"
-              size={48}
-              color={colors.error}
-              style={{
-                fontWeight: "300",
-                paddingRight: 20,
-                paddingLeft: 20,
-                opacity: lastExpense ? 0.4 : 1,
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onSave} disabled={saveDisabled}>
-            {loading && (
-              <View
-                style={{
-                  paddingRight: 20,
-                  paddingLeft: 20,
-                }}
-              >
-                <ActivityIndicator size="large" color={colors.primary} />
-              </View>
-            )}
-            {!loading && (
-              <Ionicons
-                name="ios-checkmark-circle-outline"
-                size={48}
-                color={colors.primary}
-                style={{
-                  fontWeight: "300",
-                  paddingRight: 20,
-                  paddingLeft: 20,
-                  opacity: saveDisabled ? 0.4 : 1,
-                }}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
-        {isPossible && (
-          <View style={styles.tag}>
-            <Ionicons name="ios-alert" style={styles.tagIcon} />
-            <Text style={styles.tagText}>Possible Duplicate</Text>
-          </View>
-        )}
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  breadcrumb: {
-    fontSize: 22,
-    fontWeight: "700",
-    marginBottom: 10,
-  },
-  picker: {
-    width: "100%",
-    borderColor: colors.lines,
-    borderRightColor: "transparent",
-    borderLeftColor: "transparent",
-    borderWidth: 0.5,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-  },
-  description: {
-    textAlign: "center",
-    color: "#AAA",
-    fontSize: 16,
-  },
-  amount: {
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  date: {
-    textAlign: "center",
-    fontSize: 18,
-  },
-  tag: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 5,
-    borderRadius: 5,
-    backgroundColor: colors.yellow,
-  },
-  tagText: {
-    textAlign: "center",
-    color: "#fff",
-    paddingRight: 5,
-  },
-  tagIcon: {
-    marginHorizontal: 5,
-    color: "#fff",
-    fontSize: 22,
-  },
-});
+          <CloseIcon lastExpense={lastExpense} />
+        </TouchableOpacity>
+        <ImportButton
+          budgetItemId={budgetItemId}
+          amount={parseFloat(item.amount)}
+          name={item.description}
+          date={item.date.format("YYYY-MM-DD")}
+          onSuccess={() => {
+            onNext(index);
+          }}
+        />
+      </ActionContainer>
+      {possibleDuplicate && (
+        <DuplicateContainer>
+          <AlertIcon />
+          <TagText>Possible Duplicate</TagText>
+        </DuplicateContainer>
+      )}
+    </Container>
+  );
+};
 
 export default ImportExpenseRow;
