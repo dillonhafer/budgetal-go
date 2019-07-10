@@ -8,7 +8,7 @@ import { WebBrowser } from "expo";
 import Constants from "expo-constants";
 import gql from "graphql-tag";
 import React, { useState } from "react";
-import { useMutation, useQuery } from "react-apollo";
+import { useMutation, useQuery, useApolloClient } from "react-apollo";
 import {
   Alert,
   ScrollView,
@@ -75,16 +75,19 @@ const AccountRow = ({ onPress, active }: AccountProps) => {
 interface Props extends DrawerItemsProps {}
 
 const DrawerContent = ({ navigation }: Props) => {
+  const client = useApolloClient();
   const [visible, setVisible] = useState(false);
-  const [signOut, { client }] = useMutation<SignOut>(SIGN_OUT);
+  const [signOut] = useMutation<SignOut>(SIGN_OUT);
 
   const signOutUser = () => {
     signOut()
       .then(RemoveAuthentication)
       .then(() => {
-        if (client) client.resetStore();
+        client.clearStore();
         navigation.navigate("SignIn");
-        setTimeout(() => notice("You are now signed out"), 1000);
+        setTimeout(() => {
+          notice("You are now signed out");
+        }, 1000);
       });
   };
 
