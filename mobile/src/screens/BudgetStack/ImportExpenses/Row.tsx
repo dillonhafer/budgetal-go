@@ -115,6 +115,7 @@ const DuplicateContainer = styled.View({
   padding: 5,
   borderRadius: 5,
   backgroundColor: colors.yellow,
+  marginBottom: 20,
 });
 
 const TagText = styled.Text({
@@ -133,16 +134,18 @@ const CloseIcon = styled(Ionicons).attrs({
   name: "ios-close-circle-outline",
   size: 48,
   color: colors.error,
-})<{ lastExpense: boolean }>(({ lastExpense }) => ({
+})({
   fontWeight: 300,
   paddingRight: 20,
   paddingLeft: 20,
-  opacity: lastExpense ? 0.4 : 1,
-}));
+});
 
 const Container = styled.View<{ width: number }>(({ width }) => ({
   width,
+  height: "100%",
+  backgroundColor: "white",
   alignItems: "center",
+  justifyContent: "space-between",
 }));
 
 const Description = styled.Text.attrs({
@@ -166,13 +169,12 @@ const Amount = styled.Text({
 });
 
 const InfoContainer = styled.View({
-  flex: 1,
   padding: 10,
 });
 
 const ActionContainer = styled.View({
   width: "100%",
-  marginTop: 20,
+  marginVertical: 20,
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
@@ -203,6 +205,7 @@ const InnerPicker = styled.View({
 
 interface Props {
   onNext(index: number): void;
+  onFinished(): void;
   defaultBudgetItem: BudgetItem;
   index: number;
   item: ImportExpense;
@@ -218,6 +221,7 @@ const ImportExpenseRow = ({
   budgetItems,
   item,
   onNext,
+  onFinished,
   index,
   total,
   width,
@@ -234,7 +238,7 @@ const ImportExpenseRow = ({
   const possibleDuplicate = budgetItemExpenses.find(e => {
     return (
       e.name === item.description &&
-      e.amount === item.amount &&
+      String(e.amount) === String(item.amount) &&
       e.date === item.date.format("YYYY-MM-DD")
     );
   });
@@ -297,11 +301,14 @@ const ImportExpenseRow = ({
       <ActionContainer>
         <TouchableOpacity
           onPress={() => {
-            onNext(index);
+            if (lastExpense) {
+              onFinished();
+            } else {
+              onNext(index);
+            }
           }}
-          disabled={lastExpense}
         >
-          <CloseIcon lastExpense={lastExpense} />
+          <CloseIcon />
         </TouchableOpacity>
         <ImportButton
           budgetItemId={budgetItemId}

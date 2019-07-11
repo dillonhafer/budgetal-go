@@ -24,7 +24,6 @@ class MoneyAnimation extends Component {
           }}
           style={{
             width: 200,
-            height: 200,
             backgroundColor: "transparent",
           }}
           source={importJson}

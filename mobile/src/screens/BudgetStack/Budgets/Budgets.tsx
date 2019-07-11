@@ -120,7 +120,7 @@ const BudgetsScreen = ({ navigation }: Props) => {
           ListFooterComponent={() => (
             <Footer
               onPress={() => {
-                navigation.navigate("ImportExpenses");
+                navigation.navigate("ImportExpenses", { month, year });
               }}
             />
           )}

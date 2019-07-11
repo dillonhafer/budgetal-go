@@ -1,21 +1,24 @@
-import { Dimensions, Platform } from 'react-native';
-import Constants from 'expo-constants';
+import { Dimensions, Platform } from "react-native";
+import Constants from "expo-constants";
+
+const dim = Dimensions.get("screen");
+const width = dim.width;
 
 const isPortrait = () => {
-  const dim = Dimensions.get('screen');
+  const dim = Dimensions.get("screen");
   return dim.height >= dim.width;
 };
 
 const isLandscape = () => {
-  const dim = Dimensions.get('screen');
+  const dim = Dimensions.get("screen");
   return dim.width >= dim.height;
 };
 
 const isTablet = () => {
-  if (Platform.OS === 'ios') {
+  if (Platform.OS === "ios") {
     return (
       Constants.platform.ios &&
-      Constants.platform.ios.userInterfaceIdiom === 'tablet'
+      Constants.platform.ios.userInterfaceIdiom === "tablet"
     );
   }
 
@@ -27,6 +30,7 @@ const isPhone = () => {
 };
 
 export default {
+  width,
   isPortrait,
   isLandscape,
   isTablet,
