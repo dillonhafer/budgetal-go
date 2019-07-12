@@ -3,9 +3,8 @@ import RootNavigator from "@src/navigators/root";
 import { createApolloClient } from "@src/utils/apollo";
 import Device from "@src/utils/Device";
 import { preloadAssetsAsync } from "@src/utils/preload-assets";
-import registerForPushNotifications from "@src/utils/registerForPushNotifications";
 import { AppLoading, Linking, ScreenOrientation } from "expo";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ApolloProvider } from "react-apollo";
 import { Platform, StatusBar } from "react-native";
 
@@ -22,10 +21,6 @@ if (Platform.OS === "ios" && Device.isTablet()) {
 
 const App = () => {
   const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    registerForPushNotifications();
-  }, []);
 
   if (!loaded) {
     return (

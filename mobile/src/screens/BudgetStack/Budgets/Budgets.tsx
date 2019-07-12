@@ -13,6 +13,7 @@ import { NavigationScreenConfigProps } from "react-navigation";
 import gql from "graphql-tag";
 import { useQuery } from "react-apollo";
 import { BudgetCategory, BudgetItem, BudgetItemExpense } from "../types";
+import useRegisterForPushNotificationsAsync from "@src/utils/registerForPushNotifications";
 
 export const GET_BUDGET = gql`
   query GetBudgets($year: Int!, $month: Int!) {
@@ -50,6 +51,8 @@ const Container = styled.View({
 interface Props extends NavigationScreenConfigProps {}
 
 const BudgetsScreen = ({ navigation }: Props) => {
+  useRegisterForPushNotificationsAsync();
+
   const [year, setYear] = useState(defaultDate.year);
   const [month, setMonth] = useState(defaultDate.month);
   const [refreshing, setRefreshing] = useState(false);

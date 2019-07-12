@@ -271,6 +271,16 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.SessionDelete,
 		},
+		"updatePushNotificationToken": &graphql.Field{
+			Type:        types.User,
+			Description: "Update the sessions push notification token",
+			Args: graphql.FieldConfigArgument{
+				"token": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: mutations.UpdatePushNotificationToken,
+		},
 	},
 })
 
