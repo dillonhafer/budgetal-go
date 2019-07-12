@@ -1,10 +1,10 @@
 import { HeaderText } from "@src/components/Text";
-import NetWorthScreen from "@src/screens/net-worth";
-import EditAssetLiabilityScreen from "@src/screens/net-worth/EditAssetLiability";
-import EditMonthItemScreen from "@src/screens/net-worth/EditMonthItem";
-import MonthListScreen from "@src/screens/net-worth/MonthList";
-import NewAssetLiabilityScreen from "@src/screens/net-worth/NewAssetLiability";
-import NewMonthItemScreen from "@src/screens/net-worth/NewMonthItem";
+import NetWorthScreen from "@src/screens/NetWorth";
+import EditAssetLiabilityScreen from "@src/screens/NetWorth/EditAssetLiability";
+import EditMonthItemScreen from "@src/screens/NetWorth/EditMonthItem";
+import MonthListScreen from "@src/screens/NetWorth/MonthList";
+import NewAssetLiabilityScreen from "@src/screens/NetWorth/NewAssetLiability";
+import NewMonthItemScreen from "@src/screens/NetWorth/NewMonthItem";
 import {
   BlurViewNavigationOptions,
   BurgerNavigationOptions,
