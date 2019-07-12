@@ -58,8 +58,12 @@ const SignInScreen = ({ navigation }: Props) => {
   };
 
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", didShow);
-    Keyboard.addListener("keyboardDidHide", didHide);
+    const showListener = Keyboard.addListener("keyboardDidShow", didShow);
+    const hideListener = Keyboard.addListener("keyboardDidHide", didHide);
+    return () => {
+      showListener.remove();
+      hideListener.remove();
+    };
   }, []);
 
   return (
