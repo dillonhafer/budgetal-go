@@ -25,17 +25,17 @@ export interface BudgetItemExpenseInput {
 }
 
 export interface BudgetItemInput {
-  id?: string | null;
   budgetCategoryId: number;
   amount: number;
   name: string;
+  id?: string | null;
 }
 
 export interface UserInput {
+  password: string;
   email: string;
   firstName?: string | null;
   lastName?: string | null;
-  password: string;
 }
 
 //==============================================================
