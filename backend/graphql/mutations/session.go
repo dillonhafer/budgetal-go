@@ -14,10 +14,17 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-var AUTH_HEADER_KEY = envy.Get("BUDGETAL_HEADER", "X-Budgetal-Session")
-var AUTH_COOKIE_KEY = envy.Get("BUDGETAL_COOKIE", "_budgetal_session")
-var COOKIE_DOMAIN = envy.Get("COOKIE_DOMAIN", "api.budgetal.com")
-var ENV = envy.Get("GO_ENV", "development")
+// AuthHeaderKey is used to get part of the API key for the session given to the client
+var AuthHeaderKey = envy.Get("BUDGETAL_HEADER", "X-Budgetal-Session")
+
+// AuthCookieKey is used to get part of the API key for the session given to the user-agent
+var AuthCookieKey = envy.Get("BUDGETAL_COOKIE", "_budgetal_session")
+
+// CookieDomain is the domain value sent in API cookies
+var CookieDomain = envy.Get("COOKIE_DOMAIN", "api.budgetal.com")
+
+// Env is the current environment variable of the app
+var Env = envy.Get("GO_ENV", "development")
 
 // SignOut will sign out a logged in user
 func SignOut(params graphql.ResolveParams) (interface{}, error) {
@@ -127,7 +134,7 @@ func SessionDelete(params graphql.ResolveParams) (interface{}, error) {
 func deleteAuthenticationCookie(res http.ResponseWriter) {
 	cookie := &http.Cookie{
 		Expires: time.Now(),
-		Name:    AUTH_COOKIE_KEY,
+		Name:    AuthCookieKey,
 	}
 	http.SetCookie(res, cookie)
 }
@@ -135,9 +142,9 @@ func deleteAuthenticationCookie(res http.ResponseWriter) {
 func setAuthenticationCookie(res http.ResponseWriter, token string) {
 	cookie := &http.Cookie{
 		Expires:  time.Now().Add(time.Hour * 87600),
-		Name:     AUTH_COOKIE_KEY,
+		Name:     AuthCookieKey,
 		Value:    token,
-		Secure:   ENV == "production",
+		Secure:   Env == "production",
 		HttpOnly: true,
 	}
 	http.SetCookie(res, cookie)

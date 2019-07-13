@@ -297,6 +297,16 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.AssetUpsert,
 		},
+		"assetLiabilityDelete": &graphql.Field{
+			Type:        graphql.NewNonNull(types.AssetLiability),
+			Description: "Deletes an asset/liability",
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.ID),
+				},
+			},
+			Resolve: mutations.AssetDelete,
+		},
 	},
 })
 

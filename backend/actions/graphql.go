@@ -56,8 +56,8 @@ func getCurrentUser(AuthenticationKey, AuthenticationToken string) *models.User 
 }
 
 func getCurrentUserFromContext(c buffalo.Context) *models.User {
-	AuthenticationKey, _ := c.Cookies().Get(mutations.AUTH_COOKIE_KEY)
-	AuthenticationToken := c.Request().Header.Get(mutations.AUTH_HEADER_KEY)
+	AuthenticationKey, _ := c.Cookies().Get(mutations.AuthCookieKey)
+	AuthenticationToken := c.Request().Header.Get(mutations.AuthHeaderKey)
 	return getCurrentUser(AuthenticationKey, AuthenticationToken)
 }
 

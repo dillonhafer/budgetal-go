@@ -7,7 +7,7 @@ import Device from "@src/utils/Device";
 import Spin from "@src/utils/Spin";
 import gql from "graphql-tag";
 import React, { useEffect, useRef, useState } from "react";
-import { useQuery } from "react-apollo";
+import { useQuery, useMutation } from "react-apollo";
 import { RefreshControl, StatusBar, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { NavigationScreenConfigProps } from "react-navigation";
@@ -15,9 +15,24 @@ import MonthCard from "./MonthCard";
 import { Asset } from "./types";
 import { GetAssets } from "./__generated__/GetAssets";
 import { GetNetWorth, GetNetWorthVariables } from "./__generated__/GetNetWorth";
+import {
+  AssetLiabilityDelete,
+  AssetLiabilityDeleteVariables,
+} from "./__generated__/AssetLiabilityDelete";
+import { notice } from "@src/notify";
 
 const ScreenWidth = Device.width;
 const defaultYear = parseInt(`${new Date().getFullYear()}`);
+
+const ASSET_LIABILITY_DELETE = gql`
+  mutation AssetLiabilityDelete($id: ID!) {
+    assetLiabilityDelete(id: $id) {
+      id
+      isAsset
+      name
+    }
+  }
+`;
 
 const GET_NET_WORTH = gql`
   query GetNetWorth($year: Int!) {
@@ -91,6 +106,11 @@ const NetWorthScreen = ({ navigation }: Props) => {
   }, [year, refreshing]);
 
   const carousel = useRef(null);
+
+  const [deleteAsset] = useMutation<
+    AssetLiabilityDelete,
+    AssetLiabilityDeleteVariables
+  >(ASSET_LIABILITY_DELETE, { refetchQueries: ["GetAssets", "GetNetWorth"] });
 
   return (
     <>
@@ -170,8 +190,11 @@ const NetWorthScreen = ({ navigation }: Props) => {
           });
         }}
         deleteConfirmation={`⚠️ Are you sure?\nThis will remove all items from past records.\n⛔️ This cannot be undone.`}
-        onDelete={() => {
-          // this.deleteAssetLiability
+        onDelete={(asset: Asset) => {
+          const title = asset.isAsset ? "ASSET" : "LIABILITY";
+          deleteAsset({ variables: { id: asset.id } }).then(() => {
+            notice(`DELETED ${title}`);
+          });
         }}
         ListFooterComponent={<Spin spinning={loading && !refreshing} />}
       />

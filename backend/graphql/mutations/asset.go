@@ -5,8 +5,43 @@ import (
 
 	"github.com/dillonhafer/budgetal/backend/context"
 	"github.com/dillonhafer/budgetal/backend/models"
+	"github.com/gobuffalo/pop"
 	"github.com/graphql-go/graphql"
 )
+
+// AssetDelete will delete an asset or liability
+func AssetDelete(params graphql.ResolveParams) (interface{}, error) {
+	currentUser := context.CurrentUser(params.Context)
+	buffalo := context.BuffaloContext(params.Context)
+	idString, isOK := params.Args["id"].(string)
+	id, err := strconv.Atoi(idString)
+	if err != nil || !isOK {
+		return nil, nil
+	}
+
+	asset, err := findAssetLiability(id, currentUser.ID)
+	if err != nil {
+		return nil, nil
+	}
+
+	// delete assets/liabilities (transactionally)
+	models.DB.Transaction(func(tx *pop.Connection) error {
+		err := asset.DestroyAllNetWorthItems(tx, buffalo.Logger())
+		if err != nil {
+			return nil
+		}
+
+		// delete item
+		err = tx.Destroy(asset)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	return asset, nil
+}
 
 // AssetUpsert will insert or update an asset or liability
 func AssetUpsert(params graphql.ResolveParams) (interface{}, error) {
@@ -24,7 +59,6 @@ func AssetUpsert(params graphql.ResolveParams) (interface{}, error) {
 
 	id, err := strconv.Atoi(idString)
 	if err == nil {
-		println("\n\nFOUND ID:", idString, id)
 		asset, err := findAssetLiability(id, currentUser.ID)
 		if err != nil {
 			return nil, nil
