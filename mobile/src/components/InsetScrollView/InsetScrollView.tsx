@@ -15,6 +15,8 @@ const styles = StyleSheet.create({
 
 const InsetScrollView = styled.ScrollView.attrs({
   ...BlurViewInsetProps,
+  keyboardDismissMode: "on-drag",
+  keyboardShouldPersistTaps: "handled",
   contentInsetAdjustmentBehavior: "automatic",
   contentContainerStyle: styles.container,
 })({});

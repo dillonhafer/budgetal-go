@@ -281,6 +281,22 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.UpdatePushNotificationToken,
 		},
+		"assetLiabilityUpsert": &graphql.Field{
+			Type:        graphql.NewNonNull(types.AssetLiability),
+			Description: "Upsert an asset/liability",
+			Args: graphql.FieldConfigArgument{
+				"id": &graphql.ArgumentConfig{
+					Type: graphql.ID,
+				},
+				"isAsset": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Boolean),
+				},
+				"name": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.String),
+				},
+			},
+			Resolve: mutations.AssetUpsert,
+		},
 	},
 })
 

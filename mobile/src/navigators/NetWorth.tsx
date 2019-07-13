@@ -1,9 +1,9 @@
 import { HeaderText } from "@src/components/Text";
 import NetWorthScreen from "@src/screens/NetWorth";
-import EditAssetLiabilityScreen from "@src/screens/NetWorth/EditAssetLiability";
+import EditAssetLiabilityScreen from "@src/screens/NetWorth/AssetLiability/EditAssetLiability";
 import EditMonthItemScreen from "@src/screens/NetWorth/EditMonthItem";
 import MonthListScreen from "@src/screens/NetWorth/MonthList";
-import NewAssetLiabilityScreen from "@src/screens/NetWorth/NewAssetLiability";
+import NewAssetLiabilityScreen from "@src/screens/NetWorth/AssetLiability/NewAssetLiability";
 import NewMonthItemScreen from "@src/screens/NetWorth/NewMonthItem";
 import {
   BlurViewNavigationOptions,
