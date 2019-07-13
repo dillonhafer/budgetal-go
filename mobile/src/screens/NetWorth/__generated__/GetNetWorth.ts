@@ -45,7 +45,7 @@ export interface GetNetWorth_netWorth {
    * Calendar Month of the NetWorth
    */
   month: number;
-  netWorthItems: GetNetWorth_netWorth_netWorthItems[] | null;
+  netWorthItems: GetNetWorth_netWorth_netWorthItems[];
   /**
    * Calendar Year of the NetWorth
    */

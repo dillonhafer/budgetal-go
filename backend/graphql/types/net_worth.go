@@ -21,7 +21,7 @@ var NetWorth = graphql.NewObject(graphql.ObjectConfig{
 			Description: "Calendar Year of the NetWorth",
 		},
 		"netWorthItems": &graphql.Field{
-			Type: graphql.NewList(graphql.NewNonNull(NetWorthItem)),
+			Type: graphql.NewNonNull(graphql.NewList(graphql.NewNonNull(NetWorthItem))),
 		},
 	},
 })
