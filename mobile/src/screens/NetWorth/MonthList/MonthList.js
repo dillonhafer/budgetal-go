@@ -11,15 +11,17 @@ import { notice, confirm, error } from "@src/notify";
 
 class MonthList extends Component {
   items = () => {
-    const pm = this.props.navigation.getParam("month");
-    const month = this.props.months.find(
-      m => m.year === pm.year && m.month === pm.month
-    );
+    const month = this.props.navigation.getParam("month");
+    const assets = [];
+    const liabilities = [];
 
-    const { true: assets = [], false: liabilities = [] } = groupBy(
-      month.items,
-      "isAsset"
-    );
+    month.netWorthItems.forEach(i => {
+      if (i.asset.isAsset) {
+        assets.push(i);
+      } else {
+        liabilities.push(i);
+      }
+    });
 
     return { assets, liabilities };
   };
@@ -106,9 +108,12 @@ class MonthList extends Component {
   };
 
   renderSectionFooter = ({ section }) => {
+    const assets = this.props.navigation.getParam("assets");
+    const liabilities = this.props.navigation.getParam("liabilities");
+
     const options = {
-      Assets: this.props.assets,
-      Liabilities: this.props.liabilities,
+      Assets: assets,
+      Liabilities: liabilities,
     }[section.title]
       .filter(o => !section.data.map(o => o.assetId).includes(o.id))
       .map(o => ({ label: o.name, value: o.id }));
@@ -134,22 +139,20 @@ class MonthList extends Component {
 
   render() {
     const { assets, liabilities } = this.items();
+
     const sectionData = [
       {
         title: "Assets",
         color: colors.success,
         data: assets.map(a => {
-          const name = this.props.assets.find(as => as.id === a.assetId).name;
-          return { ...a, name };
+          return { ...a, name: a.asset.name };
         }),
       },
       {
         title: "Liabilities",
         color: colors.error,
         data: liabilities.map(l => {
-          const name = this.props.liabilities.find(as => as.id === l.assetId)
-            .name;
-          return { ...l, name };
+          return { ...l, name: l.asset.name };
         }),
       },
     ];

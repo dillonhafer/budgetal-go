@@ -155,6 +155,8 @@ const NetWorthScreen = ({ navigation }: Props) => {
                               label,
                             },
                             year,
+                            assets: assets.filter(a => a.isAsset),
+                            liabilities: assets.filter(a => !a.isAsset),
                           });
                         }}
                       />
