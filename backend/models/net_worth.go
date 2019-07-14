@@ -33,6 +33,13 @@ func (nw *NetWorths) createYearTemplates(userID, year int) {
 	}
 }
 
+// LoadItems loads all net worth items for a single month
+func (nw *NetWorth) LoadItems() {
+	items := &NetWorthItems{}
+	DB.Where("net_worth_id in (?)", nw.ID).All(items)
+	nw.NetWorthItems = *items
+}
+
 // LoadItems loads all net worth items in one trip to the database, avoiding n+1 issues
 func (nw *NetWorths) LoadItems() {
 	netWorthIds := make([]interface{}, len(*nw))

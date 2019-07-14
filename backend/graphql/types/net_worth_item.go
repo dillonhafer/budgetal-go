@@ -29,3 +29,18 @@ var NetWorthItem = graphql.NewObject(graphql.ObjectConfig{
 		},
 	},
 })
+
+// NetWorthItemImport returns a message indicating what was imported
+var NetWorthItemImport = graphql.NewObject(graphql.ObjectConfig{
+	Name: "NetWorthItemImport",
+	Fields: graphql.Fields{
+		"message": &graphql.Field{
+			Type:        graphql.NewNonNull(graphql.String),
+			Description: "Import message",
+		},
+		"netWorth": &graphql.Field{
+			Type:        graphql.NewNonNull(NetWorth),
+			Description: "Net worth month with all items after import finished",
+		},
+	},
+})

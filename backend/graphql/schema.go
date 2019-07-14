@@ -307,6 +307,19 @@ var rootMutation = graphql.NewObject(graphql.ObjectConfig{
 			},
 			Resolve: mutations.AssetDelete,
 		},
+		"netWorthItemImport": &graphql.Field{
+			Type:        graphql.NewNonNull(types.NetWorthItemImport),
+			Description: "Imports net worth items from a previous month",
+			Args: graphql.FieldConfigArgument{
+				"month": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+				"year": &graphql.ArgumentConfig{
+					Type: graphql.NewNonNull(graphql.Int),
+				},
+			},
+			Resolve: mutations.NetWorthItemImport,
+		},
 	},
 })
 

@@ -8,7 +8,55 @@ import { Bold } from "@src/components/Text";
 import { groupBy } from "lodash";
 import { reduceSum, monthName } from "@shared/helpers";
 import { notice, confirm, error } from "@src/notify";
+import { useMutation } from "react-apollo";
+import gql from "graphql-tag";
 
+const NET_WORTH_ITEM_IMPORT = gql`
+  mutation NetWorthItemImport($year: Int!, $month: Int!) {
+    netWorthItemImport(month: $month, year: $year) {
+      message
+      netWorth {
+        id
+        month
+        year
+        netWorthItems {
+          id
+          assetLiabilityId
+        }
+      }
+    }
+  }
+`;
+
+const ImportButton = ({ year, month, prevMonth }) => {
+  const [importItems] = useMutation(NET_WORTH_ITEM_IMPORT, {
+    variables: {
+      year,
+      month,
+    },
+  });
+
+  const onPress = () => {
+    confirm({
+      okText: `Copy`,
+      cancelText: "Cancel",
+      title: "Copy Net Worth Items",
+      content: `Do you want to copy net worth items from ${prevMonth}?`,
+      onOk: () => {
+        importItems().then(({ data }) => {
+          if (data && data.netWorthItemImport) {
+            notice(data.netWorthItemImport.message, 2000);
+          }
+        });
+      },
+      onCancel() {},
+    });
+  };
+
+  return (
+    <SecondaryButton title={`Copy ${prevMonth} Items`} onPress={onPress} />
+  );
+};
 class MonthList extends Component {
   items = () => {
     const month = this.props.navigation.getParam("month");
@@ -99,10 +147,12 @@ class MonthList extends Component {
   };
 
   renderFooter = () => {
+    const nw = this.props.navigation.getParam("month");
     return (
-      <SecondaryButton
-        title={`Copy ${this.prevMonth()} Items`}
-        onPress={this.onImportPress}
+      <ImportButton
+        year={nw.year}
+        month={nw.month}
+        prevMonth={this.prevMonth()}
       />
     );
   };
