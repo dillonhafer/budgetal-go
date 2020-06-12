@@ -40,35 +40,35 @@ class MortgageCalculator extends Component {
     return Math.abs(startDate.diff(endDate, 'months', true).toFixed());
   }
 
-  setAndUpdateState = (state) => {
+  setAndUpdateState = state => {
     this.props.updateState(state);
   };
 
-  handleLoanBalanceChange = (e) => {
+  handleLoanBalanceChange = e => {
     this.setAndUpdateState({ loanBalance: parseInt(e.target.value, 10) });
   };
 
-  handleCurrentBalanceChange = (e) => {
+  handleCurrentBalanceChange = e => {
     this.setAndUpdateState({ currentBalance: parseInt(e.target.value, 10) });
   };
 
-  handleInterestRateChange = (e) => {
+  handleInterestRateChange = e => {
     this.setAndUpdateState({ interestRate: parseFloat(e.target.value) });
   };
 
-  handleYearChange = (e) => {
+  handleYearChange = e => {
     this.setAndUpdateState({ startYear: parseInt(e.target.value, 10) });
   };
 
-  handleMonthChange = (e) => {
+  handleMonthChange = e => {
     this.setAndUpdateState({ startMonth: parseInt(e.target.value, 10) });
   };
 
-  handleYearTermChange = (e) => {
+  handleYearTermChange = e => {
     this.setAndUpdateState({ yearTerm: parseInt(e.target.value, 10) });
   };
 
-  handleExtraMonthlyPaymentChange = (e) => {
+  handleExtraMonthlyPaymentChange = e => {
     this.setAndUpdateState({ extraMonthlyPayment: parseFloat(e.target.value) });
   };
 
@@ -106,7 +106,6 @@ class MortgageCalculator extends Component {
 
     let earlyMonths = 0;
     let cv = currentBalance;
-    let totalInterest = 0.0;
     const _months = [...Array(totalMonths).keys()].map((month, i) => {
       const pastMonth = i < completedMonths;
       let _principal = 0.0;
@@ -129,14 +128,11 @@ class MortgageCalculator extends Component {
       if (early) {
         earlyMonths++;
       }
-      totalInterest = totalInterest + _interest;
-
       return {
         pastMonth,
         extra: extraMonthlyPayment,
         principal: _principal,
         interest: _interest,
-        totalInterest,
         balance: Math.max(_balance, 0),
         early,
       };
@@ -268,7 +264,7 @@ class MortgageCalculator extends Component {
                   name="startYear"
                   onChange={this.handleYearChange}
                 >
-                  {years.map((y) => {
+                  {years.map(y => {
                     const year = String(currentYear - y);
                     return (
                       <option key={y} value={year}>
@@ -315,11 +311,6 @@ class MortgageCalculator extends Component {
                   <br />
                   <b>{totalMonths - completedMonths - earlyMonths}</b> monthly
                   payments remain.
-                </Text>
-                <br />
-                <Text>
-                  Total Interest Paid{' '}
-                  <b>{currencyf(totalInterest.toFixed(2))}</b>
                 </Text>
               </Pane>
             </Card>

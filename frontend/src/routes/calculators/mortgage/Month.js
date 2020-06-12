@@ -15,15 +15,12 @@ class Month extends Component {
     let div = (
       <div style={{ textAlign: 'center' }}>
         <Badge color="blue">
-          Extra: {currencyf(month.extra)} / Principle:{' '}
-          {currencyf(month.principal - month.extra)}
+          {currencyf(month.extra)} / {currencyf(month.principal - month.extra)}
         </Badge>
         <br />
-        <Badge color="red">Interest: {currencyf(month.interest)}</Badge>
+        <Badge color="red">{currencyf(month.interest)}</Badge>
         <Pane>
-          <Text>Remaining Principle: {currencyf(month.balance)}</Text>
-          <br />
-          <Text>Total Interest Paid: {currencyf(month.totalInterest)}</Text>
+          <Text>{currencyf(month.balance)}</Text>
         </Pane>
       </div>
     );
@@ -31,7 +28,7 @@ class Month extends Component {
     if (this.state.focused) {
       classNames.push('focus');
     } else {
-      classNames = [...classNames.filter((n) => n !== 'focus')];
+      classNames = [...classNames.filter(n => n !== 'focus')];
     }
 
     let isSolid = false;
@@ -81,7 +78,7 @@ class Month extends Component {
         }
       >
         <Badge
-          ref={(b) => (this.badge = b)}
+          ref={b => (this.badge = b)}
           height={18}
           width={18}
           margin={2}
