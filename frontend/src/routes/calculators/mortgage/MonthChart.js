@@ -30,7 +30,7 @@ class Grid extends PureComponent {
 class List extends PureComponent {
   render() {
     const { months } = this.props;
-    const validMonth = month => {
+    const validMonth = (month) => {
       return !month.pastMonth && !month.early;
     };
     const today = new Date();
@@ -44,6 +44,7 @@ class List extends PureComponent {
           <Table.TextHeaderCell>Principle</Table.TextHeaderCell>
           <Table.TextHeaderCell>Interest</Table.TextHeaderCell>
           <Table.TextHeaderCell>Balance</Table.TextHeaderCell>
+          <Table.TextHeaderCell>Interest Paid</Table.TextHeaderCell>
         </Table.Head>
         <Table.VirtualBody height={500}>
           {months.filter(validMonth).map((month, i) => {
@@ -73,6 +74,9 @@ class List extends PureComponent {
                 </Table.TextCell>
                 <Table.TextCell isNumber>
                   {currencyf(month.balance)}
+                </Table.TextCell>
+                <Table.TextCell isNumber>
+                  {currencyf(month.totalInterest)}
                 </Table.TextCell>
               </Table.Row>
             );
@@ -112,7 +116,7 @@ class MonthChart extends PureComponent {
             width={240}
             options={this.options}
             value={chartType}
-            onChange={chartType => this.setState({ chartType })}
+            onChange={(chartType) => this.setState({ chartType })}
           />
         </Pane>
         <Pane marginTop={16}>
