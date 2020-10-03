@@ -17,7 +17,6 @@ require (
 	github.com/gobuffalo/gogen v0.1.1 // indirect
 	github.com/gobuffalo/helpers v0.0.0-20190422082217-384f90c6579f // indirect
 	github.com/gobuffalo/httptest v1.2.0
-	github.com/gobuffalo/mw-csrf v0.0.0-20190129204204-25460a055517 // indirect
 	github.com/gobuffalo/mw-paramlogger v0.0.0-20190224201358-0d45762ab655
 	github.com/gobuffalo/nulls v0.0.0-20190305142546-85f3c9250d87
 	github.com/gobuffalo/packr/v2 v2.2.0
