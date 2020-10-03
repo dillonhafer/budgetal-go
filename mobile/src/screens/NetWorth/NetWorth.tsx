@@ -122,17 +122,21 @@ const NetWorthScreen = ({ navigation }: Props) => {
 	const { data: assetData, refetch: refetchAssets } = useQuery<GetAssets>(
 		GET_ASSETS
 	);
-	const assets = assetData && assetData.assets ? assetData.assets : [];
+	const assetsAndLiabilities =
+		assetData && assetData.assets ? assetData.assets : [];
+	const assets = assetsAndLiabilities.filter(a => a.isAsset);
+	const liabilities = assetsAndLiabilities.filter(a => !a.isAsset);
+
 	const sectionData = [
 		{
 			title: "ASSETS",
 			color: "transparent",
-			data: assets.filter(a => a.isAsset),
+			data: assets,
 		},
 		{
 			title: "LIABILITIES",
 			color: "transparent",
-			data: assets.filter(a => !a.isAsset),
+			data: liabilities,
 		},
 	];
 
@@ -168,6 +172,8 @@ const NetWorthScreen = ({ navigation }: Props) => {
 				...item,
 				label,
 			},
+			assets,
+			liabilities,
 			year: item.year,
 		});
 	};
