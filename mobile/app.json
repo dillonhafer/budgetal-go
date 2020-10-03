@@ -4,7 +4,7 @@
     "name": "Budgetal",
     "slug": "budgetal",
     "privacy": "unlisted",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "37.0.0",
     "version": "3.0.0",
     "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
     "updates": {
