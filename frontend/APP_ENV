@@ -1,6 +1,5 @@
 export PORT=3001
 export NODE_PATH=$NODE_PATH:src:src/utils:src/constants
-export BROWSER="Google Chrome"
 
 if [ -f ".env.local" ]; then
   source .env.local
