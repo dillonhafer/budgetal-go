@@ -1,53 +1,53 @@
 {
-  "expo": {
-    "scheme": "budgetal",
-    "name": "Budgetal",
-    "slug": "budgetal",
-    "privacy": "unlisted",
-    "sdkVersion": "33.0.0",
-    "version": "3.0.0",
-    "githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
-    "updates": {
-      "enabled": false,
-      "checkAutomatically": "ON_ERROR_RECOVERY",
-      "fallbackToCacheTimeout": 0
-    },
-    "ios": {
-      "buildNumber": "48",
-      "supportsTablet": true,
-      "associatedDomains": ["applinks:www.budgetal.com"],
-      "usesIcloudStorage": true,
-      "bundleIdentifier": "com.budgetal.app",
-      "appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8",
-      "infoPlist": {
-        "NSCameraUsageDescription": "Budgetal only uses the camera to allow you to upload a profile avatar.",
-        "NSPhotoLibraryUsageDescription": "Budgetal only uses the photo library to allow you to upload a profile avatar",
-        "NSLocationAlwaysUsageDescription": "Budgetal does not use your location. We Expo to build but we do not use the location APIs they provide."
-      },
-      "config": {
-        "usesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundImage": "./app-store-assets/android-app-background.png",
-        "foregroundImage": "./app-store-assets/android-app-foreground.png"
-      },
-      "package": "com.budgetal.app",
-      "versionCode": 48,
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app",
-      "permissions": []
-    },
-    "icon": "./app-store-assets/logo.png",
-    "notification": {
-      "icon": "./app-store-assets/android-pn.png",
-      "color": "#108ee9"
-    },
-    "splash": {
-      "image": "./src/assets/images/budgetal-splash.png",
-      "backgroundColor": "#108ee9",
-      "resizeMode": "cover"
-    },
-    "assetBundlePatterns": ["src/assets/images/**", "src/assets/fonts/**"]
-  }
+	"expo": {
+		"scheme": "budgetal",
+		"name": "Budgetal",
+		"slug": "budgetal",
+		"privacy": "unlisted",
+		"sdkVersion": "34.0.0",
+		"version": "3.0.0",
+		"githubUrl": "https://github.com/dillonhafer/budgetal-go/mobile",
+		"updates": {
+			"enabled": false,
+			"checkAutomatically": "ON_ERROR_RECOVERY",
+			"fallbackToCacheTimeout": 0
+		},
+		"ios": {
+			"buildNumber": "48",
+			"supportsTablet": true,
+			"associatedDomains": ["applinks:www.budgetal.com"],
+			"usesIcloudStorage": true,
+			"bundleIdentifier": "com.budgetal.app",
+			"appStoreUrl": "https://itunes.apple.com/us/app/budgetal-app/id1326525398?mt=8",
+			"infoPlist": {
+				"NSCameraUsageDescription": "Budgetal only uses the camera to allow you to upload a profile avatar.",
+				"NSPhotoLibraryUsageDescription": "Budgetal only uses the photo library to allow you to upload a profile avatar",
+				"NSLocationAlwaysUsageDescription": "Budgetal does not use your location. We Expo to build but we do not use the location APIs they provide."
+			},
+			"config": {
+				"usesNonExemptEncryption": false
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"backgroundImage": "./app-store-assets/android-app-background.png",
+				"foregroundImage": "./app-store-assets/android-app-foreground.png"
+			},
+			"package": "com.budgetal.app",
+			"versionCode": 48,
+			"playStoreUrl": "https://play.google.com/store/apps/details?id=com.budgetal.app",
+			"permissions": []
+		},
+		"icon": "./app-store-assets/logo.png",
+		"notification": {
+			"icon": "./app-store-assets/android-pn.png",
+			"color": "#108ee9"
+		},
+		"splash": {
+			"image": "./src/assets/images/budgetal-splash.png",
+			"backgroundColor": "#108ee9",
+			"resizeMode": "cover"
+		},
+		"assetBundlePatterns": ["src/assets/images/**", "src/assets/fonts/**"]
+	}
 }
