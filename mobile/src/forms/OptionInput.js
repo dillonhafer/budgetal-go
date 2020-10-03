@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import Modal from 'react-native-modalbox';
 
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 import {
   View,
   Text,
@@ -12,8 +12,8 @@ import {
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '@shared/theme';
-import { FieldContainer } from 'forms';
-import { Medium } from 'components/Text';
+import FieldContainer from './FieldContainer';
+import { Medium } from '@src/components/Text';
 
 class OptionInput extends PureComponent {
   state = {

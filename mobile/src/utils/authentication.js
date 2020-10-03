@@ -1,7 +1,7 @@
-const SESSION_KEY = '_budgetal_session';
-const USER_KEY = '_budgetal_user';
+const SESSION_KEY = "_budgetal_session";
+const USER_KEY = "_budgetal_user";
 
-import { SecureStore } from 'expo';
+import * as SecureStore from "expo-secure-store";
 
 export function SetAuthenticationToken(token) {
   try {
@@ -11,11 +11,7 @@ export function SetAuthenticationToken(token) {
   }
 }
 export function GetAuthenticationToken() {
-  try {
-    return SecureStore.getItemAsync(SESSION_KEY);
-  } catch (err) {
-    return null;
-  }
+  return SecureStore.getItemAsync(SESSION_KEY).catch(() => Promise.resolve());
 }
 
 export function SetCurrentUser(user) {
@@ -31,7 +27,7 @@ export async function GetCurrentUser() {
     if (
       userStorage === null ||
       userStorage === undefined ||
-      userStorage === 'undefined'
+      userStorage === "undefined"
     ) {
       await RemoveAuthentication();
       return null;
@@ -43,14 +39,13 @@ export async function GetCurrentUser() {
   }
 }
 
-export async function RemoveAuthentication() {
-  try {
-    SecureStore.deleteItemAsync(SESSION_KEY);
-    SecureStore.deleteItemAsync(USER_KEY);
-    return;
-  } catch (err) {
-    return null;
-  }
+export function RemoveAuthentication() {
+  return Promise.all([
+    SecureStore.deleteItemAsync(SESSION_KEY),
+    SecureStore.deleteItemAsync(USER_KEY),
+  ]).catch(() => {
+    return Promise.resolve();
+  });
 }
 
 export async function IsAuthenticated() {

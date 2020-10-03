@@ -14,7 +14,7 @@ func TestEmailRender(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	firstName := nulls.String{String: "Kevin", Valid: true}
 	user := models.User{FirstName: firstName, PasswordResetToken: token}
-	email, err := BuildPasswordResetEmail(&user, host)
+	email, err := buildPasswordResetEmail(&user, host)
 
 	if err != nil {
 		t.Errorf("Could not build email: %v", err)
@@ -41,7 +41,7 @@ func TestEmailRendersTextEmail(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	firstName := nulls.String{String: "Kevin", Valid: true}
 	user := models.User{FirstName: firstName, PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user, host)
+	email, _ := buildPasswordResetEmail(&user, host)
 
 	textEmail := email.Bodies[1].Content
 	textName := fmt.Sprintf("Hello %s!", firstName.String)
@@ -57,7 +57,7 @@ func TestEmailRendersTextEmail(t *testing.T) {
 func TestEmailRendersFrom(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	user := models.User{FirstName: nulls.String{String: "", Valid: true}, PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user, "")
+	email, _ := buildPasswordResetEmail(&user, "")
 
 	if email.From != "Budgetal <no-reply@budgetal.com>" {
 		t.Errorf("From did not match, got: %v", email.From)
@@ -67,7 +67,7 @@ func TestEmailRendersFrom(t *testing.T) {
 func TestEmailRendersNameInTo(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	user := models.User{FirstName: nulls.String{String: "Kevin", Valid: true}, Email: "kevin@example.com", PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user, "")
+	email, _ := buildPasswordResetEmail(&user, "")
 
 	if email.To[0] != "Kevin <kevin@example.com>" {
 		t.Errorf("From did not match, got: %v", email.To)
@@ -77,7 +77,7 @@ func TestEmailRendersNameInTo(t *testing.T) {
 func TestEmailDoesNotRendersNameInTo(t *testing.T) {
 	token := nulls.String{String: "token", Valid: true}
 	user := models.User{FirstName: nulls.String{String: "", Valid: false}, Email: "kevin@example.com", PasswordResetToken: token}
-	email, _ := BuildPasswordResetEmail(&user, "")
+	email, _ := buildPasswordResetEmail(&user, "")
 
 	if email.To[0] != "kevin@example.com" {
 		t.Errorf("From did not match, got: %v", email.To)

@@ -10,15 +10,26 @@ import (
 )
 
 type BudgetItem struct {
-	ID               int         `json:"id" db:"id"`
-	BudgetCategoryId int         `json:"budgetCategoryId" db:"budget_category_id"`
-	Name             string      `json:"name" db:"name"`
-	Amount           json.Number `json:"amount" db:"amount_budgeted"`
-	CreatedAt        time.Time   `json:"-" db:"created_at"`
-	UpdatedAt        time.Time   `json:"-" db:"updated_at"`
+	ID                 int                 `json:"id" db:"id"`
+	BudgetCategoryId   int                 `json:"budgetCategoryId" db:"budget_category_id"`
+	Name               string              `json:"name" db:"name"`
+	Amount             json.Number         `json:"amount" db:"amount_budgeted"`
+	CreatedAt          time.Time           `json:"-" db:"created_at"`
+	UpdatedAt          time.Time           `json:"-" db:"updated_at"`
+	BudgetItemExpenses []BudgetItemExpense `json:"" db:"-"`
 }
 
 type BudgetItems []BudgetItem
+
+func (budgetItem *BudgetItem) DestroyAllExpensesSilently(tx *pop.Connection) error {
+	query := `
+    delete from budget_item_expenses
+    where budget_item_id = :id
+  `
+
+	_, err := tx.Store.NamedExec(query, budgetItem)
+	return err
+}
 
 func (budgetItem *BudgetItem) DestroyAllExpenses(tx *pop.Connection, logger buffalo.Logger) error {
 	query := `

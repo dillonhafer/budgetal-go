@@ -4,10 +4,10 @@ import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // Helpers
-import { Bold, Medium } from 'components/Text';
+import { Bold, Medium } from '@src/components/Text';
 import { currencyf } from '@shared/helpers';
 import { colors } from '@shared/theme';
-import { confirm } from 'notify';
+import { confirm } from '@src/notify';
 
 export const positions = {
   first: 'first',

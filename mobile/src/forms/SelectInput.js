@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
 import {
   View,
@@ -7,8 +7,8 @@ import {
   StyleSheet,
   LayoutAnimation,
   Picker,
-} from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 class SelectInput extends PureComponent {
   state = {
@@ -37,7 +37,7 @@ class SelectInput extends PureComponent {
     }
 
     return (
-      <View style={{ width: '100%', flexDirection: 'column' }}>
+      <View style={{ width: "100%", flexDirection: "column" }}>
         <TouchableOpacity style={styles.rowButton} onPress={this.togglePicker}>
           <View>
             <Text style={[styles.displayLabel, placeholderStyles]}>
@@ -48,14 +48,14 @@ class SelectInput extends PureComponent {
             name="chevron-right"
             size={22}
             style={{ paddingRight: 10 }}
-            color={'#ced0ce'}
+            color={"#ced0ce"}
           />
         </TouchableOpacity>
         {showPicker && (
           <View style={styles.picker}>
             <Picker
-              style={{ width: '100%' }}
-              selectedValue={selectedValue}
+              style={{ width: "100%" }}
+              selectedValue={String(selectedValue)}
               onValueChange={itemValue =>
                 this.onValueChange({ internalValue: itemValue })
               }
@@ -80,19 +80,19 @@ class SelectInput extends PureComponent {
 const styles = StyleSheet.create({
   rowButton: {
     height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   displayLabel: {
     marginLeft: 20,
   },
   picker: {
-    width: '100%',
-    borderColor: 'transparent',
+    width: "100%",
+    borderColor: "transparent",
     borderWidth: 0.5,
-    flexDirection: 'row',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    backgroundColor: "#fff",
   },
 });
 

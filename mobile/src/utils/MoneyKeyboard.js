@@ -10,7 +10,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { currencyf } from '@shared/helpers';
 import { colors } from '@shared/theme';
-import { Medium } from 'components/Text';
+import { Medium } from '@src/components/Text';
 
 const KeyboardNumber = ({ number, onPress }) => {
   const isDelete = String(number).length > 2;
@@ -126,7 +126,7 @@ class MoneyKeyboard extends Component {
             <KeyboardNumber onPress={this.handleOnPress} number={'0'} />
             <KeyboardNumber
               onPress={this.handleOnPress}
-              number={<Ionicons name="ios-backspace-outline" size={28} />}
+              number={<Ionicons name="ios-backspace" size={28} />}
             />
           </View>
         </View>

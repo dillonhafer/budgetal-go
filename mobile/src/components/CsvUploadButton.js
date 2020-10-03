@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
-import { colors } from '@shared/theme';
-import ImportAnimation from 'components/ImportAnimation';
+import React, { PureComponent } from "react";
+import { View, TouchableOpacity, Text } from "react-native";
+import { colors } from "@shared/theme";
+import ImportAnimation from "@src/components/ImportAnimation";
 
 class CsvUploadButton extends PureComponent {
   render() {
@@ -10,42 +10,43 @@ class CsvUploadButton extends PureComponent {
     return (
       <TouchableOpacity
         style={{
-          alignSelf: 'center',
-          width: '75%',
-          justifyContent: 'center',
+          alignSelf: "center",
+          width: "75%",
+          height: "100%",
+          justifyContent: "center",
         }}
         activeOpacity={0.4}
         onPress={onPress}
       >
         <View
           style={{
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: "center",
+            justifyContent: "center",
             borderWidth: 2,
             borderColor: colors.lines,
-            borderStyle: 'dashed',
+            borderStyle: "dashed",
             padding: 30,
           }}
         >
           <ImportAnimation />
           <Text
             style={{
-              textAlign: 'center',
-              color: '#333',
+              textAlign: "center",
+              color: "#333",
               fontSize: 20,
               marginBottom: 20,
             }}
           >
-            Touch to import a CSV
+            Press to import a CSV
           </Text>
-          <Text style={{ textAlign: 'center', color: '#ccc' }}>
+          <Text style={{ textAlign: "center", color: "#ccc" }}>
             File should have three headers:
           </Text>
           <Text
             style={{
-              textAlign: 'center',
-              color: '#aaa',
-              fontWeight: '700',
+              textAlign: "center",
+              color: "#aaa",
+              fontWeight: "700",
             }}
           >
             date, description, amount

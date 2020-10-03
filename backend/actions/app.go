@@ -2,6 +2,7 @@ package actions
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -34,31 +35,11 @@ func withCurrentUser(next func(buffalo.Context, *models.User) error) func(buffal
 
 func authorizeUser(next buffalo.Handler) buffalo.Handler {
 	return func(c buffalo.Context) error {
-		errResp := map[string]string{"error": "You are not signed in"}
-		// 1. Rebuild keys
-		AuthenticationKey, err := c.Cookies().Get(AUTH_COOKIE_KEY)
-		if err != nil {
-			c.Logger().Debug("Cookie not found")
+		user := GetCurrentUserFromContext(c)
+		if user.ID == 0 {
+			errResp := map[string]string{"error": "You are not signed in"}
 			return c.Render(401, r.JSON(errResp))
 		}
-		AuthenticationToken := c.Request().Header.Get(AUTH_HEADER_KEY)
-
-		// 2. Get user from keys or 401
-		session := &models.Session{}
-		dbErr := models.DB.Where("authentication_key = ? and authentication_token = ? and expired_at is null", AuthenticationKey, AuthenticationToken).First(session)
-		if dbErr != nil {
-			c.Logger().Debug("Session not found or expired")
-			return c.Render(401, r.JSON(errResp))
-		}
-
-		user := &models.User{}
-		dbErr = models.DB.Find(user, session.UserID)
-		if dbErr != nil {
-			c.Logger().Debug("User not found")
-			return c.Render(401, r.JSON(errResp))
-		}
-
-		user.CurrentSession = session
 
 		c.Set("currentUser", user)
 		return next(c)
@@ -110,13 +91,15 @@ func App() *buffalo.App {
 
 		if ENV == "development" {
 			app.Use(paramlogger.ParameterLogger)
+			directory := "../frontend/public/users/avatars"
+			app.ServeFiles("/users/avatars", http.Dir(directory))
 		}
 
 		// Authorization
 		app.Use(authorizeUser)
 
 		// Non-authorized routes
-		app.Middleware.Skip(authorizeUser, SignIn, RegisterUser, PasswordResetRequest, ResetPassword)
+		app.Middleware.Skip(authorizeUser, SignIn, RegisterUser, PasswordResetRequest, ResetPassword, Graphql)
 		app.POST("/sign-in", SignIn)
 		app.POST("/register", RegisterUser)
 		app.POST("/reset-password", PasswordResetRequest)
@@ -126,6 +109,9 @@ func App() *buffalo.App {
 		// Authorized routes
 		//
 		////////////////////
+
+		// GraphQL
+		app.POST("/graphql", Graphql)
 
 		// Monthly Statistics
 		app.GET("/monthly-statistics/{year}/{month}", withCurrentUser(MonthlyStatisticsShow))
@@ -189,4 +175,21 @@ func App() *buffalo.App {
 	}
 
 	return app
+}
+
+// GetCurrentUser find a user from the database
+func GetCurrentUser(AuthenticationKey, AuthenticationToken string) *models.User {
+	session := &models.Session{}
+	models.DB.Where("authentication_key = ? and authentication_token = ? and expired_at is null", AuthenticationKey, AuthenticationToken).First(session)
+	currentUser := &models.User{}
+	models.DB.Find(currentUser, session.UserID)
+	currentUser.CurrentSession = session
+	return currentUser
+}
+
+// GetCurrentUserFromContext returns the authenticated user from the headers
+func GetCurrentUserFromContext(c buffalo.Context) *models.User {
+	AuthenticationKey, _ := c.Cookies().Get(AUTH_COOKIE_KEY)
+	AuthenticationToken := c.Request().Header.Get(AUTH_HEADER_KEY)
+	return GetCurrentUser(AuthenticationKey, AuthenticationToken)
 }

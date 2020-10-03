@@ -21,8 +21,8 @@ import (
 
 	"github.com/disintegration/imaging"
 	"github.com/gobuffalo/envy"
-	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/nulls"
+	"github.com/gobuffalo/pop"
 	"github.com/gobuffalo/validate"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -51,6 +51,26 @@ func (u User) String() string {
 	return string(ju)
 }
 
+// NullableFirstName returns JSON nulls if empty
+func (u *User) NullableFirstName() *string {
+	var firstName *string
+	if u.FirstName.Valid {
+		firstName = &u.FirstName.String
+	}
+
+	return firstName
+}
+
+// NullableLastName returns JSON nulls if empty
+func (u *User) NullableLastName() *string {
+	var lastName *string
+	if u.LastName.Valid {
+		lastName = &u.LastName.String
+	}
+
+	return lastName
+}
+
 func (u *User) MarshalJSON() ([]byte, error) {
 	type Alias User
 	return json.Marshal(&struct {
@@ -69,7 +89,7 @@ func (u *User) localAvatarUrl() string {
 	if ENV == "development" {
 		root = resolveHostIp()
 		if root != "" {
-			port := envy.Get("FRONTEND_PORT", "3001")
+			port := envy.Get("FRONTEND_PORT", "3000")
 			root = fmt.Sprintf("http://%s:%s", root, port)
 		}
 	}
@@ -84,9 +104,13 @@ func (u *User) localMissingUrl() string {
 	if ENV == "development" {
 		root = resolveHostIp()
 		if root != "" {
-			port := envy.Get("FRONTEND_PORT", "3001")
+			port := envy.Get("FRONTEND_PORT", "3000")
 			root = fmt.Sprintf("http://%s:%s", root, port)
 		}
+	}
+
+	if ENV == "development" {
+		return fmt.Sprintf("%s/users/avatars/missing-profile.png", root)
 	}
 
 	return fmt.Sprintf("%s/missing-profile.png", root)
@@ -375,4 +399,19 @@ func (u *User) SendPushNotification(title, body string) error {
 	}
 
 	return err
+}
+
+func FindUserForPasswordReset(token string) (*User, error) {
+	user := &User{}
+	query := `
+    password_reset_token = ? and
+    password_reset_sent_at between
+    (now() - interval '2 hours') and now()
+  `
+	err := DB.Where(query, token).First(user)
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }

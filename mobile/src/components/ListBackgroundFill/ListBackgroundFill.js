@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { PureComponent } from "react";
+import { View, StyleSheet } from "react-native";
+import { colors } from "@shared/theme";
 
 class ListBackgroundFill extends PureComponent {
   render() {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
   fill: {
     ...StyleSheet.absoluteFillObject,
     top: 300,
-    backgroundColor: '#d8dce0',
+    backgroundColor: colors.backgroundColor,
   },
 });
 

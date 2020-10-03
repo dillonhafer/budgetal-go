@@ -2,7 +2,7 @@ import React from 'react';
 import renderer from 'react-test-renderer';
 
 // TestFiles
-import PieAnimation from 'components/PieAnimation';
+import PieAnimation from '@src/components/PieAnimation';
 jest.mock('expo', () => ({ DangerZone: { Lottie: 'Lottie' } }));
 
 test('renders correctly', () => {

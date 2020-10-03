@@ -7,13 +7,14 @@ import (
 
 // NetWorth db model
 type NetWorth struct {
-	ID        int           `json:"id" db:"id"`
-	UserID    int           `json:"userId" db:"user_id"`
-	Year      int           `json:"year" db:"year"`
-	Month     int           `json:"month" db:"month"`
-	Items     NetWorthItems `json:"items" fk_id:"net_worth_id" has_many:"net_worth_items"`
-	CreatedAt time.Time     `json:"-" db:"created_at"`
-	UpdatedAt time.Time     `json:"-" db:"updated_at"`
+	ID            int           `json:"id" db:"id"`
+	UserID        int           `json:"userId" db:"user_id"`
+	Year          int           `json:"year" db:"year"`
+	Month         int           `json:"month" db:"month"`
+	Items         NetWorthItems `json:"items" fk_id:"net_worth_id" has_many:"net_worth_items"`
+	NetWorthItems NetWorthItems `json:"-" db:"-"`
+	CreatedAt     time.Time     `json:"-" db:"created_at"`
+	UpdatedAt     time.Time     `json:"-" db:"updated_at"`
 }
 
 // NetWorths db model
@@ -32,6 +33,13 @@ func (nw *NetWorths) createYearTemplates(userID, year int) {
 	}
 }
 
+// LoadItems loads all net worth items for a single month
+func (nw *NetWorth) LoadItems() {
+	items := &NetWorthItems{}
+	DB.Where("net_worth_id in (?)", nw.ID).All(items)
+	nw.NetWorthItems = *items
+}
+
 // LoadItems loads all net worth items in one trip to the database, avoiding n+1 issues
 func (nw *NetWorths) LoadItems() {
 	netWorthIds := make([]interface{}, len(*nw))
@@ -46,6 +54,7 @@ func (nw *NetWorths) LoadItems() {
 			if netWorth.ID == item.NetWorthID {
 				(*nw)[i].Items = append(netWorth.Items, item)
 			}
+			(*nw)[i].NetWorthItems = (*nw)[i].Items
 		}
 	}
 }

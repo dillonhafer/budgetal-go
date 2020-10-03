@@ -1,24 +1,24 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 import {
   SafeAreaView,
   TouchableOpacity,
   Clipboard,
   StyleSheet,
   View,
-} from 'react-native';
+} from "react-native";
 
 // Components
-import { BlurView } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
-import { colors } from '@shared/theme';
-import MoneyKeyboard from 'utils/MoneyKeyboard';
-import Modal from 'react-native-modalbox';
-import MoneyAnimation from 'components/MoneyAnimation';
-import { Medium } from 'components/Text';
+import { BlurView } from "expo-blur";
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "@shared/theme";
+import MoneyKeyboard from "@src/utils/MoneyKeyboard";
+import Modal from "react-native-modalbox";
+import MoneyAnimation from "@src/components/MoneyAnimation";
+import { Medium } from "@src/components/Text";
 
 class MoneyInputModal extends PureComponent {
   state = {
-    amount: '0',
+    amount: "0",
     pastValue: null,
   };
 
@@ -27,7 +27,7 @@ class MoneyInputModal extends PureComponent {
   };
 
   onCancel = () => {
-    this.setState({ amount: '0', pasteValue: null });
+    this.setState({ amount: "0", pasteValue: null });
     this.props.onCancel();
   };
 
@@ -48,7 +48,7 @@ class MoneyInputModal extends PureComponent {
     return (
       <Modal
         style={{
-          backgroundColor: 'transparent',
+          backgroundColor: "transparent",
         }}
         coverScreen={true}
         isOpen={visible}
@@ -71,18 +71,14 @@ class MoneyInputModal extends PureComponent {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.pasteButton} onPress={this.onPaste}>
-              <Ionicons
-                name="ios-clipboard-outline"
-                size={34}
-                color={colors.primary}
-              />
+              <Ionicons name="ios-clipboard" size={34} color={colors.primary} />
             </TouchableOpacity>
           </SafeAreaView>
 
           <View style={styles.content}>
-            <View style={{ padding: 20, paddingTop: 40, alignItems: 'center' }}>
+            <View style={{ padding: 20, paddingTop: 40, alignItems: "center" }}>
               <MoneyAnimation />
-              <Medium style={{ margin: 5, textAlign: 'center' }}>
+              <Medium style={{ margin: 5, textAlign: "center" }}>
                 {title}
               </Medium>
             </View>
@@ -103,18 +99,18 @@ class MoneyInputModal extends PureComponent {
 const styles = StyleSheet.create({
   modal: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: '100%',
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
   },
   content: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   headerContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 22,
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   closeButton: {
     padding: 10,

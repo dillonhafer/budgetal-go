@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import MoneyAnimation from 'components/MoneyAnimation';
+import MoneyAnimation from '@src/components/MoneyAnimation';
 
 class EmptyList extends PureComponent {
   render() {

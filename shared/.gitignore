@@ -1,4 +1,3 @@
 node_modules
-/api
-/helpers
-/theme
+helpers/*.js
+theme/*.js

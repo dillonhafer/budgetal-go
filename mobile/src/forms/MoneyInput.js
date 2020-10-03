@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { currencyf } from '@shared/helpers';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import MoneyInputModal from 'forms/MoneyInputModal';
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { currencyf } from "@shared/helpers";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import MoneyInputModal from "@src/forms/MoneyInputModal";
 
 class MoneyInput extends PureComponent {
   state = {
@@ -36,7 +36,7 @@ class MoneyInput extends PureComponent {
           <Text style={styles.displayAmount}>{currencyf(displayAmount)}</Text>
           <MoneyInputModal
             defaultValue={defaultValue}
-            title={title || 'Enter Amount'}
+            title={title || "Enter Amount"}
             visible={showMoneyPicker}
             onOk={this.handleOnSubmit}
             onCancel={this.hideMoneyPicker}
@@ -46,7 +46,7 @@ class MoneyInput extends PureComponent {
           name="chevron-right"
           size={22}
           style={{ paddingRight: 10 }}
-          color={'#ced0ce'}
+          color={"#ced0ce"}
         />
       </TouchableOpacity>
     );
@@ -56,9 +56,9 @@ class MoneyInput extends PureComponent {
 const styles = StyleSheet.create({
   amountButton: {
     height: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 
